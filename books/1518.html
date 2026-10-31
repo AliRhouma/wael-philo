@@ -1,0 +1,936 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<title>Wael Academy — Philosophie · correction bac</title>
+<script>
+  window.MathJax = {
+    tex: { inlineMath: [['\\(','\\)']], displayMath: [['\\[','\\]']] },
+    chtml: { fontURL: 'https://cdn.jsdelivr.net/npm/mathjax@3/es5/output/chtml/fonts/woff-v2', matchFontHeight: true },
+    startup: { typeset: true }
+  };
+</script>
+<script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js" async></script>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Sora:wght@400;500;600;700;800&family=Cairo:wght@400;500;600;700;800;900&family=Tajawal:wght@400;500;700;800&family=JetBrains+Mono:wght@400;500;600;700&display=swap');
+:root{
+  /* ===== Wael Academy palette — MAIN ACCENT = green-teal gradient #0FAB8F → #067360 ===== */
+  --bg:#fff; --panel:#f2f8f8; --hair:#e6e6e9; --hair2:#d6d6db;
+  --fg:#0f2a31;        /* body text (and +/− signs) */
+  --fg2:#3f5b62;       /* softer text */
+  --fg3:#7c959b;       /* muted (footer) */
+  --blue:#067360;      /* deep accent — small numbers, borders, watermark, accent equations */
+  --blue-dark:#045260; /* titles & wordmarks (also the balance colour) */
+  --teal:#0fab8f;      /* bright accent end */
+  --loop:#0d9c82;      /* logo-loop helper */
+  --orange:#067360;    /* kicker/category labels (gold retired → deep teal) */
+  --red:#f5322f;       /* EXERCISE CHIPS ONLY — never for emphasis */
+  --cream:#e6f3f4; --blue-soft:#e6f3f4;  /* pale teal — callout fill + table sub-row fill */
+  --blue-line:#cde7e4; /* hairline */
+  --sub-ink:#045260;   /* table sub-row text */
+  --grad:linear-gradient(148deg,#0fab8f 0%,#0d9c82 52%,#067360 100%);
+  --mono:'JetBrains Mono',monospace; --latin:'Sora',sans-serif; --ar:'Cairo',sans-serif; --arb:'Tajawal',sans-serif;
+}
+*{box-sizing:border-box;margin:0;padding:0;}
+body{font-family:var(--latin);color:var(--fg);background:#e4e4e7;padding:28px 0;
+     -webkit-print-color-adjust:exact;print-color-adjust:exact;}
+html[dir="rtl"] body{font-family:var(--arb);}
+
+/* ===== brand watermark: REAL text (crisp), full-bleed, repeats per page ===== */
+.wm{position:fixed;inset:0;z-index:0;pointer-events:none;display:flex;
+    align-items:center;justify-content:center;overflow:hidden;
+    -webkit-print-color-adjust:exact;print-color-adjust:exact;}
+.wm span{font-family:var(--mono);font-weight:800;font-size:76.8pt;letter-spacing:.16em;
+    color:var(--blue);opacity:.06;white-space:nowrap;transform:rotate(-54deg);}  /* single diagonal: bottom-left → top-right */
+.wm.mono span{color:#000;opacity:.05;}
+
+/* ===== continuous flow stream (no page border) ===== */
+.flow{width:210mm;margin:0 auto;background:transparent;color:var(--fg);
+      padding-block:16mm 18mm;padding-inline:23mm 14mm;position:relative;}   /* spiral gutter: inline-start(=spine) 23mm / outer 14mm — dir-aware; print margins set in render_flow.py */
+@media screen{ .flow{background:#fff;box-shadow:0 10px 40px rgba(0,0,0,.16);} }
+.flow>*{position:relative;z-index:1;}
+.flow p,.flow li,.flow .data,.flow .note,.flow .ex{break-inside:auto;}
+.flow .fig,.flow figure,.flow img,.flow svg.figsvg,.flow table,.flow tr,.flow .chapdiv,.flow .exh,.flow .qrcard,.flow .meta{break-inside:avoid;}
+.flow h1,.flow h2,.flow h3,.flow .exh,.flow .subhead,.flow .chapdiv{break-after:avoid;}
+.flow img,.flow svg.figsvg{max-width:100%;height:auto;}
+.flow figcaption,.flow .figcap{display:none;}          /* rule 3: no figure captions */
+
+/* ===== front matter + chapters each start on a fresh page ===== */
+.flow .cover{break-after:page;}        /* cover alone on page 1 */
+.flow .toc{break-after:page;}          /* Sommaire alone on the next page */
+.flow .chapter{break-before:page;}
+.flow .chapter:first-of-type{break-before:auto;}
+
+/* ===== cover ===== */
+.cover{padding:14mm 0 8mm;border-bottom:2px solid var(--blue);margin-bottom:6mm;}
+.cover .badge{font-family:var(--mono);font-size:8.5pt;letter-spacing:.28em;text-transform:uppercase;color:var(--orange);margin-bottom:10px;}
+.cover h1{font-family:var(--latin);font-weight:800;font-size:34pt;line-height:1.03;letter-spacing:-.025em;color:var(--blue-dark);}
+.cover .grule{width:120px;height:5px;border-radius:5px;background:var(--grad);margin:14px 0;}
+.cover .sub{font-family:var(--mono);font-size:10pt;letter-spacing:.14em;text-transform:uppercase;color:var(--teal);}
+.cover .auth{font-size:11pt;color:var(--fg2);margin-top:6px;font-weight:600;}
+
+/* ===== table of contents ===== */
+.toc{margin:2mm 0 4mm;}
+.toc h2{font-family:var(--latin);font-weight:800;font-size:15pt;color:var(--blue-dark);margin-bottom:4mm;}
+.toc .trititle{font-family:var(--mono);font-size:8pt;letter-spacing:.2em;text-transform:uppercase;color:var(--orange);margin:4mm 0 2mm;}
+.toc ol{list-style:none;}
+.toc li{display:flex;align-items:baseline;gap:8px;font-size:10pt;padding:2.2px 0;color:var(--fg);line-height:1.4;}
+.toc li .n{font-family:var(--mono);font-weight:700;font-size:9pt;color:var(--blue);min-width:26px;}
+.toc li .dots{flex:1;border-bottom:1px dotted var(--hair2);transform:translateY(-3px);}
+
+/* ===== chapter divider band ===== */
+.chapdiv{margin:0 0 5mm;padding:6mm 16px 5mm;border-radius:12px;background:var(--grad);
+    -webkit-print-color-adjust:exact;print-color-adjust:exact;}   /* green-filled chapter band */
+.chapdiv .cn{font-family:var(--mono);font-size:8.5pt;font-weight:700;letter-spacing:.24em;text-transform:uppercase;color:rgba(255,255,255,.82);margin-bottom:5px;}
+.chapdiv h2{font-family:var(--latin);font-weight:800;font-size:17pt;line-height:1.1;letter-spacing:-.015em;color:#fff;}
+/* conclusion block — same green-filled look as the chapter band */
+.conclusion{background:var(--grad);border-radius:12px;padding:6mm 16px;margin:5mm 0;color:#fff;break-inside:avoid;
+    -webkit-print-color-adjust:exact;print-color-adjust:exact;}
+.conclusion .ck{font-family:var(--mono);font-size:8.5pt;font-weight:700;letter-spacing:.24em;text-transform:uppercase;color:rgba(255,255,255,.82);margin-bottom:6px;}
+.conclusion h3{font-family:var(--latin);font-weight:800;font-size:13pt;line-height:1.2;color:#fff;margin-bottom:4px;}
+.conclusion p,.conclusion li{font-size:10.4pt;line-height:1.7;color:#fff;}
+.conclusion b,.conclusion strong{color:#fff;font-weight:700;}
+
+/* ===== unit header (lesson/exercise) + QR emplacement ===== */
+.exh{display:flex;align-items:center;gap:11px;margin:6mm 0 3mm;}
+.exh .idx{font-family:var(--mono);font-size:9pt;font-weight:600;color:#fff;background:var(--grad);
+    border-radius:6px;padding:4px 11px;letter-spacing:.08em;text-transform:uppercase;
+    -webkit-print-color-adjust:exact;print-color-adjust:exact;}
+.exh .idx.ex{background:var(--red);}   /* exercise chip = red */
+.exh h2{font-family:var(--latin);font-size:14pt;font-weight:700;letter-spacing:-.01em;color:var(--blue-dark);}
+.exh .qrcard{margin-inline-start:auto;flex:0 0 auto;display:flex;flex-direction:column;align-items:center;gap:3px;width:26mm;}
+.qrcard .qrt{font-family:var(--mono);font-size:6.5pt;letter-spacing:.1em;text-transform:uppercase;color:var(--teal);text-align:center;}
+.qrcard .qrslot{width:24mm;height:24mm;padding:1.5mm;background:#fff;border:1px solid var(--blue-line);border-radius:8px;display:flex;align-items:center;justify-content:center;}
+.qrcard .qrslot img,.qrcard .qrslot svg{width:100%;height:100%;display:block;}
+
+/* sub-exercise label when one file holds several exercices */
+.exsub{font-family:var(--latin);font-weight:800;font-size:11.5pt;color:var(--blue-dark);margin:5mm 0 2.5mm;padding-bottom:3px;border-bottom:2px solid var(--blue-line);}
+
+/* ===== text blocks ===== */
+.lead{font-size:11pt;line-height:1.7;margin:2mm 0 3mm;color:var(--fg);}
+.para{font-size:10.6pt;line-height:1.7;margin:2mm 0 2.5mm;color:var(--fg);}
+.consigne{font-size:10.4pt;line-height:1.6;margin:1mm 0 2mm;color:var(--fg);font-style:italic;}
+.subhead{font-family:var(--latin);font-weight:800;font-size:12pt;letter-spacing:-.01em;color:var(--blue-dark);margin:5mm 0 2.5mm;}
+/* emphasis — green accent = .t-blue/.t-green ; balance = .t-navy ; red = SECONDARY accent (.t-red) on titles + a few words */
+.t-blue{color:var(--blue);font-weight:600;} .t-navy{color:var(--blue-dark);font-weight:700;}
+.t-red{color:var(--red);font-weight:600;} .t-green{color:var(--teal);font-weight:600;} .t-gold{color:var(--orange);font-weight:600;}
+.subhead.t-red{color:var(--red);font-weight:800;}   /* red Roman-numeral section title (I, II, …) — keeps subhead weight */
+/* highlighter marks — a soft colour wash behind a key word (agent picks green or red per what balances the page) */
+.hl-green,.hl-red{border-radius:3px;padding:.02em .24em;font-weight:600;box-decoration-break:clone;-webkit-box-decoration-break:clone;
+    -webkit-print-color-adjust:exact;print-color-adjust:exact;}
+.hl-green{background:rgba(15,171,143,.20);color:var(--blue-dark);}   /* green highlight */
+.hl-red{background:rgba(245,50,47,.13);color:#c0261f;}               /* red highlight  */
+
+.data{background:var(--blue-soft);border:1px solid var(--blue-line);border-inline-start:4px solid var(--blue);
+    border-radius:8px;padding:11px 16px;margin:3mm 0;font-size:10pt;line-height:1.65;color:var(--fg2);}
+.data b{color:var(--fg);font-weight:700;}
+.note{border:1px dashed var(--hair2);border-radius:9px;padding:11px 16px;margin:4mm 0;background:var(--panel);}
+.note .kicker{font-family:var(--mono);font-size:7.5pt;letter-spacing:.18em;color:var(--orange);display:block;margin-bottom:5px;}
+.note .nb{font-size:10pt;line-height:1.7;color:var(--fg2);} .note b{color:var(--fg);}
+.ex:not(.idx){background:var(--blue-soft);border:1px solid var(--blue-line);border-inline-start:3px solid var(--blue);
+    border-radius:7px;padding:7px 11px;font-size:9.6pt;line-height:1.6;color:var(--fg2);margin:2mm 0;}   /* :not(.idx) so it never hits the exercise chip (which is .idx.ex) */
+.ex .extag{display:inline-block;font-family:var(--latin);font-weight:800;font-size:7.6pt;color:var(--blue-dark);background:#fff;
+    border:1px solid var(--blue);border-radius:5px;padding:1px 9px;margin-inline-end:7px;vertical-align:middle;text-transform:uppercase;letter-spacing:.06em;}
+
+/* ===== lists ===== */
+ol.q{list-style:none;counter-reset:q;margin:1mm 0 2mm;}
+ol.q>li{counter-increment:q;position:relative;padding-inline-start:30px;margin-bottom:2.5mm;font-size:10.4pt;line-height:1.6;}
+ol.q>li::before{content:counter(q);position:absolute;inset-inline-start:0;top:1px;width:21px;height:21px;background:var(--grad);color:#fff;
+    border-radius:50%;font-family:var(--mono);font-size:9pt;font-weight:600;display:flex;align-items:center;justify-content:center;
+    -webkit-print-color-adjust:exact;print-color-adjust:exact;}
+ol.sub{list-style:none;counter-reset:s;margin:4px 0 0;padding-inline-start:2px;border-inline-start:1px solid var(--blue-line);}
+ol.sub li{counter-increment:s;position:relative;padding:2.5px 0 2.5px 26px;font-size:10.1pt;line-height:1.55;}
+ol.sub li::before{content:counter(s,lower-alpha)".";position:absolute;inset-inline-start:10px;top:2.5px;font-family:var(--mono);font-size:9pt;font-weight:600;color:var(--teal);}
+ol.qn{list-style:none;counter-reset:qn;margin:1mm 0 2mm;}
+ol.qn>li{counter-increment:qn;position:relative;padding-inline-start:26px;margin-bottom:2.2mm;font-size:10.4pt;line-height:1.55;}
+ol.qn>li::before{content:counter(qn)".";position:absolute;inset-inline-start:0;top:0;font-family:var(--mono);font-size:9.5pt;font-weight:700;color:var(--blue);}
+ul.b{list-style:none;margin:1mm 0 2mm;} ul.b>li{position:relative;padding-inline-start:22px;margin-bottom:2.4mm;font-size:10.4pt;line-height:1.6;}
+ul.b>li::before{content:"";position:absolute;inset-inline-start:3px;top:8px;width:8px;height:8px;border-radius:50%;background:var(--grad);
+    -webkit-print-color-adjust:exact;print-color-adjust:exact;}
+ul.dash{list-style:none;margin:1mm 0 2mm;} ul.dash>li{position:relative;padding-inline-start:20px;margin-bottom:1.8mm;font-size:10.4pt;line-height:1.6;}
+ul.dash>li::before{content:"–";position:absolute;inset-inline-start:2px;top:0;color:var(--fg);font-weight:700;}  /* dash / +/− signs = body colour */
+.flow ul.opts{list-style:none;margin:4px 0 3px;padding-inline-start:16px;}
+.flow ul.opts li{padding:2px 0;font-size:10.2pt;line-height:1.5;color:var(--fg);}
+
+/* ===== figures / tables ===== */
+.fig{margin:3mm 0;} .fig svg.figsvg{display:block;margin:0 auto;background:#fff;max-width:100%;height:auto;}
+.photo{display:block;margin:3mm auto;border-radius:8px;border:1px solid var(--hair);max-width:100%;}
+.figrow{display:flex;flex-wrap:wrap;gap:9px;justify-content:center;margin:3mm auto;max-width:190mm;}
+.flow .figrow img{border-radius:7px;border:1px solid var(--hair);height:46mm;width:auto;max-width:none;object-fit:cover;}
+.schemarow{display:flex;gap:16px;align-items:flex-start;flex-wrap:wrap;margin:2mm 0;}
+.schemarow .col-txt{flex:1 1 90mm;min-width:80mm;} .schemarow .col-fig{flex:0 0 78mm;} .schemarow .col-fig .fig{margin:0;}
+.flow table{border-collapse:collapse;width:100%;margin:3mm 0;font-size:9.8pt;line-height:1.5;}
+.flow table th,.flow table td{border:1px solid var(--blue-line);padding:6px 10px;text-align:start;vertical-align:top;}
+.flow table th{background:var(--grad);color:#fff;font-family:var(--latin);font-weight:700;font-size:9.4pt;
+    -webkit-print-color-adjust:exact;print-color-adjust:exact;}
+.flow table tr:nth-child(even) td{background:var(--blue-soft);color:var(--sub-ink);}   /* sub-row: #E6F3F4 / #045260 */
+
+mjx-container{color:var(--fg) !important;font-weight:400 !important;font-size:1.0em !important;}
+.eq-hi mjx-container,mjx-container.eq-hi{color:var(--blue) !important;}   /* accent (green) equation — highlight a key result; balance with plain math */
+.eq-red mjx-container,mjx-container.eq-red{color:var(--red) !important;}  /* red accent equation / symbol — complements the green .eq-hi */
+
+/* ===== per-file books: credit line, copies list, figures at their size ===== */
+.credit{display:flex;flex-wrap:wrap;align-items:center;gap:5px;margin:-1mm 0 3.5mm;font-size:9.4pt;color:var(--fg2);}
+.credit .who{font-weight:700;color:var(--blue-dark);}
+.credit .tg{font-family:var(--mono);font-size:7.2pt;letter-spacing:.04em;border-radius:5px;padding:1px 7px;line-height:1.6;
+    border:1px solid var(--blue-line);color:var(--blue);background:#fff;-webkit-print-color-adjust:exact;print-color-adjust:exact;}
+.credit .tg.sec{background:var(--blue-dark);border-color:var(--blue-dark);color:#fff;}
+.credit .tg.cor{background:#fff;border-color:var(--red);color:var(--red);}
+.credit a{color:var(--fg3);font-family:var(--mono);font-size:7pt;text-decoration:none;}
+.cover .auth .credit{margin:4mm 0 0;}
+.cover .copies{margin-top:5mm;font-size:8.6pt;color:var(--fg2);}
+.cover .copies ul{list-style:none;margin:2mm 0 0;padding:0;columns:2;}
+.cover .copies a{color:var(--fg3);text-decoration:none;font-size:8pt;}
+.flow figure.fig{text-align:center;}
+.flow figure.fig img{max-height:60mm;width:auto;max-width:70%;display:inline-block;}
+
+/* chapter tag on each part of a multi-chapter book (the book keeps the original order of the file) */
+.chtag{display:inline-block;margin:5mm 0 2mm;padding:1mm 3mm;border-radius:2mm;background:#eef3fb;border:1px solid #c9d6ea;
+  color:#1f3a6b;font-size:9pt;font-weight:700}
+.chtag span{color:#6b7f9e;font-weight:600;margin-inline-end:1.5mm}
+
+@media print{ body{background:#fff;padding:0;} .flow{width:auto;max-width:none;margin:0;padding:0;} }
+@page{size:A4;}   /* margins come from render_flow.py — do NOT set them here */
+</style>
+<meta data-pagefind-filter="type[content]" content="موضوع">
+<meta data-pagefind-filter="resource[content]" content="امتحانات وطنية (وزارة التربية)">
+<meta data-pagefind-meta="n[content]" content="1518">
+<meta data-pagefind-meta="title[content]" content="correction bac">
+<meta data-pagefind-filter="chapter[content]" content="العلم بين الحقيقة والنمذجة">
+<meta data-pagefind-filter="chapter[content]" content="القيم: الأخلاق والدولة">
+<meta data-pagefind-filter="chapter[content]" content="الإنية والغيرية">
+<meta data-pagefind-filter="chapter[content]" content="الخصوصية والكونية">
+<meta data-pagefind-filter="chapter[content]" content="فروض ومواضيع (عدّة محاور)">
+<meta data-pagefind-filter="section[content]" content="باكالوريا تقنية"><style>.qrcard{display:none!important}.wa-nav{position:sticky;top:0;z-index:50;background:#045260;padding:10px 18px;font-family:Cairo,sans-serif;direction:rtl}.wa-nav a{color:#fff;text-decoration:none;font-weight:700}@media print{.wa-nav{display:none}}</style>
+</head>
+
+<body dir="rtl" lang="ar"
+      data-brand="Wael Academy" data-handle="@WaelAcademy"
+      data-tagline="في تُرابنا.. مغامرة بمغامرة"
+      data-phone="+216 50 40 40 42" data-site="waeldocuments.com"
+      data-cta="سجل معانا وأقرى عن بعد مع منصة Wael Academy"
+      data-subject="Philosophie · correction bac" data-watermark="Wael Academy" data-pagefind-body><nav class="wa-nav" data-pagefind-ignore><a href="../index.html">→ الرجوع إلى فهرس الفلسفة</a></nav>
+
+<!-- single full-page diagonal watermark, bottom-left → top-right (repeats on every page) -->
+<div class="wm" aria-hidden="true"><span>WAEL&nbsp;ACADEMY</span></div>
+
+<div class="flow colored">
+<div class="cover"><div class="badge">◉ Wael Academy · Philosophie</div><h1>correction bac</h1><div class="grule"></div><div class="sub">العلم بين الحقيقة والنمذجة</div><div class="auth"><div class="credit">المؤلّف / المصدر : <span class="who">الجمهورية التونسية - وزارة التربية</span> <span class="tg">موضوع باكالوريا</span><span class="tg cor">إصلاح</span><span class="tg sec">الفلسفة · باكالوريا تقنية</span> <a href="https://drive.google.com/file/d/1jHbdg2v8Bux_fF-BSmqQndvvtpzKvZ0q/view">↗ 2016.pdf</a> <a href="https://drive.google.com/file/d/14b7Q_XomNaj_RuoikyG3LItrv9an3eNY/view">↗ 2019.pdf</a> <a href="https://drive.google.com/file/d/1K0sm0wdPgtUCGuS1_FiRbgcTXU_A2hWd/view">↗ 2022.pdf</a></div></div><div class="copies" data-pagefind-ignore><b>نسخ هذا الملف في الدرايفات (12)</b><ul><li><a href="https://drive.google.com/file/d/1jHbdg2v8Bux_fF-BSmqQndvvtpzKvZ0q/view">Mariem Benkaied · BacTech (LPN 2k26) › philo / correction bac</a></li><li><a href="https://drive.google.com/file/d/1w-JpNR-4KwRhamCFeKN8uLERK85VfSHl/view">Mohamed Ahmed Zahi · Bac Math Zahi 2024/2025 › Philo / Des Bacs / principale / 2016</a></li><li><a href="https://drive.google.com/file/d/156TycU0xeP-W9GoKgrD5v6YlsmfmFgey/view">Asu bac math pilote · Asu Bac 2025 pilote › TAKI ACADEMY / dev bac / bacinfo2016 / principale</a></li><li><a href="https://drive.google.com/file/d/1kvXinWz5-dMozARf66h2x2MQpmyDbqhv/view">Jihed Rezgani · Bac Info › Sujets Bac / bacinfo2016 / principale</a></li><li><a href="https://drive.google.com/file/d/1IlSmJxinR2y4f0Ba88HceqLLqnkLepTH/view">Mohamed aziz saideni lycee Farhat Hached bizertebac 2026 · BAC MATH 2026 MOHAMED AZIZ SAIDENI › TOUT 2026 / Pour réviser les langues_ travaillez ces sujets corrigés / 2016 / Principale</a></li><li><a href="https://drive.google.com/file/d/115yOnoohkUf1iwZKd0lAzYDSDavzgvXD/view">Maram Belgacem · Bac math 2025 ( what you really need) › examenbac / philo</a></li><li><a href="https://drive.google.com/file/d/14b7Q_XomNaj_RuoikyG3LItrv9an3eNY/view">Mariem Benkaied · BacTech (LPN 2k26) › philo / correction bac</a></li><li><a href="https://drive.google.com/file/d/1vcS_1kvHqgqUABkfQrUbjX9XEom-DSal/view">Mohamed Ahmed Zahi · Bac Math Zahi 2024/2025 › Philo / Des Bacs / principale / 2019</a></li><li><a href="https://drive.google.com/file/d/1Mn9_QVnMcSvnqQc7msjch0EI5rEuLjIn/view">Maram Belgacem · Bac math 2025 ( what you really need) › examenbac / philo</a></li><li><a href="https://drive.google.com/file/d/1K0sm0wdPgtUCGuS1_FiRbgcTXU_A2hWd/view">Mariem Benkaied · BacTech (LPN 2k26) › philo / correction bac</a></li><li><a href="https://drive.google.com/file/d/1v7H8gak9rpLeYjFk3kJYMw0KP-ZcLV2P/view">Mohamed Ahmed Zahi · Bac Math Zahi 2024/2025 › Philo / Des Bacs / principale / 2022</a></li><li><a href="https://drive.google.com/file/d/1FOXncudYh5wOZ6dgwIJAlVSO6uxJbY9O/view">Maram Belgacem · Bac math 2025 ( what you really need) › examenbac / philo</a></li></ul></div></div>
+<section class="chapter">
+<div class="chtag"><span>المحور</span> العلم بين الحقيقة والنمذجة</div>
+<!-- SOURCE: الجمهورية التونسية - وزارة التربية -->
+<!-- NOTE: one book for 3 files of the Drive folder "philo / correction bac" (series), in file order -->
+<div class="exh"><span class="idx ex">موضوع</span><h2>correction bac</h2>
+  <div class="qrcard"><div class="qrt">فيديو الدرس</div><div class="qrslot"><img src="qr/1518.svg" alt="QR"></div></div></div>
+<div class="credit">المؤلّف / المصدر : <span class="who">الجمهورية التونسية - وزارة التربية</span> <span class="tg">موضوع باكالوريا</span><span class="tg cor">إصلاح</span><span class="tg sec">الفلسفة · باكالوريا تقنية</span> <a href="https://drive.google.com/file/d/1jHbdg2v8Bux_fF-BSmqQndvvtpzKvZ0q/view">↗ 2016.pdf</a> <a href="https://drive.google.com/file/d/14b7Q_XomNaj_RuoikyG3LItrv9an3eNY/view">↗ 2019.pdf</a> <a href="https://drive.google.com/file/d/1K0sm0wdPgtUCGuS1_FiRbgcTXU_A2hWd/view">↗ 2022.pdf</a></div>
+
+<!-- file: 2016 -->
+
+
+<div class="exsub">2016</div>
+<!-- p01 -->
+<p class="subhead t-red">القسم الأوّل:</p>
+
+<div class="chtag"><span>المحور</span> القيم: الأخلاق والدولة</div>
+
+<p class="consigne">1) التمرين الأوّل : "كلما كان الفعل عاقلا، كان فعلا خيّرا". أكشف عن إحدى ضمنيّات هذا القول.</p>
+<table>
+<tr><th>التمشّي المنهجي.</th><th>الإنجاز</th></tr>
+<tr><td>1) فهم الموقف المعلن في القول.</td><td>1) يتضمن القول إقرارا بالتلازم بين العقل والخير، فعلى قدر ما تستجيب أفعالنا لأوامر العقل تكو خيّرة.</td></tr>
+<tr><td>2) فهم المطلوب في التعليمة.</td><td>2) تطلب التعليمة الكشف عن إحدى ضمنيات القول والمقصود بالضمنيات<br><br>ما يفترضه القول من أوليّات تشكّل شرط إمكان صحته أي ما يسلّم القول بصحته بشكل اوّلي(ضمني).</td></tr>
+<tr><td>3) تحديد المطلوب.</td><td>3) يمكن القول إن:
+<ul class="dash">
+<li>الخير ليس قيمة خبريّة (أو)</li>
+<li>الخير لا يتحدد وفق معايير اجتماعية (او)</li>
+<li>الفعل الأخلاقي يتحدد منطق العقل لا وفق منطق الانفعالات والرغبات (أو)</li>
+<li>الخير قيمة كونية تتعالى عما هو نفعي.</li>
+</ul></td></tr>
+</table>
+<!-- p02 -->
+
+<div class="chtag"><span>المحور</span> الإنية والغيرية</div>
+
+<p class="consigne">التمرين الثاني: " إن معرفة الذات تتحقّق عبر الآخر"، حدد مفهوم الآخر في سياق هذا القول.</p>
+<table>
+<tr><th>التمشّي المنهجي</th><th>الإنجاز</th></tr>
+<tr><td>1)فهم الموقف المعلن في القول.</td><td>1) يتضمن القول علاقة تلازم شرطي بين معرفة من ناحية والأخر من ناحية ثانية، بحيث ليس يمكن للمرء معرفة حقيقة ذاته ووعيه بها الاّ من خلال الاخر.</td></tr>
+<tr><td>2) فهم المطلوب في التعليمة.</td><td>2) تحديد دلالة المفهوم على نحو سياقي لا تعني تقديم دلالة جاهزة او معجميّة بل يجب تحديد دلالة "الآخر" ضمن العلاقة التي ينشئها القول بين معرفة الذات وبين الاخر.</td></tr>
+<tr><td>3) تحديد المطلوب.</td><td>3) – استبعاد أن يُحيل الآخر على معنى العائق أو العرضيّ.<br>- تحديد دلالة الآخر باعتباره شرط معرفة الذات بذاتها سواء تعيّن بوصفه ذاتا أخرى او عالما او جسدا او بنية إدراك....وان ذلك يقتضي تجربة معيشة في العالم ضمنها يكون الآخر ضروريا ليتحقق وعي الذات بذاتها.</td></tr>
+</table>
+<!-- p03 -->
+
+<div class="chtag"><span>المحور</span> الخصوصية والكونية</div>
+
+<p class="consigne">التمرين الثالث: النص + المهامّ.</p>
+<p class="consigne">1) المهمة الأولى: صغ إشكالية النصّ.</p>
+<table>
+<tr><th>التمشيات المنهجيّة</th><th>الإنجاز</th></tr>
+<tr><td>1) تحديد السؤال الذي يجيب عليه النصّ.</td><td>1) يسعى النص إلى الإجابة عن سؤال: هل يضمن نظام سيادي عالميّ شروط المواطنة العالمية ؟ وما هي شروط تحقق هذه المواطنة؟</td></tr>
+<tr><td>2) تحديد الأطروحة المدعومة والأطروحة المدحوضة.</td><td>2) أطروحة النص : تشترط المواطنة إنتماء الفرد إلى بلد محدد، فيه تتحدد حقوقه وواجباته.<br>الأطروحة المستبعدة: النظام السيادي العالمي ضمان لشروط المواطنة.</td></tr>
+<tr><td>3) إنجاز المطلوب: صياغة الإشكالية.</td><td>3) إمكانية أولى: هل يمكن للمرء أن يكون مواطنا عالميا دون ان يكون مواطنا في بلده؟ وهل يحقّ لنا اعتبار المواطن العالمي بديلا للمواطن بإقليم معيّن؟ وبأيّ معنى يستحيل النظام السيادي العالمي إلى مجال للقضاء على المواطنة ذاتها؟<br>إمكانية ثانية:ما المواطنة؟ هل يمكن للإنسان أن يحقق مواطنته في ظلّ وجود قوّة سياديّة تحكم الأرض بأسرها أم ان المواطنة تشترط الانتماء إلى بلد معيّن؟ وبأي معنى يمثل النظام السيادي العالمي نهاية كل مواطنة؟</td></tr>
+</table>
+<p class="consigne">2) المهمة الثانية: قدّم شرطين من شروط المواطنة حسب النصّ.</p>
+<table>
+<tr><th>التمشيات المنهجيّة</th><th>الإنجاز</th></tr>
+<tr><td>1) ضبط الأطروحة المدعومة بوصفها مرمى الحجاج.<br>2) رصد المفاهيم المركزية للنص في سياق مسار الحجاج.</td><td>1) أنظر المهمة الأولى.<br><br>2) - لفظ مواطن في علاقته بلفظ "عالميّ" من جهة وبلفظ "بلده" من جهة ثانية.
+<ul class="dash">
+<li>لفظ "الأرض" في علاقته بلفظ "التعدد والتنوّع"</li>
+<li>لفظ "نظام سيادي عالمي" في علاقته بلفظ "إقليم معيّن."</li>
+</ul></td></tr>
+<!-- p04 -->
+<tr><td>3) إنجاز المهمة.</td><td>3) – المواطنة تشترط الانتماء إلى بلد ما.
+<ul class="dash">
+<li>المواطنة لا تحدد بالانتماء إلى جماعة عالمية او إلى إنسانية بلا جنسيّة.</li>
+<li>المواطنة مقترنة بالدولة/الأمة ذات السيادة على إقليم معيّن.</li>
+<li>المواطنة تفترض الاعتراف للفرد بجملة من الحقوق ومطالبته بجملة من الواجبات تتحد وفق عقد بين الأفراد من جهة وفي علاقة بحدود إقليم معيّن من جهة أخرى.</li>
+</ul></td></tr>
+</table>
+<p class="consigne">4) المهمة الثالثة: " إن وضع نظام سيادي عالمي هو أبعد من أن يكون شرطا مسبقا لمواطنة عالمية" قدّم حجة مدعّمة لهذا الموقف.</p>
+<table>
+<tr><th>التمشيات المنهجية</th><th>الإنجاز</th></tr>
+<tr><td>1) تحديد نظام الحجاج في النصّ.</td><td>1) – المواطنة العالمية ليست مقدّمة على المواطنة المحليّة.
+<ul class="dash">
+<li>خطورة القوة السيادية العالمية المحتكرة للعنف في غياب من يراقبها.</li>
+<li>السيادة العالمية تلغي خصوصية التنوع والتعدد في مستوى الدول والأقاليم.</li>
+<li>المواطنة تتحدد بعلاقة بين الحق والواجب ضمن حدود بلد معيّن.</li>
+</ul></td></tr>
+<tr><td>2) إنجاز المهمة.</td><td>2) – النظام السيادي العالمي يعبّر عن نهاية كل حياة سياسية متعارف عليها ولا معنى للمواطنة خارج هذه الحياة السياسية.
+<ul class="dash">
+<li>النظام السيادي العالمي نفي لوجود نظم سيادية محليّة وهو بذلك نفي لحقّ الشعوب في السيادة على ذاتها وبالتالي لا معنى للإعتراف بحقوق المواطن في ظلّ عدم الاعتراف بحقّ شعبه في السيادة على نفسه.</li>
+</ul></td></tr>
+</table>
+<!-- p05 -->
+<p class="subhead t-red">القسم الثاني:</p>
+<p class="consigne">1) السؤال الأول: هل في اختلاف البشر ما يغذّي الصراع بينهم؟</p>
+<table>
+<tr><th>العمل التحضيري/ التفكيك</th><th>العمل التحضيري/التخطيط</th></tr>
+<tr><td>1) فهم صيغة السؤال وتعيين المطلوب:
+<ul class="dash">
+<li>يفترض سؤال الموضوع أن الاختلاف بين البشر امر واقع (أعراق، ثقافات...)</li>
+<li>ومطلوبه البحث فيم إذا كان هذا التعدد والتنوّع في الخصوصيات والهويات سببا لتنامي أشكال الصراع بينهم.</li>
+</ul>
+2) قراءة مفاهيم السؤال وتحديد الدلالات.
+<ul class="dash">
+<li>مفهوم الاختلاف بين البشر: اعتبار الاختلاف بين البشر على مستوى الأفراد او الجماعات وتعيين هذا الاختلاف بوصفه تعددا وكثرة في مستوى الانتماءات العرقية والهويات الحضارية ومختلف مظاهر الرأسمال الرمزي للشعوب.</li>
+<li>مفهوم الصراع: يُؤخذ الصراع هنا بوصفه تباينا يقود إلى الصدام والذي يتخذ ضروبا مختلفة مثل الانغلاق والحذر من المختلف أو الهيمنة عليه والسعي إلى إقصائه أو تدميره.</li>
+</ul>
+3) بلورة الإشكالية ولحظات المعالجة.<br>وذلك بالتساؤل عن أثر الاختلافات بين البشر على واقع العلاقة بينهم.
+<ul class="dash">
+<li>البحث في وجه اعتبار الاختلاف مدعاة للصراع ( الشروط والمظاهر)</li>
+<li>البحث في وجه اعتبار الاختلاف عامل توحيد لا صراع.</li>
+</ul></td>
+<td><ul class="b">
+<li>مرحلة بناء المشكل:
+<ul class="dash">
+<li>التمهيد: بالانطلاق من واقع الصراع الذي يحكم علاقة الانسان بالإنسان والذي يتمّ رغم مساعي التوحيد وتمجيد الكونية.</li>
+<li>الإشكالية:</li>
+</ul></li>
+</ul>
+إمكانية أولى: إذا كان الاختلاف بين البشر واقعا، فهل يعمّق هذا ضرورة علاقات الصراع بينهم؟ ألا يمكن للاختلاف ان يكون أساس لقاء مثمر يغذّي مطلب التعايش؟ وما هي شروط إمكان ذلك؟<br>
+إمكانية ثانية: بأيّ معنى يكون الاختلاف بين البشر عامل تناحر بينهم؟ وما السبيل على تحويل الاختلاف من مبرر للصراع إلى أساس للوحدة؟ وهل يمكننا أن نفهم الوحدة لا على معنى التماثل بل على معنى وحدة الكثرة؟
+<ul class="b">
+<li>بلورة الموقف من المشكل المطروح.</li>
+</ul>
+1) لحظة أولى: بيان أسس القول بأن الاختلاف يغذي الصراع.
+<ul class="dash">
+<li>تحديد دلالة الاختلاف على معنى التنوع والتعدد والكثرة</li>
+<li>بيان تجليات الاختلاف على مستوى الجنس والعرق والقيم والمعتقدات.</li>
+<li>بيان مسوّغات القول بأن الاختلاف مغذّ للصراع: المركزية الثقافية، التعصّب وما يمكن أن يقودا إليه من رفض للآخر وقتله.</li>
+</ul>
+2) لحظة ثانية: بيان ان الاختلاف عامل إثراء لا تغذية للصراع.
+<ul class="dash">
+<li>تجاوز منطق المركزية الثقافية والمفاضلة بين الثقافات.</li>
+<li>التأكيد على قيمة الاختلاف بما هو سمة الوجود النوعي للإنسان.</li>
+<!-- p06 -->
+<li>الثقة في الهويّة الثقافية وفي قدرتها على التفاعل مع الآخر.</li>
+<li>التأكيد على قيمة الحوار بديلا للعنف.</li>
+<li>النظر إلى الاختلافات لا على أنها فروقات يجب القضاء عليها بل بوصفها تنوعات إبداعية.</li>
+</ul>
+3) لحظة ثالثة: استخلاص الموقف النهائي وبيان قيمته.
+<ul class="dash">
+<li>تثمين واقع الاختلاف كشرط لتحقيق إنسانية الإنسان.</li>
+<li>الإقرار بقيمة الاعتراف بالاختلاف بما هو أساس علاقات التسامح والاندماج.</li>
+<li>الإقرار بأن الكثرة لا تنفي الوحدة وان الاختلاف يفرض تحويل الصراع من تصادم للخصوصيات إلى صراع مشترك من أجل سلام دائم.</li>
+</ul></td></tr>
+</table>
+<!-- p07 -->
+
+<div class="chtag"><span>المحور</span> العلم بين الحقيقة والنمذجة</div>
+
+<p class="consigne">2) السؤال الثاني: هل في اعتبار النماذج إهمالا للواقع ما يفضي إلى تخلي العلم عن الحقيقة؟.</p>
+<table>
+<tr><th>العمل التحضيري/التفكيك.</th><th>العمل التحضيري/التخطيط.</th></tr>
+<tr><td>1) فهم صيغة السؤال وتعيين المطلوب.<br>يفترض السؤال ان النمذجة ليست إخبارا عن الواقع ولا وصفا لحقيقة ما يحدث فيه، ليطرح بعد ذلك مهمة البحث في إمكان وجود علاقة لزوم ( هل يُفضي) بين اعتبار النمذجة إهمالا للواقع وبين الحكم بتخلّي العلم عن الحقيقة وذلك على أساس التسليم بالربط بين الواقع والحقيقة.<br>
+2) قراءة مفاهيم السؤال وتحديد الدلالات.
+<ul class="dash">
+<li>النموذج: بوصفه تمثلا مبسّطا لواقع بهدف فهمه والتحكم فيه، ولما كان كذلك فإنه يقوم على تمثيل الأنساق الطبيعية والاصطناعية بطريقة إبداعية لا تدعي تطابقها مع الواقع ( استراتيجيا الإهمال).</li>
+<li>الواقع بوصفه بناء عقليا لا معطى واقعيا.</li>
+<li>الحقيقة باعتبارها مطلب العقلانية العلمية في سعيها إلى إنتاج معرفة موضوعية، كونيّة.</li>
+</ul>
+3) بلورة الإشكالية ولحظات المعالجة.
+<ul class="dash">
+<li>إذا سلمنا بأن النمذجة، كصيغة متقدمة في إنتاج المعرفة العلمية ،إهمال للواقع على أساس ما يتسم به العلم من تجريد في مسار إنتاجه للحقيقة ، فإن المشكل يتعيّن كبحث في مدى وفاء العلم في صيغته المتقدمة لمطلبه أي الحقيقة.</li>
+</ul>
+ا) مبررات القول بتخلي العلم عن الحقيقة على أساس إهماله للواقع.<br>
+ب) النمذجة كصياغة جديدة لمنزلة الحقيقة العلمية ضمن بنية جديدة للعقل العلمي.</td>
+<td><ul class="b">
+<li>مرحلة بناء المشكل:
+<ul class="dash">
+<li>التمهيد: تنزيل المشكل ضمن التحولات التي يشهدها العلم على مستوى مفاهيمه و مناهجه ومبادئه وما انتهى اليه ذلك من مراجعات ابستمولوجية.</li>
+<li>الإشكالية:</li>
+</ul></li>
+</ul>
+إمكانية أولى:بأي معنى تقوم النمذجة على إهمال الواقع؟ وهل في ذلك ما يفيد تخلي العلم عن طلب الحقيقة؟ أم هو غعادة بناء لمفهومها ومعاييرها؟<br>
+إمكانية ثانية: أيّ علاقة بين النمذجة العلمية والواقع؟ وإذا اعتبرنا أن النماذج تتغافل عن الواقع، فهل في هذا ما يشرّع للتظنّن على علاقة النمذجة بمطلب الحقيقة؟ وهل يفيد هذا التظنن الدعوة إلى الزهد في الحقيقة؟
+<ul class="b">
+<li>بلورة الموقف من المشكل:</li>
+</ul>
+1) لحظة أولى: بيان أسس القول بأن إهمال النماذج للواقع يفيد التخلّي عن طلب الحقيقة.
+<ul class="b">
+<li>الوقوف عند مظاهر الإهمال.</li>
+</ul>
+<ul class="dash">
+<li>تحديد دلالة النمذجة بما هي مسار إنتاج النماذجن بوصفها تمثلات تطلب فهم الواقع</li>
+<li>تحديد دلالة الإهمال بما هو فعل قصدي، ينجزه المنمذج في علاقة بالواقع ضمن خطة ومشروع.</li>
+<li>تأكيد أن آليات النمذجة تستند إلى الاختزال والتبسيط.</li>
+<li>إبراز أن النماذج ليست اكتشافا لواقع معطى، بل هي بناء لواقع.</li>
+<li>بيان أن النمذجة لا تطلب اكتشاف الحقيقة، أو أنها تعلن تخلّيها عن <!-- p08 -->الحقيقة بما هي حكم مطابق للواقع ونهائي اليقين.</li>
+</ul>
+2) لحظة ثانية: بيان أن النمذجة ليست تخليا عن الحقيقة، بل هي مراجعة لمفهومها ومنزلتها.
+<ul class="dash">
+<li>استبدال الحقيقة المطلقة والنهائية بالحقيقة المفتوحة، بالنظر إلى مرونة النماذج في علاقة بالسياق من جهة وببعدها التداولي من جهة ثانية.</li>
+<li>الانتقال من الحقيقة القائمة على الاكتشاف والمطابقة إلى الحقيقة بما هي بناء والقائمة على معيار الملاءمة والصلاحية.</li>
+<li>النمذجة معرفة موجهة نحو الفعل والحقيقة ليست سوى الفعل نفسه.</li>
+</ul>
+3) لحظة ثالثة: استخلاص الموقف النهائي وبيان قيمته.
+<ul class="dash">
+<li>تأكيد قيمة النماذج بما هي فهم من اجل الفعل.</li>
+<li>بيان أن مشكل النمذجة لا يكمن في تخليها عن الحقيقة من عدمه فحسب وإنما في المسؤولية الأخلاقية للمنمذج، بالنظر إلى التداخل ما بين العلمي والسياسي والاقتصادي.</li>
+<li>بيان ان النمذجة ومن خلال قطعها مع براديغم الاكتشاف ومعيار المطابقة مكّنت العلم من آفاق جديدة للتطوّر ،دون حمل ذلك على معنى الريبيّة.</li>
+</ul></td></tr>
+</table>
+<!-- file: 2019 -->
+
+
+<div class="exsub">2019</div>
+<p class="subhead t-red"><b>القسم الأوّل</b></p>
+
+<div class="chtag"><span>المحور</span> الخصوصية والكونية</div>
+
+<p class="consigne">- التمرين الأوّل: إن المواطنة العالميّة تقويض للسيادة الوطنيّة.</p>
+<p class="consigne">قدّم حجّة تدحض هذا القول.</p>
+<table>
+<tr><th>التمشّي المنهجي</th><th>الانجاز</th></tr>
+<tr><td><b>1) فهم الموقف المعلن في القول.</b><br><br><b>2) فهم المطلوب في التعليمة.</b><br><br><br>3) <b>تحديد المطلوب</b></td><td>1) يتضمّن القول إقرارا بكون البعد العالمي للمواطنة يحطّم شروط سيادة الدولة الوطنية<br>2) تطلب التعليمة تخيّر حجة للإعتراض على اعتبار المواطنة العالمية خطرا يهدد السيادة الوطنية<br>3) يمكن تقديم الحجة كالتالي:
+<ul class="b">
+<li>المواطنة العالمية تقتضي المواطنة المحلية ولا تنفيها وهي بذلك شرط ودعامة للسيادة الوطنية</li>
+<li>(أو) الانتماء الى وطن معيّن ودولة محددة لا يتعارض مع الانتماء الى العالم بما وطن للجميع</li>
+<li>(أو) العالمية لا تُحمل على معنى الانتماء الى جماعة محلية أو إنسانية بلا جنسية بل تحمل على معنى الانسان الذي يمارس حقوقه من جهة كونه كائنا كونيا</li>
+</ul></td></tr>
+</table>
+
+<div class="chtag"><span>المحور</span> الإنية والغيرية</div>
+
+<p class="consigne">التمرين الثاني: إن الذات لا تتعرّف الى ذاتها باكتشافها لآخر خارجها وإنّما بانفتاحها على آخر كامن فيها.</p>
+<p class="consigne">أكشف عن إحدى ضمنيات هذا القول.</p>
+<table>
+<tr><th>التمشي المنهجي</th><th>الانجاز</th></tr>
+<tr><td><b>1) فهم الموقف المعلن في القول.</b><br><br><b>2) فهم المطلوب في التعليمة.</b><br><br><br>3) <b>تحديد المطلوب.</b></td><td>1) يتضمن الإقرار نفيا وتأكيدا: نفي أن تكون معرفة الذات لذاتها مشروطة بمعرفة الآخر كذات مقابلة لها وجود موضوعي متفرّد وتأكيد على اعتبار معرفة الذات لذاتها رهينة انفتاح وتواصل مع الآخر الذي يقيم فيها ويسكنها.<br>2) تطلب التعليمة الكشف عن ضمنية من ضمنيات هذا القول أي ما يفترضه القول من أوليّات ومسلمات تشكّل شرط إمكان صحته.<br>3) يمكن تحديد المطلوب كالتالي:
+<ul class="b">
+<li>الذات ليست جوهرا بسيطا بقدر ما هي كيان مركّب تسكنه الغيرية</li>
+<li>حقيقة الذات ليست معطى مباشرا ولا قبليا</li>
+<li>الآخر ليس غيريّة قبالة الذات ، متخارجة معها بل هي مقوّم أساسي وداخلي لجوهرها.</li>
+</ul></td></tr>
+</table>
+
+<div class="chtag"><span>المحور</span> الخصوصية والكونية</div>
+
+<p class="consigne">التمرين الثالث : النص</p>
+<p class="consigne">1) المهمّة الأولى: حدّد إشكالية النص.</p>
+<table>
+<tr><th>التمشي المنهجي</th><th>الانجاز</th></tr>
+<tr><td><b>1) تحديد السؤال الذي يجيب عليه النص.</b><br><br><br><b>2) تحديد الأطروحة المدعومة والأطروحة المحدوضة.</b><br><br><br>3) <b>إنجاز المطلوب:صياغة الإشكالية.</b></td><td>1) يسعى النص الى الإجابة عن السؤال التالي: ما الذي تحتاجه الإنسانية اليوم لتحدّ من مخاطر العولمة؟<br>2) الأطروحة المدعومة : إن عدم إنكار فضائل العولمة لا ينبغي أن يحجب عنا مخاطرها وهي مخاطر تفرض على الإنسانية مواجهتها والتوقي من نتائجها بتوفير شروط تنظيمها.<br>الأطروحة المحدوضة:العولمة نظام سيء وآثم في حق الإنسانية ولا خلاص الا بالتحرر منه.<br><br>3) إمكانية1: إلام تردّ المخاطر التي تحفّ بعصر العولمة؟ هل تردّ إلى العولمة ذاتها أم إلى غياب الشروط التي تنظّمها؟<br>إمكانية2: كيف يمكن التصدي لمخاطر العولمة؟ هل بالسعي إلى رفض العولمة نفسها باعتبارها شرا مطلقا أم بالتفكير في شروط تنظيمها بما يضمن تلازم أبعادها التقنية/الاقتصادية من ناحية والإنسانية/الايتيقية من ناحية ثانية؟</td></tr>
+</table>
+<p class="consigne">المهمّة الثانية: استخرج من النص شرطين يجب أن يتوفّرا في العولمة حتى تكتسي طابعا إنسانيا.</p>
+<table>
+<tr><th>التمشي المنهجي</th><th>الانجاز</th></tr>
+<tr><td><b>1) تحديد الأطروحة المدعومة والأطروحة المدحوضة</b><br><br>2) <b>تحديد المطلوب</b>.</td><td>1) أنظر المهمة الأولى.<br><br>2) يمكن تعيين الشرطين كالتالي:
+<ul class="b">
+<li>ضرورة وجود سلطة منظمة وضابطة وشرعية تخضع مسار العولمة إلى اقتضاءات تحدّ من أشكال الهيمنة والاقصاء.</li>
+<li>إنتاج مضادات ثقافية واقية مثل الحوار والانسجام والتعاون للحدّ من ضروب التسابق نحو الهيمنة والاستغلال.</li>
+<li>ضرورة توفّر سياسة للحضارة باعتبارها مسارا يلتقي فيه كل البشر بما ينمّي خصال الحياة ويطوّرها</li>
+</ul></td></tr>
+</table>
+<p class="consigne">المهمة الثالثة: أكشف عن أحد رهانات النصّ.</p>
+<table>
+<tr><th>التمشي المنهجي</th><th>الانجاز</th></tr>
+<tr><td><b>1) تحديد الأطروحة المدعومة.</b><br><b>2) رصد المفاهيم المركزية في النص.</b><br><br><br><br><br>3) <b>تحديد المطلوب</b></td><td>1) أنظر المهام السابقة.<br>2) يمكن رصد بعض المفاهيم مثل:
+<ul class="b">
+<li>العولمة الاقتصادية-التقنية</li>
+<li>سلطة ضابطة/شرعية/عالمية</li>
+<li>البربرية/الاثنيات القومية/الدينية</li>
+<li>الحوار /الانسجام</li>
+<li>الهيمنة</li>
+</ul>
+3) يمكن الإشارة إلى أحد الرهانات التالية:
+<ul class="b">
+<li>تحرير العولمة من منطق الهيمنة الاقتصادية</li>
+<li>تجاوز الموقف المناهض للعولمة والموقف الممجّد لها في آن.</li>
+<li>الدعوة إلى عولمة بديلة ذات اتجاه إنساني فالإنسانية مدعوة اليوم إلى إنتاج مضادات ايتيقية تقاوم الوجه البربري للعولمة.</li>
+</ul></td></tr>
+</table>
+
+<div class="chtag"><span>المحور</span> العلم بين الحقيقة والنمذجة</div>
+
+<p class="subhead t-red"><b>القسم الثاني:</b></p>
+<p class="consigne">السؤال الأوّل: هل في تعدّد النماذج إثراء للعلم؟</p>
+<table>
+<tr><th>العمل التحضيري/التفكيك</th><th>العمل التحضيري/التخطيط</th></tr>
+<tr><td>1) <b>فهم صيغة السؤال وتعيين المطلوب</b>.
+<ul class="dash">
+<li>يفترض السؤال أن إنتاج المعرفة العلمية يستند إلى إنشاء نماذج متعددة بما يترتب على ذلك من طرح مشكلة قيمة العلم.</li>
+<li>وهو لذلك يستفهم عمّ إذا كان هذا التعدد في النماذج إغناء وتطويرا للعلم.</li>
+</ul>
+2) <b>قراءة مفاهيم السؤال وتحديد الدلالات</b>:
+<ul class="dash">
+<li>النماذج : بوصفها تمثلات لأنساق وصيغ صورية تسعى إلى فهم سلوك هذه الأنساق والتحكم فيها</li>
+<li>العلم باعتباره معرفة موضوعية مطلبها الحقيقة</li>
+</ul>
+3) <b>بلورة الإشكالية ولحظات المعالجة:</b><br>وذلك بالتساؤل عن قيمة تعدد النماذج في إغناء البحث العلمي.
+<ul class="b">
+<li>البحث في وجوه إثراء تعدد النماذج للعلم</li>
+<li>البحث في حدود هذا الاثراء وما يمكن أن يقود إليه تعدد النماذج إلى التظنن على قيمة العلم.</li>
+</ul></td><td><ul class="b"><li><b>مرحلة بناء المشكل</b>:</li></ul>
+1)- <b>التمهيد</b>: يمكن الانطلاق من التوتّر القائم بين طلب إنشاء نظريات مستقرّة وبين طبيعة النماذج العلمية المتعددة واستراتيجياتها المتغيّرة
+<ul class="dash">
+<li>(أو) من الإشارة إلى صعوبة تحديد قيمة العلم اليوم بفعل غلبة نشاط النمذجة داخل وما ينتجه ذلك من تعدد للنماذج وما يثيره هذا التعدد من أسئلة وإحراجات ابستمولوجية وفلسفية.</li>
+</ul>
+3) <b>الإشكالية</b>:
+<ul class="dash">
+<li>إذا كان واقع العلم قائما على تعدّد النماذج،فهل يفضي ذلك إلى إغناء العلم أم إلى تفقيره؟</li>
+<li>(أو) هل يؤدّي الإقرار بارتباط الممارسة العلمية ببناء النماذج متعدّدة ضرورة إلى التظنّن على قيمة العلم؟ ألا يمكن أن يكون التعدّد علامة نجاح العلم وعامل خصوبته؟</li>
+</ul>
+<ul class="b"><li><b>بلورة الموقف من المشكل المطروح:</b></li></ul>
+<b>1) لحظة أولى:</b>
+<ul class="b"><li><b>في اعتبار أن تعدّد النماذج إثراء للعلم:</b></li></ul>
+أ) تحديد دلالة مفهوم النموذج باعتباره إنشاء لتمثّل لنسق واقعي أو افتراضي أيّا كان شكل التمثّل أو بوصفه تصميما أو تخطيطا أو رسما موجّها أو من جهة ما هو صورة مبرّرة منطقيّا ورياضيّا أو تجريبيّا</td></tr>
+</table>
+<table>
+<tr><td></td><td>لتأويل الأنساق الماديّة أو الافتراضية طلبا للفهم والتحكّم.<br>ب) التأكيد على تعدد النماذج داخل نفس المجال العلمي باعتبار ان النسق الواحد يمكن أن يُبنى بشأنه أكثر من نموذج ( تعدد نماذج الذرّة في الفيزياء مثلا) وهو ما يُفهم على أنه انتقال من براديغم المعرفة/الموضوع إلى براديغم المعرفة/المشروع أي الخروج من منطق وحدة النظريّة والنموذج الأوحد إلى منطق كثرة النظريات وتكثّر النماذج.<br>ج) بيان ان صناعة النماذج وتعدّدها إثراء للعلم وذلك بالتأكيد على:<br>- أن انفتاح الممارسة العلمية على النمذجة غيّر تصوّرنا لشروط العلمية وبنية العقل العلمي<br>- استعادة دور الذات وفق منطق التفاعليّة الذي أدّى إلى تعدد النماذج بتعدد منظورات الذوات وغاياتها والفاعلين في الأنساق هو الذي مكّن العلم من الانفتاح على ممكنات أوفر للفهم والفعل والتحكّم.<br>- تعدّد المعايير في علاقة بالحكم على القيمة النظريّة للنماذج وتأويلها دلاليّا وتركيبيّا (الانسجام والاتساق الداخلي، الملاءمة، التحقّق،المقبولية، الدحض، الاحتمالية،النسبيّة) حرّر العلم من معايير العلمية الكلاسيكيّة التحليليّة (الموضوعية، التفسير،النسبية)<br>- تعدد المعايير العلمية على المستوى التداولي في علاقة بتعدد النماذج النظرية التي تستبطن رهانات العقلانية الأداتية ومعاييرها (الإنتاج ،الإنتاجية،الفاعلية،السرعة...) خلّص العلم من مقتضى الحياد الذي يوجب القطع مع الغايات<br>- العلم لم يعد معنيّا باكتشاف الحقائق المطابقة للواقع بما هو معطى،واحد وثابت كما ترسّخ ذلك في البراديغم الوضعي وإنما أصبح يصنع نماذج تبسيطية أو اختزالية أو افتراضية خياليّة.<br><b>لحظة ثانية</b> :
+<ul class="b"><li><b>تنسيب اعتبار أن تعدد النماذج إثراء للعلم :</b></li></ul>
+<ul class="dash">
+<li>في تعدد النماذج ما يفضي إلى سجال تأويلات قد ينتهي بدوره إلى ريبيّة تربك كل نشاط علمي أو تحطّ من قيمته.</li>
+<li>في ثراء وتقدّم الجانب التطبيقي المرتبط بالعقلانية الأداتية الملازمة لتعدد النماذج إغفال وإهمال للجانب النظري والتأسيسي للعلم.</li>
+<li>ليس من البداهة المراهنة على تطوّر العلم بتعدّد النماذج النظريّة والصناعيّة كسبيل لتحقيق الأفضل إنسانيا وايتيقيّا.</li>
+</ul></td></tr>
+</table>
+<table>
+<tr><td></td><td><ul class="dash">
+<li>إن تعد النماذج يقترن باستراتيجيا الإهمال وهو ما يفقد العلم قدرته على معرفة الواقع في كلّيته كما يفقده صلته بمطلب الحقيقة.</li>
+</ul>
+<ul class="b"><li><b>لحظة ثالثة : استخلاص الموقف وإبراز قيمته.</b></li></ul>
+<ul class="dash">
+<li>إن التعدد الملازم للقول العلمي في ضوء ابستمولوجيا النمذجة يحرر العلم من أزماته ويوفّر له أدوات فعل التحكّم ولكنه قد يورّط العلم داخل لعبة التوظيف الأيديولوجي والسلطوي وهو ما يدعو إلى ضرورة توجيه العلم في خدمة انتظارات متعددة.</li>
+<li>(أو) إن تعدد النماذج علامة على خصوبة العقل العلمي وقدرته على الخلق والابداع شر تأطير هذا التعدد ايتقيا واستثماره إنسانيا وكونيّا.</li>
+</ul></td></tr>
+</table>
+
+<div class="chtag"><span>المحور</span> القيم: الأخلاق والدولة</div>
+
+<p class="consigne">السؤال الثاني: هل في مُراكمة المنافع استكمال للسعادة؟</p>
+<table>
+<tr><th>العمل التحضيري/التفكيك</th><th>العمل التحضيري/التخطيط</th></tr>
+<tr><td><ul class="b"><li><b>فهم صيغة السؤال وتحديد المطلوب</b>.</li></ul>
+السؤال يطرح استفهاما حول وجاهة علاقة شرطية بين المنفعة والسعادة بحيث يكون المطلوب هو البحث فيما إذا كانت الاستزادة من تحقيق المنافع سبيل لتحقيق السعادة باعتبارها غاية ومطلبا.
+<ul class="b"><li><b>رصد مفاهيم السؤال وتحديد دلالاتها:</b></li></ul>
+<ul class="dash">
+<li>المنفعة: باعتبارها ربحا وامتيازا أو لذّة أو خيرا معيّنا كما تتحدد بوصفها تجنبا لألم أو شرّ او حزن</li>
+<li>السعادة: باعتبارها حالة من الرضا والاشباع التام للميولات والرغبات.</li>
+</ul>
+<ul class="b"><li><b>بلورة الإشكالية ومراحل المعالجة</b>:</li></ul>
+وذلك بالتساؤل عن وجاهة الترابط الشرطي بين الاستزادة من المنافع وتحقق السعادة
+<ul class="dash">
+<li>البحث في وجه الترابط بين تحقيق أكبر قدر ممكن من المنافع وتحقق حالة السعادة</li>
+<li>البحث في حدود هذا الترابط والذي يمكن أن تكون فيه المنافع عقبة أمام السعادة</li>
+<li>البحث في شروط إمكان انسجام المنفعة والسعادة.</li>
+</ul></td><td><ul class="b"><li><b>مرحلة بناء المشكل</b>:</li></ul>
+<ul class="dash">
+<li><b>التمهيد</b> : يمكن الانطلاق من التوتّر بين اعتبار السعادة غاية قصوى للإنسان وبين تباين المواقف في تحديد شروط تحقّقها (أو) الإشارة إلى التعارض بين موقف يحدد شروط السعادة في ما نملكه وموقف يربطها بما نكون عليه ضمن ايتيقا الفعل وأخلاقيته.</li>
+<li><b>الإشكالية</b>: ما هي شروط إمكان استكمال السعادة؟ هل هي شروط كميّة تُقاس بمراكمة المنافع أم أنها شروط كيفيّة تلائم بين المنفعة ومقتضيات الأخلاقيّة؟</li>
+</ul>
+(أو) ما منزلة المنفعة من السعادة؟ على أيّ نحو تكون الاستزادة من تحصيل المنافع استيفاء للسعادة؟ وما وجاهة ربط السعادة بالمنفعة؟
+<ul class="b"><li><b>مرحلة بلورة الجواب على السؤال</b></li></ul>
+<b>لحظة أولى: في أن مراكمة المنافع استكمال للسعادة.</b><br>أ) تحديد دلالة مفهومْ المنفعة والسعادة : كأن نحمل المنفعة على معنى معنى القدرة الكافية في غرض معيّن على إنتاج ربح أو نفع أو امتياز أو لذّة أو خير كما يمكن اعتبارها القدرة على تجنّب حصول خسارة أو سوء أو ألم أو شرّ او حزن.<br>كما يمكن حمل السعادة على معنى تحقق اللّذة وتجنّب الألم بوصفها حالة من الرضا والاشباع التام للميول والرغبات من خلال امتلاك أسباب الرفاه ورغد العيش.<br>ب) تأكيد التناسب بين مراكمة المنافع واستكمال السعادة وذلك ببيان انّ :</td></tr>
+</table>
+<table>
+<tr><td></td><td><ul class="dash">
+<li>كل فعل إنساني غايته المنفعة بما جلب أكثر ما يمكن من ملذّات ودفع أكثر ما يمكن من آلام</li>
+<li>كلما كانت الرغبة الإنسانية رغبة واعية وعقلانية مكّنت من استزادة المنافع استكمالا للسعادة</li>
+<li>استكمال السعادة بوصفه اقتضاء أخلاقيّا يستوجب مزيدا من المنافع وليس حدّا منها أو إعراضا عنها</li>
+<li>المنفعة لا تنحصر في المصلحة الفردية بل تجمع بينها وبين المصلحة العامّة ممّا يجعل مراكمة المنافع وتبادلها زيادة في السعادة وتقاسما لها</li>
+<li>المجتمع الاستهلاكي جعل السعادة قرينة الوفرة والرفاه.</li>
+</ul>
+<ul class="b"><li><b>لحظة ثانية: في التظنّن على أن مراكمة المنافع</b> استكمال للسعادة وذلك بالاشارة إلى:</li></ul>
+<ul class="dash">
+<li>السعادة بما هي مثل أعلى أخلاقي لا تكمن في ما نملك بل في ما نكون</li>
+<li>المعقوليّة الأخلاقيّة المحددة لشروط إمكان السعادة ليست معقولية حسابيّة كميّة بل هي معقوليّة ايتيقيّة</li>
+<li>السعادة غير مقترنة بالمثل الأعلى الاستهلاكي ولا تُختزل في رغد العيش بل هي قيمة أخلاقية سامية غير قابلة للتكميم.</li>
+<li>مراكمة المنافع لا تضمن بالضرورة تحقيق السعادة بل تجعلنا سجناء حاجات مصطنعة قد تقودنا إلى الشقاء</li>
+<li>ارتباط المنفعة بالأنانية واختلاف المصالح والأذواق بين الأفراد قد يؤدي إلى تصادم الارادات الفردية وتفتيت المنافع واستحالة استكمال السعادة</li>
+<li>مراكمة المنافع والملذّات والمتع لا تحقق سعادة الانسان إذ السعادة مسألة استحقاق وجدارة.</li>
+</ul>
+<ul class="b"><li><b>لحظة ثالثة: استخلاص موقف من المشكل وبيان قيمته :</b></li></ul>
+<ul class="dash">
+<li>بيان أن السعادة لا تتوقّف على المنفعة وفي ذلك نقد لنموذج السعادة في المجتمع الاستهلاكي من حيث هي أيديولوجيا رأسماليّة تدعم الاستغلال تحت مطلب الحق في مراكمة المنافع وأسباب الرفاه</li>
+<li>(أو) بيان أن الاحتكام إلى العقل هو السبيل إلى المصالحة بين المنفعة الفردية والمنفعة العامة وفي ذلك انسجام بين السعادة الفردية والسعادة الجماعية وفقا لمطلب الكونيّ</li>
+</ul></td></tr>
+</table>
+<table>
+<tr><td></td><td><ul class="dash">
+<li>(أو) بيان أن تحقيق السعادة لا يستوجب مراكمة المنافع وإنما الاعتدال في تحصيلها بما يؤكّد اقتران السعادة بالفضيلة واعتبارها خيرا أسمى.</li>
+</ul></td></tr>
+</table>
+<!-- file: 2022 -->
+
+<div class="chtag"><span>المحور</span> فروض ومواضيع (عدّة محاور)</div>
+
+<div class="exsub">2022</div>
+<table>
+<tr><td rowspan="3">الجمهورية التونسية<br>وزارة التربية</td><td colspan="2">امتحان البكالوريا دورة 2022</td></tr>
+<tr><td>الاختبار: <b>الفلسفة</b></td><td><b>الشعب: الاقتصاد والتصرف - الرياضيات - العلوم التجريبية - العلوم التقنية - علوم الإعلامية</b></td></tr>
+<tr><td>الحصّة: <b>3</b> س</td><td>ضارب الاختبار : <b>1</b></td></tr>
+</table>
+<p class="para">رقم التسجيل</p>
+<p class="subhead t-red">القسم الأوّل: (10 نقاط)</p>
+<div class="exsub">التمرين الأوّل: (نقطتان)</div>
+<p class="para">" بقدرما يكون الآخر مختلفا عنّي، يساعدني على الوعي بذاتي".</p>
+<p class="consigne">قدّم حجّة تدعم هذا الإقرار.</p>
+<div class="exsub">التمرين الثاني: (نقطتان)</div>
+<p class="para">"ليست النماذج مواضيع اعتقاد".</p>
+<p class="consigne">اكشف عن إحدى ضمنيّات هذا الإقرار.</p>
+<div class="exsub">التمرين الثالث: النصّ. (ستّ نقاط)</div>
+<p class="para">من المؤكّد أنّ ما يرغب فيه كلّ إنسان بشغف أكبر، إنّما هو ما يبدو له الخير الأسمى. هذا والحال أنّنا قلنا إنّ الخير الأسمى والنّعيم الحقيقيّ شيء واحد. لذلك يرى كلّ فرد أنّ موضوع رغباته هو السعادة الحقيقيّة. وهكذا، فإنّ رسم صورة نعيم هذا العالم لا يتطلّب سوى جمع الثروات والمناصب والسلطة والمجد والملذّات. (...)</p>
+<p class="para">هل يبلغ البشر بالفعل منتهى السعادة من خلال هذه الوسائل التي يعتقدون أنّها مناسبة لتحصيلها؟ إذا كانت الثروات وألقاب الشرف وكلّ الأشياء من هذا القبيل قادرة على تمكين المرء من كلّ ما يمكن أن يرغب فيه، فسوف أسلّم لك بأنّ امتلاك تلك الأشياء يمكن أن يصنع أناسا سعداء. وأمّا إذا كانت غير قادرة على الإيفاء بوعودها، حيث نظلّ رغم امتلاكنا لتلك الأشياء مفتقرين إلى أشياء أخرى عديدة، فيجب أن نخلص إلى أنّها ليست سوى مظهر زائف للنعيم. (...) ومن ثمّ، إذا كانت الثروات، بدل أن تخلّص الانسان من الاحتياج ، لا تزيد إلاّ في تأجيج رغباته دون إشباع حاجاته، فهل يمكننا أن نعتقد أنّها كافية لتحقيق سعادته؟</p>
+<p class="para">بوئثيوس: "مواساة الفلسفة"</p>
+<p class="consigne">أنجز المهامّ التالية انطلاقا من النصّ:</p>
+<ol class="qn">
+<li>صغ الأطروحة التي يستبعدها الكاتب. (نقطتان)</li>
+<li>حدّد علاقة الثروة بالسعادة حسب الكاتب. (نقطتان)</li>
+<li>اكشف عن أحد رهانات النصّ. (نقطتان)</li>
+</ol>
+<p class="subhead t-red">القسم الثاني: (10 نقاط).</p>
+<p class="consigne"><b>يختار المترشّح أحد السؤالين التاليين ليحرّر في شأنه محاولة في حدود ثلاثين سطرا.</b></p>
+<p class="para">*السؤال الأوّل: هل يجب أن نختار بين إقصاء الآخر والذوبان فيه؟</p>
+<p class="para">*السؤال الثاني: هل أنّ غياب الدولة أشدّ خطرا على الأفراد من حضورها؟</p>
+<p class="para">1/1</p>
+<table>
+<tr><td rowspan="4"><b>الجمهورية التونسية<br>وزارة التربية</b><br><br>امتحان البكالوريا<br>دورة<b>2022</b></td><td colspan="2"><b>دورة 2022</b></td></tr>
+<tr><td colspan="2"></td></tr>
+<tr><td><b>الاختبار</b>:الفلسفة</td><td>الشعب: الاقتصاد والتصرف + الريـــاضيات + العلوم التجريبية<br>+ العلوم التقنية + علوم الإعلامية</td></tr>
+<tr><td><b>الحصّة: 3 س</b></td><td><b>ضارب الاختبار : 1</b></td></tr>
+</table>
+<p class="subhead t-red"><b>* القسم الأول: (10 نقاط)</b></p>
+<p class="para"><b>التمرين الأوّل:</b> "بقدر ما يكون الآخر مختلفا عنّي، يساعدني على الوعي بذاتي".<br>قدّم <b>حجّة تدعم</b> هذا الإقرار. <b>(نقطتان)</b></p>
+<table>
+<tr><th>التنبهات المنهجية</th><th>الانجاز</th></tr>
+<tr><td>
+<p class="para">1. <b><u>فهم المعطى</u>/ القولة:</b></p>
+<p class="para">-الإنتباه إلى <b>التركيب التناسبي</b> بين حدّي القول (بقدر ما يكون ... يساعدني على... ).</p>
+<p class="para">- التفطن إلى أوجه التلازم بين ازدياد مظاهر الإختلاف من جهة، والتحقّق من الوعي بالذات من جهة أخرى.</p>
+<p class="para">- يمكن تنزيل الإجابة ضمن سجل أنطولوجي أو سجل أنتروبولوجي.</p>
+<p class="para">2.<b><u>تمثل المطلوب</u>/ التعليمة:</b></p>
+<p class="para"><b>الحجّة</b> هي الاستدلال المنطقي باستدعاء فكرة أو شرط أو حدث... بهدف إثبات إقرار ما (تمييز الحجّة عن البرهان والدليل والمثال).</p>
+<p class="para">3.<b><u>كيفية الإنجاز</u>/ أسئلة توجيهية:</b></p>
+<p class="para">-ما الذي يبرّر <b>منطقيا</b> العلاقة بين حدّي التناسب؟</p>
+<p class="para">-ما قيمة الإنفتاح على الآخر المختلف مقارنة بالآخر المماثل؟</p>
+<p class="para">-ما قيمة حضور الآخر المختلف في تشكّل الوعي بالذات وما تبعات غياب الآخرعلى وعيي بذاتي؟</p>
+</td><td>
+<ul class="b"><li>"بقدر ما يكون الآخر مختلفا عنّي،يساعدني على الوعي بذاتي".- قدّم <b>حجّة تدعم</b> هذا الإقرار.</li></ul>
+<p class="para">*تكون الإجابة برصد أحد الحجج التالية:</p>
+<p class="para">. ما يصدره الآخر من أحكام بشأني، وفق منظوره القيمي المختلف، ينبّهني إلى ما لا أتفطّن إليه من زاوية نظري الخاصّة.</p>
+<p class="para">.أو التعرف إلى مميّزات الآخر المختلف يجعلني أدرك ما به أختصّ فأعي تفرّدي وتميّزي وكلّما اتسعت معرفتي بهذه الاختلافات ازداد وعيي بما يخصّني من مميّزات.</p>
+<p class="para">. أو مقارنة الذّات بالآخر المماثل لا تضيف شيئا إلى وعيها بذاتها بسبب الاشتراك في نفس الخصائص بينما مقارنتها بالآخر المختلف تعي أوجه مغايرتها.</p>
+<p class="para">. أو يظل وعيي بذاتي في غياب الآخر المختلف مجرد إسقاط ذاتي أو يقين ذاتي ولا يكتسي صفة الموضوعية موضوعيّة إلا بحضوره.</p>
+</td></tr>
+</table>
+<p class="para"><b>التمرين الثاني:</b> "ليست النماذج مواضيع اعتقاد".     اكشف عن <b>إحدى ضمنيّات</b> هذا الإقرار. <b>(نقطتان)</b></p>
+<table>
+<tr><th>التنبهات المنهجية</th><th>الانجاز</th></tr>
+<tr><td>
+<p class="para">1.<b><u>فهم المعطى</u>/ القولة:</b></p>
+<p class="para">-الإنتباه إلى ورود القول في <b>صيغة استبعاد</b> بما يفترض التفكير ضمنيا <b>في صيغ الإثبات</b>.</p>
+<p class="para">- التفطن إلى ضرورة عدم الإكتفاء بتفسير القول في حدود الظاهر والكشف عما هو خفي ومضمر في القول.</p>
+<p class="para">-  تنزيل الإجابة ضمن سجل إبستمولوجي وتحديدا ضمن مسألة العلم بين الحقيقة والنمذجة.</p>
+<p class="para">- التفطن إلى أنّ القول لا يسلّم بوجود نماذج كلية ونهائية يمكن التسليم بيقينيتها أو إطلاقيتها أو ثباتها.</p>
+<p class="para">2.<b><u>تمثل المطلوب</u>/ التعليمة:</b></p>
+<p class="para">- <b>الضمنيّة</b> هي ما يفترضه الموقف دون الإعلان عنه وهي ما يؤسّس وجاهته. لذلك يحتاج الفكر النقدي إلى الكشف عنها للتأكّد من صدقها لأنّه بإثبات وهنها ينهار الموقف ذاته.</p>
+<p class="para">-المسلّمة الضمنيّة هي الأساس النظري أو الخلفيّة التي يقوم علها القول أو الموقف المعلن.</p>
+<p class="para">-المسلمة الضمنية هي الموقف المسكوت عنه الذي يجعل القول ممكنا والموقف ضروريا .</p>
+<p class="para">3.<b><u>كيفية الإنجاز</u>:</b></p>
+<p class="para">يفترض الكشف عن المسلّمات الضمنيّة الإجابة عن <b>الأسئلة التوجهية</b> التاليّة:</p>
+<p class="para">-ماذا يفترض القول بذلك؟ ما الذي يُفترض القبول به، حتّى يصحّ القول بذلك؟</p>
+<p class="para">-ما الذي يجب التسليم به على أنه ضروري ليكون هذا القول ممكنا ؟</p>
+<p class="para">-أيّ تصوّر للنماذج يقوم عليه هذا القول؟</p>
+<p class="para">-ما الذي يبرّر هذا القول؟</p>
+<p class="para">-ما هو الموقف القائم على مسلّمات مناهضة للموقف القائل "النماذج مواضيع اعتقاد"؟</p>
+</td><td>
+<ul class="b"><li>"ليست النماذج مواضيع اعتقاد".- اكشف عن <b>إحدى ضمنيّات</b> هذا الإقرار.</li></ul>
+<p class="para">*تكون الإجابة بالكشف عن إحدى الضمنيّات التالية:</p>
+<p class="para">.النماذج بناءات ذهنية حرة تقتضي التفكير وإعمال العقل</p>
+<p class="para">.النماذج ليست حقائق ثابتة يسلّم بيقينيّتها.</p>
+<p class="para">.النماذج أدوات للفعل ليست لها قيمة في ذاتها بل تقاس قيمتها بمدى نجاعتها وفعاليّتها ويتخلّى عنها عند قصورها أو بناء ما يفوقها فعاليّة.</p>
+<p class="para">.النماذج نسبية و قابلة للتعديل والتطوير.</p>
+<p class="para">.النماذج اختزاليّة ،تبسيطية ولا تدعي معرفة كلّيّة ومطلقة بالواقع.</p>
+</td></tr>
+</table>
+<p class="para"><b>التمرين الثالث:</b> النصّ(ست نقاط)</p>
+<p class="para"><b>المهمة الأولى:</b> صغ الأطروحة التي يستبعدها الكاتب. <b>(نقطتان)</b></p>
+<table>
+<tr><th>التنبهات المنهجية</th><th>الانجاز</th></tr>
+<tr><td>
+<p class="para">1.<b><u>فهم النص</u>:</b> ضرورة <b>رصد</b> أدوات الربط المنطقية التي تحيل على النفي والإستبعاد بما يساعد على <b>صياغة</b> الأطروحة المستبعدة.</p>
+<p class="para">2.<b><u>تمثّل المطلوب</u>/التعليمة:</b> تحديد الأطروحة المستبعدة أي الموقف الذي يتجاوزه الكاتب ويعترض عليه في النص.</p>
+<p class="para">3. <b><u>كيفية الإنجاز</u>:</b> يفترض تحديد عن الأطروحة المستبعدة الإجابة عن <b>الأسئلة التوجهية</b> التاليّة:</p>
+<p class="para">- أي موقف يعترض عليه الكاتب في النص؟</p>
+<p class="para">- أي موقف يتظنّن عليه بوئثيوس في مستوى علاقة الثروة بالسعادة؟</p>
+<p class="para">- <b>ملاحظة:</b> تصاغ الاطروحة المستبعدة في قالب تقريري.</p>
+</td><td>
+<ul class="b"><li>صغ <b>الأطروحة التي يستبعدها</b> الكاتب.</li></ul>
+<p class="para">*تكون الإجابة بتحديد الأطروحة المستبعدة حسب أحد الصيغ التالية:</p>
+<p class="para">. أنّ السعادة بما هي الخير الأسمى حالة من الاشباع يمكن تحصيلها بمجرّد امتلاك الثروة أو السلطة أو المناصب أو الملذّات.</p>
+<p class="para">. أو أنّ بمستطاع الثروة أو المجد أو اللذة أو السّلطة تحقيق الاكتفاء الكليّ كشرط لبلوغ منتهى السعادة.</p>
+<p class="para">. أو أنّ سعادة الإنسان كامنة في تحقيق كلّ ما يرغب فيه من ملذّات ومناصب وثروات ومجد.</p>
+</td></tr>
+</table>
+<p class="para"><b>المهمة الثانية:</b> حدّد <b>علاقة</b> الثروة بالسعادة حسب الكاتب. <b>(نقطتان)</b></p>
+<table>
+<tr><th>التنبهات المنهجية</th><th>الانجاز</th></tr>
+<tr><td>
+<p class="para">1.<b><u>فهم النص</u>:</b> التفطّن إلى ما يتخلّل النص من أوجه توتّر بين ما تستوجبه الثروة <b>من جهة الو اقع</b> من تحقيق لامحدود للرغبات وتلبية مطلقة للحاجات، وما تقتضيه السعادة <b>من جهة الحق</b> من شعور بالرضاء والإعتدال وتحقيق للطمأنينة والسعادة.</p>
+<p class="para">2.<b><u>تمثّل المطلوب</u>/التعليمة:</b> الإنتباه إلى أوجه <b>العلاقة</b> المكنة بين الثروة والسعادة  من خلال التمييز بين منطقة الإقرار ومنطقة الإستبعاد في النص بما يساعد على رصد <b>موقف الكاتب</b> الذي يدين اختزال السعادة في مظهرها المادي.</p>
+<p class="para">3. <b><u>كيفية الإنجاز</u>:</b> يفترض تحديد عن الأطروحة المستبعدة الإجابة عن <b>الأسئلة التوجهية</b> التاليّة:</p>
+<p class="para">-  هل تحقّق الثروة السعادة أم هي مظهر زائف للسعادة؟</p>
+<p class="para">- هل يمكن لما هو جزئي (الثروة) أن يحقّق ما هو كلّي (السعادة)؟</p>
+</td><td>
+<ul class="b"><li><b>المهمة الثانية:</b> حدّد <b>علاقة الثروة بالسعادة</b> حسب الكاتب.</li></ul>
+<p class="para">* تكون الإجابة بتحديد علاقة الثروة بالسعادة حسب أحد الإمكانات التالية:</p>
+<p class="para">. الثروة لا تحقّق السعادة لأنّها لا تلبّي كلّ رغبات الإنسان بل تنتج بدورها حاجات جديدة.</p>
+<p class="para">. أو السعادة مشروطة ببلوغ حالة من الاكتفاء وإشباع كلّ ما يرغب فيه الإنسان وهو ما لا يمكن للثروة تحقيقه.</p>
+<p class="para">. أو السعادة هي الخير الأسمى ، بينما الثروة تحقّق بعض الخيرات دون أخرى ويمكن أن تجلب بعض الشرور والآلام.</p>
+<p class="para">. أو الثروة جزئيّة نسبيّة، بينما السعادة كلّيّة مطلقة، ولا يمكن لما هو جزئيّ أن يستوفي ما هو كلّيّ.</p>
+<p class="para">. أو الثروة مظهر  زائف للسعادة لأنها تؤجج الرغبات ولا تلبي الحاجات .</p>
+</td></tr>
+</table>
+<p class="para"><b>المهمة الثالثة:</b> اكشف عن <b>أحد رهانات</b> النصّ. <b>(نقطتان)</b></p>
+<table>
+<tr><th>التنبهات المنهجية</th><th>الانجاز</th></tr>
+<tr><td>
+<p class="para">.<b><u>فهم النص</u>:</b> التفطّن إلى أنّ مشكل السعادة في علاقته بالثروة غير مفصول عن الواقع المعيش بما يضعنا إزاء جملة من التحديات والرهانات.</p>
+<p class="para">2.<b><u>تمثّل المطلوب</u>/التعليمة:</b></p>
+<p class="para">*<b>الرهان</b> هو الغنم الذي يمكن أن نجنيه أو المكسب الذي نرمي إلى تحقيقه من وراء الإقرار بهذه الأطروحة أو تلك، على المستوبين النظري والعملي.</p>
+<p class="para">*<b>الرهان</b> هو ما من أجله نطرح مشكلا وما من أجله نبحث له عن حلّ.</p>
+<p class="para">*<b>الرهان</b> هو الخطورة والأهمّية التي يكتسبها التفكير في مشكل ما، وهو ما يتجلّى في الطّابع الحاسم والمصيري للموقف الذي يمكن اتّخاذه من ذلك المشكل</p>
+<p class="para">3.<b><u>كيفية الإنجاز</u>:</b></p>
+<p class="para">--يفترض الكشف عن أحد رهانات النص الإجابة عن <b>الأسئلة التوجهية</b> التاليّة:</p>
+<p class="para">-أيّ غنم يمكن أن نجنيه من التسليم بهذا الموقف، على المستوى النظري؟</p>
+<p class="para">- أيّ غنم يمكن أن نجنيه من التسليم بهذا الموقف، على المستوى العملي؟</p>
+<p class="para">- أيّ فائدة يمكن أن نجنها من الأخذ بهذا الموقف أو ذاك؟</p>
+<p class="para">- هل أنّ ما نطمح إلى تحصيله من مغانم، من وراء الأخذ بهذا الموقف، يبرّر ما نجازف بخسارته عمليّا؟</p>
+<p class="para">-ما الذي نرمي إليه من وراء التفكير في هذا المشكل؟</p>
+<p class="para">-ما الذي نبتغيه من وراء إثارة هذا المشكل؟</p>
+</td><td>
+<ul class="b"><li><b>المهمة الثالثة:</b> اكشف عن <b>أحد رهانات</b> النصّ.</li></ul>
+<p class="para">* تكون الإجابة بالكشف عن أحد رهانات النص <b>النظرية</b> أو <b>العملية</b> حسب أحد الإمكانات التالية:</p>
+<p class="para">- <b>أ- رهانات نظريّة:</b></p>
+<p class="para">.التمييز بين السعادة الحقيقيّة والسعادة الزائفة/الوهميّة.</p>
+<p class="para">. <b>أو</b> التمييز بين السعادة كغاية إنسانية قصوى ومختلف وسائلها العرضيّة الجزئيّة.</p>
+<p class="para">. <b>أو</b> الفصل بين الخير الأسمى كقيمة إنسانيّة مطلقة وبين مختلف الخيرات الجزئيّة النسبيّة.</p>
+<p class="para">- <b>ب- رهانات عمليّة:</b></p>
+<p class="para">.  التحرّر من الانشداد إلى الوسائل الوهميّة لتحقيق السعادة كالثروة أو السلطة أو اللذّة...</p>
+<p class="para">. <b>أو</b> عقلنة السلوك الإنسانيّ بتوجهه نحو الارتقاء إلى ما يميّزه ككائن عاقل في سعيه إلى تحقيق خيره الأسمى.</p>
+<p class="para">. <b>أو</b> تأسيس إيتيقا كونيّة توجّه الفعل الإنساني نحو القيم الكلّية وتقطع مع الغايات الذاتيّة العرضيّة.</p>
+</td></tr>
+</table>
+<p class="subhead t-red"><b>القسم الثاني: (10 نقاط)</b></p>
+<p class="para"><b>* السؤال الأوّل: هل يجب أن نختار بين إقصاء الآخروالذوبان فيه؟</b></p>
+<table>
+<tr><th>التنبهات المنهجية</th><th>الانجاز</th></tr>
+<tr><td>
+<ul class="b"><li><b>لحظة أولى: بناء المشكل.</b></li></ul>
+<p class="para">- بيان ما يبرر طرح المشكل أي رصد أحد مبررات طرح السؤال.</p>
+<p class="para">- يمكن الإنطلاق من <b>الو اقع الراهن</b>(عنف،توتّر،حرب،صراع...) <b>أو</b> من <b>اختلاف زو ايا النظر</b> فيما يخصّ التعامل مع الثقافات المغايرة (الإقصاء والإنطواء أو الذوبان والإقتداء...) <b>أو</b> من <b>تصور شائع</b> مفاده وجود ثقافة مركزية توجب  التمحور حول الذات وإقصاء الآخر...</p>
+</td><td>
+<p class="para"><b><u>لحظة أولى</u>: بناء المشكل.</b></p>
+<p class="para"><b>-أ- التمهيد: دواعي طرح المشكل: يمكن الإنطلاق من:</b></p>
+<p class="para">. <b>الإمكانية الأولى:</b> ما يسم واقع العلاقات بين البشر والمجموعات الثقافيّة من توتّر وعنف ممّا يدعو إلى إعادة النظر في نمط العلاقة التي يجب أن تسود بين الأنا والآخر الثقافي.</p>
+<p class="para">. <b>أو الإمكانية الثانية:</b> التعارض بين ادعاء البعض بأنّ كلّ تعامل مع ثقافة مغايرة يهدّد الهويّة الخصوصيّة وبين اعتقاد آخرين بأنّ انتصار ثقافة العولمة تقنيًا واقتصاديًا يوجب الاقتداء بقيمها والتخلّص من الخصوصيّة الثقافيّة التي تعيق التقدّم.</p>
+<p class="para">. <b>أو الإمكانية الثالثة:</b>  ما يمكن أن ينتج عن اختلاف الثقافات من نزوع كلّ منها إمّا إلى الانطواء على ذاتها وإقصاء الثقافات المغايرة لها أو الانصهار في ثقافة بعينها والاقتداء بها.</p>
+</td></tr>
+<tr><td>
+<ul class="b"><li><b>تحويل المشكل المطروح إلى إشكالية عبر طرح جملة من التساؤلات حول:</b></li></ul>
+<p class="para">-<b>القضية النو اتية</b> التي يثيرها الموضوع/السؤال</p>
+<p class="para">-<b>الإحراجات والمفارقات</b> التي يثيرها طرح هذا المشكل</p>
+<p class="para">-<b>مدى وجاهة أو خطورة المشكل</b> الذي يثيره السؤال وآفاق التفكير فيه</p>
+</td><td>
+<p class="para"><b>-ب- الإشكالية: يمكن صياغتها على النحو التالي:</b></p>
+<p class="para">. <b>الإمكانية الأولى:</b> على أيّ نحو يجب أن تكون العلاقة مع الآخر ؟ هل علينا أن نقصيه حفاظا على هوّيّتنا أم علينا أن نتماهى معه لما حقّقه من تفوّق؟ ألا يجدر بنا أن ننسج علاقة مع الآخر لا إقصاء فيها ولا ذوبان؟</p>
+<p class="para">. <b>أو الإمكانية الثانية:</b> هل علينا أن نختار ضرورة بين هوية تكتفي بذاتها وتقصي الآخر وبين هوية تابعة تفقد خصوصيتها  أم علينا بناء هوية مركبة ضمن أفق إنساني كوني؟</p>
+<p class="para">. <b>أو الإمكانية الثالثة:</b>  كيف يجب أن تكون العلاقة مع الآخر؟ وما الذي يبرر ضرورة إقصائه أو التماثل معه ؟ألا يمكن بناء علاقة اعتراف متبادل يتفاعل فيها الأنا مع الآخر دون إقصاء أو تبعية؟</p>
+</td></tr>
+<tr><td>
+<ul class="b"><li><b>لحظة ثانية :</b> معالجة المشكل وذلك ببلورة إجابة ممكنة عن المشكل:</li>
+<li><b>تحليل الموقف القائل بوجوب الإختيار بين إقصاء الآخروالذوبان فيه:</b></li></ul>
+<p class="para"><b><u>* المستوى الدلالي:</u></b></p>
+<p class="para"><b>+ تحديد دلالة الآخر سياقيا:</b></p>
+</td><td>
+<p class="para"><b><u>لحظة ثانية</u>: بلورة التفكير في المشكل :</b></p>
+<p class="para"><b>*1- تناول الموقف القائل بوجوب الاختيار بين إقصاء الآخر والذوبان فيه وذلك ب:</b></p>
+<p class="para">أ- تحديد سياقيّ لدلالة الآخر بما هو:</p>
+<p class="para">. منظومة قيم ومعايير معرفيّة وعمليّة تحدّد طريقة التفكير والسلوك والنظرة للحياة وتكون مغايرة للمنظومة القيميّة التي تميّز ثقافة الـ "نحن".</p>
+</td></tr>
+<tr><td></td><td>
+<p class="para">.أو هو ما ليس نحن جزئيّا أو كلّيّا إمّا على جهة التضادّ أو على جهة مجرّد الاختلاف.</p>
+<p class="para">. أو بما هو بنية ثقافيّة مركّبة تحيل في آن على الغريب المباين والشبيه المماثل.</p>
+</td></tr>
+<tr><td><p class="para"><b>+ تحديد دلالة الإقصاء سياقيا:</b></p></td><td>
+<p class="para">ب - تحديد سياقيّ لدلالة الإقصاء بما هو فعل:</p>
+<p class="para">.عدم الاعتراف بالآخر برفضه والاستعلاء عليه.</p>
+<p class="para">.أو استبعاد الآخر ونفيه عبر سلب هويته والقطع معه.</p>
+<p class="para">.أو بما هو صراع يتصادم فيه الأنا مع الآخر باعتباره عدوا.</p>
+</td></tr>
+<tr><td><p class="para"><b>+ تحديد دلالة الذوبان سياقيا:</b></p></td><td>
+<p class="para">ج - تحديد سياقيّ لدلالة الذوبان بما هو فعل:</p>
+<p class="para">.التلاشي  الهوية واندثارها .</p>
+<p class="para">.أو انصهار الأنا في الآخر وتفكك الهوية.</p>
+<p class="para">.أو الاغتراب في الآخر .</p>
+</td></tr>
+<tr><td>
+<p class="para"><b><u>* المستوى المنطقي:</u></b></p>
+<p class="para">-الإشتغال على <b>مبررات الإختيار</b> بين إقصاء الآخر والذوبان فيه:</p>
+</td><td>
+<p class="para"><b>د</b> - بيان مبرّرات وجوب الاختيار بين إقصاء الآخر والذوبان فيه:</p>
+<p class="para">.  وجوب إقصاء الآخر المختلف والقطع معه لأنّ كلّ لقاء به يؤدّي إلى الانبهار به والاغتراب فيه.</p>
+<p class="para">.  الآخر الثقافي مهدّد للخصوصيّة المميّزة لثقافة ما ممّا يوجب تحصينها منه واعتباره عدوًا.</p>
+<p class="para">.  ضرورة الاقتداء بالآخر ومحاكاته عندما يكون الأفضل على المستوى العلمي والتقني والحضاريّ.</p>
+<p class="para">. حتميّة تبعيّة ثقافات الأطراف لثقافة المركز.</p>
+</td></tr>
+<tr><td><p class="para"><b>-استنتاج:</b></p></td><td>
+<p class="para">-   <b>الإنتهاء</b> في هذه اللحظة إلى أنّه لا مناص من تبني أحد الموقفين: إمّا الإقصاء أو الذوبان.</p>
+</td></tr>
+<tr><td>
+<p class="para"><b><u>*المستوى النقدي:</u></b></p>
+<p class="para"><b>استئناف التفكير في المشكل من خلال التظنّن على القول بوجوب ترجيح أحد الخيارين</b></p>
+</td><td>
+<p class="para"><b>2- في التظنّن على القول بوجوب ترجيح أحد الخيارين (إقصاء الآخر أو الذوبان فيه):</b></p>
+<p class="para">. اختيار أحد الفعلين يستند إلى مسلّمة باطلة مفادها وجود تضادّ بين الثقافات ممّا يوجب اختيار إحداهما على جهة الإقصاء أو الذوبان.</p>
+<p class="para">. أو كلا الموقفين يسلّم خطأ بوجود تفاضل بين الثقافات يشرّع لاختيار ما يعتبر الأفضل واستبعاد الأدنى.</p>
+<p class="para">. أو استناد الموقفين على مسلّمة ضمنيّة خاطئة مفادها وجود ثقافة مركزيّة توجب إمّا التمحور حول الذات المركز وإقصاء الآخر أو التمحور حول الآخر المركز والذوبان فيه.</p>
+<p class="para">. أوكلا الموقفين يسلم خطئ بوجود تفاضل بين الثقافات يشرع لاختيار ما يعتبر الأفضل واستبعاد الأدنى.</p>
+<p class="para">. أو استناد الموقفين على مسلمة خاطئة مفادها وجود ثقافة مركزية توجب إما التمحور حول الذات المركز و إقصاء الآخر أو التمحور حول الآخر والذوبان فيه.</p>
+<p class="para">. أو منطق وجوب الاختيار منتج للتطرف فإما انغلاق قاتل للهوية الخصوصية أو تبعية للآخر مولدة للاغتراب.</p>
+<p class="para">. أو إغفال الكوني والإنساني والتاريخي باعتبارها أطر مشرعة ومناسبة للتفاعل بين الأنا والآخر.</p>
+</td></tr>
+<tr><td>
+<p class="para"><b>استخلاص موقف من المشكل وبيان قيمته:</b></p>
+<ul class="b"><li>التأسيس لعلاقات ايتيقية أساسها الفهم والتفاهم ورهانها التواصل والتعايش والتذاوت.</li>
+<li><b>ملاحظة:</b> يمكن تنزيل السؤال ضمن مقاربة أنطولوجية أو أنتروبولوجية أو الإثنين .</li></ul>
+</td><td>
+<p class="para"><b>لحظة ثالثة : استخلاص موقف من المشكل وبيان قيمته:</b></p>
+<p class="para"><b>الانتهاء إلى:</b></p>
+<p class="para">.  ضرورة التّأسيس لخيار ثالث يتّسم بالعقلانيّة لا إقصاء فيه ولا ذوبان.</p>
+<p class="para"><b>أو.</b>  بناء علاقة مع الآخر تقوم على الاعتراف به شريكا في الإنسانية مع احترام كلّ خصوصيّة.</p>
+<p class="para"><b>أو.</b>  إمكانيّة ابداع مشترك لعلاقة تثاقف مثمرة تقوم على الحوار المتكافئ.</p>
+<p class="para">. <b>أو</b> بناء ثقافة كونيّة تقوم على مبدأ وحدة الكثرة تتفاعل داخلها كلّ الخصوصيّات دون صراع أو تناف أو استلاب.</p>
+<p class="para">.<b>أو</b> تثمين الاختلاف الثقافي باعتباره علامة خصوبة وثراء وليس عائقا يوجب التصادم.</p>
+</td></tr>
+</table>
+<p class="para"><b>*السؤال الثاني:هل أنّ غياب الدولة أشدّ خطرا على الأفراد من حضورها؟</b></p>
+<table>
+<tr><th>التنبهات المنهجية</th><th>الانجاز</th></tr>
+<tr><td>
+<ul class="b"><li><b>لحظة أولى: بناء المشكل.</b></li></ul>
+<p class="para">- بيان ما يبرر طرح المشكل أي رصد أحد مبررات طرح السؤال.</p>
+<p class="para">- يمكن الإنطلاق من <b>التوتّر القائم</b> بين ما يشكّله غياب الدولة من مخاطر تهدّد الأمن وبين ما يتضمنه حضورها من خطر يهدد الحريات.</p>
+<p class="para">- يمكن الإنطلاق من <b>المفارقة الكامنة</b> بين حاجة الإنسان إلى الدولة وبين ما يمكن أن يشكّله وجود الدولة من اغتراب سياسي للأفراد.</p>
+</td><td>
+<p class="para"><b><u>لحظة أولى</u>: بناء المشكل.</b></p>
+<p class="para"><b>-أ- التمهيد: دواعي طرح المشكل: يمكن الإنطلاق من:</b></p>
+<p class="para"><b>. الإمكانية الأولى:</b> التوتر بين ما يمكن أن يتضمنه غياب الدولة من مخاطر تهدد أمن البشر واستمرار وجودهم وبين ما يمكن أن يتضمنه وجود الدولة وحضورها من خطر يهدد الحقوق والحريات</p>
+<p class="para"><b>. الإمكانية الثانية:</b> أو المفارقة الكامنة بين حرص الإنسان على العيش ضمن أطر اجتماعية تنظّمها الدولة وبين مختلف أشكال الاغتراب السياسيّ التي يمكن أن يصطدم بها الأفراد داخل الدولة ذاتها.</p>
+</td></tr>
+<tr><td>
+<ul class="b"><li><b>تحويل المشكل المطروح إلى إشكالية عبر طرح جملة من التساؤلات حول:</b></li></ul>
+<p class="para">-<b>القضية النو اتية</b> التي يثيرها الموضوع/السؤال</p>
+</td><td>
+<p class="para"><b>-ب- الإشكالية: يمكن صياغتها على النحو التالي:</b></p>
+<p class="para">..<b>الإمكانية الأولى:</b> فيم تكمن قيمة الدولة بالنسبة للأفراد؟ هل أنّ حضورها يضمن حقوقهم أم أنّه يعمّق عبوديّتهم واغترابهم السياسيّ؟ وإلى أيّ مدى يمكن أن يكون التخلّي عن الدولة محرّرا للإنسان من كلّ خطر؟ ألا يجدر النظر في الشكل الأمثل لدولة تكفل المواطنة ويجنّبنا مخاطر غيابها؟</p>
+<p class="para"><b>. الإمكانية الثانية:</b> أو ما مصدر الخطر الأشدّ على حقوق الأفراد وحريّاتهم؟ هل هو انعدام الأطر القانونيّة وضعف مؤسّسات الدولة أم أنّه كامن في هيمنة الدولة ذاتها؟ وكيف السبيل إلى تجنّب مخاطر وجود الدولة وغيابها في آن؟</p>
+<p class="para"><b>. الإمكانية الثالثة:</b> أو هل أنّ خير الإنسان مشروط بالعيش داخل الدولة أم خارجها؟ وإلى أيّ مدى يرتبط التهديد الأشدّ على حقوق الأفراد بوجود الدولة ذاته؟ ألا يمكن أن يكون مصدره شكلا من أشكالها؟</p>
+</td></tr>
+<tr><td>
+<p class="para">-<b>الإحراجات والمفارقات</b> التي يثيرها طرح هذا المشكل</p>
+<p class="para">-<b>مدى وجاهة أو خطورة المشكل</b> الذي يثيره السؤال وآفاق التفكير فيه</p>
+</td><td></td></tr>
+<tr><td>
+<ul class="b"><li><b>لحظة ثانية :معالجة المشكل وذلك ببلورة إجابة ممكنة عن المشكل:</b></li></ul>
+<p class="para"><b><u>* المستوى الدلالي:</u></b></p>
+<p class="para"><b>+ تحديد دلالة الدولة سياقيا:</b></p>
+</td><td>
+<p class="para"><b><u>لحظة ثانية</u>: بلورة التفكير في المشكل :</b></p>
+<p class="para"><b>1-  بيان أن غياب الدولة أشدّ خطرا على الأفراد من حضورها. وذلك ب:</b></p>
+<p class="para">-أ في معنى حضور الدولة :</p>
+<p class="para">. تحديد سياقي <b>لدلالة الدولة</b> بما هي:استجابة لحاجة اجتماعيّة لتنظيم العلاقات بين الأفراد درءا للصدام والفوضى.</p>
+<p class="para">- أو بما هي استجابة لحاجة اجتماعية لتنظيم العلاقات بين الأفراد.</p>
+<p class="para">- أو بما هي القدرة على تنظيم الحياة الاجتماعية عبر إنفاذ القوانين .</p>
+<p class="para">.أو مجموعة من المؤسسات السلطوية تلزم الأفراد بأداء واجباتهم.</p>
+<p class="para">- تحديد دلالة الحضور بمعنى القطع مع حالة الطبيعة.</p>
+</td></tr>
+<tr><td>
+<p class="para"><b><u>* المستوى المنطقي:</u></b></p>
+<p class="para">. الوقوف على <b>المبررات</b> التي تضفي الشرعية على الإجابة المفترضة .</p>
+</td><td>
+<p class="para"><b>ب</b> .مظاهر خطر حضور الدولة على الأفراد:</p>
+<p class="para">. الدولة هي الجهاز الذي يحتكر ممارسة العنف.</p>
+<p class="para">- أو الهيمنة على الأفراد والتسلّط على إراداتهم واحتكار كلّ مجالات الحياة الإنسانية.</p>
+<p class="para">. أو مجموعة الأجهزة القمعية و الإيديولوجية التي تستهدف الهيمنة على الأفراد والتحكم فيهم.</p>
+<p class="para">. أو إمكانية انحراف الدولة إلى ممارسة استبدادية تنتهك الحقوق والحريات.</p>
+<p class="para">. أو أن تكون الدولة جهازا طبقيا يتعارض مع تحقيق مطلبي العدالة والمساواة.</p>
+</td></tr>
+<tr><td><p class="para"><b>+ تحديد دلالة الغياب سياقيا:</b></p></td><td>
+<p class="para"><b>د</b>- بيان أن غياب الدولة أشد خطرا على الأفراد من حضورها :</p>
+<p class="para">- تحديد سياقيّ <b>لدلالة الغياب</b> بما هو:</p>
+<p class="para">- غياب افتراضي بالعودة إلى مفهوم حالة الطبيعة (الاجتماع في غياب الأطر القانونيّ).</p>
+<p class="para">- غياب واقعي يتجلّى في عجز مؤسّسات الدولة أو تفويتها في أداء وظائفها داخليّا أو تبعيّتها لقوى ومؤسّسات خارجيّة.</p>
+<p class="para">.<b>مبررات</b> اعتبار غياب الدولة أشد خطرا على الأفراد من حضورها.</p>
+<p class="para">. إذا كان حضور الدولة يشكل خطرا على حرية الأفراد فإن غيابها يهدد السلامة الجسدية واستمرارية الحياة.</p>
+<p class="para">. إذا كان حضور الدولة يهدد العدالة والمساواة فإن غيابها يؤدي إلى العنف والفوضى.</p>
+</td></tr>
+<tr><td>
+<p class="para"><b><u>*المستوى النقدي:</u></b></p>
+<p class="para"><b>. استئناف التفكير في المشكل من خلال التظنّن على القول بأنّ غياب الدولة أشدّ خطرا على الأفراد من حضورها.</b></p>
+<p class="para"><b>ملاحظة :</b>يمكن إتباع تمشي مغاير كأن ننطلق من بيان مخاطر غياب الدولة واستخلاص أن حضورها يشكل أقل خطرا من غيابها .</p>
+</td><td>
+<p class="para"><b>2- في التظنن على القول بأنّ غياب الدولة أشدّ خطرا على الأفراد من حضورها وذلك ببيان أن:</b></p>
+<p class="para">- إمكانيّة أن يكون هذا الموقف تبريرا إيديولوجيا لهيمنة الدولة .</p>
+<p class="para">- أو التفاوت في درجة الخطر لا يبرر القبول بتسلط الدولة واستبدادها.</p>
+<p class="para">- أو ما هو أشد خطورة قد يطرح في إطار ثنائية الحضور والغياب بل في إطار أشكال مختلفة من الحضور.</p>
+<p class="para">- أو الخطر الأشد يعود إلى عجز البشر في التدبير السياسي لوجودهم.</p>
+</td></tr>
+<tr><td>
+<p class="para"><b>استخلاص موقف من المشكل وبيان قيمته:</b></p>
+</td><td>
+<p class="para"><b>لحظة ثالثة : استخلاص موقف من المشكل وبيان قيمته:</b></p>
+<p class="para"><b>الانتهاء إلى:</b></p>
+<p class="para">- الإقرار بخطورة حضور الدولة لا يعني تبرير غيابها فالأمر متعلّق بشكل الدولة في علاقتها بالأفراد لا بوجودها ذاته.</p>
+<p class="para">- <b>أو</b> ضرورة بناء شكل للدولة يخلّصنا في الآن ذاته من مخاطر غيابها ومخاطر شكلها الاستبداديّ.</p>
+<p class="para">- <b>أو</b> تفقد الدولة مشروعيّة سلطتها بمجرّد تنكّرها لما وجدت من أجله وهو حماية الأفراد من كل الأخطار داخليّا وخارجيّا.</p>
+<p class="para">- <b>أو</b> مهما كان الخطر أو الشرّ الذي يتأتّى من وجود الدولة فهو أهون ممّا يمكن أن يترتّب عن غيابها من شرور.</p>
+<p class="para">- <b>أو</b> يحتاج الإنسان إلى عقلنة وجوده الاجتماعيّ الذي لا يمكن أن ينتظم بشكل عفويّ شرط المحافظة بما يصطنعه من أطر مدنيّة على حقوق الأفراد وحرياتهم.</p>
+</td></tr>
+</table>
+
+</section>
+
+</div>
+</body>
+</html>

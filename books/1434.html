@@ -1,0 +1,393 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<title>Wael Academy — Philosophie · DC 1 — lycée pilote sousse dc</title>
+<script>
+  window.MathJax = {
+    tex: { inlineMath: [['\\(','\\)']], displayMath: [['\\[','\\]']] },
+    chtml: { fontURL: 'https://cdn.jsdelivr.net/npm/mathjax@3/es5/output/chtml/fonts/woff-v2', matchFontHeight: true },
+    startup: { typeset: true }
+  };
+</script>
+<script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js" async></script>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Sora:wght@400;500;600;700;800&family=Cairo:wght@400;500;600;700;800;900&family=Tajawal:wght@400;500;700;800&family=JetBrains+Mono:wght@400;500;600;700&display=swap');
+:root{
+  /* ===== Wael Academy palette — MAIN ACCENT = green-teal gradient #0FAB8F → #067360 ===== */
+  --bg:#fff; --panel:#f2f8f8; --hair:#e6e6e9; --hair2:#d6d6db;
+  --fg:#0f2a31;        /* body text (and +/− signs) */
+  --fg2:#3f5b62;       /* softer text */
+  --fg3:#7c959b;       /* muted (footer) */
+  --blue:#067360;      /* deep accent — small numbers, borders, watermark, accent equations */
+  --blue-dark:#045260; /* titles & wordmarks (also the balance colour) */
+  --teal:#0fab8f;      /* bright accent end */
+  --loop:#0d9c82;      /* logo-loop helper */
+  --orange:#067360;    /* kicker/category labels (gold retired → deep teal) */
+  --red:#f5322f;       /* EXERCISE CHIPS ONLY — never for emphasis */
+  --cream:#e6f3f4; --blue-soft:#e6f3f4;  /* pale teal — callout fill + table sub-row fill */
+  --blue-line:#cde7e4; /* hairline */
+  --sub-ink:#045260;   /* table sub-row text */
+  --grad:linear-gradient(148deg,#0fab8f 0%,#0d9c82 52%,#067360 100%);
+  --mono:'JetBrains Mono',monospace; --latin:'Sora',sans-serif; --ar:'Cairo',sans-serif; --arb:'Tajawal',sans-serif;
+}
+*{box-sizing:border-box;margin:0;padding:0;}
+body{font-family:var(--latin);color:var(--fg);background:#e4e4e7;padding:28px 0;
+     -webkit-print-color-adjust:exact;print-color-adjust:exact;}
+html[dir="rtl"] body{font-family:var(--arb);}
+
+/* ===== brand watermark: REAL text (crisp), full-bleed, repeats per page ===== */
+.wm{position:fixed;inset:0;z-index:0;pointer-events:none;display:flex;
+    align-items:center;justify-content:center;overflow:hidden;
+    -webkit-print-color-adjust:exact;print-color-adjust:exact;}
+.wm span{font-family:var(--mono);font-weight:800;font-size:76.8pt;letter-spacing:.16em;
+    color:var(--blue);opacity:.06;white-space:nowrap;transform:rotate(-54deg);}  /* single diagonal: bottom-left → top-right */
+.wm.mono span{color:#000;opacity:.05;}
+
+/* ===== continuous flow stream (no page border) ===== */
+.flow{width:210mm;margin:0 auto;background:transparent;color:var(--fg);
+      padding-block:16mm 18mm;padding-inline:23mm 14mm;position:relative;}   /* spiral gutter: inline-start(=spine) 23mm / outer 14mm — dir-aware; print margins set in render_flow.py */
+@media screen{ .flow{background:#fff;box-shadow:0 10px 40px rgba(0,0,0,.16);} }
+.flow>*{position:relative;z-index:1;}
+.flow p,.flow li,.flow .data,.flow .note,.flow .ex{break-inside:auto;}
+.flow .fig,.flow figure,.flow img,.flow svg.figsvg,.flow table,.flow tr,.flow .chapdiv,.flow .exh,.flow .qrcard,.flow .meta{break-inside:avoid;}
+.flow h1,.flow h2,.flow h3,.flow .exh,.flow .subhead,.flow .chapdiv{break-after:avoid;}
+.flow img,.flow svg.figsvg{max-width:100%;height:auto;}
+.flow figcaption,.flow .figcap{display:none;}          /* rule 3: no figure captions */
+
+/* ===== front matter + chapters each start on a fresh page ===== */
+.flow .cover{break-after:page;}        /* cover alone on page 1 */
+.flow .toc{break-after:page;}          /* Sommaire alone on the next page */
+.flow .chapter{break-before:page;}
+.flow .chapter:first-of-type{break-before:auto;}
+
+/* ===== cover ===== */
+.cover{padding:14mm 0 8mm;border-bottom:2px solid var(--blue);margin-bottom:6mm;}
+.cover .badge{font-family:var(--mono);font-size:8.5pt;letter-spacing:.28em;text-transform:uppercase;color:var(--orange);margin-bottom:10px;}
+.cover h1{font-family:var(--latin);font-weight:800;font-size:34pt;line-height:1.03;letter-spacing:-.025em;color:var(--blue-dark);}
+.cover .grule{width:120px;height:5px;border-radius:5px;background:var(--grad);margin:14px 0;}
+.cover .sub{font-family:var(--mono);font-size:10pt;letter-spacing:.14em;text-transform:uppercase;color:var(--teal);}
+.cover .auth{font-size:11pt;color:var(--fg2);margin-top:6px;font-weight:600;}
+
+/* ===== table of contents ===== */
+.toc{margin:2mm 0 4mm;}
+.toc h2{font-family:var(--latin);font-weight:800;font-size:15pt;color:var(--blue-dark);margin-bottom:4mm;}
+.toc .trititle{font-family:var(--mono);font-size:8pt;letter-spacing:.2em;text-transform:uppercase;color:var(--orange);margin:4mm 0 2mm;}
+.toc ol{list-style:none;}
+.toc li{display:flex;align-items:baseline;gap:8px;font-size:10pt;padding:2.2px 0;color:var(--fg);line-height:1.4;}
+.toc li .n{font-family:var(--mono);font-weight:700;font-size:9pt;color:var(--blue);min-width:26px;}
+.toc li .dots{flex:1;border-bottom:1px dotted var(--hair2);transform:translateY(-3px);}
+
+/* ===== chapter divider band ===== */
+.chapdiv{margin:0 0 5mm;padding:6mm 16px 5mm;border-radius:12px;background:var(--grad);
+    -webkit-print-color-adjust:exact;print-color-adjust:exact;}   /* green-filled chapter band */
+.chapdiv .cn{font-family:var(--mono);font-size:8.5pt;font-weight:700;letter-spacing:.24em;text-transform:uppercase;color:rgba(255,255,255,.82);margin-bottom:5px;}
+.chapdiv h2{font-family:var(--latin);font-weight:800;font-size:17pt;line-height:1.1;letter-spacing:-.015em;color:#fff;}
+/* conclusion block — same green-filled look as the chapter band */
+.conclusion{background:var(--grad);border-radius:12px;padding:6mm 16px;margin:5mm 0;color:#fff;break-inside:avoid;
+    -webkit-print-color-adjust:exact;print-color-adjust:exact;}
+.conclusion .ck{font-family:var(--mono);font-size:8.5pt;font-weight:700;letter-spacing:.24em;text-transform:uppercase;color:rgba(255,255,255,.82);margin-bottom:6px;}
+.conclusion h3{font-family:var(--latin);font-weight:800;font-size:13pt;line-height:1.2;color:#fff;margin-bottom:4px;}
+.conclusion p,.conclusion li{font-size:10.4pt;line-height:1.7;color:#fff;}
+.conclusion b,.conclusion strong{color:#fff;font-weight:700;}
+
+/* ===== unit header (lesson/exercise) + QR emplacement ===== */
+.exh{display:flex;align-items:center;gap:11px;margin:6mm 0 3mm;}
+.exh .idx{font-family:var(--mono);font-size:9pt;font-weight:600;color:#fff;background:var(--grad);
+    border-radius:6px;padding:4px 11px;letter-spacing:.08em;text-transform:uppercase;
+    -webkit-print-color-adjust:exact;print-color-adjust:exact;}
+.exh .idx.ex{background:var(--red);}   /* exercise chip = red */
+.exh h2{font-family:var(--latin);font-size:14pt;font-weight:700;letter-spacing:-.01em;color:var(--blue-dark);}
+.exh .qrcard{margin-inline-start:auto;flex:0 0 auto;display:flex;flex-direction:column;align-items:center;gap:3px;width:26mm;}
+.qrcard .qrt{font-family:var(--mono);font-size:6.5pt;letter-spacing:.1em;text-transform:uppercase;color:var(--teal);text-align:center;}
+.qrcard .qrslot{width:24mm;height:24mm;padding:1.5mm;background:#fff;border:1px solid var(--blue-line);border-radius:8px;display:flex;align-items:center;justify-content:center;}
+.qrcard .qrslot img,.qrcard .qrslot svg{width:100%;height:100%;display:block;}
+
+/* sub-exercise label when one file holds several exercices */
+.exsub{font-family:var(--latin);font-weight:800;font-size:11.5pt;color:var(--blue-dark);margin:5mm 0 2.5mm;padding-bottom:3px;border-bottom:2px solid var(--blue-line);}
+
+/* ===== text blocks ===== */
+.lead{font-size:11pt;line-height:1.7;margin:2mm 0 3mm;color:var(--fg);}
+.para{font-size:10.6pt;line-height:1.7;margin:2mm 0 2.5mm;color:var(--fg);}
+.consigne{font-size:10.4pt;line-height:1.6;margin:1mm 0 2mm;color:var(--fg);font-style:italic;}
+.subhead{font-family:var(--latin);font-weight:800;font-size:12pt;letter-spacing:-.01em;color:var(--blue-dark);margin:5mm 0 2.5mm;}
+/* emphasis — green accent = .t-blue/.t-green ; balance = .t-navy ; red = SECONDARY accent (.t-red) on titles + a few words */
+.t-blue{color:var(--blue);font-weight:600;} .t-navy{color:var(--blue-dark);font-weight:700;}
+.t-red{color:var(--red);font-weight:600;} .t-green{color:var(--teal);font-weight:600;} .t-gold{color:var(--orange);font-weight:600;}
+.subhead.t-red{color:var(--red);font-weight:800;}   /* red Roman-numeral section title (I, II, …) — keeps subhead weight */
+/* highlighter marks — a soft colour wash behind a key word (agent picks green or red per what balances the page) */
+.hl-green,.hl-red{border-radius:3px;padding:.02em .24em;font-weight:600;box-decoration-break:clone;-webkit-box-decoration-break:clone;
+    -webkit-print-color-adjust:exact;print-color-adjust:exact;}
+.hl-green{background:rgba(15,171,143,.20);color:var(--blue-dark);}   /* green highlight */
+.hl-red{background:rgba(245,50,47,.13);color:#c0261f;}               /* red highlight  */
+
+.data{background:var(--blue-soft);border:1px solid var(--blue-line);border-inline-start:4px solid var(--blue);
+    border-radius:8px;padding:11px 16px;margin:3mm 0;font-size:10pt;line-height:1.65;color:var(--fg2);}
+.data b{color:var(--fg);font-weight:700;}
+.note{border:1px dashed var(--hair2);border-radius:9px;padding:11px 16px;margin:4mm 0;background:var(--panel);}
+.note .kicker{font-family:var(--mono);font-size:7.5pt;letter-spacing:.18em;color:var(--orange);display:block;margin-bottom:5px;}
+.note .nb{font-size:10pt;line-height:1.7;color:var(--fg2);} .note b{color:var(--fg);}
+.ex:not(.idx){background:var(--blue-soft);border:1px solid var(--blue-line);border-inline-start:3px solid var(--blue);
+    border-radius:7px;padding:7px 11px;font-size:9.6pt;line-height:1.6;color:var(--fg2);margin:2mm 0;}   /* :not(.idx) so it never hits the exercise chip (which is .idx.ex) */
+.ex .extag{display:inline-block;font-family:var(--latin);font-weight:800;font-size:7.6pt;color:var(--blue-dark);background:#fff;
+    border:1px solid var(--blue);border-radius:5px;padding:1px 9px;margin-inline-end:7px;vertical-align:middle;text-transform:uppercase;letter-spacing:.06em;}
+
+/* ===== lists ===== */
+ol.q{list-style:none;counter-reset:q;margin:1mm 0 2mm;}
+ol.q>li{counter-increment:q;position:relative;padding-inline-start:30px;margin-bottom:2.5mm;font-size:10.4pt;line-height:1.6;}
+ol.q>li::before{content:counter(q);position:absolute;inset-inline-start:0;top:1px;width:21px;height:21px;background:var(--grad);color:#fff;
+    border-radius:50%;font-family:var(--mono);font-size:9pt;font-weight:600;display:flex;align-items:center;justify-content:center;
+    -webkit-print-color-adjust:exact;print-color-adjust:exact;}
+ol.sub{list-style:none;counter-reset:s;margin:4px 0 0;padding-inline-start:2px;border-inline-start:1px solid var(--blue-line);}
+ol.sub li{counter-increment:s;position:relative;padding:2.5px 0 2.5px 26px;font-size:10.1pt;line-height:1.55;}
+ol.sub li::before{content:counter(s,lower-alpha)".";position:absolute;inset-inline-start:10px;top:2.5px;font-family:var(--mono);font-size:9pt;font-weight:600;color:var(--teal);}
+ol.qn{list-style:none;counter-reset:qn;margin:1mm 0 2mm;}
+ol.qn>li{counter-increment:qn;position:relative;padding-inline-start:26px;margin-bottom:2.2mm;font-size:10.4pt;line-height:1.55;}
+ol.qn>li::before{content:counter(qn)".";position:absolute;inset-inline-start:0;top:0;font-family:var(--mono);font-size:9.5pt;font-weight:700;color:var(--blue);}
+ul.b{list-style:none;margin:1mm 0 2mm;} ul.b>li{position:relative;padding-inline-start:22px;margin-bottom:2.4mm;font-size:10.4pt;line-height:1.6;}
+ul.b>li::before{content:"";position:absolute;inset-inline-start:3px;top:8px;width:8px;height:8px;border-radius:50%;background:var(--grad);
+    -webkit-print-color-adjust:exact;print-color-adjust:exact;}
+ul.dash{list-style:none;margin:1mm 0 2mm;} ul.dash>li{position:relative;padding-inline-start:20px;margin-bottom:1.8mm;font-size:10.4pt;line-height:1.6;}
+ul.dash>li::before{content:"–";position:absolute;inset-inline-start:2px;top:0;color:var(--fg);font-weight:700;}  /* dash / +/− signs = body colour */
+.flow ul.opts{list-style:none;margin:4px 0 3px;padding-inline-start:16px;}
+.flow ul.opts li{padding:2px 0;font-size:10.2pt;line-height:1.5;color:var(--fg);}
+
+/* ===== figures / tables ===== */
+.fig{margin:3mm 0;} .fig svg.figsvg{display:block;margin:0 auto;background:#fff;max-width:100%;height:auto;}
+.photo{display:block;margin:3mm auto;border-radius:8px;border:1px solid var(--hair);max-width:100%;}
+.figrow{display:flex;flex-wrap:wrap;gap:9px;justify-content:center;margin:3mm auto;max-width:190mm;}
+.flow .figrow img{border-radius:7px;border:1px solid var(--hair);height:46mm;width:auto;max-width:none;object-fit:cover;}
+.schemarow{display:flex;gap:16px;align-items:flex-start;flex-wrap:wrap;margin:2mm 0;}
+.schemarow .col-txt{flex:1 1 90mm;min-width:80mm;} .schemarow .col-fig{flex:0 0 78mm;} .schemarow .col-fig .fig{margin:0;}
+.flow table{border-collapse:collapse;width:100%;margin:3mm 0;font-size:9.8pt;line-height:1.5;}
+.flow table th,.flow table td{border:1px solid var(--blue-line);padding:6px 10px;text-align:start;vertical-align:top;}
+.flow table th{background:var(--grad);color:#fff;font-family:var(--latin);font-weight:700;font-size:9.4pt;
+    -webkit-print-color-adjust:exact;print-color-adjust:exact;}
+.flow table tr:nth-child(even) td{background:var(--blue-soft);color:var(--sub-ink);}   /* sub-row: #E6F3F4 / #045260 */
+
+mjx-container{color:var(--fg) !important;font-weight:400 !important;font-size:1.0em !important;}
+.eq-hi mjx-container,mjx-container.eq-hi{color:var(--blue) !important;}   /* accent (green) equation — highlight a key result; balance with plain math */
+.eq-red mjx-container,mjx-container.eq-red{color:var(--red) !important;}  /* red accent equation / symbol — complements the green .eq-hi */
+
+/* ===== per-file books: credit line, copies list, figures at their size ===== */
+.credit{display:flex;flex-wrap:wrap;align-items:center;gap:5px;margin:-1mm 0 3.5mm;font-size:9.4pt;color:var(--fg2);}
+.credit .who{font-weight:700;color:var(--blue-dark);}
+.credit .tg{font-family:var(--mono);font-size:7.2pt;letter-spacing:.04em;border-radius:5px;padding:1px 7px;line-height:1.6;
+    border:1px solid var(--blue-line);color:var(--blue);background:#fff;-webkit-print-color-adjust:exact;print-color-adjust:exact;}
+.credit .tg.sec{background:var(--blue-dark);border-color:var(--blue-dark);color:#fff;}
+.credit .tg.cor{background:#fff;border-color:var(--red);color:var(--red);}
+.credit a{color:var(--fg3);font-family:var(--mono);font-size:7pt;text-decoration:none;}
+.cover .auth .credit{margin:4mm 0 0;}
+.cover .copies{margin-top:5mm;font-size:8.6pt;color:var(--fg2);}
+.cover .copies ul{list-style:none;margin:2mm 0 0;padding:0;columns:2;}
+.cover .copies a{color:var(--fg3);text-decoration:none;font-size:8pt;}
+.flow figure.fig{text-align:center;}
+.flow figure.fig img{max-height:60mm;width:auto;max-width:70%;display:inline-block;}
+
+/* chapter tag on each part of a multi-chapter book (the book keeps the original order of the file) */
+.chtag{display:inline-block;margin:5mm 0 2mm;padding:1mm 3mm;border-radius:2mm;background:#eef3fb;border:1px solid #c9d6ea;
+  color:#1f3a6b;font-size:9pt;font-weight:700}
+.chtag span{color:#6b7f9e;font-weight:600;margin-inline-end:1.5mm}
+
+@media print{ body{background:#fff;padding:0;} .flow{width:auto;max-width:none;margin:0;padding:0;} }
+@page{size:A4;}   /* margins come from render_flow.py — do NOT set them here */
+</style>
+<meta data-pagefind-filter="type[content]" content="فرض">
+<meta data-pagefind-filter="resource[content]" content="المعهد النموذجي بسوسة">
+<meta data-pagefind-meta="n[content]" content="1434">
+<meta data-pagefind-meta="title[content]" content="DC 1 — lycée pilote sousse dc">
+<meta data-pagefind-filter="chapter[content]" content="الخصوصية والكونية">
+<meta data-pagefind-filter="chapter[content]" content="الإنية والغيرية">
+<meta data-pagefind-filter="chapter[content]" content="فروض ومواضيع (عدّة محاور)">
+<meta data-pagefind-filter="section[content]" content="باكالوريا رياضيات"><style>.qrcard{display:none!important}.wa-nav{position:sticky;top:0;z-index:50;background:#045260;padding:10px 18px;font-family:Cairo,sans-serif;direction:rtl}.wa-nav a{color:#fff;text-decoration:none;font-weight:700}@media print{.wa-nav{display:none}}</style>
+</head>
+
+<body dir="rtl" lang="ar"
+      data-brand="Wael Academy" data-handle="@WaelAcademy"
+      data-tagline="في تُرابنا.. مغامرة بمغامرة"
+      data-phone="+216 50 40 40 42" data-site="waeldocuments.com"
+      data-cta="سجل معانا وأقرى عن بعد مع منصة Wael Academy"
+      data-subject="Philosophie · DC 1 — lycée pilote sousse dc" data-watermark="Wael Academy" data-pagefind-body><nav class="wa-nav" data-pagefind-ignore><a href="../index.html">→ الرجوع إلى فهرس الفلسفة</a></nav>
+
+<!-- single full-page diagonal watermark, bottom-left → top-right (repeats on every page) -->
+<div class="wm" aria-hidden="true"><span>WAEL&nbsp;ACADEMY</span></div>
+
+<div class="flow colored">
+<div class="cover"><div class="badge">◉ Wael Academy · Philosophie</div><h1>DC 1 — lycée pilote sousse dc</h1><div class="grule"></div><div class="sub">الخصوصية والكونية</div><div class="auth"><div class="credit">المؤلّف / المصدر : <span class="who">المعهد النموذجيّ بسوسة · المعهد النموذجي بسوسة</span> <span class="tg">فرض مراقبة</span><span class="tg cor">إصلاح</span><span class="tg sec">الفلسفة · باكالوريا رياضيات</span> <a href="https://drive.google.com/file/d/1vXaDSpp37hFUycHF2IguzC7S6aPabbQv/view">↗ Lycée Pilote Sousse - DC 1 2010 (+Corrigé).pdf</a> <a href="https://drive.google.com/file/d/1ORkIQjSHJUoZSFv7q0-BY1O-hSD4ZTuP/view">↗ Lycée Pilote Sousse - DC 1 2017.pdf</a> <a href="https://drive.google.com/file/d/1kKyo4HYZ2ywRddyvOv97gbQZwOojqMOL/view">↗ Lycée Pilote Sousse - DC 1 2018.pdf</a> <a href="https://drive.google.com/file/d/1UTnZkEtbcNDsjpSroBnLwZXQoifSXaei/view">↗ Lycée Pilote Sousse - DC 1 2019.pdf</a></div></div><div class="copies" data-pagefind-ignore><b>نسخ هذا الملف في الدرايفات (20)</b><ul><li><a href="https://drive.google.com/file/d/1vXaDSpp37hFUycHF2IguzC7S6aPabbQv/view">Iyed Hasnaoui · bac 2024 › Nouveau dossier / Philosphie / Devoirs / 1ere Trimestre / DC 1</a></li><li><a href="https://drive.google.com/file/d/1Of3fRJObunjcbV22i1rRw-0LNpSqMeY6/view">Emna bac maths 2025 · Drive de Emna (Bac maths) › Philosphie / Devoirs / 1ere Trimestre / DC 1</a></li><li><a href="https://drive.google.com/file/d/1SJzkXUdx3ILDcju4xwOId_YTDyURhMQ-/view">Mohamed aziz saideni lycee Farhat Hached bizertebac 2026 · BAC MATH 2026 MOHAMED AZIZ SAIDENI › TOUT 2026 / Philosphie / Devoirs / 1ere Trimestre / DC 1</a></li><li><a href="https://drive.google.com/file/d/1Xy4CeR5If_8jkIj5nGQ97_sbJV1nFdq6/view">chahredine thamri · Chahredine thamri › Chahredine Thamri / mes documents / philosophie / Philosphie / Devoirs / 1ere Trimestre / DC 1</a></li><li><a href="https://drive.google.com/file/d/10FTXZzvuSvIBQ_yE9PKmSArl59uzluCF/view">Mohamed Ahmed Zahi · Bac Math Zahi 2024/2025 › Philo / Devoirs / 1er trimestre / Contrôles</a></li><li><a href="https://drive.google.com/file/d/1ORkIQjSHJUoZSFv7q0-BY1O-hSD4ZTuP/view">Iyed Hasnaoui · bac 2024 › Nouveau dossier / Philosphie / Devoirs / 1ere Trimestre / DC 1</a></li><li><a href="https://drive.google.com/file/d/1RCR4fuoTyDm8AxStjfigVN5WNuWte8eP/view">Emna bac maths 2025 · Drive de Emna (Bac maths) › Philosphie / Devoirs / 1ere Trimestre / DC 1</a></li><li><a href="https://drive.google.com/file/d/1RUPmHDiZgajzf77SbJCNXU_-kpV6ePP-/view">Mohamed aziz saideni lycee Farhat Hached bizertebac 2026 · BAC MATH 2026 MOHAMED AZIZ SAIDENI › TOUT 2026 / Philosphie / Devoirs / 1ere Trimestre / DC 1</a></li><li><a href="https://drive.google.com/file/d/1XVcHMlysinR0cFSw0RL4XAvqXfkay431/view">chahredine thamri · Chahredine thamri › Chahredine Thamri / mes documents / philosophie / Philosphie / Devoirs / 1ere Trimestre / DC 1</a></li><li><a href="https://drive.google.com/file/d/1CwDrsgvKpGVpnKoQ2vgBcZJ2IF-t4Siw/view">Mohamed Ahmed Zahi · Bac Math Zahi 2024/2025 › Philo / Devoirs / 1er trimestre / Contrôles</a></li><li><a href="https://drive.google.com/file/d/1kKyo4HYZ2ywRddyvOv97gbQZwOojqMOL/view">Iyed Hasnaoui · bac 2024 › Nouveau dossier / Philosphie / Devoirs / 1ere Trimestre / DC 1</a></li><li><a href="https://drive.google.com/file/d/1qO6Dcm0T0H1MLjV3dz__MKHET8L7uHeV/view">Emna bac maths 2025 · Drive de Emna (Bac maths) › Philosphie / Devoirs / 1ere Trimestre / DC 1</a></li><li><a href="https://drive.google.com/file/d/1YZ2Gllx9msRAJ5HBZa-Mvs8I15aqbMYH/view">Mohamed aziz saideni lycee Farhat Hached bizertebac 2026 · BAC MATH 2026 MOHAMED AZIZ SAIDENI › TOUT 2026 / Philosphie / Devoirs / 1ere Trimestre / DC 1</a></li><li><a href="https://drive.google.com/file/d/1cFNn1S-khjY8HXXsL1qJxb8cpgyQxdMy/view">chahredine thamri · Chahredine thamri › Chahredine Thamri / mes documents / philosophie / Philosphie / Devoirs / 1ere Trimestre / DC 1</a></li><li><a href="https://drive.google.com/file/d/11VTMSAQ_Z2htQFX2SNA9WCE5DyVtsPAd/view">Mohamed Ahmed Zahi · Bac Math Zahi 2024/2025 › Philo / Devoirs / 1er trimestre / Contrôles</a></li><li><a href="https://drive.google.com/file/d/1UTnZkEtbcNDsjpSroBnLwZXQoifSXaei/view">Iyed Hasnaoui · bac 2024 › Nouveau dossier / Philosphie / Devoirs / 1ere Trimestre / DC 1</a></li><li><a href="https://drive.google.com/file/d/1E3raNL1DUnPX5dNtZ8FAXoP9KHOZG3-K/view">Emna bac maths 2025 · Drive de Emna (Bac maths) › Philosphie / Devoirs / 1ere Trimestre / DC 1</a></li><li><a href="https://drive.google.com/file/d/1Uedd2ABY_xVdrlCWgwhF0mfcwydBNRir/view">Mohamed aziz saideni lycee Farhat Hached bizertebac 2026 · BAC MATH 2026 MOHAMED AZIZ SAIDENI › TOUT 2026 / Philosphie / Devoirs / 1ere Trimestre / DC 1</a></li><li><a href="https://drive.google.com/file/d/1ik7Q0n1fgBmJePmh4ZeoTsLoFQzkkEJJ/view">chahredine thamri · Chahredine thamri › Chahredine Thamri / mes documents / philosophie / Philosphie / Devoirs / 1ere Trimestre / DC 1</a></li><li><a href="https://drive.google.com/file/d/1gEbVYM4zO9RTVqhrrljJqSowkISQ6Fop/view">Mohamed Ahmed Zahi · Bac Math Zahi 2024/2025 › Philo / Devoirs / 1er trimestre / Contrôles</a></li></ul></div></div>
+<section class="chapter">
+<div class="chtag"><span>المحور</span> الخصوصية والكونية</div>
+<!-- SOURCE: المعهد النموذجيّ بسوسة · المعهد النموذجي بسوسة -->
+<!-- NOTE: one book for 4 files of the Drive folder "Nouveau dossier / Philosphie / Devoirs / 1ere Trimestre / DC 1" (series), in file order -->
+<div class="exh"><span class="idx ex">فرض</span><h2>DC 1 — lycée pilote sousse dc</h2>
+  <div class="qrcard"><div class="qrt">فيديو الدرس</div><div class="qrslot"><img src="qr/1434.svg" alt="QR"></div></div></div>
+<div class="credit">المؤلّف / المصدر : <span class="who">المعهد النموذجيّ بسوسة · المعهد النموذجي بسوسة</span> <span class="tg">فرض مراقبة</span><span class="tg cor">إصلاح</span><span class="tg sec">الفلسفة · باكالوريا رياضيات</span> <a href="https://drive.google.com/file/d/1vXaDSpp37hFUycHF2IguzC7S6aPabbQv/view">↗ Lycée Pilote Sousse - DC 1 2010 (+Corrigé).pdf</a> <a href="https://drive.google.com/file/d/1ORkIQjSHJUoZSFv7q0-BY1O-hSD4ZTuP/view">↗ Lycée Pilote Sousse - DC 1 2017.pdf</a> <a href="https://drive.google.com/file/d/1kKyo4HYZ2ywRddyvOv97gbQZwOojqMOL/view">↗ Lycée Pilote Sousse - DC 1 2018.pdf</a> <a href="https://drive.google.com/file/d/1UTnZkEtbcNDsjpSroBnLwZXQoifSXaei/view">↗ Lycée Pilote Sousse - DC 1 2019.pdf</a></div>
+
+<!-- file: Lycée Pilote Sousse - DC 1 2010 (+Corrigé) -->
+
+
+<div class="exsub">Lycée Pilote Sousse - DC 1 2010 (+Corrigé)</div>
+<p class="subhead t-red">فروض مُرفقة بإصلاحها</p>
+<div class="data">
+<p class="para">المعهد النموذجيّ بسوسة</p>
+<p class="para">2011 - 2010</p>
+<p class="para"><b>فرض المراقبة الأوّل في الفلسفة</b></p>
+<p class="para">الأقسام : الرابعة رياضيات 1 و 3</p>
+</div>
+<p class="subhead t-navy"><u><b>القسم الأول</b></u> / ( ثلاث نقاط / 3 )</p>
+<p class="consigne"><u>اكشف عن واحدة من مسلّمات القول التالي الضمنيّة</u></p>
+<p class="para">" أنا أنشئ الكليّ عندما أفهم مشروعَ كلِّ إنسانٍ آخر مهما كان زمانه ".</p>
+<p class="para"><span dir="ltr"><b>« Je construis l'universel en comprenant le projet de tout autre homme de quelque époque qu'il soit »</b></span></p>
+
+<div class="chtag"><span>المحور</span> الإنية والغيرية</div>
+
+<p class="subhead t-navy"><u><b>القسم الثاني</b></u> / نصّ فلسفيّ ( سبع نقاط / 7 )</p>
+<p class="para"><b>لمّا شبّهَ فرويد اللاّوعي "بدائرةٍ كبرى تحتوي الوعيَ داخلَها كدائرةٍ أصغر" وأضاف أنّه "لا يُمكن أن توجدَ واقعةٌ واعية دونَ تحضيرٍ غيرِ واعٍ، في حين أن اللاوعيَ يمكنه الاستغناء عن مرحلة الوعي وأن تكون له بالرغمِ من ذلك قيمةٌ نفسيّة". يكون بذلك قد أزاحَ، منذ البدء، كلّ إحالةٍ على ذاتٍ قادرة على القرار والاستقلاليّة. ينبغي البحث عن كل حقيقةٍ للحياة النفسيّة في اللاوعي. وكل فعل إراديّ ومستقلّ ليسَ إلا وهما خادعا. إنّ الأنا، وقد أصبح تابعا للاوعي صارمٍ ومهيمِن، ليسَ سيّدا أبدا في بيته الخاص. ويذهب فرويد إلى حدّ تشبيه نشاط الأنا الواعي والإراديّ، ذاتَ مرّة، "بمهرّجِ سيرك" يوهم نفسه أنّه فاعلٌ وقائد وعارف ولكنّه، فعليّا، لا يخدع إلا الصغارَ والسذّج. وتكتشف الذاتُ الإنسانيّة، وقد اخترقتْها قوى الدوافع التي تجهل عنها كلّ شيء، أنّ سلوكاتها وفكرها ليست إلا أقنعةً تتنكّر من خلالها دوافعها المنفلتة التي تعرّف الذاتَ كما هي. وبذلك تصبح الذات المتكلّمة تتكلّم عن نفسها كآخر فتفقد الذاتيّة الوجود.(...) يستبدل التحليلُ النفسيّ اغترابًا بآخرَ فيصبح وهْمًا بلا مستقبل.</b></p>
+<p class="para"><b>فيليب هودار " الأنا وما تحت الأنا " « <span dir="ltr">Philippe Hodard « Le Je et les dessous du Je</span></b></p>
+<p class="consigne"><u><b>المهام</b></u></p>
+<ul class="b">
+<li><b>ارصد إشكاليّة النصّ وصغها بدقّة ( نقطتان )</b></li>
+<li><b>حدّد الأطروحة التي ينقدها الكاتب ( نقطتان )</b></li>
+<li><b>بيّن موقف الكاتب من التحليل النفسيّ وقدّم حجّتيْن من النصّ اعتمدهما الكاتب للإقناع بوجاهة ذلك الموقف ( ثلاث نقاط )</b></li>
+</ul>
+<p class="subhead t-navy"><u><b>القسم الثالث</b></u> ( عشر نقاط )</p>
+<p class="subhead t-navy">المحاولة الفلسفيّة</p>
+<p class="consigne">حرّر محاولةً فلسفيّة تتناول من خلالها واحدا من السؤالين التاليين</p>
+<p class="para"><u>السؤال الأوّل</u></p>
+<p class="para"><b>هل يجعل الوعيُ الأنا متيقّنا من أنّه هو نفسه وليس آخرَ ؟</b></p>
+<p class="para"><u>السؤال الثاني</u></p>
+<p class="para"><b>هل يبقى من معنى للإنيّة عند القول "أنا آخرَ" ؟</b></p>
+<div class="exsub">الإصلاح</div>
+
+<div class="chtag"><span>المحور</span> الخصوصية والكونية</div>
+
+<p class="subhead t-red"><b>إصلاح فرض المراقبة الأوّل في الفلسفة</b></p>
+<p class="subhead t-navy"><u><b>القسمُ الأوّل</b></u> ( ثلاث نقاط )</p>
+<p class="consigne"><u>الكشف عن إحدى مسلّمات القول التالي الضمنيّة</u></p>
+<p class="para">" أنا أنشئُ الكليّ عندما أفهمُ مشروعَ كلّ إنسانٍ مهما كان زمانه"</p>
+<p class="para"><u>إمكانيّة أولى</u> / تمكّن عبارة <u><b>"أنا أنشئ الكلي"</b></u> المعلنة في القول من رصد المسلّمة الضمنيّة التالية : نفي القول بوجود "كليّ في ذاته" يشمل خصائص ثابتةً يشترك فيها جميع النّاس وحقائقَ ومبادئَ أزليّة تكون صالحةً لهم جميعا باعتبار أنّ ذلك معطى جاهز ومطلق يكتفي النّاس بفهمه والاعتراف به.</p>
+<p class="para"><u>إمكانيّة ثانية</u> / تمكّن عبارة <u><b>"أفهم مشروع كل إنسان مهما كان زمانه"</b></u> المعلنة في القول من رصد المسلّمة الضمنيّة التالية : إنّ الاختلافَ الملاحَظ بين التجارب الإنسانيّة لا يؤسّس لخصوصيّة مطلقة ولواحديّة فريدة يجعل من غير الممكن للفرد أن يخترقَ معيشَ فردٍ آخرَ في خصوصيته ويفهمه. فالتواصل الإنساني ممكن ولا وجود لعوائق تمنعه بحيث يؤكّد ذلك وحدة إنسانيّة قوامها جدليّة التشابه والاختلاف.</p>
+<p class="para"><u>إمكانيّة ثالثة</u> / تمكّن عبارة <u><b>"مشروع كل إنسان"</b></u> المعلنة في القول من الكشف عن المسلّمة الضمنيّة التالية : حريّة الإنسان بحيث لا يُمكن لوجوده أن يكون نتاجَ ظروف وأوضاع وعوامل مستقلّةٍ عنه، بل نتاج اختيارات حرّة في تفاعل مع تلك المعطيات الموضوعيّة بحيث تنفتح به دائما على الممكن وليس على واقع حتميّ لا يقبل التغيير.</p>
+<p class="para"><u>إمكانيّة رابعة</u> / في عبارة <u><b>"مهما كان زمانه"</b></u> المعلنة في القول ما يُتيح الانتباه إلى المسلّمة الضمنيّة التالية: الاعتراف بنسبيّة الكليّ لا يعني القولَ بتاريخيّته. فالكليّ ليسَ تاريخيّا، أي هو لا يتغيّر عبرَ الزمن، ولا يتمّ بمقتضى ذلك التخلّي عن الماضي العتيق لتبني الجديد الراهن في حركة لا تتوقف أبدا عن التقدّم. فالكليّ نسبيّ لأنّ إنشاءه هو مهمّة يتعيّن أن يقوم بها كل أنا، ولكنّه ليس تاريخيّا حيث لا يخضع لصيرورة الزمن ولا يتغيّر من عصر إلى آخر ومن مجتمع إلى آخر.</p>
+
+<div class="chtag"><span>المحور</span> الإنية والغيرية</div>
+
+<p class="subhead t-navy"><b>القسم الثاني : <u>النصّ الفلسفيّ</u></b> ( سبع نقاط )</p>
+<p class="para"><u><b>إشكاليّة النصّ</b></u> ( نقطتان ) / هل في الاكتشاف الفرويديّ للاوعي تحرير للإنسان من الاغتراب حتّى يكتشف وهم الإعتقاد في الذات ككيان مستقلّ وقادر على الاختيار ويعترف باللاوعي كمصدر لأفكاره وأفعاله وكمجالٍ لمعرفة حقيقتها ؟ أم أنّ ذلك هو مصدر اغترابٍ جديد ينفي عن الذات حرّيتها ومعرفتها بنفسها فيفقدها بذلك كل قيمة في الوجود ؟</p>
+<p class="para"><u><b>الأطروحة التي ينقدها الكاتب</b></u> ( نقطتان ) / وعيُ الأنا بنفسه زائف يوهمه أنّه مستقلّ ويختار أفعاله بحريّة والحال أنّه مخترَق من قبل اللاوعي الذي هو مصدر أفكاره وأفعاله ومجال كل حقيقة في شأن حياته النفسيّة.</p>
+<p class="para"><u><b>موقف الكاتب من التحليل النفسيّ وحجّتان من الحجج التي اعتمدها في دعمه</b></u> ( ثلاث نقاط ) / يرى فليب هودار أنّ التحليلَ النفسيّ قد أزاحَ اغتراب الإنسان عن وجوده عندما كشفَ له أنّه ليسَ ذاتا واعية لأنّ إلى جوارها آخر هو اللاوعي وأنّه يتوهّم أنّ تلك الذات مستقلّة وحرّة والحالُ أنّها مخترَقة من قِبل اللاوعي ولا يمكن فهم حقيقتها إلا من خلاله، غيرَ أنّ ذلك مثّل مصدرَ اغترابٍ له حيث أصبحَ واعيا بنفسه ولكنّه لا يعرف حقيقتها، يتبنّى أفكارا ويأتي أفعالاً ليس هو المبدأ المحدّد لها بل مكبوتات وآليات غير واعية متوارية عن وعيه. لذلك أعلنَ هودار "يستبدل التحليلُ النفسيّ اغترابا بآخر."</p>
+<p class="para">ومن الحجج التي اعتمدها هودار في دعم هذا الموقف يمكن رصد :</p>
+<p class="para"><u><b>حجّة أولى</b></u> : تكشف عن أنّ كل وعي يحمله الأنا عن نفسه، في نظر فرويد، أصبح زائفا.<u><b>"ويذهب فرويد إلى حدّ تشبيه نشاط الأنا الواعي والإرادي "بمهرّج سيرك" يوهم نفسه أنّه فاعلٌ وقائدٌ وعارف، ولكنّه فعليّا لا يخدع إلا الصغار والسذّج."</b></u></p>
+<p class="para"><b>حجّة ثانية</b> : تبيّن أنّ القوى الحقيقيّة التي تقف وراء أفكار الفرد وأفعاله تكمن في اللاوعي. <u><b>"وتكتشف الذاتُ الإنسانيّة، وقد اخترقتْها قوى الدوافع التي تجهل عنها كلّ شيء، أنّ سلوكاتها وفكرها ليست إلا أقنعة تتنكّر من خلالها دوافعها المنفلتة التي تعرّف الذاتَ كما هي."</b></u></p>
+<p class="subhead t-navy"><b>القسم الثالث : <u>تحرير محاولة فلسفيّة</u></b> ( عشر نقاط )</p>
+<p class="para"><u>السؤال الأوّل</u> / <b>هل يجعلُ الوعيُ الأنا متيقّنا من أنّه هو نفسه وليسَ آخرَ ؟</b></p>
+<p class="para">يعيشُ المرءُ وضعيّات تفرض عليه إحساسا غريبا أنّه ليسَ هو رغمَ وعيه بنفسه : مثلَ اندهاشه تجاه جسده الخاص أمامَ المرآة وكأنه يراه لأوّل مرة، حواره الداخليّ مع نفسه وكأنّها آخر، إحساسه الشديد بالإثم على إثر تأنيب سلْطه على نفسه، انسياقه وراء نزوات قويّة لم يتمكّن من السيطرة عليها... وفي ذلك ما يوقع الأنا في حيرة تجاه إنيّته ليتساءل <u>"هل يجعل الوعيُ الأنا متيقّنا من أنّه هو نفسه وليسَ آخر؟"</u>. <b>فما الوعي ؟ وهل لديه من الخصائص ما يجعل الأنا على يقين من إنيّته بحيث يكون هو نفسه وليس آخر؟ أم أنّه بإمكان ذلك اليقين أن يكون زائفا بحيث يخدع الأنا ويُخفي عنه حقيقة الآخر فيه الذي يجهله ؟</b></p>
+<p class="para">يحدثُ تحوّل هامّ في وجود الفرد لمّا يشرع الطفل في اكتساب اللّغة فينتقل من الحديث عن نفسه بصيغة الغائب "زيدٌ يريد..." إلى الإحالة على نفسه بقول "أنا أريد..."، ذلك أنّه يمثّل انتقالا نحو <b>الإنيّة</b> التي تعني قدرة الفرد على تمثّل وجوده كهويّة ثابتة وموحّدة رغمَ ما يطرأ عليه من تغيرات نفسيّة وماديّة بحيث يجعله ذلك قادرا على اختيار أفعاله انطلاقا من مبرّرات يفهمها. وليس ذلك غير القول أنّ الأنا يظلّ هو نفسه في كل الحالات المختلفة التي تحدث عليه تغيرات ملاحَظة دون أن تجعل منه آخر. ولئن كانت للإنيّة إحداثيات خارجيّة كثير مثل الجسم ( الجنس، البصمات، الحامض النووي...) والإسم وتاريخ الولادة ومكانها... فإنّ المساءلة الفلسفيّة اتجهت نحو البحث عن أصولها الوجوديّة في صميم الإنسان ليدعو <b>سقراط</b> كلّ إنسان <u><b>"اعرفْ نفسَك بنفسِك"</b></u>. وفي هذا السياق مثّل <b>الوعي</b> الإحداثيّة الأساسيّة للإنيّة لكونه الانتباه والحضور المباشر للذات الذي من دونه لا يمكن أن يكون هناك أنا مدركٌ لهويته. فالانتباه والحضور المباشر للذات هما ما يمكّنان من توحيد الحياة النفسيّة بتغيراتها المختلفة حولَ الأنا ليكون الإطار الثابت والواحد في سياق هذه الكثرة المتغيّرة ليؤلّف بين أبعاد الزمان المعيش ويدرك مباشرة عالمه الباطنيّ والعالم الخارجيّ من حوله، ويوجّه أفعاله طبقا لبواعث وغايات يفهمها. ولهذا السبب، مثّل الوعي بالذات اليقين الأوّل الذي يستحيل الشكّ فيه، حسب <b>ديكارت</b>. فالأنا أمكنه أن يشكّ في كل اليقينات إلا في وعيه بأنّه يشكّ ممّا مثّل يقينا وجوديّا كان من البداهة بحيث قبله العقل كمبدأ واضح ومتميّز. يكتب <b>ديكارت</b> <u><b>"من غير المستطاع لنا أن نفترض أنّ من يفكّر غير موجود بينما هو يفكّر."</b></u></p>
+<p class="para">ولا يبقى الوعيُ بالذات عند يقين الأنا في وجوده، بل يتجاوزه نحو يقين معرفيّ حول ماهية هذه الإنيّة. فإذا كان الأنا بوعيه يتيقن من وجوده ، فإنّ ذلك يعني أنّه في ماهيته وعي. وبهذا الوعي يبقى هو نفسه في إطار تجاربه المعيشة المختلفة ومبدأ لأفعاله الإراديّة المتنوعة. فمَن يتصور ويتخيل ويحس ويريد... عندما يتصوّر الأنا ويتخيّل ويحس ويريد...<b>هو الأنا وليس إنسانا آخر</b>. يكتب ديكارت "فبديهيّ كل البداهة أنني الذي أشكّ <b>وأنا الذي أفهم وأنا الذي أرغب</b>." ويترتّب عن هذا اليقين المعرفيّ في كون الإنيّة ذاتا واعية أنها بهذا الوعي تكون جوهرا روحيّا غير ماديّ، وليسَ ذلك غير الإقرار أنّ الأنا متميّز في وجوده وتفكيره عن كل آخر ماديّ بدءا بجسمه ووصولاً إلى العالم. فالأنا، إذن، بوعيه يمتلك اليقين في أنّ له إنيّة تجعله هو نفسه دون اختلاط بما يختلف عنه ككائن واعٍ. فهو أنا وليس جسمًا ولا شيئا في العالم. وبهذا الوعي يمكنه أن يتحرّر من سلطة الناس الآخرين لينشئ استقلاله بالاعتماد على منطق العقل وحريّة الإرادة. يكتب <b>ديكارت</b> <u><b>"فعرفتُ من ذلك أنني جوهرٌ كل ماهيته أو طبيعته لا تقوم إلا على الفكر، ولا يحتاج في وجوده إلى أيّ مكان ولا يتعلّق بأيّ شيء ماديّ."</b></u></p>
+<p class="para"><b>يواجه التحليل السابق اعتراضا جديّا مصدره مختلف التجارب التي هي من صميم إنسانيّة الفرد دون قدرة على إرجاعها إلى الأنا ولا على فهمها بواسطة الوعي المباشر مثل الأحلام والهفوات وزلاّت اللّسان والأحاسيس الغامضة والخواطر الفكريّة والتخيليّة الفجئيّة بحيث يبرّر ذلك التساؤل: هل أنّ ذلك الانطباع الذي يمنحه الوعيُ إلى الأنا بأنّه هو نفسه وليس آخر يقينيّ حقّا دون أن يختلط بالزيف ؟</b></p>
+<p class="para">إنّ تحليلَ الصراعات التي يعيشها الأنا بين رغباته التي ترفض كلّ حدّ معقول من جهةٍ ومُثله الأخلاقيّة التي تراقبه بكل صرامة رافضةً المبرّرات الواقعيّة بسرعان ما يبرز التعدديّة الثاوية في الإنيّة والتي تجعلها مهشّمة بين قطب الدوافع الغريزيّة وقطب الضمير الأخلاقيّ من جهة والأنا من جهة أخرى بحيث يفرض عليه ذلك صراعات نفسيّة يجهل دلالتها ويعجز عن رصدها والتحكّم فيها، ممّا يعني أنّ الأنا ليسَ قوامَ الإنيّة ولا مركزها لأنّ الإنيّة تعدديّة وما الأنا إلا الموضع الضعيف في نطاقها. إنّ هذا هو ما كشفه فرويد لمّا صاغ نظريته الثانية حول الجهاز النفسيّ موضحا أنّ الإنيّة مسرح لصراع بين مواضع ثلاثة هي الهو : قطب اللّذة، والأنا الأعلى: قطب الضمير، والأنا : قطب العقل والإرادة. والأهمّ من ذلك في إسهام فرويد هو إبرازه أنّ السيرورات النفسيّة التي تحكم هذه الصراعات هي غير واعية، ممّا يجعل آلياتها ودلالاتها خارج نطاق وعي الأنا بنفسه. فالوعي يوهم الأنا أنّه كلّ الإنيّة وأنّه عارف بكل ما يدور في حياته النفسيّة ويمتلك السيادة التامة على ذاته، فيخفي عنه أنّه مخترَق من قبل رغبات مكبوتة وآليات نفسيّة مجهولة توجّه أحاسيسه وأفكاره وأفعاله دون قدرة له على التفطّن إليها ولا فهم دلالتها. فمريضة فرويد <span dir="ltr">Emmy</span> التي تعاني من رهاب دخان السجائر، كانت تظنّ أنّ دلالة ذلك هو ضرر ذلك الدخان على صحّتها والحال أنّه نتاج آلية تحويل على صلة برغبة مكبوتة. فهي تخاف من أن تنكشف رغبتها الجنسيّة في المدير الأرمل مدخّن السيجار الذي تعمل تحت إشرافه فتحوّل خوفها دون وعيها إلى خوف مرضي من دخان السجائر عموما.</p>
+<p class="para">ويقود ما سبق إلى أنّ الإنيّة أنا وآخر وأنّ الوعيَ زائف يوهم الأنا أنّه كل الإنيّة ومتيقّن أنّه هو نفسه وليس آخر فيخفي عنه حقيقة أنّه آخر لأنّ القوى والآليات المحدّدة لأفعاله مصدرها آخر هو اللاوعي. لذلك لم يُبالغ <b>فرويد</b> لمّا اعتبر اكتشافه للتحليل النفسيّ إهانة موجّهة إلى كبرياء الإنسان تضع أمام هذه الحقيقة <u><b>"الأنا لم يعد سيّدا حتّى في بيته الخاص."</b></u></p>
+<p class="para">وباختصار، فإنّ <b>الإنيّة أنا وآخر وعلى الوعي أن يكون الوسيط للانفتاح على هذه الغيريّة الكامنة في صميم الأنا على طريق معرفةٍ أوضح بنفسه تتحدّ من الزيف الذي تراكم حَولها، باعتبار أنّ ذلك يمثّل الضامن لتخيد الإنسان من ماضيه النرجسيّ كي يعترف بأنّ المعرفة بالذات ليست معطى مباشرا وبديهيّا بل هي مهمّة الطريق إليها يبدأ بإعلان الجهل بالذات.</b></p>
+<!-- PROOFREAD: 1434 part1 p03 — "تتحدّ من الزيف" / "لتخيد الإنسان" (dense print, best reading) -->
+<p class="para"><u>السؤال الثاني</u> : <b>هل يبقى من معنى للإنيّة عند القول "أنا آخر" ؟</b></p>
+<p class="para">قدّم فرويد اكتشافه للاوعي على أنّه ثورة معرفيّة وجّهت إهانة إلى نرجسيّة الإنسان التي أوهمته أنّه سيّد أفكاره وأفعاله لتكشف حقيقة أنّ أفكاره وأفعاله ليست إلا أقنعة تتنكّر من خلالها مكبوتات وآليات غير واعية. ولكن هذا الاكتشاف لم يطح بنرجسيّة الإنسان إلا ليضع وجوده بأسره في أزمة عميقة، ذلك أنّ الإعلان عن أنّ الأنا هو آخر يهدد باغتراب يصبح فيه الأنا جاهلا بهويته وشاكا في حريته ممّا يجعله في حيرةٍ حول إنيّته ويبرّر التساؤل <u>"هل يبقى من معنى للإنيّة عند القول "أنا آخر"؟</u> <b>فهل في الاعتراف باللاوعي وبأنّ الأنا في حقيقته هو آخر يحكم على الأنا أن يكون جاهلا بنفسه وصدى لقوى وآليات غير واعية خفية تفلت من سيادته ممّا يلغي كل معنى للإنيّة ؟ أم أنّ ذلك الاعتراف يمثّل إمكانيّة فعليّة لتحرّر الأنا من أوهامه النرجسيّة ليعرف نفسه بأكثر وضوح ويتحكّم في أفعاله بأكثر تعقّل ممّا يعيد تثبيت الإنيّة على أسس أكثر صلابة ؟</b></p>
+<p class="para">قد يبدو للوهلة الأولى أنّ التقابلَ بين الأنا وما هو آخر بديهيّ، ذلك أنّ <b>الآخر</b> بحسب دلالته المعجميّة هو <b>"كل ما ليس أنا"</b>. ولكنّ التحليلَ النفسيّ واحد من بين إسهامات عديدة كذّبت بداهةَ ذلك التقابل لتكشف عن الغيريّة في صميم الأنا نفسه ممّا يجعله في حدّ ذاته آخر. <b>فالأنا</b>، كقدرة على التفكير والاختيار والتحكّم الإراديّ قوامها الوعي، لا يختزل كلّ هويّته لأنّ له عمقا غير واعٍ يجهله يتمثّل في الهو بدوافعه الغريزيّة وما يقترن بها من رغباتٍ وعقدٍ مكبوتة، وفي الآليات التي تحكم حياته النفسيّة بحيث يلجأ إليها الأنا دون وعيه بذلك مثل التصعيد والإسقاط والاستدماج والقلب... وفي ذكريات الماضي القديمة وخاصةً المؤلم منها. إنّ هذا الآخرَ ليس بعدا هامشيّا يبقى خارج الأنا ومغايرا له بل هو حقيقة هويّته والقوى الخفيّة التي تقف وراء أفكاره وأفعاله. ذلك أنّ الوعيَ لا يقدّم غير تمثّلات زائفة توهمه أنّه بأسره ذاتٌ واعية تعرف نفسها وتختار أفعالها بحريّة، فيتحوّل إلى قناع يخفي حقيقة أنّ هويّة الأنا تكمن في اللاوعي الذي يمسك بالخيوط المحرّكة لأفعاله بحيث يشكّل المجالَ الدلاليّ لفهم معناها الحقيقيّ. فالفنان <b>ميكال أنجلو</b> لمّا نحت تمثال <b>"موسى"</b> مركّزا على قوّة جسد موسى وعلى الألواح تحت ذراعه لم يكن واعيا أنّه يصدّ تصعيد صراع أوديبيّ مكبوت بين إعلاء قدرة الأب ورفض سلطته. <b>والفتاة</b> التي تنزعج من دخان السجائر لم تكن واعية أنّها بذلك تحوّل خوفها من رغبتها الجنسيّة المكبوتة في مديرها مدخّن السيجار إلى خوف من دخان السجائر عموما. <b>والرجل</b> الذي شاهد في حلمه <b>أنّه</b> يعاني من ألم ضرس مسوّس قرّر الذهاب إلى طبيب من أجل اقتلاعه لم يخطر له أنّه رمز تختفي وراءه رغبته المكبوتة في وفاة أبيه العجوز والمريض الذي ضاق ذرعا من الاهتمام بشؤونه. وتثبت هذه الأمثلة أنّ الأنا من منظور فرويد أضحى آخرَ لكونه في هويّته يتكوّن من آخر يجهله وفي أفكاره وأفعاله صار نتاجا لذلك الآخر الذي هو اللاوعي دون قدرة على رصده أو التحكّم فيه. لذلك أعلنَ <b>فرويد "اللاوعي هو النفسيّ ذاته وحقيقته الجوهريّة"</b> وأنّ اكتشافه مثّل إهانة للكبرياء الإنسانيّ الزائف أثبت للأنا أنّه <b>"ليس سيّدا في بيته الخاص."</b></p>
+<p class="para">ولا يكتفي هذا الإعلان عن أنّ الأنا قد أضحى آخر بإزاحة نرجسيّة الإنسان بل يُطيح بمكانة الذات الواعية ممّا يُلغي كل معنى للإنيّة. فإذا كانت <b>الإنيّة</b> أن يتمثّل الأنا وجوده كهويّة موحّدة وثابتة تهيئه لمعرفة نفسه واختيار أفعاله انطلاقا من بواعث وغايات <b>يفهمها</b>، فإنّ كلّ ذلك يحطّمه التحليل النفسيّ لأنّ هويّة الأنا أصبحت مهشّمة بين الوعي واللاوعي، <b>بين المعلوم والمجهول</b>، لأنّ أفعاله أضحت نتاج قوى خفيّة تخترقه بسريّة لا يقدر على رصدها وإبطالها. فالأنا ليس أنا ولا قدرة له على اختيار أفعاله أو فهم دلالتها. وفي ذلك تحطيم للإنيّة من أساسها. ومن هذا المنظور يمكن فهم ردّ الفعل الشديد الذي صدر عن فلاسفة الذات برفضهم الاعتراف بوجود اللاوعي. فلا إنيّة دون أنا يعرف أنّه هو نفسه ويختلف عن كل ما هو آخر مغاير له، وأنّه مبدأ أفكاره وأفعاله، ومن الخلف تضخيم آليات جسميّة بحتة ونبذ هامشيّة من الحياة النفسيّة مثل الأحلام والهفوات وزلاّت اللّسان لتصبح هي هويّة الأنا الحقيقيّة والقوى التي تمثّل مصدر أفكاره وأفعاله. ففي ذلك ضرب من <b>"وثنية الجسد"</b> كما أعلن عن ذلك <b>آلان</b>. ولا تحرّر من هذا الخطأ إلا بالعودة إلى الكوجيتو الديكارتيّ كقوام للإنيّة، إذ لا أنا ولا قدرة لهذا الأنا على التفكير والقرار والفعل إلا بالوعي. يكتب <b>آلان</b> في هذا الصدد <b>"كل ما ليس يفكر هو نشاط آلي، أو بالأحرى كل ما ليس يفكر هو جسم أيّ شيء خاضع لإرادتي ، شيء أكون مسؤولا عنه."</b></p>
+<p class="para"><b>ولكن هل تبدو هذه القراءة للتحليل النفسيّ وجيهةً ؟ وهل يكون الاعتراف باللاوعي كآخر تحطيما لدعائم الإنيّة بحيث لا يمكن إنقاذ معناها إلا بإنكار وجود اللاوعي ؟</b></p>
+<p class="para">إنّ القولَ بأنّ اكتشافَ اللاوعي يمثّل إلغاءً لمعنى الإنيّة لكون الأنا هو آخر لا يعرف نفسه ولا يمتلك السيادة على أفكاره وأفعاله، لا يخلو من تسرّع يقف عند حرفيّة كلام فرويد . فالاعتراف بوجود اللاوعي يقوم على أدلّة كثيرة تتعلّق بالعجز عن فهم ظواهر نفسيّة كثيرة سويّة وغير سويّة بواسطة الوعي وحده. كما أنّ النجاح العلاجيّ الذي حقّقه المحلّلون النفسانيون يقدّم دليلا إضافيا على وجود اللاوعي. ولذلك ليس من الممكن اختزال الإنيّة في الذات الواعية ، إذ لابدّ من تجاوز ذلك نحو الإقرار بوجود آخر إلى جوارها هو اللاوعي. وإن كان ذلك يجزئ هويّة الأنا ويثبت له أنّه ليس سيّدا على أفعاله، فإنّ ذلك يمثّل شرطا كي يتمكّن الأنا من ترميم هويته عندما يعي بما هو غير واعٍ ويؤلّف بين ما يعرفه وما يجهله عن نفسه. عندئذ لن يبق نتاجا لمكبوتات وآليات غير واعية بل يكتسب معرفةً بها ويصبح قادرا على التأثير فيها. إنّ هذا هو ما قصده <b>فرويد</b> لمّا كتب <b>"إنّ مقصد المحاولات العلاجيّة هي بالفعل تقوية الأنا لجعله أكثر استقلالا تجاه الأنا الأعلى،... وقادرا على تملّك قطع جديدة من الهو."</b></p>
+<p class="para">إنّ هذه القراءة هي التي تبنّاها <b>ريكور</b> لمّا اعتبرَ أنّ التحليلَ النفسيّ مكوّنا سرديّا يتمثّل في إعداد الأنا ليؤلّف بين نبذ سيرته الذاتية ويتمكّن من سردها كقصة معقولة ومتماسكة. فالقول أنا هو آخر لا يحطّم الإنيّة لأنّه بذلك يتمكّن الأنا من إعادة إنشاء هويته على نحو موضوعيّ ويصبح أكثر حرية في اختياراته على ضوء معرفته الأدق بالقوى والآليات غير الواعية التي تتدخّل في تحديدها. يكتب <b>ريكور</b> <b>"إنّ مطابقة الذات لنفسها الذي يمكننا تسميته بالمعنى القويّ للعبارة الوعي بالذات لا يكون في البداية بل في النهاية.</b></p>
+<p class="para"><b>وباختصار فإنّ الاعتراف بالغيريّة في صميم الإنيّة توجب على الأنا الاعتراف بأنّه آخر وأنّه يتأثّر بقوى خفيّة غير واعية في أبعاد وجوده كشرط لإنشاء معرفة بهويّته والتحرّر من المجهول ليصبح أقدر على الاختيار بتعقّل. وبذلك تحافظ الإنيّة على مقوّماتها رغم المراجعة العميقة التي تعرّضت لها . عندئذ يتسنّى للأنا أن يتحرّر من كبريائه الزائف ويحافظ على حريّته كرهان يوجب عليه معرفة ذلك الآخر الذي يلازمه حتّى يكون بحقّ كائنا قادرا على التفكير والاختيار والفعل.</b></p>
+<!-- PROOFREAD: 1434 part1 p04 — dense small print; "يصدّ تصعيد" / "ليؤلّف بين نبذ سيرته" best readings -->
+<div class="data">
+<p class="para">المعهد النموذجيّ بسوسة</p>
+<p class="para">2011 - 2010</p>
+<p class="para"><b>فرض المراقبة الأوّل في الفلسفة</b></p>
+<p class="para">الأقسام : الرابعة رياضيات 1 و 2</p>
+</div>
+<p class="subhead t-navy"><u><b>القسمُ الأوّل</b></u> ( ثلاث نقاط )</p>
+<p class="consigne"><u>اكشفْ عن واحدة من مسلّمات القول التالي الضمنيّة</u></p>
+<!-- file: Lycée Pilote Sousse - DC 1 2017 -->
+
+<div class="chtag"><span>المحور</span> فروض ومواضيع (عدّة محاور)</div>
+
+<div class="exsub">Lycée Pilote Sousse - DC 1 2017</div>
+<p class="para">السنوات الرابعة علوم تجريبية</p>
+<!-- NOTE: diagonal copy-shop stamp "COPIE PILOTE-SOUSSE- ..." and hand underlines/box on the text are left out -->
+
+<div class="chtag"><span>المحور</span> الإنية والغيرية</div>
+
+<p class="subhead t-red"><i><u>القسم الأوّل :</u></i></p>
+<p class="para"><u>1)</u>قيل:" إنّ جسدي محور الوجود". ماهي المسلمة الضمنية التي يقوم عليها هذا الإقرار؟</p>
+<p class="para"><u>2)</u>اكشف عن تبعة واحدة من ضمن تبعات الموقف التالي :" أعرف ذاتي فقط كما أظهر لذاتي "</p>
+<p class="para">3) <u>النص</u> :</p>
+<p class="para"><u>سقراط</u> :الذين ليس لهم الاهتمام بالنفس و لا يمضون حياتهم في عبادة الجسد سيعدون من أولائك الذين لا يسلكون مثلهم</p>
+<p class="para"><u>سيبيس</u>: كيف، يا سقراط؟</p>
+<p class="para"><u>سقراط</u> :هذا ما سأقوله لك : أصدقاء المعرفة ، يدركون أنه عندما تتولى الفلسفة تدبير شؤون النفس تجدها مقيّدة بالجسد و ملتحمة به التحاما حقيقيا ،و مكرهة على أن ترى الموجودات من خلاله كما من وراء قضبان سجن ضيّق- بدل أن تراها بنفسها -و متمرّغة في جهل مطبق . و الأخطر في هذا السّجن ،و هو ما رأته الفلسفة جيّدا , هو أنه من صنع الرّغبة ,بحيث أنّ السجين نفسه هو الذي يساهم بنفسه في إحكام الوثاق عليه . أصدقاء المعرفة , قلت يدركون أنّ الفلسفة عندما تأخذ النّفس و هي على هذه الحالة , تشجّعها بلطف ٬ و تبذل قصارى جهدها لتحقيق خلاصها , بأن تريها أنّ في دراسة الموجودات شهادة العينين مليئة بالأوهام , و كذلك شهادة الأذنين و سائر الحواسّ , و بأن تدعوها إلى الانفصال عنها , عندما لا تكون مجبرة على استخدامها ,بحثّها على الانثناء داخل نفسها و على أن لا تثق إلا في نفسها و فيما تتوصّل إليها هي بنفسها في كلّ شيء , و على أن تكون على يقين بأنه لا شيء حقيقي فيما تراه بأيّة طريقة أخرى إذأنّه متغيّر بحسب الظروف , فما تراه من هذا القبيل محسوس منظور .في حين أنّ ما تراه هي نفسها بنفسها معقولا و غير منظور .</p>
+<p class="para">أفلاطون : محاورة " فيدون "</p>
+<!-- PROOFREAD: 2206 part1 p01 — text very faint: first line ("الذين ليس لهم الاهتمام بالنفس و لا يمضون حياتهم في عبادة الجسد سيعدون من أولائك الذين لا يسلكون مثلهم"), "سيبيس", "أصدقاء المعرفة" (inside a hand box), "إذأنّه" and the reference "محاورة " فيدون "" are uncertain -->
+<p class="consigne">أجب عن الأسئلة التالية انطلاقا من النصّ :</p>
+<p class="consigne">-ما هي الإشكالية التي يطرحها الكاتب في النصّ ؟</p>
+<p class="consigne">-حدّد دلالتي النفس و الجسد سياقيا مبرزا وجه العلاقة بينهما ؟</p>
+<p class="consigne">- إلى أيّ مدى يمكن التسليم بأطروحة النصّ ؟</p>
+<p class="subhead t-red"><i><u>القسم الثاني :</u></i></p>
+<p class="consigne">يختار التلميذ أحد السؤالين ليحرّر في شأنه محاولة في حدود ثلاثين سطرا :</p>
+<p class="para">السؤال الأوّل : هل في العزلة يتحقق الوعي بذواتنا ؟</p>
+<p class="para">السؤال الثاني : هل يمكن تأسيس إنيّة الإنسان دون استحضار الجسد ؟</p>
+<!-- file: Lycée Pilote Sousse - DC 1 2018 -->
+
+<div class="chtag"><span>المحور</span> فروض ومواضيع (عدّة محاور)</div>
+
+<div class="exsub">Lycée Pilote Sousse - DC 1 2018</div>
+<p class="para"><b><u>مادة الفلسفة 4رياضيات 1</u></b></p>
+<p class="para"><b><u>2019-2018 المدة ساعتين</u></b></p>
+<!-- NOTE: diagonal copy-shop stamp and small handwritten notes above/below some lines are left out -->
+
+<div class="chtag"><span>المحور</span> الإنية والغيرية</div>
+
+<p class="subhead t-red"><u>القسم الاول . 10 نقاط</u></p>
+<p class="para">.<u>التمرين الاول (2 نقاط).</u> ''ان النفس التي انا بها ما انا ,متميزة تمام التميز عن الجسد''</p>
+<p class="consigne">حدد مفهوم ''النفس'' في سياق هذا القول.</p>
+<p class="para">.<u>التمرين الثاني (2 نقاط).</u> ''ليس لدي من سبيل لمعرفة الجسد الانساني ,غير ان اعيشه''.</p>
+<p class="consigne">اكشف عن احدى المسلمات الضمنية لهذا الموقف.</p>
+<p class="para">.<u>التمرين الثالث .(6 نقاط). النص</u> '' كل حالة وعي هي بوجه عام ,في حد ذاتها وعي بشيء ما ,مهما كان امر الوجود الواقعي لهذا الموضوع ....ومن ثم وجب ان نوسع من محتوى <u>الانا</u> <u>افكر</u> <u>الترنسندنتالي</u> وان نضيف اليه عنصرا جديدا ,وان نقول ان كل كوجيتو او فلنقل, ان كل حالة وعي تقصد شيئا ما وانها تحمل في ذاتها موضوع تفكيرها المناسب لها ,من حيث هو مقصود .غير ان كل كوجيتو يفعل ذلك على طريقته الخاصة .فادراك بيتا او ان شئنا اكثر دقة قلنا يقصد ذلك البيت الخاص وفق طريقة الادراك .اما ذكرى البيت فتقصد البيت باعتباره ذكرى ,بينما تقصده المخيلة على انه صورة .''.ادموند هوسرل ''تاملات ديكارتية .</p>
+<p class="para"><span dir="ltr">Edmond husserl ‘ meditations cartesiennes ‘ vrin 1966 .p.28.</span></p>
+<p class="para">.الانا افكر الترنسندنتالي او الكوجيتو الترنسندنتالي.يقابل الكوجيتو بما هو نفس او وعي مستقل بوصفه وعي متعال على ذاته ومنفتح بحكم طبيعته على الاشياء.</p>
+<p class="consigne">1 - صغ اشكالية للنص .3ن.</p>
+<p class="consigne">2 – بين تبعة من تبعات قول الكاتب ''كل حالة وعي تقصد شيئا ما''.3ن.</p>
+<p class="subhead t-red"><u>القسم الثاني</u> . المحاولة .حرر محاولة في حدود الثلاثين سطرا في احد السؤالين التاليين .</p>
+<ul class="dash">
+<li>السؤال الاول .هل يمكن اعتبار الجسد اخرَ؟</li>
+<li>السؤال الثاني .هل الانسان كائن مستقل عن وضعه التاريخي؟</li>
+</ul>
+<p class="para">.......................................................عملا موفقا./.</p>
+<!-- file: Lycée Pilote Sousse - DC 1 2019 -->
+
+<div class="chtag"><span>المحور</span> فروض ومواضيع (عدّة محاور)</div>
+
+<div class="exsub">Lycée Pilote Sousse - DC 1 2019</div>
+<p class="para">- مادة الفلسفة - السنة الرابعة ع ت 4</p>
+<p class="para">2020-2019 المدة :ساعتان</p>
+<!-- NOTE: diagonal copy-shop stamp, faint pencil notes in the margins and below the exam, circles and underlines are left out -->
+
+<div class="chtag"><span>المحور</span> الإنية والغيرية</div>
+
+<p class="subhead t-red"><b><i><u>القسم الأول : 10 نقاط</u></i></b></p>
+<ul class="dash">
+<li><u>التمرين الأول: 2ن</u>.''انه من باب تزييف الأمور أن ندعي أن الفاعل "أنا" مشروط بالحال "أفكر". -اكشف عن إحدى المسلمات الضمنية لهذا الموقف.</li>
+<li><u>التمرين الثاني :2ن</u>."جسدي لا يبدو لي وهو في العالم كما يبدو بالنسبة إلي "-حدد مفهوم الجسد في سياق هذا الموقف.</li>
+<li><u>التمرين الثالث: 6ن النص</u>" إني أكون أنا وان لم أعرف أن لي يدا أو رجلا أو أي عضو من هذه الأعضاء ...بل أظن أن هذه توابعي واعتقد أنها آلات لي استعملها في حاجات .لولا تلك الحاجات لما احتيج إليها ,وان أكون أنا أيضا أنا وليست هي ..فلو خلق الإنسان دفعة واحدة وخلق متباين الأطراف ولم يبصر أطرافه واتفق انه لم يمسها ولا تماست ولم يسمع صوتا ,جهل جميع أعضائه وعلم وجود انيته شيئا واحدا مع جهل جميع ذلك". ابن سينا"كتاب الشفاء".</li>
+<li><u>1</u>- صغ إشكالية للنص.2ن.</li>
+<li><u>2</u>- استخرج من النص حجة تثبت موقف الكاتب.2ن.</li>
+<li><u>3</u>- حدد الموقف المستبعد في النص.2ن.</li>
+</ul>
+<p class="subhead t-red"><b><i><u>القسم الثاني</u></i></b> <u>10 نقاط</u>. حرر محاولة –في حدود الثلاثين سطرا –في احد السؤالين :</p>
+<ul class="dash">
+<li>السؤال الأول: هل تتوقف حقيقة الإنسان على الوعي؟</li>
+<li>السؤال الثاني :هل الجسد اخر؟</li>
+<li>-------------------------------------------عملا موفقا./.</li>
+</ul>
+
+</section>
+
+</div>
+</body>
+</html>

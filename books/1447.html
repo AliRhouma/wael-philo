@@ -1,0 +1,744 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<title>Wael Academy — Philosophie · Mme Ayari — الخصوصية و الكونية</title>
+<script>
+  window.MathJax = {
+    tex: { inlineMath: [['\\(','\\)']], displayMath: [['\\[','\\]']] },
+    chtml: { fontURL: 'https://cdn.jsdelivr.net/npm/mathjax@3/es5/output/chtml/fonts/woff-v2', matchFontHeight: true },
+    startup: { typeset: true }
+  };
+</script>
+<script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js" async></script>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Sora:wght@400;500;600;700;800&family=Cairo:wght@400;500;600;700;800;900&family=Tajawal:wght@400;500;700;800&family=JetBrains+Mono:wght@400;500;600;700&display=swap');
+:root{
+  /* ===== Wael Academy palette — MAIN ACCENT = green-teal gradient #0FAB8F → #067360 ===== */
+  --bg:#fff; --panel:#f2f8f8; --hair:#e6e6e9; --hair2:#d6d6db;
+  --fg:#0f2a31;        /* body text (and +/− signs) */
+  --fg2:#3f5b62;       /* softer text */
+  --fg3:#7c959b;       /* muted (footer) */
+  --blue:#067360;      /* deep accent — small numbers, borders, watermark, accent equations */
+  --blue-dark:#045260; /* titles & wordmarks (also the balance colour) */
+  --teal:#0fab8f;      /* bright accent end */
+  --loop:#0d9c82;      /* logo-loop helper */
+  --orange:#067360;    /* kicker/category labels (gold retired → deep teal) */
+  --red:#f5322f;       /* EXERCISE CHIPS ONLY — never for emphasis */
+  --cream:#e6f3f4; --blue-soft:#e6f3f4;  /* pale teal — callout fill + table sub-row fill */
+  --blue-line:#cde7e4; /* hairline */
+  --sub-ink:#045260;   /* table sub-row text */
+  --grad:linear-gradient(148deg,#0fab8f 0%,#0d9c82 52%,#067360 100%);
+  --mono:'JetBrains Mono',monospace; --latin:'Sora',sans-serif; --ar:'Cairo',sans-serif; --arb:'Tajawal',sans-serif;
+}
+*{box-sizing:border-box;margin:0;padding:0;}
+body{font-family:var(--latin);color:var(--fg);background:#e4e4e7;padding:28px 0;
+     -webkit-print-color-adjust:exact;print-color-adjust:exact;}
+html[dir="rtl"] body{font-family:var(--arb);}
+
+/* ===== brand watermark: REAL text (crisp), full-bleed, repeats per page ===== */
+.wm{position:fixed;inset:0;z-index:0;pointer-events:none;display:flex;
+    align-items:center;justify-content:center;overflow:hidden;
+    -webkit-print-color-adjust:exact;print-color-adjust:exact;}
+.wm span{font-family:var(--mono);font-weight:800;font-size:76.8pt;letter-spacing:.16em;
+    color:var(--blue);opacity:.06;white-space:nowrap;transform:rotate(-54deg);}  /* single diagonal: bottom-left → top-right */
+.wm.mono span{color:#000;opacity:.05;}
+
+/* ===== continuous flow stream (no page border) ===== */
+.flow{width:210mm;margin:0 auto;background:transparent;color:var(--fg);
+      padding-block:16mm 18mm;padding-inline:23mm 14mm;position:relative;}   /* spiral gutter: inline-start(=spine) 23mm / outer 14mm — dir-aware; print margins set in render_flow.py */
+@media screen{ .flow{background:#fff;box-shadow:0 10px 40px rgba(0,0,0,.16);} }
+.flow>*{position:relative;z-index:1;}
+.flow p,.flow li,.flow .data,.flow .note,.flow .ex{break-inside:auto;}
+.flow .fig,.flow figure,.flow img,.flow svg.figsvg,.flow table,.flow tr,.flow .chapdiv,.flow .exh,.flow .qrcard,.flow .meta{break-inside:avoid;}
+.flow h1,.flow h2,.flow h3,.flow .exh,.flow .subhead,.flow .chapdiv{break-after:avoid;}
+.flow img,.flow svg.figsvg{max-width:100%;height:auto;}
+.flow figcaption,.flow .figcap{display:none;}          /* rule 3: no figure captions */
+
+/* ===== front matter + chapters each start on a fresh page ===== */
+.flow .cover{break-after:page;}        /* cover alone on page 1 */
+.flow .toc{break-after:page;}          /* Sommaire alone on the next page */
+.flow .chapter{break-before:page;}
+.flow .chapter:first-of-type{break-before:auto;}
+
+/* ===== cover ===== */
+.cover{padding:14mm 0 8mm;border-bottom:2px solid var(--blue);margin-bottom:6mm;}
+.cover .badge{font-family:var(--mono);font-size:8.5pt;letter-spacing:.28em;text-transform:uppercase;color:var(--orange);margin-bottom:10px;}
+.cover h1{font-family:var(--latin);font-weight:800;font-size:34pt;line-height:1.03;letter-spacing:-.025em;color:var(--blue-dark);}
+.cover .grule{width:120px;height:5px;border-radius:5px;background:var(--grad);margin:14px 0;}
+.cover .sub{font-family:var(--mono);font-size:10pt;letter-spacing:.14em;text-transform:uppercase;color:var(--teal);}
+.cover .auth{font-size:11pt;color:var(--fg2);margin-top:6px;font-weight:600;}
+
+/* ===== table of contents ===== */
+.toc{margin:2mm 0 4mm;}
+.toc h2{font-family:var(--latin);font-weight:800;font-size:15pt;color:var(--blue-dark);margin-bottom:4mm;}
+.toc .trititle{font-family:var(--mono);font-size:8pt;letter-spacing:.2em;text-transform:uppercase;color:var(--orange);margin:4mm 0 2mm;}
+.toc ol{list-style:none;}
+.toc li{display:flex;align-items:baseline;gap:8px;font-size:10pt;padding:2.2px 0;color:var(--fg);line-height:1.4;}
+.toc li .n{font-family:var(--mono);font-weight:700;font-size:9pt;color:var(--blue);min-width:26px;}
+.toc li .dots{flex:1;border-bottom:1px dotted var(--hair2);transform:translateY(-3px);}
+
+/* ===== chapter divider band ===== */
+.chapdiv{margin:0 0 5mm;padding:6mm 16px 5mm;border-radius:12px;background:var(--grad);
+    -webkit-print-color-adjust:exact;print-color-adjust:exact;}   /* green-filled chapter band */
+.chapdiv .cn{font-family:var(--mono);font-size:8.5pt;font-weight:700;letter-spacing:.24em;text-transform:uppercase;color:rgba(255,255,255,.82);margin-bottom:5px;}
+.chapdiv h2{font-family:var(--latin);font-weight:800;font-size:17pt;line-height:1.1;letter-spacing:-.015em;color:#fff;}
+/* conclusion block — same green-filled look as the chapter band */
+.conclusion{background:var(--grad);border-radius:12px;padding:6mm 16px;margin:5mm 0;color:#fff;break-inside:avoid;
+    -webkit-print-color-adjust:exact;print-color-adjust:exact;}
+.conclusion .ck{font-family:var(--mono);font-size:8.5pt;font-weight:700;letter-spacing:.24em;text-transform:uppercase;color:rgba(255,255,255,.82);margin-bottom:6px;}
+.conclusion h3{font-family:var(--latin);font-weight:800;font-size:13pt;line-height:1.2;color:#fff;margin-bottom:4px;}
+.conclusion p,.conclusion li{font-size:10.4pt;line-height:1.7;color:#fff;}
+.conclusion b,.conclusion strong{color:#fff;font-weight:700;}
+
+/* ===== unit header (lesson/exercise) + QR emplacement ===== */
+.exh{display:flex;align-items:center;gap:11px;margin:6mm 0 3mm;}
+.exh .idx{font-family:var(--mono);font-size:9pt;font-weight:600;color:#fff;background:var(--grad);
+    border-radius:6px;padding:4px 11px;letter-spacing:.08em;text-transform:uppercase;
+    -webkit-print-color-adjust:exact;print-color-adjust:exact;}
+.exh .idx.ex{background:var(--red);}   /* exercise chip = red */
+.exh h2{font-family:var(--latin);font-size:14pt;font-weight:700;letter-spacing:-.01em;color:var(--blue-dark);}
+.exh .qrcard{margin-inline-start:auto;flex:0 0 auto;display:flex;flex-direction:column;align-items:center;gap:3px;width:26mm;}
+.qrcard .qrt{font-family:var(--mono);font-size:6.5pt;letter-spacing:.1em;text-transform:uppercase;color:var(--teal);text-align:center;}
+.qrcard .qrslot{width:24mm;height:24mm;padding:1.5mm;background:#fff;border:1px solid var(--blue-line);border-radius:8px;display:flex;align-items:center;justify-content:center;}
+.qrcard .qrslot img,.qrcard .qrslot svg{width:100%;height:100%;display:block;}
+
+/* sub-exercise label when one file holds several exercices */
+.exsub{font-family:var(--latin);font-weight:800;font-size:11.5pt;color:var(--blue-dark);margin:5mm 0 2.5mm;padding-bottom:3px;border-bottom:2px solid var(--blue-line);}
+
+/* ===== text blocks ===== */
+.lead{font-size:11pt;line-height:1.7;margin:2mm 0 3mm;color:var(--fg);}
+.para{font-size:10.6pt;line-height:1.7;margin:2mm 0 2.5mm;color:var(--fg);}
+.consigne{font-size:10.4pt;line-height:1.6;margin:1mm 0 2mm;color:var(--fg);font-style:italic;}
+.subhead{font-family:var(--latin);font-weight:800;font-size:12pt;letter-spacing:-.01em;color:var(--blue-dark);margin:5mm 0 2.5mm;}
+/* emphasis — green accent = .t-blue/.t-green ; balance = .t-navy ; red = SECONDARY accent (.t-red) on titles + a few words */
+.t-blue{color:var(--blue);font-weight:600;} .t-navy{color:var(--blue-dark);font-weight:700;}
+.t-red{color:var(--red);font-weight:600;} .t-green{color:var(--teal);font-weight:600;} .t-gold{color:var(--orange);font-weight:600;}
+.subhead.t-red{color:var(--red);font-weight:800;}   /* red Roman-numeral section title (I, II, …) — keeps subhead weight */
+/* highlighter marks — a soft colour wash behind a key word (agent picks green or red per what balances the page) */
+.hl-green,.hl-red{border-radius:3px;padding:.02em .24em;font-weight:600;box-decoration-break:clone;-webkit-box-decoration-break:clone;
+    -webkit-print-color-adjust:exact;print-color-adjust:exact;}
+.hl-green{background:rgba(15,171,143,.20);color:var(--blue-dark);}   /* green highlight */
+.hl-red{background:rgba(245,50,47,.13);color:#c0261f;}               /* red highlight  */
+
+.data{background:var(--blue-soft);border:1px solid var(--blue-line);border-inline-start:4px solid var(--blue);
+    border-radius:8px;padding:11px 16px;margin:3mm 0;font-size:10pt;line-height:1.65;color:var(--fg2);}
+.data b{color:var(--fg);font-weight:700;}
+.note{border:1px dashed var(--hair2);border-radius:9px;padding:11px 16px;margin:4mm 0;background:var(--panel);}
+.note .kicker{font-family:var(--mono);font-size:7.5pt;letter-spacing:.18em;color:var(--orange);display:block;margin-bottom:5px;}
+.note .nb{font-size:10pt;line-height:1.7;color:var(--fg2);} .note b{color:var(--fg);}
+.ex:not(.idx){background:var(--blue-soft);border:1px solid var(--blue-line);border-inline-start:3px solid var(--blue);
+    border-radius:7px;padding:7px 11px;font-size:9.6pt;line-height:1.6;color:var(--fg2);margin:2mm 0;}   /* :not(.idx) so it never hits the exercise chip (which is .idx.ex) */
+.ex .extag{display:inline-block;font-family:var(--latin);font-weight:800;font-size:7.6pt;color:var(--blue-dark);background:#fff;
+    border:1px solid var(--blue);border-radius:5px;padding:1px 9px;margin-inline-end:7px;vertical-align:middle;text-transform:uppercase;letter-spacing:.06em;}
+
+/* ===== lists ===== */
+ol.q{list-style:none;counter-reset:q;margin:1mm 0 2mm;}
+ol.q>li{counter-increment:q;position:relative;padding-inline-start:30px;margin-bottom:2.5mm;font-size:10.4pt;line-height:1.6;}
+ol.q>li::before{content:counter(q);position:absolute;inset-inline-start:0;top:1px;width:21px;height:21px;background:var(--grad);color:#fff;
+    border-radius:50%;font-family:var(--mono);font-size:9pt;font-weight:600;display:flex;align-items:center;justify-content:center;
+    -webkit-print-color-adjust:exact;print-color-adjust:exact;}
+ol.sub{list-style:none;counter-reset:s;margin:4px 0 0;padding-inline-start:2px;border-inline-start:1px solid var(--blue-line);}
+ol.sub li{counter-increment:s;position:relative;padding:2.5px 0 2.5px 26px;font-size:10.1pt;line-height:1.55;}
+ol.sub li::before{content:counter(s,lower-alpha)".";position:absolute;inset-inline-start:10px;top:2.5px;font-family:var(--mono);font-size:9pt;font-weight:600;color:var(--teal);}
+ol.qn{list-style:none;counter-reset:qn;margin:1mm 0 2mm;}
+ol.qn>li{counter-increment:qn;position:relative;padding-inline-start:26px;margin-bottom:2.2mm;font-size:10.4pt;line-height:1.55;}
+ol.qn>li::before{content:counter(qn)".";position:absolute;inset-inline-start:0;top:0;font-family:var(--mono);font-size:9.5pt;font-weight:700;color:var(--blue);}
+ul.b{list-style:none;margin:1mm 0 2mm;} ul.b>li{position:relative;padding-inline-start:22px;margin-bottom:2.4mm;font-size:10.4pt;line-height:1.6;}
+ul.b>li::before{content:"";position:absolute;inset-inline-start:3px;top:8px;width:8px;height:8px;border-radius:50%;background:var(--grad);
+    -webkit-print-color-adjust:exact;print-color-adjust:exact;}
+ul.dash{list-style:none;margin:1mm 0 2mm;} ul.dash>li{position:relative;padding-inline-start:20px;margin-bottom:1.8mm;font-size:10.4pt;line-height:1.6;}
+ul.dash>li::before{content:"–";position:absolute;inset-inline-start:2px;top:0;color:var(--fg);font-weight:700;}  /* dash / +/− signs = body colour */
+.flow ul.opts{list-style:none;margin:4px 0 3px;padding-inline-start:16px;}
+.flow ul.opts li{padding:2px 0;font-size:10.2pt;line-height:1.5;color:var(--fg);}
+
+/* ===== figures / tables ===== */
+.fig{margin:3mm 0;} .fig svg.figsvg{display:block;margin:0 auto;background:#fff;max-width:100%;height:auto;}
+.photo{display:block;margin:3mm auto;border-radius:8px;border:1px solid var(--hair);max-width:100%;}
+.figrow{display:flex;flex-wrap:wrap;gap:9px;justify-content:center;margin:3mm auto;max-width:190mm;}
+.flow .figrow img{border-radius:7px;border:1px solid var(--hair);height:46mm;width:auto;max-width:none;object-fit:cover;}
+.schemarow{display:flex;gap:16px;align-items:flex-start;flex-wrap:wrap;margin:2mm 0;}
+.schemarow .col-txt{flex:1 1 90mm;min-width:80mm;} .schemarow .col-fig{flex:0 0 78mm;} .schemarow .col-fig .fig{margin:0;}
+.flow table{border-collapse:collapse;width:100%;margin:3mm 0;font-size:9.8pt;line-height:1.5;}
+.flow table th,.flow table td{border:1px solid var(--blue-line);padding:6px 10px;text-align:start;vertical-align:top;}
+.flow table th{background:var(--grad);color:#fff;font-family:var(--latin);font-weight:700;font-size:9.4pt;
+    -webkit-print-color-adjust:exact;print-color-adjust:exact;}
+.flow table tr:nth-child(even) td{background:var(--blue-soft);color:var(--sub-ink);}   /* sub-row: #E6F3F4 / #045260 */
+
+mjx-container{color:var(--fg) !important;font-weight:400 !important;font-size:1.0em !important;}
+.eq-hi mjx-container,mjx-container.eq-hi{color:var(--blue) !important;}   /* accent (green) equation — highlight a key result; balance with plain math */
+.eq-red mjx-container,mjx-container.eq-red{color:var(--red) !important;}  /* red accent equation / symbol — complements the green .eq-hi */
+
+/* ===== per-file books: credit line, copies list, figures at their size ===== */
+.credit{display:flex;flex-wrap:wrap;align-items:center;gap:5px;margin:-1mm 0 3.5mm;font-size:9.4pt;color:var(--fg2);}
+.credit .who{font-weight:700;color:var(--blue-dark);}
+.credit .tg{font-family:var(--mono);font-size:7.2pt;letter-spacing:.04em;border-radius:5px;padding:1px 7px;line-height:1.6;
+    border:1px solid var(--blue-line);color:var(--blue);background:#fff;-webkit-print-color-adjust:exact;print-color-adjust:exact;}
+.credit .tg.sec{background:var(--blue-dark);border-color:var(--blue-dark);color:#fff;}
+.credit .tg.cor{background:#fff;border-color:var(--red);color:var(--red);}
+.credit a{color:var(--fg3);font-family:var(--mono);font-size:7pt;text-decoration:none;}
+.cover .auth .credit{margin:4mm 0 0;}
+.cover .copies{margin-top:5mm;font-size:8.6pt;color:var(--fg2);}
+.cover .copies ul{list-style:none;margin:2mm 0 0;padding:0;columns:2;}
+.cover .copies a{color:var(--fg3);text-decoration:none;font-size:8pt;}
+.flow figure.fig{text-align:center;}
+.flow figure.fig img{max-height:60mm;width:auto;max-width:70%;display:inline-block;}
+
+/* chapter tag on each part of a multi-chapter book (the book keeps the original order of the file) */
+.chtag{display:inline-block;margin:5mm 0 2mm;padding:1mm 3mm;border-radius:2mm;background:#eef3fb;border:1px solid #c9d6ea;
+  color:#1f3a6b;font-size:9pt;font-weight:700}
+.chtag span{color:#6b7f9e;font-weight:600;margin-inline-end:1.5mm}
+
+@media print{ body{background:#fff;padding:0;} .flow{width:auto;max-width:none;margin:0;padding:0;} }
+@page{size:A4;}   /* margins come from render_flow.py — do NOT set them here */
+</style>
+<meta data-pagefind-filter="type[content]" content="درس">
+<meta data-pagefind-filter="resource[content]" content="Ayari">
+<meta data-pagefind-meta="n[content]" content="1447">
+<meta data-pagefind-meta="title[content]" content="Mme Ayari — الخصوصية و الكونية">
+<meta data-pagefind-filter="chapter[content]" content="الخصوصية والكونية">
+<meta data-pagefind-filter="section[content]" content="باكالوريا رياضيات"><style>.qrcard{display:none!important}.wa-nav{position:sticky;top:0;z-index:50;background:#045260;padding:10px 18px;font-family:Cairo,sans-serif;direction:rtl}.wa-nav a{color:#fff;text-decoration:none;font-weight:700}@media print{.wa-nav{display:none}}</style>
+</head>
+
+<body dir="rtl" lang="ar"
+      data-brand="Wael Academy" data-handle="@WaelAcademy"
+      data-tagline="في تُرابنا.. مغامرة بمغامرة"
+      data-phone="+216 50 40 40 42" data-site="waeldocuments.com"
+      data-cta="سجل معانا وأقرى عن بعد مع منصة Wael Academy"
+      data-subject="Philosophie · Mme Ayari — الخصوصية و الكونية" data-watermark="Wael Academy" data-pagefind-body><nav class="wa-nav" data-pagefind-ignore><a href="../index.html">→ الرجوع إلى فهرس الفلسفة</a></nav>
+
+<!-- single full-page diagonal watermark, bottom-left → top-right (repeats on every page) -->
+<div class="wm" aria-hidden="true"><span>WAEL&nbsp;ACADEMY</span></div>
+
+<div class="flow colored">
+<div class="cover"><div class="badge">◉ Wael Academy · Philosophie</div><h1>Mme Ayari — الخصوصية و الكونية</h1><div class="grule"></div><div class="sub">الخصوصية والكونية</div><div class="auth"><div class="credit">المؤلّف / المصدر : <span class="who">Ayari (watermark) · Layan (signature, p16)</span> <span class="tg cor">إصلاح</span><span class="tg sec">الفلسفة · باكالوريا رياضيات</span> <a href="https://drive.google.com/file/d/1YYwRymVd7bsOEcOEDDpP8UZkE7ihmma-/view">↗ الخصوصية و الكونية.pdf</a> <a href="https://drive.google.com/file/d/1CAtxygRE3lad1GoT0rW9CfCo6f6tZ7ri/view">↗ الخصوصية و الكونية .pdf</a></div></div><div class="copies" data-pagefind-ignore><b>نسخ هذا الملف في الدرايفات (3)</b><ul><li><a href="https://drive.google.com/file/d/1YYwRymVd7bsOEcOEDDpP8UZkE7ihmma-/view">Karim Fourati · Bac 2KF25 › Philo / Mme Ayari</a></li><li><a href="https://drive.google.com/file/d/1TwYZzWW5inFxrFCx6JqTlwGJDO-bTl6t/view">Anas Saïd · IDEAL BAC MATH(Anas Saïd) › Philo / Mr Chebbi / الدروس</a></li><li><a href="https://drive.google.com/file/d/1CAtxygRE3lad1GoT0rW9CfCo6f6tZ7ri/view">Karim Fourati · Bac 2KF25 › Philo / Mme Ayari</a></li></ul></div></div>
+<section class="chapter"><div class="chapdiv"><div class="cn">المحور</div><h2>الخصوصية والكونية</h2></div>
+<!-- SOURCE: Ayari (watermark) · Layan (signature, p16) -->
+<!-- NOTE: one book for 2 files of the Drive folder "Philo / Mme Ayari" (series), in file order -->
+<div class="exh"><span class="idx">درس</span><h2>Mme Ayari — الخصوصية و الكونية</h2>
+  <div class="qrcard"><div class="qrt">فيديو الدرس</div><div class="qrslot"><img src="qr/1447.svg" alt="QR"></div></div></div>
+<div class="credit">المؤلّف / المصدر : <span class="who">Ayari (watermark) · Layan (signature, p16)</span> <span class="tg cor">إصلاح</span><span class="tg sec">الفلسفة · باكالوريا رياضيات</span> <a href="https://drive.google.com/file/d/1YYwRymVd7bsOEcOEDDpP8UZkE7ihmma-/view">↗ الخصوصية و الكونية.pdf</a> <a href="https://drive.google.com/file/d/1CAtxygRE3lad1GoT0rW9CfCo6f6tZ7ri/view">↗ الخصوصية و الكونية .pdf</a></div>
+
+<!-- file: الخصوصية و الكونية -->
+
+
+<div class="exsub">الخصوصية و الكونية</div>
+<!-- NOTE: 1447 — entirely handwritten notes; transcribed as best reading. Highlighter on the handwritten headings is not reproduced. -->
+
+<p class="subhead t-red"><span class="t-blue">الخصوصيّة والكونيّة</span></p>
+<p class="subhead t-navy"><u>الهويّة والغيريّة :</u></p>
+<p class="para">الهويّة : ← • ما يُحدّد موجودا ما</p>
+<p class="para">• "ما به يكون موجودًا ماهُوَ هُوَ" ، أي مايميّزه عن غيره من الموجودات</p>
+<p class="para">← دلالة كونيّة : الهويّة الإنسانيّة، أي الهويّة التي يتقاسمها جميع البشر والتي تحدّد إنسانيّتهم</p>
+<p class="para">دلالة خصوصيّة : • الهويّة الشّخصيّة</p>
+<p class="para">• الهويّة الحضاريّة</p>
+<p class="para">← • فكرة مجرّدة : تبدو منفصلة عن الغير فالهويّة هي مايميّزني عن الغير</p>
+<p class="para">⇐ الهويّة تبدو كيانا بسيطًا يستبعد المغاير</p>
+<p class="para">• الهويّة واقعيًّا : هويّة تتفاعل مع هويّات مغايرة لها</p>
+<p class="para">⇐ الهويّة واقعيًّا يمكن أن تكون كيانا مركّبًا ، أي وحدة تتضمّن كثرة</p>
+<p class="para"><u>الإشكاليّة</u> : ما الّذي يشرّع اعتبار إثبات الهويّة مطلبا أو رهانا؟ وهل أنّ كلّ سعي لإثبات الهويّة هو بالضّرورة إيجابيّ؟ كيف يمكن رسم الحدّ الفاصل بين إثبات الهويّة و" المركزيّة" ؟ وهل أنّ إثبات الهويّة يقتضي بالضّرورة الإنفصال عن الغيريّة؟</p>
+<p class="subhead t-navy">* <u>الهويّة وخطر المركزيّة :</u></p>
+<p class="para">الدّفاع عن الهويّة : • من جهة ، يتنزّل في إطار إثبات إستقلاليّة وأصالة الوجود ، أي في إطار المراهنة على الحرّيّة بماهي أساس تحقّق الإنسانيّ</p>
+<p class="para">• من جهة أخرى ، الدّفاع عن الهويّة يتّخذ طابعا وجدانيّا يُوقع في نوع من الخلط بين الدّفاع عن الخصوصيّ و التّعصّب للخصوصيّ .</p>
+<p class="para">هذا الخلط هو الّذي يحوّل الهويّة إلى هاوية ، فتتحوّل الهويّة إلى تمركز على الخصوصيّ يُنتج علاقات صداميّة إقصائيّة بالمغاير أو المختلف</p>
+<p class="para">⇐ الدّفاع عن الهويّة يتضمّن وجود خطر يهدّد الهويّة ، وهو فقدان الخصوصيّة بسبب الاغتراب في الآخر</p>
+<p class="para">← <u>إشكاليّة</u> : إذا كانت أزمة الهويّة تنتج عن اللّقاء بالآخر أو المغاير فهل يقتضي تجاوز هذه الأزمة إنغلاق الهويّة على ماهو خصوصيّ فيها والقطع مع الآخر؟ أم يقتضي نوعا من المراجعة النّقديّة لطبيعة العلاقة مع الآخر؟</p>
+<p class="para">مايراهن عليه هذا المشكل : كيف يمكن تحقيق المعادلة بين الانفتاح على الغيريّة والقدرة على الحفاظ على خصوصيّة الهويّة بماهي شرط تحقيق تفرّدها و أصالة وجودها ؟</p>
+<p class="para">• التّصوّر المطلق للهويّة ، أي اعتبار الهويّة كيانا بسيطًا يتضمّن :</p>
+<p class="para">سكونيّة الهويّة : جعل الهويّة سجينة الماضي ، أي جعلها عاجزة على مواكبة حركيّة التّاريخ وعاجزة على تحقيق المعادلة بين الأصالة والحداثة</p>
+<p class="para">التّعامل الإقصائي مع الآخر : إعتبار أنّ كل لقاء بالمختلف هو بالضّرورة تهديد للهويّة</p>
+<p class="para">هذا التّعامل الإقصائيّ يجسّد نوعا من المركزيّة الّتي تجعل من الخصوصيّة نموذجا مُطلقا لتحديد الإنسانيّ . إقصاء المغاير من دائرة الإنسانيّة يتجسّد عبر ربطه بعبارات تُحيل إلا اللّاإنسانيّ كالهمجيّة و البربريّة و البدائيّة</p>
+<p class="para">يُبيّن " ليفي شتراوز " هذه النّزعة الإقصائيّة عبر قوله " البربريّ هو من يعتقد في البربريّة "</p>
+<p class="subhead t-navy">* <u>الهويّة المركّبة :</u></p>
+<p class="para">التّحديد المنطقي المجرّد للهويّة : " مابه يكون موجودًا ماهُوَهُوَ " .</p>
+<p class="para">هذا التّحديد للهويّة يُقصي الغيريّة ويفترض أنّ الهويّة جوهر بسيط لايُمكن أن يتضمّن داخله ماهو مغاير له</p>
+<p class="para">التّحديد الواقعيّ للهويّة : ينبني على :</p>
+<p class="para">ديناميكيّة الهويّة : ارتباط الهويّة بالتّاريخ يجعلها قابلة للتّغيّر ، أي يجعلها تحمل إمكانيّة أن تكون مغايرةً لماكانت عليه . هذا الطّابع الحركيّ للهويّة ينتج عن إصطدام الهويّة بنماذج مغايرة لها . لذلك اعتبر " ادغار موران " أنّ " المغايرة هي الّتي توجّه الفكر وتُثير التّساؤل " . ديناميكيّة الهويّة لاتشترط فقط الانفتاح على المغاير ، بل تشترط مراجعة الخصوصيّ عبر الاحتكام إلى مقتضيات العقل الكونيّ ، لذلك اعتبر " بول ريكور " أنّ الكونيّ له وظيفة تعديليّة</p>
+<p class="para">الطّابع المركّب للهويّة : الهويّة تُفهم في إطار منطق جدليّ ، أي في إطار جدليّة الوحدة والكثرة ، فالجدليّة وحدة تتضمّن كثرة ، أي أنّ كلّ هويّة هي نتاج تاريخيّ لتفاعل هويّات مختلفة . الهويّة بهذا المعنى لاتُقصي المغاير بل تستوعبه ليُصبح جزءًا من مكوّناتها الدّاخليّة . لذلك بيّنه " ادغار موران " الهويّة كالذّرّة الّتي تبدو كيانا بسيطا لايقبل التّجزئة ، إلاّ أنّ تحليلها يُظهر أنّها وحدة مركّبة وليست كيانا بسيطا</p>
+<p class="para">تعدّد مرجعيّات تحديد الهويّات : تحديد الهويّة يبدو معقّدًا بسبب تباين المرجعيّات المحدّدة لها ، فالهويّة يمكن تحديدها جينيّا ، عرقيّا ، لغويّا ، سياسيّا ، عقائديّا</p>
+<p class="para">⇐ أزمة الهويّة لاتنتج إذن عن اللّقاء بالمغاير بل عن طبيعة هذا اللّقاء</p>
+<p class="para">مايجب تجاوزه : المركزيّة : الانغلاق على الخصوصيّ وتضخيمه يُنتج علاقة إقصائيّة صداميّة بالمغاير ويولّد عادة هويّة متعصّبة وسكونيّة</p>
+<p class="para">التّبعيّة : يمكن أن يتحوّل الانفتاح على المُغاير إلى اغتراب في هويّة الآخر ، فالانفتاح في هذه الحالة يتّخذ طابعا سلطويّا ، بما أنّه خضوع لسلطة الأقوى أو مانتوهّم أنّه الأفضل .</p>
+<p class="para">مايجب المراهنة على تحقيقه : تحقيق المعادلة بين ضرورة الانفتاح على المغاير بماهو شرط إثراء الهويّة وضرورة الحفاظ على الخصوصيّ بماهو شرط إثبات التّفرّد وأصالة الوجود . هذه المعادلة عبّر عنها " بول ريكور " : " أن أكون إنسانا هو أن أكون قادرًا على أن أصبح الآخر وأن أبقى في ذات الوقت أنا نفسي "</p>
+
+<p class="subhead t-navy"><u>الاختلاف ومطلب وحدة الإنسانيّة :</u></p>
+<p class="subhead t-navy">* <u>في قيمة الاختلاف وحدوده :</u></p>
+<p class="para">• التّنميط : فرض نمط وجود موحّد على جميع البشر أي نفي التّنوّع والاختلاف</p>
+<p class="para">≠</p>
+<p class="para">• الاختلاف : بما هو واقع : الاختلاف له أساس أنطولوجيّ ، فالوجود ليس قائمًا على الوحدة والتّماثل بل على التّنوّع والاختلاف ⇐ الاختلاف بهذا المعنى ليس مرتبطًا بفكرة الحرّيّة ، بل بفكرة الحتميّة ، فالاختلاف تحتّمه عوامل فيزيائيّة ، جينيّة وتاريخيّة منفصلة عن إرادة الإنسان</p>
+<p class="para">بماهو رهان : الوعي بقيمة الاختلاف في تحديد تفرّد الهويّة وأصالتها يمكن أن يرتقي به من منزلة الواقع إلى منزلة الرّهان أو القيمة . لذلك اعتبر " ليفي تشراوس " أنّ مايهدّد الوجود الإنسانيّ هو التّنميط وليس الاختلاف : " يهدّدنا الآن مايُمكن أن نسمّيه بفرط الاتّصال "</p>
+<p class="para">قيمة الاختلاف : القيمة الأنطولوجيّة للاختلاف : الاختلاف يجسّد القدرة على تحقيق تفرّد وأصالة الوجود . فأن أوجد هو أن أكون قادرا على أن يكون لي نمط وجود مغاير لوجود الآخرين .</p>
+<p class="para">⇐ قيمة الاختلاف تتمثّل في تجسيده لفكرة أصالة الوجود ، وفي تعبيره عن خصوبة وثراء وتنوّع إمكانات الوجود</p>
+<p class="para">القيمة الثّقافيّة للاختلاف : الهويّة الثّقافيّة بماهي هويّة مركّبة لا تعتبر الآخر تهديدًا بل مصدر إثراء لها . فكل هويّة ثقافيّة لاتُثري ماهو خصوصيّ فيها إلاّ عبر اللّقاء بالمغاير ، فالتّثاقف هو شرط إثراء الهويّات الثّقافيّة</p>
+<p class="para">القيمة الإيتيقيّة للاختلاف : مفهوم الاختلاف لايُحيل إلى مجرّد واقع ، بل يمكن أن يرتبط بمفهوم إيتيقيّ ، هو مفهوم الحقّ . فالاعتراف بحقّ الاختلاف هو مبدأ إيتيقيّ .</p>
+<p class="para">⇐ يرتبط حقّ الاختلاف إذن بمفهومي الحرّيّة والتّسامح ، فالتّسامح هو اعتراف بحقّ الاختلاف وهو في نفس الوقت اعتراف بالحرّيّة ، لذلك ينتج العنف عن عدم الاعتراف بحقّ الاختلاف</p>
+<p class="para">بما أنّ حقّ الاختلاف يتأسّس على فكرة الحرّيّة ، فإنّ رسم حدود للحرّيّة يتضمّن ضرورة رسم حدود للاختلاف</p>
+<p class="para"><u>إشكاليّة</u> : ماهو الأساس الّذي تنبني عليه هذه الحدود وما الّذي يضمن أن لاتتحوّل هذه الحدود إلى سلطة مناقضة للحرّيّة؟ فعمليّة رسم الحدود يمكن أن تتضمّن توتّرًا أو تداخلا بين الحدود بماهي عقلنة للوجود وللحرّيّة والحدود بماهي تجسيد للدّكتاتوريّة ؟</p>
+<p class="para">← رسم حدود الاختلاف يجب إذن أن يتأسّس على مبادئ ومقتضيات العقل الكونيّ ، فهذا العقل لاينفي حقّ الاختلاف بل ينظّمه ، فالاختلاف يُعتبر حقّا مالم يتضمّن تهديدا للحقّ في معناه الكونيّ</p>
+<p class="para">مايشرّع رسم حدود للاختلاف :</p>
+<p class="para">إمكانيّة تحوّل الاختلاف إلى علاقات تصادم وعنف :</p>
+<p class="para">العلاقات الصّداميّة لاتنتج عن الاختلاف بقدر ماتنتج عن التّعصّب والمركزيّة الّتي تؤدّي إلى عدم الاعتراف بحقّ الاختلاف . فالعلاقات الصّداميّة والعنيفة بين الأديان لا تنتج عن اختلاف ونسبيّة المقدّس ، بل تنتج عن التّعصّب الدّيني الّذي يتعامل إقصائيّا مع مقدّسات الآخر</p>
+<p class="para">⇐ ما يراهن عليه العقل الكونيّ إذن هو تأسيس مبادئ إيتيقيّة كونيّة تنظّم الاختلاف وتعقلنه دون أن تنفيه كحقّ إنسانيّ .</p>
+<p class="para">مجال المقدّس يمكن أن يكون مجال العلاقات الصّداميّة المهدّدة لوحدة الإنسانيّة</p>
+<p class="para">تجاوز العلاقات الصّداميّة يقتضي بشرطين :</p>
+<p class="para">• تأسيس العلاقات بين مختلف أشكال المقدّس على قيم كونيّة ترتبط بمفهوم التّسامح والاعتراف بحقّ الاختلاف</p>
+<p class="para">• الوعي بأنّ مجال المقدّس يجسّد جدليّة الوحدة والكثرة : اختلاف أشكال المقدّس لاينفي وحدة جوهر المقدّس ومقاصده ، لذلك أقرّ " غاندي " : " الدّين واحد والشّرائع متعدّدة "</p>
+<p class="para">إمكانيّة تضمّن الاختلاف لخطر الوقوع في النّسبيّة :</p>
+<p class="para">وهو مايفضي إلى ضرورة التّمييز بين صنفين من الاختلاف :</p>
+<p class="para">← اختلاف يجسّد تنوّع أنماط الوجود ويعبّر عن ثراء وخصوبة الوجود الإنسانيّ . هذا الاختلاف يجب أن نُعجب به كما نُعجب بتنوّع الفنون</p>
+<p class="para">← في مجالي المعرفة والقيم ، تحتاج الإنسانيّة إلى معايير كونيّة تمكّننا ، في مجال المعرفة ، من التّمييز بين الصّحيح والخاطئ ، وتمكّننا ، في المجال الأخلاقي ، من تحديد مبادئ كونيّة تحدّد شروط أخلاقيّة ممارسة ما .</p>
+
+<p class="subhead t-navy"><u>التّواصل ومطلب وحدة الإنسانيّة :</u></p>
+<p class="para">التّواصل : • يتضمّن فكرة الصّلة أو العلاقة : التّواصل هو مايحرّر الهويّة الذّاتيّة أو الحضاريّة ، فهو يجسّد قدرة على الانفتاح على المُغاير أو المختلف</p>
+<p class="para">• يرتبط بالبعد اللّغوي الرّمزيّ للوجود الإنساني ، فالوجود الإنسانيّ هو وجود رمزيّ لغويّ وهو وجود " علائقيّ " أي وجود مع الآخرين</p>
+<p class="para">⇐ مفهوم اللّغة يتضمّن فكرة التّواصل ، إذ يعرّف " بنفينيست " اللّغة بقوله : " اللّغة هي الوسيط الرّمزيّ بين الإنسان والإنسان وبين الإنسان والعالم "</p>
+<p class="para">مجال اللّغة يتضمّن مفارقة الخصوصيّة والكونيّة</p>
+<table>
+<tr><td>اللّغة : <span dir="ltr">Language</span> :</td><td>الكونيّ : الوجود الإنسانيّ هو وجود لغويّ رمزيّ</td></tr>
+<tr><td>اللّسان : <span dir="ltr">Langue</span> :</td><td>الخصوصيّة الثّقافيّة : اللّسان هو تحقّق اللّغة في إطار هويّة ثقافيّة معيّنة</td></tr>
+<tr><td>الكلام : <span dir="ltr">Parole</span> :</td><td>الخصوصيّة الفرديّة الشّخصيّة هو الاستعمال الشّخصي للسان ما</td></tr>
+</table>
+<p class="para">⇐ مجال اللّغة هو إذن في نفس الوقت يجسّد وحدة الإنسانيّة ويفرّق بين الهويّات الثّقافيّة المختلفة ، لذلك يطرح هذا التّنوّع اللّغوي الإشكاليّة التّالية :</p>
+<p class="para">إلى أيّ حدّ يعيق اختلاف الألسن إمكانيّة تحقّق تواصل كونيّ يجسّد وحدة الإنسانيّة؟</p>
+<p class="para">شروط التّواصل :</p>
+<p class="para">شروط ألسنيّة : يقتضي التّواصل وحدة الوسيط الرّمزيّ بين أطراف التّواصل أو الحضارات</p>
+<p class="para">⇐ هذا الشّرط الألسنيّ يجعل اختلاف الألسن يبدو عائقا أمام إمكانيّة التّواصل البينثقافي</p>
+<p class="para">شروط إيتيقيّة : " لايكفي أن نستعمل إحدى الكلمات حتّى نتفاهم " يتضمّن هذا الإقرار تأكيدا على أنّ الشّروط الألسنيّة للتّواصل وإن كانت ضروريّة ، فإنّها غير كافية ، فما يُعيق التّواصل فعليّا هو غياب الشّروط الإيتيقيّة والمركزيّة ، فالإقصائيّة التّحقيريّة تُعيق التّواصل البينذاتي والبينثقافي</p>
+<p class="subhead t-navy"><u>سلطة الصّورة :</u></p>
+<p class="para">تشهد مجتمعاتنا المعاصرة ثورة تكنولوجيّة في مجال تقنيّات الاتّصال والتّواصل ، هذه الثّورة تضمّنت نوعا من المُفارقة</p>
+<p class="para">← فهي تبدو من ناحية ، وكأنّها تُراهن على تحقيق تواصل كونيّ يجسّد نوعا من الوحدة الإنسانيّة عبر تجاوز المسافات والحواجز بين الثّقافات والحضارات</p>
+<p class="para">← هذه الثّورة تضمّنت أزمة ذات مظهرين : • هذه التّكنولوجيا عمّقت العزلة والانغلاق واستبدلت التّواصل الحيويّ بتواصل إفتراضيّ</p>
+<p class="para">• أصبحت هذه التّكنولوجيا تُوظّف توظيفات سلطويّة ، فما أكّد عليه " ريجيس دي براي " هو أنّ مجتمعاتنا المعاصرة هي مجتمعات الفُرجة أو المشهد ، أي أنّها مجتمعات هيمنة المرئيّ على اللّغة ، فالبشر أصبحوا يثقون في المرئيّ ثقة تجسّد غياب البعد النّقديّ ، هذه الثّقة في المرئيّ حوّلت الصّورة من آداة تواصل إلى آداة سلطويّة ، أي أنّ الصّورة أصبحت تُستعمل لتنميط الوجود ولفرض ديكتاتوريّة ثقافة أقوى ، ولفرض رؤية موحّدة للوجود . لذلك أقرّ " ريجيس دي براي " : " إنّ مايُرينا العالم هو في نفس الوقت مايُعمينا على رؤيته "</p>
+
+<p class="subhead t-navy"><u>أسس ورهانات الكونيّة :</u></p>
+<p class="subhead t-navy">* <u>الأساس العقلي للكونيّة :</u></p>
+<p class="para">العقل : عقل كونيّ : العقل الكونيّ هو العقل الّذي تجاوز مجال النّزوات والانفعالات وأصبح يُراهن على إنشاء قواعد أو مبادئ كونيّة ، يُمكن أن تكون موضع اتّفاق كلّ الكائنات العاقلة بغضّ النّظر عن تباين هويّاتهم الثّقافيّة . هذا العقل هو الّذي عبّر عنه " ديكارت " بقوله : " العقل هو أعدل الملكات توزّعا بين البشر "</p>
+<p class="para">⇐ العقل الكونيّ إذن يمكن أن يحقّق نوعا من الوحدة الإنسانيّة في مجالين أساسيّين : مجال المعرفة أو العلم ، و مجال الإيتيقا الّتي يجسّد ثنائيّة الأخلاق والسّياسة</p>
+<p class="para">عقل مناقض للكونيّة : توظيف العقل لتبرير النّزوات والانفعالات والأنانيّات الفرديّة الضّيقة . هذا العقل لايتجاوز حدود تبرير ماهو شخصيّ ، أي أنّه يمكن أن يُعبّر عن استعمال لاعقلانيّ للعقل ، أي عن عقل لايمكن أن يرتقي إلى مستوى الكونيّة أي إلى مستوى الإجماع الّذي يُجسّد وحدة الإنسانيّة</p>
+<p class="para">حدود العقل الكونيّ :</p>
+<p class="para">حدود عقلانيّة ماهو عقلانيّ أو مانعتبره عقلانيّا : التّساؤل عن مدى عقلانيّة قيمة ما أو تصوّر ما يبقى نسبيّا وقابلا للمراجعة النّقديّة ، فبنية العقل الإنسانيّ تاريخيّة ، ممّا يعني أنّ الفصل بين العقلانيّ واللاّعقلانيّ يمكن أن يتغيّر عبر الزّمن . الاتّفاق حول قيمة العدالة مثلا يُمكن أن يتضمّن نوعا من التّباين في تحديد شروط تحقّقها ( التّعارض بين المقاربة الاشتراكيّة والمقاربة اللّيبراليّة للعدالة ) إعتبار العدالة قيمة عقلانيّة ليس محلّ إجماع ، فبعض الفلسفات تُرجع مطلب العدالة إلى الوجداني لا إلى العقلانيّ ، و" فرويد " و" نيتشه " يُرجعانها إلى شعور الضّعفاء بالغيرة والحسد من من احتكروا الثّروة والمكانة الاجتماعيّة المتميّزة</p>
+<p class="para">حدود التّجسيد الواقعي للعقل الكونيّ : مبادئ وقيم العقل الكونيّ تُحدّد مايجب أن يكون لا ماهو كائن . لذلك يصبح المشكل : إلى أيّ حدّ يُمكن أن يتطابق مايجب أن يكون مع ماهو كائن؟ فالقيم الكونيّة عادة ماتصطدم بقيم خصوصيّة مرتبطة بالموروث الثّقافي تجعل تحقّقها واقعيّا أمرًا عسيرا</p>
+<p class="para">الكونيّة والسّياقيّة : الكونيّ عادة مايُحيل إلى مبادئ مجرّدة ذات طابع كلّيّ . هذه المبادئ يُمكن أن ترتجّ عندما تتنزّل في إطار سياقات مخصوصة واستثنائيّة . فاعتبار القتل ممارسة للعقل الكونيّ يُمكن أن يتحوّل إلى إحراج عندما تُطرح إشكاليّة " الموت الرّحيم " أو الإجهاض أو الإعدام</p>
+<p class="subhead t-navy">* <u>الأساس الكسموسياسي للكونيّة :</u></p>
+<p class="para">ضرورة إنشاء سياسة ذات رهانات كونيّة لا تُختزل في عقلنة العلاقات في إطار الدّولة ، بل عقلنة العلاقات الإنسانيّة في فضاء أوسع من الدّولة يرتبط بالأرض باعتبارها وطنا مُوسّعا يُوحّد جميع البشر رغم تباين هويّاتهم السّياسيّة .</p>
+<p class="para">• ينبني الأساس الكسموسياسي على فكرة لها جذور " سقراطيّة " ، إذ كان لايحدّد هويّته إنطلاقا من إنتمائه إلى حدود جغرافيّة سياسيّة معيّنة ، بل كان يُؤسّس لهويّة كونيّة تجعل من الأرض موطنا لجميع البشر هذه الفكرة استعارها " كانت " عندما اعتبر أنّ ملكيّة الأرض حقّ مشترك بين جميع البشر ، وأنّ التّموقع في جزء من الأرض لايُشرّع التّعامل الإقصائي مع الآخر . يتضمّن هذا الأساس الكسموسياسي نزعة " إنسانويّة - <span dir="ltr">humaniste</span> " تُراهن على وحدة إنسانيّة كونيّة يعتبرها " كانت " الشّرط الأساسيّ لتحقيق مايسمّيه بـ " مشروع السّلم الأبديّ "</p>
+<p class="subhead t-navy">* <u>الكونيّة بين الرّهان الإيتيقي والتّوظيف الإيديولوجي :</u></p>
+<p class="para">" يوجد بين العولمة والكونيّة تشابه خادع " - " جان لادريير "</p>
+<p class="para">يقتضي فهم هذا الإقرار أن نميّز بين تأويلين للعولمة</p>
+<p class="para">التّأويل التّوحيديّ للعولمة : لا يُقيم هذا التّأويل تعارُضا بين العولمة والكونيّة ، بل يُحدّد العولمة على أنّها التّحقّق الواقعي التّاريخيّ للكونيّة ، فالعولمة بإلغائها للحواجز والمسافات بين الحضارات وبإنشائها لنمط وجود موحّد بين البشر تبدو وكأنّها حقّقت واقعيّا وحدة الإنسانيّة باعتبارها رهان العقل الكونيّ</p>
+<p class="para">⇐ العولمة بهذا المعنى تبدو تعبيرا عن اللّحظة التّاريخيّة الّتي أصبح من خلالها البشر يتقاسمون مكتسبات العقل الكونيّ العلميّة و التّكنولوجيّة</p>
+<p class="para">التّأويل الصّداميّ للعولمة : لا يُنزّل هذا التّأويل العولمة في إطار منطق الوحدة والتّوحيد بل في إطار علاقات صداميّة بين موازين قُوى متفاوتة ⇐ العولمة بهذا المعنى وحدة عنيفة تُلغي الكثرة والاختلاف بما أنّها تجسّد ديكتاتوريّة النّموذج الحضاري الأقوى</p>
+<p class="para">• العولمة : تتنزّل في المجال الإقتصادي السّياسي ← مقاصد العولمة هي بالضّرورة مقاصد سلطويّة برغماتيّة تتنزّل في إطار صراع المصالح ≠ الكونيّة : تتنزّل في المجال الفلسفي ، أي في مجال إيتيقي يراهن على عقلنة الوجود الإنسانيّ وتحقيق " حكمة العيش معا " ، فالكونيّ يُراهن على وحدة لا تتحوّل إلى تنميط أي وحدة تنظّم الكثرة</p>
+<p class="para">⇐ هذا التّباين بين العولمة و الكونيّة يُظهر ، إذن ، أنّ العولمة هي في نفس الوقت تهديد للخصوصيّة والكونيّة : فهي تهدّد الخصوصيّة عبر التّنميط وفرض النّموذج الحضاري الأوحد ، وهي تهديد للكونيّة بما أنّها تُقصي العقل الكونيّ في دلالته الإيتيقيّة وتحوّله إلى مجرّد قناع إيديولوجيّ يُخفي مقاصد سلطويّة برغماتيّة إستعماريّة</p>
+<!-- PROOFREAD: 1447 part1 — handwritten throughout; minor uncertain readings: p02 "ليفي تشراوز", p04 "ليفي تشراوس" (spellings as written), p07 "من من احتكروا" -->
+<!-- file: الخصوصية و الكونية  -->
+
+
+<div class="exsub">الخصوصية و الكونية </div>
+<!-- NOTE: 1451 is entirely handwritten (colour mind-map notes); transcribed as content, diagrams cropped. -->
+<p class="para"><span class="t-red">الخاصّ - المميّز - التفرّد - الاختلاف</span> ← <span class="t-red">= الهويّة</span></p>
+<p class="para"><span class="t-green">الكوني - المشترك - الشامل - الموحّد</span> ← <span class="t-green">الإنسانيّة</span></p>
+<p class="subhead t-navy"><span class="t-blue">التواصل</span></p>
+<!-- PROOFREAD: 1451 part1 p01 — "التواصل" (big blue word, could be "التوامل/التكامل") -->
+<p class="para"><span class="t-red">الإشكاليّة :</span> هل اختلاف الهويّات <u>يعيق التواصل</u> فتهلك الوحدة الإنسانيّة أم أنّه <u>شرط</u> <u>للتواصل</u> فتتحقّق الوحدة ؟</p>
+<p class="subhead t-navy">I - الخصوصيّة ≠ الكونيّة :</p>
+<p class="para">نفس المنطلق ⇐ المحافظة على التميّز</p>
+<ul class="b">
+<li><span class="t-green">① الخصوصي رفض الكوني :</span> بإسم التميّز يحدث الانغلاق وبإسم الانغلاق تحدث الانتكاس</li>
+<li><span class="t-gold">② الكوني رفض الخصوصي</span> الاختلاف ← (اليوم) مصدر خلاف ← تهديد للوحدة</li>
+</ul>
+<!-- PROOFREAD: 1451 part1 p01 — "تحدث الانتكاس" (small cramped handwriting) -->
+<p class="para">* الحضارة هي ثمرة ثقافة متطوّرة. !!!</p>
+<!-- CROP: 1451 1 1 0.18 0.27 0.40 0.41 1451_kawnia_wahda -->
+<figure class="fig"><img src="https://wael-philo.b-cdn.net/figs/1447/1451_kawnia_wahda.png" alt=""></figure>
+<p class="para"><span class="t-red">كونيّة</span> وحدة — تنوّع<br>
+واحد = المركزيّة الثقافيّة<br>
+<span class="t-green">العولمة</span> ⊕ ⊖<br>
+لإنقاذ هذه الوحدة على الكلّ الأخذ ما فرض ← ثقافة واحدة عالميّة ← هي في الأصل غربيّة</p>
+<!-- PROOFREAD: 1451 part1 p01 — "على الكلّ الأخذ ما فرض" / "تنوّع" (cramped writing) -->
+<p class="subhead t-navy">①</p>
+<p class="para"><span class="t-red">الحضارة العربيّة</span> ← <span class="t-red">ثقافة غربيّة</span> ... ← <span class="t-red">حضارة غربيّة</span><br>
+<span class="t-gold">قفزة</span> عبر التّقليد الأعمى</p>
+<p class="para"><span class="t-red">جوهر = قوّة الأخ نقاء العائلة</span> — <span class="t-red">شكل = المعمار</span></p>
+<!-- PROOFREAD: 1451 part1 p01 — "قوّة الأخ نقاء العائلة" -->
+<!-- CROP: 1451 1 1 0.13 0.65 0.88 0.86 1451_hawia_jil -->
+<figure class="fig"><img src="https://wael-philo.b-cdn.net/figs/1447/1451_hawia_jil.png" alt=""></figure>
+<p class="para">الهويّة ← جيل جيل جيل جيل جيل جيل جيل ← مشروع<br>
+الكونيّة وحدة<br>
+الكونيّة : خصوصيّة 1 ، خصوصيّة 2 ، خصوصيّة n<br>
+تراث ↓ حداثة<br>
+تراث + حداثة<br>
+تراث</p>
+<p class="para">* الأحد - الاثنين ← <span dir="ltr">S1</span><br>
+* الثلاثاء ← <span dir="ltr">S1+S2</span><br>
+* الأربعاء - الخميس ← <span dir="ltr">S2</span></p>
+<p class="para"><span dir="ltr">Rq</span> (الرّاهن = الواقع = الحاضر)</p>
+<p class="subhead t-navy">②</p>
+<p class="para">ثقافة ← (تطوّر) حضارة ← انغلاق ← إندثار<br>
+ثقافة غربيّة ← تطوّر ← حضارة غربيّة ← إنفتاح ← مراقبة</p>
+<!-- CROP: 1451 1 2 0.17 0.06 0.24 0.10 1451_massonia -->
+<figure class="fig"><img src="https://wael-philo.b-cdn.net/figs/1447/1451_massonia.png" alt=""></figure>
+<p class="para">(الماسونيّة) !!!<br>
+نراقب فيك وجرّب تطلعلي</p>
+<p class="para"><b><span class="t-red">العين التي تراقب الكلّ حتّى يبقى الكلّ تحت رحمتهم !</span></b></p>
+<p class="para">* الكوني / الكونيّة<br>
+الحقيقي : وحدة ← تعايش<br>
+الزّائف : العولمة : وحدة ← تماثل</p>
+<p class="subhead t-navy"><span class="t-green">II - الخصوصيّات = الكونيّة : ← ما يجب أن يكون - المنشود</span></p>
+<p class="para"><span class="t-green">الرّهان : المثاليّة ← طوباويّة</span></p>
+<p class="para"><span class="t-red">تكامل الخصوصيّات</span> = إنفتاح<br>
+↓<br>
+° تثاقف = إطّلاع<br>
+° تفاعل = إعجاب<br>
+° أخذ وعطاء ≠ تبادل) شرط أن لا يتمّ إفراط في الأخذ وتفريط في الأصل ← إنفتاح معتدل</p>
+<p class="para"><span class="t-red">إنفتاح</span> — <span class="t-gold">إنفتاح معتدل</span> — <span class="t-red">إنغلاق</span></p>
+<p class="para">↲ الهويّة : مشروع : إزدواج بين التّراث والحداثة<br>
+↲ الكونيّة = الوحدة الإنسانيّة ، هويّة مركّبة<br>
+↲ لها بعد حسابي : إشتراك الخصوصيّات في تكوينها<br>
+↲ لها بعد إتيقي : إحترام اختلاف الخصوصيّات</p>
+<p class="para">لقاء الثّقافات يكون عبر:<br>
+* الصّورة : لغة العصر ⊕ ⊖<br>
+* المقدّس : أحد عناصر الهويّة الأكثر حساسيّة ⊕ ⊖</p>
+<p class="para"><span dir="ltr">Sujets ou exemples</span></p>
+<p class="para"><span dir="ltr">Séance en ligne le 7/12/2024</span></p>
+<p class="para">* الخصوصيّة = الهويّة = <span dir="ltr">l'identité</span></p>
+<p class="para">* الكونيّة : أحنا برشا خصوصيّات وموش قاعدين نتعاركو</p>
+<p class="para">الخصوصيّة والكونيّة &lt;=&gt; هويّة و إنسانيّة</p>
+<p class="para">← (الإنيّة والغيريّة) ∩ (الخصوصيّة والكونيّة) = {الغير}</p>
+<p class="para">* الالتزامات = المبادئ<br>
+* معيار = <span dir="ltr">Repère</span> ← الحدود + التّقييم<br>
+* الهويّة = إطار [موقع]</p>
+<p class="para">وكان جات موش محدّدة بمبادئ نقعد نمشي نمشي وما نلقاش موقع متاعي!</p>
+<!-- PROOFREAD: 1451 part1 p03 — "وكان جات موش محدّدة بمبادئ نقعد نمشي" (dialect, faint) -->
+<p class="para">فلان ما عندوش هويّة ✗ — فلان عندو أزمة هويّة ✓</p>
+<p class="para"><span dir="ltr">Exp</span> أزمة هويّة<br>
+* كي واحد يفقد الذّاكرة ، ما يقولش ساهل إلّي فات فات و* المهمّ هو الحاضر والمستقبل، <span dir="ltr">Non</span> خاطرو ما يعرفش هو شكون وما ينجّمش يتعامل مع الناس خاطر ما يعرفهمش وما عادش جزء من الماضي متاعو.</p>
+<!-- PROOFREAD: 1451 part1 p03 — "ما يقولش ساهل" / "Non" / "خاطرو" (cramped handwriting) -->
+<p class="para">* الهويّة هي خصوصيّة المجتمع ، ولكلّ مجتمع هويّة ، الهويّة هي الثّقافة</p>
+<p class="para">* أزمة هويّة &lt;=&gt; أزمة ثقافة</p>
+<p class="para">* الهويّة مركّبة &lt; التراث + الأصالة } نعزّ القديم ونزيد عليه</p>
+<div class="data">
+<p class="para">* "الهويّة مركّبة" et comme "الهويّة البسيطة" on a "في الانغلاق" alors on a éliminé Soit "التراث" Soit "الأصالة" car "الهويّة المركّبة" = "التراث" + "الأصالة"<br>
+<span dir="ltr">Supposons qu'on a éliminé</span> "التراث" <span dir="ltr">alors</span> "الأصالة" = "الهويّة البسيطة"<br>
+("الأنفتاح على الثقافات الأخرى" = "الأصالة") → <span dir="ltr">Absurde</span><br>
+<span dir="ltr">d'où on a éliminé</span> "الأصالة"<br>
+⇒ "التراث" = "الهويّة البسيطة"</p>
+</div>
+<!-- PROOFREAD: 1451 part1 p03 — boxed first line: order of mixed French/Arabic fragments uncertain -->
+<p class="para">* الاكتفاء بالتّراث = التّجميد ← تطرّف على الكونيّة &lt; ° أي هويّة مختلفة بش تولّي معاها في صراع<br>
+° الهويّة المتعصّبة تحكم على روحها بالتّخلّف خاطر الكون لكلّ يتطوّر كان هي ثابتة روحها.</p>
+<p class="para">* هويّة متعصّبة معناها وصلت للـ<span dir="ltr">Top</span> متع التّطوّر متاعها و تقعد <span dir="ltr">Stable</span> و ما تمشي في بالها حتّى وحدة ما تنجّم تغلط عليها أمّا في الحقيقة الهويّات الأخرى تقدّم و تتطوّر و تفوتو.</p>
+<!-- PROOFREAD: 1451 part1 p03 — "الكون لكلّ" / "ما تنجّم تغلط عليها" -->
+<p class="para">↲ جدليّة بين الوحدة والكثرة</p>
+<div class="data"><p class="para">وحدة = <span dir="ltr">Cadre et ensemble</span><br>
+كثرة = تعدّد الثّقافات</p></div>
+<!-- PROOFREAD: 1451 part1 p04 — "Cadre et ensemble" (written "Cadre el ensemiq"?) -->
+<p class="para">التّعايش = <span dir="ltr">tolérance</span></p>
+<!-- PROOFREAD: 1451 part1 p04 — "tolérance" (written "tolérence"?) -->
+<p class="para">اللّقاء والانفتاح على الاختلافات ← إثراء وإضافة ← تبادل ← <span dir="ltr">Inspiration</span></p>
+<p class="para">* هويّة مركّبة<br>
+= متكوّنة من تراث وحداثة<br>
+= الكونيّة</p>
+<p class="para">* الثّقافة المركزيّة : " أنا الكلّ في الكلّ ! أنا النّموذج ! أنا الأحسن ! والباقي كلّ ما يسواو شيّ قدّامي و إلّي يحبّ يتطوّر لازم يولّي كيفي " = العولمة</p>
+<p class="para">⚠ المتعصّب ← منغلق " ردّ بالك تقربني !! "<br>
+العولمة ← منفتحة " إيجا ولّي كيفي بش توصل للتّطوّر "</p>
+<p class="para"><span dir="ltr">Plan</span> <span class="t-red">* الخصوصية والكونية *</span></p>
+<p class="para">الخاص - المعين - المتفرد - المختلف ← الهوية<br>
+العام - المشترك - الموحد - الشامل الكلي ← الانسانية — الانسانية<br>
+↓ التواصل</p>
+<!-- PROOFREAD: 1451 part1 p05 — "المعين" / "الانسانية — الانسانية" (faint marker) -->
+<p class="para"><span class="t-red">الاشكالية : هل أن الاختلاف بين الهويات عائق أمام التواصل فتهلك الوحدة الانسانية أم أنه شرطا للتواصل واثراءا للانسانية ؟.</span></p>
+<p class="subhead t-navy">I. الخصوصية ≠ الكونية :</p>
+<p class="para">1- الخصوصي ورفض الكوني<br>
+↲ موقف الانغلاق :<br>
+- باسم التميز يحدث الانغلاق<br>
+- باسم الانغلاق يحدث الاندثار<br>
+<span class="t-red">← حصر الهوية في التراث<br>
+نشهد بالرجعية / السلفية<br>
+نعيش الحاضر بفكر الماضي</span></p>
+<!-- PROOFREAD: 1451 part1 p05 — "نشهد بالرجعية" (red, small) -->
+<p class="para">2- الكوني ورفض الخصوصي<br>
+↲ العولمة : تنظر للاختلاف كمصدر خلاف وبالتالي فهو تهديد للكوني الوحدة -<br>
+لانقاذ هذه الوحدة على الكل الشامل ضمن ثقافة عالمية واحدة يمثلها القطب الغربي<br>
+العولمة : الحضارة العالمية<br>
+مجتمع خاضع — مجتمع تابع</p>
+<!-- CROP: 1451 1 5 0.00 0.58 0.42 0.70 1451_thaqafa_gharbia -->
+<figure class="fig"><img src="https://wael-philo.b-cdn.net/figs/1447/1451_thaqafa_gharbia.png" alt=""></figure>
+<p class="para">ثقافة غربية — حضارة عالمية — وحدة<br>
+عبر واحد ⇐ المركزية الثقافية</p>
+<p class="subhead t-navy">II الخصوصية = الكونية</p>
+<p class="para">↲ تكامل الخصوصيات ← الانفتاح<br>
+<span class="t-red">التثاقف : الاطلاع<br>
+التفاعل = التأثر<br>
+الأخذ والعطاء = التبادل ← شرطا لايتم افراط في الأخذ أو تفريط في الأصل</span><br>
+<span class="t-red">← انفتاح معتدل ← الهوية = مشروع بين التراث والحداثة</span></p>
+<p class="para">⇓<br>
+تأسيس الكونية = الوحدة = الانسانية = الهوية المركبة ← وحدة التعايش .</p>
+<p class="para">↲ هذا اللقاء بين الثقافات يحدث عبر رمزين : <span class="t-red">الصورة</span> = لغة العصر<br>
+- <span class="t-red">المقدس</span> أكثر عناصر الهوية حساسية قد يوصل الى الصراع والتعصب أو الى الوحدة أوعلى الأقل لا يكون عائقا أمامها.</p>
+<!-- CROP: 1451 1 5 0.00 0.80 0.32 0.95 1451_hadara_alamia -->
+<figure class="fig"><img src="https://wael-philo.b-cdn.net/figs/1447/1451_hadara_alamia.png" alt=""></figure>
+<p class="para">حضارة عالمية — وحدة — ث.ع — ث.غ — ث.أسيوية — ... — الكثرة ⇐ نسبية ثقافية</p>
+<!-- PROOFREAD: 1451 part1 p05 — labels inside circle diagram ("ث.ع", "ث.غ", "ث.أسيوية") -->
+<p class="subhead t-navy"><span class="t-blue">التّواصل</span></p>
+<p class="para"><span class="t-red">تواصل إفتراضي</span> : ذات 1 ← ذات 2 ؛ ∅ المصافحة<br>
+<span class="t-red">إتّصال</span> : ذات 1 ← (نقل) ← ذات 2<br>
+<span class="t-red">لقاء اجتماعي</span></p>
+<p class="para">* أنطولوجي : طبيعة الإنسان ≠ الموجودات<br>
+* أنتروبولوجي : طبيعة الإنسان = الثّقافة (البحث في — البحث في)</p>
+<p class="para">الهويّة : سيرة ذاتيّة<br>
+↲ سطحي - مادّي - عامّ - شكلي</p>
+<p class="para">* المنطق الأرسطي :<br>
+العقل البشري : طبّ أحمد<br>
+← مبدأ الهويّة : <span dir="ltr">a = a</span><br>
+← مبدأ عدم التناقض : <span dir="ltr">a ≠ b</span><br>
+← مبدأ الثالث المرفوع : <span dir="ltr">a = b ; a ≠ C ⇒ b ≠ C</span> (طرف ثالث)</p>
+<!-- PROOFREAD: 1451 part1 p06 — "طبّ أحمد" (unclear) -->
+<!-- P06_END -->
+<p class="para"><span class="t-red">(مفاهيم)</span></p>
+<p class="subhead t-red">* الخصوصية والكونية *</p>
+<table>
+<tr><td>جملة العلامات المميزة لفرد أو مجموعة أو أمة ، فهي ما يتأسس عليه الاختلاف الثقافي ويكون الوعي الجماعي من معتقدات ، لغة ، تراث - قيم ... فهي تمثل هوية المجموعة .</td>
+<td>عقل كوني + قيم كونية ← المشترك الانساني ، فهي جملة القيم الكلية والأحكام المعيارية (<span dir="ltr">norme</span>) التي تمثل موضوع اجماع عالمي لتكون حقيقة للعلاقات البشرية والضامنة لوحدتها. الكونية ؟ هي ما يجعل الانسانية قيمة في ذاتها من خلال الرهانات على العدالة ، الكرامة - الحرية - الديمقراطية ...</td></tr>
+</table>
+<!-- PROOFREAD: 1451 part1 p07 — top two-column definitions (small handwriting) -->
+<p class="subhead t-red">الرهان :</p>
+<p class="para">. نراهن على أن يكون التنوع والاختلاف الثقافي في فضاء الانسانية مجالا رحبا للتعايش والتثاقف تحت راية قيم كونية حقة بمنأى عن كل أشكال المفاضلة والاستعلاء ، ونراهن على ضرورة تثبيت الاختلاف كحق وميزة انسانية واعتباره عنصر ثراء وتخصيب للحضارة العالمية وليس عنصر تهديد للهويات أو للكونية ، ونشأة الوعي بضرورة العمل على انقاذ الكوني الايتيقي من الكوني العولمي .</p>
+<p class="para">(في أي وقت)<br>
+لكن نظرة تأمل للوجود الانساني في كل عصورها ؟ أنه وجود <span class="t-red">التنوع - التعدد والكثرة</span> وهو ما يجعل <span class="t-red">الاختلاف</span> ميزة له ، وكثيرا ما كان هذا الاختلاف دافعا لتحديد طبيعة العلاقة مع الآخر المختلف (الثقافي) ، وهو ما يطرح مشكل <span class="t-red">التواصل</span> خاصة في ظل واقع راهن يشهد ثورة رقمية اتصالية تكاد تحول العالم الى قرية صغيرة ، لكن بقدر هذا التقارب ، بقدر كثافة مظاهر العنف ، الصراع ، الوحشية ، الحرب ... وهذا ما ينذر بخطر تأزم <span class="t-red">التواصل</span></p>
+<p class="para">ليس مجرد <u>تواصل افتراضي</u> يغيب فيه الآخر كوجه ، ليس مجرد <span class="t-red">اعلام ، اخبار أو اتصال</span> أحادي الجانب بل هو علاقة <span class="t-red">تفاعلية ، تواصلية ، ديالكتيكية</span> بين طرفين أو أكثر قوامها التثاقف والندية ما يجعلها قائمة على أساس <span class="t-red">ايتيقي</span> عبر الاعتراف بالآخر كانسان واحترامه في اختلافه وعلى أساس <span class="t-red">سوسيولوجي</span> اذ أن التواصل الحقيقي يشترط <u>اللقاء الاجتماعي</u> بالآخر ليأخذ بذلك معنى <span class="t-red">التحاور التفاهم ، التبادل</span> (في ورقة الملاحظات)</p>
+<p class="para"><span class="t-green">شارل كولي : " التواصل هو الميكانيزم الذي بواسطته توجد العلاقات الانسانية وتتطور".</span></p>
+<p class="para"><span class="t-red">⇐ حسب دلالة التواصل ندرك أن سؤال (ما الأنا ؟) لم يعد يستوفي حقيقة الانسان ، فلا بد من تعويضه بسؤال من نحن ؟ لنتحول من البينذاتية الى البينثقافية ومن الأنطولوجي الى الأنثروبولوجي أي البحث فيما هو مشترك فيه مجموعة ما و يميزها عن غيرها وهو ما يحيل الى مفهوم <u>الهوية</u></span></p>
+<p class="para">. لا تتحدد بعناصر مادية ، شكلية ، سطحية عامة كالاسم واللقب والحالة الاجتماعية ما يسمى بالسيرة الذاتية<br>
+. كما لا يعنينا التحديد المنطقي الأرسطي : ما به يكون الشيء هو نفسه ، حقيقته الجوهرية ، الشيء بعينه ، <span class="t-red">الهو هو</span> ، بل تتحدد الهوية بما تراه كل مجموعة <span class="t-red">هام</span> بالنسبة لها و<span class="t-red">خاص</span> بها</p>
+<p class="para">• <span class="t-red">المبادئ / الالتزامات</span> : التي تلتزم بها المجموعة دون أن تكون مُلزمة و تمثل معيار تمييزها بين مايجب فعله و ما يجب تجنبه.<br>
+• <span class="t-red">الانتماء</span> : لموقف - مذهب - مجموعة - مجتمع - وطن - أمة - لغة - دين - تاريخ ... في كلمة ثقافة لنتحدث بذلك عن <span class="t-red">هوية جماعية ثقافية</span></p>
+<p class="para">-1-</p>
+<!-- PROOFREAD: 1451 part1 p07 — dense small handwriting throughout the page; best reading -->
+<p class="para">(نقطة لقاء السماء والأرض)<br>
+<span class="t-green">تايلور " الهوية هي <u>الأفق</u> (إطار) الذي بداخله اتخذ موقفا أن أعرف من أكون يعني أن أعرف الموقع الذي احتله ".</span></p>
+<p class="para">⇐ نلاحظ مركزية مفهوم الهوية في بناء رؤية واضحة للأشياء والعالم ، غيابها يجعلنا ضحية رؤية ضبابية ومواقف متذبذبة ، مترددة وهي حالة ضياع واغتراب أو ما يسمى <span class="t-red">بأزمة هوية</span> يصفها تايلور بتجربة <span class="t-red">مؤلمة ، مرعبة</span></p>
+<p class="para"><span class="t-green">تايلور " أزمة هوية هي شكل حاد من الضياع ، غالبا مايصفه الناس أنهم ما عادوا قط يعرفون من يكونون ".</span></p>
+<p class="para">⇐ الهوية هي وحدة الجماعة ، عنصر تمايز وفرادة ، هي <u>انتماء مسؤول</u> (واع - حرّ - ارادي) <u>ومسؤولية انتماء</u> (الحماية - اعتزاز - تجديد) ، تتحدد تاريخيا داخل واقع متطور ، مستمر في الزمن لتكون هوية حية وبالتالي <span class="t-red">ديناميكية ، لا ستاتيكية</span> (ثابتة) تجعل لوجودنا معنى ليكون وجودا حيويا.</p>
+<p class="para">⇐ الهوية كانتماء ثقافي ، صون للذات وللمجموعة من الضياع والاستقطاب ما يعني أن <u><span class="t-red">الثقافة</span></u> أساسها . (مثال الغصن والصنوبر الأخضر (في الكتاب المدرسي))</p>
+<p class="para">↲ كل ما أضافه الانسان على وجوده الطبيعي ، كل ما اكتسبه في وجوده الاجتماعي :<br>
+<span class="t-red">الدين - اللغة - المعرفة - <u>التقنية</u> - الفن - القانون - الطبخ - اللباس ..</span> فهي ليست نخبوية فئوية بل ظاهرة انسانية ← ما كل مثقف لتكون الثقافة كونية ، لكن لكل ثقافة <u>خصوصية</u> فهي تمثل أسلوب عيش (أسلوب عيش ↓ أحنا بنينا) : نمط وجود مجموعة ما ، بما هو نتاج التاريخ ثلاثة عناصر : الفكري ، الاجتماعي ، الجغرافي .</p>
+<p class="para">⚠ شرح المماثلة ← <span class="t-green">فون هاردر " ثقافة شعب ما ، هي دم وجوده ".</span><br>
+ثقافة ⟷ دم<br>
+أساس حس البقاء - محرك البقاء - خصوصية — أساس البقاء - محرك الجسم - يسري في العروق - نوعية فصيلة<br>
+↲ مثلما لا يوجد جسم سليم دون دم ، كذلك لا يوجد شعب سليم دون ثقافة ، وكما لا يُسمح بسفك الدماء لأن ذلك موت النفس البشرية ، لا يُسمح أيضا بانتهاك الثقافة لأن ذلك موت للهوية.</p>
+<p class="para">المجموعة التي تتميز في جهد الشراذة تجعلها تجمع جديرة باسم <span class="t-red"><u>حضارة</u></span><br>
+ثمرة ثقافة متطورة ، مرتبطة بالتاريخ لأنها تحتاج زمنا تبنى فيه وتبلغ عصرها الذهبي ، وزمنا آخر تتراجع فيه حد اندثارها لكن تبقى ثقافتها دالة على مجدها وكأن الثقافة أبدية وإن كانت الحضارة تاريخية.</p>
+<!-- PROOFREAD: 1451 part1 p08 — "في جهد الشراذة تجعلها تجمع" (unclear) -->
+<p class="para"><span class="t-red">⇐ اذا سلمنا بأن لكل مجتمع ثقافة مهما بدت بسيطة في مكوناتها (أسسها) ومحدودة في مستوياتها فإن الوجود الانساني يتميز بالتنوع الثقافي والتعدد الحضاري ، ما يعني أنه وجود يخترقه <u>الاختلاف</u></span> (كل وحدة في وقت — الكل في نفس الوقت)<br>
+↓<br>
+ميزة للانسان وحق انساني يؤسس للتعدد ، التنوع ، للكثرة ، التفاوت ، التباين ، للمركب ≠ التماثل - التشابه - التنميط .</p>
+<p class="para">لكن رغم أن الانسان يسلم بأن الاختلاف والتنوع أمرا واقعا ، فإنه مع ذلك يجد عسرا كبيرا في التعايش وفي قبول الاختلاف والاعتراف به كحق للآخر. <span class="t-red">فكيف نتعامل مع الآخر المختلف ؟</span></p>
+<p class="para">-2-</p>
+<!-- PROOFREAD: 1451 part1 p08 — dense small handwriting throughout; best reading -->
+<p class="subhead t-red">I التوتر بين الخصوصي والكوني . (الخصوصية ≠ الكونية)</p>
+<p class="subhead t-navy"><span class="t-red">1- الخصوصي ورفض الكوني : موقف الانغلاق ، الهوية البسيطة / المتعصبة</span></p>
+<p class="para">موقف ما يتمسك بهويته على خلفية ما حققته من انجازات ، فيبالغ في الاعتقاد (الإيمان) فيها ويفرط في الالتزام بها ، معتقدا أفضليتها واكتمالها وما في ذلك من <span class="t-red">انغلاق</span> على مقومات الخصوصية على أساس أنها <span class="t-red">الحقيقة المطلقة ومصدر اليقين والرقي والتقدم</span> وهو ما يحيل الى ضرب من <span class="t-red">الدغمائية</span> والخلط بين الدفاع عن الخصوصية و<u>التعصب لها</u> نتيجة للدّغمائيّة</p>
+<p class="para">↲ باسم الخصوصية ندافع عن جوهر الهوية في <span class="t-red">مواجهة</span> مختلف الهويات على أساس من المفاضلة وامتلاك أسباب القوة وهو ما يحفظ بقاء الهوية ، باسم الانغلاق ننظر الى كل ما هو آت من ثقافة أخرى على أنه <span class="t-red">غريب وغيرية تهدد وحدة الهوية وتماسكها وعلوها</span> ، فلا بد من اقامة جدار عازل يحول دونه والتأثير فينا خشية تحولنا عما نحن عليه وافتقاد تميزنا وبالتالي لحظة بناء الهوية والحفاظ عليها متزامنة مع لحظة الغاء الآخر لتحصينها من تهديده الخطير.</p>
+<p class="para">↲ الاعتقاد بأن الانغلاق على الهوية الثقافية هو شرط الحفاظ عليها يشرع للتعصب وما ثمة <span class="t-red">للعنف ، الصراع التقاتل</span> وموقعة الآخر في صورة <span class="t-red">العدو - الخصم - الشيطان</span> ، في صورة نستضعف بموجبها عن <span class="t-red">التعقل والحكمة</span> بقوس أو جنون <span class="t-red">الهوية</span> وعن <span class="t-red">المواجهة الحية</span> بالمواجهة <span class="t-red">القاتلة</span> ، ليتحول بذلك <span class="t-red">الاختلاف الى خلاف</span> و<span class="t-red">التعقل الى انفعال</span> (فيها العاطفة أكثر من العقل)</p>
+<p class="para">⇐ تأخذ الهوية معنى التماثل مع الأصل والاكتفاء بتمجيد <span class="t-green">التراث</span> واعتباره من الثوابت المعطاة ، فهو المرجع والذاكرة . لكنها اكتفت بالارتماء في أحضان الماضي واستعادة مجده على نحو حرفي ليتم <u>تحنيطها</u> (تجميد) سجن الموروث وقداسته ، فتصاب بالرجعية / السلفية أي عيش الحاضر بفكر الماضي لتفقد امكانها التفاعل والابداع والتجديد .<br>
+<span class="t-green">التراث = أصل + مرجع + ذاكرة</span></p>
+<p class="para"><span class="t-red">⇐ رفض الآخر المختلف هو رفض للتواصل معه واحلال العنف محله . <u>لكن</u> من الحفاظ على الهوية الى السقوط في الهاوية لأن خيار الانغلاق والاعتزاز بالعدمية الذاتية النرجسية يفضي الى اندثار بطيء وضياع تدريجي ، الى ما يسميه بومريان " الموت الطبيعي " فتصاب الهوية بداء التحجر والهذيان ، فإذا كان الوصل يقتلها فإن الفصل يقتلها.</span></p>
+<!-- PROOFREAD: 1451 part1 p09 — red paragraph "من الحفاظ على الهوية الى السقوط في الهاوية" / "فإذا كان الوصل يقتلها" (unclear) -->
+<p class="para"><span class="t-green">شتراوس : " لا يمكن لثقافة ما ، معزولة ، أن تكون متفوقة "</span> ← بذلك تبقى الهوية البسيطة موقف انفعالي ورفض للتعدد والتنوع / الاختلاف .</p>
+<p class="subhead t-navy"><span class="t-red">2- الكوني ورفض الخصوصي (الكوني العولمي)</span></p>
+<p class="para"><span class="t-red">لئن كان الاختلاف ميزة تختص بها الحياة الانسانية ، و ... الا أن مفهوم الاختلاف يشهد اليوم انزياحا جعله خطرا على الانسانية : فمن جهة الحق ، الاختلاف حق ، لكن من جهة الفعل / الواقع الاختلاف خلاف ، وبالتالي من ميزة للانسان الى تهديد للانسانية</span></p>
+<!-- PROOFREAD: 1451 part1 p09 — crossed-out words in the first line of part 2 -->
+<p class="para">↲ إذن لانقاذ الكونية / الوحدة : الانسانية على الكل الاندماج ضمن ثقافة عالمية واحدة يمثلها القطب الغربي مع اعتبار بقية الثقافات <span class="t-red">تاريخية ، منفعلة</span> (متأثرة) لا <span class="t-red">فاعلة</span> (مؤثرة) في الحاضر وتبقى شعوبها <span class="t-red">أطراف تابعة لمركز واحد</span> ، عليها أن تتجه نحوه لتقليده ، ذلك ما يسمى بـ <u><span class="t-red">المركزية الثقافية</span></u> = عولمة الثقافة الغربية = الانسان المركزي (<span dir="ltr">ethnique</span> عرقي)</p>
+<p class="para">↲ تقدم الثقافة الغربية على أنها نموذج للتطور ومثال يقتدى به . قائمة على عقدة تفوق تنظر للآخر بدونية وتقزيم . بالتالي الحكم المسبق على دونية ثقافة ما منطلق شكل الثقافة النموذجية ، فكل مختلف ليس مجرد غريبا بل بربريا - همجيا . ⚠</p>
+<p class="para">-3-</p>
+<!-- PROOFREAD: 1451 part1 p09 — dense small handwriting throughout; best reading -->
+<p class="para">هذه المركزية الثقافية أو ما يسمى <span class="t-red">بالامبريالية</span> (= السيطرة على العالم) القائمة على مبدأ <span class="t-red">الحق للقوة</span> ، تعود بنا الى فترة <u>الاستعمار</u> (<span dir="ltr">Pinky and the brain</span>)</p>
+<p class="para">↲ تم تبريره باسم <span class="t-red">الانسانية</span> وبلوغ <span class="t-red">الحداثة</span> لأجل تحرير الشعوب من <span class="t-red">بربريتها</span> حتى تتبنى عقلا غربيا متقدما ، ما عرف باسم <span class="t-red">عبء الرجل الأبيض</span> لأنه ليس من السهل جعل شعوبا تعودت الهمجية أن تعتنق <span class="t-red">ديانة الانسانية</span> في اعتقاد الأوروبي أنه <span class="t-red">نموذج العقل الحق</span> ، وأن الآخر <span class="t-red">متوحش</span> يجب انقاذه أو الأصح <span class="t-red">اخضاعه</span> الى سيطرة القوى الغربية ومن ثمة تبرير ايديولوجيتها .</p>
+<p class="para"><span class="t-green">شتراوس : " المتوحش هو الذي يؤمن بوجود الوحشية " .</span></p>
+<p class="para">لكن رغم انتهاء الاستعمار المادي المباشر ، فإن <span class="t-red">العولمة</span> تعود بنا الى ملامحه لنتحول من استعمار متشعب الى استعمار <span class="t-red">واحد</span> حتى يدعم ما نجح فيه الاستعمار الأول من سيطرة اقتصادية وسياسية وتنجح ما فشل فيه من سيطرة ثقافية وبالتالي جر الشعوب الى التخلي عن خصوصيتها لتعيش <span class="t-red">أزمة هوية</span><br>
+<span dir="ltr">Démonstration</span> : العولمة أدت بنا الى أزمة هوية</p>
+<p class="para">. انطلقت في المجال <span class="t-red">الاقتصادي</span> عبر انفتاح السوق المحلي على الاقتصاد العالمي مع المراهنة على جعل الرأسمالية نظاما عالميا قائما على <span class="t-red">التجارة والاستهلاك</span> ، سرعان ما اتسع مجالها لتشمل السياسة عبر تأسيس حكومة عالمية يهمها شأن الانسان في العالم باعتباره <span class="t-red">مواطنا عالميا</span> . وهي اليوم تبلغ المجال <span class="t-red">الثقافي</span> عبر نشر سيس ثقافة عالمية توحد كل الشعوب ، ما يعني أن التجاذب بين <span class="t-red">الهوية والعولمة</span> محدود لأن الهوية خصوصية ، بينما العولمة قائمة على تجاوز كل خصوصية .</p>
+<p class="para"><span class="t-green">غوليو : " العولمة تخضع البشرية لتاريخية واحدة " .</span></p>
+<p class="para">⚠⚠ <span class="t-red">⇐ العولمة تتجاوز الابتزاز الاقتصادي والاستبداد السياسي لتبلغ التهديد الثقافي ، ساعد في ذلك تكنولوجيا الاتصال التي تجاوزت وسائل التواصل التقليدية أي ما بعد المقروء / المكتوب (اللغة) أي نحو ثقافة الصورة باعتبارها المفتاح السحري لثقافة العولمة " اذ لا لغة للعولمة الا الصورة " (دوبراي)</span></p>
+<p class="para">أنتجت العولمة صنفين من المجتمعات ، كل منهما يعبر عن موقفين متضادين من العولمة :</p>
+<table>
+<tr><th><span class="t-red">المجتمع التابع / الموقف الساهر المؤيد</span></th><th><span class="t-red">المجتمع الخاضع / الموقف الرافض الناقد .</span></th></tr>
+<tr><td>يتنكر بسرعة لخصوصيته ويرى فيها رجعية تشده للتراث الماضي لم يعد يُعترف به .<br>
+ما انفك انفتاح أعمى وغبي ، حالة انبهار وانبتات في ثقافة الآخر محتقرا هويته مصدر تخلفه.<br>
+<span class="t-red">← طمس الهوية وافتقاد معالمها أمام الانبهار في ثقافة العولمة إذ أن تكنولوجيا الاتصال والصورة لارساء نموذج نمطي للخصوصيات .</span> ابن خلدون : " المغلوب مولع بتقليد الغالب "<br>
+دون أن ننسى أيضا أن الغالب مولع بالسيطرة على المغلوب<br>
+هنتنجتون : " يعرف الناس هويتهم بما هم ليسوا عليه "<br>
+فالناس تعيش حالة ضياع دون وعي بذلك وهو أعلى درجات الاغتراب<br>
+↲ متنكر لخصوصيته يدافع عن العولمة بحجة أنها :<br>
+. تؤسس لعالم <span class="t-red">واحد موحد</span> يلغي الاختلاف باعتباره مصدر <span class="t-red">خلاف</span><br>
+. العولمة تُلغي الحدود الجغرافية والاقتصادية فعلا بمبدأ آدام سميث " دعه يعمل دعه يمر " ساعد ذلك من تقريب المسافات ليتحول العالم الى قرية كونية تنتهي فيها الفوارق بين الدول.<br>
+. العولمة مفتاح التنمية يسمح لدول العالم الثالث بأن تصبح</td>
+<td>يتمسك بخصوصيته ويرى فيها الأصل والمرجع مع التطلع الى استحداثها .<br>
+. على وعي بالامبريالية الغربية ، بالايديولوجيا التي تقودها<br>
+. يخضع عبر عقوبات اقتصادية وضغوطات سياسية تجبره على الاندماج في المشروع الغربي<br>
+<span class="t-green">هنتنجتون : " الحضارة العالمية ليست الا تبريرا للسيطرة الثقافية على المجتمعات الأخرى ".</span><br>
+← هذه المجتمعات تنظر للعولمة على أنها <span class="t-red">الغاء للخصوصية ومطاردة للهوية وملاحقتها</span><br>
+. زادت من الهوة بين الفقر والثروة ، فرأسمال العالم لدى أفراد مع <span class="t-red">تفقير</span> <span class="t-green">تجويع بقية سكان العالم " فالحضارة العالمية تؤسس لديانة توحيدية واحدة هي ديانة السوق " غارودي</span><br>
+. ليست حلا للانسانية بل للرأسمالية .<br>
+. العولمة امبراطورية الخوف تقوم على تواصل افتراضي ، اذ أن ثقافة العولمة تقوم على ثقافة سطحية ؟ ما ساهم في التمييز والمفاضلة ومزيد تعميق الهوة بين من يمتلك الوسائل التكنولوجية ومن يستهلكها</td></tr>
+</table>
+<p class="para">-4-</p>
+<!-- PROOFREAD: 1451 part1 p10 — very dense small handwriting, both table columns; best reading -->
+<p class="para">التّميّز ⟷ انغلاق — الأفضل</p>
+<p class="subhead t-red">أزمة الهويّة</p>
+<p class="para">من نحن ؟ ← <span class="t-green">مثال فاقد الذّاكرة</span><br>
+إفتقاد اليقين ← <span class="t-green">مثال العراقي</span> :<br>
+الماضي : البابليّة - العبّاسيّة<br>
+الحاضر : فقر - حرب<br>
+المستقبل : غامض</p>
+<p class="para">* انتماء مسؤول :<br>
+↲ الهويّة : تراث + حداثة<br>
+(تراث ← جيل سابق ← معطى) ← إقتناع - واع - إرادي - حرّ</p>
+<!-- PROOFREAD: 1451 part1 p11 — "انتماء مسؤول" (written like "إلتقاء") -->
+<p class="para"><span class="t-red">* الخصوصيّة : الهويّة : ثقافة</span> (<span dir="ltr">Synonyme</span>)</p>
+<p class="para"><span class="t-red">* الإنساني</span> | <span class="t-red">ما يميّز الإنسان</span> : <span class="t-gold">① الوعي ② الثّقافة ③ الفعل</span><br>
+الإنسان ← المجتمع + ثقافة</p>
+<!-- CROP: 1451 1 11 0.00 0.40 0.30 0.63 1451_hadara_graph -->
+<figure class="fig"><img src="https://wael-philo.b-cdn.net/figs/1447/1451_hadara_graph.png" alt=""></figure>
+<p class="para">حضارة — <span dir="ltr">max</span> (عصر ذهبي)<br>
+<span dir="ltr">0 — Stade initial</span> = الحيوانيّة + الغريزة</p>
+<p class="para"><span class="t-green">الخصوصيّة : أسلوب عيش : إندماج</span><br>
+<span class="t-green">الفكري</span> : العقليّة<br>
+<span class="t-green">الاجتماعي</span> : السّلوك<br>
+<span class="t-green">الجغرافي</span> : لباس ، أكل ، معمار</p>
+<p class="para">موقف الانغلاق ينظر للآخر <u>كغريب</u> (عندو ثقافة أخرى) ≠ موقف العولمة ينظر للآخر <u>كبدوني</u> (ما عندوش ثقافة أصلا)</p>
+<!-- PROOFREAD: 1451 part1 p11 — "كبدوني" -->
+<p class="para">* الامبرياليّة<br>
+↓ أقصى حدّ<br>
+الرّأسماليّة : إقتصاد : كثافة الإنتاج = كثافة الاستهلاك</p>
+<p class="para">" إمكانيّة فشل المعادلة خاطر تنجّم بعد ما تصنع ما تشريش يا ما تشريش <span dir="ltr">donc</span> يلزم بالسّيف عليك بش تنجح المعادلة والحلّ هو الاستعمار وأكبر زعمة زعمة استعمار بإسم الإنسانيّة يعني أنا في قمّة التّطوّر و ما يساعدنيش شعوب أخرى تقعد وحشيّة و بإسم الإنسانيّة لازم نعاونك ونطوّرك "</p>
+<!-- PROOFREAD: 1451 part1 p12 — dialect paragraph: "ما تشريش يا ما تشريش" / "وأكبر زعمة زعمة" -->
+<p class="para"><span class="t-green">أرض = وطن = انتماء ← هويّة = ثقافة</span></p>
+<p class="para"><span class="t-gold">* الاستعمار : إقتصادي - جغرافي ⇐ مادّي<br>
+* العولمة ⇐ فكري</span></p>
+<p class="para"><span class="t-red">* الهويّة ← خصوصيّة<br>
+≠<br>
+العولمة ← رفض خصوصيّة</span></p>
+<table>
+<tr><td>دولا متطورة ، منتجة بدلا أن تبقى مجرد مصدرة للمواد الأولية ، وبالتالي تتحقق الرفاهية لكل البشرية مادي اقتصادي سياسي<br>
+. تعميم المعرفة وتوزيعها على كل الناس عبر ثقافة عالمية توحد الشعوب وتؤسس للكونية ثم<br>
+الحضارة العالمية = الكونية = الوحدة<br>
+رهان<br>
+الحفاظ على الاختلاف ← التعايش (التسامح)<br>
+الاختلاف خلاف ← التماثل (= العولمة) تحقيق فعلي / واقعي للرهان</td>
+<td>. فرض دمج الثقافات المختلفة في فضاء ثقافي لا يأخذ بعين الاعتبار التفاعل فيما بينها وهو ما يؤدي الى تكريس لثقافة السلطة / القوة على حساب ثقافة الهوية<br>
+غوليو : " اذا افتقدت جماعة ما ، تميزها الثقافي (اختلافها) ، فقدت معه وجودها كجماعة مستقلة ".<br>
+ويمكن أن نشير في ذلك الى المجتمع العربي كأحد المجتمعات التي تعاني مظاهر العولمة وقد لخصه أدونيس الوضعية في قوله : لم يعد العربي غريبا عن شرقيته فحسب ، بل غريبا عن العالم " هو يعيش انتماء تأرجحا بين قيم الأصالة ومقتضيات الحداثة ، وهو ما يجعل خصوصيته تعيش انشطارا مرعبا ، تعبر عن حالة رجة أو تلفيقية عابثة ، بعبارة ريكور ، فالعربي عوض مساهمة في تشييد الحضارة المعاصرة ، بتيار مستهلك يؤتى بها من هنا وهناك (أدونيس)</td></tr>
+</table>
+<p class="para">موران : لم نعد ندري إن كانت العولمة ، الأمل الأخير للانسانية ، أم سوء الطالع الأخير لها</p>
+<p class="para">⚠⚠<br>
+⇐ الانسان زمن العولمة ، ربح كل شيء (التقنية - التطور - الرفاهية - سهولة العيش والتنقل - ارتفاع أمل الحياة ...) لكنه خسر أهم شيء لأنه أصبح انسانا بلا ذاكرة ، بلا هوية ، فأزمة الهوية ليست أزمة مجتمع دون آخر بل هي أزمة الانسانية جمعاء ، اذ أن قيمة الانسان اليوم تقاس بمنتوجه السلعي وهو ما يعني ان قيمة الأشياء وما في ذلك من تشيئة الانسان واختزاله في بعد مادي بلا قيمي .</p>
+<p class="para">⇐ اذا كان الانغلاق قد أفضى الى " موت طبيعي " للهوية فإن العولمة تفضي الى " موت عنيف " بعبارة بودريار سواء للخصوصية التي انبهرت بالمشروع الغربي أو التي أجبرت على اتباع هذا المشروع أو للعولمة ذاتها اذ أنها في الأصل ثقافة غربية خاصة أصبحت عالمية ففقدت ما هو خاص بها " كل ثقافة تتعمم تفقد خصوصيتها وتموت ".</p>
+<p class="para">هكذا ، كان أمر كل الثقافات التي دمرناها بدعوى الأخلاق والقوة وكذلك ثقافتنا في تطلعها الى الكوني " بودريار . ثم أن الانسان زمن العولمة ، يدفعنا بالضرورة الى الوعي بالتنافر الرائف (الخادع ، الايديولوجي) لنبني</p>
+<!-- PROOFREAD: 1451 part1 p13 — photocopied small handwriting; "التنافر الرائف" / "لنبني" uncertain -->
+<table>
+<tr><th>I - 2 - العولمة : الكوني الزائف</th><th>II - الكوني الايتيقي = الحقيقي ، الانساني</th></tr>
+<tr><td>- ما هو عولمي : التقنية - السوق - البضاعة - الإعلام - السياحة .. فضاء مادي بضائعي يهدف الى جعل سكان العالم نسخ متشابهة ، فنحن اليوم مهددون بتحولنا الى مجرد مستهلكين قادرين على استهلاك أي شيء من أي ثقافة ، من أي مكان في العالم والثمن دائما تنكر للأصل والسقوط في التبعية .<br>
+. عزل الانسان وتغريبه عن قضاياه الحقيقية وجعل الاستهلاك هاجسه الأقصى ، فتحول الانسان من منتج للبضاعة الى أرخص بضاعة<br>
+⇐ العولمة متفرقة عالمية تهلك الكونية .<br>
+بودريار : عولمة التبادلات تضع نهاية لكونية القيم".</td>
+<td>- ما هو كوني : الثقافة - الاختلاف - الحرية - الديمقراطية .. حقوق الانسان عامة . قطب ايتيقي فكري يتعامل مع الانسان كغاية لا أداة ، فهي حفظ لكرامة الانسان (≠ العولمة قطب مادي بضائعي)<br>
+. الكونية قائمة على الحوار ورفض العنف باعتباره مصدر عنف<br>
+لكن تحول الكوني اليوم الى مجرد شعار خطاب للتغطية / تبرير الايديولوجيات ، سرعان ما تنكشف هشاشته في ظل واقع الحرب والعنف .<br>
+بودريار : " الكوني نفسه تعولم ، فالديمقراطية والحرية تعبر الحدود ، مثلها مثل النفط ورؤوس الأموال ".</td></tr>
+</table>
+<p class="para">-5-</p>
+<!-- PROOFREAD: 1451 part1 p13 — whole page photocopied small handwriting; best reading -->
+<p class="para">هذا الوضع ، جعلنا غير قادرين على فهم إن كان علينا انقاذ الكوني (الايتيقي) أو انقاذ أنفسنا من الكوني (العولمة) ما أدى الى توتر بين قطب فكري يدافع عن حقوق الانسان وقطب بضائعي يدفع سكان العالم الى مماثلة قاتلة ، ما أدى الى ازدياد مظاهر الحقد العرقي والاستنساخ الثقافي وردود أفعال متشنجة وعنيفة من شعوب تحاول التدخل الغربي فيها .</p>
+<p class="para">↲ فالامبريالية أنتجت عولمة بائسة ، متوحشة ، حاقدة ولعل ازدواجية المعايير أنتجت ظواهر ارهابية بأشكال مختلفة داخل العالم وتحولت الى عنف هوياتي (هووي) قاتل ، فهل يُدين الانسان زمن العولمة بين العودة للانغلاق ، للتعاطف على بعض ملامح الخصوصية ؟<br>
+اذا لم تكن العولمة الوجه الواقعي والتحقق الفعلي للكونية أو للوحدة الانسانية فما هي ضمانات الكوني المنشود ؟ اذن كيف يمكننا أن نرسم ملامح اللقاء بالآخر الثقافي ؟</p>
+<p class="para">من المؤكد أنه لا حل في الانغلاق لأن ذلك موت للهوية ولا حل في الانفتاح العشوائي لأن ذلك أيضا موت للهوية ولا بديل عن العولمة غير العولمة ذاتها ، حين نؤسس لعولمة الثقافة بدل <u>ثقافة العولمة</u> (المركزية الثقافية) ، فلا ينبغي الاكتفاء بالإرث الثقافي وحده ولا ينبغي الانصهار في العولمي (الانفتاح المعتدل) .</p>
+<p class="subhead t-navy">II الخصوصية = الكونية : الانفتاح المعتدل ، الهوية المركبة .</p>
+<p class="para">الحل الأول في الاعتزاز بالهوية واعتبارها الأصل والمرجع والتراث مع السعي الى تطويره ، تحديثه : عصرنته فالهوية تكون مشكلة ، في حالة النظر لها ككل نهائي ونظام مكتمل وتكون حلا ، اذا تم النظر لها <u>كمشروع</u> تضطلع الأجيال بمسؤولية بنائه</p>
+<p class="para">↓<br>
+- مواصلة انجاز هذا المشروع يستوجب الانفتاح على الآخر الثقافي دون مفاضلة عرقية أو ثقافية ، دون تقزيم أو عنصرية ، بل يكون الانفتاح هنا أفق ايتيقا التواصل وبالتالي لا يمكن لأي جماعة أن ترسم حدودا تفصلها وتحولها كليا عن الآخر الثقافي بل إن خصائصها رؤيتها تتشكل ضمن شبكة ثقافية ليأخذ بذلك الانفتاح معنى</p>
+<p class="para">1 التثاقف : الاطلاع على خصوصية المجتمعات الأخرى وكيفية بناء تميزها حسب اختلافها<br>
+2 قد يتطور التثاقف ليأخذ معنى التفاعل : التأثر والاعجاب بجهد تلك المجتمعات في استرداد تميزها وتجاربها الشخصية . السابات (؟)<br>
+3 يتطور التفاعل ليأخذ معنى الأخذ والعطاء : تبادل الأفكار والتجارب الثقافية شرط أن لا يتم افراط في الأخذ وتفريط في الأصل بل التوق الى اثراء ذلك الأصل واغنائه ، اصالته وجعله مواكبا فتتحرر الهوية من السقوط في الأصولية والتطلع مع اعتبارها معطى بسيطا نحو تنويع أصولها لتكون متعددة المنابع ذات طابع ديناميكي مركب قائم على ازدواج التراث والحداثة ← الهوية مشروع</p>
+<p class="para">غاندي : " أفتح نوافذي على كل رياح العالم ، دون أن تقتلعني من جذوري ".</p>
+<p class="para">↲ فما دامت جذورنا ثابتة فلا نخشى الغزو الثقافي الخارجي بل يشكل اثراء لهذه الجذور.<br>
+⚠ فالابداع الثقافي لا يمكنه أن ينمو في ظل بيئة منغلقة على نفسها ، فلا بد للثقافة وأبنائها أن يتمسكوا بيقين أصالتهم وأن يدركوا تفوقهم على الآخر بوصفهم مبدعة ، بذلك تحريك الثقافة للأخرى بما تملكه وما في ذلك من رفض التعالي وادعاء الأفضلية ليكون التسامح والتلاقح الثقافي هو الطريق السلكي نحو الكوني الانساني القائم على النسبية الثقافية ، ما يعني أن الاختلاف لا ينفي وجود قواسم مشتركة بين الثقافات ، مهما بلغت درجة تعددها وهو ما يؤسس للحضارة العالمية وبالتالي توسيع فكرة الانتماء من الانتماء القومي الى الانتماء العالمي والكوسموبوليتيكي (الحق السياسي)</p>
+<p class="para">⇓</p>
+<p class="para">-6-</p>
+<!-- PROOFREAD: 1451 part1 p14 — whole page photocopied small handwriting; best reading, many words uncertain -->
+<p class="para">(<span dir="ltr">3ème Séance le 7/1/2025</span>)</p>
+<p class="para">الكوني رهان ومطلب انساني يمثل حاجة الفكر منذ نظام المدينة عند اليونان عبر عنه سقراط في جوابه عن سؤال " من أي بلد أنت ؟ " " أنا لست أثينيا ، أنا مواطن عالمي " واستعادة ذلك مع مشروع كانط في دعوته لاقامة سلم دائم بين البشر " الأرض وطن للجميع " وذكره موران في مفهوم " الهوية المركبة باعتبار " الأرض وطن للأوطان "</p>
+<p class="para">↲ فالكوني قائم على <u>سببين</u> أساسيين : ليس لأي انسان الحق أكثر من غيره في التمتع بمنافع الأرض . ليكون بذلك السواكن العالمي انسان ، عاقل قادر على الاستعداد للتعايش السلمي مع الآخر المختلف وعلى تقبله في غيريته ، بالتالي فإن الوجود الانساني هو واقع التنوع والاختلاف وبالتالي لا يمكن تصوره كوحدة بل كجدلية بين الوحدة والكثرة ، فلا ينبغي أن ننظر للاختلاف على أنه عامل خلاف يهدد الهوية أو أنه عائق أمام تشكل الوحدة الانسانية بل هو شرط تحققها</p>
+<p class="para">تايلور : " ان انبثاق الفكر الانساني لم يكن يوما ما ، فرديا ينجزه كل شخص على حدة بل هو انبثاق حواري ".</p>
+<p class="para"><u>ثانيا السبب</u> : يؤسس للتسامح لا كموقف تأملي ، عقلاني بعبارة <b>شتراوس</b> ، بل كفعل ، كممارسة ، كبراديغم ، كعلاقة قوة بعبارة لينغلياس ، لا كعلاقة ضعف لأن العنف هو ضعف ويأس من العقل ما جعل من غاندي يؤسس لفلسفة اللاعنف معتبرا " أنه ليس من اللائق على البشر أن يستعملوا لهذه المذبحة المعممة التي هي الحرب ، فمذهب العنف بالعنف يؤسس لانسانية عمياء " وبالتالي فإن تطور الانسانية نتاج اسهامات جماعية فلا بد من الاعتراف بجميل الحضارات السابقة في بناء اللاحقة .</p>
+<p class="para">غاندي : " إن <span class="t-red">قطرة ماء</span> (الخصوصيّة) تساهم في عظمة <span class="t-red">المحيط</span> (الكونيّة) دون أن تعي ذلك ، لكن ما إن تنفصل حتى تجف تماما " ← المحيط وعلى عظمته ليس الا تجميع لقطرات ماء وبالمثل الحضارة العالمية هي تحالف لثقافات تحتفظ كل منها بخصوصيتها لكن ما أن تنفصل اعداها أي تنغلق حتى تندثر تماما مثل قطرة الماء التي تجف خارج محيطها ".</p>
+<p class="para">⚠ ⇐ لا تعارض إذن بين الخصوصية والكونية : فالخصوصية نواة ثقافية بما تحمله من اختلافات ، والكونية هي ما ننشده من تجميع الخصوصيات في صفة الوحدة لا بمعنى التماثل والتنميط والغاء الاختلاف وابتلاع الهويات بل وحدة التعدد والتنوع والاشتراك في الانساني في المضمون ، وحدة في الكثرة وكثرة تسعى للوحدة ، وحدة مشتركة تؤسس لحكمة العيش معا ، فتلتقي الثقافات فيما بينها ، ليحل الوصل محل الفصل .</p>
+<p class="para"><span class="t-gold">حوار الثقافات</span> هو الآلية الأنسب لتحقيق هذه التطلعات (الوحدة) وتكريس الحق في الاختلاف دون الاختلاف في هذا الحق ، وتعتبر الصورة الرمز الذي يحقق <span class="t-gold">هذا الحوار</span> ، فهي نظام رمزي قديم مستحدث<br>
+↲ ليست مجرد صورة فوتوغرافية جامدة ، صامتة بل هي كل ما يبلغ تصورات الانسان في علاقته بذاته ، بالآخر وبالعالم ، فتأخذ شكل آثار - كتب تاريخية ، لوحات فنية ، شريط وثائقي ، سينمائي ، الأنترنات ...</p>
+<p class="para">دوبراي : " الصورة هي الوسيط الذي يجمع بين الأحياء والأموات ".<br>
+↲ لتكون الصورة وسيطا ينقل أحداث الأمس البعيد نحو الأفق الأبعد ، فهو وسيلة حقيقية للتقارب ووسيط رمزي للتواصل : فهي ليست غاية في حد ذاتها ، ليست ترفا فكريا بل هي الوسيط الذي يعبر عن أبرز لحظات وجود الانسان وهو بذلك يتجدد ، يحتفل ...</p>
+<p class="para">فتشهد الصورة اليوم أوج تطورها التقني عبر ثورة رقمية فتسمى الحضارة المعاصرة بحضارة الصورة = المشهد : حضارة الفيديوقراطي (= سلطة الصورة) فهي النظام الأقدر اليوم على تحقيق تقارب الشعوب اذ أنها تجعلنا في قلب الحدث وتريني الآخر في وجوده اليومي المباشر ، بهذا تنجح الصورة في جعل العالم قرية صغيرة يسهل التواصل فيها</p>
+<p class="para">دوبراي : " الصورة هي اسطورة العصر الحديث لا الكلمة ".</p>
+<p class="para">الرمز : الصّورة - المقدّس</p>
+<p class="para">-7-</p>
+<!-- PROOFREAD: 1451 part1 p15 — photocopied small handwriting throughout; names "لينغلياس" and several words uncertain -->
+<p class="para">[(-) الصورة II] لكن هذا التطور التقني للصورة بقدر ما حقق التواصل أنتج أيضا التواصل خاصة عن تقلبة الفهم والتركيب أو الفوتوشوب ، ما جعلها تتحول من مجرد <span class="t-red">ناقل للحدث</span> الى <span class="t-red">صانع للحدث</span> عبر قدرتها على صنع <span class="t-red">المغالطة</span> واحداث <span class="t-red">الاستقطاب أو الاستمالة</span> . بهذا نتحول من صورة <span class="t-red">العقل</span> لتصبح أمام <span class="t-red">عقل الصورة</span> وبالتالي من عقل يفكر ، ينقد ، يعي ، ينتج ، يكشف المغالطات الى عقل تُستغل قدراته الفكرية لأجل <span class="t-red">صنع المغالطة وتمريرها على أنها حقيقة</span> ما جعل الانسان لا مستهلك لبضائع بل أيضا للأوهام ليكون بذلك ضحية <span class="t-red">عنف مُقنّع - مبرمج .</span></p>
+<p class="para">فبعد أن كان الرمز يعبر عن <span class="t-red">قوة العقل</span> فإنه تحول الى <span class="t-red">عقل القوة</span> ، فمن عقل أبدع رموزه لأجل تحقيق رغبة التواصل الملحة لدى الانسان الى عقل يصنع القوة ويبررها ، ما أشار دوبراي في قوله <span class="t-green">" فيمن في من نثق اليوم ؟ يُجيبنا عصر الشاشة لا نثق في المنهج ، وما يهمّ المسطرة والبركار ، المهم أن تكون جيدة ؟ ".</span></p>
+<!-- PROOFREAD: 1451 part1 p16 — Debray quote "فيمن في من نثق اليوم ... وما يهمّ المسطرة والبركار" uncertain -->
+<p class="para"><span class="t-red">المقدس :</span> ليس مجرد طقوس وممارسات دينية مختلفة ، بل الايمان بوجود قوة <span class="t-red">خارقة ، مفارقة</span> (مفارق ≠ محايث) اذ أن طبيعة وجود الانسان تختلف عن طبيعة وجود المقدس ، فالأول مادي ، فان ، متناه بينما المقدس روحي ، خالد ، لا متناهي .</p>
+<p class="para">[(-) المقدس I] المقدس الديني هو أحد مقومات الهوية الأكثر عمقا وحساسية ما جعل الدين عامل رفيع بين النجاح في تقبل الآخر المختلف دينيا أو السقوط في التطرف وتكفير المختلف دينيا (<span dir="ltr">Fin</span>) فتم استغلال هذه الخاصية خدمة لمصالح خطط لها أصحابها وتمريرها تحت غطاء حروب طائفية ودينية لأنها الأسهل في اندلاعها ، الأشرس في جرائمها والأصعب في اخمادها ، ما جعل الدين يرتبط بالارهاب رغم أن الارهاب لا دين له</p>
+<p class="para"><span class="t-green"><u>فولتير</u> : " سريعا يمكنه أن يقتل صباحا في الإله (في لحظة يشعل النار) ، إنه واثق من جدارته من دخوله الجنة بذبحك ".</span></p>
+<!-- PROOFREAD: 1451 part1 p16 — Voltaire quote wording uncertain -->
+<p class="para">[(+) المقدس II] لكن حسن فهم العلاقة بين الأديان قادر على جعلها عامل <span class="t-red">وحدة وكونية</span> عوض <span class="t-red">التفرقة والعنف</span> أو على الأقل لا تكون عائقا أمام هذه الوحدة ، فكل الأديان تجمعها <span class="t-red">وحدة القيم الانسانية</span> وبالتالي التأكيد على قيمة الانسان عبر أهمية القيم الانسانية خاصة <u><span class="t-red">التسامح</span></u> <span class="t-red">/ الأخوة</span><br>
+↓<br>
+الاعتراف بالآخر كانسان واحترامه في اختلافه ، حيث تكون له القدرة على التعبير عن اختلافه دون خشية من العقاب أو الرفض.</p>
+<p class="para">ما جعل <span class="t-green">غاندي</span> يماثل بين الدين و<span class="t-green">الشجرة</span> ، فإذا نظرت للأغصان تقر بتعدد الأديان واختلافها اذا نظرت للجذور تؤكد أنها من منبع وجذع واحد وهو ما يذكرنا باجابة <span class="t-green">غاندي</span> للمسيحي الذي أراد أن يكون بوذيا " كن مسيحيا صالحا ، خوف أن تكون بوذيا سيئا ".</p>
+<p class="para"><span class="t-red">⚠ ⇐ الخصوصية تسعى للكونية والكونية في أصلها خصوصية ، الانساني وحدة وكثرة ، وحدة من جهة الانتساب الى عالم الثقافة وكثرة من جهة الاختلاف في أبعاد الثقافة وأساليب اثبات الكيان .</span></p>
+<p class="para">-8-</p>
+<!-- PROOFREAD: 1451 part1 p16 — signature reads "Layan" (or "layant") -->
+<p class="subhead t-red">- الخصوصيّة والكونيّة -</p>
+<div class="exsub">- تمارين -</div>
+<p class="para">* دلالة الهويّة :<br>
+بأنّ تحقيق هويّتي يتوقّف على اعترافي بالغير</p>
+<p class="para">* مسلّمة ضمنيّة :<br>
+أنتجت الثّقافة الهنديّة فلسفات وثقافات تهتمّ بتحقيق التّوازن النفسي واخترع العرب التّفوّق في علم الحساب ودجّنت قبائل الصّليا الحيوانات واخترع الغرب الصّواريخ لغزو الفضاء</p>
+<p class="para">* إعترض على هذا الموقف من خلال استتباعاته :<br>
+تتحدّد الهويّة بإرثنا الثّقافي وحده</p>
+<p class="para">* قيمة الموقف : مكاسب وحدود<br>
+" تعرّف الحداثة نفسها على أنّها شيء واحد متجانس وراء عالميّ انطلاقا من الغرب</p>
+<p class="para">* مسلّمة ضمنيّة :<br>
+" ليس التسامح موقف تأمّلي "</p>
+<p class="para">① إنّ الهويّة ليست <span style="text-decoration:line-through">نظام</span> نظام مكتمل ولا يتمّ النّظر لها ككلّ نهائي فتصبح مشكلا بل هي مشروع مارّ بشتّى الأطوار في بنائه حيث أنّ الهويّة تأخذ معنى الأصل والاكتفاء بتمجيد التراث واعتباره من الثوابت المعطاة إضافة إلى رنوّها وتعطّشها إلى الحداثة والإثراء إذ يستوجب ذلك الاعتراف والانفتاح على الغير القائم انفتاحا معتدلا من خلال التبادل والأخذ والعطاء</p>
+<!-- PROOFREAD: 1451 part1 p17 — "رنوّها" / "القائم" (inserted above line) / "قبائل الصّليا" -->
+<p class="para">② يسلّم هذا القول ضمنيّا أنّ لكلّ شعب ثقافة تميّزه عن غيره مهما بدت بسيطة في نظرنا حيث أنّ التنوّع بين الثّقافات ينتج عنه فروقات ثقافيّة لابدّ من استثمارها حتّى تكون ولودة مبدعة بذلك تثري كلّ ثقافة الأخرى بما تملكه وما في ذلك من رفض التعالي</p>
+<p class="para"><span dir="ltr">2ème séance le 28/01/2025</span></p>
+<p class="subhead t-navy">الخصوصية و الكونية<br>اصلاح التمارين</p>
+<p class="para">* إن تحقيق هويتي يتوقف على اعترافي بالغير. حدد دلالة الهوية.</p>
+<p class="para">- لا تنحصر الهوية في بعد التراث ولا تكتفي بالارتماء في أحضان الماضي واستعادة مجده على نحو حرفي ، فهي لا تكون هوية بسيطة في معطياتها أو منابعها ، ولا تكون ساكنة ، متحجرة في مقوماتها أو نظام مكتمل وكل نهائي ، بل لا تتحدد إلا ضمن علاقة اعتراف بالغير ما يعني أن الهوية تتطلب اضافة الحداثة لتراثها ، حتى تكون مواكبة لما يحدث من تغيرات أو تطورات ضمن ما يحيط بها من ثقافات أخرى بهذا ندرك أن الهوية مشروع قائم على ازدواج التراث والحداثة ، وصيرورة هذا المشروع تستوجب بالضرورة الانفتاح على الآخر المختلف دون مفاضلة عرقية أو ثقافية .</p>
+<p class="para">* أنتجت الثقافة الهندية فلسفات وديانات تهتم بتحقيق التوازن النفسي ، واخترع العرب الصفر في علم الحساب ودجنت قبائل الصاليا الحيوانات واخترع الغرب الصواريخ لغزو الفضاء : مسلمة ضمنية .</p>
+<p class="para">- يسلم هذا الموقف ضمنيا اقرارا بأن تطور الانسانية نتاج اسهامات جماعية ، فكل ثقافة تدين للأخرى بما تملكه حتى تكون ولودة ومبدعة ، وفي ذلك اقرار بالنسبية الثقافية ودحض للاثنية المركزية أي دحض لادعاء الأفضلية والاكتمال للتسليم ضمنيا بأن لكل ثقافة أحقية وجود إذ أنها تعبر عن خصوصية مجموعة ما ، في نشدان الكونية ما يحقق التسامح والتلاقح الثقافي باعتباره الطريق السلمي نحو الكوني الانساني ، فالكونية رهان ومطلب انساني ينبثق بشكل حواري بين الثقافات وتتجاوز كل حقبة تاريخية بشكل مختلف عن الأخرى وفي ذلك تأسيس لوجود انساني متنوع وثري .</p>
+<p class="para">-1-</p>
+<p class="para">* تتحدد الهوية بإرثنا الثقافي وحده . اعترض على الموقف من خلال استتباعاته<br>
+مراحل الاجابة : . الاشارة للموقف - ما يترتب عنه .<br>
+- الاعتراض عليه ببيان عدم المنطقية أو عدم الواقعية أو يمثل خطورة على الانسانية .</p>
+<p class="para">- يشير الموقف الى مقومات الهوية باعتبار أن التراث الثقافي هو أساسها وهو ما يترتب عنه حصر الهوية في التراث والاكتفاء به مادام يمثل الأصل والمرجع أي اعتبار الهوية قد اكتملت وما في ذلك من مظاهر الانغلاق والتعصب والتعامل الدغمائي معها . إلا أن هذا الموقف يفتقد للوجاهة لأنه غير منطقي إذ يتعارض (يتناقض) مع دلالة الهوية في باعتبارها المشروع الذي يتحقق عبر الأجيال فهي متغيرة مع تغيرات الواقع في حين أن الموقف يقر بثباتها وسكونيتها ، وفي الموقف خطورة على الانسانية إذ أن التمسك بالهوية وما يحصله من تعصب يجعل كل لقاء بالمختلف ، لقاء عنف وصراع بدل التواصل والتفاعل ، لأن الانسانية لا تتطور في كل بيئة منغلقة يحكمها منطق العنف والقوة بل هي مظاهر تحكم على رهان الكونية بالطوباوية وتجعل الانسانية في حالة تخلف وتحجر .</p>
+<p class="para">* تعرف الحداثة نفسها على أنها شيء واحد متجانس ذو طابع عالمي انطلاقا من الغرب = قيمة الموقف . (مكاسب / حدود)</p>
+<p class="para">- تبرز قيمة هذا الموقف في التأكيد على أهمية الحداثة باعتبارها لا خصوصية فكرا ومنزعة غربية بل إنها تحمل طابعا كليا كونيا ، طالما أن قيم الحداثة لا تخص فردا أو مجتمع دون آخر بل هي قيم انسانية عالمية واحدة تسعى كل الخصوصيات الى المراهنة عليها مادامت تتحرك ضمن قطب فكري ايتيقي هدفه الانسان ، إلا أن هذا الموقف يخفي الايديولوجيا التي تحرك المشروع الغربي الهيمني حيث يتقدم كمشروع انساني في حين أنه مجرد شعار وخطاب سياسي تنكشف هشاشته في ظل واقع العنف والحرب والسعي الى دمج الثقافات في فضاء ثقافي واحد وما في ذلك من أزمة هوية لها ومن رغبة في بسط النفوذ الغربي من جهة أخرى .</p>
+<p class="para">-2-</p>
+<!-- PROOFREAD: 1451 part1 p18 — landscape double page, photocopied small handwriting; best reading -->
+<!-- NOTE: 1451 part1 p19 — a second-hand blue-pen annotation ("شكلي / formel" with an arrow, plus underlines) written over the handwriting is left out -->
+<p class="para">* ليست الصورة لا صحيحة ولا خاطئة ، لا متناقضة ولا غير ممكنة ، فبما أنها ليست حجاجا فإنها غير قابلة للدحض . نتيجة</p>
+<p class="para">إذا سلمنا بأن للصورة حضورا استثنائيا ، يجعلها متعالية عن معيار الصحة والخطأ التناقض والمنطقية ، فإنه يترتب عن ذلك اعتبار الصورة الرمز القادر على اختراق مستوى المنطقية والاستدلال العقلاني وفي ذلك قدرة الصورة على أن تمرر المغالطة كأنها حقيقة وأن تصنع الحدث كأنه واقع في حين أنه مجرد امكان ، فقوتها التقنية جعلتها توظف القدرات الفكرية للعقل لتشتغل بمبادئ تفكيره بل لتتحول إلى عقل القوة أي تمارس عنف معقلن و ليّن ، <!-- PROOFREAD: 1451 part1 p19 — "و ليّن" uncertain --> إذن كل ما تقدمه الصورة يأخذ بعد الواقعية لا لأنها فعلا تعبر عما يحدث بل لأنها صورة جيدة ، فالمرئي البصري هو الذي يتمتع بيقينية الوجود وما هو غير مرئي يكون غير موجود ، مشكوك في صحته . <!-- PROOFREAD: 1451 part1 p19 — "مشكوك" (written like "متكوك") --></p>
+<p class="para">* ليس التسامح موقفا تأمليا : مسلمة ضمنية</p>
+<p class="para">يسلم الموقف ضمنيا اقرارا بأن كل اعتراف صوري تأملي هو مجرد وهم لا يقوم على حوار مزيف هش ، هو إجهاض للحوار وتستر على الهيمنة الثقافية ، لا يمكن أن يحقق التعايش بين الأنا والآخر بل يعزز الاغتراب ، فالحوار الفعلي والاعتراف الحق يتجاوزان دائرة التمثل ليكون تفهما حقيقيا لولوج مملكة الغير والاطلاع على تميزه ، ونفهم من هذا تسامحا كفعل وممارسة تفعيلا للاعتراف على أرض الواقع استعدادا للتجاوز الثقافي وادعاء الأفضلية ، تجاوز التقوقع <!-- PROOFREAD: 1451 part1 p19 — "التقوقع" uncertain --> والعنصرية للاستثمار في الاختلاف بعيدا عن الإرادة <!-- PROOFREAD: 1451 part1 p19 — "الإرادة" uncertain --> لتكون الهوية متعددة المنابع استعدادا فعليا لأكون أنا في ذات الوقت الذي أكون فيه أنا آخر .</p>
+<p class="para">* يمكن للثقافة أن تنتج كل شيء <!-- PROOFREAD: 1451 part1 p19 — "أن تنتج كل شيء" uncertain (looks like "تستنج لكل الشيء") --> في ظل الحد الأدنى من التواصل : حجة تدعم</p>
+<p class="para">- لا يمكن للثقافة أن تكون ولودة مبدعة في ظل بيئة منغلقة على نفسها ، ذلك أن الإفراط في الانغلاق والاكتفاء بمقومات الهوية والاعتزاز بها إلى حد النرجسية ليس إلا موت طبيعي للهوية وتفريط فيها ، وفي المقابل كل إفراط في التواصل يحمل معه خطر افتقاد الخصوصية وبالتالي التحول إلى مجرد مستهلكين لثقافة الآخرين . إذن الابداع الثقافي يتطلب استثمار المقومات الثقافية حتى يتحقق التلاقح الثقافي لا الانصهار في الآخر في ظل الحد الأدنى من التواصل مع</p>
+<p class="para">-3-</p>
+<!-- P19_END -->
+
+</section>
+
+</div>
+</body>
+</html>

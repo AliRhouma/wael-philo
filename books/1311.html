@@ -1,0 +1,332 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<title>Wael Academy — Philosophie · 2021 — philo</title>
+<script>
+  window.MathJax = {
+    tex: { inlineMath: [['\\(','\\)']], displayMath: [['\\[','\\]']] },
+    chtml: { fontURL: 'https://cdn.jsdelivr.net/npm/mathjax@3/es5/output/chtml/fonts/woff-v2', matchFontHeight: true },
+    startup: { typeset: true }
+  };
+</script>
+<script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js" async></script>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Sora:wght@400;500;600;700;800&family=Cairo:wght@400;500;600;700;800;900&family=Tajawal:wght@400;500;700;800&family=JetBrains+Mono:wght@400;500;600;700&display=swap');
+:root{
+  /* ===== Wael Academy palette — MAIN ACCENT = green-teal gradient #0FAB8F → #067360 ===== */
+  --bg:#fff; --panel:#f2f8f8; --hair:#e6e6e9; --hair2:#d6d6db;
+  --fg:#0f2a31;        /* body text (and +/− signs) */
+  --fg2:#3f5b62;       /* softer text */
+  --fg3:#7c959b;       /* muted (footer) */
+  --blue:#067360;      /* deep accent — small numbers, borders, watermark, accent equations */
+  --blue-dark:#045260; /* titles & wordmarks (also the balance colour) */
+  --teal:#0fab8f;      /* bright accent end */
+  --loop:#0d9c82;      /* logo-loop helper */
+  --orange:#067360;    /* kicker/category labels (gold retired → deep teal) */
+  --red:#f5322f;       /* EXERCISE CHIPS ONLY — never for emphasis */
+  --cream:#e6f3f4; --blue-soft:#e6f3f4;  /* pale teal — callout fill + table sub-row fill */
+  --blue-line:#cde7e4; /* hairline */
+  --sub-ink:#045260;   /* table sub-row text */
+  --grad:linear-gradient(148deg,#0fab8f 0%,#0d9c82 52%,#067360 100%);
+  --mono:'JetBrains Mono',monospace; --latin:'Sora',sans-serif; --ar:'Cairo',sans-serif; --arb:'Tajawal',sans-serif;
+}
+*{box-sizing:border-box;margin:0;padding:0;}
+body{font-family:var(--latin);color:var(--fg);background:#e4e4e7;padding:28px 0;
+     -webkit-print-color-adjust:exact;print-color-adjust:exact;}
+html[dir="rtl"] body{font-family:var(--arb);}
+
+/* ===== brand watermark: REAL text (crisp), full-bleed, repeats per page ===== */
+.wm{position:fixed;inset:0;z-index:0;pointer-events:none;display:flex;
+    align-items:center;justify-content:center;overflow:hidden;
+    -webkit-print-color-adjust:exact;print-color-adjust:exact;}
+.wm span{font-family:var(--mono);font-weight:800;font-size:76.8pt;letter-spacing:.16em;
+    color:var(--blue);opacity:.06;white-space:nowrap;transform:rotate(-54deg);}  /* single diagonal: bottom-left → top-right */
+.wm.mono span{color:#000;opacity:.05;}
+
+/* ===== continuous flow stream (no page border) ===== */
+.flow{width:210mm;margin:0 auto;background:transparent;color:var(--fg);
+      padding-block:16mm 18mm;padding-inline:23mm 14mm;position:relative;}   /* spiral gutter: inline-start(=spine) 23mm / outer 14mm — dir-aware; print margins set in render_flow.py */
+@media screen{ .flow{background:#fff;box-shadow:0 10px 40px rgba(0,0,0,.16);} }
+.flow>*{position:relative;z-index:1;}
+.flow p,.flow li,.flow .data,.flow .note,.flow .ex{break-inside:auto;}
+.flow .fig,.flow figure,.flow img,.flow svg.figsvg,.flow table,.flow tr,.flow .chapdiv,.flow .exh,.flow .qrcard,.flow .meta{break-inside:avoid;}
+.flow h1,.flow h2,.flow h3,.flow .exh,.flow .subhead,.flow .chapdiv{break-after:avoid;}
+.flow img,.flow svg.figsvg{max-width:100%;height:auto;}
+.flow figcaption,.flow .figcap{display:none;}          /* rule 3: no figure captions */
+
+/* ===== front matter + chapters each start on a fresh page ===== */
+.flow .cover{break-after:page;}        /* cover alone on page 1 */
+.flow .toc{break-after:page;}          /* Sommaire alone on the next page */
+.flow .chapter{break-before:page;}
+.flow .chapter:first-of-type{break-before:auto;}
+
+/* ===== cover ===== */
+.cover{padding:14mm 0 8mm;border-bottom:2px solid var(--blue);margin-bottom:6mm;}
+.cover .badge{font-family:var(--mono);font-size:8.5pt;letter-spacing:.28em;text-transform:uppercase;color:var(--orange);margin-bottom:10px;}
+.cover h1{font-family:var(--latin);font-weight:800;font-size:34pt;line-height:1.03;letter-spacing:-.025em;color:var(--blue-dark);}
+.cover .grule{width:120px;height:5px;border-radius:5px;background:var(--grad);margin:14px 0;}
+.cover .sub{font-family:var(--mono);font-size:10pt;letter-spacing:.14em;text-transform:uppercase;color:var(--teal);}
+.cover .auth{font-size:11pt;color:var(--fg2);margin-top:6px;font-weight:600;}
+
+/* ===== table of contents ===== */
+.toc{margin:2mm 0 4mm;}
+.toc h2{font-family:var(--latin);font-weight:800;font-size:15pt;color:var(--blue-dark);margin-bottom:4mm;}
+.toc .trititle{font-family:var(--mono);font-size:8pt;letter-spacing:.2em;text-transform:uppercase;color:var(--orange);margin:4mm 0 2mm;}
+.toc ol{list-style:none;}
+.toc li{display:flex;align-items:baseline;gap:8px;font-size:10pt;padding:2.2px 0;color:var(--fg);line-height:1.4;}
+.toc li .n{font-family:var(--mono);font-weight:700;font-size:9pt;color:var(--blue);min-width:26px;}
+.toc li .dots{flex:1;border-bottom:1px dotted var(--hair2);transform:translateY(-3px);}
+
+/* ===== chapter divider band ===== */
+.chapdiv{margin:0 0 5mm;padding:6mm 16px 5mm;border-radius:12px;background:var(--grad);
+    -webkit-print-color-adjust:exact;print-color-adjust:exact;}   /* green-filled chapter band */
+.chapdiv .cn{font-family:var(--mono);font-size:8.5pt;font-weight:700;letter-spacing:.24em;text-transform:uppercase;color:rgba(255,255,255,.82);margin-bottom:5px;}
+.chapdiv h2{font-family:var(--latin);font-weight:800;font-size:17pt;line-height:1.1;letter-spacing:-.015em;color:#fff;}
+/* conclusion block — same green-filled look as the chapter band */
+.conclusion{background:var(--grad);border-radius:12px;padding:6mm 16px;margin:5mm 0;color:#fff;break-inside:avoid;
+    -webkit-print-color-adjust:exact;print-color-adjust:exact;}
+.conclusion .ck{font-family:var(--mono);font-size:8.5pt;font-weight:700;letter-spacing:.24em;text-transform:uppercase;color:rgba(255,255,255,.82);margin-bottom:6px;}
+.conclusion h3{font-family:var(--latin);font-weight:800;font-size:13pt;line-height:1.2;color:#fff;margin-bottom:4px;}
+.conclusion p,.conclusion li{font-size:10.4pt;line-height:1.7;color:#fff;}
+.conclusion b,.conclusion strong{color:#fff;font-weight:700;}
+
+/* ===== unit header (lesson/exercise) + QR emplacement ===== */
+.exh{display:flex;align-items:center;gap:11px;margin:6mm 0 3mm;}
+.exh .idx{font-family:var(--mono);font-size:9pt;font-weight:600;color:#fff;background:var(--grad);
+    border-radius:6px;padding:4px 11px;letter-spacing:.08em;text-transform:uppercase;
+    -webkit-print-color-adjust:exact;print-color-adjust:exact;}
+.exh .idx.ex{background:var(--red);}   /* exercise chip = red */
+.exh h2{font-family:var(--latin);font-size:14pt;font-weight:700;letter-spacing:-.01em;color:var(--blue-dark);}
+.exh .qrcard{margin-inline-start:auto;flex:0 0 auto;display:flex;flex-direction:column;align-items:center;gap:3px;width:26mm;}
+.qrcard .qrt{font-family:var(--mono);font-size:6.5pt;letter-spacing:.1em;text-transform:uppercase;color:var(--teal);text-align:center;}
+.qrcard .qrslot{width:24mm;height:24mm;padding:1.5mm;background:#fff;border:1px solid var(--blue-line);border-radius:8px;display:flex;align-items:center;justify-content:center;}
+.qrcard .qrslot img,.qrcard .qrslot svg{width:100%;height:100%;display:block;}
+
+/* sub-exercise label when one file holds several exercices */
+.exsub{font-family:var(--latin);font-weight:800;font-size:11.5pt;color:var(--blue-dark);margin:5mm 0 2.5mm;padding-bottom:3px;border-bottom:2px solid var(--blue-line);}
+
+/* ===== text blocks ===== */
+.lead{font-size:11pt;line-height:1.7;margin:2mm 0 3mm;color:var(--fg);}
+.para{font-size:10.6pt;line-height:1.7;margin:2mm 0 2.5mm;color:var(--fg);}
+.consigne{font-size:10.4pt;line-height:1.6;margin:1mm 0 2mm;color:var(--fg);font-style:italic;}
+.subhead{font-family:var(--latin);font-weight:800;font-size:12pt;letter-spacing:-.01em;color:var(--blue-dark);margin:5mm 0 2.5mm;}
+/* emphasis — green accent = .t-blue/.t-green ; balance = .t-navy ; red = SECONDARY accent (.t-red) on titles + a few words */
+.t-blue{color:var(--blue);font-weight:600;} .t-navy{color:var(--blue-dark);font-weight:700;}
+.t-red{color:var(--red);font-weight:600;} .t-green{color:var(--teal);font-weight:600;} .t-gold{color:var(--orange);font-weight:600;}
+.subhead.t-red{color:var(--red);font-weight:800;}   /* red Roman-numeral section title (I, II, …) — keeps subhead weight */
+/* highlighter marks — a soft colour wash behind a key word (agent picks green or red per what balances the page) */
+.hl-green,.hl-red{border-radius:3px;padding:.02em .24em;font-weight:600;box-decoration-break:clone;-webkit-box-decoration-break:clone;
+    -webkit-print-color-adjust:exact;print-color-adjust:exact;}
+.hl-green{background:rgba(15,171,143,.20);color:var(--blue-dark);}   /* green highlight */
+.hl-red{background:rgba(245,50,47,.13);color:#c0261f;}               /* red highlight  */
+
+.data{background:var(--blue-soft);border:1px solid var(--blue-line);border-inline-start:4px solid var(--blue);
+    border-radius:8px;padding:11px 16px;margin:3mm 0;font-size:10pt;line-height:1.65;color:var(--fg2);}
+.data b{color:var(--fg);font-weight:700;}
+.note{border:1px dashed var(--hair2);border-radius:9px;padding:11px 16px;margin:4mm 0;background:var(--panel);}
+.note .kicker{font-family:var(--mono);font-size:7.5pt;letter-spacing:.18em;color:var(--orange);display:block;margin-bottom:5px;}
+.note .nb{font-size:10pt;line-height:1.7;color:var(--fg2);} .note b{color:var(--fg);}
+.ex:not(.idx){background:var(--blue-soft);border:1px solid var(--blue-line);border-inline-start:3px solid var(--blue);
+    border-radius:7px;padding:7px 11px;font-size:9.6pt;line-height:1.6;color:var(--fg2);margin:2mm 0;}   /* :not(.idx) so it never hits the exercise chip (which is .idx.ex) */
+.ex .extag{display:inline-block;font-family:var(--latin);font-weight:800;font-size:7.6pt;color:var(--blue-dark);background:#fff;
+    border:1px solid var(--blue);border-radius:5px;padding:1px 9px;margin-inline-end:7px;vertical-align:middle;text-transform:uppercase;letter-spacing:.06em;}
+
+/* ===== lists ===== */
+ol.q{list-style:none;counter-reset:q;margin:1mm 0 2mm;}
+ol.q>li{counter-increment:q;position:relative;padding-inline-start:30px;margin-bottom:2.5mm;font-size:10.4pt;line-height:1.6;}
+ol.q>li::before{content:counter(q);position:absolute;inset-inline-start:0;top:1px;width:21px;height:21px;background:var(--grad);color:#fff;
+    border-radius:50%;font-family:var(--mono);font-size:9pt;font-weight:600;display:flex;align-items:center;justify-content:center;
+    -webkit-print-color-adjust:exact;print-color-adjust:exact;}
+ol.sub{list-style:none;counter-reset:s;margin:4px 0 0;padding-inline-start:2px;border-inline-start:1px solid var(--blue-line);}
+ol.sub li{counter-increment:s;position:relative;padding:2.5px 0 2.5px 26px;font-size:10.1pt;line-height:1.55;}
+ol.sub li::before{content:counter(s,lower-alpha)".";position:absolute;inset-inline-start:10px;top:2.5px;font-family:var(--mono);font-size:9pt;font-weight:600;color:var(--teal);}
+ol.qn{list-style:none;counter-reset:qn;margin:1mm 0 2mm;}
+ol.qn>li{counter-increment:qn;position:relative;padding-inline-start:26px;margin-bottom:2.2mm;font-size:10.4pt;line-height:1.55;}
+ol.qn>li::before{content:counter(qn)".";position:absolute;inset-inline-start:0;top:0;font-family:var(--mono);font-size:9.5pt;font-weight:700;color:var(--blue);}
+ul.b{list-style:none;margin:1mm 0 2mm;} ul.b>li{position:relative;padding-inline-start:22px;margin-bottom:2.4mm;font-size:10.4pt;line-height:1.6;}
+ul.b>li::before{content:"";position:absolute;inset-inline-start:3px;top:8px;width:8px;height:8px;border-radius:50%;background:var(--grad);
+    -webkit-print-color-adjust:exact;print-color-adjust:exact;}
+ul.dash{list-style:none;margin:1mm 0 2mm;} ul.dash>li{position:relative;padding-inline-start:20px;margin-bottom:1.8mm;font-size:10.4pt;line-height:1.6;}
+ul.dash>li::before{content:"–";position:absolute;inset-inline-start:2px;top:0;color:var(--fg);font-weight:700;}  /* dash / +/− signs = body colour */
+.flow ul.opts{list-style:none;margin:4px 0 3px;padding-inline-start:16px;}
+.flow ul.opts li{padding:2px 0;font-size:10.2pt;line-height:1.5;color:var(--fg);}
+
+/* ===== figures / tables ===== */
+.fig{margin:3mm 0;} .fig svg.figsvg{display:block;margin:0 auto;background:#fff;max-width:100%;height:auto;}
+.photo{display:block;margin:3mm auto;border-radius:8px;border:1px solid var(--hair);max-width:100%;}
+.figrow{display:flex;flex-wrap:wrap;gap:9px;justify-content:center;margin:3mm auto;max-width:190mm;}
+.flow .figrow img{border-radius:7px;border:1px solid var(--hair);height:46mm;width:auto;max-width:none;object-fit:cover;}
+.schemarow{display:flex;gap:16px;align-items:flex-start;flex-wrap:wrap;margin:2mm 0;}
+.schemarow .col-txt{flex:1 1 90mm;min-width:80mm;} .schemarow .col-fig{flex:0 0 78mm;} .schemarow .col-fig .fig{margin:0;}
+.flow table{border-collapse:collapse;width:100%;margin:3mm 0;font-size:9.8pt;line-height:1.5;}
+.flow table th,.flow table td{border:1px solid var(--blue-line);padding:6px 10px;text-align:start;vertical-align:top;}
+.flow table th{background:var(--grad);color:#fff;font-family:var(--latin);font-weight:700;font-size:9.4pt;
+    -webkit-print-color-adjust:exact;print-color-adjust:exact;}
+.flow table tr:nth-child(even) td{background:var(--blue-soft);color:var(--sub-ink);}   /* sub-row: #E6F3F4 / #045260 */
+
+mjx-container{color:var(--fg) !important;font-weight:400 !important;font-size:1.0em !important;}
+.eq-hi mjx-container,mjx-container.eq-hi{color:var(--blue) !important;}   /* accent (green) equation — highlight a key result; balance with plain math */
+.eq-red mjx-container,mjx-container.eq-red{color:var(--red) !important;}  /* red accent equation / symbol — complements the green .eq-hi */
+
+/* ===== per-file books: credit line, copies list, figures at their size ===== */
+.credit{display:flex;flex-wrap:wrap;align-items:center;gap:5px;margin:-1mm 0 3.5mm;font-size:9.4pt;color:var(--fg2);}
+.credit .who{font-weight:700;color:var(--blue-dark);}
+.credit .tg{font-family:var(--mono);font-size:7.2pt;letter-spacing:.04em;border-radius:5px;padding:1px 7px;line-height:1.6;
+    border:1px solid var(--blue-line);color:var(--blue);background:#fff;-webkit-print-color-adjust:exact;print-color-adjust:exact;}
+.credit .tg.sec{background:var(--blue-dark);border-color:var(--blue-dark);color:#fff;}
+.credit .tg.cor{background:#fff;border-color:var(--red);color:var(--red);}
+.credit a{color:var(--fg3);font-family:var(--mono);font-size:7pt;text-decoration:none;}
+.cover .auth .credit{margin:4mm 0 0;}
+.cover .copies{margin-top:5mm;font-size:8.6pt;color:var(--fg2);}
+.cover .copies ul{list-style:none;margin:2mm 0 0;padding:0;columns:2;}
+.cover .copies a{color:var(--fg3);text-decoration:none;font-size:8pt;}
+.flow figure.fig{text-align:center;}
+.flow figure.fig img{max-height:60mm;width:auto;max-width:70%;display:inline-block;}
+
+/* chapter tag on each part of a multi-chapter book (the book keeps the original order of the file) */
+.chtag{display:inline-block;margin:5mm 0 2mm;padding:1mm 3mm;border-radius:2mm;background:#eef3fb;border:1px solid #c9d6ea;
+  color:#1f3a6b;font-size:9pt;font-weight:700}
+.chtag span{color:#6b7f9e;font-weight:600;margin-inline-end:1.5mm}
+
+@media print{ body{background:#fff;padding:0;} .flow{width:auto;max-width:none;margin:0;padding:0;} }
+@page{size:A4;}   /* margins come from render_flow.py — do NOT set them here */
+</style>
+<meta data-pagefind-filter="type[content]" content="موضوع">
+<meta data-pagefind-filter="resource[content]" content="امتحانات وطنية (وزارة التربية)">
+<meta data-pagefind-meta="n[content]" content="1311">
+<meta data-pagefind-meta="title[content]" content="2021 — philo">
+<meta data-pagefind-filter="chapter[content]" content="الإنية والغيرية">
+<meta data-pagefind-filter="chapter[content]" content="القيم: الأخلاق والدولة">
+<meta data-pagefind-filter="chapter[content]" content="العلم بين الحقيقة والنمذجة">
+<meta data-pagefind-filter="chapter[content]" content="فروض ومواضيع (عدّة محاور)">
+<meta data-pagefind-filter="section[content]" content="باكالوريا تقنية"><style>.qrcard{display:none!important}.wa-nav{position:sticky;top:0;z-index:50;background:#045260;padding:10px 18px;font-family:Cairo,sans-serif;direction:rtl}.wa-nav a{color:#fff;text-decoration:none;font-weight:700}@media print{.wa-nav{display:none}}</style>
+</head>
+
+<body dir="rtl" lang="ar"
+      data-brand="Wael Academy" data-handle="@WaelAcademy"
+      data-tagline="في تُرابنا.. مغامرة بمغامرة"
+      data-phone="+216 50 40 40 42" data-site="waeldocuments.com"
+      data-cta="سجل معانا وأقرى عن بعد مع منصة Wael Academy"
+      data-subject="Philosophie · 2021 — philo" data-watermark="Wael Academy" data-pagefind-body><nav class="wa-nav" data-pagefind-ignore><a href="../index.html">→ الرجوع إلى فهرس الفلسفة</a></nav>
+
+<!-- single full-page diagonal watermark, bottom-left → top-right (repeats on every page) -->
+<div class="wm" aria-hidden="true"><span>WAEL&nbsp;ACADEMY</span></div>
+
+<div class="flow colored">
+<div class="cover"><div class="badge">◉ Wael Academy · Philosophie</div><h1>2021 — philo</h1><div class="grule"></div><div class="sub">الإنية والغيرية</div><div class="auth"><div class="credit">المؤلّف / المصدر : <span class="who">الجمهورية التونسية - وزارة التربية - امتحان البكالوريا دورة 2021</span> <span class="tg cor">إصلاح</span><span class="tg sec">الفلسفة · باكالوريا تقنية</span> <a href="https://drive.google.com/file/d/1vNeWv87ul9r9HX5or1TztnNBNplE3YLu/view">↗ philo (3).pdf</a> <a href="https://drive.google.com/file/d/1vOvS94ctuMLerN5wlyrG48zkUI79n0J2/view">↗ philo_c (1).pdf</a></div></div><div class="copies" data-pagefind-ignore><b>نسخ هذا الملف في الدرايفات (6)</b><ul><li><a href="https://drive.google.com/file/d/1vNeWv87ul9r9HX5or1TztnNBNplE3YLu/view">Mohamed Ahmed Zahi · Bac Math Zahi 2024/2025 › Philo / Des Bacs / principale / 2021</a></li><li><a href="https://drive.google.com/file/d/1_u8o2RnXfbyRJhFWblZBVJcfsY8fRisB/view">Amin Guermazi · Archive Bac 2025 › Philo / الاستاذة اسيا / باكالوريات</a></li><li><a href="https://drive.google.com/file/d/1WTEaWDTR8d4G4Be0SJCmnggV5aEVGWpN/view">Maram Belgacem · Bac math 2025 ( what you really need) › examenbac / philo</a></li><li><a href="https://drive.google.com/file/d/1vOvS94ctuMLerN5wlyrG48zkUI79n0J2/view">Mohamed Ahmed Zahi · Bac Math Zahi 2024/2025 › Philo / Des Bacs / principale / 2021</a></li><li><a href="https://drive.google.com/file/d/1DWW__sl09rzbJQPh9XzT-v31brT3MIv5/view">Maram Belgacem · Bac math 2025 ( what you really need) › examenbac / philo</a></li><li><a href="https://drive.google.com/file/d/1S37RK2MwKN6Rpp2I3BbRciPwo61UbTCJ/view">Mariem Benkaied · BacTech (LPN 2k26) › philo / correction bac</a></li></ul></div></div>
+<section class="chapter">
+<div class="chtag"><span>المحور</span> الإنية والغيرية</div>
+<!-- SOURCE: الجمهورية التونسية - وزارة التربية - امتحان البكالوريا دورة 2021 -->
+<!-- NOTE: one book for 2 files of the Drive folder "Philo / Des Bacs / principale / 2021" (series), in file order -->
+<div class="exh"><span class="idx ex">موضوع</span><h2>2021 — philo</h2>
+  <div class="qrcard"><div class="qrt">فيديو الدرس</div><div class="qrslot"><img src="qr/1311.svg" alt="QR"></div></div></div>
+<div class="credit">المؤلّف / المصدر : <span class="who">الجمهورية التونسية - وزارة التربية - امتحان البكالوريا دورة 2021</span> <span class="tg cor">إصلاح</span><span class="tg sec">الفلسفة · باكالوريا تقنية</span> <a href="https://drive.google.com/file/d/1vNeWv87ul9r9HX5or1TztnNBNplE3YLu/view">↗ philo (3).pdf</a> <a href="https://drive.google.com/file/d/1vOvS94ctuMLerN5wlyrG48zkUI79n0J2/view">↗ philo_c (1).pdf</a></div>
+
+<!-- file: philo (3) -->
+
+
+<div class="exsub">philo (3)</div>
+<table>
+<tr><td><b>الجمهوريّة التونسيّة</b><br><b>وزارة التربية</b></td><td>الاختبار : <b>الفلسفة</b></td><td>الشعب : الاقتصاد والتصرف + الرياضيات + العلوم التجريبية + العلوم التقنية + علوم الإعلامية</td></tr>
+<tr><td></td><td>الحصّة: <b>3</b> س</td><td>ضارب الاختبار : <b>1</b></td></tr>
+</table>
+<div class="exsub">القسم الأوّل (10 نقاط).</div>
+
+<div class="chtag"><span>المحور</span> القيم: الأخلاق والدولة</div>
+
+<p class="subhead t-navy">التّمرين الأوّل: (نقطتان)</p>
+<p class="consigne">"المواطنة انتماء إلى الإنسانيّة". اكشف عن إحدى ضمنيّات هذا الإقرار.</p>
+
+<div class="chtag"><span>المحور</span> الإنية والغيرية</div>
+
+<p class="subhead t-navy">التّمرين الثّاني: (نقطتان)</p>
+<p class="consigne">"إنّ رغبةَ الذّات في اعتراف الآخرين بها علامةُ عبوديّة". قدّم حجّة تدحض هذا الإقرار.</p>
+
+<div class="chtag"><span>المحور</span> القيم: الأخلاق والدولة</div>
+
+<p class="subhead t-navy">التمرين الثالث: (ستّ نقاط)</p>
+<p class="subhead t-navy">النصّ</p>
+<p class="para">إنّ التّقهقر الذي تشهده الدّول، سواء كانت ديمقراطيّة أو غير ديمقراطيّة، يُفضي إلى تدنّي المشاركة السياسيّة ويُؤدّي إلى ما سُمّي، بحقّ، أزمة التمثيل السياسيّ. فيَفقد الناخبون الإحساس بأنّهم مُمَثّلون. وهذا ما يعبّرون عنه حين يشيرون بأصابع الاتّهام إلى طبقة سياسيّة لا هَمّ لها سوى سلطتها الخاصّة، علاوة على سعيها أحيانا إلى الإثراء الشخصيّ لأعضائها. فيضعف عندئذ الشّعور بالمواطنة (...). إنّ الديمقراطيّة التي أُصيبت بالوهن على هذا النّحو يمكن تدميرها، إمّا من الأعلى بفعل سلطة مستبدّة، وإمّا من الأسفل بفعل الفوضى والعنف والحرب الأهليّة. وإمّا انطلاقا منها هي بالذّات عبر الرقابة التي تمارسها على السلطة أوليغارشيات (أنظمة حكم القلّة) أو أحزاب تُراكم الموارد الاقتصاديّة أو السياسيّة لتفرض اختياراتها على مواطنين تحوّلوا إلى مجرّد ناخبين (...).</p>
+<p class="para">ووراء القواعد الإجرائيّة الضروريّة، وهي التي لا غنى عنها لوجود الديمقراطيّة، ينبغي أن نخلص إلى ضرورة التساؤل عن كيفية تشكّل إرادة ما، وتعبيرها عن نفسها، وتطبيقها، بما هي تُمثّل مصالح الأغلبيّة في ذات الوقت الذي تُمثّل فيه وعي الجميع بأن يكونوا مواطنين مسؤولين عن النّظام الاجتماعيّ. (...) لا يمكننا بعد اليوم الاكتفاء بضمانات دستوريّة وقانونيّة في حين تظلّ الحياة الاقتصاديّة والاجتماعيّة خاضعة لهيمنة أوليغارشيّات تزداد حصانتها يوما بعد يوم.</p>
+<p class="para">ألان تورين<br>ما الدّيمقراطيّة؟</p>
+<p class="consigne"><b>أنجز المهامَ التالية انطلاقا من النصّ :</b></p>
+<p class="para">1- حدّد أطروحة النصّ.</p>
+<p class="para">2- اذكر مظهرين من مظاهر أزمة التمثيل السياسيّ.</p>
+<p class="para">3- استخلص رهان النصّ.</p>
+<div class="exsub">القسم الثاني (10 نقاط)</div>
+<p class="consigne">* يختار المترشّح أحد السّؤالين التاليين ليحرّر في شأنه محاولة في حدود 30 سطرا.</p>
+
+<div class="chtag"><span>المحور</span> العلم بين الحقيقة والنمذجة</div>
+
+<p class="para"><b><u>السّؤال الأوّل</u>:</b> هل في حرص المنمذج على ضمان نجاعة النموذج ما يفضي إلى تخلّي العلم عن مسؤوليّته تجاه الانسانيّة؟</p>
+
+<div class="chtag"><span>المحور</span> الإنية والغيرية</div>
+
+<p class="para"><b><u>السّؤال الثّاني</u>:</b> هل يمكن اعتبار الغيريّة نفيا لوحدة الذات وحرّيتها؟</p>
+<!-- file: philo_c (1) -->
+
+<div class="chtag"><span>المحور</span> فروض ومواضيع (عدّة محاور)</div>
+
+<div class="exsub">philo_c (1)</div>
+<div class="exsub">الإصلاح</div>
+<div class="data">
+<p class="subhead t-red">امتحان البكالوريا لدورة 2021</p>
+<p class="subhead t-red">الشعب: الاقتصاد والتصرّف + الرياضيّات + العلوم التجريبيّة + العلوم التقنيّة + علوم الإعلاميّة</p>
+<p class="subhead t-red">الاختبار ومقاييس الإصلاح</p>
+</div>
+<div class="exsub">القسم الأوّل:</div>
+<p class="consigne">* التمرين الأوّل: "المواطنة انتماء إلى الإنسانيّة". اكشف عن إحدى ضمنيّات هذا الإقرار.</p>
+<table>
+<tr><th>التمشي المنهجي</th><th>الإنجاز</th></tr>
+<tr><td>1- فهم الموقف المعلن في الإقرار:<br><br>2- فهم المطلوب في التعليمة:<br><br>3- إنجاز المطلوب:</td><td>1- يتضمن الإقرار إثباتا لارتباط المواطنة بالإنسانيّة على جهة الانتماء حيث لا تتحقّق المواطنة ولا تكتمل إلاّ في بعدها الإنسانيّ الكونيّ.<br><br>2- تطلب التعليمة الكشف عن ضمنيّة من ضمنيّات هذا الإقرار أي ما يفترضه هذا القول من أوّليّات ومسلّمات لا يصرّح بها علانيّة والتي تشكّل شرط إمكان صحّته.<br><br>3- يمكن تحديد المطلوب كالتالي:<br>*إمكانية أولى: المواطنة لا تقتصر على الانتماء إلى دولة محليّة فحسب وإنّما تتجاوز ذلك إلى المواطنة العالميّة.<br>*إمكانيّة ثانية: المواطنة لا تكتمل إلاّ في أفقها الإنساني، بما هو انفتاح للبعد المحلّي الضيّق على الكونيّ.<br>*إمكانيّة ثالثة: لا تتحدّد المواطنة بما هي منزلة سياسيّة و انتماء مخصوص لدولة ما، بقدر ما تتحدّد بما هي منزلة إنسانيّة شاملة للسياسي والحقوقي والأخلاقي.<br>*إمكانيّة ثالثة: الإنسانيّة هي المبدأ الذي به تتحدّد منزلة المواطنة من جهة كونيّة حقوق الإنسان بوصفها شرطا للمواطنة نفسها.<br>*إمكانيّة رابعة: المواطن الذي يتعصّب لانتمائه المحلّي وينكر عن الآخرين حقوقهم، إنّما ينكر اعتر افه بكونيّة الإنسان ويفقد بالتّالي صفة المواطنة.</td></tr>
+</table>
+<p class="consigne">* التمرين الثاني: "إنّ رغبة الذات في اعتراف الآخرين بها علامة عبوديّة". قدم حجّة تدحض هذا الاقرار.</p>
+<table>
+<tr><th>التمشي المنهجي</th><th>الإنجاز</th></tr>
+<tr><td>1- فهم الموقف المعلن في الإقرار:<br><br>2- فهم المطلوب في التعليمة:</td><td>1- يتضمن القول إقرارا بأنّ نزوع الذات الإنسانيّة نحو طلب الاعتراف بها من طرف الآخرين يعكس مظهرا من مظاهر عبوديّتها وتبعيّتها وخضوعها لهم.<br>2- تطلب التعليمة استحضار حجّة للاعتراض على اعتبار نزوع الذات الإنسانيّة نحو طلب الاعتراف بها من طرف الآخرين مظهرا من مظاهر اغترابها ودليلا على عبوديتها لهم.</td></tr>
+<tr><td>3- إنجاز المطلوب:</td><td>3- يمكن تحديد المطلوب كالتالي:<br>*إمكانيّة أولى: الحريّة الحقيقيّة لا تكمن في اكتفاء الذات بذاتها، بل تكمن أساسا في الاعتراف المتبادل.<br>*إمكانيّة ثانية: الذات نفسها بنية مركّبة تتضمّن الأنا والآخر في آن. ولا يعدّ الآخر طرفا مقابلا لنا، بقدر ما هو مكوّن أساسيّ لماهيتنا وحرّيتنا.<br>*إمكانيّة ثالثة: الحاجة إلى الآخرين قائمة في طبيعة الإنسان الاجتماعيّة، بل إنّ اكتفاءه بذاته هو الذي يجعله في حالة قصوروعبوديّة.<br>*إمكانيّة رابعة: إنّ انغلاق الذات ورفضها للآخر يبقيها في سجن الفرديّة والعزلة، فالآخر هو الذي يحرّرها من جهلها بذاتها، فيكون الاعتراف شرط استكمال وجودها.<br>*إمكانيّة خامسة: انكار الآخر هو علامة نقصان، لأنّه يكشف عن عجز الذات عن اثبات ذاتها كحريّة قبالة الآخر.</td></tr>
+</table>
+<p class="consigne">* التمرين الثالث: النصّ.</p>
+<p class="consigne">+ المهمّة الأولى: حدّد أطروحة النصّ.</p>
+<table>
+<tr><th>التمشي المنهجي</th><th>الإنجاز</th></tr>
+<tr><td>1- تحديد محور الاهتمام في النصّ: الأطروحة هي موقف الكاتب من موضوع هو محور اهتمامه الرئيسيّ في كامل النصّ.</td><td>1- تتمحور أطروحة النصّ حول موضوع هو محور اهتمام الكاتب في كامل النص وهو: أزمة التمثيل السياسيّ في النظام الديمقراطيّ.</td></tr>
+<tr><td>2- رصد الشبكة المفاهيميّة: المفاهم الرئيسيّة والعلاقة بينها.</td><td>2- يمكن التركيز على المفاهيم التالية: الديمقراطيّة / المواطنة التمثيل السياسيّ / الانتخاب / المصالح الاقتصاديّة والاجتماعيّة / الضمانات الدستوريّة. مع ضرورة الانتباه إلى السمة الرئيسيّة للعلاقة بين الديمقراطيّة و تحقيق المواطنة عبر التمثيل السياسيّ وهي "التأزّم".</td></tr>
+<tr><td>3- تحديد السؤال الذي يجيب عليه النصّ:</td><td>3- يسعى الكاتب في النصّ إلى الاجابة على السؤال التالي: فيم تتمثل أزمة التمثيل السياسيّ في النظام الديمقراطيّ؟ وما هي أسبابها وسبل تجاوزها؟</td></tr>
+<tr><td>4- إ نجاز المطلوب: صياغة الأطروحة.</td><td>4- يمكن تحديد أطروحة النصّ كما يلي:<br>*إمكانيّة أولى: إنقاذ الديمقراطيّة من ضروب الضعف التي تتجلّى في أزمة التمثيل السياسي، مرهون بتجاوز اختزالها في شروطها الصوريّة وتحقيقها من جهة شروطها الاقتصاديّة والاجتماعيّة.<br>*إمكانيّة ثانيّة: تكمن أزمة النظام الديمقراطي في اقتصاره على الإجراءات الانتخابيّة الشكليّة وإهمالها لضمانات تحقّقه اقتصاديّا واجتماعيّا .<br>*إمكانيّة ثالثة: لا تضمن الديمقراطيّة منزلة المواطنة بمجرّد توفّر الضمانات الدستوريّة بل تشترط إلى جانب ذلك توفّر ضمانات اقتصاديّة واجتماعيّة.</td></tr>
+</table>
+<p class="consigne">+المهمّة الثانية: اذكر مظهرين من مظاهر أزمة التمثيل السياسيّ.</p>
+<table>
+<tr><th>التمشي المنهجي</th><th>الإنجاز</th></tr>
+<tr><td>1- استحضار أطروحة الكاتب وضبط منزلة مفهوم "التمثيل السياسي" من شبكة المفاهيم.</td><td>1- انظر المهمّة الأولى.</td></tr>
+<tr><td>2- رصد تجليّات "أزمة" التمثيل السياسيّ الواردة في النصّ وذكر مظهرين منها (فقط).</td><td>2- يمكن للمترشّح أن يذكر مظهرين من المظاهر التاليّة:<br>- فقدان الثقة في السلطة السياسيّة.<br>- تحوّل المواطن إلى مجرّد ناخب.<br>-ضعف الشعور بالمواطنة.<br>- تنامي أشكال فساد الطبقة السياسيّة المنتخبة.<br>-انتشار الفوضى والعنف كردّ فعل على سوء إدارة السياسيين المنتخبين للشأن الاقتصادي والاجتماعي.</td></tr>
+</table>
+<p class="consigne">+ المهمّة الثالثة: استخلص رهان النصّ.</p>
+<table>
+<tr><th>التمشي المنهجي</th><th>الإنجاز</th></tr>
+<tr><td>1- تحديد الأطروحة المدعومة تمهيدا للنظر فيما تراهن عليه:</td><td>1-انظر المهمّة الأولى.</td></tr>
+<tr><td>2- رصد المفاهيم المركزيّة والعلاقة بينها في النصّ:</td><td>2-انظر المهمّة الأولى.</td></tr>
+<tr><td>3- إنجاز المطلوب: الكشف عمّا يراهن عليه الكاتب من خلال أطروحته أي تحديد ما يمكن أن نغنمه أو نخسره لو تبنّينا الأطرحة على المستويين النظري والعمليّ.</td><td>3- يمكن صياغة رهان النصّ على النحو التالي:<br>*إمكانيّة أولى: الديمقراطيّة لا تكون حقيقيّة إلاّ متى كانت تدبيرا ناجعا للشأن الاقتصادي والاجتماعي.<br>*إمكانيّة ثانية: تحرير الوعي السياسي من وهم الاعتقاد في مثاليّة النظام الديمقراطي وضرورة وضعه موضع نقد ومساءلة.<br>*إمكانيّة ثالثة: نجاح النظام الديمقراطي مشروط بمدى تحقّق مبادئه في الحرّية والعدالة في آن.<br>*إمكانيّة رابعة: المواطنة الحقيقيّة هي مواطنة فاعلة، في إطارها يكون كلّ الأفراد مشاركين فعليين في الحياة السياسيّة ومتمتّعين بحقوقهم الاقتصاديّة والاجتماعيّة، بما يضمن تحصين الديمقراطيّة من الانحراف نحو الشكلانيّة.</td></tr>
+</table>
+<div class="exsub">القسم الثاني:</div>
+<p class="consigne"><b>* السؤال الأوّل: هل في حرص المنمذج على ضمان نجاعة النموذج، ما يفضي إلى تخلّي العلم عن مسؤوليّته تجاه الانسانيّة؟</b></p>
+<table>
+<tr><th colspan="2">العمل التحضيري</th></tr>
+<tr><th>التفكيك</th><th>التخطيط</th></tr>
+<tr><td>* فهم صيغة السؤال وتحديد المطلوب: السؤال يستشكل علاقة الاستتباع بين اعتبارين أوّلهما الحرص الذي يوليه المنمذج لمطلب النجاعة وثانيهما ما يمكن أن يترتّب عن ذلك من تخلّ للعلم عن مسؤوليّته الإيتيقيّة تجاه الإنسان. بحيث يكون المطلوب هو البحث فيما إذا كان الاعتبار الأوّل يؤدّي/ يفضي إلى الثاني أم لا.<br><br>* رصد مفاهيم السؤال وتحديد دلالتها السياقيّة:<br>- النمذجة العلميّة من حيث قيمتها التداوليّة وعلاقتها بالإيتيقا.<br>- النجاعة من حيث هي مطلب وغاية النمذجة في علاقة باستتباعاتها العملية و أثرها على الانسان.<br>- المسؤوليّة باعتبارها قيمة إيتيقيّة مرتبطة بكلّ نشاط إنسانيّ بما في ذلك النشاط العلمي والتقني.<br><br>* بلورة الإشكاليّة وضبط مراحل المعالجة:<br>- يكون ذلك بالتساؤل عن مدى وجاهة الاقرار بالتلازم بين الحرص على النجاعة التي توجّه بناء النماذج العلميّة وبين التخلّي عن المسؤوليّة الايتيقيّة فيما يمكن أن يترتّب عن ذلك الحرص من نتائج لا إنسانيّة.<br>- وتكون مراحل المعالجة كالتالي:</td><td>+ مرحلة بناء المشكل:<br>التمهيد:<br>يمكن الانطلاق من:<br>إمكانيّة أولى: اقتران التطوّرات العلميّة والتكنولوجيّة المعاصرة بتولّد المخاوف تجاه توظيفات العلم وتأثيراتها في حياة الإنسان، وهو ما يطرح مسؤوليّة العالم وتورّطه في ما يجتاح البشريّة من كوارث وأوبئة .<br>إمكانيّة ثانية: المفارقة القائمة بين ادّعاء العلم خدمة الإنسانية وما يكشف عنه و اقع تطبيقاته من استتباعات تهدّد القيم الإنسانيّة، الأمر الذي يدعونا إلى وضع مسؤوليّة العلم موضع استشكال.<br>الإشكاليّة:<br>إمكانيّة أولى: هل في سعي النمذجة إلى تأويج فاعليّة النماذج في تحقيق غاياتها العمليّة، ما يعفي العلم من كلّ مسؤوليّة تجاه تطبيقاته، أم أنّ في مطلب النجاعة نفسه، ما يفرض على العلماء اليوم أن يكونوا أكثر يقظة ومسؤوليّة، بالنظر إلى ما تسبّبه هذه التطبيقات من مخاطر وكوارث؟<br>إمكانيّة ثانية: هل يُختزل العلم في تمشّياته ومناهجه وما ينجم عن ذلك من تأكيد لمطلب النجاعة، أم أنّه يتجاوز ذلك إلى الاهتمام بغاياته وما يرتبط بذلك من قيم؟<br>+ مرحلة بلورة الموقف من المشكل:<br><u>لحظة أولى:</u><br>* تحليل القول بأنّ في حرص المنمذج على ضمان نجاعة النموذج، ما يفضي إلى تخلّي العلم عن مسؤوليته تجاه الإنسانيّة. وذلك بـ:<br>1- تعريف سياقي للنمذجة بما هي تمشّ علميّ يقوم على إنشاء نماذج لتأويل الأنساق ومعالجتها والفعل فيها,<br>- بيان أهميّة البعد التداولي للنموذج والدور الأساسي لمعيار النجاعة في تعيين قيمته.<br>- الكشف عن قيمة النجاعة بما هي قدرة النموذج على وضع حلول لمشاكل فعليّة أو الاستجابة لحاجة.<br>- النجاعة بما هي القدرة على الفعل من خلال فهم كيفيّة اشتغال النسق وكيفيّة التحكّم فيه.<br>- قيمة النموذج لا تتحدّد بصدقه أو كذبه و إنّما بوظيفته وقدرته على تحقيق نتائج عمليّة ذات جدوى في مجالات مختلفة.</td></tr>
+<tr><td>+ البحث في وجه التلازم / الاستتباع بين الحرص على النجاعة والتخلي عن المسؤوليّة.<br>+ التظنّن على القول بالتلازم بين الحرص على النجاعة والخلي عن المسؤولية.<br>+ البحث في شروط إمكان الانسجام بين مطلب نجاعة النماذج العلميّة ومقتضى الالتزام بالمسؤوليّة الايتيقية إزاء الإنسانيّة.</td><td>2- بيان مبرّرات القول بأنّ خصوصيّة هذا التمشّي العلمي تستبعد الجانب القيمي في نشاط صنّاع النماذج.<br>- المنمذج في حرصه على مقتضى النجاعة لا ينشغل بالاعتبارات القيميّة لما ينجزه (السعادة، الخير، الشرّ، الشقاء ...)<br>- النظر إلى الاعتبارات الأخلاقيّة بوصفها عائقا أمام التقدّم العلميّ، فيستبعدها، أو يعلّق بشأنها الحكم.<br>- العلم ليس معنيًا بما يترتّب عن استعمال النماذج وتوظيفها في مشاريع غير علميّة (اقتصاديّة، عسكريّة، سياسيّة)<br>- اعتبار أنّ حرص العالم على معيار النجاعة يعفيه من كلّ مسؤوليّة أخلاقيّة، وإذا كان عليه أن يكون مسؤولا ففي مستوى دقّة المعرفة وجدوى المعالجة التقنيّة.<br><u>لحظة ثانية:</u><br>*التظنّن على القول بأنّ مطلب النجاعة يعفي العلم من مسؤوليته تجاه الإنسانيّة:<br>- بيان أنّ الحرص على مطلب النجاعة يفضي إلى نتائج كارثيّة في علاقة الإنسان بالطبيعة وعلاقته بذاته وبالآخرين ( الأوبئة، اختلال التوازن البيئي، سباق التسلّح...)<br>- ضرورة اقتران الحرص على النجاعة بوعي متيقّظ برهانات العلم القيميّة.<br>- اعتبار التقدّم العلميّ لطموحات البشر وآمالهم في الحريّة والسعادة والعدالة والخير...<br>+ مرحلة الاستخلاص:<br>- العلم لا يختزل في مجرّد تمشّيات ومناهج صوريّة تتّسم بالصرامة والدقّة.<br>- العقل العلمي لا يختزل في العقل التقنيّ والوضعيّ.<br>- العقلانيّة العلميّة تقتضي روحا علميًا، يؤلّف بين النجاعة والقيم وبين التقني والايتيقي.<br>- يتحوّل العلم إلى مصدر أزمة إذا ما استبعد المضامين الإنسانيّة.</td></tr>
+</table>
+<p class="consigne"><b>السؤال الثاني: هل يمكن اعتبار الغيريّة نفيا لوحدة الذات وحرّيتها؟</b></p>
+<table>
+<tr><th colspan="2">العمل التحضيري</th></tr>
+<tr><th>التفكيك</th><th>التخطيط</th></tr>
+<tr><td>* فهم صيغة السؤال وتحديد المطلوب: السؤال يستشكل علاقة الغيريّة بوحدة الذات وحرّيتها. بحيث يكون المطلوب هو البحث فيما إذا كانت الغيرية في مختلف وجوهها نفيا / سلبا / إقصاء لوحدة الذات وحريتها أم لا.<br><br>* رصد مفاهيم السؤال وتحديد دلالتها السياقيّة:</td><td>+ مرحلة بناء المشكل:<br>التمهيد:<br>يمكن الانطلاق من:<br>*إمكانيّة أولى: المفارقة بين الوعي بالذات باعتبارها تجربة باطنيّة حميمة تتّسم بالتفرّد والاستقلاليّة وبين و اقع التجربة الفعليّة للوجود البشري التي تكشف عن حضور الإنسان ضمن شبكة مركّبة من البنى والعلاقات.<br>*إمكانيّة ثانية: اكتشاف الطابع المركّب والملغز للأنا الذي أفضى إلى مراجعة تصوّرنا للذات ولمنزلة الغيريّة فيها والتي صارت قائمة في بنية الذات نفسها باعتبارها غيريّة داخليّة.</td></tr>
+<tr><td>+ الغيريّة بما هي كلّ ما ليس الأنا كمختلف أو كمقابل سواء كان داخل الذات أو خارجها.<br>+ وحدة الذات سواء ككيان بسيط أو كوحدة بنيويّة مركّبة.<br>+ الحريّة كقيمة مرتبطة باستقلاليّة الأنا عن كل المحددات الخارجيّة المغايرة.<br><br>* بلورة الإشكاليّة و ضبط مراحل المعالجة:<br>- يكون ذلك بالتساؤل عن مدى وجاهة اعتبار الغيرية تفكيكا أو هدما لوحدة الذات وسلبا لاستقلاليتها.<br>- وتكون مراحل المعالجة كالتالي:<br>+ البحث في مبرّرات القول بأنّ الغيريّة تدمير لوحدة الذات وتكريس لاغترابها وعبوديّتها.<br>+ التظنن على الاقرار بكون الغيريّة عامل تفكيك لوحدة الذت وعلّة فقدانها لحريّتها.<br>+ البحث في الكيفيّات والشروط التي يجب أن يكون عليها حضور الغيريّة حتى لا تكون تهديدا لوحدة الذات وحريتها.</td><td>*إمكانيّة ثالثة: ما يتيحه التقدّم العلمي للفلسفة من إمكانيّة التظنّن على سلطان الوعي ومطلقيته، باعتبار ما يسم الذات من تعدّد وتركيب، ما أدّى إلى التشكيك في وحدة الذات وحرّيتها,<br>الإشكاليّة:<br>*إمكانيّة أولى: هل في اعتبار الغيريّة مقوّما للإنّية ما ينفي عن الذات انسجامها وتميّزها وما يشكّك في إرادتها واستقلاليتها؟ أم أنّ في ذلك ما يقود إلى التحوّل من تصوّر جوهر اني يقوم على وحدة زائفة وحريّة موهومة، إلى تصوّر تاريخي يقوم على ذاتيّة تتحقّق في إطار التعدّد والوعي بالضرورات التي تحكمها؟<br>*إمكانيّة ثانية: هل يؤدّي انفتاح الإنّية على الغيرية إلى تشظّيها وفقدانها لسيادتها، أم أنّ في ذلك ما يفضي إلى إثرائها باعتبارها وحدة متكثّرة تتجادل فيها حريّة الذات مع اكراهات الضرورات النفسيّة والاجتماعيّة؟<br>+ مرحلة بلورة الموقف من المشكل:<br><u>لحظة أولى:</u><br>يحلّل المترشّح القول بأنّ الغيريّة تمثّل نفيا لوحدة الذات وحرّيتها وذلك ببيان:<ul class="b"><li>اعتبار الغيرية أنا آخر أو غيرية خارجيّة أو الطرف المقابل، وهو ما يجعلها تهديدا للذات.</li><li>اعتبار وحدة الذات من جهة بساطتها و انسجامها وتطابقها مع ذاتها وثباتها، بما يجعلها في تنافر مع كلّ ما هو مغاير لها.</li><li>اعتبار حريّة الذات بما هي إرادة مستقلّة وسيادة على الذات في تعال عن كلّ ضرورة داخليّة أو خارجيّة.</li><li>الانتهاء إلى أنّ الغيرية سواء كانت داخليّة أو خارجيّة، تمثّل تهديدا لوحدة الذات واستقلاليتها.</li></ul><u>لحظة ثانية:</u><br>بيان كيف تكون الغيرية إثراء لوحدة الذات وتأكيدا لحريّتها الفعليّة وذلك بـ:<ul class="b"><li>الاستعاضة عن تصوّر سلبي للغيرية بتصوّر ايجابي من جهة اعتبارها أنا آخر (غيرية خارجيّة) أو باعتبارها مكوّنا بنيويّا للذات (غيرية داخليّة).</li><li>استبدال وحدة الذات بما هي جوهر قائم بذاته بتصوّرها من جهة أنّها وحدة مركّبة لا تتحقّق إلاّ في إطار التفاعل مع ما هو مغاير لها.</li><li>استبدال التصوّر الميتافيزيقي للحريّة بتصوّر تاريخي من جهة اعتبارها مسار تحرّري قائم على التفاعل والنفي والجدل.</li></ul>+ مرحلة الاستخلاص:<br>الانتهاء إلى:<br>أنّ الذات تظلّ مفتقرة ليقينها بذاتها في غياب الغيرية.<br>أنّ حريّة الذات في غياب الغير، حريّة جوفاء.<br>اعتبار أنّ وحدة الذات وحرّيتها ليست معطى بل تكتسب من خلال أشكال الصراع التي تخوضها الذات في علاقة بذاتها وفي علاقتها بالغير وفي علاقتها بالعالم.</td></tr>
+</table>
+
+</section>
+
+</div>
+</body>
+</html>

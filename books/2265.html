@@ -1,0 +1,1007 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<title>Wael Academy — Philosophie · afkar</title>
+<script>
+  window.MathJax = {
+    tex: { inlineMath: [['\\(','\\)']], displayMath: [['\\[','\\]']] },
+    chtml: { fontURL: 'https://cdn.jsdelivr.net/npm/mathjax@3/es5/output/chtml/fonts/woff-v2', matchFontHeight: true },
+    startup: { typeset: true }
+  };
+</script>
+<script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js" async></script>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Sora:wght@400;500;600;700;800&family=Cairo:wght@400;500;600;700;800;900&family=Tajawal:wght@400;500;700;800&family=JetBrains+Mono:wght@400;500;600;700&display=swap');
+:root{
+  /* ===== Wael Academy palette — MAIN ACCENT = green-teal gradient #0FAB8F → #067360 ===== */
+  --bg:#fff; --panel:#f2f8f8; --hair:#e6e6e9; --hair2:#d6d6db;
+  --fg:#0f2a31;        /* body text (and +/− signs) */
+  --fg2:#3f5b62;       /* softer text */
+  --fg3:#7c959b;       /* muted (footer) */
+  --blue:#067360;      /* deep accent — small numbers, borders, watermark, accent equations */
+  --blue-dark:#045260; /* titles & wordmarks (also the balance colour) */
+  --teal:#0fab8f;      /* bright accent end */
+  --loop:#0d9c82;      /* logo-loop helper */
+  --orange:#067360;    /* kicker/category labels (gold retired → deep teal) */
+  --red:#f5322f;       /* EXERCISE CHIPS ONLY — never for emphasis */
+  --cream:#e6f3f4; --blue-soft:#e6f3f4;  /* pale teal — callout fill + table sub-row fill */
+  --blue-line:#cde7e4; /* hairline */
+  --sub-ink:#045260;   /* table sub-row text */
+  --grad:linear-gradient(148deg,#0fab8f 0%,#0d9c82 52%,#067360 100%);
+  --mono:'JetBrains Mono',monospace; --latin:'Sora',sans-serif; --ar:'Cairo',sans-serif; --arb:'Tajawal',sans-serif;
+}
+*{box-sizing:border-box;margin:0;padding:0;}
+body{font-family:var(--latin);color:var(--fg);background:#e4e4e7;padding:28px 0;
+     -webkit-print-color-adjust:exact;print-color-adjust:exact;}
+html[dir="rtl"] body{font-family:var(--arb);}
+
+/* ===== brand watermark: REAL text (crisp), full-bleed, repeats per page ===== */
+.wm{position:fixed;inset:0;z-index:0;pointer-events:none;display:flex;
+    align-items:center;justify-content:center;overflow:hidden;
+    -webkit-print-color-adjust:exact;print-color-adjust:exact;}
+.wm span{font-family:var(--mono);font-weight:800;font-size:76.8pt;letter-spacing:.16em;
+    color:var(--blue);opacity:.06;white-space:nowrap;transform:rotate(-54deg);}  /* single diagonal: bottom-left → top-right */
+.wm.mono span{color:#000;opacity:.05;}
+
+/* ===== continuous flow stream (no page border) ===== */
+.flow{width:210mm;margin:0 auto;background:transparent;color:var(--fg);
+      padding-block:16mm 18mm;padding-inline:23mm 14mm;position:relative;}   /* spiral gutter: inline-start(=spine) 23mm / outer 14mm — dir-aware; print margins set in render_flow.py */
+@media screen{ .flow{background:#fff;box-shadow:0 10px 40px rgba(0,0,0,.16);} }
+.flow>*{position:relative;z-index:1;}
+.flow p,.flow li,.flow .data,.flow .note,.flow .ex{break-inside:auto;}
+.flow .fig,.flow figure,.flow img,.flow svg.figsvg,.flow table,.flow tr,.flow .chapdiv,.flow .exh,.flow .qrcard,.flow .meta{break-inside:avoid;}
+.flow h1,.flow h2,.flow h3,.flow .exh,.flow .subhead,.flow .chapdiv{break-after:avoid;}
+.flow img,.flow svg.figsvg{max-width:100%;height:auto;}
+.flow figcaption,.flow .figcap{display:none;}          /* rule 3: no figure captions */
+
+/* ===== front matter + chapters each start on a fresh page ===== */
+.flow .cover{break-after:page;}        /* cover alone on page 1 */
+.flow .toc{break-after:page;}          /* Sommaire alone on the next page */
+.flow .chapter{break-before:page;}
+.flow .chapter:first-of-type{break-before:auto;}
+
+/* ===== cover ===== */
+.cover{padding:14mm 0 8mm;border-bottom:2px solid var(--blue);margin-bottom:6mm;}
+.cover .badge{font-family:var(--mono);font-size:8.5pt;letter-spacing:.28em;text-transform:uppercase;color:var(--orange);margin-bottom:10px;}
+.cover h1{font-family:var(--latin);font-weight:800;font-size:34pt;line-height:1.03;letter-spacing:-.025em;color:var(--blue-dark);}
+.cover .grule{width:120px;height:5px;border-radius:5px;background:var(--grad);margin:14px 0;}
+.cover .sub{font-family:var(--mono);font-size:10pt;letter-spacing:.14em;text-transform:uppercase;color:var(--teal);}
+.cover .auth{font-size:11pt;color:var(--fg2);margin-top:6px;font-weight:600;}
+
+/* ===== table of contents ===== */
+.toc{margin:2mm 0 4mm;}
+.toc h2{font-family:var(--latin);font-weight:800;font-size:15pt;color:var(--blue-dark);margin-bottom:4mm;}
+.toc .trititle{font-family:var(--mono);font-size:8pt;letter-spacing:.2em;text-transform:uppercase;color:var(--orange);margin:4mm 0 2mm;}
+.toc ol{list-style:none;}
+.toc li{display:flex;align-items:baseline;gap:8px;font-size:10pt;padding:2.2px 0;color:var(--fg);line-height:1.4;}
+.toc li .n{font-family:var(--mono);font-weight:700;font-size:9pt;color:var(--blue);min-width:26px;}
+.toc li .dots{flex:1;border-bottom:1px dotted var(--hair2);transform:translateY(-3px);}
+
+/* ===== chapter divider band ===== */
+.chapdiv{margin:0 0 5mm;padding:6mm 16px 5mm;border-radius:12px;background:var(--grad);
+    -webkit-print-color-adjust:exact;print-color-adjust:exact;}   /* green-filled chapter band */
+.chapdiv .cn{font-family:var(--mono);font-size:8.5pt;font-weight:700;letter-spacing:.24em;text-transform:uppercase;color:rgba(255,255,255,.82);margin-bottom:5px;}
+.chapdiv h2{font-family:var(--latin);font-weight:800;font-size:17pt;line-height:1.1;letter-spacing:-.015em;color:#fff;}
+/* conclusion block — same green-filled look as the chapter band */
+.conclusion{background:var(--grad);border-radius:12px;padding:6mm 16px;margin:5mm 0;color:#fff;break-inside:avoid;
+    -webkit-print-color-adjust:exact;print-color-adjust:exact;}
+.conclusion .ck{font-family:var(--mono);font-size:8.5pt;font-weight:700;letter-spacing:.24em;text-transform:uppercase;color:rgba(255,255,255,.82);margin-bottom:6px;}
+.conclusion h3{font-family:var(--latin);font-weight:800;font-size:13pt;line-height:1.2;color:#fff;margin-bottom:4px;}
+.conclusion p,.conclusion li{font-size:10.4pt;line-height:1.7;color:#fff;}
+.conclusion b,.conclusion strong{color:#fff;font-weight:700;}
+
+/* ===== unit header (lesson/exercise) + QR emplacement ===== */
+.exh{display:flex;align-items:center;gap:11px;margin:6mm 0 3mm;}
+.exh .idx{font-family:var(--mono);font-size:9pt;font-weight:600;color:#fff;background:var(--grad);
+    border-radius:6px;padding:4px 11px;letter-spacing:.08em;text-transform:uppercase;
+    -webkit-print-color-adjust:exact;print-color-adjust:exact;}
+.exh .idx.ex{background:var(--red);}   /* exercise chip = red */
+.exh h2{font-family:var(--latin);font-size:14pt;font-weight:700;letter-spacing:-.01em;color:var(--blue-dark);}
+.exh .qrcard{margin-inline-start:auto;flex:0 0 auto;display:flex;flex-direction:column;align-items:center;gap:3px;width:26mm;}
+.qrcard .qrt{font-family:var(--mono);font-size:6.5pt;letter-spacing:.1em;text-transform:uppercase;color:var(--teal);text-align:center;}
+.qrcard .qrslot{width:24mm;height:24mm;padding:1.5mm;background:#fff;border:1px solid var(--blue-line);border-radius:8px;display:flex;align-items:center;justify-content:center;}
+.qrcard .qrslot img,.qrcard .qrslot svg{width:100%;height:100%;display:block;}
+
+/* sub-exercise label when one file holds several exercices */
+.exsub{font-family:var(--latin);font-weight:800;font-size:11.5pt;color:var(--blue-dark);margin:5mm 0 2.5mm;padding-bottom:3px;border-bottom:2px solid var(--blue-line);}
+
+/* ===== text blocks ===== */
+.lead{font-size:11pt;line-height:1.7;margin:2mm 0 3mm;color:var(--fg);}
+.para{font-size:10.6pt;line-height:1.7;margin:2mm 0 2.5mm;color:var(--fg);}
+.consigne{font-size:10.4pt;line-height:1.6;margin:1mm 0 2mm;color:var(--fg);font-style:italic;}
+.subhead{font-family:var(--latin);font-weight:800;font-size:12pt;letter-spacing:-.01em;color:var(--blue-dark);margin:5mm 0 2.5mm;}
+/* emphasis — green accent = .t-blue/.t-green ; balance = .t-navy ; red = SECONDARY accent (.t-red) on titles + a few words */
+.t-blue{color:var(--blue);font-weight:600;} .t-navy{color:var(--blue-dark);font-weight:700;}
+.t-red{color:var(--red);font-weight:600;} .t-green{color:var(--teal);font-weight:600;} .t-gold{color:var(--orange);font-weight:600;}
+.subhead.t-red{color:var(--red);font-weight:800;}   /* red Roman-numeral section title (I, II, …) — keeps subhead weight */
+/* highlighter marks — a soft colour wash behind a key word (agent picks green or red per what balances the page) */
+.hl-green,.hl-red{border-radius:3px;padding:.02em .24em;font-weight:600;box-decoration-break:clone;-webkit-box-decoration-break:clone;
+    -webkit-print-color-adjust:exact;print-color-adjust:exact;}
+.hl-green{background:rgba(15,171,143,.20);color:var(--blue-dark);}   /* green highlight */
+.hl-red{background:rgba(245,50,47,.13);color:#c0261f;}               /* red highlight  */
+
+.data{background:var(--blue-soft);border:1px solid var(--blue-line);border-inline-start:4px solid var(--blue);
+    border-radius:8px;padding:11px 16px;margin:3mm 0;font-size:10pt;line-height:1.65;color:var(--fg2);}
+.data b{color:var(--fg);font-weight:700;}
+.note{border:1px dashed var(--hair2);border-radius:9px;padding:11px 16px;margin:4mm 0;background:var(--panel);}
+.note .kicker{font-family:var(--mono);font-size:7.5pt;letter-spacing:.18em;color:var(--orange);display:block;margin-bottom:5px;}
+.note .nb{font-size:10pt;line-height:1.7;color:var(--fg2);} .note b{color:var(--fg);}
+.ex:not(.idx){background:var(--blue-soft);border:1px solid var(--blue-line);border-inline-start:3px solid var(--blue);
+    border-radius:7px;padding:7px 11px;font-size:9.6pt;line-height:1.6;color:var(--fg2);margin:2mm 0;}   /* :not(.idx) so it never hits the exercise chip (which is .idx.ex) */
+.ex .extag{display:inline-block;font-family:var(--latin);font-weight:800;font-size:7.6pt;color:var(--blue-dark);background:#fff;
+    border:1px solid var(--blue);border-radius:5px;padding:1px 9px;margin-inline-end:7px;vertical-align:middle;text-transform:uppercase;letter-spacing:.06em;}
+
+/* ===== lists ===== */
+ol.q{list-style:none;counter-reset:q;margin:1mm 0 2mm;}
+ol.q>li{counter-increment:q;position:relative;padding-inline-start:30px;margin-bottom:2.5mm;font-size:10.4pt;line-height:1.6;}
+ol.q>li::before{content:counter(q);position:absolute;inset-inline-start:0;top:1px;width:21px;height:21px;background:var(--grad);color:#fff;
+    border-radius:50%;font-family:var(--mono);font-size:9pt;font-weight:600;display:flex;align-items:center;justify-content:center;
+    -webkit-print-color-adjust:exact;print-color-adjust:exact;}
+ol.sub{list-style:none;counter-reset:s;margin:4px 0 0;padding-inline-start:2px;border-inline-start:1px solid var(--blue-line);}
+ol.sub li{counter-increment:s;position:relative;padding:2.5px 0 2.5px 26px;font-size:10.1pt;line-height:1.55;}
+ol.sub li::before{content:counter(s,lower-alpha)".";position:absolute;inset-inline-start:10px;top:2.5px;font-family:var(--mono);font-size:9pt;font-weight:600;color:var(--teal);}
+ol.qn{list-style:none;counter-reset:qn;margin:1mm 0 2mm;}
+ol.qn>li{counter-increment:qn;position:relative;padding-inline-start:26px;margin-bottom:2.2mm;font-size:10.4pt;line-height:1.55;}
+ol.qn>li::before{content:counter(qn)".";position:absolute;inset-inline-start:0;top:0;font-family:var(--mono);font-size:9.5pt;font-weight:700;color:var(--blue);}
+ul.b{list-style:none;margin:1mm 0 2mm;} ul.b>li{position:relative;padding-inline-start:22px;margin-bottom:2.4mm;font-size:10.4pt;line-height:1.6;}
+ul.b>li::before{content:"";position:absolute;inset-inline-start:3px;top:8px;width:8px;height:8px;border-radius:50%;background:var(--grad);
+    -webkit-print-color-adjust:exact;print-color-adjust:exact;}
+ul.dash{list-style:none;margin:1mm 0 2mm;} ul.dash>li{position:relative;padding-inline-start:20px;margin-bottom:1.8mm;font-size:10.4pt;line-height:1.6;}
+ul.dash>li::before{content:"–";position:absolute;inset-inline-start:2px;top:0;color:var(--fg);font-weight:700;}  /* dash / +/− signs = body colour */
+.flow ul.opts{list-style:none;margin:4px 0 3px;padding-inline-start:16px;}
+.flow ul.opts li{padding:2px 0;font-size:10.2pt;line-height:1.5;color:var(--fg);}
+
+/* ===== figures / tables ===== */
+.fig{margin:3mm 0;} .fig svg.figsvg{display:block;margin:0 auto;background:#fff;max-width:100%;height:auto;}
+.photo{display:block;margin:3mm auto;border-radius:8px;border:1px solid var(--hair);max-width:100%;}
+.figrow{display:flex;flex-wrap:wrap;gap:9px;justify-content:center;margin:3mm auto;max-width:190mm;}
+.flow .figrow img{border-radius:7px;border:1px solid var(--hair);height:46mm;width:auto;max-width:none;object-fit:cover;}
+.schemarow{display:flex;gap:16px;align-items:flex-start;flex-wrap:wrap;margin:2mm 0;}
+.schemarow .col-txt{flex:1 1 90mm;min-width:80mm;} .schemarow .col-fig{flex:0 0 78mm;} .schemarow .col-fig .fig{margin:0;}
+.flow table{border-collapse:collapse;width:100%;margin:3mm 0;font-size:9.8pt;line-height:1.5;}
+.flow table th,.flow table td{border:1px solid var(--blue-line);padding:6px 10px;text-align:start;vertical-align:top;}
+.flow table th{background:var(--grad);color:#fff;font-family:var(--latin);font-weight:700;font-size:9.4pt;
+    -webkit-print-color-adjust:exact;print-color-adjust:exact;}
+.flow table tr:nth-child(even) td{background:var(--blue-soft);color:var(--sub-ink);}   /* sub-row: #E6F3F4 / #045260 */
+
+mjx-container{color:var(--fg) !important;font-weight:400 !important;font-size:1.0em !important;}
+.eq-hi mjx-container,mjx-container.eq-hi{color:var(--blue) !important;}   /* accent (green) equation — highlight a key result; balance with plain math */
+.eq-red mjx-container,mjx-container.eq-red{color:var(--red) !important;}  /* red accent equation / symbol — complements the green .eq-hi */
+
+/* ===== per-file books: credit line, copies list, figures at their size ===== */
+.credit{display:flex;flex-wrap:wrap;align-items:center;gap:5px;margin:-1mm 0 3.5mm;font-size:9.4pt;color:var(--fg2);}
+.credit .who{font-weight:700;color:var(--blue-dark);}
+.credit .tg{font-family:var(--mono);font-size:7.2pt;letter-spacing:.04em;border-radius:5px;padding:1px 7px;line-height:1.6;
+    border:1px solid var(--blue-line);color:var(--blue);background:#fff;-webkit-print-color-adjust:exact;print-color-adjust:exact;}
+.credit .tg.sec{background:var(--blue-dark);border-color:var(--blue-dark);color:#fff;}
+.credit .tg.cor{background:#fff;border-color:var(--red);color:var(--red);}
+.credit a{color:var(--fg3);font-family:var(--mono);font-size:7pt;text-decoration:none;}
+.cover .auth .credit{margin:4mm 0 0;}
+.cover .copies{margin-top:5mm;font-size:8.6pt;color:var(--fg2);}
+.cover .copies ul{list-style:none;margin:2mm 0 0;padding:0;columns:2;}
+.cover .copies a{color:var(--fg3);text-decoration:none;font-size:8pt;}
+.flow figure.fig{text-align:center;}
+.flow figure.fig img{max-height:60mm;width:auto;max-width:70%;display:inline-block;}
+
+/* chapter tag on each part of a multi-chapter book (the book keeps the original order of the file) */
+.chtag{display:inline-block;margin:5mm 0 2mm;padding:1mm 3mm;border-radius:2mm;background:#eef3fb;border:1px solid #c9d6ea;
+  color:#1f3a6b;font-size:9pt;font-weight:700}
+.chtag span{color:#6b7f9e;font-weight:600;margin-inline-end:1.5mm}
+
+@media print{ body{background:#fff;padding:0;} .flow{width:auto;max-width:none;margin:0;padding:0;} }
+@page{size:A4;}   /* margins come from render_flow.py — do NOT set them here */
+</style>
+<meta data-pagefind-filter="type[content]" content="درس">
+<meta data-pagefind-filter="resource[content]" content="مكتبة 18 جانفي - عمارة الرحمة">
+<meta data-pagefind-meta="n[content]" content="2265">
+<meta data-pagefind-meta="title[content]" content="afkar">
+<meta data-pagefind-filter="chapter[content]" content="محور غير محدّد">
+<meta data-pagefind-filter="chapter[content]" content="الإنية والغيرية">
+<meta data-pagefind-filter="chapter[content]" content="الخصوصية والكونية">
+<meta data-pagefind-filter="chapter[content]" content="العلم بين الحقيقة والنمذجة">
+<meta data-pagefind-filter="chapter[content]" content="القيم: الأخلاق والدولة">
+<meta data-pagefind-filter="section[content]" content="باكالوريا رياضيات"><style>.qrcard{display:none!important}.wa-nav{position:sticky;top:0;z-index:50;background:#045260;padding:10px 18px;font-family:Cairo,sans-serif;direction:rtl}.wa-nav a{color:#fff;text-decoration:none;font-weight:700}@media print{.wa-nav{display:none}}</style>
+</head>
+
+<body dir="rtl" lang="ar"
+      data-brand="Wael Academy" data-handle="@WaelAcademy"
+      data-tagline="في تُرابنا.. مغامرة بمغامرة"
+      data-phone="+216 50 40 40 42" data-site="waeldocuments.com"
+      data-cta="سجل معانا وأقرى عن بعد مع منصة Wael Academy"
+      data-subject="Philosophie · afkar" data-watermark="Wael Academy" data-pagefind-body><nav class="wa-nav" data-pagefind-ignore><a href="../index.html">→ الرجوع إلى فهرس الفلسفة</a></nav>
+
+<!-- single full-page diagonal watermark, bottom-left → top-right (repeats on every page) -->
+<div class="wm" aria-hidden="true"><span>WAEL&nbsp;ACADEMY</span></div>
+
+<div class="flow colored">
+<div class="cover"><div class="badge">◉ Wael Academy · Philosophie</div><h1>afkar</h1><div class="grule"></div><div class="sub">محور غير محدّد</div><div class="auth"><div class="credit">المؤلّف / المصدر : <span class="who">مكتبة 18 جانفي - عمارة الرحمة ( نهج الطاهر كمون أمام البلمريوم 4- الهاتف : 22 740 485 — S.F.A.X · مكتبة 18 جانفي عمارة الرحمة ( نهج الطاهر كمون أمام البلمريوم - الهاتف : 22 740 485 — S.F.A.X · مكتبة 18 جانفي ،عمارة الرحمة ( نهج الطاهر كمون أمام البلمريوم 4– الهاتف : 22 740 485 · مكتبة 18 جانفي عمارة الرحمة ( نهج الطاهر كمون أمام البلمريوم 4- الهاتف : 22 740 485 — S.F.A.X · مكتبة 18 جانفي نهج الطاهر كمون امام البلماريوم 4 عمارة رحمة صفاقس الهاتف 22 740 485 · مكتبة 18 جانفي عمارة الرحمة ( نهج الطاهر كمون أمام البلمريوم 4– الهاتف : 22 740 485</span> <span class="tg cor">إصلاح</span><span class="tg sec">الفلسفة · باكالوريا رياضيات</span> <a href="https://drive.google.com/file/d/1Q6CK1MTpnFS3wz7iRdAOmQ-WmVy1VeMH/view">↗ 1.jpg</a> <a href="https://drive.google.com/file/d/12zWI-Top_BepnRPiOlOrSh71x-NgBp4W/view">↗ 2.jpg</a> <a href="https://drive.google.com/file/d/14Cmc_LVpzxTYHrOkibSeNyLDgosHffau/view">↗ 3.jpg</a> <a href="https://drive.google.com/file/d/12sojvu-PP5lKa4oz215N_4QQMLnxDW1s/view">↗ 4.jpg</a> <a href="https://drive.google.com/file/d/1nJWjVTSWRpN4dRCfMwTUU5oW-xlD_Sb3/view">↗ 5.jpg</a> <a href="https://drive.google.com/file/d/159-Cs8oKncH1dsnNXrzk0Smh3uXqZjVF/view">↗ 6.jpg</a> <a href="https://drive.google.com/file/d/1S9NrRnFmpnvSPf9dxLVVZsiQGcGXNjhy/view">↗ 7.jpg</a> <a href="https://drive.google.com/file/d/1z7x0iiThaFF85SMWVHGsTNk5x6fpyUwk/view">↗ 8.jpg</a> <a href="https://drive.google.com/file/d/1IRdtdl3YRxoGSStx93EMrMYunr4XlstG/view">↗ 9.jpg</a> <a href="https://drive.google.com/file/d/1D6_Puf7JrJTyIJdruWdNKYROvkq-aJC9/view">↗ 10.jpg</a> <a href="https://drive.google.com/file/d/1_zIy0p46lt3B35dtLaADdvBCYzW1Nygc/view">↗ 11.jpg</a> <a href="https://drive.google.com/file/d/1Il_yudroucCkd-hs9lXwd0_UeL5kAviJ/view">↗ 12.jpg</a> <a href="https://drive.google.com/file/d/1EEAT_kW7Scd1aRiJ4JP0M0DsHfJ2InG1/view">↗ 13.jpg</a> <a href="https://drive.google.com/file/d/1tBxI29Msn9l5rZwiawqeFYMZ6fDT2T1t/view">↗ 14.jpg</a> <a href="https://drive.google.com/file/d/1--A8fnQoLflv-rSO-SnyuxAeUar6msva/view">↗ 15.jpg</a> <a href="https://drive.google.com/file/d/1hV2bwjiVfp2z7V4-poQQNEDv39wHd20f/view">↗ 16.jpg</a> <a href="https://drive.google.com/file/d/1s4h2rfTAYctvT8qBPop5YFztesibQG3-/view">↗ 17.jpg</a> <a href="https://drive.google.com/file/d/1DGuO4jWAJfvr85UsueIhtXtxHziKUDSZ/view">↗ 18.jpg</a> <a href="https://drive.google.com/file/d/1twB5ayfhIyIgRNg0Wkcd5RaiitMSHoPZ/view">↗ 19.jpg</a> <a href="https://drive.google.com/file/d/115vI5OhIAC986YtgR7GAh6QWSLZasFKV/view">↗ 20.jpg</a> <a href="https://drive.google.com/file/d/1l4zihVDhPUdrp1wTQh3X4JzJ6e7Uazgi/view">↗ 21.jpg</a> <a href="https://drive.google.com/file/d/1eDFo9flLmIKRuxJp3jJKyXWwXWC539ye/view">↗ 22.jpg</a> <a href="https://drive.google.com/file/d/1rpP2vHHJT3nCHZqglryPYPe7z9BAbbJc/view">↗ 23.jpg</a> <a href="https://drive.google.com/file/d/1NYgHFx2ZvoTFrpOS5NW9LZtKTyEeESg3/view">↗ 24.jpg</a> <a href="https://drive.google.com/file/d/1ulCVqELhhJbE1-92MaysI_CkY3hCzBoS/view">↗ 25.jpg</a> <a href="https://drive.google.com/file/d/1o1Pi8tCCsJPPY7oE2yDGsYJnUDG9s1j_/view">↗ 26.jpg</a> <a href="https://drive.google.com/file/d/1znQlu1nl--Ddvx5QNzmyNALAXdQakFLT/view">↗ 27.jpg</a> <a href="https://drive.google.com/file/d/1hHfZDL9bKBbb6nywQ7U_86LIYW4lBOg5/view">↗ 28.jpg</a> <a href="https://drive.google.com/file/d/1moWSnGSS6ShMTpGo5SzbWBml54yfi8ZS/view">↗ 29.jpg</a> <a href="https://drive.google.com/file/d/1eTEgt7ZMKHzERAP4rzToOrj-fDHj4eE8/view">↗ 30.jpg</a> <a href="https://drive.google.com/file/d/1CmoNskXXqmzvniaV2ohaaAkm8I1wtBmR/view">↗ 31.jpg</a> <a href="https://drive.google.com/file/d/1t-g9GI2E66Ies1Z6KIQwZ1XTJVgVv_zt/view">↗ 32.jpg</a> <a href="https://drive.google.com/file/d/14hOuWzGK_AvbSCh3mrNg4u1cSN8TqgtO/view">↗ 33.jpg</a> <a href="https://drive.google.com/file/d/1tiUrTiKR8GoMRZcSmV3dKN9bEa0-mAPf/view">↗ 34.jpg</a> <a href="https://drive.google.com/file/d/1sJVUAEIZCe-QCC9IlSxuloHyLAliymQ3/view">↗ 35.jpg</a></div></div><div class="copies" data-pagefind-ignore><b>نسخ هذا الملف في الدرايفات (35)</b><ul><li><a href="https://drive.google.com/file/d/1Q6CK1MTpnFS3wz7iRdAOmQ-WmVy1VeMH/view">Anas Saïd · IDEAL BAC MATH(Anas Saïd) › Philo / PHILO Sfax / afkar</a></li><li><a href="https://drive.google.com/file/d/12zWI-Top_BepnRPiOlOrSh71x-NgBp4W/view">Anas Saïd · IDEAL BAC MATH(Anas Saïd) › Philo / PHILO Sfax / afkar</a></li><li><a href="https://drive.google.com/file/d/14Cmc_LVpzxTYHrOkibSeNyLDgosHffau/view">Anas Saïd · IDEAL BAC MATH(Anas Saïd) › Philo / PHILO Sfax / afkar</a></li><li><a href="https://drive.google.com/file/d/12sojvu-PP5lKa4oz215N_4QQMLnxDW1s/view">Anas Saïd · IDEAL BAC MATH(Anas Saïd) › Philo / PHILO Sfax / afkar</a></li><li><a href="https://drive.google.com/file/d/1nJWjVTSWRpN4dRCfMwTUU5oW-xlD_Sb3/view">Anas Saïd · IDEAL BAC MATH(Anas Saïd) › Philo / PHILO Sfax / afkar</a></li><li><a href="https://drive.google.com/file/d/159-Cs8oKncH1dsnNXrzk0Smh3uXqZjVF/view">Anas Saïd · IDEAL BAC MATH(Anas Saïd) › Philo / PHILO Sfax / afkar</a></li><li><a href="https://drive.google.com/file/d/1S9NrRnFmpnvSPf9dxLVVZsiQGcGXNjhy/view">Anas Saïd · IDEAL BAC MATH(Anas Saïd) › Philo / PHILO Sfax / afkar</a></li><li><a href="https://drive.google.com/file/d/1z7x0iiThaFF85SMWVHGsTNk5x6fpyUwk/view">Anas Saïd · IDEAL BAC MATH(Anas Saïd) › Philo / PHILO Sfax / afkar</a></li><li><a href="https://drive.google.com/file/d/1IRdtdl3YRxoGSStx93EMrMYunr4XlstG/view">Anas Saïd · IDEAL BAC MATH(Anas Saïd) › Philo / PHILO Sfax / afkar</a></li><li><a href="https://drive.google.com/file/d/1D6_Puf7JrJTyIJdruWdNKYROvkq-aJC9/view">Anas Saïd · IDEAL BAC MATH(Anas Saïd) › Philo / PHILO Sfax / afkar</a></li><li><a href="https://drive.google.com/file/d/1_zIy0p46lt3B35dtLaADdvBCYzW1Nygc/view">Anas Saïd · IDEAL BAC MATH(Anas Saïd) › Philo / PHILO Sfax / afkar</a></li><li><a href="https://drive.google.com/file/d/1Il_yudroucCkd-hs9lXwd0_UeL5kAviJ/view">Anas Saïd · IDEAL BAC MATH(Anas Saïd) › Philo / PHILO Sfax / afkar</a></li><li><a href="https://drive.google.com/file/d/1EEAT_kW7Scd1aRiJ4JP0M0DsHfJ2InG1/view">Anas Saïd · IDEAL BAC MATH(Anas Saïd) › Philo / PHILO Sfax / afkar</a></li><li><a href="https://drive.google.com/file/d/1tBxI29Msn9l5rZwiawqeFYMZ6fDT2T1t/view">Anas Saïd · IDEAL BAC MATH(Anas Saïd) › Philo / PHILO Sfax / afkar</a></li><li><a href="https://drive.google.com/file/d/1--A8fnQoLflv-rSO-SnyuxAeUar6msva/view">Anas Saïd · IDEAL BAC MATH(Anas Saïd) › Philo / PHILO Sfax / afkar</a></li><li><a href="https://drive.google.com/file/d/1hV2bwjiVfp2z7V4-poQQNEDv39wHd20f/view">Anas Saïd · IDEAL BAC MATH(Anas Saïd) › Philo / PHILO Sfax / afkar</a></li><li><a href="https://drive.google.com/file/d/1s4h2rfTAYctvT8qBPop5YFztesibQG3-/view">Anas Saïd · IDEAL BAC MATH(Anas Saïd) › Philo / PHILO Sfax / afkar</a></li><li><a href="https://drive.google.com/file/d/1DGuO4jWAJfvr85UsueIhtXtxHziKUDSZ/view">Anas Saïd · IDEAL BAC MATH(Anas Saïd) › Philo / PHILO Sfax / afkar</a></li><li><a href="https://drive.google.com/file/d/1twB5ayfhIyIgRNg0Wkcd5RaiitMSHoPZ/view">Anas Saïd · IDEAL BAC MATH(Anas Saïd) › Philo / PHILO Sfax / afkar</a></li><li><a href="https://drive.google.com/file/d/115vI5OhIAC986YtgR7GAh6QWSLZasFKV/view">Anas Saïd · IDEAL BAC MATH(Anas Saïd) › Philo / PHILO Sfax / afkar</a></li><li><a href="https://drive.google.com/file/d/1l4zihVDhPUdrp1wTQh3X4JzJ6e7Uazgi/view">Anas Saïd · IDEAL BAC MATH(Anas Saïd) › Philo / PHILO Sfax / afkar</a></li><li><a href="https://drive.google.com/file/d/1eDFo9flLmIKRuxJp3jJKyXWwXWC539ye/view">Anas Saïd · IDEAL BAC MATH(Anas Saïd) › Philo / PHILO Sfax / afkar</a></li><li><a href="https://drive.google.com/file/d/1rpP2vHHJT3nCHZqglryPYPe7z9BAbbJc/view">Anas Saïd · IDEAL BAC MATH(Anas Saïd) › Philo / PHILO Sfax / afkar</a></li><li><a href="https://drive.google.com/file/d/1NYgHFx2ZvoTFrpOS5NW9LZtKTyEeESg3/view">Anas Saïd · IDEAL BAC MATH(Anas Saïd) › Philo / PHILO Sfax / afkar</a></li><li><a href="https://drive.google.com/file/d/1ulCVqELhhJbE1-92MaysI_CkY3hCzBoS/view">Anas Saïd · IDEAL BAC MATH(Anas Saïd) › Philo / PHILO Sfax / afkar</a></li><li><a href="https://drive.google.com/file/d/1o1Pi8tCCsJPPY7oE2yDGsYJnUDG9s1j_/view">Anas Saïd · IDEAL BAC MATH(Anas Saïd) › Philo / PHILO Sfax / afkar</a></li><li><a href="https://drive.google.com/file/d/1znQlu1nl--Ddvx5QNzmyNALAXdQakFLT/view">Anas Saïd · IDEAL BAC MATH(Anas Saïd) › Philo / PHILO Sfax / afkar</a></li><li><a href="https://drive.google.com/file/d/1hHfZDL9bKBbb6nywQ7U_86LIYW4lBOg5/view">Anas Saïd · IDEAL BAC MATH(Anas Saïd) › Philo / PHILO Sfax / afkar</a></li><li><a href="https://drive.google.com/file/d/1moWSnGSS6ShMTpGo5SzbWBml54yfi8ZS/view">Anas Saïd · IDEAL BAC MATH(Anas Saïd) › Philo / PHILO Sfax / afkar</a></li><li><a href="https://drive.google.com/file/d/1eTEgt7ZMKHzERAP4rzToOrj-fDHj4eE8/view">Anas Saïd · IDEAL BAC MATH(Anas Saïd) › Philo / PHILO Sfax / afkar</a></li><li><a href="https://drive.google.com/file/d/1CmoNskXXqmzvniaV2ohaaAkm8I1wtBmR/view">Anas Saïd · IDEAL BAC MATH(Anas Saïd) › Philo / PHILO Sfax / afkar</a></li><li><a href="https://drive.google.com/file/d/1t-g9GI2E66Ies1Z6KIQwZ1XTJVgVv_zt/view">Anas Saïd · IDEAL BAC MATH(Anas Saïd) › Philo / PHILO Sfax / afkar</a></li><li><a href="https://drive.google.com/file/d/14hOuWzGK_AvbSCh3mrNg4u1cSN8TqgtO/view">Anas Saïd · IDEAL BAC MATH(Anas Saïd) › Philo / PHILO Sfax / afkar</a></li><li><a href="https://drive.google.com/file/d/1tiUrTiKR8GoMRZcSmV3dKN9bEa0-mAPf/view">Anas Saïd · IDEAL BAC MATH(Anas Saïd) › Philo / PHILO Sfax / afkar</a></li><li><a href="https://drive.google.com/file/d/1sJVUAEIZCe-QCC9IlSxuloHyLAliymQ3/view">Anas Saïd · IDEAL BAC MATH(Anas Saïd) › Philo / PHILO Sfax / afkar</a></li></ul></div></div>
+<section class="chapter">
+<div class="chtag"><span>المحور</span> محور غير محدّد</div>
+<!-- SOURCE: مكتبة 18 جانفي - عمارة الرحمة ( نهج الطاهر كمون أمام البلمريوم 4- الهاتف : 22 740 485 — S.F.A.X · مكتبة 18 جانفي عمارة الرحمة ( نهج الطاهر كمون أمام البلمريوم - الهاتف : 22 740 485 — S.F.A.X · مكتبة 18 جانفي ،عمارة الرحمة ( نهج الطاهر كمون أمام البلمريوم 4– الهاتف : 22 740 485 · مكتبة 18 جانفي عمارة الرحمة ( نهج الطاهر كمون أمام البلمريوم 4- الهاتف : 22 740 485 — S.F.A.X · مكتبة 18 جانفي نهج الطاهر كمون امام البلماريوم 4 عمارة رحمة صفاقس الهاتف 22 740 485 · مكتبة 18 جانفي عمارة الرحمة ( نهج الطاهر كمون أمام البلمريوم 4– الهاتف : 22 740 485 -->
+<!-- NOTE: one book for 35 files of the Drive folder "Philo / PHILO Sfax / afkar" (photo), in file order -->
+<div class="exh"><span class="idx">درس</span><h2>afkar</h2>
+  <div class="qrcard"><div class="qrt">فيديو الدرس</div><div class="qrslot"><img src="qr/2265.svg" alt="QR"></div></div></div>
+<div class="credit">المؤلّف / المصدر : <span class="who">مكتبة 18 جانفي - عمارة الرحمة ( نهج الطاهر كمون أمام البلمريوم 4- الهاتف : 22 740 485 — S.F.A.X · مكتبة 18 جانفي عمارة الرحمة ( نهج الطاهر كمون أمام البلمريوم - الهاتف : 22 740 485 — S.F.A.X · مكتبة 18 جانفي ،عمارة الرحمة ( نهج الطاهر كمون أمام البلمريوم 4– الهاتف : 22 740 485 · مكتبة 18 جانفي عمارة الرحمة ( نهج الطاهر كمون أمام البلمريوم 4- الهاتف : 22 740 485 — S.F.A.X · مكتبة 18 جانفي نهج الطاهر كمون امام البلماريوم 4 عمارة رحمة صفاقس الهاتف 22 740 485 · مكتبة 18 جانفي عمارة الرحمة ( نهج الطاهر كمون أمام البلمريوم 4– الهاتف : 22 740 485</span> <span class="tg cor">إصلاح</span><span class="tg sec">الفلسفة · باكالوريا رياضيات</span> <a href="https://drive.google.com/file/d/1Q6CK1MTpnFS3wz7iRdAOmQ-WmVy1VeMH/view">↗ 1.jpg</a> <a href="https://drive.google.com/file/d/12zWI-Top_BepnRPiOlOrSh71x-NgBp4W/view">↗ 2.jpg</a> <a href="https://drive.google.com/file/d/14Cmc_LVpzxTYHrOkibSeNyLDgosHffau/view">↗ 3.jpg</a> <a href="https://drive.google.com/file/d/12sojvu-PP5lKa4oz215N_4QQMLnxDW1s/view">↗ 4.jpg</a> <a href="https://drive.google.com/file/d/1nJWjVTSWRpN4dRCfMwTUU5oW-xlD_Sb3/view">↗ 5.jpg</a> <a href="https://drive.google.com/file/d/159-Cs8oKncH1dsnNXrzk0Smh3uXqZjVF/view">↗ 6.jpg</a> <a href="https://drive.google.com/file/d/1S9NrRnFmpnvSPf9dxLVVZsiQGcGXNjhy/view">↗ 7.jpg</a> <a href="https://drive.google.com/file/d/1z7x0iiThaFF85SMWVHGsTNk5x6fpyUwk/view">↗ 8.jpg</a> <a href="https://drive.google.com/file/d/1IRdtdl3YRxoGSStx93EMrMYunr4XlstG/view">↗ 9.jpg</a> <a href="https://drive.google.com/file/d/1D6_Puf7JrJTyIJdruWdNKYROvkq-aJC9/view">↗ 10.jpg</a> <a href="https://drive.google.com/file/d/1_zIy0p46lt3B35dtLaADdvBCYzW1Nygc/view">↗ 11.jpg</a> <a href="https://drive.google.com/file/d/1Il_yudroucCkd-hs9lXwd0_UeL5kAviJ/view">↗ 12.jpg</a> <a href="https://drive.google.com/file/d/1EEAT_kW7Scd1aRiJ4JP0M0DsHfJ2InG1/view">↗ 13.jpg</a> <a href="https://drive.google.com/file/d/1tBxI29Msn9l5rZwiawqeFYMZ6fDT2T1t/view">↗ 14.jpg</a> <a href="https://drive.google.com/file/d/1--A8fnQoLflv-rSO-SnyuxAeUar6msva/view">↗ 15.jpg</a> <a href="https://drive.google.com/file/d/1hV2bwjiVfp2z7V4-poQQNEDv39wHd20f/view">↗ 16.jpg</a> <a href="https://drive.google.com/file/d/1s4h2rfTAYctvT8qBPop5YFztesibQG3-/view">↗ 17.jpg</a> <a href="https://drive.google.com/file/d/1DGuO4jWAJfvr85UsueIhtXtxHziKUDSZ/view">↗ 18.jpg</a> <a href="https://drive.google.com/file/d/1twB5ayfhIyIgRNg0Wkcd5RaiitMSHoPZ/view">↗ 19.jpg</a> <a href="https://drive.google.com/file/d/115vI5OhIAC986YtgR7GAh6QWSLZasFKV/view">↗ 20.jpg</a> <a href="https://drive.google.com/file/d/1l4zihVDhPUdrp1wTQh3X4JzJ6e7Uazgi/view">↗ 21.jpg</a> <a href="https://drive.google.com/file/d/1eDFo9flLmIKRuxJp3jJKyXWwXWC539ye/view">↗ 22.jpg</a> <a href="https://drive.google.com/file/d/1rpP2vHHJT3nCHZqglryPYPe7z9BAbbJc/view">↗ 23.jpg</a> <a href="https://drive.google.com/file/d/1NYgHFx2ZvoTFrpOS5NW9LZtKTyEeESg3/view">↗ 24.jpg</a> <a href="https://drive.google.com/file/d/1ulCVqELhhJbE1-92MaysI_CkY3hCzBoS/view">↗ 25.jpg</a> <a href="https://drive.google.com/file/d/1o1Pi8tCCsJPPY7oE2yDGsYJnUDG9s1j_/view">↗ 26.jpg</a> <a href="https://drive.google.com/file/d/1znQlu1nl--Ddvx5QNzmyNALAXdQakFLT/view">↗ 27.jpg</a> <a href="https://drive.google.com/file/d/1hHfZDL9bKBbb6nywQ7U_86LIYW4lBOg5/view">↗ 28.jpg</a> <a href="https://drive.google.com/file/d/1moWSnGSS6ShMTpGo5SzbWBml54yfi8ZS/view">↗ 29.jpg</a> <a href="https://drive.google.com/file/d/1eTEgt7ZMKHzERAP4rzToOrj-fDHj4eE8/view">↗ 30.jpg</a> <a href="https://drive.google.com/file/d/1CmoNskXXqmzvniaV2ohaaAkm8I1wtBmR/view">↗ 31.jpg</a> <a href="https://drive.google.com/file/d/1t-g9GI2E66Ies1Z6KIQwZ1XTJVgVv_zt/view">↗ 32.jpg</a> <a href="https://drive.google.com/file/d/14hOuWzGK_AvbSCh3mrNg4u1cSN8TqgtO/view">↗ 33.jpg</a> <a href="https://drive.google.com/file/d/1tiUrTiKR8GoMRZcSmV3dKN9bEa0-mAPf/view">↗ 34.jpg</a> <a href="https://drive.google.com/file/d/1sJVUAEIZCe-QCC9IlSxuloHyLAliymQ3/view">↗ 35.jpg</a></div>
+
+<!-- file: 1 -->
+
+
+<!-- NOTE: cover page only; handwritten number "35/1925" in the corner left out -->
+<!-- PROOFREAD: 2265 part1 p01 — footer (shop address / phone "22 740 485") too faint and small to read reliably; not typed -->
+<p class="subhead t-navy"><b>26</b></p>
+<p class="subhead t-navy"><u>للسنة الرابعة ثانوي</u></p>
+<p class="para">الدولة السيادة و المواطنة</p>
+<p class="para">العلم بين الحقيقة و النمذجة</p>
+<p class="para">الأخلاق و السعادة</p>
+<p class="para">الكونية و الخصوصيّة</p>
+<p class="para">الإنية و الغيرية</p>
+<!-- NOTE: "الإنية و الغيرية" is printed slanted on the cover (page itself is upright) -->
+<!-- file: 2 -->
+
+<div class="chtag"><span>المحور</span> الإنية والغيرية</div>
+
+<!-- PROOFREAD: 2275 part1 p01 — "faint photocopy with small print: whole page is a best reading; doubtful words flagged below" -->
+<div class="data"><p class="para"><b>الوحدة الأولى: الإنساني بين الكثرة والوحدة</b></p></div>
+<p class="subhead t-red">المسألة الأولى: الأنية و الغيرية</p>
+<p class="para">27</p>
+<p class="subhead t-navy">I. البعد الإشكالي للمسألة:</p>
+<p class="para">تكشف مسألة الأنية والغيرية عن لحظة من لحظات ريادة العقل الفلسفي في تمثل معنى "الانساني بين الكثرة والوحدة" سعيا إلى بناء خطاب عقلاني حول سؤال ما الإنسان؟ الذي ظل مركز البحث والانشغال المعرفي. وهذا الالتزام ببنية السؤال يحاول تأسيس قول مميز حول معنى الكلي بما هو معرفة تعبر عن دلالات الحقيقي و الجوهري و الكوني و الوحدة الحاضنة للكثرة، فبدأ الكلي الرهان الأساسي لكل بحث يؤسسه العقل حول ماهية الإنسان و تمظهرات حضوره داخل الوجود.</p>
+<p class="para">من هذا المنطلق يتمظهر سؤال "من أنا؟" كصيغة تعبر عن إرادتنا في معرفة حقيقة الانسان وجوهره فتكون إنية الإنسان متجوهره في معنى الفكر كدلالة مطلقة و متعالية. فهذا التحديد الذي يختزل ماهية الإنسان في الفكر أو النفس يصرح بعدم اعترافه بالجسد باعتباره مادة تحمل دلالات الدنس والرغبة والرذيلة فيتحول إلى فضاء للاحتقار والازدراء كتعبير عن رؤية انطولوجية تجعل من العالم المطلق "المثل" أساس الوجود، وسيتجذر هذا التوجه في صياغه الكوجيتو عندما تنتهي تجربة الذات إلى الاعتقاد في أن طبيعة الإنسان و ماهيته لا تقوم إلا على الفكر.</p>
+<p class="para">إن اختزال حقيقة الإنسان في دلالة الفكر سيعمق النظرة الميتافيزيقية حول هذا الكائن ويسم التفكير الفلسفي بمعنى التأزم مما يدفعه إلى بناء مراجعة نقدية تحاول تأصيل دلالة الانفتاح على الغيرية. هذا الانفتاح سيشكل أرضية لاستحضار أبعاد بقيت فاعلة في تحديد خصوصية الحضور الانساني داخل الوجود، فتجلى الجسد كمعطى أساسي في الكشف عن التمثلات الذهنية والتوترات النفسية والقصديات الإرادية للأنا لتكون دلالة الجسد التعبيري فضاء حيويا تتشكل هذه الماهية، وعمق اكتشاف اللاوعي هذه الإرادة في الانفتاح على الغيرية الداخلية ليبرز لنا الجهاز النفسي اثر الدوافع العدوانية والجنسية المقترنة بمعنى الكبت على طبيعة الأفعال والإبداعات الفنية. والأحلام والهفوات و التمثلات الإنسانية. فبقيت المسارات اللاواعية محددة للمسارات الواعية.</p>
+<p class="para">لم يتوقف معنى الانفتاح على الارتباط بالغيرية الداخلية (الجسد، اللاوعي) بل سيتأنف حضوره لحظة رصده لدلالة التاريخ لنثبت بأن المعطيات المادية والتناقضات الحاصلة بين الفئات والطبقات وأنماط الإنتاج تشكل المجال الحقيقي المحدد للوجود الإنساني. فهذه الشروط التاريخية الخاضعة لآلتي التطور والتغير هي التي تعكس مميزات الوعي الإنساني، فالأفكار والقيم والتشريعات والإبداعات والعلاقات ليست إلا تعبيرا واضحا عن تلك الأبعاد المادية والاقتصادية للواقع الاجتماعي والطبقي.</p>
+<p class="para">إن الكشف عن خصوصيات هذا الانفتاح قد أكد على قيمة مختلف أبعاد الكائن الإنساني. إلا أنه بقي مشططا بنزعة اختزالية جذرت اطلاقية البعد رغم إرادة العقل في تجاوز تلك الدلالة الميتافيزيقية، فتمظهر انفتاح الأنية على الغيرية في معنى "أنا جسدي" و تجلي في سياق آخر كذات لا واعية، وبرز في موضع ثالث في دلالة "الذات التاريخية"، لكن هذه الدعوة إلى انفتاح الأنية على الغيرية لم يحقق رهان العقل الفلسفي و مطلبه المتمثل في الكلي مادامت هذه التمثلات قد جذرت معنى الكثرة دون الكشف عن الوحدة لذلك سعى الفكر الفلسفي المعاصر إلى اعتماد المنهج التركيبي حيث تتولد رؤيتنا للانفتاح من جهة النظر إلى الأنا بما هو ذات تحمل في بنيتها أبعاد الانسان المتنوعة، ليبرز الإنسان كذات يكشف عن التفاعلات الحاصلة بين مختلف الأبعاد الفاعلة في تحديد معنى الإنسان، وضمن هذا التمثل تكون الذات المعنى الحقيقي لماهية الإنسان، و ستكون دلالة "الوحدة المركبة" تأسيسا لهذا التوجه إذ لا وحدة دون كثرة و لا كثرة دون وحدة".</p>
+<p class="para">2</p>
+<!-- PROOFREAD: 2275 part1 p01 — "uncertain: 'فبدأ الكلي', 'سيتأنف', 'لآلتي', 'مشططا', 'تجربة الذات', 'تتشكل هذه الماهية'; the handwritten 27 is a page mark" -->
+<!-- file: 3 -->
+
+
+<!-- NOTE: page begins mid-text (continuation of a previous page); printed page numbers "28" and "3" and the library stamps are omitted. -->
+<p class="para">إن النظر إلى ماهية الإنسان كوحدة مركبة يعبر عن لحظة متطورة في ادراك معنى "الإنساني" إلا أن هذا التأمل سيتجلى بشكل واضح لحظة لقاء الذات بالذات الأخرى طالما أن الإنسان لا يمثل كيانا متفردا فهو في حاجة إلى الآخر. و سيعبر هذا اللقاء في لحظة أولى عن حالة من الارتياب من جهة انكشاف دلالات عدم الاعتراف، والبحث عن المثيل والشبيه، والاعتقاد في أن الأنا يشكل نموذجا مطلقا للآخر، واعتماد آليات الهيمنة والسيطرة، فتتلون العلاقة متّقدة بالصراع و الإقصاء. ولقد حاول العقل الفلسفي تمثل هذا اللقاء ضمن معنى التذاوت أو العلاقة البينذاتية التي تعبر عن تمظهرات التفاعل بين ذاتين مختلفتين في إطار وحدة لا تقبل التجزئة بفضل دلالات الاعتراف والإقرار بالاختلاف وتأصيل المشاركة والثراء من جهة تعميق قيم المحبة والصداقة والتعاطف وبين فاعلية الحوار فيتمظهر الآخر كصديق يثريني أليس في هذا النموذج من العلاقة تأسيسا لوحدة ذوات متكثرة؟ ألا يشكل ذلك لحظة متميزة في انكشاف الكلي بما هو توحيد للكثرة؟</p>
+<!-- PROOFREAD: 1212 part1 p01 — faint scan; "متّقدة بالصراع" and "يثريني" uncertain readings -->
+
+<p class="subhead t-red">II.&nbsp;&nbsp;تحديـد المعـانـي</p>
+<table>
+<tr>
+<td><u>الكلي</u>: هو الوحدة الحاملة للكثرة وهو الضروري والحقيقي بإطلاق وهو مبدأ تأسيس أو توحيد ويتخذ أبعادا نظرية وعملية و ذوقية.</td>
+<td><u>الآنية</u>: تشير إلى وجود الشيء، وإلى فعل اثبات تحقق هذا الوجود عينيا، أي الإشارة إلى كونية الشيء من حيث هو تعيين معنوي، فآنية الشيء هي جوهره و ماهيته ووجوده الأكمل و تتكشف الآنية في تمظهرات متعددة و متنوعة.</td>
+</tr>
+<tr>
+<td><u>الغيرية</u> : هي ما تخارج عن جوهرية الفكر واقترن بأبعاد أخرى. فهناك غيرية داخلية (الجسد، اللاوعي) و غيرية خارجية (التاريخ، العالم...)</td>
+<td><u>التاريخ</u> : هو مجموع المعطيات المادية الفاعلة في تشكل الوجود الإنساني، وهو الشروط الاقتصادية والتناقضات الموضوعية بين الفئات والطبقات الاجتماعية وتخضع هذه العناصر لمبدأ التغير والتطور.</td>
+</tr>
+</table>
+<div class="data"><p class="para"><u>العلاقة البينذاتية</u> : هي التذاوت، وهي علاقة ذات بذات أخرى تختلف عنها في إطار وحدة لا تقبل التجزئة، و يعني ذلك أن الذات حقيقة منفتحة لا تتمثل نفسها ووجودها إلا في عالم الآخرين، و هذا التفاعل البينذاتي يعبر عن لقاء بين الأنا والآخر فيجعل الحياة فضاء للتواصل.</p></div>
+<!-- PROOFREAD: 1212 part1 p01 — "وهو مبدأ تأسيس أو توحيد ويتخذ" and "مبدأ التغير" partly illegible -->
+
+<p class="subhead t-red">III.&nbsp;&nbsp;إمكانيات في تمثل المسلمة الضمنية للقول المطروح</p>
+<p class="para">"لا اكــون انـــا دون حضــــور الآخـــــر"</p>
+<p class="para">يكشف هذا القول عن رفض لعلاقة الإقصاء والصدام بين الأنا والآخر و الاعتقاد بأن تجسيد حقيقة الأنا يستوجب ضرورة اللقاء بالآخر و معاشرته في سياق الاعتراف بالاختلاف و التشريع للحوار و تأصيل معنى المشاركة والإثراء و نفي البحث عن المثيل والشبيه.</p>
+<p class="para">"انــا لا أملك جســــدا بل انـــا جســــدي"</p>
+<p class="para">يكشف هذا القول لحظة التجاوز لتلك الرؤية التي تحتقر الجسد و تعتبره رمزا لمعاني الرذيلة والجهل المعرفي وعائقا أمام انكشاف المعنى، فالتأسيس للذات المتجسدة يكشف عن تمظهر حركة متّقدة بالتمثلات الفكرية، والحالات النفسية والتصميمات الإرادية...</p>
+<!-- PROOFREAD: 1212 part1 p01 — "وعائقا أمام انكشاف" and "والتصميمات الإرادية" uncertain -->
+
+<p class="subhead t-red">IV.&nbsp;&nbsp;أسئلة للتفكير:</p>
+<p class="para">1)&nbsp;&nbsp;ما الذي يحكم علاقة الإنسان بالآخرين: التعايش أم العداء؟</p>
+<p class="para">2)&nbsp;&nbsp;إذا كان الإنسان يطلب الكلي، فما الذي يبرر نفوره من الإعتراف بقيمة اللاوعي؟</p>
+<!-- file: 4 -->
+
+
+<!-- NOTE: handwritten page number "29" and library stamps left out. Mind-map layout transcribed box by box, branches right to left. -->
+<p class="subhead t-navy">الكلي بما هو مطلب الفلسفة و الإنسانية</p>
+<ul class="b">
+<li>الكشف عن حقيقة الإنسان من جهة إدراك جوهره و ماهيته.</li>
+<li>اعتبار هذه المعرفة الكلية بالإنسان تجاوزا للتمثلات النظرية السائدة وللتصورات الجزئية.</li>
+<li>الاعتقاد في أن تأسيس الكلي إنشاء لفاعلية الإنسان داخل الوجود من جهة معرفة حقيقة ذاته</li>
+</ul>
+
+<div class="data"><p class="subhead t-red">الالتزام بصيغة سؤال "من أنا؟"</p></div>
+
+<div class="data"><p class="subhead t-navy">هل يتحدد وجود الأنا في سياق الأنية؟</p></div>
+<!-- PROOFREAD: 1220 part1 p01 — "سياق الأنية؟" last word blurred -->
+<ul class="b">
+<li>تأسيس دلالة الأنا في معنى النفس</li>
+<li>الإقرار بأن حقيقة الإنسان مقترنة بالجوهر المفكر (الكوجيتو)</li>
+<li>تحديد معنى الأنا في سياق ميتافيزيقي يفصل الفكر ويسمه بالتعالي والاطلاقية.</li>
+</ul>
+<p class="para">⇓</p>
+<p class="para">الدعوة إلى مراجعة هذا الإدراك الاختزالي الانفصالي وضرورة الانفتاح على الغيرية بغية تجاوز هذا الوضع المتأزم.</p>
+
+<div class="data"><p class="subhead t-navy">هل يكشف الانفتاح على الغيرية حقيقة الإنسان؟</p></div>
+<table>
+<tr><td>الجسد اللاوعي</td><td>التاريخ</td><td></td></tr>
+<tr><td>الذات المتجسدة (الحركة) (التعبيرية)</td><td>قيمة الدوافع في تحديد تمثلات، سلوكيات، أحلام، هفوات الإنسان</td><td>قيمة الشروط المادية الاقتصادية في تحديد الوعي الإنساني</td></tr>
+<tr><td>أنا جسدي</td><td>(بنية الجهاز النفسي)</td><td>البنية التحتية</td></tr>
+</table>
+<!-- PROOFREAD: 1220 part1 p01 — column labels printed as on the page: "الجسد" and "اللاوعي" both in the right column, "التاريخ" in the middle column, left column without label -->
+
+<div class="data"><p class="subhead t-navy">هل تكشف الوحدة المركبة (بما هي انفتاح الأنية على الغيرية) حقيقة الإنسان؟</p></div>
+<ul class="b">
+<li>وعي الأنا بالغير أبعاده والإقرار بفاعليتها.</li>
+<li>الإنسان ذات واعية بتكثرها.</li>
+<li>لا وحدة دون كثرة، ولا كثرة دون وحدة.</li>
+</ul>
+<!-- PROOFREAD: 1220 part1 p01 — first bullet "وعي الأنا بالغير أبعاده" blurred -->
+<p class="para">⇓</p>
+<p class="para">تأسيس دلالة الإنسان يقتضي ضرورة اللقاء بالآخر كذات مختلفة عن الأنا</p>
+
+<div class="data"><p class="subhead t-navy">ما طبيعة العلاقة بين الأنا والآخر؟</p></div>
+<p class="para">أ- علاقة تحيل على الصراع والعداء (الآخر مجال تهديد للأنا).</p>
+<ul class="b">
+<li>إدراك الآخر لذاته كنموذج</li>
+<li>البحث عن المماثل والشبيه</li>
+<li>السعي إلى موضعة الأنا، وتشييئه.</li>
+<li>الارتباط بقيم الهيمنة والسيطرة واغتراب الكلي: كثرة لا تترصد الوحدة</li>
+</ul>
+<!-- PROOFREAD: 1220 part1 p01 — "كثرة لا تترصد الوحدة" blurred -->
+<p class="para">ب- علاقة تحيل على التكامل والوحدة والتذاوت (الآخر مجال إثراء للأنا).</p>
+<ul class="b">
+<li>الإيمان بالاختلاف والاعتراف بالأنا كذات</li>
+<li>المشاركة والثراء (الحب الصداقة، التعاطف)</li>
+<li>اعتماد الحوار كقيمة للتفاعل.</li>
+<li>انكشاف العلاقة البينثقافية.</li>
+<li>انكشاف الكلي في إدراك حقيقة الإنسان، من خلال وحدة الأنا والآخر (التذاوت).</li>
+</ul>
+<!-- file: 5 -->
+
+<div class="chtag"><span>المحور</span> الخصوصية والكونية</div>
+
+<!-- PROOFREAD: 2305 part1 p01 — "very faint photocopy: many words faded at line ends and in the last paragraph (e.g. 'من نحن؟', 'كائنا فردا', 'فهذا البعد الموضوعي', 'قصد إدراك طبيعة', 'فالخصوصية الثقافية', 'والتشريعات', 'خاضعة للتغير', 'أما الكونية فهي', 'والإثراء والحوار', 'استيعاب ألفة', 'لا نهائية', 'الزاوية', 'الرهان المركزي لكل', 'باعتبار أن وجوده', 'فالتعامل', 'الهمجي', 'يمكن أن يثريني', 'آلية الحوار', 'ماهو مشترك', 'من التعالي', 'وتشريعاته', 'الإقصائية', 'والتبعية', 'الإقصاء والإلغاء', 'سنكتشف الانغلاق'); best reading — needs re-check" -->
+<div class="data"><p class="subhead t-navy">الوحدة الأولى: الإنساني بين الكثرة والوحدة</p></div>
+<p class="subhead t-red">المسالة الثانية: الخصوصية والكونية</p>
+<p class="subhead t-navy">I.&nbsp; البعد الإشكالي للمسالة:</p>
+<p class="para">إن البحث عن دلالة الإنساني "قد اقتضى من العقل الفلسفي الانتقال من صيغة سؤال "من أنا؟" الى صيغة سؤال "من نحن؟" ولعل هذا الانتقال قد عبر عن استئناف التأمل في سؤال ما الإنسان؟ و يرتد ذلك إلى الاقرار بأن الإنسان ليس كائنا فردا بل هو ذات تعيش الآخرين، ضمن منظومة من القيم والتشريعات والقواعد والأنماط السياسية والاقتصادية. فهذا البعد الموضوعي يحيل على الوعي الجمعي الذي يميز الوجود الإنساني مما يضفي على مطلب الهوية الدلالة الانتروبولوجية.</p>
+<p class="para">لقد حاول العقل الفلسفي تمثل هذا المعنى من جهة ملامسة للزوج المفهومي "الخصوصية والكونية" قصد إدراك طبيعة العلاقة بينهما. وضمن هذا السياق تحيل الخصوصية للتعبير عن هوية ثقافية تشكل أساس الوجود الإنساني. فالخصوصية الثقافية هي ذلك المظهر الخارجي للسلوك المكتسب ونتائجه في علاقة الفرد بالآخرين، فهي تحيل على نسق من القيم، والتشريعات والإبداعات الذوقية والقواعد الأساسية والموروثات التاريخية التي تميز مجموعة ما، وتكون هذه المنظومة خاضعة للتغير والتطور. إن هذا التحديد للخصوصية ينتهي بنا إلى التأكيد على النزعة الجزئية و تأصيل معنى التنوع والاختلاف. أما الكونية فهي لفظيا نقيض الجزئي، و تحيل على معنى المشترك الإنساني بفضل حضور دلالات الانفتاح والتفاعل والمشاركة والإثراء والحوار.</p>
+<p class="para">وتكشف الكونية عن تمظهر ثقافة تلامس عناصرها انتظارات و طموحات الانسانية و تعبر الكونية عن استيعاب ألفة الثقافات المتنوعة كمنظومة من القيم والأنماط والقواعد التي تتواضع عليها كل المجتمعات الإنسانية، فتكون الكونية هي الأفق الذي تترصده مجموع الخصوصيات الثقافية.</p>
+<p class="para">إن هذا التحديد المفهومي لكل من الخصوصية والكونية يمكن أن يوقعنا في حيرة فكرية من زاوية معجمية لا نهائية اذ اعتقدنا بأن الكوني يظل نقيض الجزئي والخصوصية، إلا أن رصد هذه العلاقة من زاوية انتروبولوجية معاصرة يمكن أن يحول هذا "التناقض الظاهري" إلى ثنائية متلازمة بفضل تمثل الفضاء الذي نتصوره والذي يجعل من الكوني الرهان المركزي لكل وجود ثقافي خصوصي. و يتشكل هذا الفضاء في النظر الى الاختلاف والتنوع كدافع ناجع لتأصيل ماهو كوني باعتبار أن وجوده الموضوعي يستوجب حضور هذا المشترك الإنساني في ابعاده القيمية، الاقتصادية، السياسية، القانونية.</p>
+<p class="para">إن تحقيق هذا الرهان متصل بتمظهر معاني الاعتراف بالآخر و المشاركة و الحب و الصداقة و الحوار فالتعامل مع الآخرين يقتضي تجاوز كل الاحكام التي تسيج الآخر في دلالة "المتوحش" "الهمجي" فيتجلى هذا الآخر ككيان ثقافي يمكن أن يثريني بإنتاجاته وأنماطه التي ابدعها، فهو موضوع المحبة واكتشاف الصداقة مما يدفع بالأنا إلى اللقاء به من خلال آلية الحوار الحاملة لقيمة الإقرار بالاختلاف والتنوع، مما يساهم في خلق علاقة بينثقافية تؤسس لنا تمثلات ثقافية كونية تعبر عن ماهو مشترك إنساني فتتكشف هذه الكونية كوحدة ثقافية تحصل في باطنها معنى الكثرة أو التكثر الثقافي، متجاوزين تلك المقاربات المؤسسة للوحدة المفرغة من الكثرة حيث تتمظهر ثقافة ما كنموذج مطلق يعلن تعاليه و عدم اعترافه بالاختلاف. إن هذا التوجه يشير إلى الارتباك في علاقة الخصوصية بالكونية، إذ نتبين ان هذا النموذج الثقافي يتوهم بأن قيمه و قواعده و موروثاته و تشريعاته تشكل النموذج المكتمل وهو الا معبر عن مختلف انتظارات و طموحات الإنسانية المختلفة فتتجلى الوحدة الثقافية الإقصائية لمعنى الاعتراف بالآخرين المختلفين عنها. فيكون حضور الآخر في طبيعة هذه العلاقة متمثلا بدلالات الخضوع، والانسياق والتبعية والتشويه والممسخ... و لعل تمظهر العولمة كنمط ثقافي سياسي اقتصادي يعبر عن هذا التوجه حيث يدل معاني الإقصاء والإلغاء للآخر آلية أساسية في بناء الالتقاء معه رغم ما تدعيه من إرادة في ارضاء انتظارات كل المجتمعات الإنسانية، و سنكتشف الانغلاق</p>
+<!-- file: 6 -->
+
+
+<p class="para">31</p>
+<p class="para">الرمزية المتنوعة مثل اللغة والصورة عن هذا التوجه النفعي والمصلحي والبراقماتي. فالصورة قد اتخذت موقعا ايديولوجيا يبرر هذه الغايات النفعية، و مضمونا يحمل معنى الانغلاق والدغمائية. رغم شكلها السحري الجذاب.</p>
+<p class="para">إن تأملنا في علاقة الخصوصية بالكونية قد كشف إمكان تجذر اللقاء التواصلي بين الكيانات الثقافية المختلفة سعيا إلى الارتقاء بقيمة الإنساني وإنشاء الواقع الحقيقي الذي يجسد رهاناته و غاياته مما يحيلنا على إمكان تأسيس الكلي بما هو وحدة ثقافية حاملة للكثرة والاختلاف.</p>
+<p class="subhead t-red">II. تحديد المعاني</p>
+<div class="data"><p class="para"><u>الخصوصية</u>: هي المظهر الخارجي للسلوك الإنساني وهي منظومة القيم و التشريعات والقواعد والموروثات التي تميز مجموعة ما. و تتميز الخصوصية بالتغير والتنوع.</p></div>
+<div class="data"><p class="para"><u>الكونية</u>: هي نقيض الجزئي والخصوصي، حاملة لمعاني الانفتاح والحوار و التفاعل والتنوع الثقافي وهي قيمة تحيل على المشترك الإنساني الثقافي.</p></div>
+<div class="data"><p class="para"><u>العلاقة البينثقافية</u>: ضرب من التواصل بين ثقافتين أو أكثر و يفضي إلى تغيير أو إثراء في إحدى الثقافتين أو معا في سياق الالتزام بدلالات الاعتراف، الاختلاف، المشاركة، الحب، الصداقة و الحوار.</p></div>
+<div class="data"><p class="para"><u>العولمة</u>: معنى يفيد دلالة العالم المتحد والموحد و الذي يشكل قرية كوكبية، عالم دون حدود جغرافية أو ايديولوجية أو اقتصادية و يمكن أن تمثل نمطا سياسيا واقتصاديا يدعى معنى الكونية لتحقيق مصالح ومقاصد في سياق تجذر التمرز الثقافي و النظر إلى الثقافات الآخرى كاطراف له.</p></div>
+<p class="subhead t-red">I. امكانيات في تمثل المسلمة الضمنية للقول المطروح:</p>
+<p class="para">"إذا فقدت جماعة ما تميزها الثقافي، فقدت هويتها ككيان مستقل"</p>
+<p class="para">يكشف هذا القول عن تمثل للانفتاح على الآخر كفضاء للانصهار والذوبان في أنماط ثقافية أخرى ما يحيل على أزمة هوية. فتنعدم معاني التطور و الإبداع لدى الأفراد، فيسكنها هاجس التقليد والتشبه بالأنماط القيمية، التشريعية والسلوكية للآخر فتتمظهر معاني التبعية وغياب الاستقلالية مما يشكك في قيمة اللقاء بالآخر والدعوة إلى الإنعزال والقطيعة معه.</p>
+<p class="para">"توجد وحدة ثقافية بقدر ما يوجد تنوع إنساني"</p>
+<p class="para">يكشف هذا القول الدعوة إلى تجاوز أنماط اللقاء مع الآخر من زاوية تجذر النزعة الإقصائية المبنية على معاني النموذج والتفاضلية والسيطرة والاحتواء. ويقربان التنوع الثقافي لا يشكل عائقا أمام وحدة الثقافات. فهذا اللقاء البيئي يكشف عن قيمة الاعتراف، المشاركة، الحب، الصداقة والحوار مما يجعل الوحدة حاملة للكثرة فتنكشف دلالة الكونية.</p>
+<p class="subhead t-red">- أسئلة للتفكير:</p>
+<ol class="qn">
+<li>هل من وجاهة في التشريع للكونية و الحال أن العولمة تزداد تجذرا في واقعنا؟</li>
+<li>هل يشكل اللقاء بين الثقافات مناسبة للتثاقف أم للصراع والاقصاء؟</li>
+</ol>
+<p class="para">6</p>
+<!-- PROOFREAD: 2018 part1 p01 — faint photocopy: "البراقماتي", "التمرز الثقافي", "كاطراف له", "ويقربان", "اللقاء البيئي" (could be البيني), "يدعى معنى الكونية"; "31" at top is handwritten -->
+<!-- file: 7 -->
+
+
+<div class="data"><p class="subhead t-red">الخصوصية والكونية</p></div>
+<table>
+<tr><th>بأي معنى تكون الخصوصية تعبيرا عن التميز الإنساني؟</th><th>هل يشكل الانفتاح على الثقافات الأخرى تأسيسا للكونية؟</th><th>ألا يمثل التنوع الثقافي عائقا أمام تمظهر الكونية؟</th></tr>
+<tr>
+<td><ul class="b">
+<li>الوعي بقيمة الخصوصية كمجال لتميز مجموعة معينة دون الإقرار بالتفاضلية.</li>
+<li>تجاوز معاني الوحشية والتخلف كدلالات لا تكشف عن حقيقة معنى الثقافة.</li>
+<li>اقتران معنى الخصوصية بمبدأ التنوع والاختلاف، والتأكيد على دلالات الابداع والاكتساب والتوريث والزمن</li>
+</ul></td>
+<td><ul class="b">
+<li>تجذر الوعي بالثقافة بما هي مجال تميز الإنسان في علاقته بهويته.</li>
+<li>تجاوز معاني التحجر والتعصب و الإيمان بإمكان التطور والتغير .</li>
+<li>اقتران التفاعل بين الثقافات بمقتضيات أساسية لإنشاء معنى الكونية.</li>
+</ul>
+<ul class="dash">
+<li>الوعي بقيمة الانفتاح على الآخر.</li>
+<li>التأكيد على دلالة الاختلاف والتشريع لقيمة الثقافات الأخرى دون التخلي عن الخصوصية الذاتية.</li>
+<li>تأصيل دلالة المشاركة و الإثراء و تجذير قيمة المحبة واعتماد الحوار.</li>
+<li>انكشاف الكونية بما هي وحدة حاملة للكثرة ← تمظهر كلي</li>
+</ul></td>
+<td><ul class="b">
+<li>التمسك الدغمائي بالخصوصية سيعمق الانغلاق والانعزال.</li>
+<li>تأصيل الدلالة النموذجية للهوية الذاتية والنظر إلى الآخر على أنه المماثل والشبيه.</li>
+<li>اعتماد الأنظمة الرمزية وتوظيفها ايديولوجيا (الصورة، المقدس، اللغة) بغية طمس الخصوصيات الأخرى.</li>
+<li>ترصد الاحتواء والسيطرة في التفاعل مع الثقافات الأخرى.</li>
+<li>العولمة بما هي نمط ثقافي، سياسي، اقتصادي تدعى الكونية و تسعى إلى توظيف آليات الحداثة التقنية فتكون العولمة ادعاء للكونية ورفضا للتنوع والاختلاف.</li>
+</ul></td>
+</tr>
+</table>
+<!-- file: 8 -->
+
+<div class="chtag"><span>المحور</span> العلم بين الحقيقة والنمذجة</div>
+
+<!-- PROOFREAD: 1549 part1 p01 — library stamp text hard to read -->
+<p class="para">33</p>
+<div class="data"><p class="para">الوحدة الثانية</p></div>
+<p class="subhead t-red">المسألة: العلم بين النمذجة والحقيقة</p>
+<p class="subhead t-navy">I.  البعد الإشكالي للمسألة:</p>
+<p class="para">تمثل النمذجة حدثا مميزا داخل بنية الفكر العلمي المعاصر اذ بدت السمة المجذرة لتحول جوهري في حركة العقل العلمي، فكان على البحث الابستمولوجي ملامسة النمذجة و معاينة كيفية اشتغالها و الشروط الضرورية في بناء النماذج العلمية وبيان الصعوبات التي تعيق انشاءها. فما النمذجة؟ هل هي علم أم وسيلة للعلم؟ هل هي منظومة من المعارف و الحقائق العلمية أم هي مسار يتحرك داخله بناء نظري يعبر عن فهم الظواهر سواء في بعدها الفيزيائي أو البيولوجي أو الاقتصادي أو النفسي...؟ أية علاقة بين النموذج و الواقع؟ هل تتشكل في اكتشاف معطيات الظاهرة أم في إنشاءها و بناءها ضمن سياقات التمثيل الاصطناعي؟ هل تعبر النمذجة عن التزام مطلق بالمعطيات الافتراضية النظرية أم أنها ممارسة توحد بين النظري والدلالي والتداولي؟.</p>
+<p class="para">إن البحث عن مختلف هذه التساؤلات يثبت لنا جدة هذا الإدراك العلمي و نجاعته في تطوير الواقع الإنساني بمختلف مجالاته، لأن النماذج العلمية لا تنسج داخل فضاء محدد بل تترصد كل مواقع الفكر والفعل الإنسانيين. فالنمذجة هي إنشاء وافتراض انظمة واوليات و مفاهيم و قوانين تعبر عن البنية العلائقية و المنطقية المتناسقة والدقيقة للموضوع، و تتخذ هذه البنية شكل صياغة صورية اكسيومية مكممة، أو مماثلات مادية أو رقمية و هذا ما يحيل على أن النمذجة اجراء منهجي لا تقتصر على فهم الواقع و إنما تراهن على التحكم فيه. و من خلال هذا التحديد للنمذجة يتمظهر النموذج العلمي كتمثل ذهني و مادي لظاهرة أو قطاع من الظواهر، يمكن التعبير عنه في تصاميم مجسمة أو رسوم بيانية أو في صور رياضية. و بهذا المعنى يكون النموذج مناقضا للنموذج في معنى المثل الأعلى ضمن سياقات التمثل الفلسفي، و منقطعا عن الدلالة الأنطولوجية و الالتزام بالمعطيات والغايات والأهداف التي يحددها المنمذج الذي ينفي في مبحثه دلالات اليقين والاطلاقية، إذ تظل معرفته نسبية فتكون النماذج مؤقتة ومتعددة طالما أن النموذج يضطلع بوظيفة معرفية أو توقعية أو تحديد القرار الذي يجب اتخاذه. كما تبرز صلاحية النموذج العلمي من جهة تفاعل البعد الذهني و المعطى التجريبي، بحيث أن الطابع الإبداعي للنموذج لا يعني انفصاله عن الواقع والتجربة، بل يعني الإقرار بجدلية النظرية و التطبيق، و بذلك تتأسس الموضوعية العلمية على القول بتداخل الذات مع الموضوع و تفاعلهما والتأكيد على الدلالة البنائية او الإنشائية للنموذج تجاوزا للعلم الكلاسيكي الذي بدا مؤمنا بالتطابق بين الحقيقة العلمية والواقع المعطى. و ضمن هذا التحديد للنمذجة تتبين التحول الواضح داخل بنية العقل العلمي، فالعقل الكلاسيكي كان وفيا للإقرار بأن النظرية العلمية هي كشف دقيق عن حقيقة الواقع المباشر، و معتقدا بأن الحقائق التي يكتشفها العالم مطلقة و نهائية ومؤمنا بأن الموضوعية العلمية متجلية في ذلك الفصل بين الذات و الموضوع...</p>
+<p class="para">إن تأملنا في بنية معنى النمذجة بما هي مسار و إجراء منهجي يكشف بأن النموذج يشكل تلك الوحدة المركبة من الأبعاد التركيبية والدلالية والتداولية. فالبعد التركيبي هو مجموع الأوليات والمفترضات والمبرهنات والقواعد والثوابت التي يفترضها المنمذج فتتكشف دلالتي الصورنة والأكسمة، إذ وجب أن تكون هذه المعطيات متناسقة و غير حاملة للتناقض وقادرة على تحقيق وظيفتي الرمزية والقياسية. يعتقد العلم المعاصر بأن النموذج ليس صوريا بإطلاق، لذلك يستحضر البعد الدلالي بما هو افتراض لمعطيات مادية يعتقد المنمذج حضورها الضروري في بناء النموذج حول نسق (ظاهرة) معين. ويتميز البعد الدلالي بمنظومة من الخصائص المتجلية في الصلاحية النظرية والتجريبية والقابلية للتحديث و البساطة والمرونة و الثراء، مما يدفع بهذا البعد إلى تحقيق الوظيفة الاستكشافية والوظيفة التجريبية. لكأن المنمذج يقدم البعد الدلالي في سياق التمثيل الاصطناعي (الافتراض) المستوعب لمعاني النسق، المرجع، الواقع والصلاحية. ويتجذر حضور المنمذج في افتراضه للبعد التداولي الذي يتمظهر في الأهداف و الغايات و العلاقات و المعايير و التعديلات التي يتوقعها المنمذج مما يجعله قادرا على التحكم في النموذج. و يتميز هذا البعد بخصائص الصلابة والدقة والبساطة والليونة والشفافية فيكون قادرا على القيام بالوظيفة الخطابية و التطبيقية. و بهذا نتبين</p>
+<p class="para">- 8 -</p>
+<!-- PROOFREAD: 1549 part1 p01 — low-quality photocopy; doubtful readings: "السمة المجذرة", "تترصد", "انظمة واوليات", "مناقضا للنموذج", "يحددها المنمذج", "الصلابة", "الخطابية" -->
+<!-- file: 9 -->
+
+
+<p class="para">34</p>
+<p class="para">قدرة النموذج على تحقيق الوظائف المعرفية والتوقعية والتشاورية و المعيارية. مما يحيلنا على القيمة الابستمولوجية والفلسفية للنمذجة من جهة مراجعة مفهوم الحقيقة و دلالة العلم و معنى الواقع إلا أن هذا الإقرار لا يمنعنا من تمثل منظومة من الحدود و متمظهرة ابستمولوجيا في النزعة الاختزالية للواقع، فتهتم بالواقع في جزئيته فتضحي بالطابع الكلي له، كما أن النمذجة لا تقدم حقيقة بالمعنى العلمي الكلاسيكي بل تقدم نماذج متعددة حول ظاهرة معينة و تكون قابلة للتغير مما يحيلنا على ضرب من الريبية والتشكيك في يقينيتها, و تتجذر هذه المحدودية من زاوية فلسفية اذ ندرك بأن النمذجة ليست لغة العلم و العلماء بل هي لغة المؤسسات والأجهزة العسكرية والسياسية والإقتصادية مما يحيلنا على مصالحة العلم للايديولوجيا. فأضحت النمذجة ذلك المسار المنهجي الذي يخفي الغايات والأهداف الأقل نبلا، و لكن المعنى أضحى مخفيا داخل الممارسة العلمية المعاصرة.</p>
+<p class="subhead t-navy">II.  تحديد المعاني :</p>
+<table>
+<tr><td><u>النمذجة</u> : إجراء منهجي و هي إنشاء وافتراض أنظمة وأوليات و مفاهيم و قوانين تعبر عن البنية العلائقية والمنطقية الدقيقة للموضوع.<br>وهي مسار يتخذه المنمذج في إنتاج النماذج المتعددة.</td><td><u>النموذج</u> : تمثل ذهني أو مادي لظاهرة أو قطاع من الظواهر، يمكن التعبير عنه في تصاميم مجسمة أو رسوم بيانية أو في صور رياضية.</td></tr>
+<tr><td><u>الواقع</u> : معطى افتراضي و منشأ أو مبني عقليا، وهو يتغير بتغير النماذج و يشكل بنية من العلاقات، وهو مجال تمثيل اصطناعي</td><td><u>العقل</u> : نشاط و فعالية نظرية و تخيلية وافتراضية مبدعة للمفاهيم و النظريات والبناءات الاكسيومية.</td></tr>
+<tr><td><u>البعد التداولي</u> : هو مجموع الأهداف والعلاقات والمعايير و التأثيرات التي يفترضها المنمذج في بناء النموذج، و تقتضي هذه العناصر التناسق والانتظام.</td><td><u>الموضوعية العلمية</u> : القول بتداخل الذات مع الموضوع و تفاعلهما، وتستند لمعيار يقوم على تقويم الأهداف الوظيفية المعلنة لكل نموذج.</td></tr>
+</table>
+<p class="subhead t-navy">III.  إمكانيات في تمثل المسلمة الضمنية للقول:</p>
+<p class="para">"إن النموذج الذي يضعه المنمذج ليس له أن يدّعي مطابقة الواقع المدروس في كل الظروف و من كل الوجوه".</p>
+<ul class="b"><li>يكشف هذا القول لحظة تجاوز لعلاقة الحقيقة بالواقع من زاوية دلالة التطابق المطلق و الإقرار بيقينية الحقيقية العلمية، سعيا إلى التأكيد على معنى التمثيل الاصطناعي لمعطيات الواقع عبر مفهوم الافتراض، فيكون النموذج قابلا للتغير بحسب المعطيات التي يقدمها المنمذج.</li></ul>
+<p class="para">"لا يستطيع المنمذج أن يعتبر نفسه خارج النموذج".</p>
+<ul class="b"><li>يكشف هذا القول الدلالة المعاصرة للبحث العلمي الذي يتنصل من معنى الموضوعية العلمية المعبرة عن انفصال الذات عن الموضوع، فأضحت النماذج حاملة في بعدها التداولي، الغايات والأهداف والمعايير والعلاقات التي يفترضها المنمذج.</li></ul>
+<p class="subhead t-navy">IV.  أسئلة للتفكير :</p>
+<p class="para">1)  بأيّ معنى تكون النمذجة تشكيكا في العلم و تأسيسا له في الآن نفسه؟</p>
+<p class="para">2)  هل تستوفي النمذجة حقيقة العلم ؟</p>
+<p class="para">3)  هل تقوم النمذجة باكتشاف الواقع أم ببنائه وإنشائه؟</p>
+<p class="para">4)  قيل "الحقائق أشياء نصنعها لا أشياء نكتشفها. إنها بناءات و ليست كنوزا". أبد رأيك في هذا القول.</p>
+<p class="para">- 9 -</p>
+<!-- PROOFREAD: 1560 part1 p01 — low-quality photocopy; doubtful: "التشاورية", "الريبية", "مصالحة العلم للايديولوجيا", "أضحى مخفيا", "بيقينية الحقيقية" -->
+<!-- file: 10 -->
+
+
+<!-- NOTE: handwritten margin numbers ("35", "57") left out -->
+<table>
+<tr><th>النمــذجة بمـــا هي حـــدث يميـــز المبحـــث العلمـــي</th><th>النمــذجة كتجاوز لأسس بنية العقل العلمي الكلاسيكي.</th><th>القيمــة الابستمــولوجيـــة والفلسفيـــة للنمـــذجة</th><th>الحدود الابستمولوجية و الفلسفية للنمذجة</th></tr>
+<tr>
+<td><ul class="dash">
+<li>التأكيد على ما تتسم به العقلانية العلمية المعاصرة من تحولات جذرية داخل بنية العقل العلمي (التجاوز – التأسيس).</li>
+<li>مواكبة المعرفة العلمية المعاصرة للتطور التقني والحضاري للوجود الإنساني.</li>
+<li>السعي إلى بناء معارف ترصد التوقعات الممكنة لمستقبل الوجود الإنساني والتحكم في البائه و دلالاته ورهاناته.</li>
+<li>السعي إلى رصد كل الظواهر بمختلف قطاعاتها الفيزيائية والرياضية والبيولوجية والاقتصادية والنفسية…</li>
+</ul></td>
+<td><ul class="dash">
+<li>النمذجة بما هي اجراء ملهجي و مسار علمي لإنتاج نماذج متعددة تبسط الظواهر المعقدة.</li>
+<li>الخاصية الافتراضية للأبعاد التركيبية (النظرية) والدلالية (المادية) والتداولية (الغائية + البراغمائية).</li>
+<li>النظر إلى النموذج على أنه تمثل ذهني أو مادي لظاهرة أو قطاع من الظواهر يقوده الخيال لا الواقع المعطى.</li>
+<li>إدراك الواقع العلمي على أنه واقع افتراضي أو مبني عقلياً، ويتغير بتغير النماذج.</li>
+<li>اعتبار الحقائق معارف نسبية مرتبطة بالنماذج ومعطياتها الإفتراضية.</li>
+<li>النظر إلى العقل على أنه نشاط وفعالية نظرية وتخيلية مبدعة للمفاهيم والبناءات الاكسيومية.</li>
+<li>تتحدد الصّلاحية ضمن سياقات ذهنية وتجريبية.</li>
+<li>التداخل بين الذات والموضوع من جهة انكشاف الأهداف و الغايات للمنمذج.</li>
+</ul></td>
+<td><ul class="dash">
+<li>مراجعة مفهوم الحقيقة : من حقيقة مطلقة معيارها المطابقة مع الواقع إلى حقيقة نسقية – نسبية.</li>
+<li>مراجعة مفهوم العلم : من علم في صيغته الاستكشافية، التفسيرية إلى علم إنشائي – بنائي – تأويلي يقوم على الافتراض.</li>
+<li>من علم مشدود إلى براديقم المعرفة – الموضوع إلى علم مرتبط ببراديقم المعرفة – المشروع.</li>
+<li>من علم يفصل بين الذات المنمذجة وغاياتها وأهدافها وتوقعاتها إلى علم تتداخل فيها عناصر هذه الثنائية.</li>
+<li>من علم يدرك الواقع كمعطى إلى علم يبني الواقع ذهنيا وافتراضيا (التمثيل الاصطناعي).</li>
+</ul></td>
+<td><ul class="dash">
+<li>التضحية بالحقيقة المطابقة والإقرار بنسبيتها و تعددها مما يحيل على وضع ريبي (التشكيك في علمية النموذج).</li>
+<li>النزعة الاختزالية للواقع فيما يتصوره المنمذج واعتماد البعد التجزيئي في تمثل الظاهرة.</li>
+<li>جزئية الأهداف و المقاصد مما يدفع إلى التضحية بالطابع الكلي للمعرفة.</li>
+<li>النمذجة لغة المؤسسات العسكرية والسياسية والاقتصادية و ليست لغة العلماء بإطلاق.</li>
+<li>النمذجة إحالة على مصالحة بين العلم والايديولوجيا من جهة الغايات والأهداف التي يرصدها المنمذج.</li>
+</ul></td>
+</tr>
+</table>
+<!-- PROOFREAD: 1497 part1 p01 — "ملهجي" (likely منهجي, faint print), "البائه" (faint), "المطابقة" in last column partly obscured by vertical scan line, "الغايات والأهداف" faint -->
+<!-- file: 11 -->
+
+<div class="chtag"><span>المحور</span> محور غير محدّد</div>
+<!-- NOTE: only the title is printed sideways; text transcribed as it is -->
+<!-- NOTE: the header "المحور4:" and the handwritten page number 36 are upright; the boxed title is printed sideways (rotate 270 to read it) -->
+
+<div class="chtag"><span>المحور</span> القيم: الأخلاق والدولة</div>
+
+<p class="para">المحور4:</p>
+<p class="para">36</p>
+<div class="data"><p class="subhead t-red">"الدولة: السيادة و المواطنة"</p></div>
+<!-- file: 12 -->
+
+
+<p class="subhead t-red"><b>الدولة: السيادة و المواطنة</b></p>
+<p class="para">مقدمة: يندرج الدرس في سياق المبحث الاكسيولوجي و هو مبحث قيمي تطرح في مسألتي</p>
+<table>
+<tr><th>الدولة</th><th>الأخلاق</th></tr>
+<tr><td>ممارسة سياسية تنبثق عنها اشكاليات قيمية كالسيادة و المواطنة</td><td>التزام عملي يترتب عنه آثار قيمية كالخير و السعادة</td></tr>
+</table>
+<!-- PROOFREAD: 1745 part1 p01 — first table is heavily shaded/blurred; cell texts are a best reading ("ممارسة سياسية تنبثق عنها اشكاليات قيمية" / "التزام عملي يترتب عنه آثار قيمية") -->
+<p class="para">ماذا نعني بالقيمية ؟</p>
+<p class="para"><b>القيم تشير إلى كل ما يقبل  التثمين:</b></p>
+<table>
+<tr><th>النسبي</th><th>المطلق</th></tr>
+<tr><td>ما ينسب إلى الضيق / المحدود المتنوع / الخاص.<br>إذا يشير إلى التعدد و التحول ⟵ نسبية القيم تكشف عن طابعها التاريخي</td><td>هو المقيد الذي تنعدم فيه الحدود هو الكلي / الثابت. اطلاقية القيم يعني طابعها الثابت و غير الخاضع للتغيرات الزمنية</td></tr>
+</table>
+<!-- PROOFREAD: 1745 part1 p01 — second table shaded; "المتنوع", "هو المقيد" uncertain -->
+<p class="para">إذن الإشكال الذي يطرحه العنوان هو هل بالإمكان تجاوز نسبية القيم تأسيسا لطابعها المطلق؟ هل القيم الحقيقة هي التي تتميز بالاطلاقية، أم تلك التي تتميز بالنسبية؟</p>
+<p class="subhead t-navy"><b>الدولة:</b></p>
+<p class="para">يطرح في هذا الدرس إشكال السيادة و المواطنة باعتبار أن الأمر يتعلق بعلاقة الافرد بالدولة و منزلته فيها بالنظر إلى طبيعة الحكم و نوعية العلاقة بين الحاكم و المحكومين فمثلا  ما يكون عليه الأفراد في الدولة الاستبدادية يختلف عن وضعهم في الدولة الديمقراطية تطرح إذن مسألة ارتهان مصير الأفراد في الدولة بخاصية السيادة التي تتصف بها فعلى ماذا تتأسس السيادة؟</p>
+<p class="para">هل أن سيادة الدولة من سيادة المواطنين؟ أم من سيادة الحكام؟ و هل من تعارض بين سيادة الدولة و الدعوة إلى مواطنة عالمية؟</p>
+<!-- NOTE: underlines/margin marks added by hand on the printed page are left out -->
+<!-- file: 13 -->
+
+
+<p class="subhead t-navy"><b>ما الدولة ؟</b></p>
+<p class="para">نجد اختلافا في تحديد الدولة و هذا يعود إلى الممارسات المختلفة للدولة بين الإكراه / القهر/ الاستبداد من جهة و الحرية  و الديمقراطية من جهة أخرى. رغم الاختلاف ثمة ثوابت ثلاث :مجموعة بشرية / مجال جغرافي / سلطة سياسية . فتعرف إذن بأنها <u><b>وحدة سياسية تضم مجموعة من الأفراد في حدود جغرافية معينة لها سيادتها و استقلاليتها</b></u>.</p>
+<p class="para">يصرح <b>بيردو</b> بأن الدولة  فكرة بمعنى أنها ليست تجميعا عيانيا لعناصر مادية كالأرض و السكان و ليست مجرد قوانين و التزامات أخلاقية فتلك معطيات خارجة عن مجال الدولة إنما هي فكرة تمارس نفوذها على الأذهان أي هي حقيقة نتصورها و ليست واقعا نلمسه.</p>
+<p class="para"><b>الدولة شكل من أشكال السلطة:</b> كل دولة تستدعي حضور السلطة لكن ليس كل سلطة بحاجة إلى أن تأخذ شكل الدولة.</p>
+<ul class="b">
+<li>مفهوم السلطة اشمل من مفهوم الدولة  هذا ما علمنا إياه فوكو. يقول فوكو: " ما زلنا نجهل ماهية السلطة". و هو بذلك ينقد ليؤسس:</li>
+</ul>
+<ul class="dash">
+<li>اختزال السلطة في الجهاز السياسي للدولة أي أن تصبح السلطة مركزية تتركز بين أجهزة و مؤسسات الدولة إضافة إلى جعلها هرمية قائمة على الزوج حاكم / محكوم. " لا أعني مجموع الأجهزة و المؤسسات التي تتضمن خضوع المواطنين في إطار دولة ما".</li>
+<li>أسلوب الممارسة: أي أن تكون السلطة كيانا عنيفا بالمعنى المادي " لا أعني نمطا من الاخضاع الذي هو على العكس من العنف و إنما يتخذ شكل القاعدة".</li>
+<li>اعتبارها ملكية بين البعض (الحاكم) في حين أن البقية لا يمتلكونها (المحكومين). " نظاما عاما من جهة الهيمنة يمارسه عنصر أو مجموعة على عنصر آخر أو مجموعة أخرى".</li>
+</ul>
+<p class="para">خلاصة القول أن فوكو يرفض اعتبار السلطة مركزية و ملكية . فتصبح علاقات قوى مما يعني قيامها على صراع يقترن بتبادل دائم للمواقع. إضافة إلى انتشارها في كامل النسيج الاجتماعي فهي مكبوتة تظهر أحيانا و تختفي أحيانا تأكيدا لطابعها الميكروفيزيائي.</p>
+<p class="para">⟸ السلطة جزء من الجهاز السياسي و هي أيضا يمكن أن تكون بين الأفراد و تأتينا من كل حدب و صوب)</p>
+<!-- PROOFREAD: 1746 part1 p01 — faint photocopy; "مكبوتة", "الاخضاع" uncertain -->
+<!-- file: 14 -->
+
+
+<p class="para">⟸ السلطة لها دلالات عدة و تتحرك في مجالات الفعل الإنساني بحيث تهتم بما  هو مادي و ما هو معنوي لكنها تعني في الحقل السياسي القوة و القدرة على الفعل و الإجبار و <b>تشكل الدولة</b> سلطة لاستئثارها بالقوة.</p>
+<p class="subhead t-navy"><b>علاقات الدول بالسيادة:</b></p>
+<p class="para">السلطة هي الثابت البنيوي للسياسي الذي لا يمكن تمثل وجوده خارج دائرة السلطوي. و المقصود بالسياسي مجموعة إنسانية، تخضع إلى حكم و مجموعة من القرارات. السياسي يستحضر  دوما علاقة عمودية بين حاكم و محكوم / آمر و مطيع.</p>
+<p class="para">⟸ الوجود السياسي تحكمه علاقة غير متكافئة بين ← من يملك السلطة:الحاكم / الأمر<br>
+← من لا يمتلكها : المحكومين / المامور</p>
+<p class="para">العلاقة أمر / طاعة تستوجب إرغاما و إلزاما و الحضور اللامشروط  للإلزام و الإرغام هو ما به تنتظم العلاقات بين البشر داخل الدولة التي تحتكر لنفسها حق اتخاذ القرار و التنظيم و التسيير و التشريع و <b>التنفيذ</b> " بفضل السلطة اللامشروطة للإلزام و الإرغام المادي تنتظم جماعة تاريخية ما في دولة و تصير قادرة على اتخاذ القرار" ريكور.</p>
+<p class="para">تصبح السلطة ضرورة بها يصنع الإنسان تاريخه:</p>
+<table>
+<tr><th>اصطناع يرتقي إلى وجود</th><th>اصطناع يرتقي بالوجود</th></tr>
+<tr><td>سلطوي  معقل  ينظم  الحياة الإنسانية</td><td>الإنساني من مرتبة الوجود الحيواني الذي تحكمه الرغبات و الأهواء كما يسمح بتجاوز مختلف أشكال الفوضى و العنف التي تقوم عليها حياة البشر خارج دوائر السلطة الرادعة و القاهرة</td></tr>
+</table>
+<!-- PROOFREAD: 1747 part1 p01 — shaded table; "معقل" uncertain reading -->
+<p class="para">إذن يمكن القول أن الوجود السياسي يحكمه مفارقة السلطة تشكل الوجود الإنساني لكنها يمكن أن تضل حين تصبح قائمة على أساس الزيف و المراوغة و كل أشكال الخداع التي يتستر وراءها صاحب السلطة حفاظا على سلطته.</p>
+<!-- file: 15 -->
+
+
+<p class="para">هذا <b>التأكيد</b> على غياب التكافؤ و على الطابع السلطوي للدولة يؤكد على أن العلاقة بين السيادة و المواطنة هي علاقة صراع</p>
+<p class="para"><b><u>في التعارض بين السيادة و المواطنة:</u></b> القول بالتعارض يعني إنها علاقة صراع تتخذ شكلا هرميا تكون فيه السلطة عمودية</p>
+<p class="para">الحاكم : صاحب السيادة<br>↓<br>الرعية</p>
+<p class="para">و أن تكون الدولة مستبدة فان ذلك يعني أن الأفراد ليسوا مواطنين بل رعايا فهم لا يمارسون الحياة السياسية و ليسوا أطرافا فاعلين بل الدولة تنشر الرعب و الخوف بين الناس.</p>
+<p class="para"><b>ينتج عن ذلك:</b></p>
+<p class="para">* <b>أخلاقيا:</b> الدولة تصبح عامل إفساد لأنها تفسد القائمين عليها و من سيحتل المناصب السياسية يشعر بالكبرياء.</p>
+<p class="para">*<b>سياسيا</b>: الدولة الاستبدادية تحتكر كل السلطات و يستعملها لمصلحتها ، لحماية وجودها و ضمان استمراريتها إذن لا تهتم بمصالح الأفراد.</p>
+<ul class="dash">
+<li>الحاكم فوق القانون</li>
+<li>الأفراد ليسوا مواطنين لأنهم لا يمارسون الحياة السياسية فهم ليسوا إطرافا سياسيين.</li>
+</ul>
+<p class="subhead t-navy"><b><u>نموذج ماكيافيل</u></b></p>
+<p class="para">يعرف السلطة على أنها " فن امتلاك السلطة و الحفاظ عليها" السلطة تؤخذ بالقوة و تتم المحافظة عليها بالعنف و الدهاء و على الأمير أن يكون متمتعا بقوة الأسد و مكر الثعلب و إذا لجأ إلى القانون فلكي يثير مشاعر الخوف و الخشية.</p>
+<p class="para">باكونين: " الدولة مقبرة الحريات الفردية " . يكشف عن واقع الصدام بين السيادة التي تمثلها الدولة و القيم الايجابية التي تمثلها المواطنة " لأن هذا الكل الدولة ، مذبح الدين السياسي الذي يذبح فوقه دوما المجتمع الطبيعي لأنه كلية مفترسة تعيش على قرابين بشرية" .</p>
+<!-- PROOFREAD: 1748 part1 p01 — faint photocopy; "يستعملها", "يثير" at cut left edge uncertain -->
+<!-- file: 16 -->
+
+
+<p class="subhead t-navy"><b><u>نموذج هوبز</u></b></p>
+<p class="para">يندرج موقفه ضمن فلسفة العقد الاجتماعي و هي فلسفة تقوم على افتراض عقلي / منطقي لا تاريخي مضمونه، إن الإنسان عاش حالة طبيعية سابقة على الدولة، استحال العيش فيها فكان الانتقال إلى <b>حالة الاجتماع</b> و <b>هو ما حصل بواسطة عقد</b>، و <b>هو اتفاق مبرم بين مجوعة من الأشخاص يتضمن بنودا يتم بموجبه الانتقال إلى حالة الاجتماع</b> .</p>
+<p class="para"><b>هوبز:</b> حالة الطبيعة هي حالة عنف و حروب وفوضى يعود ذلك إلى طبع الإنسان الشرير " الإنسان شرير بطبعه" ، "الإنسان ذئب الإنسان ".</p>
+<p class="para">إذن <b>حالة الطبيعة هي حالة</b> حرب كونية تهدد بالموت و الفناء، إذن كان لا بد من تغيير الوضع. حصل ذلك عن طريق <b>تنازل الأفراد</b> كليا / <b>تنازل كلي</b> / عن <b>قوتهم</b> و <b>حقوقهم  الطبيعية</b> لفائدة سيد أعلى / صاحب السيادة / يسميه هوبز التنين .</p>
+<p class="para">إذن عند هوبز العقد عقدان :</p>
+<ul class="dash">
+<li>عقد <b>أفقي</b> بين الأفراد الموجودين في حالة الطبيعة، حالة الحرب يتم بموجبه التنازل من قبل الأفراد عن حريتهم و حقوقهم في تسيير أمورهم بنفسهم.</li>
+<li>عقد عمودي يتم بين مجموع الأفراد و الحاكم و هو عقد خضوع و استسلام لأنه يلزم الأفراد و لا يلزم الحاكم</li>
+</ul>
+<table>
+<tr><th>الحاكم</th><th>الأفراد</th></tr>
+<tr><td>مطلق الحرية</td><td>مطلق الطاعة</td></tr>
+</table>
+<p class="para"><b>نظام استبدادي / سلطة مطلقة</b></p>
+<p class="para"><b>المواطن عند هوبز :</b>   له حقوق و واجبات</p>
+<p class="para">المواطنة هي الانتماء إلى الوطن</p>
+<p class="para">العيش المشترك مع الجماعة</p>
+<p class="para">الحكم المطلق: (لأنه يخضع لبنود العقد ) سلطة متعالية</p>
+<p class="para">ليس للمواطن حق إبداء الرأي أو اتخاذ القرارات أو الاشتراك في السلطة .</p>
+<!-- NOTE: the page shows الحاكم / الأفراد with a brace pointing to "نظام استبدادي / سلطة مطلقة"; laid out here as a two-column table -->
+<!-- file: 17 -->
+
+
+<p class="para">الحكم مستبد : و الاستبداد هي السيطرة و الحكم و النفوذ التي يجعل من المحكومين أدوات تنفيذ و يستعين في ذلك بالقوة .</p>
+<p class="para">⟸ <b>شرط استمرار الدولة إن تكون قوية و مطلقة و متعالية</b> لأنها بذلك تحفظ الهيبة و <b>تجعل الأفراد يخشونها و بالتالي الامتثال لها</b> و بقدر هذه الطاعة يستمر الكيان السياسي.</p>
+<p class="para"><b>و الغاية من وجود الدولة هو الأمن و السلم .</b></p>
+<p class="para">⟺ الدولة كيان</p>
+<table>
+<tr><th><u>مصطنع</u></th><th><u>مطلق</u></th><th><u>مستبد</u></th></tr>
+<tr><td>من صنع الإنسان عن التعاقد</td><td>في حل من كل الالتزامات في المجتمع</td><td>عنيف و قوي</td></tr>
+</table>
+<!-- PROOFREAD: 1750 part1 p01 — shaded table; "عن التعاقد" uncertain -->
+<p class="subhead t-navy"><b>نموذج الكواكبي</b></p>
+<p class="para">يحذر الكواكبي من أصل الداء و هو  الاستبداد السياسي  إذن يعتبره داء لا بد من التخلص منه مهما كان الثمن.</p>
+<p class="para">قول:" في خدمة الاستبداد وسيلتين عظيمتين هما جهالة الأمة و الجنود المنظمة". فهما في نظره أكبر مصائب الأمم و الإنسانية.</p>
+<p class="para">⟵ تلتهم السيادة المطلقة الدولة و السيادة التي تلتهم الدولة تفترس المجتمع.</p>
+<p class="para">قدم الكواكبي ثلاث قواعد لتشخيص الاستبداد و مواجهته:</p>
+<ul class="b">
+<li>أولا: الأمة التي لا يشعر أكثرها بالاستبداد لا تستحق الحرية.</li>
+<li>ثانيا: الاستبداد لا يقاوم بالشدة إنما باللين و التدرج.</li>
+<li>ثالثا: يجب قبل مقاومة الاستبداد تهيئة بماذا سيقع استبدالها</li>
+</ul>
+<p class="para"><b><u>في التوافق بين السيادة و المواطنة:</u></b> الدولة التي تضمن المواطنة هي دولة الحق و منه تستمد مشروعيتها.</p>
+<p class="para">⟵ السياسة المشروعة هي التي تتوافق مع الحق و ترتكز على القانون و يكون أساسها العقل .</p>
+<p class="para">المشروعية تعني الصلاحية و مبررات قيام الدولة   ⟵   الدولة تمارس قوة من أجل المصلحة العامة و حماية الأفراد و بالقوة تحمي الدولة القانون من الانتهاك.</p>
+<!-- file: 18 -->
+
+<div class="chtag"><span>المحور</span> الإنية والغيرية</div>
+<!-- NOTE: handwritten page number "43" at the top is not printed content and is left out; no author/source shown on the page. -->
+
+<div class="chtag"><span>المحور</span> القيم: الأخلاق والدولة</div>
+
+<p class="para">← قد تمارس أيضا عنفا لكن العنف غير مشروع لأنه ممارسة ضد الإنسان. القوة لا يمكن أن تتحول إلى عنف لكن العنف لا يتحول إلى قوة لأن فيه انتهاكا و إسرافا و اعتداء على الإنسان.</p>
+<p class="para">لتكون السياسة مشروعة لا ينبغي أن يكون مستبدة بل لا بد أن يكون هناك توافق بين سيادة الدولة و حقوق وحريات الأفراد.</p>
+<p class="para">← السياسة التي ترتكز على الحق و تتوافق مع القانون يكون أساسها العدل و هاجسها تكريس مبدأ المواطنة.</p>
+<p class="para">لا يمكن الحديث عن المواطن خارج الدولة رغم إن الحقوق التي يتمتع بها المواطن داخل الدولة سابقة على وجودها فالحقوق طبيعية تخص الإنسان و لا يمكن التنازل عنها فهي :</p>
+<ul class="dash">
+<li>ثابتة: ما أتصرف فيه دون قيد أو شرط ← ما أتمتع به و يشرعه القانون</li>
+<li>كاملة : لا تنتهك لان انتهاكها يمس بالإنسان .</li>
+<li>مؤسسة: هي أولوية بالنسبة للتشريعات السياسية أي منها تستمد.</li>
+<li>الحق : هو ما يكون مطابقا لقاعدة محددة تقتضيه و تأمر به / الحق معطى طبيعي و ثابت</li>
+</ul>
+<p class="para">← إذن يقع الربط بين حقوق الإنسان و المواطن ،ذلك أن احترام حقوق الإنسان ضروري لممارسة حقوق المواطن</p>
+<p class="subhead t-navy"><u>نموذج روسو:</u></p>
+<p class="para">السلطة تستمد مشروعيتها من الإرادة العامة التي تترجم في شكل سياسي و قانوني، هو العقد الاجتماعي.</p>
+<p class="para">العقد: يضمن حقوق الأفراد و ينبع من الإرادة العامة التي هي أساس العقد و نتيجة له تضمن القوانين حرية الأفراد من هذا يعتبر روسو أن مصير الحرية من مصير القوانين تسود بسيادتها و تذهب بذهابها.</p>
+<p class="para">← الشعب الحر هو الذي يطيع القانون و لا يطيع الأفراد.</p>
+<p class="para">المواطن فرد يندرج في الدولة و مثلما له حقوق عليه واجبات و هو مثلما يكون حرا و سيدا يكون مطيعا للقوانين و خاضعا لها دون أن يكون عبدا. فالخضوع للقانون ليس سلبا للحرية بل هو ضمان لها يقول روسو " ولدت الحرية يوم ولد القانون" باعتبار أن الإنسان حر و خير و الدولة تجميع لهذه الحريات في الإرادة العامة " من يهيب نفسه للمجموعة كليهما فانه لم يمنح نفسه لاحد".</p>
+<!-- PROOFREAD: 15 part1 p01 — faint photocopy: "ما أتصرف فيه دون قيد أو شرط" (arrow then "ما أتمتع به") ; "يكون حرا و سيدا يكون" (struck/faint) ; "من يهيب نفسه للمجموعة كليهما" are best readings -->
+<!-- file: 19 -->
+
+<div class="chtag"><span>المحور</span> الإنية والغيرية</div>
+<!-- NOTE: handwritten page number "44" at the top and pen underlines in the last paragraph are not printed content and are left out; no author/source shown on the page. -->
+
+<div class="chtag"><span>المحور</span> القيم: الأخلاق والدولة</div>
+
+<p class="para">← سيادة الدولة اقترنت بالحديث عن الحقوق الطبيعية للإنسان الذي تحولت إلى حقوق مدنية للمواطن.</p>
+<p class="para">المواطنة : الاعتراف بمنزلة الفرد و حقه في المشاركة في إدارة شؤون المدينة و إبداء رأيه في سن القوانين و ما يستدعيه ذلك من اعتراف بحرية الإنسان.</p>
+<p class="subhead t-navy"><u>نموذج منتسكيو:</u></p>
+<p class="para">يقول :" كل سلطة لا حدود لها لا يمكن أن تكون شرعية هذا يقتضي إذن :</p>
+<ul class="dash">
+<li>ضرورة تقاسم السلطة و عدم احتكارها مما يحيل التعداية.</li>
+<li>تقاسم السلطة يعني الفصل بينها و استقلاليتها و تقاسم أدوارها لان الجمع بين السلطة في يد واحدة يؤدي إلى نظام كلياني.</li>
+<li>دولة تتأسس على القانون باعتباره يضمن الحريات.</li>
+</ul>
+<p class="para">← الدولة المتهدلة هي التي تفرق بين السلطة تحترم القانون و تقوم على تنظيم عادل يتخذ من الفضيلة و الاعتدال مبدأ له.</p>
+<ul class="dash">
+<li>عدم احتكار الإعلام</li>
+<li>الإقرار بحق الأقليات</li>
+<li>احترام سيادة الدول الأخرى يعني احترام استقلاليتها و عدم التدخل في شؤونها. (على مستوى دولي).</li>
+</ul>
+<div class="data"><p>العلاقة بين السيادة و المواطنة</p><p>علاقة توافق و تكافؤ</p></div>
+<p class="subhead t-navy"><u>نموذج سبينوزا</u></p>
+<p class="para">حالة الطبيعة عند سبينوزا هي حالة استعمال القوى الطبيعية.</p>
+<p class="para">← ممارسة العنف و هيمنة القوى على الضعيف من هنا كانت الدولة ففيها يكون الخضوع للقانون يقول: "لم توجد الدولة لتتحكم للإنسان بالخوف و إنما وجدت لتحرر الإنسان من الخوف".</p>
+<p class="para">← السيادة عند سبينوزا لا تفقد الفرد قدرته و يمكنه أن يختار بالنظر إلى مصلحته توظيف القدرة لخدمة المجموعة بلغة أخرى يمكن للمواطن أن يدمج قدرته مع قدرة الأخرين أو أن يوظفها ضدهم فيدافع يمكن أن تحركه المصلحة كما أن تحركه الخشية و إذا كانت المدينة هي فضاء المنافع المختلفة فان السيادة يجب أن يكون فن المحافظة على وحدة المنافع لذلك فالسيادة التي تحافظ على ما ينتفع به المواطن أفضل من السيادة التي يهابه سلطتها المواطن.</p>
+<!-- PROOFREAD: 17 part1 p01 — faint photocopy: "مما يحيل التعداية" ; "الدولة المتهدلة" ; "التي يهابه سلطتها المواطن" ; "سن القوانين" (first letters cut at margin) are best readings -->
+<!-- file: 20 -->
+
+
+<p class="para">⇦ الدولة التي تكون دوافع فعل مواطنيها الرغبة أكثر قدرة من التي تكون دوافع مواطنيها الخوف.</p>
+<p class="para">⇦ لا تبني الدولة على الخوف إنما على الثقة.</p>
+<p class="para">⇦ الدولة تتسامح بخصوص الأشياء التي لا تقدر على منعها و من ذلك حرية التعبير إذن لا تمنع السيادة حرة التفكير.</p>
+<div class="data"><p class="para">السيادة فضاء للمواطنة<br>و ليست نفيا لها</p></div>
+<p class="para">في النهاية يصح القول بان بقاء السيادة يتوقف على رغبة مواطنيها فماذا  أن تضعف أو تنقطع حتى يصبح وجود الدولة مهددا بالزوال و يصح القول بالمقابل أن الرعاية يملكون صفة المواطنة طالما أن الدولة ترغب في ذلك. فما أن تنقطع رغبتها أو تضعف حتى يحل عهد الجور و الاستبداد.</p>
+<p class="subhead t-navy"><b><u>مشكل العدالة كأساس للحق</u></b></p>
+<p class="para">يختلف تصور العدالة من متصور إلى أخر و من سجل فلسفي سياسي إلى اجتماعي، أخلاقي، اقتصادي لذلك لا نعثر لها على دلالة نهائية لكن يمكن القول أنها العمل على احترام حقوق كل فرد دون استثناء <u>فالعدل يتمثل في إعطاء كل ذي حق حقه طبقا للقانون المدني</u> فيكون الظلم سلب شخص ما حقه بمخالفة هذا القانون.</p>
+<p class="para">سبينوزا : يعتبر أن العدالة تجسيد للحق و تحقيق له فلا يوجد حق خارج عدالة قوانين الدولة. فالعدل يتمثل في إعطاء كل ذي حق حقه.</p>
+<p class="para">ماكس شيلر: العدالة  لا تتمثل في المطالبة بالمساواة لأنها مساواة جائرة مادامت لا تراعي الفروق بين الأفراد فيما تخص الطبائع و المؤهلات التي يتوفرون عليها = العدالة المنصفة هي التي تراعي طبائعهم و مؤهلاتهم و من الظلم المطالبة بالمساواة المطلقة بين جميع الناس.</p>
+<!-- PROOFREAD: 1760 part1 p01 — faint photocopy; "الرعاية", "حرة التفكير" uncertain -->
+<!-- file: 21 -->
+
+
+<ul class="b">
+<li><b>مفهوم المواطنة:</b> تعني المواطنة الاعتراف بمنزلة الفرد و حقه في المشاركة في تدبير شؤون المدينة و إبداء رأيه في سن القوانين . إذن المواطنة هي جملة الحقوق و الواجبات التي يلزم بها الفرد و تتميز بالولاء للدولة التي ينتمي إليها كل مواطن من أجل خدمته في أوقات السلم و الحرب فتكون المواطنة صفة يكتسبها الإنسان بانخراطه الفعلي في الحياة السياسية</li>
+</ul>
+<p class="para">⇐&nbsp;&nbsp;&nbsp; إن المواطنة هي صفة كل من يشارك في الحياة السياسية في دولة ما</p>
+<ul class="b">
+<li><b>مفهوم الدولة :</b> تعني الديمقراطية حكم الشعب ، يعلن سبينوزا أن تأمين الدولة لحقوق المواطنين هو ما يشرع استمرار سلطتها لكن هل في خضوع المواطن ما يهدد حقوقه و حريته؟</li>
+</ul>
+<p class="para">إذا كانت الدولة لا تحتكم في قوانينها إلا إلى منطق العقل و تراعي المصلحة العامة و تحمي الحقوق المدنية فان الفرد في خضوعه لها قد خضع لقواعد العقل فيضل بذلك حرا</p>
+<p class="para">تتقاطع السيادة و المواطنة و يلتقيان في نقطة موحدة هي المصلحة العامة فمن مصلحة الدولة تامين حقوق المواطنين ضمانا لسيادتها و من مصلحة المواطن الخضوع لهذه السيادة ضمانا لحقوقه ذلك هو معنى الديمقراطية</p>
+<p class="para">⇐&nbsp;&nbsp;&nbsp; الخضوع للسلطة إرادي و ليس إكراهيا</p>
+<ul class="dash">
+<li>لا يتم عن طريق العنف</li>
+<li>الغاية الأسمى للدولة هي ضمان الحرية</li>
+<li>ضمان حرية المعتقد و التفكير</li>
+</ul>
+<ul class="b">
+<li><b>المواطنة العالمية :</b></li>
+</ul>
+<p class="para">تعبر عن نزعة الإنسان إلى ما هو كوني و كلي و هو نزوع لا يختزل في ما هو معرفي أو انطولوجي بل يمتد إلى ما هو قيمي سياسي فالإنسان مواطن عالمي في نفس اللحظة التي يكون فيها مواطنا محليا.</p>
+<p class="para">⇐&nbsp;&nbsp;&nbsp; انتماء الإنسان إلى موقع ما تم عن طريق الصدفة و هذا لا يعني التنكر لخصوصيته بل الانخراط في المواطنة كقيمة عالمية.</p>
+<div class="data"><ul class="b"><li>المواطن العالمي يحمل على معنى الإنسان الذي يمارس حقوقه من جهة&nbsp; كونه كائنا كونيا لا من جهة كونه كائنا قوميا</li></ul></div>
+<!-- file: 22 -->
+
+
+<!-- NOTE: handwritten page number "47" at the top of the printed page is left out -->
+<p class="subhead t-navy"><b><u>رؤية نقدية</u></b></p>
+<ul class="dash">
+<li><b>في نقد السيادة:</b> لا تتمثل الدولة دوما ضامنا للحقوق و الحريات بل تتحول أحيانا إلى آلية استبداد لذلك يعلن ماركس أنها <b>لا</b> تتمثل ضرورة أبدية بل هي <b>قابلة للزوال</b> بزوال شروط تكونها ( الطبقية ).</li>
+</ul>
+<!-- PROOFREAD: 1812 part1 p01 — "ضامنا للحقوق (faint print)" -->
+<!-- file: 23 -->
+
+
+<!-- NOTE: only the title is printed sideways; text transcribed as it is -->
+<!-- NOTE: only the large boxed title is printed sideways; the header "المحور 1:" is upright -->
+<p class="subhead t-navy"><u>المحور 1</u>:</p>
+<div class="data"><p class="subhead t-red">"الأخلاق و السعادة"</p></div>
+<!-- file: 24 -->
+
+
+<!-- NOTE: handwritten page number "49" at the top of the printed page is left out -->
+<!-- PROOFREAD: 1813 part1 p01 — "faint photocopy; left ends of several lines cut by the page edge" -->
+<p class="subhead t-red"><b>الأخلاق: الخير والسعادة</b></p>
+<p class="subhead t-navy"><b><u>تمـــــــــــهيد ممكـــــــن:</u></b></p>
+<p class="para">إن الفلسفة هي تفكير يضع في الوجود ما ليس فيه أي أنها إبداع للقيمة وهي تعبر بالتالي عن المنزلة الحد للإنسان حيث يتعرض للوضعيات القصوى و حين تكون حياته مأزقية. غير أن السعادة تمثل مشكلة وذلك لكونها ليس غاية للعقل بل للمخيلة وتتأسس على مبادئ خبرية. يقول كانط : " كلما انصرف العقل المستنير إلى تحصيل المتعة في الحياة والسعادة ابتعد الإنسان عن الرضى الحقيقي " . هكذا تظهر السعادة مرتبطة بما هو ذاتي بالمتعة وهي من ثم وكأنها نقيض للأخلاق . فاما أخلاق بدون سعادة واما سعادة تستبعد الأخلاق . إن الجمع بينهما سبب التناقضات .</p>
+<!-- PROOFREAD: 1813 part1 p01 — "line ends cut: المنزلة الحد / لكونها ليس / وهي من ثم" -->
+<p class="para">وقد تطرح السعادة في مستوى الحياة العملية كحكم على المستقبل أو كحكم على ماضي انقضى وقد تنتمي السعادة الى مجال النظر أو مجال التجربة أو كذلك الحلم. ويمكن العثور عليها في صلب منظومة أخلاقية أو داخل نسيج الحياة من خلال صورة خيالية.</p>
+<p class="para">في كل الأحوال السعادة هي مطلب كل الناس يقول القديس أوغسطين : " كل الناس يتمنون السعادة ويبحثون عنها بجد ، انهم يبحثون عن أشياء أخرى أيضا ولكن دائما من اجل الوصول الى السعادة" . واذا كانت السعادة مطلب الجميع فـ "ليس ثمة ما يخجل في أن نكون سعداء" والقول لكامو <span dir="ltr">Nôce</span> . ويقول باسكال : " يبحث جميع الناس على أن يكونوا سعداء وليس للارادة من مسعى الا في هذا الاتجاه. ان السعادة هي الباعث على كل أعمال الناس حتى أولئك الذين يصل بهم الأمر الى الانتحار".</p>
+<!-- PROOFREAD: 1813 part1 p01 — "line ends cut: ويبحثون عنها بجد / مطلب الجميع فـ / أن يكونوا / الذين يصل" -->
+<ul class="b">
+<li><b>تعريف السعادة :</b> هي اليمن وهو نقيض النحس والشقاء</li>
+</ul>
+<p class="para">وتعني السعادة معنيين : 1) البهجة 2) مواتاة الحظ ويمن الطالع فهي الفال أي علامة الحظ السعيد. ورغم أن السعادة ترتبط باللأوضاع التي نعيشها والظروف الموضوعية التي نحيا فيها فان السعادة هي حكم قيمة تعبر عن القيمة الأخلاقية للواقع الذي نعيش فيه. أن السعادة هي الرضى التام بما تناله النفس من الخير ومتى سمت السعادة الى مستوى الرضى الروحي ونعيم التأمل والنظر أصبحت غبطة <span dir="ltr">Béatitude</span> ولو دفعنا الغبطة الى حدها الصوفي الأقصى كانت سكينة وسلاما.</p>
+<p class="para">هكذا تكون السعادة مطلب كل الناس وليس عليهم الا السعي الى الوسائل الموصلة اليها فالبعض يرى في الجهل سعادة بينما يرى الحكيم في خيرات النفس السعادة الحقيقية. فهل تكمن السعادة في المعرفة أم في الاستمتاع واللذة؟. هل نبحث عنها في اللعب أم في تحمل المسؤولية والمخاطرة ؟</p>
+<ul class="b">
+<li><b>القيم والأخلاق</b></li>
+</ul>
+<!-- file: 25 -->
+
+
+<!-- NOTE: handwritten page number "50" at the top of the printed page is left out -->
+<!-- PROOFREAD: 1814 part1 p01 — "faint photocopy; several words at line ends hard to read" -->
+<p class="para">ليس التفكير في القيم والأخلاق أمرا حديثا فهو التفاعل الأساسي للفلسفة منذ القدم غير ان الاهتمام بمسألة القيم يتضاعف كلما تعرض الوجود البشري الى أزمات ومن ثم تتردد على الأسماع اقوال او احكام من قبيل ان العالم يعيش أزمة قيم وضرورة التفكير في قيم منشودة بدل الموجودة وضرورة التمييز بين الأخلاق والاخلاقية. فالتفكير في الأخلاق وهو رهين أزمة بين الأخلاق الموجودة ومبدا الحياة الأخلاقية القائم على الحرية.</p>
+<p class="para">تتخذ القيم عادة دلالة المبادئ كما الغايات التي بها نوجه السلوك ونحاكم الأفعال و هو بهذا المعنى الحد الذي يفصل عالم الانسان عن الحيوان.</p>
+<ul class="b">
+<li><b>دلالة الأخلاق</b> : تعني الأخلاق هي بمعنى ما :</li>
+</ul>
+<ul class="dash">
+<li>التجربة الأخلاقية المعيشة والتي يميز فيها الضمير بين الخير و الشر.</li>
+<li>مجموعة القواعد المحددة لسلوك مجموعة تبين ما هو مسموح به وما هو ممنوع.</li>
+<li>تعني النظرية الفلسفية والعقلية حول الخير والشر بعرض انشاء قواعد للسلوك والاخلاق في معنى التفكير الفلسفي حول الحياة الأخلاقية يسمى أيضا اتيقا.</li>
+</ul>
+<ul class="b">
+<li><b>اختلاف الأخلاق</b> : يصطدم التفكير الفلسفي بمشكل تغير الاحكام الأخلاقية حسب العصور والحضارات مما يجعل القيم غير يقينية. فالأحكام حول الخير والشر تختلف في الزمان والمكان فقد كان ارسطو مثلا يعتبر العبودية أمرا طبيعيا وأخلاقيا في حين أن أخلاق العصر تندد بالمجتمع العبودي.هذا يعني أن الضمير الأخلاقي هو موضوع اختلاف غير أنه :</li>
+</ul>
+<!-- PROOFREAD: 1814 part1 p01 — "فقد كان ارسطو (faint)" -->
+<p class="para">- اذا كان مضمون الضمير الأخلاقي مختلف بين المجتمعات فان شكله يبقى واحدا. فكل مجتمع يعرف الالزام الأخلاقي في كل مكان نميز المسموح به عن الممنوع ، الخير عن الشر. فالحكم الأخلاقي هو ظاهرة كونية تميز النوع البشري .</p>
+<p class="para">الى جانب الأحكام الأخلاقية التي تعد موضوع اختلاف بين الحضارات هناك أحكام تدل كونية ، فالشجاعة هي دوما أفضل من الجبن.</p>
+<ul class="b">
+<li>يجب الانتباه الى مواطن الاشكال في عنوان المحور</li>
+</ul>
+<ul class="dash">
+<li>إشكال متعلق بمعنى الخير .</li>
+<li>إشكال متعلق بمعنى السعادة</li>
+<li>إشكال متعلق بالربط بينهما</li>
+</ul>
+<p class="subhead t-red"><b>I/ <u>في التلاقي بين الخير و السعادة</u>:الاسس الفلسفية لتحصيل السعادة</b></p>
+<p class="subhead t-navy"><b>1) <u>الخير و السعادة</u></b></p>
+<p class="para">أ) أفلاطون والتأسيس لمثالي للأخلاق</p>
+<!-- file: 26 -->
+
+
+<!-- PROOFREAD: 2293 part1 p01 — "faint photocopy: several words partly faded (e.g. 'مجرّد حظ مؤات من الآلهة', 'المعدود و', 'الملذّات الحسيّة', 'وهو المستقيم'); best reading" -->
+<p class="para">— أن تكون سعيدا ليس معناه أن تمتلك الثروة و الجاه و ليس تبجيلا من الآلهة أو مجرّد حظ مؤات بل إنّ السّعادة لا تكون إلاّ إذا كانت النفس خيّرة.</p>
+<p class="para">— يطابق أفلاطون بين السّعادة و السّلوك الخيّر . أي بين الخيرات الملائمة للنفس و ماهية الإنسان</p>
+<p class="para">— تكون السّعادة بالقدرة على تحصيل المعرفة و التمييز العقلي بما هي خيرات قائمة و دائمة في النفس. و هو ما يستوجب العمل علـــى تلطيف النزعـات و الأهواء و اضطرابات البدن.</p>
+<p class="para">تكون السّعادة عبر الأخلاق بما أنّ الأخلاق هي فنّ الاستعداد للسّعادة التي تقطع مع المباشر و العيني و المحدود و الجزئي أي مع كلّ ما يتعلّـــق مع المُتطى و تعلو / تتعالى عليه.</p>
+<p class="para">* يذهب سقراط إلى أنّ السّعادة لا تولّد الفضيلة بل الفضيلة تـولّد السّعادة. لذا كانت العلاقة بين الفضيلة و السّعادة علاقة متينة إن لم نقل علاقة تلازم.</p>
+<p class="para">الإنسان العاقل = الإنسان العادل = الإنسان الفاضل = الإنسان السعيد</p>
+<p class="para">* إنّ طلب اللذّة بما هي إحدى شُعب الشرّ تـحيل على إخلال النفس بالنظام المتعلّــق بمنزلتها الأنطولوجيّة و بطبيعتها.</p>
+<p class="para">← النفس الشرّيرة أو الرديئة.</p>
+<p class="para">* النفس الشرّيرة هي التي تتنكّر لمقوّماتها و التي تـفرط في الإقبال على الملذّات الحسّيّة.</p>
+<p class="para">* تناقض بين طبيعة الإنسان العاقلة و حقيقة النفس و الانغماس في الحسّي و المادي.</p>
+<p class="para">* تتّصل اللذّة الحسّيّة بكلّ ما هو جزئي و نسبي و بالمادي بما هو متزمّن مؤقّت لذلك هو لا يضمن السّعادة أو تحقيق الخير .</p>
+<p class="para">* يكمن الخير في اتّـباع النفس لنظام طبيعتها.</p>
+<p class="para">* اتّـباع النفس لنظام طبيعتها هو أن تلتزم النفس بالحكمة و الاعتدال وهو التزام يجعل منها نفسا طيّبة و خيّرة.</p>
+<p class="para">* تستوجب الفضيلة عند أفلاطون الترتيب و التوافق مع النظام و مع طبيعة الذات أو إنـيّتها.</p>
+<p class="para">* يقوم أفلاطون بربط الفضيلة بالخير ليكون الفاضل هو الخيّر وهو المستقيم المعتدل وهو ما يُمكّن من تحصيل السّعادة.</p>
+<p class="para">* الفضيلة هي قيمة مطلقة وكونيّة.</p>
+<p class="para">* تَحصلُ الفضيلة بالتنكّر للجسد / البدن و لرغباته.</p>
+<p class="para">* الخيّر السّعيد هو من توافقت نفسه مع طبيعتها.</p>
+<p class="para">* الخيّر الفاضل هو من يكون قادرا على تحصيل الحقائـق و ذلك عبر فعل التأمّـل و التعقّل.</p>
+<p class="para">* أنْ ترتبط الفضيلة بفعل التأمّل و بالمعرفة و الحكمة فذلك ما يجعلها خيرا أسمى أو مثلا أعلى.</p>
+<p class="para">* تكمن السّعادة في اعتبار الخير كمثال. لذلك تكون الأخلاق عند أفلاطون هي فنّ الاستعداد لتحقيق السّعادة التي تعلـو و تتجاوز الجزئي و النسبي و المؤقّت و المحدود و المباشر . فالفضيلة الأخلاقيّة التي تُحقّق الخير لا تتحقّق إلاّ من خلال القطع مع المنفعة و اللذّة الحسيّة.</p>
+<p class="subhead t-navy">ب)أرسطو والتأسيس لأخلاق السعادة</p>
+<p class="consigne">السند : حد الفضيلة- أرسطو- ص 353</p>
+<!-- file: 27 -->
+
+
+<!-- PROOFREAD: 2294 part1 p01 — "faint photocopy: several words faded (e.g. 'لتنظيم الحياة', 'الاضطلاع', 'دامت', 'الصيد والسعادة'?, 'وكلها خيرات جزئية', 'الشهرة والنجاح', 'تعرض نفسها'); best reading" -->
+<ul class="b">
+<li>الأخلاق عند أرسطو علم عملي يبحث في افعال الانسان ويقرر ما يجب فعله وما ينبغي تجنبه لتنظيم الحياة.</li>
+<li>السعادة هي الفعل المطابق للفضيلة" . فالفعل البشري لا بد أن يهدف الى خير ما لأن أفعال البشر غائية تنتقل من غاية الى أخرى ومن خير الى خير حتى الوصول الى الخير الأسمى الذي به نحصل سعادتنا.</li>
+<li>الخير الأقصى هو السعادة. وتتمثل السعادة في "التحقيق الكامل للطبيعة البشرية " وتفهم الطبيعة هنا بالمعنى الميتافيزيقي أي الماهية : أي أن يتأمل الانسان ذاته حسب ما ذهب اليه سقراط في قوله "اعرف نفسك بنفسك" أي أن يدرك الانسان ماهيته. وهو اسمى فعل يمكن أن يحققه الانسان: انه فعل التفكير الذي به تميزه عن الحيوان وبالتالي فان الخير الأسمى يكمن في الاضطلاع بالوظيفة العاقلة. بل ان خير الانسان رهين بممارسته لحياة التفكير على أتم وجه ما دامت السعادة كامنة في عمل النفس الناطقة بأحسن ما يمكن من الكمال.</li>
+<li>عناصر الكمال عند أرسطو متراتبة فهناك :</li>
+</ul>
+<ul class="dash">
+<li>الحكمة <span dir="ltr">Sagesse</span> بمعنى التامل.</li>
+<li>الفضيلة <span dir="ltr">vertue</span> بمعنى ان الحياة وفق الفضيلة هي جزء من تحقيق الطبيعة البشرية.</li>
+<li>المتعة <span dir="ltr">plaisir</span> وهي أمر اضافي ونتيجة ضرورية.</li>
+</ul>
+<ul class="b">
+<li>ولكن توجد خيرات أخرى خارجية مثل الثروة ، المجد والسعادة.. وكلها خيرات جزئية لا تحقق سعادة الانسان من حيث هو كائن عاقل وذلك ما يجعل أرسطو يرى فيها سعادة ناقصة لا تشبع الا الوسم لذلك كان من الضروري التمييز بين :</li>
+</ul>
+<ul class="dash">
+<li>فضائل دنيا هي الخيرات الخارجية ( الشهرة والنجاح)</li>
+<li>فضائل عليا وهي القوة الخلقية التي تدفع الانسان الى التأمل والنظر العقلي المجرد دون بحث عن منفعة لذلك يربط أرسطو السعادة الحقة بالحكمة ويعتبر الحكمة أسمى الفضائل لأنها تعبر عن فعل حر نزيه يقوم به العقل دون أن يهدف الى أي مصلحة أو منفعة مادية.</li>
+</ul>
+<p class="para">⊨► اذا كانت اللذة زائلة والخيرات الخارجية مهددة بالضياع فان الحكمة هي الفضيلة الوحيدة الباقية والكاملة التي بها يتجاوز الانسان عالم الحس ليبلغ عالم الألوهية أو يشارك الآلهة وجودها وسعادتها.</p>
+<p class="subhead t-navy">استنتاجات :</p>
+<p class="para">⊨► يقدم أرسطو تصورا ميتافيزيقيا للسعادة يقوم على سعي الانسان لاكتشاف المطلق داخله اي تأمل طبيعته العاقلة.</p>
+<p class="para">⊨► أكد أرسطو على كون السعادة في خيرات النفس باعتبار أن النفس هي خير ما في الانسان ولكن ذلك لم يمنعه من الاعتراف بالخيرات الخارجية.</p>
+<p class="para">⊨► يميز أرسطو بين السعادة واللذة ويربط مفهوم السعادة بالفضيلة والكمال المتمثل في تحقيق الذات أو الحكمة.</p>
+<p class="para">⊨► ان اللذة عند أرسطو وان كانت أمرا بديهيا يقبل عليه كل الناس وليست بحاجة الى تبرير باعتبارها تفرض نفسها الا أنها مجرد عرض أو غاية ثانوية وليست مساوية دائما للخير فلا يمكن جعل اللذة غاية في ذاتها أو خيرا أسمى.</p>
+<p class="para">⊨► يعتبر أرسطو أن السعادة الحقة هي في التأمل فحياة الفهم والتفكير اسعد حياة يمكن للمرء ان يحياها.</p>
+<!-- file: 28 -->
+
+
+<!-- PROOFREAD: 2295 part1 p01 — "faint photocopy: some words faded (e.g. 'لا يعرف قيودا ولا سجنا ولا كدرا', 'الا عبودية الأهواء', 'المنغصات'); best reading" -->
+<p class="subhead t-navy">ج)السعادة في المنظور الرواقي :سياسة الذات للملذات</p>
+<p class="para">السّعادة عند الرواقيين تكمن في "ضبط النفس" و " الاكتفاء بالذات" و" الحكمة" لأنّ الإفراط في اللذّة هو كسر لمنطق الطبيعة الشيء الذي يجعل تصورّهم للسّعادة يتّخذ طريق الخلوّ من الرغبة والاكتفاء بالقليل من الأكل إلى حدّ الكفاف مقابل العناية أكثر بحياة التأمّل و الحكمة.</p>
+<p class="para">تقوم السعادة في نظر الرواقية على المبادئ التالية :</p>
+<p class="para">1. لا خير الا في استقامة الارادة ولا شر الا في الرذيلة : فالسعادة هي طلب للخير كما للفضيلة والحكيم هو الذي يتشبه بالاله اقدر المستطاع.</p>
+<p class="para">2. الفضيلة هي نمط من الفعل يمليه العقل. والحكيم الرواقي هو الذي تخلص من هيمنة الرغبات عليه ، و " وضع نفسه خارج دائرة الرغبة" .</p>
+<p class="para">3. يعيش الحكيم الرواقي تبعا لذلك مطمئنا لا يعرف قيودا ولا سجنا ولا كدرا انه حر لأنه لاعبودية الا عبودية الأهواء وقد تخلص منها لذلك يصل الى حالة من الصفاء والسكينة.</p>
+<p class="para">4. ما يميز الحكيم الرواقي عن الانسان العادي هو أن الحكيم متعلق بأخلاق التحكم وفضيلة الزهد على مشقتها. واذا كان العامة عبيدا للمصلحة والثروة فان الرواقي يعيش تجربة التحرر باعلان حرب دائمة على هذه المنغصات ( الثروة والمال) .</p>
+<p class="para">⊨► ان الحكمة الرواقية هي سياسة للذات وتحكم فيها وفي الأشياء فالأخلاق الحقيقية تتعلق بالارادة الفائقة للحكيم. هذه الحكمة ترفع الحكيم الرواقي فوق الالم وتجعله يعيش حالة من السكينة .</p>
+<p class="subhead t-red">2) <u>اللذة والسعادة :</u></p>
+<p class="consigne"><b>السند : اللذة والسعادة-أبيقور — ص 374</b></p>
+<p class="para">- يبحث المذهب اللذي -<span dir="ltr">hédonisme</span>- عن اللذة واستبعاد الألم وذلك طلبا للسكينة أو طمأنينة النفس (الأتراكسيا <span dir="ltr">Ataraxie</span>)، غير أن السكينة لا تتحقق للنفس الا بتجاوز آلام الجسد. لذلك يؤكد أبيقور على ضرورة تجاوز الأقوال الكلية وتأملات الخير في ذاته كما نجدها عند المثاليين من أمثال أفلاطون. وبالتالي فان السعادة ليست هجرانا للجسد وانما هي قضاء على آلامه وتجاوز لحالات الاضطراب واللاتوازن قصد بلوغ حالة السكينة.</p>
+<p class="para">-كل الموجودات تسعى طبيعيا نحو اللذة. فاللذة خير بل هي مبدا حيوي وأساسي بما أنها قائمة على طبيعة الكائن الحي : تلك هي الحكمة الأبيقورية.</p>
+<p class="para">- غير أن ذلك ليس دعوة للفجور لان الأبيقورية لا تبحث عن اللذة الا بمقدار ما يحقق التوازن للجسد ومن ثم السكينة للنفس. وبالفعل فان التخمة هي اختلال للتوازن : "عندما نقول ان اللذة هي غايتنا القصوى، فاننا لا نعني بذلك اللذات</p>
+<!-- file: 29 -->
+
+
+<!-- PROOFREAD: 2296 part1 p01 — "faint photocopy: some words faded (e.g. 'وغايتها', 'تحفظ الحياة', 'جعل', 'دون أن نضع في الاعتبار', 'لصارت'); best reading" -->
+<p class="para">الخاصة بالفساق ... بل اللذة التي نقصدها هي التي تتميز بانعدام الألم في الجسم (الابونيا <span dir="ltr">Aponie</span> ) وانعدام الاضطراب في النفس ( الاتراكسيا <span dir="ltr">Atraxie</span> ).</p>
+<p class="para">⊨► هكذا يكون الخير في طلب اللذة. وهكذا تكون اللذة ما به تحقيق السعادة. " ان اللذة هي بداية الحياة السعيدة وغايتها وهي الخير الأول الموافق لطبيعتنا والقاعدة التي ننطلق منها&nbsp; في تحديد ما ينبغي اختياره وما ينبغي تجنبه ."</p>
+<p class="para">← أن نبحث عن السّعادة الدائمة أبيقوريا، فذلك يستوجب القدرة على التمييز بين اللذّات أو المتع أو الرّغبات، بين ما هو طبيعي ضروري و ما هو طبيعي غير ضروري.</p>
+<p class="para">يميّز أبيقور بين ثلاثة أنواع من اللذّات أو المتع:</p>
+<p class="para">1 — مُتع أو لذّات طبيعيّة ضروريّة: صادرة عن رغبات طبيعيّة ضروريّة وهي اللذّات التي تُسكّن الألم الطبيعي و تحفظ الحياة مثال ذلك الأكل و الشرب.</p>
+<p class="para">2 — مُتع أو لذّات طبيعيّة غير ضروريّة: مثال ذلك الأطعمة الدسمة أو المترفة.</p>
+<p class="para">3 — مُتع أو لذّات غير طبيعيّة و غير ضروريّة مثل جمع المال و الشهرة و الطموح إلى المناصب.</p>
+<p class="para">الحكيم هو الذي يقتصر على تحقيق الرغبات الأولى باعتدال وهو الذي يُقلّل من الرغبات أو المتع الثانية لأنّها تُسبّب في الغالب الهموم و الخيبات و الاضطراب، و يمتنع عن الثالثة.</p>
+<p class="subhead t-red">3) المنفعة والسعادة : <b>في أن الفضيلة تحصل بإسعاد الآخرين</b></p>
+<p class="consigne"><b>السند : المنفعة اساس الاخلاق -جون ستيوارت ميل ص 358</b></p>
+<p class="para">تاريخيا&nbsp; ظهر هذا التيّار في إنقلترا قبل ظهور التيّار الفرداني الأمريكي بقليل، وتقوم معالم هذا التوجّه على ضرورة جعل المصلحة الجماعية للمجتمع والدولة رمزا و هدفا لأيّ سلوك نقوم به فلا يمكن الحديث عن فضيلة أو خير دون أن نضع في الاعتبار " المصلحة المشتركة" و" السعادة الجماعية" على أعلى هرم القيم التي نطلبها و نتوق إليها.</p>
+<p class="para">- أنّ تغليب السعادة الجماعية على السعادة الفردية هو أساس الفعل الأخلاقي لدى بعض روّاد هذه المدرسة مثل "جون ستيوارت ميل" الذي يعتبر أنّ مطلب السعادة هو مطلب كوني .</p>
+<p class="para">- المثل الأعلى الأخلاقي أو الخير الأقصى هو سعادة الآخرين وهو ما يعكس رفضا للبحث عن المنفعة الذاتية الأنانية. ولو وضع كل واحد من البشر غاية همه طلب سعادته ولذته الخاصة على حساب الآخرين لصارت السعادة مصدرا للأنانية .</p>
+<p class="para">المشكل اذن : هل نبحث عن سعادتنا على حساب الآخرين ؟ ( ردّ على النفعية الذاتية) أم يجب البحث عن الخير الأقصى والعام ؟ هل يجب النظر الى المنفعة من وجهة نظر فردية أم نعطيها طابعا اجتماعيا باعتبار أن مصلحة كل فرد تتوقف على مصلحة الجميع؟</p>
+<p class="para">من هنا جاء مذهب "أخلاق المنفعة العامة" لجون ستيوارت ميل ، اي أن يساهم المرء في نفع الآخرين نفع البشرية.</p>
+<!-- file: 30 -->
+
+<div class="chtag"><span>المحور</span> الإنية والغيرية</div>
+<!-- NOTE: handwritten page number "55" at the top of the page left out -->
+
+<div class="chtag"><span>المحور</span> القيم: الأخلاق والدولة</div>
+
+<p class="para">- يقوم المذهب النفعي عامة على قيس أخلاقية الفعل بنتائجه اي تحقيق السعادة وهي عند ميل سعادة للفرد وللمجموعة.</p>
+<p class="para">وتقوم نفعية ميل على المبادئ التأسيسية التالية :</p>
+<ol class="qn">
+<li>اللذة هي الشيء الوحيد المرغوب فيه.</li>
+<li>الحجة على أن شيئ ما مرغوب فيه هو أن كل الناس يرغبون فيه بالفعل.</li>
+<li>سعادة كل شخص هي خير وعليه فان السعادة العامة هي خير الجميع.</li>
+<li>الفعل الخلقي لا يكون خيرا (فضيلة) إلا متى حقق أعظم قدر ممكن من اللذة لأكبر عدد ممكن من الناس<br>➜ تقديم الغيرية على الأنانية.</li>
+<li>لا يجب النظر إلى كم اللذات دون أن نأخذ بعين الاعتبار كيفها فهناك لذات دنيئة وأخرى حقيرة فلا يمكن أن نسوي لذات الحس مع لذات العقل فقد يكون من الفضيلة أن يكون الإنسان شقيا من ان ينغمس في لذة الخنازير.</li>
+<li>التضحية بالسعادة الفردية حين يعود ذلك بالنفع على الآخرين<br>➜ معيار الخير ليس سعادة الفاعل بل سعادة المجموع:</li>
+</ol>
+<p class="para">لذلك سمي تصور ميل بـ"السعادة الجماعية" أو المشتركة. بهذا التقدير يعتبر ميل، ان أفعال البشر وان لم تحقق لهم السعادة الفردية ( التضحية باللذة الفردية) فانها تهدف إلى مثل أعلى وهو سعادة الآخرين . فالزهد في اللذة والسعادة هو طلب للفضيلة وتنمية للسعادة العامة ، ذلك هو حال البطل أو الشهيد الذي يحسب نتائج فعله بالنظر الى المجموعة.</p>
+<p class="subhead t-red"><u>II/ في التعارض بين الخير و السعادة:</u></p>
+<p class="para"><b>السند</b> : - الانسان غاية - الامر الاخلاقي كانط ص360 و 364</p>
+<p class="subhead t-navy">1)نقد اخلاق السعادة :</p>
+<p class="para">يعتبر كانط انه من الصعب تحديد السعادة لان كل فرد له تحديد خاص لهذه الاشكالية فقد تتحدد لدى البعض بالثراء و البعض الاخر بالصحة و المجد و الشهرة لكن هذه التحديدات مرتبطة بعناصر خبرية حسية لا تقدم تعريفا محددا للسعادة.</p>
+<p class="para">السعادة لا تقبل التحديد لانها تعبير عن المطلق او الكمال و بما ان الانسان كائن متناهي ومحدود لا يمكنه ادراك حقيقة المطلق و اللانهاءي لذلك اقر كانط ب "ان الانسان عاجز عن ان يحدد بيقين تام ما يجعله سعيدا بحق."</p>
+<p class="para">◄يحرص كانط على ان يكون الفعل الاخلاقي امتثال لواجب عقلي صارم لانه غاية في ذاته و ليس مرتبطا بتحقيق هدف او مصلحة حتى و ان كانت السعادة.</p>
+<p class="subhead t-navy">2)من اخلاق السعادة الى اخلاق الواجب :</p>
+<p class="para">" يردّ مجال الفلسفة حسب كانط إلى الأسئلة التالية:</p>
+<ol class="qn">
+<li>ماذا يمكنني أن أعرف ؟</li>
+<li>ماذا يجب عليّ أن أفعل ؟</li>
+</ol>
+<!-- PROOFREAD: 1217 part1 p01 — faint photocopy; "شيئ ما", "دنيئة وأخرى حقيرة", "اللانهاءي" read as best as possible -->
+<!-- file: 31 -->
+
+
+<!-- NOTE: handwritten page number "56" at the top of the printed page is left out; the page starts mid-list -->
+<!-- PROOFREAD: 1819 part1 p01 — "faint photocopy" -->
+<p class="para">3) ما الذي يجوز لي أن آمل ؟.<br>4) ما الإنسان ؟</p>
+<p class="para">عن السؤال الأول تجيب الميتافيزيقا، وعن الثاني تجيب الأخلاق، وعن الثالث يجيب الدين، وعن الرابع تجيب لأنثروبولوجيا"</p>
+<p class="para">لقد خصّص كانط كتابي "نقد العقل العملي" و "أسس ميتافيزيق الأخلاق" للإجابة عن السؤال الثاني في مشروعه النقدي "ماذا يجب عليّ أن أفعل ؟" حيث قد حاول تجاوز الإرث الفلسفي الأرسطي و ما بعد الأرسطي في مجال التنظير الأخلاقي متجاوزا بذلك نظريات أخلاق السعادة و مؤسّسا أخلاق جديدة مؤمنة بالإنسان و مبنيّة على أساس الواجب الذي يعرّفه في "أسس ميتافيزيقا الأخلاق" بأنّه «ضرورة أداء الفعل احتراما للقانون»،غير أنّ القانون هنا هو ليس القانون المدني كما تحدّث عنه فلاسفة السياسة و إنّما هو قانون جديد يشرّعه العقل و تمليه الإرادة الخيّرة المشرّعة ذاتيا والملتزمة بمبدأ الحرّية الفردية.</p>
+<p class="subhead t-navy">ا)الفرق بين الاوامر الشرطية و الاوامر القطعية :</p>
+<p class="para">تقوم الأخلاق الكانطية على تمييز بين الأوامر الأخلاقية و هي: "الأمر الشرطي" و "الأمر القطعي"</p>
+<p class="subhead t-navy"><b>-الأمر الشرطي :</b></p>
+<p class="para">هو أداء الفعل الأخلاقي ابتغاء لغاية كامنة وراءه فلا يكتسي قيمة في حد ذاته و لا يطلب لانه غاية بل يطلب كوسيلة لتحقيق غاية أخرى.</p>
+<p class="para">كأن نقول مثلا: "إذا أردت، أن يحترمك الناس فلا تكذب" أو "إذا أردت أن لا تدخل السّجن فلا تسرق" أو "لا تغشّ لكي تكسب ثقة حرفائك" كلّ هذه الأصناف من الأوامر يرفضها كانط، و يقول أنّها لا تتّصف بالأخلاقية و لا يمكن أن تكون مؤسّسة لفعل الخير نظرا لأنّ الأخلاق الحقيقية هي التي يكون الأمر فيها قطعيّا أي غير مرتهن بأيّ ربح أو بأيّ خوف مثل القول "لا تسرق لأنّ السرقة ليست حسنة" أو "قل الصدق" فالأمر القطعي هو الذي يجعل من الأخلاق تكون غاية ذاتها و ليس غاية مصلحة شخصية.</p>
+<p class="para">⇐ الامر الشرطي مشروط بما يحققه من منفعة و هكذا لا يتحول الى قيمة اخلاقية لان من صفات الفعل الاخلاقي ان يكون مطلقا و معبرا عن ارادة عاقلة متحررة من كل القيود المصلحية و المنفعية.</p>
+<p class="subhead t-navy"><b>-الأمر القطعي :</b></p>
+<p class="para">الامر القطعي هو الامر الذي يلزم بفعل شيء ما دون انتظار نتيجة أو مصلحة أو منفعة.</p>
+<p class="para">-يقول كانط :" ان القيمة الاخلاقية لفعل ما لا تكمن في الاثر الذي ينتظر منه."</p>
+<p class="para">⇐ الفعل الاخلاقي لا يكون الا استجابة لامر قطعي</p>
+<p class="para">-مثال: "قل الصدق دائما" ← الفعل في هذه الحالة ليس وسيلة لغاية بل هو غاية في حد ذاته.</p>
+<!-- file: 32 -->
+
+
+<!-- NOTE: handwritten page number "57" at the top of the printed page is left out; the page starts mid-text -->
+<!-- PROOFREAD: 1820 part1 p01 — "faint photocopy" -->
+<p class="para">فهواذا بمثابة القانون العام الذي يكو ن قادرا على إنتاج الأخلاق العليا و الذي يكون أيضا مصدرا للأخلاق الذاتية لتكون مشروعا إنسانيا كلّيا.</p>
+<p class="para">مصدر الاوامر الطعية هو العقل العملي الذي يقرر ما يجب فعله لنستنتج من كل ذلك ان كانط يعرف الفعل الاخلاقي على انه الفعل الذي تقف وراءه ارادةطيبة و عاقلة منزهة عن المصالح و تستجيب لاوامر العقل القطعية و ملتزمة بالقانون الاخلاقي لمجرد انه قانون وضعه العقل :فطاعة الواجب الاخلاقي العقلي هي طاعة مطلقة يرتقي بها الانسان عن المنزلة الحيوانية باتجاه المنزلة الالاهية التي هي القداسة والسمو و الرفعة.</p>
+<p class="subhead t-navy">ب)في خصائص القانون الأخلاقي :</p>
+<p class="para">يرصد لنا كانط ثلاث صيغ للقانون الأخلاقي يصوغها كما يلي :</p>
+<p class="subhead t-navy"><b>- الصيغة القطعية الاولى :</b></p>
+<p class="para">" اعمل دائما بحيث يكون في استطاعتك أن تجعل من قاعدة فعلك قانونا كلّيا عاما للطبيعة"</p>
+<p class="para">← الفعل لا يكون اخلاقيا الا اذا كان قابلا للتعميم اي تحويله الى قاعدة اخلاقية كلية صالحة للجميع.</p>
+<p class="subhead t-navy"><b>-الصيغة القطعية الثانية :</b></p>
+<p class="para">" اعمل دائما بحيث تعامل الإنسانية في شخصك و في أشخاص الآخرين كغاية لا كمجرّد و وسيلة".</p>
+<p class="para">← تقوم الاخلاق الكانطية على النظر للانسان كقيمة مقدسة لا يجب اتخاذها كوسيلة و كل فعل يلبي هذا الشرط هو فعل اخلاقي.</p>
+<p class="subhead t-navy"><b>-الصيغة القطعية الثالثة :</b></p>
+<p class="para">" اعمل بحيث تكون إرادتك ـــ باعتبارك كائنا عاقلا ـــ هي الإرادة المشرّعة الكلّية"</p>
+<p class="para">← كل فعل لكي يكون اخلاقيا يجب ان يكون الدافع اليه العقل و الارادة الخيرة.</p>
+<p class="para">-هذه الاوامر الثلاث للقانون الاخلاقي هي اساس كل اخلاقية فهي ما يمكننا من التمييز بين الخير و الشر و هي اشبه ما يكون ببوصلة القبطان لكنها لا تهدينا الى امكنة بل الى قيم.</p>
+<p class="para">يقول كانط :"من السهل علينا ان نبين اننا بهذه البوصلة نستطيع ان نميز تمييزا تاما بين ما هو خير و ما هو شر اي بين ما يتفق مع الواجب وبين ما يتنافى معه."</p>
+<p class="para">ترمي هذه القوانين الثلاثة التي سنّها كانط إلى ضرورة العود إلى الذات في تشريع الأخلاق و إلى ضرورة احترام الإنسان و ذلك بجعل الإرادة الخيّرة صوتا لجميع الإرادات الإنسانية و نموذجا لعالمية الأخلاق و لكونية القانون الأخلاقي. لذلك يمكن الاستشهاد بالقولة الشهيرة لكانط في نقد العقل العلمي، و التي كتبت على قبره فيما بعد " " أمران يملآن النفس إعجابا وإجلالا متجدّدين متطوّرين على الدّوام طالما ارتبط بهما التأمّل: السّماء المرصّعة بالنجوم من فوقي، و القانون الأخلاقي من داخلي"</p>
+<p class="para">الانسان لا يخسر بالخضوع للواجب حريته لان القانون الذي يطيعه هو قانون عقلي ومن اطاع نفسه فهو حر</p>
+<p class="subhead t-navy"><b><u>تصور كانط للأخلاق</u></b></p>
+<p class="para">1- العقل كمصدر للاخلاق</p>
+<!-- file: 33 -->
+
+
+<!-- NOTE: handwritten page number "58" at the top of the printed page is left out; the page continues a list from the previous page -->
+<!-- PROOFREAD: 1821 part1 p01 — "faint photocopy; some line ends cut (دور / في ضبط / تقوم على / ومن ثم فان)" -->
+<p class="para">2- المهم ليس الفعل بل الغاية</p>
+<p class="para">3- الواجب الخلقي يستوجب الحرية و الارادة الخيرة وتمثل القانون الاخلاقي</p>
+<p class="para">4- الاخلاق هي التزام حر</p>
+<p class="subhead t-navy"><b><u>استنتاج</u></b></p>
+<p class="para">نستنتج مما سبق ان اخلاق الواجب الكانطية تتسم بالصرامة و الصورية فهي لا تتاثر بالمتغيرات الزمنية او الظروف الاجتماعية و لا ايضا بالاختلافات الثقافية' و لعل ذلك ما يعرض هذه القيم المطلقة الى نقد ينطلق من التاكيد على الطابع النسبي للقيم الاخلاقية بالنظر الى ما تمارسه العوامل الاجتماعية و التاريخية من تاثير في تحديد القيم.</p>
+<p class="para">و لئن كان التحليل الكانطي للفعل الاخلاقي صائبا فانه يبقى غير كاف و غير مكتمل اذ لا يمكننا تجاهل دور المجتمع في تحديد القواعد الاخلاقية ' الى جانب ما تكتسيه ايضا الظروف الاقتصادية التاريخية من اهمية في ضبط مقاييس الخير والشر و تحديد طبيعة السعادة التي ينشدها الانسان في حياته.</p>
+<p class="subhead t-red"><b><u>III/ في نسبية القيم:</u></b></p>
+<p class="subhead t-navy"><b>السند: الاخلاق و المجتمع- ماركس</b> ص 369</p>
+<p class="para">يقوم الفكر المادي الجدلي على المبادىء التأسيسية التالية:</p>
+<p class="para">- أن أخلاق الناس لا تنبع من الفكر أو من الله أو من فراغ بل انها بناء فوقي للاساس التحتي الاقتصادي.</p>
+<p class="para">فالاخلاق مرتبطة بالبنية التحتية للحياة الاجتماعية (الاقتصاد الدولة المجتمع) وتمثل البنية الفوقية (دين، فن فلسفة، أخلاق) انعكاسا للبنية التحتية. والعلاقة بين البنيتين هي علاقة تأثير متبادل .</p>
+<p class="para">⇦ نقد للمثالية التي تؤكد أولية الوعي والأخلاق وتقلب العلاقة بين الواقع الاجتماعي و الوعي الاجتماعي.</p>
+<p class="para">- لكل طبقة أخلاقها ومثلها النابعة من مصالحها ولكل مجتمع طبقي اكثر من أخلاق.</p>
+<p class="para">- أخلاق المجتمع العبودي: هي أول شكل للاخلاق الطبقية حيث كانت أخلاق الاسياد هي المهيمنة هذه الأخلاق نشأت على أساس العلاقات الاقتصادية للنظام العبودي. العلاقات القائمة بين الأسياد والعبيد. ان الخاصية المميزة لهذه الأخلاق أنها كانت لا تعترف بالعلاقة الانسانية الا بين الأحرار. فالعبد خارج الأخلاق لانه سلعة تبيح الأخلاق بيعه وظلمه وجلده... هذه الأخلاق لم تكن لتوقظ أي تأنيب للضمير لأنها كانت مبررة اقتصاديا. واذا ظهر الاحتجاج في أوساط العبيد ضد الظلم فذلك يعني أخلاق العبودية لم تعد مبررة اقتصاديا أي أن العلاقات الاقتصادية في المجتمع العبودي غير مربحة.</p>
+<p class="para">- أخلاق المجتمع الاقتصادي : تعبر عن هيمنة أخلاق النبلاء باعتبارهم صنف ممتاز من البشر و هي تقوم على استغلال الفلاحين.</p>
+<p class="para">- أخلاق المجتمع البرجوازي: لقد انتصر النظام الرأسمالي على الاقطاعية باسم الحرية والمساواة في الحقوق ومحاربة الظلم. فهي مساواة شكلية تخفي تبعية العامل للرأسمالي وسرقة ثمرة عمل العامل و قوة العمل . ومن ثم فان</p>
+<!-- file: 34 -->
+
+
+<!-- NOTE: handwritten page number "59" at the top of the printed page is left out; the page starts mid-sentence -->
+<!-- PROOFREAD: 1822 part1 p01 — "faint photocopy" -->
+<p class="para">الرأسمالية لا تخلق الشروط الواقعية لتأسيس الشخصية الانسانية (اعتراف العامل) فتحول الانسان الى قيمة نقدية وتحول علاقات البشر الى علاقات مالية.</p>
+<p class="para">⇐ ان الأخلاق البرجوازية تعكس نظام الاقتصاد الرأسمالي القائم على أساس الربح والمصلحة وان ما يميزهذه الاخلاق هو طابعها المنافق (توظيفها ايديولوجي لنشر الوهم) عندما تجعل من الحرية والفردية في الملكية ستار للسيطرة على الطبقة العاملة. فهي تدعي القيام على مبادئ الحق والحرية الا أنها تعكس في الواقع التعدي على شخص الانسان وكرامته.</p>
+<p class="para">- الاخلاق الاشتراكية: يسمح الوعي المادي الجدلي بالتوق الى اخلاق بديلة بمعنى أنها تبدأ بالبناء التحتي أي تحويل رأس المال من ملكية خاصة الى ملكية عامة. وجعل العمل قيمة لكل فرد وليس وسيلة. فالعمل هو خاص بكل أفراد المجتمع بما يسمح بتحقيق أسباب الحياة وازالة الاستغلال.</p>
+<p class="para">- أن الاخلاق في هذا المجتمع البديل القائمة على أساس الملكية العامة ستكون أخلاقا جماعية لا فردية فالاهتمام بمصالح المجموعة سيكون أرفع الفضائل التي تعتمدها المجموعة في بناء المجتمع الاشتر اكي وتقوم أخلاقية المجتمع الاشتراكي على جعل العمل غاية في حد ذاته لا وسيلة كما ينظر اليه اللبرالي فيصبح العمل واجبا يتربى عليه الناس في الاشتراكية.</p>
+<p class="para">- ان الأخلاق الاشتراكية انسانية فهي تجعل من الانسان ومن تحقيق حاجاته هدفا هذه الأخلاق ترى في الانسان صديقا ورفيقا للانسان ويكون العمل نضالا من أجل التطور وتحسين الظروف الانسانية. هذه الاخلاق التي يتربى عليها كل انسان تعوض الدولة والقانون بل تصبح العرف الذي يعمل به الأفراد طوعا. هذه القيم في جوهرها كسب للانسانية فالتعاون واحترام الغير والصدق هي القيم التي ناضلت الانسانية لحوزتها عبر التاريخ ويكون الشكل الاشتراكي للوجود الانساني تحقيقا لهذه القيم يضمنها بناءه الاقتصادي والاجتماعي</p>
+<p class="subhead t-red"><b><u>IV/ مساءلة أسس القيم :</u></b></p>
+<p class="subhead t-navy">السند :-اخلاق القوة نيتشة ص367</p>
+<p class="para">ماذا نعني بالمساءلة؟</p>
+<p class="para">- <b>المساءلة</b> :اتهام-ادانة-الطعن في مشروعية شيء ما.</p>
+<p class="para">- <b>الفيلسوف الحق</b> : هو فيلسوف المطرقة الذي يضع باستمرار القيم الاخلاقية السائدة موضع إدانة نهال عليها بمطرقته الجينيالوجية لقناعته بان هذه القيم المريضة هي التي جعلت الانسان مغتربا عن الحياة و عن ذاته الجسدية. و هذا ما عبر عنه في كتابه :" ارادة القوة :محاولة لقلب جميع القيم"</p>
+<p class="para"><span dir="ltr">« Volonté de puissance :Essai de transvaluation de toute les valeurs »</span></p>
+<p class="para">ان الاسباب التي افرزت القيم الاخلاقية متمثلة اساسا في العجز عن المواجهة و الصراع و عدم القدرة على الانتصار و فقدان القدرة على الخلق و الابداع و غياب الشجاعة و القوة الكافية للدفاع عن تلك الرغبات.</p>
+<!-- PROOFREAD: 1822 part1 p01 — "نهال عليها / الجينيالوجية" -->
+<!-- file: 35 -->
+
+
+<!-- PROOFREAD: 2301 part1 p01 — "faint photocopy, right-edge words faded (e.g. 'اكذوبة', 'السلبية', 'التمسك', 'وفقرها', 'المطامح السامية تواضعا', 'يوحي بالتغير', 'ثابتة', 'تعبر في نهاية', 'فباسم ماذا نقيم', 'رغم كونها'); best reading" -->
+<p class="para">هذه الاسباب دفعت بهؤلاء الضعفاء الى التفكير في اكذوبة القيم الاخلاقية التي تدعو الى السعاده و تمجيد الرحمة و الشفقة و التسامح و العدل و الصبر و التواضع...فهي مجرد قناع لاخفاء العجز و الضعف و السلبية و هذا يشكل خطرا يهدد البشر بالفناء و الموت لذلك يعد من الواجب تحطيمها و خلق قيم جديدة تعبر عن ارادة القوة و التمسك بالحياة.</p>
+<table>
+<tr><th><u>ما يتوافق مع الحياة :اخلاق السادة</u></th><th><u>ما يتعارض مع الحياة :اخلاق العبيد</u></th></tr>
+<tr><td>-هي القيم التي تعبر عن قوة الحياة و ارادتها و شجاعتها و املها و مستقبلها.<br>-قيم السادة :اخلاق الاقوياء او اخلاق الانسان الارقى او اخلاق الطيور الجارحة التي تتجاوز الضعف و تمجد ارادة القوة حيث يسعى السادة الى ارساء اخلاق تحتفل بالحيوية مما يجعلنا نشعر ان الحياة غريزة نمو و تكاثر و تزايد مطرد للقوة فينا</td><td>-هي القيم التي تعبر عن ضيق الحياة و فقرها<br>-قيم العبيد :يقوم الضعفاء بقلب القيم&nbsp; فيسمون العجز طيبة' و يسمون عدم القدرة على رد الفعل تسامحا و رحابة صدر' و يسمون الحاجة الى الاخرين و عدم القدرة على الاعتماد على النفس رحمة و تضامنا و يسمون العجز عن ادراك المطامح السامية تواضعا و قناعة.</td></tr>
+</table>
+<p class="subhead t-red"><u><b>الخاتمة:</b></u></p>
+<p class="para">- اذا كانت المبادئ الاخلاقية توحي بمعاني الضرورة والكلية والاطلاق فان تاريخ القيم وواقعها يوحي بالتغير والنسبة.</p>
+<p class="para">- القول باطلاقية القيم قائم على تصور مجرد ومثالي حول الانسان يقوم على الاعتقاد في وجود ماهية بشرية ثابتة وافتراض وعي أخلاقي كلي لدى كل البشر.</p>
+<p class="para">رغم اختلاف المنظومات الاخلاقية والقيمية فانها تعبر عن قيمة مشتركة : كونها مبادئ انسانية تعبر عن احترام الشخص الانساني وقد يكون مصدر القيم العقل أو القلب أو الطبيعة غير أنه مهما اختلفت المصادر فانها تعبر في نهاية الأمر عن ضرب من الوعي بما هو انساني في الانسان أي شخصه الأخلاقي.</p>
+<p class="para">← ان القول بقيم كونية يجد تبريره في:</p>
+<p class="para">* امكان محاكمة الاخلاق السائدة فالاخلاقية تدين الاخلاق وتحاكمها. فاذا لم يكن هناك كونيا قيميا فباسم ماذا نقيم الاخلاق السائدة؟</p>
+<p class="para">* اذا لم تكن هناك أخلاق كونية لما كان من الممكن الحديث عن تقدم أخلاقي أو تراجع أخلاقي.</p>
+<p class="para">* هناك أخلاق اجتمعت عليها الانسانية : أخلاق العدالة والشجاعة وقيم المحبة: ان القيم الانسانية واحدة رغم كونها تجد تعبيرات مختلفة في تعدد المذاهب الاخلاقية وتنوع التجارب الانسانية. غير أنه من خلال تعدد التجارب الاخلاقية يمكن أن نلتمس القيم المشتركة والكلية الانسانية.</p>
+
+</section>
+
+</div>
+</body>
+</html>

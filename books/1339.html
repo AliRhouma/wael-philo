@@ -1,0 +1,585 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<title>Wael Academy — Philosophie · الانية و الغيرية</title>
+<script>
+  window.MathJax = {
+    tex: { inlineMath: [['\\(','\\)']], displayMath: [['\\[','\\]']] },
+    chtml: { fontURL: 'https://cdn.jsdelivr.net/npm/mathjax@3/es5/output/chtml/fonts/woff-v2', matchFontHeight: true },
+    startup: { typeset: true }
+  };
+</script>
+<script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js" async></script>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Sora:wght@400;500;600;700;800&family=Cairo:wght@400;500;600;700;800;900&family=Tajawal:wght@400;500;700;800&family=JetBrains+Mono:wght@400;500;600;700&display=swap');
+:root{
+  /* ===== Wael Academy palette — MAIN ACCENT = green-teal gradient #0FAB8F → #067360 ===== */
+  --bg:#fff; --panel:#f2f8f8; --hair:#e6e6e9; --hair2:#d6d6db;
+  --fg:#0f2a31;        /* body text (and +/− signs) */
+  --fg2:#3f5b62;       /* softer text */
+  --fg3:#7c959b;       /* muted (footer) */
+  --blue:#067360;      /* deep accent — small numbers, borders, watermark, accent equations */
+  --blue-dark:#045260; /* titles & wordmarks (also the balance colour) */
+  --teal:#0fab8f;      /* bright accent end */
+  --loop:#0d9c82;      /* logo-loop helper */
+  --orange:#067360;    /* kicker/category labels (gold retired → deep teal) */
+  --red:#f5322f;       /* EXERCISE CHIPS ONLY — never for emphasis */
+  --cream:#e6f3f4; --blue-soft:#e6f3f4;  /* pale teal — callout fill + table sub-row fill */
+  --blue-line:#cde7e4; /* hairline */
+  --sub-ink:#045260;   /* table sub-row text */
+  --grad:linear-gradient(148deg,#0fab8f 0%,#0d9c82 52%,#067360 100%);
+  --mono:'JetBrains Mono',monospace; --latin:'Sora',sans-serif; --ar:'Cairo',sans-serif; --arb:'Tajawal',sans-serif;
+}
+*{box-sizing:border-box;margin:0;padding:0;}
+body{font-family:var(--latin);color:var(--fg);background:#e4e4e7;padding:28px 0;
+     -webkit-print-color-adjust:exact;print-color-adjust:exact;}
+html[dir="rtl"] body{font-family:var(--arb);}
+
+/* ===== brand watermark: REAL text (crisp), full-bleed, repeats per page ===== */
+.wm{position:fixed;inset:0;z-index:0;pointer-events:none;display:flex;
+    align-items:center;justify-content:center;overflow:hidden;
+    -webkit-print-color-adjust:exact;print-color-adjust:exact;}
+.wm span{font-family:var(--mono);font-weight:800;font-size:76.8pt;letter-spacing:.16em;
+    color:var(--blue);opacity:.06;white-space:nowrap;transform:rotate(-54deg);}  /* single diagonal: bottom-left → top-right */
+.wm.mono span{color:#000;opacity:.05;}
+
+/* ===== continuous flow stream (no page border) ===== */
+.flow{width:210mm;margin:0 auto;background:transparent;color:var(--fg);
+      padding-block:16mm 18mm;padding-inline:23mm 14mm;position:relative;}   /* spiral gutter: inline-start(=spine) 23mm / outer 14mm — dir-aware; print margins set in render_flow.py */
+@media screen{ .flow{background:#fff;box-shadow:0 10px 40px rgba(0,0,0,.16);} }
+.flow>*{position:relative;z-index:1;}
+.flow p,.flow li,.flow .data,.flow .note,.flow .ex{break-inside:auto;}
+.flow .fig,.flow figure,.flow img,.flow svg.figsvg,.flow table,.flow tr,.flow .chapdiv,.flow .exh,.flow .qrcard,.flow .meta{break-inside:avoid;}
+.flow h1,.flow h2,.flow h3,.flow .exh,.flow .subhead,.flow .chapdiv{break-after:avoid;}
+.flow img,.flow svg.figsvg{max-width:100%;height:auto;}
+.flow figcaption,.flow .figcap{display:none;}          /* rule 3: no figure captions */
+
+/* ===== front matter + chapters each start on a fresh page ===== */
+.flow .cover{break-after:page;}        /* cover alone on page 1 */
+.flow .toc{break-after:page;}          /* Sommaire alone on the next page */
+.flow .chapter{break-before:page;}
+.flow .chapter:first-of-type{break-before:auto;}
+
+/* ===== cover ===== */
+.cover{padding:14mm 0 8mm;border-bottom:2px solid var(--blue);margin-bottom:6mm;}
+.cover .badge{font-family:var(--mono);font-size:8.5pt;letter-spacing:.28em;text-transform:uppercase;color:var(--orange);margin-bottom:10px;}
+.cover h1{font-family:var(--latin);font-weight:800;font-size:34pt;line-height:1.03;letter-spacing:-.025em;color:var(--blue-dark);}
+.cover .grule{width:120px;height:5px;border-radius:5px;background:var(--grad);margin:14px 0;}
+.cover .sub{font-family:var(--mono);font-size:10pt;letter-spacing:.14em;text-transform:uppercase;color:var(--teal);}
+.cover .auth{font-size:11pt;color:var(--fg2);margin-top:6px;font-weight:600;}
+
+/* ===== table of contents ===== */
+.toc{margin:2mm 0 4mm;}
+.toc h2{font-family:var(--latin);font-weight:800;font-size:15pt;color:var(--blue-dark);margin-bottom:4mm;}
+.toc .trititle{font-family:var(--mono);font-size:8pt;letter-spacing:.2em;text-transform:uppercase;color:var(--orange);margin:4mm 0 2mm;}
+.toc ol{list-style:none;}
+.toc li{display:flex;align-items:baseline;gap:8px;font-size:10pt;padding:2.2px 0;color:var(--fg);line-height:1.4;}
+.toc li .n{font-family:var(--mono);font-weight:700;font-size:9pt;color:var(--blue);min-width:26px;}
+.toc li .dots{flex:1;border-bottom:1px dotted var(--hair2);transform:translateY(-3px);}
+
+/* ===== chapter divider band ===== */
+.chapdiv{margin:0 0 5mm;padding:6mm 16px 5mm;border-radius:12px;background:var(--grad);
+    -webkit-print-color-adjust:exact;print-color-adjust:exact;}   /* green-filled chapter band */
+.chapdiv .cn{font-family:var(--mono);font-size:8.5pt;font-weight:700;letter-spacing:.24em;text-transform:uppercase;color:rgba(255,255,255,.82);margin-bottom:5px;}
+.chapdiv h2{font-family:var(--latin);font-weight:800;font-size:17pt;line-height:1.1;letter-spacing:-.015em;color:#fff;}
+/* conclusion block — same green-filled look as the chapter band */
+.conclusion{background:var(--grad);border-radius:12px;padding:6mm 16px;margin:5mm 0;color:#fff;break-inside:avoid;
+    -webkit-print-color-adjust:exact;print-color-adjust:exact;}
+.conclusion .ck{font-family:var(--mono);font-size:8.5pt;font-weight:700;letter-spacing:.24em;text-transform:uppercase;color:rgba(255,255,255,.82);margin-bottom:6px;}
+.conclusion h3{font-family:var(--latin);font-weight:800;font-size:13pt;line-height:1.2;color:#fff;margin-bottom:4px;}
+.conclusion p,.conclusion li{font-size:10.4pt;line-height:1.7;color:#fff;}
+.conclusion b,.conclusion strong{color:#fff;font-weight:700;}
+
+/* ===== unit header (lesson/exercise) + QR emplacement ===== */
+.exh{display:flex;align-items:center;gap:11px;margin:6mm 0 3mm;}
+.exh .idx{font-family:var(--mono);font-size:9pt;font-weight:600;color:#fff;background:var(--grad);
+    border-radius:6px;padding:4px 11px;letter-spacing:.08em;text-transform:uppercase;
+    -webkit-print-color-adjust:exact;print-color-adjust:exact;}
+.exh .idx.ex{background:var(--red);}   /* exercise chip = red */
+.exh h2{font-family:var(--latin);font-size:14pt;font-weight:700;letter-spacing:-.01em;color:var(--blue-dark);}
+.exh .qrcard{margin-inline-start:auto;flex:0 0 auto;display:flex;flex-direction:column;align-items:center;gap:3px;width:26mm;}
+.qrcard .qrt{font-family:var(--mono);font-size:6.5pt;letter-spacing:.1em;text-transform:uppercase;color:var(--teal);text-align:center;}
+.qrcard .qrslot{width:24mm;height:24mm;padding:1.5mm;background:#fff;border:1px solid var(--blue-line);border-radius:8px;display:flex;align-items:center;justify-content:center;}
+.qrcard .qrslot img,.qrcard .qrslot svg{width:100%;height:100%;display:block;}
+
+/* sub-exercise label when one file holds several exercices */
+.exsub{font-family:var(--latin);font-weight:800;font-size:11.5pt;color:var(--blue-dark);margin:5mm 0 2.5mm;padding-bottom:3px;border-bottom:2px solid var(--blue-line);}
+
+/* ===== text blocks ===== */
+.lead{font-size:11pt;line-height:1.7;margin:2mm 0 3mm;color:var(--fg);}
+.para{font-size:10.6pt;line-height:1.7;margin:2mm 0 2.5mm;color:var(--fg);}
+.consigne{font-size:10.4pt;line-height:1.6;margin:1mm 0 2mm;color:var(--fg);font-style:italic;}
+.subhead{font-family:var(--latin);font-weight:800;font-size:12pt;letter-spacing:-.01em;color:var(--blue-dark);margin:5mm 0 2.5mm;}
+/* emphasis — green accent = .t-blue/.t-green ; balance = .t-navy ; red = SECONDARY accent (.t-red) on titles + a few words */
+.t-blue{color:var(--blue);font-weight:600;} .t-navy{color:var(--blue-dark);font-weight:700;}
+.t-red{color:var(--red);font-weight:600;} .t-green{color:var(--teal);font-weight:600;} .t-gold{color:var(--orange);font-weight:600;}
+.subhead.t-red{color:var(--red);font-weight:800;}   /* red Roman-numeral section title (I, II, …) — keeps subhead weight */
+/* highlighter marks — a soft colour wash behind a key word (agent picks green or red per what balances the page) */
+.hl-green,.hl-red{border-radius:3px;padding:.02em .24em;font-weight:600;box-decoration-break:clone;-webkit-box-decoration-break:clone;
+    -webkit-print-color-adjust:exact;print-color-adjust:exact;}
+.hl-green{background:rgba(15,171,143,.20);color:var(--blue-dark);}   /* green highlight */
+.hl-red{background:rgba(245,50,47,.13);color:#c0261f;}               /* red highlight  */
+
+.data{background:var(--blue-soft);border:1px solid var(--blue-line);border-inline-start:4px solid var(--blue);
+    border-radius:8px;padding:11px 16px;margin:3mm 0;font-size:10pt;line-height:1.65;color:var(--fg2);}
+.data b{color:var(--fg);font-weight:700;}
+.note{border:1px dashed var(--hair2);border-radius:9px;padding:11px 16px;margin:4mm 0;background:var(--panel);}
+.note .kicker{font-family:var(--mono);font-size:7.5pt;letter-spacing:.18em;color:var(--orange);display:block;margin-bottom:5px;}
+.note .nb{font-size:10pt;line-height:1.7;color:var(--fg2);} .note b{color:var(--fg);}
+.ex:not(.idx){background:var(--blue-soft);border:1px solid var(--blue-line);border-inline-start:3px solid var(--blue);
+    border-radius:7px;padding:7px 11px;font-size:9.6pt;line-height:1.6;color:var(--fg2);margin:2mm 0;}   /* :not(.idx) so it never hits the exercise chip (which is .idx.ex) */
+.ex .extag{display:inline-block;font-family:var(--latin);font-weight:800;font-size:7.6pt;color:var(--blue-dark);background:#fff;
+    border:1px solid var(--blue);border-radius:5px;padding:1px 9px;margin-inline-end:7px;vertical-align:middle;text-transform:uppercase;letter-spacing:.06em;}
+
+/* ===== lists ===== */
+ol.q{list-style:none;counter-reset:q;margin:1mm 0 2mm;}
+ol.q>li{counter-increment:q;position:relative;padding-inline-start:30px;margin-bottom:2.5mm;font-size:10.4pt;line-height:1.6;}
+ol.q>li::before{content:counter(q);position:absolute;inset-inline-start:0;top:1px;width:21px;height:21px;background:var(--grad);color:#fff;
+    border-radius:50%;font-family:var(--mono);font-size:9pt;font-weight:600;display:flex;align-items:center;justify-content:center;
+    -webkit-print-color-adjust:exact;print-color-adjust:exact;}
+ol.sub{list-style:none;counter-reset:s;margin:4px 0 0;padding-inline-start:2px;border-inline-start:1px solid var(--blue-line);}
+ol.sub li{counter-increment:s;position:relative;padding:2.5px 0 2.5px 26px;font-size:10.1pt;line-height:1.55;}
+ol.sub li::before{content:counter(s,lower-alpha)".";position:absolute;inset-inline-start:10px;top:2.5px;font-family:var(--mono);font-size:9pt;font-weight:600;color:var(--teal);}
+ol.qn{list-style:none;counter-reset:qn;margin:1mm 0 2mm;}
+ol.qn>li{counter-increment:qn;position:relative;padding-inline-start:26px;margin-bottom:2.2mm;font-size:10.4pt;line-height:1.55;}
+ol.qn>li::before{content:counter(qn)".";position:absolute;inset-inline-start:0;top:0;font-family:var(--mono);font-size:9.5pt;font-weight:700;color:var(--blue);}
+ul.b{list-style:none;margin:1mm 0 2mm;} ul.b>li{position:relative;padding-inline-start:22px;margin-bottom:2.4mm;font-size:10.4pt;line-height:1.6;}
+ul.b>li::before{content:"";position:absolute;inset-inline-start:3px;top:8px;width:8px;height:8px;border-radius:50%;background:var(--grad);
+    -webkit-print-color-adjust:exact;print-color-adjust:exact;}
+ul.dash{list-style:none;margin:1mm 0 2mm;} ul.dash>li{position:relative;padding-inline-start:20px;margin-bottom:1.8mm;font-size:10.4pt;line-height:1.6;}
+ul.dash>li::before{content:"–";position:absolute;inset-inline-start:2px;top:0;color:var(--fg);font-weight:700;}  /* dash / +/− signs = body colour */
+.flow ul.opts{list-style:none;margin:4px 0 3px;padding-inline-start:16px;}
+.flow ul.opts li{padding:2px 0;font-size:10.2pt;line-height:1.5;color:var(--fg);}
+
+/* ===== figures / tables ===== */
+.fig{margin:3mm 0;} .fig svg.figsvg{display:block;margin:0 auto;background:#fff;max-width:100%;height:auto;}
+.photo{display:block;margin:3mm auto;border-radius:8px;border:1px solid var(--hair);max-width:100%;}
+.figrow{display:flex;flex-wrap:wrap;gap:9px;justify-content:center;margin:3mm auto;max-width:190mm;}
+.flow .figrow img{border-radius:7px;border:1px solid var(--hair);height:46mm;width:auto;max-width:none;object-fit:cover;}
+.schemarow{display:flex;gap:16px;align-items:flex-start;flex-wrap:wrap;margin:2mm 0;}
+.schemarow .col-txt{flex:1 1 90mm;min-width:80mm;} .schemarow .col-fig{flex:0 0 78mm;} .schemarow .col-fig .fig{margin:0;}
+.flow table{border-collapse:collapse;width:100%;margin:3mm 0;font-size:9.8pt;line-height:1.5;}
+.flow table th,.flow table td{border:1px solid var(--blue-line);padding:6px 10px;text-align:start;vertical-align:top;}
+.flow table th{background:var(--grad);color:#fff;font-family:var(--latin);font-weight:700;font-size:9.4pt;
+    -webkit-print-color-adjust:exact;print-color-adjust:exact;}
+.flow table tr:nth-child(even) td{background:var(--blue-soft);color:var(--sub-ink);}   /* sub-row: #E6F3F4 / #045260 */
+
+mjx-container{color:var(--fg) !important;font-weight:400 !important;font-size:1.0em !important;}
+.eq-hi mjx-container,mjx-container.eq-hi{color:var(--blue) !important;}   /* accent (green) equation — highlight a key result; balance with plain math */
+.eq-red mjx-container,mjx-container.eq-red{color:var(--red) !important;}  /* red accent equation / symbol — complements the green .eq-hi */
+
+/* ===== per-file books: credit line, copies list, figures at their size ===== */
+.credit{display:flex;flex-wrap:wrap;align-items:center;gap:5px;margin:-1mm 0 3.5mm;font-size:9.4pt;color:var(--fg2);}
+.credit .who{font-weight:700;color:var(--blue-dark);}
+.credit .tg{font-family:var(--mono);font-size:7.2pt;letter-spacing:.04em;border-radius:5px;padding:1px 7px;line-height:1.6;
+    border:1px solid var(--blue-line);color:var(--blue);background:#fff;-webkit-print-color-adjust:exact;print-color-adjust:exact;}
+.credit .tg.sec{background:var(--blue-dark);border-color:var(--blue-dark);color:#fff;}
+.credit .tg.cor{background:#fff;border-color:var(--red);color:var(--red);}
+.credit a{color:var(--fg3);font-family:var(--mono);font-size:7pt;text-decoration:none;}
+.cover .auth .credit{margin:4mm 0 0;}
+.cover .copies{margin-top:5mm;font-size:8.6pt;color:var(--fg2);}
+.cover .copies ul{list-style:none;margin:2mm 0 0;padding:0;columns:2;}
+.cover .copies a{color:var(--fg3);text-decoration:none;font-size:8pt;}
+.flow figure.fig{text-align:center;}
+.flow figure.fig img{max-height:60mm;width:auto;max-width:70%;display:inline-block;}
+
+/* chapter tag on each part of a multi-chapter book (the book keeps the original order of the file) */
+.chtag{display:inline-block;margin:5mm 0 2mm;padding:1mm 3mm;border-radius:2mm;background:#eef3fb;border:1px solid #c9d6ea;
+  color:#1f3a6b;font-size:9pt;font-weight:700}
+.chtag span{color:#6b7f9e;font-weight:600;margin-inline-end:1.5mm}
+
+@media print{ body{background:#fff;padding:0;} .flow{width:auto;max-width:none;margin:0;padding:0;} }
+@page{size:A4;}   /* margins come from render_flow.py — do NOT set them here */
+</style>
+<meta data-pagefind-filter="type[content]" content="درس">
+<meta data-pagefind-filter="resource[content]" content="المصدر غير مذكور">
+<meta data-pagefind-meta="n[content]" content="1339">
+<meta data-pagefind-meta="title[content]" content="الانية و الغيرية">
+<meta data-pagefind-filter="chapter[content]" content="الإنية والغيرية">
+<meta data-pagefind-filter="section[content]" content="باكالوريا رياضيات"><style>.qrcard{display:none!important}.wa-nav{position:sticky;top:0;z-index:50;background:#045260;padding:10px 18px;font-family:Cairo,sans-serif;direction:rtl}.wa-nav a{color:#fff;text-decoration:none;font-weight:700}@media print{.wa-nav{display:none}}</style>
+</head>
+
+<body dir="rtl" lang="ar"
+      data-brand="Wael Academy" data-handle="@WaelAcademy"
+      data-tagline="في تُرابنا.. مغامرة بمغامرة"
+      data-phone="+216 50 40 40 42" data-site="waeldocuments.com"
+      data-cta="سجل معانا وأقرى عن بعد مع منصة Wael Academy"
+      data-subject="Philosophie · الانية و الغيرية" data-watermark="Wael Academy" data-pagefind-body><nav class="wa-nav" data-pagefind-ignore><a href="../index.html">→ الرجوع إلى فهرس الفلسفة</a></nav>
+
+<!-- single full-page diagonal watermark, bottom-left → top-right (repeats on every page) -->
+<div class="wm" aria-hidden="true"><span>WAEL&nbsp;ACADEMY</span></div>
+
+<div class="flow colored">
+<div class="cover"><div class="badge">◉ Wael Academy · Philosophie</div><h1>الانية و الغيرية</h1><div class="grule"></div><div class="sub">الإنية والغيرية</div><div class="auth"><div class="credit">المؤلّف / المصدر : <span class="who">(Hattem + Sofbeen)</span> <span class="tg sec">الفلسفة · باكالوريا رياضيات</span> <a href="https://drive.google.com/file/d/1RLnMvIT1c5-6UoOPg38DbkLTIGaFjuEk/view">↗ الانية و الغيرية.pdf</a></div></div><div class="copies" data-pagefind-ignore><b>نسخ هذا الملف في الدرايفات (1)</b><ul><li><a href="https://drive.google.com/file/d/1RLnMvIT1c5-6UoOPg38DbkLTIGaFjuEk/view">Maram Belgacem · Bac math 2025 ( what you really need) › Philo</a></li></ul></div></div>
+<section class="chapter"><div class="chapdiv"><div class="cn">المحور</div><h2>الإنية والغيرية</h2></div>
+<!-- SOURCE: (Hattem + Sofbeen) -->
+<!-- PROOFREAD: 1339 part1 p01 — SOURCE handwritten in Latin letters, reading "Hattem + Sofbeen" uncertain -->
+<!-- NOTE: entirely handwritten course; highlighter strokes over the handwriting are annotations and are not reproduced -->
+<div class="exh"><span class="idx">درس</span><h2>الجذاذة الثانية : المحور الأوّل : الإنيّة والغيريّة</h2>
+  <div class="qrcard"><div class="qrt">فيديو الدرس</div><div class="qrslot"><img src="qr/1339.svg" alt="QR"></div></div></div>
+<div class="credit">المؤلّف / المصدر : <span class="who">(Hattem + Sofbeen)</span> <span class="tg sec">الفلسفة · باكالوريا رياضيات</span> <a href="https://drive.google.com/file/d/1RLnMvIT1c5-6UoOPg38DbkLTIGaFjuEk/view">↗ الانية و الغيرية.pdf</a></div>
+
+<p class="subhead t-red">I/ الدّلالة الأنطولوجيّة أو الإنيّة بما هي إقصاء للجسد + الدّلالة المعرفيّة :</p>
+<p class="subhead t-navy">1/ أفلاطون :</p>
+<p class="para">حوار بين "سقراط" و"سيمياس" في مُحاورة "الفيدُون"</p>
+<p class="para">الفكرة الرّئيسيّة لهذه المُحاورة ← فيدُون يزدري الجسد و مطالبه<br>← يثمّن النّفس ويرفع من شأنها</p>
+<p class="para">* يقول أفلاطون مُتحدّثا عن الفيلسوف " بل إنّه يُعرض عن ذكر جسده ما استطاع إلى ذلك سبيلا و ينصرف إلى الاهتمام بالنّفس ".</p>
+<p class="para">* أفلاطون " هكذا إذا تزدري نفس الفيلسوف الجسد بعمق وتَفرُّ منه وتحاول أن تنعزل بذاتها عنه ".</p>
+<p class="para">* أفلاطون " متى كانت لنا أجسادٌ ومادامت أنفسنا مُتورّطة مع هذا الشيء الخبيث فإنّنا لن نحصُل على مطلوبنا والحال أنّ ما نطلبه دوما هو الحقيقة ".</p>
+<p class="para">- الجسد عائق ← أنطولوجي = يُغرّب النّفس عن ذاتها<br>← أكسيولوجي (أخلاق) = يرتدّ بنا القهقرى في سلّم الفضيلة<br>← إبستيمولوجي = يحُول دون الذّات ومعرفتها. (معرفيّا)</p>
+<!-- PROOFREAD: 1339 part1 p01 — "يغرّب" uncertain -->
+<div class="data">
+<p class="para">العالم لدى أفلاطون هو ثلاثة عوالم :</p>
+<p class="para">1/ عالم الماهيات : الحقائق وهو موجود سلفا .</p>
+<p class="para">2/ عالم المعقولات : العقل أو النّفس بعبارة أفلاطونيّة</p>
+<p class="para">3/ عالم المحسوسات : الجسد شيء وضيع ، رهن الحروب و الفتن ( مقبرة النّفس )</p>
+<p class="para">← نتحدّث عن معنى " تطهير النّفس " أو ما هو " الخلاص "</p>
+</div>
+<!-- NOTE: words hidden by the sticky note on p01 are read from p02 (second photo of the same page) -->
+<p class="para">* " متى كانت لنا أجسادٌ ومادامت أنفسنا "<br>الملائكة ≠ الحيوانيّة</p>
+<p class="para">لدى أفلاطون الجسد مُجرّد عَرَضٍ ، نملكه فهو نملكه ولا نكونه بل البينونة<br>تكمُن في النّفس ⇐ النّفس من ضعفنا والجسد <s>…</s> ولسنا له</p>
+<!-- PROOFREAD: 1339 part1 p02 — "بل البينونة", "ولسنا له" uncertain; "ضعفنا" may read "صنعنا" -->
+<p class="para">* الجسد عند أفلاطون هو جسم دون أن يكون ذاتي أو أنانيّ .</p>
+<!-- PROOFREAD: 1339 part1 p02 — "ذاتي أو أنانيّ" uncertain -->
+<p class="para">* يرى أفلاطون أنّه يجب أن يكون الاهتمام بالجسد اهتماما غير مُباشر بالنّفس فسلامة المرء الحقيقيّة هي سلامة نفسه .</p>
+<p class="para">* إنّنا عندما نتوجّه نخاطب شخصا لا نتوجّه إلى وجهه بل إلى نفسه ، إلى المعاني والدّلالات الّتي تحملها الوجه فهو بمثابة واجهة لا تكشف عن جانب إلّا لتخفي جوانب أخرى</p>
+<p class="para">* نستنتج أنّ الأنا لدى أفلاطون ليس من قبيل ما هو جسدي أو مرئي إذ اختزلت الأفلاطونيّة الأنا في دائرة النّفس من حيث هي ماهية عاقلة</p>
+<p class="para">* رهانات الأفلاطونيّة<br>← معقوليّة وجود الإنسان ← وجود الإنسان كنفس عاقلة أو ماهية عاقلة<br>← معقوليّة الفضيلة ← الفضيلة تتحقّق بقطع كلّ تماس مع الجسد فهي معقولة لا محسوسة<br>← معقوليّة الحقيقة ← الحقيقة تنتسب إلى عالم الماهيات أو عالم الموجودات العاقلة</p>
+<!-- PROOFREAD: 1339 part1 p01 — bottom-left margin notes partly cut/cramped: "تتحقّق بقطع كلّ تماس مع الجسد", "عالم الماهيات أو عالم الموجودات العاقلة" uncertain -->
+
+<p class="para">* نجول ريكور اعتبر أنّ الأفلاطونيّة " فلسفة متفائلة تجاه الحقيقة ونسقها تشاؤما تجاه الحياة "</p>
+<!-- PROOFREAD: 1339 part1 p03 — "نجول ريكور", "ونسقها تشاؤما" uncertain -->
+<p class="para">* أرسطو " الكائن الكلّي هو واحدٌ في كلّ وهو كلّ في كلّ مكان " ← الإنسان نفس مُتفرّدة بذاتها وهي أيضا كلّ يحتوي ذوات شتّى ← تأثير الغيريّة في الإنيّة</p>
+<p class="para">* تُعدّ النّفس لدى أفلاطون جوهرا مجالها عالم المُثل والجواهر والماهيات فهي تشعر بغُربة تجاه الجسد الذي يُمثّل قبرها بل هو شيء حقير وخبيث وهو ما يؤكّد أنّ العلاقة بينهما هي علاقة اضطراب وقلق فهي ليست في انسجام وتوافق بل هي علاقة تصادُم وتنافر تنتهي بالقطيعة بينهما .</p>
+<p class="para">* النّفس جوهر قائم بذاته ومُستقلّ وهي خالدة ، متعالية ونقيّة .</p>
+<p class="para">* إنّ المراهنة على إقصاء الجسد هو إثبات للهويّة الفرديّة وتأكيد على إطلاقيّة الوعي</p>
+<p class="para">* تنشغل الفلسفة الميتافيزيقيّة بجعل الإنسان كائن الوعي المطلق فهو يُثبت أنّيته وهويّته بمعزل عن الآخر فتعالي النّفس عن الجسد يؤكّد تعالي الوعي عن الواقع</p>
+<p class="para">* لقد كان أفلاطون أكثر الفلاسفة شهرة وأشدّهم اهتماما بالبرهنة على خُلود النّفس في عالم المُثل إذ أعطاها ترتيبة عقليّة جعلته يخصّص لهذه المسألة مُحاورة مُستقلّة هي مُحاورة " فيدُون " .</p>
+<!-- PROOFREAD: 1339 part1 p03 — "أعطاها ترتيبة عقليّة" uncertain -->
+<p class="subhead t-navy">2/ ديكارت :</p>
+<p class="para">* لئن مثّلت الأنا الحقيقة الأولى والأساسيّة في فلسفة ديكارت ، فإنّ الوجود لا يستقيم إلّا بالتّفكير لأنّه المحدّد للبينونة وهذا ما يدُلّ على قيمة الكوجيتو ليتبيّن أنّ الوعي الذي اكتشفته الذّات مثّل فواقعا وليس الجسد .</p>
+<!-- PROOFREAD: 1339 part1 p03 — "للبينونة", "مثّل فواقعا" uncertain -->
+<p class="para">* ديكارت " عرفت أنّني جوهر كلّ ماهيته أو طبيعته لا تقوم إلّا على الفكر "</p>
+<p class="para">* تجاوز ديكارت أزمة تعريف الإنسان ودحض أطروحة أرسطو " الإنسان حيوان ناطق " ليتبيّن أنّ الإنسان ليس بحاجة إلى هذا التعريف باعتبار أنّ كلّ إنسان يُدرك بحدس طبيعته في إطار بحثه عن وجوده بحثا تأسيسيّا .</p>
+
+<p class="para">… المقاربة العقلانيّة الّتي تنطلق ) في الت…</p>
+<!-- PROOFREAD: 1339 part1 p04 — top line cut at the page edge, reading uncertain -->
+<p class="para">توصّل ديكارت إلى أنّ كلّ ماهية هي الفكر وهو ما يؤكّد أنّ الذّات ليست إلّا أنيّة مُفكّرة .</p>
+<p class="para">* ديكارت " فالبديهي كلّ البداهة أنّني أنا الّذي أشكّ وأنا الّذي أفكّر وأنا الّذي أفهم وأنا الّذي أرغب " .</p>
+<p class="para">* أنيّة خالصة وجوّانيّة مُتميّزة تمام التميّز عن الجسد ، فالنّفس بسيطة وسابقة على الجسد لأنّ علاقته وطبيعته هذا الأخير بدليل أن نشكّك حقيقة الإنسان لأنّهما مُنفصلتان .</p>
+<!-- PROOFREAD: 1339 part1 p04 — "لأنّ علاقته وطبيعته هذا الأخير بدليل أن نشكّك" uncertain -->
+<p class="para">* النّفس العاقلة المُتأمّلة موضوع بحثها هي ذاتها بعد أن عادت إلى ذاتها وتعالت على الآخر الجسد لأنّ علاقة الذّات بذاتها هي علاقة مُباشرة لا تحتاج إلى وسائط</p>
+<!-- PROOFREAD: 1339 part1 p04 — "المُتأمّلة" uncertain -->
+<p class="para">* الإقرار بتلازم التّفكير والوجود</p>
+<p class="para">* ديكارت " فقد يحصل أنّي متى انقطعت عن التّفكير انقطعت عن الوجود " .</p>
+<p class="para">* لقد اعتمد ديكارت الشكّ منهجا لبلوغ اليقين الّذي تُبنى عليه كلّ حقيقة .</p>
+<p class="para">* ديكارت " أنا شيء مُفكّر ، وما الشّيء المُفكّر ؟ إنّه شيء يشكّ ويتصوّر ويُثبت وينفي ويتخيّل ويحسّ ، وهذا ما يُقابل في معنى اليقين أنّي كائن وأنّي موجود " .</p>
+<!-- PROOFREAD: 1339 part1 p04 — "يُقابل في معنى" uncertain -->
+<p class="para">* ديكارت " ثبت عندي أنّ هذه الأنا أعني نفسي الّتي أكون بها ما أنا تتميّز عن جسمي تميّزا حقيقيّا فهي قادرة على أن تكون من دونه " .<br>↓<br>معنى البينونة = الوجود الذّاتي<br>لا بمعنى الوجود الجسمي</p>
+<p class="para">* ينطلق ديكارت من فكرة محوريّة وهي أنّه لا ينبغي لنا الثّقة في أيّ معرفة ولكي نتخلّص من المعارف المشكوك فيها لا بدّ من الشكّ في كلّ فكرة في عقولنا حتّى نصل إلى الأفكار اليقينيّة .</p>
+<p class="para">* ديكارت " إنّ عقول البشر هي حظّ مُشترك بين النّاس ولكن لكلّ عقل له مُعطياته وإمكانيّاته الّتي على أساسها نقيس مدى قدرة العقل على التّفهّم والتّحليل والاستيعاب من هنا تأتي فكرة الشّيطان الماكر الّذي يدخل العقول دائما فيُضلّلها ويجعل من الحقّ باطلا ومن الباطل</p>
+
+<p class="para">حقّا " .</p>
+<!-- PROOFREAD: 1339 part1 p05 — first word "حقّا" uncertain -->
+<p class="para">* لئن شبّه ديكارت النّفس بالرّيح أو النّار أو الهواء الرّقيق فقد شبّه الجسم بآلة أو وعاء للنّفس</p>
+<p class="para">* ديكارت " الجسد هو وعاء الرّوح الّذي يحرّكه و يحميه " .</p>
+<p class="para">* الجسد ببنيته العضويّة شرط لاستمرار الحياة ومُكوّن أنطولوجي إيجابي بحيث أنّ أيّ خلل يُصيب نظامه الآلي يُهدّد بتوقّف الحياة ولكنّه يبقى مُكوّنا ابستيمولوجيّا لأنّه لا يُسهم في فعل التّفكير وقرارات الإرادة لذلك فهو آخر مُغاير للذّات يجب إقصاؤه عند تعريف ماهية الإنسان بما هي ذات مُفكّرة .</p>
+<p class="para">* لا نبدأ الحركة نحو اليقين إلّا بأن تستقلّ الذّات عن كلّ ما هو مختلف لها وذلك لأنّ التّطابق مع العالم الخارجي والتّواصل مع الغير ليسا إلّا منطلقا للإدراكات الحسّيّة الزّائفة والأحكام المُسبقة الّتي تُعيق الفكر .</p>
+<p class="para">* إنّ هذا الإقرار يبيّن أنّ ماهية الإنسان سابقة لوجوده فالإنسان لدى ديكارت هو كائن الوعي المُطلق .</p>
+<p class="para">* التّفكير لدى ديكارت هو تعبير عن إرادة الذّات وحرّيتها المطلقة في الإبداع والخلق وتحقيق استقلاليّتها</p>
+<p class="para">* ديكارت " أتصوّر ذاتي بوضوح وجلاء وجودا مُفكّرا من ناحية ومن ناحية أخرى أتصوّر الجسم واضحا مُتميّزا بما هو امتداد لا يُفكّر " .</p>
+<p class="para">* أعلن ديكارت عن ولادة الإنسان الحديث الّذي يثق في قدرته على إنتاج حقائق تُثبت وجوده وتُنمّي معارفه لأجل " يُصبح الإنسان سيّدا ومالكا للطّبيعة " فيتحقّق التّقدّم وقد استعار هذه الفكرة من فرنسيس بيكون الّذي يقول " المعرفة قوّة " أي استعمال العقل يُحوّل المعرفة إلى فعل إلى التّسلّط وزيادة قوّة الإنسان .</p>
+<!-- PROOFREAD: 1339 part1 p05 — "أي استعمال", "إلى فعل" uncertain -->
+<p class="para">* الكوجيتو الدّيكارتي مُنغلق على ذاته حيث صُنّف التّصوّر الدّيكارتي ضمن مذهب الأنا وحدي / الأنانة ( Solipsisme ) إذ قام على إقصاء الغير بعد شعور بالنّرجسيّة وتضخّم الأنا ولكنّها في الحقيقة قد توهّمت الذّات وحدة صمّاء من خلال أفكارها التّأمّليّة .</p>
+<p class="para">* غابريال مارسيل " لا أملك إدراك نفسي كموجود إلّا من حيث أنّي أدرك</p>
+<!-- PROOFREAD: 1339 part1 p05 — last line cut at the bottom of the photo -->
+
+<p class="para">مركزيّة الأنا ← التّعصّب والاستعلاء ← علاقات عدائيّة مع الذّوات المُختلفة<br>=<br>الأنا وحديّة</p>
+<!-- PROOFREAD: 1339 part1 p06 — top line cut at the page edge, not transcribed -->
+<p class="para">* الوجود الحقيقي لدى ديكارت ← وجود إنساني يرتبط بفعل التّفكير<br>↓<br>جُهد ، ألم ، مُعاناة ، نقد ، شكّ ، تأسيس ، حجاج ، دحض ، استبعاد</p>
+<p class="para">↓<br>الإنسان لا يوجد إلّا عندما يشكّ و يُفكّر</p>
+<table>
+<tr><th>أفلاطون</th><th>ديكارت</th></tr>
+<tr><td>الذّات هي ذات تقوم بفعل التّذكّر<br>≠<br>مُنتجة<br>↓<br>تسعى إلى بلوغ حقائق موجودة سلفا</td><td>≠ هي ذات تقوم بفعل التّفكير<br>=<br>هي ذات فريدة ، حرّة مُستقلّة ،<br>=<br>مُنتجة</td></tr>
+</table>
+<p class="para">* تقوّض الدّيكارتيّة فكرة التّراتبيّة والمُفاضلة الّتي سادت العصور طويلة خاصّة مع أفلاطون الّذي اعتبر النّفس أفضل من الجسد ( عالم السّماء أفضل من عالم الأرض ) ( المعرفة العلميّة أفضل من المعرفة الحسّيّة )</p>
+<p class="para">* ديكارت " العقل هو أعدل الأشياء توزّعا بين البشر " .</p>
+<p class="para">المُساواة في العقل ← التّبعة ← المُساواة في الحقّ</p>
+<!-- PROOFREAD: 1339 part1 p06 — small word over the arrow "التّبعة" uncertain -->
+<table>
+<tr><td>↓<br>مجال فلسفي<br>ابستيمولوجي</td><td>↓<br>المجال الحقوقي<br>السّياسي</td></tr>
+</table>
+<p class="para">نولّد مفهوم الدّولة الحديثة " <span dir="ltr">des temps modernes</span> "<br>=<br>الدّولة الحديثة = دولة حقّ = دولة عقل = دولة عقد</p>
+<p class="para">* الإنسان مفهوم أو اختراع يهمّ الأزمنة ، مفهوم حديث وُلد مع ديكارت</p>
+<p class="para">* الإنسان لا يكون إنسانا إلّا بفعل التّفكير وميلاد فكرة الحقّ</p>
+<p class="para">* بعبارة أخرى إنّ الدّيكارتيّة ثورة على مستويين :</p>
+<p class="para">* مستوى فلسفي : ثورة على الفلسفة الأفلاطونيّة</p>
+<p class="para">* مستوى سياسي : ميلاد فكرة الحقّ أو الدّولة الحديثة الّتي ترتبط أساسا بفكرة الذّات المُفكّرة</p>
+
+<p class="para">* الإنيّة لدى ديكارت بسيطة وليست مُركّبة ، إنيّة مُنغلقة على ذاتها ، متعالية على كلّ غيريّة .</p>
+<p class="para">* ديكارت " إنّ هدفي أن أجعل الإنسان سيّدا ومالكا للطّبيعة "</p>
+<p class="para">أفلاطون ← نحن نُفكّر بعين السّماء ← حقائق ليست مُنتجة بل مُولّدة<br>ديكارت ← نحن نُفكّر بعين الإنسان</p>
+<p class="para">* لا يمكن الإقرار أنّ ديكارت تحرّر من الثّنائيّة الأفلاطونيّة نهائيّا ذلك أنّ اعترافه يُخفي إدانة للجسد</p>
+<p class="para">المقاربات الفلسفيّة للجسد</p>
+<ul class="dash">
+<li>مُقاربة تفاضُليّة : أفلاطون</li>
+<li>مقاربة تمايز : ديكارت</li>
+<li>مقاربة وحدة : سبينوزا</li>
+<li>الجسد هو الإنسان : نيتشه</li>
+</ul>
+<p class="para">* ديكارت يدرج مقولة القدّيس أغسطينوس " أنا لست في جسدي مثل الرُّبان في سفينته فحسب بل إنّي مُتّحد به اتّحادا ومُمتزج به امتزاجا "<br>↑<br>النّفس والجسم مُتّحدان أنطولوجيّا<br>≠<br>الانفصال والتّمايز الابستيمولوجي<br>↓</p>
+<p class="para">ديكارت " إنّ الأنا أي نفسي بها ما أنا مُتميّزة تمام التميّز عن الجسم بل إنّ معرفتنا بها أسهل "</p>
+<p class="subhead t-navy">3/ نقد الكوجيتو الديكارتي : حدود القول بالدّيكارتيّة :</p>
+<p class="subhead t-navy">أ/ النّقد الكانطي :</p>
+<p class="para">* كانط " إنّه كوجيتو لا حُدود له بل إنّه قادر أن يُدرك المسائل الميتافيزيقيّة "<br>هذا ما سينقده كانط الذي سيرسم حُدود العقل أي حدّا فاصلا بين ما يُمكن إدراكه وما لا يمكن إدراكه</p>
+<p class="para">المسائل الميتافيزيقيّة ← 1/ وجود الله<br>2/ خلود النّفس<br>3/ لا نهائيّة العالم<br>= موضوع " إيمان " وليست موضوع " معرفة "</p>
+
+<p class="subhead t-navy">ب/ النّقد الفينومينولوجي :</p>
+<p class="para">إدموند هوسرل ← رائد الفينومينولوجيا<br>=<br>فيلسوف ما بعد الحداثة</p>
+<p class="para">* الفينومينولوجيا هي فلسفة قصديّة = وعي + مقاصد<br>أمّا الوعي دون مقاصد فهو ينطلق من نفسه ويعود إلى نفسه</p>
+<p class="para">* هوسرل " فكلّ حالة وعي هي بوجه عام في حدّ ذاتها وعي بشيء ما ... ومن ثمّ وجب أن نوسّع معنى " الأنا أفكّر " التّرنسندنتالي وأن نُضيف إليه عنصرا جديدا وأن نقول أنّ كلّ كوجيتو أو فلنقل أنّ كلّ حالة وعي تقصد شيئا ما وأنّها تحمل في ذاتها موضوع تفكيرها المُناسب لها " .</p>
+<!-- PROOFREAD: 1339 part1 p08 — "أو فلنقل" uncertain -->
+<div class="data">
+<p class="para">غُرفتي ليست مجرّد غُرفة بل هي مكمن ذكرياتي ، وهي شريط حياتي وهي ألعاب طفولتي وبها فرحت ضحكي وبها استرددت قوّتي وهي منبع الإبداع . كذا تُمسي الغرفة <s>…</s> لا مجرّد موضوع بل كلّ من المعاني والدّلالات . كذا الحال بالنّسبة إلى الأشخاص فهذا شخص يُقرّبني وذاك شخص يُبعدني ، هذا شخص أدنو له وذاك آخر أنفره . فشتّان بين الشّخص ومثيله ← القلم وعي ذهننا عالم</p>
+</div>
+<!-- PROOFREAD: 1339 part1 p08 — sticky note: "فرحت ضحكي", "كذا تُمسي", "يُقرّبني", "يُبعدني", "أدنو له", "أنفره", "ومثيله ← القلم وعي ذهننا عالم" uncertain; a small word "نعيش" is written above "ومثيله" -->
+<p class="para">الدّيكارتيّة : الماهية قبل الوجود</p>
+<p class="para">الوجوديّة + الفينومينولوجيّة : الوجود …</p>
+<p class="para">* إنّ تطلّع الذّات وإعلانها عدم الانفتاح … القوى حيث صار الأنا رافضا لكلّ تعاون مع ال… حول الذّات وكذلك كانت ثقافة الإبداع تخص… الأخرى فكانت لا تُعبّر إلّا على المطلق أو ال… وترتيلها .</p>
+<!-- PROOFREAD: 1339 part1 p08 — the sticky note hides the end of these lines; "تطلّع" uncertain -->
+<p class="para">* لقد تجاوز الموقف الفينومينولوجي الفلسفة المثاليّة الذّاتيّة ودعا إلى زوال كلّ ثنائيّة بين الأنا والجسد " .</p>
+<p class="para">* إنّ رهان الفينومينولوجيا هو أن نُعلي من قيمة الجسد ونجعل الوعي مُتجسّدا ويقصد شيئا ما حيث يُؤسّس لإنيّة مُنفتحة على غيريّة لتكون أفقا مُشتركا يجمع بين ذات وأخرى وتجعل الحياة إطارا لا يقبل التّجزئة ، مبدأها التّواصل والتّعايش</p>
+<!-- PROOFREAD: 1339 part1 p08 — "وتجعل" uncertain -->
+<p class="para">* هكذا كان حضور الآخر ضروريّا في المقاربة الفينومينولوجيّة الّتي تناولت الوعي بوصفه ظاهرة إنسانيّة تكمن فيها القصديّة القائمة على إدراك الذّات لموضوع الواقع المحسوس ( لا تُركّز على موضوع الإدراك بل على فعل الإدراك ذاته )</p>
+
+<p class="subhead t-red">II/ الإنيّة بما هي انفتاح على غيريّة خارجيّة ( الغير ) :</p>
+<p class="subhead t-navy">المرجعيّة الهيغليّة : الانفتاح على الغير :</p>
+<p class="para">هيغل " عبر أنّ الآخر هو أيضا وعي بذاتي ... فالفرد الّذي لم يُجازف بحياته قد ينتزع الاعتراف به " .</p>
+<div class="data">
+<p class="para">هيغل ≠ ماركس<br>↓ الوعي المُتجسّد ↓ الواقع هو الّذي يُنتج العقل<br>الوعي المُطلق<br>↓<br>روح الشّعوب = الوعي يبني الواقع<br>هيغل " كلّ ما هو عقلاني واقعي وكلّ ما هو واقعي عقلاني " .</p>
+</div>
+<p class="para">الموقف الّذي يستبعده هيغل : الوعي هو إدراك الأنا لنفسها وبنفسها ولا تكون ال… لذاتها إلّا بما هو رغبة ← تُحيل على الوجو…</p>
+<p class="para">الوعي الشّقي = البسيط</p>
+<p class="para">هيغل " أنّه وعي ينبع من الأنا كلّ … ما هو آخر " .</p>
+<!-- PROOFREAD: 1339 part1 p09 — the green sticky note hides the ends of these lines; "الوعي الشّقي = البسيط" uncertain -->
+<p class="subhead t-navy">الموقف الّذي يُثبته هيغل :</p>
+<p class="para">الآخر هو جزء من إنيّتي = إنيّة بآخر<br>← الوعي / الذّات : بنية مُركّبة</p>
+<!-- PROOFREAD: 1339 part1 p09 — "إنيّة بآخر" uncertain -->
+<p class="para">هيغل " الوعي بالذّات لا يتحقّق بانغلاق الذّات على ذاتها " .<br>← لأنّها ذات معزولة ، عاجزة وقاصرة عن الخروج إلى عالم الآخرين</p>
+<p class="para">هيغل " إنّ الوعي الذّاتي لا يتحقّق لنفسه الإشباع إلّا من خلال وعي ذاتي آخر "<br>← لا يتحقّق توازن الإنسان إلّا بالإنسان<br>حتّى فالإنسان كائن تواصلي ، عاطفي بطبعه<br>في حاجة إلى الغير</p>
+<div class="data">
+<p class="para">* لا يتحقّق الوجود الإنساني إلّا من خلال التّفكير و <s>…</s> المقصود به هو التّفكير مع الغير وعن طريق الغير فالتّفكير مُتقوقعا على أناه لا نجد إلّا وجودا بيولوجيّا حيوانيّا أشبه الوحشيّة !!</p>
+<p class="para">* فعل التّفكير هو فعل حافل بالعقبات يستوجب الألم والمعاناة والجهد والنّقد .</p>
+</div>
+<!-- PROOFREAD: 1339 part1 p09 — sticky note: "حيوانيّا أشبه الوحشيّة" uncertain -->
+<p class="subhead t-navy">تبعات موقف هيغل :</p>
+<p class="para">* كلّ ذات تتأسّس على الازدواج ← إشباع حاجياته عقليّة كانت أم عاطفيّة</p>
+<!-- PROOFREAD: 1339 part1 p09 — a short word between "ذات" and "تتأسّس" not legible -->
+<p class="para">* كلّ وعي ذاتي مُتّصل بوعي ذاتي آخر</p>
+<p class="para">* تنشأ فكرة الوحدة الّتي تفترض الاختلاف ← … خلال جدليّة السّيد والعبد الّذان يخوضان معركة لكن إنّه صراع بإسم الحريّة وهو صراع لا يؤدّي … ولا إلى موت العبد بل إنّ هيغل سيقلب ال… عبدا داخل سياديّته والعبد سيّدا داخل عبوديّته وهو اعتراف مُتبادل وهنا نقرّ بميلاد فكرة البينذاتيّة</p>
+<!-- PROOFREAD: 1339 part1 p09 — the yellow sticky note hides the beginning of several lines -->
+<p class="para">أنا + غير = بينذاتيّة | أنا + غير أنثروبولوجي = بينثقافيّة</p>
+<p class="para">أنا + اللّاوعي = اضطراب ذاتيّة</p>
+<!-- PROOFREAD: 1339 part1 p09 — "أنثروبولوجي", "اضطراب ذاتيّة" uncertain -->
+
+<p class="para">* إنّ استدعاء الآخر / الغير هو شرط حضور الوعي بما يحمله من تناقضات وهو ما قام به هيغل حين نقد كلّ تصوّر إقصائي للغير إذ اعتبر أنّ كلّ وعي يستوجب حضور الآخر ويتأكّد ذلك من خلال جدليّة السّيد والعبد</p>
+<p class="para">* أنزل هيغل تغيير قوانين العقل فأحلّ قانون نفي النّفي بمثابة سلسلة تجمع بين حلقات متناقضة مُتنافرة في الكوجيتو هدفها تحرّر الذّات من اغترابها عن ذاتها وعن عالمها</p>
+<!-- PROOFREAD: 1339 part1 p11 — "أنزل هيغل تغيير" uncertain -->
+<p class="para">* هيغل " إنّ المخاطرة بالحياة هي سبيل إلى الحفاظ على الحريّة "</p>
+<p class="para">← الضّمني : التّقوقع على الذّات سجن يحول دون تحرّرها</p>
+<p class="subhead t-navy">المرجعيّة الهايدغريّة :</p>
+<p class="para">ستُصرّح الفلسفة الهايدغريّة بأنّ الإنسان ليس ذاتيّة مغلقة أو مُتقوقعة على نفسها متعالية على كلّ أشكال الغيريّة كما فعل ذلك ديكارت بل هو بطبيعته خارج عن ذاته كائن في العالم فليس ثمّة ذات بمعنى الكلمة إلّا إذا كان ثمّة علاقة بين أنا وأنا أخرى لأنّ الكائن المنطوي على ذاته ، القابع في باطنه وسجين إنيّته ليس إلّا موجودا زائفا ولا حقيقة له .</p>
+<p class="para">* هايدغر " إنّ الوجود البشري هو وجود في العالم وذلك يتطلّب التّفكير في العلاقة بين الذّات والآخرين " .</p>
+<p class="para">العالم هناك ≠ العالم هنا " دازاين "<br>↑<br>استبعاد عالم المُثُل .</p>
+<p class="para">هايدغر " أنا كائن في العالم الآن وهنا ومع الآخرين "<br>المعيّة — المكان — الزّمان</p>
+<p class="subhead t-navy">المرجعيّة السّارتريّة :</p>
+<p class="para">* الذّات لدى سارتر ليست ثابتة ومعطاة بل هي ذات مُتغيّرة وتاريخيّة عندما يقول ميرلوبونتي " إنّ نظرة الطّبيب إليّ لا تُحرجني " .</p>
+<p class="para">← الضّمني : الإحراج يستوجب حضور الوعي / الإحراج ظاهرة اجتماعيّة إنسانيّة لأنّ الآخر لمّا ينظر إليّ يُصدر حُكما وليس لي حقّ الرّد عليه<br>← تحويل الإنسان إلى موضوع = الموضعة</p>
+<!-- PROOFREAD: 1339 part1 p11 — "الموضعة" (last word) uncertain -->
+
+<p class="subhead t-navy">الفلسفة الوجوديّة ( ينتمي إليها سارتر )</p>
+<p class="para">الوجود يسبق الماهية<br>أنا أوجد أوّلا ثمّ ← أكون ما أُريد</p>
+<p class="para">سارتر " الإنسان مشروع " .</p>
+<p class="para">← تتحدّد الإنيّة بما يُنجزه المرء من مشاريع وأفعال يختارها بنفسه<br>=<br>الذّات صنيعة نفسها</p>
+<p class="para">إشكاليّة : يُمكن أن يتبادر على أذهاننا :<br>هل أنّ الخجل مُتجذّر في الإنسان ؟</p>
+<!-- PROOFREAD: 1339 part1 p12 — "يتبادر على" uncertain -->
+<table>
+<tr><td>↓<br>الخجل فطري</td><td>↓<br>الخجل فعل موضعة : الآخر يُحوّلني إلى موضوع من هنا يحضر معنى محاكمة الآخر</td></tr>
+</table>
+<p class="para">سارتر " الجحيم هو الآخرون " .</p>
+<p class="para">* إنّ الآخر إذا ما سلّط عليّ أحكامه دون أن يُناقشني ودون أملك حقّ الرّد أصبحنا نتحدّث عن الشّيئيّة = الموضعة أي تحويل الإنسان إلى موضوع سلبي بعبارة هيغليّة أي نفي الصّفة الإنسانيّة .</p>
+<p class="para">سارتر " أن أكون منظورا فهذا أمر يُقلقني " .</p>
+<p class="para">* تبعات ( انعكاسات ) هذه النّظرة الاستعلائيّة أو الفوقيّة :<br>تحقير الآخر ، تشيئة الآخر في نظرة دونيّة له</p>
+<p class="para">← لأنّها نظرة يُمكن أن تُبرّر العنف والإقصاء والعنصريّة ونفي الأنانيّة</p>
+<!-- PROOFREAD: 1339 part1 p12 — last word "الأنانيّة" uncertain -->
+<p class="para">سارتر " أنا مسؤول عن الحرب كما أنّني كُنت أنا الّذي أعلنت بإرادتي " .</p>
+<!-- PROOFREAD: 1339 part1 p12 — "كما أنّني كُنت أنا الّذي أعلنت بإرادتي" uncertain -->
+<p class="para"><span class="t-red">← الإنسان مشروع نفسه مسؤول على أفعاله الّتي بها يتحدّد في المجتمع ويُحدّد المُجتمع أي تُحدّد مصير الغير بتحديد مصيره وبالتّالي الإنسان مشروع موسوم بالمسؤوليّة الفرديّة والجماعيّة .</span></p>
+<p class="para">← الإنسان هو مُريد ما يكون هذا ما يعني أنّ الإنسان مسؤول عمّا يكون عليه وهذه المسؤوليّة لا تقتصر عليه وحده بوصفه فردا بل تمتدّ إلى النّاس جميعا حيث يرى سارتر أنّ الإنسان لمّا يختار لنفسه فإنّما اختار <s>…</s> لسائر النّاس</p>
+<!-- PROOFREAD: 1339 part1 p12 — "مُريد", "فإنّما اختار" uncertain; crossed-out word not legible -->
+
+<p class="para">سارتر " الغير ضروري لوجودي ولمعرفتي لنفسي " .</p>
+<p class="para">← هكذا نكتشف عالم " البينذاتيّة " : الإنيّة ليست ما ننطلق منها وإنّما ما ننطلق إليها ← الوجود قبل الماهية</p>
+<p class="para">سارتر " إنّنا لا نكتشف أنفسنا في عزلة ما بل نكتشفها على الطّريق في المدينة ، وسط الجمهور ، إنسانا بين النّاس " .</p>
+<p class="para">سيمون دي بوفوار " هذا مُهندس قد تبنّى سدّا ، وتلك امرأة أنجبت عدّة أطفال وكلّ منهما يتوهّم أنّ العمل الّذي حقّقه كاف لتبرير وجوده مرّة واحدة وللأبد " .</p>
+<!-- PROOFREAD: 1339 part1 p13 — "مُهندس قد تبنّى" uncertain -->
+<p class="para">← الإنسان ماهية أشبه البلّورة لا الثّابت فهو مُتغيّر طالما في كلّ وقت وفي كلّ مكان قادر على تقرير وتغيير مصيره .</p>
+<!-- PROOFREAD: 1339 part1 p13 — "أشبه البلّورة لا الثّابت", "طالما" uncertain -->
+<p class="para">← ليس ثمّة نمط يُمكن أن يُهان</p>
+<!-- PROOFREAD: 1339 part1 p13 — "يُهان" uncertain -->
+<p class="para">* الإنسان مشروع بصفته يعيش لذاته وبذاته فهو خالق لنفسه ووجوده سابق لماهيته ومن هذا المنطلق يُمسي الإنسان مُضطرّا للاختيار وهو الأمر الّذي يجعل الإنسان مسؤولا مسؤوليّة كاملة <s>…</s> لأنّه بصدد إبداع صورة خاصّة به يختبرها لذاته وإذا اختار لنفسه فقد اختار للإنسانيّة جمعاء .</p>
+<p class="para">* تعريف الإنسان بحركة أفعاله يُبيّن أنّ وعيه يُمثّل حصيلة ممارسته الّتي تتميّز بالخلق والإبداع مُتسلّحة <s>…</s> بأساسين ألا وهما العلم والعمل ينفتح بهما على الآخر .</p>
+<!-- PROOFREAD: 1339 part1 p13 — "بأساسين" uncertain -->
+<p class="para">* هكذا صارت إنيّة الإنسان الإنتاج الدّائم والتّشكّل المُستمرّ لكلّ من الإرادة والحريّة والمسؤوليّة فتنعقد آنذاك هويّة الإنسان بما هي تعبير عن تجربة إنسانيّة .</p>
+<p class="para">سارتر " الإنسان يُصيّر نفسه بطلا أو جبانا " .</p>
+<p class="para">* يتجاوز سارتر الفلسفات السّابقة الّتي تقول بأنّ الإنسان ماهية سابقة لوجوده حيث تكون إنيّته ثابتة ومُعطاة وينفي كلّ من الحتميّات ، علميّة كانت أو اجتماعيّة ، نفسيّة أو بيولوجيّة لتُسبغ على الأنا ثوب الحريّة ويُفضّل الثّقافي على الطّبيعي أي ما يجعل الإنسان مُنفتحا على رحاب الحريّة مُفلتا من مملكة الطّبيعة .</p>
+
+<p class="para">دابير " قيمة الإنسان قُدرته على أن يكون "</p>
+<!-- PROOFREAD: 1339 part1 p14 — name "دابير" uncertain -->
+<p class="para">* يعتبر سارتر أنّ كلّ فعل في الحاضر ينفتح على المستقبل مما يمنح الأنا قُدرة على تجاوز الوضعيّة الّتي تعيشها لتُصبح أنا مُتجدّدة موسومة بالصّيرورة ، أنا فاعلة مُبدعة .</p>
+<p class="para">* يعتبر سارتر كذلك أنّ لقاء الأنا بالآخر يجعلها تتخلّى عن مركزيّتها لصالح مركزيّة جديدة فتخوض تجربة اعتراف فهي سوى أن تكون تجربة صداقة أو عداوة تجعل الآخر شرطا ضروريّا لمعرفتي بذاتي .</p>
+<p class="para">سارتر " فأنا أطلق الصّفة الكونيّة بإختياري نفسي وأنا أفهم مشروع كلّ <s>إنسان</s> إنسان من أيّ حقبة كان "</p>
+<!-- PROOFREAD: 1339 part1 p14 — a crossed-out word before "إنسان" in the Sartre quote, reading uncertain -->
+<p class="para">← مفهوم معنى الكونيّة = وحدة النّوع البشري</p>
+<p class="para">سارتر " هناك كونيّة شاملة في كلّ مشروع بمعنى أنّ كلّ مشروع يمكن أن يفهمه كلّ إنسان " .</p>
+<p class="para">* سارتر " الإنسان لا يعي نفسه خاصيّة أمر ذاتيّا إلّا إذا أقرّ بالآخرين "<br>← علاقة الأنا بذاتها ليست معزولة عن علاقتها بالغير بل تكوّن معه عالما بينذاتيّا .</p>
+<!-- PROOFREAD: 1339 part1 p14 — "خاصيّة أمر ذاتيّا" uncertain -->
+<p class="para">* إنّ الإقرار بالحريّة الفرديّة لا يتنافى مع الصّفة الكونيّة الإنسانيّة</p>
+<p class="para">سارتر " إنّ المشروع مهما كان فرديّا له قيمة كونيّة فإن خُضنا تجربتنا الوجوديّة كأفراد فنحن في الآن نفسه نُحقّق إنسانيّتنا ، هذه الإنسانيّة الّتي تجمعني بالآخر "</p>
+<p class="para">* إنّ اعتبار الإنسان مشروع وجود مُستقلّ بالحريّة والاختيار والمسؤوليّة هو استعادة لإرادته وجعلها غاية لا مجرّد وسيلة شأن ما تفعله الرّأسماليّة الّتي تُحوّل الإنسان إلى موضوع وتجعل من جسدي جسدا مُنتجا لا جسدا إنسانيّا .</p>
+<p class="subhead t-navy">العودة إلى فكرة " التّموقعة " :</p>
+<!-- PROOFREAD: 1339 part1 p14 — "التّموقعة" uncertain -->
+<p class="para">إنّ الدّعوة إلى الحريّة الفرديّة قد تؤدّي إلى الفردانيّة الّتي تُهدّد المجتمع ذلك أنّ الذّات قد تُسيء فهم الحريّة فتُطبّقها بحريّة تتسم بما هي وحدة لا غيرها وهو ما يُولّد نظرات الاستعلاء والفوقيّة للغير وتُصبح العلاقات موسومة بالصّراع وانتزاع الاعتراف والموضعة .</p>
+
+<p class="para">يكون الوجود الأصيل لدى سارتر بمثابة حالة يقظة دائمة وعمل متواصل قصد التحرّر من الوضع الّذي وُلد فيه الإنسان ولم يختره وهو ما يُفسّر حالة القلق الّتي يكون عليها الإنسان الوجودي فتدفعه إلى حالة إعادة التموقع</p>
+<p class="para">* الفلسفة الوجوديّة <s>…</s> تُعيد الاعتبار إلى علاقة المركز بالهامش وتنقلها من علاقة إقصاء وتهميش إلى علاقة ارتباط ونسق تُثري التّجربة .</p>
+<!-- PROOFREAD: 1339 part1 p15 — crossed-out word(s) after "الوجوديّة" not legible -->
+<p class="para">← الاعتراف بالآخر ثقافي</p>
+<p class="subhead t-navy">مرجعيّة إدغار موران :</p>
+<p class="para">* إدغار موران " ما هو منسوج مع بعضه البعض "<br>← الفكر المُركّب</p>
+<p class="para">* التّركيب هو نسق يتواجد بدوره في نسق أكبر وفي دلالة على وجود ترابط وتماسك في شكل نسيج مُشترك .</p>
+<p class="para">* إدغار موران " أن يكون المرء ذاتا وأن يكون مُستقلّا وتابعا في نفس الوقت " .</p>
+<p class="para">* رفض إدغار موران كلّ أشكال الاختزال والتّوحيد والتّبسيط والفصل والعزلة وتطلّع إلى معرفة متعدّدة لأنّه من مُسلّمات الفكر المركّب استحالة وجود علم بكلّ شيء ، كما قال تيودور أدورنو " الكلّيّة هي اللّاحقيقة " .</p>
+<!-- PROOFREAD: 1339 part1 p15 — name before the quote read as "تيودور أدورنو", uncertain -->
+<p class="para">* الفرد هو مُنتج المجتمع الّذي يُنتجه ← كائن مُتعدّد الأبعاد ينفتح على الغير فيُثري الإنيّة وهو ما يجعلها ترابط أبعاد ثلاثة : البيولوجي والاجتماعي والثّقافي الّتي تُشكّل حقيقة <sup>جملة</sup> الوجود الإنساني</p>
+<p class="para">* وضعت هذه الثّلاثيّة المُتكوّنة من الفرد والمجتمع والنّوع ، الأنا في وضعيّة تسمح لها بتحديد خصوصيّتها في ظلّ الآخر وهذا ما تعدّ الهويّة المُركّبة أساسها من " الطّبيعة المزدوجة " الوجود الإنساني الّتي تحوي داخلها كلّ خصائص النّوع الإنساني فتُساهم في إعادة الوصل وتدعو إلى التّعايش السّلمي .</p>
+<p class="para">* الإنسان كائن مُتعدّد الأبعاد ينفتح على الغير فيُثري الإنيّة من خلال عدّة منابع وهو ما يجعلها حصيلة نتاج ترابط أبعاد ثلاثة : البُعد البيولوجي ، البُعد الاجتماعي والبُعد الثّقافي .</p>
+
+<p class="subhead t-red">III/ الإنيّة بما هي انفتاح على غيريّة خارجيّة + داخليّة ( اللّاوعي ، الجسد ، التّاريخ ) مع أقطاب الظنّة :</p>
+<p class="para">أقطاب الظنّة = فلاسفة الرّيبة = كاشفي الأقنعة</p>
+<ul class="dash">
+<li>ماركس ← التّاريخ</li>
+<li>نيتشه ← الجسد</li>
+<li>فرويد ← اللّاوعي</li>
+</ul>
+<p class="para">نحن إزاء مدرسة فلسفيّة جديدة تُسمّى مدرسة " الظّنّ " أو الارتياب بعبارة أخرى نقلت هذه المدرسة الشّكّ إلى صميم العقل الدّيكارتي وبالتّحديد الكوجيتو الدّيكارتي</p>
+<p class="subhead t-navy">أ/ مراجعة النّقديّة الوعي من خلال التّاريخ :</p>
+<p class="para"><u>ماركس</u> : الوعي ليس كيانا مُستقلّا بل هو نتاج تاريخي<br>لا يُمكن أن يكون الوعي مُستقلّا مادام ثمّة بشر</p>
+<p class="para">ماركس " الوعي نتاج اجتماعي ويظلّ كذلك طالما وُجد بشر "</p>
+<p class="para">* الماركسيّة هي فلسفة تعتمد على دراسة الحياة الاقتصاديّة والاجتماعيّة وتأثير نمط العيش على الأفكار والتّصوّرات ويذهب ماركس إلى اعتبار أنّ الأسباب الحقيقيّة للسّلوك الإنساني غريبة عن الوعي فهي مُتجذّرة في التّنظيم الاجتماعي للبشر</p>
+<p class="para">ماركس " ليس الوعي هو الّذي يُحدّد الحياة وإنّما الحياة هي الّتي تُحدّد الوعي "</p>
+<p class="para">* الوعي مُتغيّر ← كلّما تغيّرت الأوضاع الاجتماعيّة إلّا وتغيّر معها الوعي<br>← لا معنى لثبات الذّوات في عالم محكوم بالحركة والتّغيّر وبالتّحديد عالم محكوم بالصّراع الطّبقي ( البرجوازيّة والبروليتاريا )</p>
+<p class="para">* الذّات الواعية هي في علاقة مُتلازمة مع عالمها الخارجي حيث تخضع إلى تأثيرات اجتماعيّة منها تتكوّن " هويّتها السّرديّة " بعبارة بول ريكور بما أنّها مُتّصلة بالزّمان والتّاريخ .</p>
+<p class="para">ما هو شرط إمكان تحقّق الوعي الحقيقي بما هو ميزة إنسانيّة ؟</p>
+
+<p class="para">… العالم اتّحدوا " .<br>← بذلك ينتهي الصّراع بين مُجتمع الرّقّ والطّبقة البرجوازيّة .</p>
+<!-- PROOFREAD: 1339 part1 p17 — top line cut at the page edge; "مُجتمع الرّقّ" uncertain -->
+<p class="subhead t-navy">المُراجعة النّقديّة للوعي من خلال التّحليل النّفسي :</p>
+<p class="para">← الحدّ السّيكولوجي للوعي</p>
+<p class="para">* الأنا لا تختزل في الوعي فهي ستُصبح بنية مُركّبة مُعقّدة باعتبار اكتشاف " آخر كامن هو اللّاوعي " بعبارة بول ريكور وعلى هذا الاكتشاف فإنّ المعرفة اليقينيّة أي يقين الكوجيتو يقين " الأنا أفكّر " ليس سوى وهم خاصّة أنّ الأنا لا يتطابق مع الإرادة والوعي</p>
+<div class="data">
+<p class="para">* ما أشبه الذّات بمسرح عرائس تتعدّد اتّجاهات شتّى فتارة تتراءى لعيون النّاظرين الأنا وطورا يتجلّى الهو وهي بين الأنا والهو مُتمزّقة مُشتّتة لا حقيقة لها فيتلاشى بذلك زيف وحدة الأنا وبساطتها</p>
+</div>
+<!-- PROOFREAD: 1339 part1 p17 — sticky note: "تتعدّد اتّجاهات", "فيتلاشى" uncertain -->
+<p class="para">* حقيقة الأنا تستوجب الانفتاح على الآخر الكامن … مكبوتة</p>
+<p class="para">* انتقلنا من ميدان الوضوح والاستقلاليّة إلى … والمسكوت عنه = اللّاوعي</p>
+<p class="para">← إنّ اكتشاف اللّاوعي مثّل رجّة ورجعة … حقيقة أو يقينيّا بل ستتحوّل إلى ساحة أو…</p>
+<p class="para"><span class="t-red">الأنا مع فرويد أصبحت مُحطّمة ، مُجزّأة ، مُنقسمة و …</span></p>
+<!-- PROOFREAD: 1339 part1 p17 — the sticky note hides the end of these lines -->
+<p class="para">* هل يُمثّل اكتشاف اللّاوعي تحطيما للوعي أم إعادة تأسيس للإنيّة من خلال الاعتراف بالآخر اللّاوعي ؟</p>
+<p class="para">* إنّ التّجربة العلاجيّة أثبتت أنّ العنصر النّفسي ليس دائما شعوريّا</p>
+<p class="para">* فرويد " الفكرة الّتي تكون شعوريّة في لحظة بعينها لا تعود كذلك في اللّحظة التّالية " <span class="t-red">← الأنا مُتغيّرة وليست ثابتة</span></p>
+<p class="para">* <s>…</s> عالم الاجتماع الألماني إريك فروم " المُحتوى الظّاهر للحلم هو بديل مُزيّف من التّصوّرات الكامنة للحلم " <span class="t-red">← الإنسان وحده غير قادر على تأويل أحلامه لذا فهو في حاجة إلى مُحلّل نفسي خبير ← في حاجة إلى الغير</span></p>
+<p class="para">* الإنيّة منطقة صراع تنقسم إلى ذات واعية وأخرى لاواعية تعكس صراع السّلوك الّذي يُكوّن الجهاز النّفسي .</p>
+<p class="para">← الوعي لم يعد يُمثّل إلّا السّطح من فكرنا وأمّا العمق فيُمثّله اللّاوعي</p>
+<p class="para">* الذّات لا تتعرّف على ذاتها باكتشافها لما هو خارجها بل بانفتاحها على الكامن فيها فهي كيان مُركّب تسكنه غيريّة .</p>
+
+<p class="para">ماركس " الوعي هو لُغة الحياة الواقعيّة " .</p>
+<p class="para">* الوعي هو نتاج الأفكار والتّمثّلات الّتي أفرزها الواقع الاجتماعي</p>
+<p class="para">ماركس " الوعي لا يُمكن أن يكون أبدا شيئا آخر غير الكائن الواعي وكيان البشر إنّما هو سيرورة الحياة الواقعيّة "</p>
+<p class="para">* الإنسان محكوم بحتميّة اجتماعيّة تُحدّد وجوده وتُحدّد وعيه .</p>
+<p class="para">* الصّراع الطّبقي هو مُحرّك التّاريخ أي تاريخ المجتمعات البشريّة .</p>
+<p class="para">* الحقيقة ليست واحدة بل مُتعدّدة أي لكلّ حقبة تاريخيّة حقيقة والوعي لصيق ومُرتبط بالواقع الاقتصادي والاجتماعي لتلك الحقبة لذلك يكون مُتغيّرا ومُتطوّرا .</p>
+<p class="para">* الوعي انعكاس للواقع المعيش ولحركة التّاريخ وهو تابع له وليس خارجا عنه وهو ما أسّس للجدليّة المادّيّة <s>…</s></p>
+<!-- PROOFREAD: 1339 part1 p18 — crossed-out words at end of the "الجدليّة المادّيّة" line not legible -->
+<p class="para">* الإنسان ابن تاريخه وليس ابن طبيعته .</p>
+<p class="para">* الوعي هو إفراز لصراع بين قوى مُتناقضة تتمثّل في ما أسماه ماركس بالبنية الفوقيّة الّتي تتمثّل في الأفكار الّتي تسود ذلك المجتمع وتمثّلاته والبنية التّحتيّة أي الواقع الاقتصادي ونمطه الّذي سينظّم العلاقات بين رأس المال والعامل .</p>
+<p class="para">← الوعي يتحدّد في المادّة والتّاريخ</p>
+<p class="para">* حركة التّاريخ لا تُفهم إلّا في إطار التّناقض وصراع الإنسان مع الإنسان والطّبيعة</p>
+<p class="para">* البراكسيس = العلم + العمل</p>
+<p class="para">* حثّ ماركس على المقاومة من أجل تغيير العالم لا تأمّله .<br>↑<br>كما تفعل الفلسفات السّابقة</p>
+<p class="para">كيف يكون التّاريخ وسيلة للتّواصل وإضفاء الكونيّة على كلّ مشروع إنساني ؟</p>
+<p class="para">← يكون الوعي مُتحدّدا بالظّروف الاجتماعيّة والاقتصاديّة - طامحا إلى تحقيق وحدة كونيّة من خلال إرساء اشتراكيّة اجتماعيّة علميّة تتأسّس على الحقيقة العلميّة الموضوعيّة وتدعو إلى التّعاون ضدّ الفقر والجهل</p>
+
+<p class="para">… الخارجي وهو بذلك يخدم ثلاثة سادة طغاة</p>
+<!-- PROOFREAD: 1339 part1 p19 — top line cut off at the page edge -->
+<p class="para">العُقد ← عُقدة أوديب<br>← عُقدة الكترا</p>
+<p class="para">الأمراض النّفسيّة ← السّاديّة<br>← المازوشيّة</p>
+<p class="para">* التّحليل النّفسي كشف أنّ الإنيّة تخضع لحتميّة نفسيّة وهو ما دفع إلى ضرورة مُراقبتها والإحاطة بظروف تكوّنها خاصّة في مرحلة الطّفولة .</p>
+<p class="para">فرويد " الطّفل أبو الإنسان "</p>
+<p class="subhead t-navy">ج/ المراجعة النّقديّة للوعي من خلال تبيين مكانة الجسد :</p>
+<p class="para"><u>نيتشه</u> :</p>
+<p class="para">أفلاطون " إنّه لشيء عظيم أن نموت " ← فلسفة <s>…</s> الموت<br>≠<br>نيتشه " إنّه لشيء عظيم أن نعيش " ← فلسفة الحياة</p>
+<p class="para">← نحن أمام دلالة جديدة للإنسان</p>
+<p class="para">نيتشه " الإنسان هو ما يجب تجاوزه " ← تجاوز المفهوم القديم للإنسان " كائن الوعي المُطلق "</p>
+<p class="para">* يعتبر نيتشه أنّ الإنسان رغبة وعاطفة وإرادة قوّة وهذه القوّة ليست إلّا قوّة الجسد</p>
+<p class="para">* نيتشه " إنّ الجسد لهو أكثر من الجسد " ← الجسد بمعنى نيتشوي أعمق من مفهوم الجسد في الفلسفات الماهويّة .</p>
+<!-- PROOFREAD: 1339 part1 p19 — "الماهويّة" and the crossed-out word in "فلسفة … الموت" uncertain -->
+<p class="para">نيتشه " الجسد لهو عقل عظيم " ← الوعي = عقل صغير</p>
+<p class="para">* مثل الّذي يكتفي بوعيه مُتعاليا عن جسده مثل الّذي ينأى في القاع .</p>
+<p class="para">* نحن إزاء كوجيتو الفعل : نحن نفعل من خلال أجسادنا<br>≠<br>كوجيتو ديكارت = كوجيتو قولي زائف</p>
+<p class="para">* نيتشه " إنّ الجسد لا يقول " أنا " بل يكون " أنا " " ← الجسد هو الأنا الفاعلة</p>
+
+<p class="para">* إنّ القوّة كلّ القوّة في … وهو العقل الثّاني أو الأعظم الّذي طالما قُبر وقُمع وراء سلطان العقل والوعي</p>
+<!-- PROOFREAD: 1339 part1 p20 — top line cut off at the page edge, end of "في …" not visible -->
+<p class="para">* نيتشه " إنّ الحقائق ليست سوى أوهاما نسينا أنّها كذلك "<br>↓<br>لقيمة الوعي</p>
+<!-- PROOFREAD: 1339 part1 p20 — "لقيمة الوعي" uncertain -->
+<p class="para">* قام نيتشه بمراجعة جذريّة للتّصوّرات الميتافيزيقيّة الذّاتيّة والمثاليّة فكانت فلسفته إعلان حرب على الفلسفة العقلانيّة وتغييرا جذريّا لها . وتبيّن من خلالها أنّ الوعي خديعة وزيف ووهم وتعتّم أنتج تأزّما في مفهوم الإنيّة</p>
+<p class="para">* ينفي نيتشه الوعي باعتباره حقيقة تحقّق على أن يكون جوهرا متعاليا ومُستقلّا .</p>
+<p class="para">* ينتقل الإنسان من حالة الإنسان الوضيع إلى حالة الإنسان الأعلى المالك لإرادة القوّة .</p>
+<p class="para">* أكّد نيتشه أنّ الإنسان الأعلى هو من يتجاوز الإنسان القطيع الخاضع إلى الإنسان الحرّ والمُبدع لقيمه</p>
+<p class="para">* نيتشه " إن كنت عبدا لا يُمكن أن تكون صديقا وإن كُنت طاغية لا يُمكن أن يكون لك أصدقاء "</p>
+<p class="para">* نيتشه " أن نتفلسف هو أن نُصغي لنداء الجسد " ← مفهوم جديد للتّفلسف</p>
+<p class="para">رهان فلسفة <s>…</s> نيتشه :</p>
+<p class="para">* إنشاء حضارة جديدة قيمها مُتسامحة مع الجسد ، تُعبّر عن ولادة الإنسان الأعلى ليس بالمعنى الطّبيعي بل بالمعنى الثّقافي فينبني إنسانيّة جديدة تعترف بالآخر القويّ .</p>
+<p class="subhead t-navy">الجسد الفينومينولوجي :</p>
+<p class="para">* هو الجسد الموضوعي = جُثّة خاوية من الحياة = الجسم<br>الجسد الخاصّ = الجسم المعيش</p>
+<p class="para">* أن نتعلّم الرّقص أو العزف هو أن نُدمج ملامح الدّلالة الرّاقصة أو الدّلالة الموسيقيّة في فضائنا الجسدي</p>
+<p class="para">← ثمّة إذا بين الجسد والعالم الّذي نتحرّك فيه علاقة حميميّة فالجسد هو موطن ومسكن كلّ الفضاءات التّعبيريّة لذلك نقول إنّ الفينومينولوجيا</p>
+
+<p class="para">فلسفة المعنى وجسدي هو أداة إضفاء المعنى على كلّ الأشياء وهو أداة تعبيري عن العالم .</p>
+<p class="para">* إنّ رغبة الانفتاح <s>…</s> لم تنفصل عن الجسد بل الأهمّ من ذلك هو الانفتاح عن العالم وهو ما اتّجه إليه ميرلوبونتي لمّا أكّد على اتّصال الجسد بالعالم وبيّن أهميّة الجسد الذّاتي أو المعيش بما أنّه شرط لإدراك العالم وهو ما به نستطيع مُعاشرته فيصير امتدادا للجسد .</p>
+<!-- PROOFREAD: 1339 part1 p21 — crossed-out word(s) after "الانفتاح" not legible -->
+<div class="data">
+<p class="para">* إنّ الاعتراف هو طلب تواصلي كوّن علاقة اشتراك بين الإنيّة والغيريّة جعلت الذّات تُثبت وجودها في العلم وبالعالم فمن خلال الانفتاح عن الآخر الّذي يسمح بالحديث عن لُحمة بين الذّات العارفة وموضوع المعرفة وهو ما يؤكّد مغادرة الذّات عزلتها والانتقال من مجال العلاقات الاستبداديّة إلى مجال العلاقات التّشاركيّة</p>
+</div>
+<!-- PROOFREAD: 1339 part1 p21 — sticky note: "طلب تواصلي", "التّشاركيّة" uncertain; the sticky note hides the end of the next three lines -->
+<p class="para">* ميرلوبونتي " من جسدي يبدأ العالم " .</p>
+<p class="para">* الجسد هو الأداة الّتي تجعل الإنسان حاضرا …</p>
+<p class="para">* إذا كان الكلام تعبيرا عن الفكر فالجسد تعبير …</p>
+<p class="para">* أسّس ميرلوبونتي لمفهوم البينجسديّة …</p>
+<p class="para">وملموسا</p>
+<p class="subhead t-navy">مآل الجسد في عصر الحداثة :</p>
+<p class="para">* إنّ إعادة اكتشاف الجسد في عصر الحداثة جعلته محلّ دراسة من قبل العقل الأداتي</p>
+<p class="para">* لقد تحوّل الجسد إلى جسد مُنضبط مُراقب داخل المؤسّسات كالمدرسة والسّجن والمصنع وأمسى لعبة السّلطة السّياسيّة والإيديولوجيّة تُمارس عليه النّفس سلطتها من خلال أفعال تسلّطيّة <s>…</s></p>
+<p class="para">* ميشال فوكو " النّفس هي نتاج التّشريح السّياسي وأداته ، النّفس سجن للجسد "</p>
+<p class="para">* أمّا السّلطة الاقتصاديّة فقد جعلت منه أداة للاستثمار والاستهلاك شقّت طريقها عبر العولمة</p>
+<p class="para">* كان بودريار في مؤلّفه " مجتمع الاستهلاك " : " إنّ منزلة الجسد هو أنّه حدث ثقافي " .</p>
+<p class="para">← الرّهان : المقاومة من أجل تحرير الجسد واستعادة كرامته</p>
+
+</section>
+
+</div>
+</body>
+</html>

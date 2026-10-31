@@ -1,0 +1,307 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<title>Wael Academy — Philosophie · houwiyya</title>
+<script>
+  window.MathJax = {
+    tex: { inlineMath: [['\\(','\\)']], displayMath: [['\\[','\\]']] },
+    chtml: { fontURL: 'https://cdn.jsdelivr.net/npm/mathjax@3/es5/output/chtml/fonts/woff-v2', matchFontHeight: true },
+    startup: { typeset: true }
+  };
+</script>
+<script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js" async></script>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Sora:wght@400;500;600;700;800&family=Cairo:wght@400;500;600;700;800;900&family=Tajawal:wght@400;500;700;800&family=JetBrains+Mono:wght@400;500;600;700&display=swap');
+:root{
+  /* ===== Wael Academy palette — MAIN ACCENT = green-teal gradient #0FAB8F → #067360 ===== */
+  --bg:#fff; --panel:#f2f8f8; --hair:#e6e6e9; --hair2:#d6d6db;
+  --fg:#0f2a31;        /* body text (and +/− signs) */
+  --fg2:#3f5b62;       /* softer text */
+  --fg3:#7c959b;       /* muted (footer) */
+  --blue:#067360;      /* deep accent — small numbers, borders, watermark, accent equations */
+  --blue-dark:#045260; /* titles & wordmarks (also the balance colour) */
+  --teal:#0fab8f;      /* bright accent end */
+  --loop:#0d9c82;      /* logo-loop helper */
+  --orange:#067360;    /* kicker/category labels (gold retired → deep teal) */
+  --red:#f5322f;       /* EXERCISE CHIPS ONLY — never for emphasis */
+  --cream:#e6f3f4; --blue-soft:#e6f3f4;  /* pale teal — callout fill + table sub-row fill */
+  --blue-line:#cde7e4; /* hairline */
+  --sub-ink:#045260;   /* table sub-row text */
+  --grad:linear-gradient(148deg,#0fab8f 0%,#0d9c82 52%,#067360 100%);
+  --mono:'JetBrains Mono',monospace; --latin:'Sora',sans-serif; --ar:'Cairo',sans-serif; --arb:'Tajawal',sans-serif;
+}
+*{box-sizing:border-box;margin:0;padding:0;}
+body{font-family:var(--latin);color:var(--fg);background:#e4e4e7;padding:28px 0;
+     -webkit-print-color-adjust:exact;print-color-adjust:exact;}
+html[dir="rtl"] body{font-family:var(--arb);}
+
+/* ===== brand watermark: REAL text (crisp), full-bleed, repeats per page ===== */
+.wm{position:fixed;inset:0;z-index:0;pointer-events:none;display:flex;
+    align-items:center;justify-content:center;overflow:hidden;
+    -webkit-print-color-adjust:exact;print-color-adjust:exact;}
+.wm span{font-family:var(--mono);font-weight:800;font-size:76.8pt;letter-spacing:.16em;
+    color:var(--blue);opacity:.06;white-space:nowrap;transform:rotate(-54deg);}  /* single diagonal: bottom-left → top-right */
+.wm.mono span{color:#000;opacity:.05;}
+
+/* ===== continuous flow stream (no page border) ===== */
+.flow{width:210mm;margin:0 auto;background:transparent;color:var(--fg);
+      padding-block:16mm 18mm;padding-inline:23mm 14mm;position:relative;}   /* spiral gutter: inline-start(=spine) 23mm / outer 14mm — dir-aware; print margins set in render_flow.py */
+@media screen{ .flow{background:#fff;box-shadow:0 10px 40px rgba(0,0,0,.16);} }
+.flow>*{position:relative;z-index:1;}
+.flow p,.flow li,.flow .data,.flow .note,.flow .ex{break-inside:auto;}
+.flow .fig,.flow figure,.flow img,.flow svg.figsvg,.flow table,.flow tr,.flow .chapdiv,.flow .exh,.flow .qrcard,.flow .meta{break-inside:avoid;}
+.flow h1,.flow h2,.flow h3,.flow .exh,.flow .subhead,.flow .chapdiv{break-after:avoid;}
+.flow img,.flow svg.figsvg{max-width:100%;height:auto;}
+.flow figcaption,.flow .figcap{display:none;}          /* rule 3: no figure captions */
+
+/* ===== front matter + chapters each start on a fresh page ===== */
+.flow .cover{break-after:page;}        /* cover alone on page 1 */
+.flow .toc{break-after:page;}          /* Sommaire alone on the next page */
+.flow .chapter{break-before:page;}
+.flow .chapter:first-of-type{break-before:auto;}
+
+/* ===== cover ===== */
+.cover{padding:14mm 0 8mm;border-bottom:2px solid var(--blue);margin-bottom:6mm;}
+.cover .badge{font-family:var(--mono);font-size:8.5pt;letter-spacing:.28em;text-transform:uppercase;color:var(--orange);margin-bottom:10px;}
+.cover h1{font-family:var(--latin);font-weight:800;font-size:34pt;line-height:1.03;letter-spacing:-.025em;color:var(--blue-dark);}
+.cover .grule{width:120px;height:5px;border-radius:5px;background:var(--grad);margin:14px 0;}
+.cover .sub{font-family:var(--mono);font-size:10pt;letter-spacing:.14em;text-transform:uppercase;color:var(--teal);}
+.cover .auth{font-size:11pt;color:var(--fg2);margin-top:6px;font-weight:600;}
+
+/* ===== table of contents ===== */
+.toc{margin:2mm 0 4mm;}
+.toc h2{font-family:var(--latin);font-weight:800;font-size:15pt;color:var(--blue-dark);margin-bottom:4mm;}
+.toc .trititle{font-family:var(--mono);font-size:8pt;letter-spacing:.2em;text-transform:uppercase;color:var(--orange);margin:4mm 0 2mm;}
+.toc ol{list-style:none;}
+.toc li{display:flex;align-items:baseline;gap:8px;font-size:10pt;padding:2.2px 0;color:var(--fg);line-height:1.4;}
+.toc li .n{font-family:var(--mono);font-weight:700;font-size:9pt;color:var(--blue);min-width:26px;}
+.toc li .dots{flex:1;border-bottom:1px dotted var(--hair2);transform:translateY(-3px);}
+
+/* ===== chapter divider band ===== */
+.chapdiv{margin:0 0 5mm;padding:6mm 16px 5mm;border-radius:12px;background:var(--grad);
+    -webkit-print-color-adjust:exact;print-color-adjust:exact;}   /* green-filled chapter band */
+.chapdiv .cn{font-family:var(--mono);font-size:8.5pt;font-weight:700;letter-spacing:.24em;text-transform:uppercase;color:rgba(255,255,255,.82);margin-bottom:5px;}
+.chapdiv h2{font-family:var(--latin);font-weight:800;font-size:17pt;line-height:1.1;letter-spacing:-.015em;color:#fff;}
+/* conclusion block — same green-filled look as the chapter band */
+.conclusion{background:var(--grad);border-radius:12px;padding:6mm 16px;margin:5mm 0;color:#fff;break-inside:avoid;
+    -webkit-print-color-adjust:exact;print-color-adjust:exact;}
+.conclusion .ck{font-family:var(--mono);font-size:8.5pt;font-weight:700;letter-spacing:.24em;text-transform:uppercase;color:rgba(255,255,255,.82);margin-bottom:6px;}
+.conclusion h3{font-family:var(--latin);font-weight:800;font-size:13pt;line-height:1.2;color:#fff;margin-bottom:4px;}
+.conclusion p,.conclusion li{font-size:10.4pt;line-height:1.7;color:#fff;}
+.conclusion b,.conclusion strong{color:#fff;font-weight:700;}
+
+/* ===== unit header (lesson/exercise) + QR emplacement ===== */
+.exh{display:flex;align-items:center;gap:11px;margin:6mm 0 3mm;}
+.exh .idx{font-family:var(--mono);font-size:9pt;font-weight:600;color:#fff;background:var(--grad);
+    border-radius:6px;padding:4px 11px;letter-spacing:.08em;text-transform:uppercase;
+    -webkit-print-color-adjust:exact;print-color-adjust:exact;}
+.exh .idx.ex{background:var(--red);}   /* exercise chip = red */
+.exh h2{font-family:var(--latin);font-size:14pt;font-weight:700;letter-spacing:-.01em;color:var(--blue-dark);}
+.exh .qrcard{margin-inline-start:auto;flex:0 0 auto;display:flex;flex-direction:column;align-items:center;gap:3px;width:26mm;}
+.qrcard .qrt{font-family:var(--mono);font-size:6.5pt;letter-spacing:.1em;text-transform:uppercase;color:var(--teal);text-align:center;}
+.qrcard .qrslot{width:24mm;height:24mm;padding:1.5mm;background:#fff;border:1px solid var(--blue-line);border-radius:8px;display:flex;align-items:center;justify-content:center;}
+.qrcard .qrslot img,.qrcard .qrslot svg{width:100%;height:100%;display:block;}
+
+/* sub-exercise label when one file holds several exercices */
+.exsub{font-family:var(--latin);font-weight:800;font-size:11.5pt;color:var(--blue-dark);margin:5mm 0 2.5mm;padding-bottom:3px;border-bottom:2px solid var(--blue-line);}
+
+/* ===== text blocks ===== */
+.lead{font-size:11pt;line-height:1.7;margin:2mm 0 3mm;color:var(--fg);}
+.para{font-size:10.6pt;line-height:1.7;margin:2mm 0 2.5mm;color:var(--fg);}
+.consigne{font-size:10.4pt;line-height:1.6;margin:1mm 0 2mm;color:var(--fg);font-style:italic;}
+.subhead{font-family:var(--latin);font-weight:800;font-size:12pt;letter-spacing:-.01em;color:var(--blue-dark);margin:5mm 0 2.5mm;}
+/* emphasis — green accent = .t-blue/.t-green ; balance = .t-navy ; red = SECONDARY accent (.t-red) on titles + a few words */
+.t-blue{color:var(--blue);font-weight:600;} .t-navy{color:var(--blue-dark);font-weight:700;}
+.t-red{color:var(--red);font-weight:600;} .t-green{color:var(--teal);font-weight:600;} .t-gold{color:var(--orange);font-weight:600;}
+.subhead.t-red{color:var(--red);font-weight:800;}   /* red Roman-numeral section title (I, II, …) — keeps subhead weight */
+/* highlighter marks — a soft colour wash behind a key word (agent picks green or red per what balances the page) */
+.hl-green,.hl-red{border-radius:3px;padding:.02em .24em;font-weight:600;box-decoration-break:clone;-webkit-box-decoration-break:clone;
+    -webkit-print-color-adjust:exact;print-color-adjust:exact;}
+.hl-green{background:rgba(15,171,143,.20);color:var(--blue-dark);}   /* green highlight */
+.hl-red{background:rgba(245,50,47,.13);color:#c0261f;}               /* red highlight  */
+
+.data{background:var(--blue-soft);border:1px solid var(--blue-line);border-inline-start:4px solid var(--blue);
+    border-radius:8px;padding:11px 16px;margin:3mm 0;font-size:10pt;line-height:1.65;color:var(--fg2);}
+.data b{color:var(--fg);font-weight:700;}
+.note{border:1px dashed var(--hair2);border-radius:9px;padding:11px 16px;margin:4mm 0;background:var(--panel);}
+.note .kicker{font-family:var(--mono);font-size:7.5pt;letter-spacing:.18em;color:var(--orange);display:block;margin-bottom:5px;}
+.note .nb{font-size:10pt;line-height:1.7;color:var(--fg2);} .note b{color:var(--fg);}
+.ex:not(.idx){background:var(--blue-soft);border:1px solid var(--blue-line);border-inline-start:3px solid var(--blue);
+    border-radius:7px;padding:7px 11px;font-size:9.6pt;line-height:1.6;color:var(--fg2);margin:2mm 0;}   /* :not(.idx) so it never hits the exercise chip (which is .idx.ex) */
+.ex .extag{display:inline-block;font-family:var(--latin);font-weight:800;font-size:7.6pt;color:var(--blue-dark);background:#fff;
+    border:1px solid var(--blue);border-radius:5px;padding:1px 9px;margin-inline-end:7px;vertical-align:middle;text-transform:uppercase;letter-spacing:.06em;}
+
+/* ===== lists ===== */
+ol.q{list-style:none;counter-reset:q;margin:1mm 0 2mm;}
+ol.q>li{counter-increment:q;position:relative;padding-inline-start:30px;margin-bottom:2.5mm;font-size:10.4pt;line-height:1.6;}
+ol.q>li::before{content:counter(q);position:absolute;inset-inline-start:0;top:1px;width:21px;height:21px;background:var(--grad);color:#fff;
+    border-radius:50%;font-family:var(--mono);font-size:9pt;font-weight:600;display:flex;align-items:center;justify-content:center;
+    -webkit-print-color-adjust:exact;print-color-adjust:exact;}
+ol.sub{list-style:none;counter-reset:s;margin:4px 0 0;padding-inline-start:2px;border-inline-start:1px solid var(--blue-line);}
+ol.sub li{counter-increment:s;position:relative;padding:2.5px 0 2.5px 26px;font-size:10.1pt;line-height:1.55;}
+ol.sub li::before{content:counter(s,lower-alpha)".";position:absolute;inset-inline-start:10px;top:2.5px;font-family:var(--mono);font-size:9pt;font-weight:600;color:var(--teal);}
+ol.qn{list-style:none;counter-reset:qn;margin:1mm 0 2mm;}
+ol.qn>li{counter-increment:qn;position:relative;padding-inline-start:26px;margin-bottom:2.2mm;font-size:10.4pt;line-height:1.55;}
+ol.qn>li::before{content:counter(qn)".";position:absolute;inset-inline-start:0;top:0;font-family:var(--mono);font-size:9.5pt;font-weight:700;color:var(--blue);}
+ul.b{list-style:none;margin:1mm 0 2mm;} ul.b>li{position:relative;padding-inline-start:22px;margin-bottom:2.4mm;font-size:10.4pt;line-height:1.6;}
+ul.b>li::before{content:"";position:absolute;inset-inline-start:3px;top:8px;width:8px;height:8px;border-radius:50%;background:var(--grad);
+    -webkit-print-color-adjust:exact;print-color-adjust:exact;}
+ul.dash{list-style:none;margin:1mm 0 2mm;} ul.dash>li{position:relative;padding-inline-start:20px;margin-bottom:1.8mm;font-size:10.4pt;line-height:1.6;}
+ul.dash>li::before{content:"–";position:absolute;inset-inline-start:2px;top:0;color:var(--fg);font-weight:700;}  /* dash / +/− signs = body colour */
+.flow ul.opts{list-style:none;margin:4px 0 3px;padding-inline-start:16px;}
+.flow ul.opts li{padding:2px 0;font-size:10.2pt;line-height:1.5;color:var(--fg);}
+
+/* ===== figures / tables ===== */
+.fig{margin:3mm 0;} .fig svg.figsvg{display:block;margin:0 auto;background:#fff;max-width:100%;height:auto;}
+.photo{display:block;margin:3mm auto;border-radius:8px;border:1px solid var(--hair);max-width:100%;}
+.figrow{display:flex;flex-wrap:wrap;gap:9px;justify-content:center;margin:3mm auto;max-width:190mm;}
+.flow .figrow img{border-radius:7px;border:1px solid var(--hair);height:46mm;width:auto;max-width:none;object-fit:cover;}
+.schemarow{display:flex;gap:16px;align-items:flex-start;flex-wrap:wrap;margin:2mm 0;}
+.schemarow .col-txt{flex:1 1 90mm;min-width:80mm;} .schemarow .col-fig{flex:0 0 78mm;} .schemarow .col-fig .fig{margin:0;}
+.flow table{border-collapse:collapse;width:100%;margin:3mm 0;font-size:9.8pt;line-height:1.5;}
+.flow table th,.flow table td{border:1px solid var(--blue-line);padding:6px 10px;text-align:start;vertical-align:top;}
+.flow table th{background:var(--grad);color:#fff;font-family:var(--latin);font-weight:700;font-size:9.4pt;
+    -webkit-print-color-adjust:exact;print-color-adjust:exact;}
+.flow table tr:nth-child(even) td{background:var(--blue-soft);color:var(--sub-ink);}   /* sub-row: #E6F3F4 / #045260 */
+
+mjx-container{color:var(--fg) !important;font-weight:400 !important;font-size:1.0em !important;}
+.eq-hi mjx-container,mjx-container.eq-hi{color:var(--blue) !important;}   /* accent (green) equation — highlight a key result; balance with plain math */
+.eq-red mjx-container,mjx-container.eq-red{color:var(--red) !important;}  /* red accent equation / symbol — complements the green .eq-hi */
+
+/* ===== per-file books: credit line, copies list, figures at their size ===== */
+.credit{display:flex;flex-wrap:wrap;align-items:center;gap:5px;margin:-1mm 0 3.5mm;font-size:9.4pt;color:var(--fg2);}
+.credit .who{font-weight:700;color:var(--blue-dark);}
+.credit .tg{font-family:var(--mono);font-size:7.2pt;letter-spacing:.04em;border-radius:5px;padding:1px 7px;line-height:1.6;
+    border:1px solid var(--blue-line);color:var(--blue);background:#fff;-webkit-print-color-adjust:exact;print-color-adjust:exact;}
+.credit .tg.sec{background:var(--blue-dark);border-color:var(--blue-dark);color:#fff;}
+.credit .tg.cor{background:#fff;border-color:var(--red);color:var(--red);}
+.credit a{color:var(--fg3);font-family:var(--mono);font-size:7pt;text-decoration:none;}
+.cover .auth .credit{margin:4mm 0 0;}
+.cover .copies{margin-top:5mm;font-size:8.6pt;color:var(--fg2);}
+.cover .copies ul{list-style:none;margin:2mm 0 0;padding:0;columns:2;}
+.cover .copies a{color:var(--fg3);text-decoration:none;font-size:8pt;}
+.flow figure.fig{text-align:center;}
+.flow figure.fig img{max-height:60mm;width:auto;max-width:70%;display:inline-block;}
+
+/* chapter tag on each part of a multi-chapter book (the book keeps the original order of the file) */
+.chtag{display:inline-block;margin:5mm 0 2mm;padding:1mm 3mm;border-radius:2mm;background:#eef3fb;border:1px solid #c9d6ea;
+  color:#1f3a6b;font-size:9pt;font-weight:700}
+.chtag span{color:#6b7f9e;font-weight:600;margin-inline-end:1.5mm}
+
+@media print{ body{background:#fff;padding:0;} .flow{width:auto;max-width:none;margin:0;padding:0;} }
+@page{size:A4;}   /* margins come from render_flow.py — do NOT set them here */
+</style>
+<meta data-pagefind-filter="type[content]" content="درس">
+<meta data-pagefind-filter="resource[content]" content="PHILOFOU">
+<meta data-pagefind-meta="n[content]" content="1284">
+<meta data-pagefind-meta="title[content]" content="houwiyya">
+<meta data-pagefind-filter="chapter[content]" content="الإنية والغيرية">
+<meta data-pagefind-filter="chapter[content]" content="الخصوصية والكونية">
+<meta data-pagefind-filter="section[content]" content="باكالوريا رياضيات"><style>.qrcard{display:none!important}.wa-nav{position:sticky;top:0;z-index:50;background:#045260;padding:10px 18px;font-family:Cairo,sans-serif;direction:rtl}.wa-nav a{color:#fff;text-decoration:none;font-weight:700}@media print{.wa-nav{display:none}}</style>
+</head>
+
+<body dir="rtl" lang="ar"
+      data-brand="Wael Academy" data-handle="@WaelAcademy"
+      data-tagline="في تُرابنا.. مغامرة بمغامرة"
+      data-phone="+216 50 40 40 42" data-site="waeldocuments.com"
+      data-cta="سجل معانا وأقرى عن بعد مع منصة Wael Academy"
+      data-subject="Philosophie · houwiyya" data-watermark="Wael Academy" data-pagefind-body><nav class="wa-nav" data-pagefind-ignore><a href="../index.html">→ الرجوع إلى فهرس الفلسفة</a></nav>
+
+<!-- single full-page diagonal watermark, bottom-left → top-right (repeats on every page) -->
+<div class="wm" aria-hidden="true"><span>WAEL&nbsp;ACADEMY</span></div>
+
+<div class="flow colored">
+<div class="cover"><div class="badge">◉ Wael Academy · Philosophie</div><h1>houwiyya</h1><div class="grule"></div><div class="sub">الإنية والغيرية</div><div class="auth"><div class="credit">المؤلّف / المصدر : <span class="who">المعهد الثانوي الخاص النخبة - الصحبي بوقرّة - philofoubouguerra@yahoo.fr - PHILOFOU - مراجعة وإعداد: احمد الهولي متفقد الفلسفة، الصحبي بوقرة أستاذ بالمعهد النموذجي</span> <span class="tg sec">الفلسفة · باكالوريا رياضيات</span> <a href="https://drive.google.com/file/d/1phmAXsB0q1Pu6hfFJD5TnujX6TitsLPl/view">↗ houwiyya.pdf</a></div></div><div class="copies" data-pagefind-ignore><b>نسخ هذا الملف في الدرايفات (1)</b><ul><li><a href="https://drive.google.com/file/d/1phmAXsB0q1Pu6hfFJD5TnujX6TitsLPl/view">Mohamed Ahmed Zahi · Bac Math Zahi 2024/2025 › Philo / الإنساني بين الكثرة والوحدة / الخصوصية والكونية / autres documents</a></li></ul></div></div>
+<section class="chapter">
+<div class="chtag"><span>المحور</span> الإنية والغيرية</div>
+<!-- SOURCE: المعهد الثانوي الخاص النخبة - الصحبي بوقرّة - philofoubouguerra@yahoo.fr - PHILOFOU - مراجعة وإعداد: احمد الهولي متفقد الفلسفة، الصحبي بوقرة أستاذ بالمعهد النموذجي -->
+
+<div class="chtag"><span>المحور</span> الخصوصية والكونية</div>
+
+<div class="exh"><span class="idx">درس</span><h2>من الهويّة إلى الهاوية</h2>
+  <div class="qrcard"><div class="qrt">فيديو الدرس</div><div class="qrslot"><img src="qr/1284.svg" alt="QR"></div></div></div>
+<div class="credit">المؤلّف / المصدر : <span class="who">المعهد الثانوي الخاص النخبة - الصحبي بوقرّة - philofoubouguerra@yahoo.fr - PHILOFOU - مراجعة وإعداد: احمد الهولي متفقد الفلسفة، الصحبي بوقرة أستاذ بالمعهد النموذجي</span> <span class="tg sec">الفلسفة · باكالوريا رياضيات</span> <a href="https://drive.google.com/file/d/1phmAXsB0q1Pu6hfFJD5TnujX6TitsLPl/view">↗ houwiyya.pdf</a></div>
+<!-- CROP: 1284 1 1 0.13 0.20 0.84 0.67 1284_cover -->
+<figure class="fig"><img src="https://wael-philo.b-cdn.net/figs/1284/1284_cover.png" alt=""></figure>
+<p class="para">من الهويّة إلى الهاوية</p>
+<p class="para">مراجعة وإعداد</p>
+<p class="para">احمد الهولي متفقد الفلسفة &nbsp;&nbsp; الصحبي بوقرة أستاذ بالمعهد النموذجي</p>
+<div class="note"><div class="nb"><b>"إنهم يخرقون قواعد اللعبة عندما يصبح الموت هو رهان اللعبة، وبذلك فالقواعد الجديدة للعبة ليست ملكنا.إننا نسعى الى أن نحمّل الإرهاب أي معنى، وأن نعثر له على أي تأويل، لكنه خلو من المعنى، ووحدها جذرية المشهد، ووحدها قساوة المشهد هي المبتكرة، والمتعذر تبسيطها. إن مشهد الإرهاب يفرض إرهاب المشهد "</b><br>جان بودريار: <u>ذهنية الإرهاب</u>- لوموند 3 نوفمبر 2001</div></div>
+<!-- PROOFREAD: 1284 part1 p01 — "لوموند 3 نوفمبر 2001" very small print -->
+
+<p class="subhead t-red">مرحلة البناء</p>
+<p class="para">لقد شكّل مفهوم <b>الهويّة</b> إشكالية<sup>1</sup> غير قابلة للتجاوز في الوضع البشري الراهن، و هذا مردّه التعثّر الذّي يصاحب المفهوم من جهة أو يصاحب واقع المفهوم من الجهة المقابلة، و كأننا نتعامل مع جسيم تحديد موقعه يفقد القدرة على ضبط سرعته، و ضبط السرعة يؤثر في مسار الجسيم و موقعه <sup>2</sup>،الأمر الذي لا يعني عدم القدرة على عقلنة هذه الظاهرة أو تفكيك عناصر تواجدها في المجتمعات البشرية. المشكل إذا لا يختزل في واقع الهوية أو راهنها فحسب بل يشمل كذلك المفهوم ذاته، إذ يبدو مفهوما غامضا ومعقدا ومتشعبا، برز محركا للتحرر، أو عامل وحدة للجماعة-من جهة- أو عنصر تمايز وتباعد واختلاف عن الآخر من جهة ثانية؛ هذا المكون "الثابت" ، كان أحيانا المنظم الأساسي لإعادة بناء العلاقات بين البشرية، وأحيان أخرى العائق الأساس أمام مسيرات التحول في تاريخ الأقوام والشعوب.</p>
+<p class="para">و يعكس الحديث عن الهوية اليوم وضعاً خاصاً،و هو: تصاعد أهمية الأقليات، من جهة و يكشف من جهة ثانية عن نزعة عميقة للحداثة، ترتبط بمنطق الانتصار للفردانية والإعلاء من شأن الفرد. و قد اكتسح هذا المفهوم اليوم مجمل العلوم الإنسانية، و لكن لكل نجاح سلبياته؛ فنجاح انتشار مفهوم ما يكون دائماً على حساب فهم حقيقي للدلالة و تفهم للواقع. ولذلك لا معنى للحديث عن المفهوم في غياب تفهم و تمثل للواقع، و على هذا الأساس يجب أن يهتم السؤال لا بالمفهوم وإنما براهنيته <sup>3</sup> فبماذا نفسر هذا الاهتمام اليوم بمسألة الهوية؟ بمعنى ما الذي يشرع للحديث عن الهوية اليوم؟ وهل من منفذ يحررنا من مزالق القول بالهوية أو <u>مخاطر الخصوصية</u> في علاقتها <b>بالآخر</b>؟ كما يضعنا المشهد الفكري المأزوم أمام إشكالية حقيقية مطروحة وسؤال ملحّ مفاده: هل من مؤامرة فكرية حقيقية لحضارة ما في مواجهة الخصوصيات الأخرى؟؟؟؟</p>
+<p class="para"><small><sup>1</sup>- إننا نفضل لفظة الإشكالية على لفظة المشكلة، و ذلك مقصود عندنا لكون المشكلة يمكن الوصول بشأنها إلى حلّ يلغيها في حين تكون الإشكالية هي النظرية التي لم تتوفر إمكانية صياغتها، فهي توتر ونزوع نحو النظرية أي نحو الاستقرار الفكري.<br>
+<sup>2</sup>- مشكل الهوية يذكرنا بمشكل هيزنبارغ و مبدأ اللاتعين أو علاقات الارتياب.<br>
+<sup>3</sup>- راهن مشكل الهوية لا ينفي اهتمام الفلسفة حتى قبل سقراط بهذا المفهوم، لكن لاشك أن الإشكالية المعاصرة لمفهوم الهوية لا تعود في أصلها إلى التراث الميتافيزيقي. فنجد مع بارميندس أو هراقليطس حديثًا عن الهوية و الغيرية بمعنى : هو ذاته -أو عينه - والآخر <span dir="ltr">(le même et l'autre).</span> إن موضوع الهوية في الفلسفة غيره في علم الاجتماع. فيعني في الفلسفة الشيء ذاته، ونترجم عن ذلك بقولنا: الشيء "ج" هو "ج"، والمقصود به ثبات كنه الشيء واستمراره. لكن يشكل على ذلك التغيرات التي تطرأ على هذا الشيء: هل تمس جوهره -أو هويته- أم لا؟ ومبدأ الهوية يشكل مع مبدأ الثالث المرفوع أساس العقلانية القديمة.</small></p>
+
+<p class="subhead t-red">مرحلة البلورة</p>
+<p class="para">من الصعب تحديد تاريخ الهوية. إذ ليس للهوية تاريخ. و لا تختزل الهوية في مجمل الارشادات و المعلومات الخاصة بالذات، التي تحتويها بطاقة الهوية، إذ أن البطاقة التي أحملها، يحملها سواي، ليعرف بها، أو لأعرف بها، ليست الهوية، إنما سميت وتُسمى كذلك من باب التجاوز ليس إلا. الهوية ليست الوجه وسنة الولادة والعلامات الفارقة... هذه محددات خارجية، ثمة ما يعلو ويسمو على هذه المفردة، يخص جينالوجيا الذات، حقيقة النفس، نفسي التي كونتني، وتكوّنني وأكوّنها وأكوُّنها. كيف تتشكل على صعد مختلفة؟ لا حدود للهوية! إنها الذات و وعي الذات و المعنى الذي يضفيه على الأشياء،إنها" الاطار الايتيقي" الذي يحدد الوعي و المعنى على حد عبارة شارل تايلور، كل تحديد لمحدّد فيها يعتبر محاولة إجرائية بغية الاحاطة بها والهوية تفيض على التحديد. و لا أحد بوسعه تحديد خاصيات الهوية، و لكن من المفيد أن نقدم بعض المعطيات والمقومات التي تجعلنا نتلمسّ الدلالة، و إن كان هذا التلمس مجردّ تأويل للمفهوم.</p>
+<div class="data"><p class="subhead t-navy">الدلالات العلمية للهوية:</p></div>
+<p class="para">حتى لا نهضم حق من تحدث عن الهوية و أثار مشكل المفهوم – بدعوى الانطلاق من مشاكل الراهن- سنحاول أن نتتبع في قراءة برقية التوظيف العلمي لهذا المفهوم، خاصة و أننا أكدنا فيما تقدم اكتساح هذا المفهوم مجمل العلوم الإنسانية.</p>
+<p class="subhead t-navy"><u>أ- الدلالة البسيكولوجية لمفهوم الهوية:</u></p>
+<p class="para">لقد قام عالم النفس إ. إريكسون <sup>4</sup> بدور مركزي في انتشار استخدام هذه الكلمة وتوسع شعبيتها في العلوم الإنسانية. ففي الثلاثينات عمل إريكسون في المحميات الهندية لقبائل السيو بداكوتا الجنوبية وفي قبيلة يوروك بكاليفورنيا الشمالية، ودرس "الاجتثاث الثقافي" لهؤلاء الهنود المعرضين لموجة الحداثة. و أزمة الهوية - هذا التعبير الذي نقرؤه اليوم في كل مكان بدلالات مختلفة<sup>5</sup> ... هو من صياغة إريكسون- تتطابق مع تحول يقع في مسيرة تطور الهوية؛ والأزمة الأبرز هي تلك التي تحدث في المراهقة، لكن يمكن أيضاً أن تحدث في مرحلة لاحقة حين يتعرّض الشخص لصعوبات خاصة.</p>
+<p class="subhead t-navy"><u>ب- الدلالة السوسيولوجية لمفهوم الهوية:</u></p>
+<p class="para">بين فيليب كليزون أن هنالك مفاهيم مجاورة لمفهوم الهوية، تمكننا العودة إليها من معالجة مشكل المفهوم في مجالات أخرى كعلم الاجتماع مثلا، فعن طريق استعارة مفهوم التكنّه <b><span dir="ltr">Identification</span></b> <sup>6</sup> من علم النفس يمكن ان نتحدث عن الدلالة الاجتماعية لمفهوم الهوية. و بالفعل نجد مثل هذا الربط في فكر كوردن آليور، حيث ربط آليور مفهوم التكّنه بعلم الاجتماع عبر نظرية الأدوار، و كذلك عبر نظرية "الجماعة المرجع <sup>7</sup>".و هكذا فسر نيلسون فوت، في بداية الخمسينات،" التكنّه" باستعارة الفرد الواحد لهوية واحدة أو لسلسلة من الهويات. و "التكنه" عند نيلسون فوت هو الصيرورة التي تمكن من فهم لماذا نبحث عن القيام بدور ما. أما نظرية مجتمع المرجعية أو "الجماعة المرجع" فقد كسبت احتراماً بين المشتغلين بعلم الاجتماع، خصوصاً بتأثير روبر ميرتون، كما ساهمت في توسيع شعبية الهوية ومشتقاتها.</p>
+<p class="para"><small><sup>4</sup>- إريكسون أمريكي من أصل ألماني، وهو من أهم رؤوس تيار الثقافة داخل التحليل النفسي. له دراسة أخرى عن: "المراهقة والأزمة: في البحث عن الهوية"، توفي سنة 1994.<br>
+<sup>5</sup>- تحدث شارل تايلور من جهة عن مفهوم أزمة الهوية باعتباره يحيل على واقع فائض الهويات و تعددها، ففي غياب المرجع الأكيد و الوحيد الذي تعود إليه الذات اليوم نتحدث عن حالة الضياع و التيه التي تميز إنسان ما بعد الحداثة. و نحن نميز بين مفهوم فائض الهويات الذي يكشف مشكل الكثرة و التنوع، و بين فائض هوية وهو المعنى المرتبط بمنطق الهوية البسيطة التي سنتحدث عنها لاحقا، و الذي يحيل بعامة على فكرة الانغلاق والتعصب، وهذا يعني أن فائض الهويات يحيل على الأزمة الريبية المتعلقة بالهوية [ التيه + الضياع ] أما فائض الهوية فهو يحيل على الأزمة الدغمائية الخاصة بالهوية، إذ تنتج الأزمة الأولى هوية مفككة لامبالية في حين تنتج الأزمة الثانية هوية متعصبة انفعالية.<br>
+<sup>6</sup>- التكنه <span dir="ltr">Identification</span> هو تحقيق الذاتية أو تحققها، أي اكتساب هوية معينة، هذا الاكتساب عند فرويد يقع بنوع من التقليد، حيث يجد الطفل نفسه في الآخر، فيتمثله لكن المقصود هنا -أعني في علم الاجتماع- هو توصل الفرد إلى اكتساب هويته عبر الجماعة بتمثل منظومتها من القيم أو بالقيام داخلها بدور محدد.<br>
+<sup>7</sup>- مجتمع المرجعية أو "الجماعة المرجع تعني الجماعة التي يحدد الفرد هويته عبرها وفي إطارها، فيستعير قيمها ومعاييرها بدون أن يكون بالضرورة عضواً فيها.</small></p>
+<p class="para">و لكن بالرغم من هذا الحضور المكثف في علم النفس و علم الاجتماع لم يحتل مفهوم الهوية أهمية حاسمة في معجم علم الاجتماع إلا بواسطة "التفاعلية الرمزية"؛ وهي المدرسة التي تبحث في الطريقة التي تشكل عبرها التفاعلات الاجتماعية -وبناء على أنساق رمزية مشتركة- وعي الفرد بذاته. وبالرغم من ذلك لم يستعمل التفاعليون في البداية هذا اللفظ. ولهذا تفسير قريب، ذلك أن الآباء المؤسسين لمنهج المدرسة -شارل كولي وجورج ميد <sup>8</sup>- تكلما عن "الذات <b><span dir="ltr">Soi</span></b>، "وهو المصطلح الذي راج بين التفاعليين في بداية الأمر . ثم انتقلت التفاعلية الرمزية من استعمال اصطلاح الذات إلى استخدام اصطلاح الهوية بدءاً من سنة <b>1963</b>، وذلك حين نشر إيرفين جوفمان -أحد رواد هذه المدرسة-: "آثار الجراح: ملاحظات على أسلوب التعاطي مع هوية مدمرة"<sup>9</sup> وفي السنة ذاتها شهر بيتر برجر مفهوم الهوية وساهم في انتشار استعماله، بكتابه: "دعوة إلى دراسة علم الاجتماع"، وذلك حين خصّص له حيّزاً هاماً في تقديمه لنظريات الأدوار والجماعة المرجعية، وكذا من خلال المقاربة الفينومينولوجية التي طورها في كتابه هذا.</p>
+<div class="data"><p class="subhead t-navy">في القول بالخصوصية: الهوية و الأقليات:</p></div>
+<p class="para">إذن فانتشار كلمة الهوية وتوسع استخدامها في علوم الاجتماع بالولايات المتحدة كان في الستينات. ثم إن هذا الاستعمال كثر وتوسع وانتشر بسرعة كبيرة حتى صار من المستحيل -كما قال ب. كليزون- أن نحدد المعنى الدقيق لكل استخدام خاص لمفهوم الهوية. ثم إن الوضع السياسي بأمريكا ساهم بدوره في ترسيخ اصطلاح الهوية، وفرضه على لغة الإعلام كما على التحليل الاجتماعي والسياسي. ذلك أنه في نهاية الستينات برزت الأقلية الأمريكية من أصل إفريقي، خصوصاً بظهور منظمة "الفهود السود" سنة <b>1966</b>. ثم حذت أقليات أخرى حذو حركة السود مطالبة بالاعتراف بخصوصيتها. وهذه الظرفية أنتجت "صحوة هوية حقيقية" في سنوات السبعينات. وكما لاحظ ذلك عالم الاجتماع الأمريكي روجر بروباكر <sup>10</sup>،فإن "تجربة الأمريكيين من أصل إفريقي مع قضية "الإثنية" باعتبارها تصنيفاً يفرض نفسه، وفي الوقت نفسه باعتبارها تحديداً ذاتياً للهوية... هذه التجربة كانت حاسمة ليس فقط لنفسها وفي داخل حدودها الخاصة، بل أيضاً في تقديمها لنموذج الاحتجاج على أساس من الهوية، وهو النموذج الذي استفادت منه جميع أنواع الهويات، بدءاً من تلك التي تتعلق بالجنس أو بالاختيار الجنسي، وانتهاء بتلك التي تتأسس على "الانتماء الإثني أو العرق.</p>
+<div class="note"><div class="nb"><b>"كان انتشار مطالبات الهوية أمراً سهلاً بسبب الضعف النسبي المؤسسي لأحزاب اليسار بالولايات المتحدة، والذي تزامن بدوره مع ضعف التحليل الاجتماعي والسياسي القائم على اصطلاح الطبقة. ورغم أنه يمكننا أن ننظر إلى الطبقة الاجتماعية نفسها باعتبارها هوية، تبقى حقيقة أن ضعف سياسة الطبقية بالولايات المتحدة (مقارنة بأوروبا الغربية) أمر شكّل تربة جد خصبة وحقلاً حراً لتطور الاحتجاجات المؤسسة على الهوية". ر. بروباكر:</b> "ما وراء الهوية"، بمجلة أعمال البحث في العلوم الاجتماعية، عدد 139، سبتمبر 2001.</div></div>
+<p class="para"><small><sup>8</sup>- كولي عالم اجتماع أمريكي، تخصص في دراسة العلاقات بين الأفراد في إطار المجموعة. توفي سنة 1929. وميد فيلسوف وعالم اجتماع أمريكي، درس تطور الفكر واللغة. توفي سنة 1931 من كتبه: العقل والأنا والمجتمع.<br>
+<sup>9</sup>- إ. جوفمان عالم اجتماع أمريكي توفي سنة 1982: تحدث عن "العلامة والهوية الاجتماعية"، ضمن كتابه:" الندوب: الاستعمالات الاجتماعية للعوائق".<br>
+<sup>10</sup>- : ر. بروباكر: "ما وراء الهوية"، بمجلة أعمال البحث في العلوم الاجتماعية، عدد 139، سبتمبر 2001.</small></p>
+<p class="para">لكن -بغض النظر عن هذه المؤثرات التاريخية المحددة- كيف لا نرى كذلك في نجاح مصطلح الهوية ترجمة لاتجاه تاريخي أكثر أهمية وشمولاً، أعني تأكيد الفردانية ؟ وهذه أطروحة عدد كبير من الباحثين في خصائص الحداثة التي نعيشها. هكذا يلاحظ عالم الاجتماع جون كلود كوفمان في كتابه "<u>ابتكار الذات</u>" <sup>11</sup> أن "<u>الهوية صيرورة ذاتية للحداثة ومرتبطة تاريخياً بها</u>. لم يكن الإنسان المندمج في مجتمع تقليدي يطرح مشاكل الهوية كما نفعل نحن اليوم. رغم أنه عملياً كان يعيش فردانيته". إننا إذا نلج عصر الهويات لأنها لم تعد من البداهة التي تبرّر عدم المطالبة بها، بل هي إشكال لأشكال متغيرة يلزم بناؤها وتأسيسها و انشاؤها. فأصبح على الشخص نفسه أن يؤسس ذاتيته، وهذا يثير مشاكل حقيقية، كما يشير لذلك عالم الاجتماع آلان إيرنبرغ <sup>12</sup> لقد بيَّن في كتابه "<u>التعب من الذات</u>" كم هي مضنية مسيرة البحث عن الهوية: إن الاكتئاب هو بلا ريب العرض المرضي الأشد بروزاً لهذه الصعوبة الجديدة في التحديد الشخصي للهوية. هكذا ظهر بسرعة الجانب السلبي لهذه الثورة: فللحرية ثمن غالٍ. وفي الواقع يتميز الدخول فيما يسميه أنطوني جيدن بـ"الحداثة المتقدمة" <sup>13</sup> بدرجة متزايدة من التأمل: فالناس يتساءلون عن كل شيء، مما يجعل سلوكهم متردداً باستمرار. وفي هذا يوجد مفتاح الهوية بالنسبة لكوفمان الذي يقول: "يندرج الفكر السؤول ضمن منطق الانفتاح، فهو يحطم اليقينيات، ويشكك فيما اعتبر مكسباً نهائياً. على خلاف ذلك <u>لا تكفُّ الهوية عن جمع الشظايا وتركيبها، فهي نسق مستقر يحفظ المعنى ويسيّجه، ونموذجها هو الكلية</u>"إنما لا يمكن للهوية أن تؤدي هذه الوظيفة إلا بشكل مؤقت <sup>14</sup>. إن أول ما يعنيه مفهوم الهوية يكون أول مأخذ عليها، فالهوية بهذا المعنى هي العودة القوية للفرد، وهذا يمكن أن يشكل مشكلة مقلقة، كشف البعض منها شارل تايلور، و غير بعيد عنه تحدث كلود ليفي ستراوس<sup>15</sup> عن الميول النرجسية للهوية الفردية بالقول: "إن إيماننا المستمر بـ(فكرة الهوية) ربما لم يكن إلا انعكاساً لحالة حضارية من المفروض ألّا تتجاوز بضعة قرون. لكن ها هي أزمة الهوية الشهيرة -والتي كثر عنها الكلام- تكتسي معنى جديداً..".</p>
+<p class="para">في الواقع يعكس نجاح المفهوم العودة القوية للفرد في مجال العلوم الاجتماعية والإنسانية. فالفرد يتصدر كل شيء. لكن من الملاحظ أن الدراسات حول الهوية كثيراً ما بيّنت أهمية المؤسسات في بناء الهوية. وهذا لا يمنع من الإقرار بأن بعض الخطابات في الموضوع تخطئ حين تغيب بسهولة دور الإكراهات الاجتماعية و سلطة المؤسسات. وإذا كان بناء الهوية يتم خصوصاً في التراتبية التي ينظم عبرها كل شخص انتماءاته المختلفة، فإنه من جانب آخر يمكن لبعض الهويات الجماعية أن تهيمن على هذا الشخص وتتحكم فيه. ذلك أن الهويات – على المستوى الجماعي- تشجع أحياناً سياسات سكونية تخدمها غايات رجعية ومخجلة. وكما لاحظ ذلك فرانسوا بايار، فإنه "لا توجد هوية طبيعية تفرض نفسها علينا بقوة الأشياء (...) بل لا يوجد إلا استراتيجيات تقوم على الهوية، يقودها بوعي فاعلون معروفون أو معينون: الحزبيون الشيوعيون الكبار من صربيا والذين تحولوا إلى وطنيين متطرفين، وكذا متطرفو الهوتو برواندا، والجميع مدعوم بمليشيا خاصة. وكذلك لا يوجد إلا أحلام أو كوابيس تتعلق بالهوية، نؤمن بها لأنها تدهشنا أو ترهبنا".</p>
+<p class="para">هل يجب إذن هجر مصطلح الهوية الذي ارتبط كثيراً بالإيديولوجيا، ويفتقد إلى الوضوح المفاهيمي؟ لقد بدأت الانتقادات تصب من كل اتجاه. و هذا بيّن فكل مفهوم بارز دخل عصر الموضة يتعرض لمثل هذه الحملات. لقد لاحظ المؤرخ ألفريد كروسير <sup>16</sup>منذ سنة <b>1994</b> أن "كلمة الهوية اليوم من الألفاظ القليلة جداً التي أفسدها الاستعمال". واليوم فإن مفهوم الهوية أكثر انتشاراً بكثير مما كان عليه الحال في ما مضى، مع عدد ضخم من التعابير الغامضة المستعملة أحياناً لحد الغثيان، مثل: "أزمة الهويات"،و" فائض الهويات"، و" فائض الهويات"أو"الهويات المتعددة" و "الهوية البسيطة "و" الهوية المركبة"...إلخ. و لعلّ هذا ما دفع ر. بروباكر للقول: "لقد انهارت العلوم الاجتماعية والإنسانية مستسلمة لكلمة الهوية" <sup>17</sup>، وهي الكلمة التي يتهمها بحملها الخطير لمعان متعددة.</p>
+<div class="data"><p class="subhead t-navy">الدلالات الفلسفية للهويّة:</p></div>
+<p class="para">إن التجذر في هويتي يمكنني من التعرف على كل من هم مثلي وكل من هم مختلفين عني<sup>18</sup> . وحيث أن لكل آخر هوية فإن كل من هم مثلي سيتعرفون علي كمشابه لهم وسيعترفون بي واحدا منهم. إن مثل هذا <u>التعرف</u> و<u>الاعتراف</u> المتبادل بين الشخص ومجموعته، عبر الاشتراك في نفس الهوية، قضية بالغة الخطورة. فالرهان الأساسي ليس التميز الذي فرضته ظروف العيش المشترك و لا حتى التمايز والتفاضل في العلاقة بالمجموعات البشرية الأخرى، و إنما تبادل الحماية داخل المجموعة لدرء الخطر الحقيقي أو الوهمي الذي يمثله <b>الآخر</b> ....</p>
+<p class="para">الهوية هي إذن جملة العلاقات المادية و الرمزية [ <b>التواصل</b> + <b>الصورة</b> + <b>المقدس</b>]التي تربط وتوحد عددا من الأفراد و هم في حالة صراع ضد مجموعة مشابهة في الجوهر مخالفة في المظهر. هي في استبطان الشخص لحدود المجموعة التي تعطيه الحماية والتي يجب عليه حمايتها لا لشيء إلا لتواصل بسط حمايتها عليه. نحن لا ننتمي لقبيلة ، لحي ، لوطن ، لأمة ، لثقافة ، بمقاسمة المنتميين إليها العلامات الخارجية المميزة فقط ، ولكن بمقاسمتهم مسئولية الحماية المتبادلة و الدفاع عن الوجود المشترك وتحسين ظروفه. تتعقد بمرور الزمان خصائص المماثلة و المشابهة. فمن الألوان الصارخة التي يرسمها المحاربون على أجسادهم إلى أدق كلمات السر التي يتعارف بها " الأخوة " في هذا الجيش أو تلك العقيدة. لكنها تنطق كلها بالخطاب الأبدي: أنت منا وإلينا، نحميك و تحمينا. وفي آخر المطاف فإن <u>لبّ الهوية هو انتماء مسئول ومسئولية انتماء</u>.</p>
+<p class="para"><small><sup>11</sup>- ج. ك. كوفمان: ابتكار الذات، نظرية في الهوية. طبع أرمون كولان، 2004. و كوفمان هو عالم اجتماع برز في العقدين الأخيرين، وألف خصوصاً في سوسيولوجيا الأسرة.<br>
+<sup>12</sup>- أ. إيرنبرغ: التعب من الذات. الاكتئاب والمجتمع. نشر أوديل جاكوب، 1998، وطبعة أخرى في 2000.<br>
+<sup>13</sup>- يتحدث جيدن عن "الحداثة المتقدمة" وليس عن (ما بعد الحداثة)، لأن هذه المرحلة الجديدة لا تشكل قطيعة مع الحداثة بقدر ما تمثل شكلها الأقصى والأكثر تطرفاً.<br>
+<sup>14</sup>- من جهته حاول الفيلسوف الكندي شارل تايلور في كتابه "<u>أصول الأنا</u>" أن يتتبع نشأة الهوية الحديثة والفردانية عبر تاريخ الفلسفة وتاريخ العقليات وبحسبه فإن الهوية الحديثة ترتكز على ثلاثة جوانب:<br>
+<u>أولا:</u> اكتشاف أو ابتكار السريرة الداخلية) القديس أغسطين، ومونتيني، وديكارت، ثم جون لوك. فقد كان دور هؤلاء حاسماً، إذ بدأ الإنسان شيئاً فشيئاً يتعلم أن ينظر إلى نفسه باعتباره "أنا" باطني).<br>
+<u>ثانيا:</u> تثمين الحياة العادية (ودور البروتستانتية هام هنا، لأنها تثمن الحياة المادية عبر: العمل، وصناعة الأشياء المفيدة في الحياة، والأسرة، والزواج...).<br>
+<u>ثالثا:</u> علمنة المجتمع.وكان من المفروض -عند تايلور- ألّا تحطم الفردانية التي تميز مجتمعاتنا الحديثة الروابط التي توجد بين الناس.<br>
+<sup>15</sup>- في الحلقة الدراسية التي أدارها بمعهد فرنسا، سنة 1974/1975، حول موضوع الهوية- لم يستطع إخفاء انزعاجه من هذه الميول النرجسية التي تمنّى لها نهاية قريبة،<br>
+<sup>16</sup>- : أ. كروسر: الهويات المستغلة، مقال بلوموند، 28 يناير 1994.<br>
+<sup>17</sup>- ر. بروباكر: "ما وراء الهوية"، بمجلة أعمال البحث في العلوم الاجتماعية، عدد 139، سبتمبر 2001.<br>
+<sup>18</sup>- ثمة توجهان متناقضان في تكوين الهوية. الأول هو البناء على الضدّ ؛ تتشكل هويتي على أساس <b>الاختلاف</b> مع الآخر وذلك على أساس جملة من العلامات الموضوعية مثل الجنس و اللون واللباس واللغة الخ ؛ أما التوجه الثاني فهو البناء على <u>المماثلة</u> ؛ تتشكل هويتي هنا على شبهي مع الآخر في الشكل واللون واللغة والمعتقدات والتاريخ الخ.</small></p>
+<p class="subhead t-navy"><u>أ- الهوية البسيطة:</u></p>
+<p class="para">يمثلّ التراث في عمومه مخزون الهوية التي تستمد منه كلّ مقوماتها و أسسها، و نحن عندما نفكرّ في الهويّة باعتبارها تحيل على ذاكرة الفرد و الجماعة، نفكرذ فيها باعتبارها تمظهرا و تموضعا لهذا التراث، لذلك كثيرا ما عدّ التراث تاكيد للهويّة ، ويضعنا هذا المعنى أمام أطروحة تقول بضرورة العودة إلى الذاكرة إلى الماضي أي إلى التاريخ، و لكن مشكل هذه العودة أنها لاتعترف بالتاريخ و لا بمنطقه<sup>19</sup> ،و لذلك نجد من يعتبر هذا التأكيد هو بالأساس ارتماء في أحضان الهوية البسيطة، هوية لكيان واحد، وإن وحدتها العضوية هذه متأصلة في التاريخ والعمق التراثي والحضاري. ولكن ربط الهوية الحالية بالتراث الماضي يرمي بنا حاليّا في مزلق السكونية و الانغلاق، فالنظرة إلى التراث قد ترتبط بفلسفة عن الهوية قائمة على رفض الآخر. و هي نظرة تعتبر «الآخر» طرفا منفصلا عن "الذات" وبالتالي تقذف به خارجًا وتنفيه وتحاربه وهذا سيؤدي إلى انغلاق "الذات" فتعمد كل اثنية إلى ترسيخ "هويتها" وتزكي تراثها وموروثها بالقدسية وتظهر "الهوية" بشكلها الخالد، فتصبح عملية إلغاء "الآخر" لحظة بناء حاسمة في هذه الهوية. وكل فكر أو إنتاج مستمد من الحضارات أو الثقافات الأخرى، هو فكر "دخيل" أو مستورد، وهذا ما يجعل الالتزام بالأصالة نوعا من الانحياز والانغلاق ضمن ذات حضارية غير معلومة الحدود، يخلق خصومة ثقافية أو نفسية مع كل الثقافات الأخرى. يتولّد عن التسليم بالهوية بسيطة أو الجوهر بسيط المنغلق على ذاته و الذي لا يحتاج في وجوده لغيره، دفاعا مميتا عن الخصوصية، و باسم الخصوصية ندافع عن جوهر الهوية الثقافية على مختلف الثقافات، و باسم ذات الانغلاق ننظر إلى كل ما هو آت من ثقافة أخرى على أنه غريب و غيريّة تتهددنا، ينبغي رفضها و إقامة جدار عازل يحول دونها و التأثير فينا أو غزونا خشية تحولنا عما نحن عليه، أي خشية أن نفقد مقوماتنا فنفقد هويتنا أو نعيش أزمة هوية. و لا شك أن من بين أهم استتباعات مثل هذا الموقف القائل بالانغلاق دفاعا عن الخصوصية رفض كلّ تواصل مع <u>الآخر</u> وإحلال <u>العنف</u> محلّه بما يعنيه من يأس من <u>الإنساني</u> أو إدعاء احتكاره أو ادعاء الأفضلية و الاعتراف بضرب واحد من التعامل يحكمه منطق <u>الصراع</u> أو <u>الصدام</u> .</p>
+<p class="para">بهذا المعنى يكون التعصبّ استتباعا من استتباعات مخاطر<sup>20</sup> القول بالخصوصية، عندما يتحوّل القول بالخصوصية هذيانا أو هوسا، وعندما يعوّض الجنون خطاب العقل و التعقّل، يستحيل التسامح تهاونا و التهاون خيانة أو هرطقة؛ و يتحوّل المتعصب الناطق الرسمي باسم الهوية و التراث و باسم الموت و الحياة؛ و عندما تصاب الهويةّ بداء التخشّب و التحجرّ و الصدء أو عندما يسكن القول بالخصوصية أروقة الكهوف و المغاور و الجبال، لن تكون الهويّة إلا الوجه المقنعّ للهاوية.</p>
+<div class="note"><div class="nb"><span dir="ltr">"Rien n'est aussi dangereux que la certitude d'avoir raison. Rien ne cause autant de destruction que l'obsession d'une vérité considérée comme absolue. Tous les crimes de l'histoire sont des conséquences de quelque fanatisme. Tous les massacres ont été accomplis par vertu, au nom de la religion vraie, du nationalisme légitime, de la politique idoine, de l'idéologie juste ; bref au nom du combat contre la vérité de l'autre, du combat contre Satan."<br><b>(François Jacob -Le jeu des possibles / 1981)</b></span></div></div>
+<p class="para"><small><sup>19</sup>- إن التاريخ يكون مفيدا عندما يفرغ على شكل "قوة دافعة" تحركنا إلى الأمام، غير أنه يصبح مضرا حين يأخذ شكل "قوة جاذبة" تدعونا إلى العودة إلى الوراء.<br>
+<sup>20</sup>- ليس هنالك شيء أكثر خطورة من التعصبّ، لأن التعصب نفي للممكن و المحتمل و الآخر، بل هو نفي للذات ذاتها، و ليس هنالك من حلّ لدرء داء التعصبّ إلاّ بعودة نور العقل و شعلة ديوجين.</small></p>
+<p class="subhead t-navy"><u>ب- الهويّة المركبة:</u></p>
+<p class="para">التراث يبقى تأكيدا للهوية و لكن المشكل يكمن في طبيعة تعاملنا مع هذا التراث، و طريقة تصرّفنا مع الذاكرة، لأنه حسب شكل التعامل و حسب طريقة التصرفّ تحددّ الهوية، و تتغيرّ من معناها البسيط و المنغلق ن إلى معناها المركب والمنفتح أي من معنى الذاكرة الرافضة لمنطق التاريخ إلى معنى الذاكرة التاريخيّة<sup>21</sup> .</p>
+<p class="para">الهوية المركبة إذا : تنبني على الانطلاق من مفهوم أنه لا وجود لجوهر ثابت و أصيل و مميز لمجتمع ما أو لأمة ما أو للنحن الثقافي، و فكرة الذات مقابل «الذات» لتتعارض معها أو لتنفيها غير موجودة، والآخر هو أنا، والذات قابلة للتغيير والتبديل، وبناء عليه فإن الحضارة الأخرى والمفاهيم والأيديولوجيات كلها وكل ما يحمل هذا الآخر من مخزون حضاري ممكن أن يدخل ويمتزج مع الذات فيغيرها ويطورها أو لا يطورها. وهنا لا يعود نفي الآخر جزء من منظومة بناء الهوية بل يصبح الآخر موجود قائم داخل «الذات» . وفي هذه الحالة لا تظهر خصوصية الآخر و كأنها "الغزو الثقافي" أو"الاستعمار الفكري" بل نجد في خصوصية الآخر"فكرا آخر" نتعامل معه على انه مكمّلا لنا فنتماهى معه ونتوحد به بغض النظر عن اللغة أو اللون أو العرق، وتصبح الذات كونية لا تُحد بحدود، ويصبح خطاب الآخر هو حوار الذات، وتصبح التعددية أحد أهم خصائص الهوية، هوية كونية خارج كل الهويات، هوية مركبة ، علاقتها بماضيها وحاضرها ومستقبلها مبنية على غنى تعددي لا محدود، تتجاوز كل الحدود الجغرافية والسياسية وكل التقسيمات الدينية والعرقية والمذهبية والاثنية . وأمام هذا الطرح لا يوجد فكر "مقاوم" مقابل " غزو" ولا "أصالة" مقابل "عمالة فكرية "، <u>لا توجد ثقافة بل ثقافات</u>، من جهة الكثرة و التنوع و الاختلاف في الفضاء الإنساني،أي من جهة "كثرة الوحدة" ؛ و <u>لا توجد ثقافات بل ثقافة</u> من جهة "وحدة الكثرة" على حدّ عبارة إدغار موران.</p>
+<p class="para">لا يمكن أن يكون الكوني فضاء للخصوصية و لاختلاف الهويات إلا إذا اعترفت الهوية بالطابع المركب الذي يحددّها و يميزها، لأن الهوية المركبة هي فرصة الإنسان الوحيد للخروج من انغلاقه و للالتقاء بالكوني، و بالفعل بفضل الطابع التركيبي للهوية يتسع أفق الانتماء، من عالم النحن الضيق –حيث الفكر الخاص و الايديولوجيا الخاص و الثقافة الخاصة و الطقوس الخاصة- إلى عالم الارض ككلّ، حيث الفضاء الإنساني ككلّ و حيث الهوية الكوكبية. و لكن إذا كان فهم الهوية في معناها المنفتح و المركب يظهر الكوني و كأنه الفضاء الذي قدّ حسب مواصفات الخصوصية، فهل من معنى لاستشكال العلاقة بين الخصوصية و الكونيّة؟ و هل من معنى للحديث عن نفي طرف للآخر؟ بل و هل من معنى للفعل الذي عبرت عنه صورة المقال؟ أي هل من معنى للحديث عن مشهد الارهاب و إرهاب المشهد؟</p>
+<p class="para"><small><sup>21</sup>- يتحدثّ عصام العطار في كتابه كلمات عن خطر الجمود الذي قد يصيب التراث كما الهوية إذ يقول"كيف نقبل الجمود، بل كيف يمكن الجمود في عالم تتجدد معلوماته ومعطياته ومطالبه ووسائله.. باستمرار لابد لنا من التجدد الدائم والإبداع المتواصل والجهاد المضني في كل مجال.. وإلا فقدنا حياتنا ووجودنا الفاعل المؤثر وأزاحنا الركب البشري عن طريقه وقذف بنا إلى هامش الهامش أو هوة التاريخ. فذهبنا جفاء كما يذهب الزبد وغثاء السيل ومحينا من لوحة الحاضر والمستقبل وتحولنا إلى ذكرى من ذكريات الماضي البعيد" عصام العطار ،<u>كلمات</u>، <i>الدار الإسلامية للأعلام</i>، بون، 1999، ص 285.</small></p>
+<div class="data"><p class="subhead t-navy">الهوية و العولمة جدل الطريدة و الصيا د</p></div>
+<p class="para">بداهة العلاقة بين الخصوصية و الكونية يبدو أنها لا تتعدى حدود النظر و التفكرّ، لأن الواقع العنيف و الصدامي للهوية البسيطة الذي ينتقل بنا من الهوية إلى الهاوية، يقابله واقع كوني إيديولوجي هيمني، ينتقل بنا من منطق الصراع الإيديولوجي إلى منطق الاختراق الثقافي ،مم يدفعنا للتشكيك في العلاقة من جديدة، لا علاقة الهوية بالعولمة فحسب، بل علاقة العولمة بالكوني ذاته.</p>
+<p class="para">فالكوني العولمي من جهة الواقع ليس بمثل الصفاء و البراءة التي رسم معالمها المفهوم.</p>
+<p class="para">و نفهم <u>الكوني الإيديولوجي</u> بما هو كوني هيمنة، هيمنة تتخذ من الكوني أداة لتحقيق <u>الهيمنة</u>، ليتحرّك الكوني بذلك ضمن أفق العقل الأداتي، أفق المصلحة و النجاعة بدل أفق الحقيقة القيم، و بقدر ما تشتد أساليب الهيمنة <u>العولمية</u> أو الكوني العولمي بقدر ما تشتدّ <u>مقاومة</u> الخصوصيات و تشتدّ مبررّات انغلاقها، لأننا في ظل هذا الكوني العولمي نحررّ الخصوصية من هاوية الهوية، و ندفع بالخصوصية نحو هاوية التفكك و الاستيلاب، ألا ينبغي أن يفهم من هذا أن سقوط الهوية في هاوية الموت و التعصب هو في الحقيقة رفض للتفسخ والاضطهاد، و أن الدفاع عن الخصوصية لا ينبغي أن يحمل على معنى رفض الكوني و إنما رفض كوني الهيمنة أو <u>كوني الموت</u> دفاعا عن كوني الحياة أو كوني كلية الإنسان ووجوده النوعي؟ فالعولمة تطارد الهوية وتلاحقها وتحاصرها وتجهز عليها ثم تغتذي بها، وفي دائرة هذه المطاردة تعاند الهوية أسباب الذوبان والفناء .</p>
+<p class="para">عندما تختزل النظرة إلى العالم في البعد التقني أو ضمن أفق العقل الأداتي ،ولا ترى العالم و لا الإنسان، بل تراه تدفقات إلكترونية ورموزاً، فلا غرابة عندها أن يتقلص الاحساس بالمسؤولية الأخلاقية اتجاه الآخر،وعندما تُختزل النظرة إلى العالم في البعد النفعي وتختل التوازنات البشرية مع الطبيعة، لا غرابة عندها أن تتقدم الآلة ويموت الإنسان، وأن تتطور الكاميرا ويموت الفن، وأن تزداد المتاحف وتموت الغابات. ففي زمن العولمة ربح الإنسان كلّ شيء و لكنّه خسر ذاته، فمنطق الاختراق الذي تساهم العولمة في تكريسه ينتج إما إنسانا حسب مواصفات السوق غولا استهلاكيا ياكل و لا يشبع أو إنسانا بلا ذاكرة و بالتالي بلا هوية. و بالفعل مع العولمة كل شيء يتسلّع، وذلك من خلال إعلان مُكثَّف ومشغول بإتقان يقوم على بيع الأحلام ودغدغة المشاعر وإثارة الرغبات- في عالم محاصر بالرغبات- عن طريق مختلف أشكال الربط بين السلعة والصحة والجمال ... حتى الأوهام سُلعت؛ و إذا الوهم هو فضاء الرغبة فإن العولمة تحولت مؤسسة لصنع الرغبة كما لاحظ ذلك هربيرت ماركوز، فكل شيء يُطوى ويتقادم في سرعة ويظهر إنسان العصر كالمسافر في قطار فائق السرعة، لا يكوّن عن المشهد الخارجي سوى انطباعات عامة جدا تكفي لتعبرّ عن الرغبة التي في الأصل لا نرغب فيها. يجد إنسان هذا العصر نفسه في عزلة، ومع الوقت تصبح هذه العزلة أحد مظاهر الأنانية المنبثقة من العولمة في مفهومها المادي ومرجعيتها الاقتصادية النفعية الجافة، التي تتعامل مع الفرد كذات مجردة، تائهة، مفردة، مستسلمة للصورة ومنبهرة في التكنولوجيا، وهنا عندما تخرج الكلمة من الحاسوب أو الصورة من التلفزيون، فإن الإنسان يستقبلها بدون تفكُّر أو تأمُّل أو تذكُّر، بل دون الحاجة لا للكلام و لا للتخاطب، ويتحول بذلك إلى مستهلك صور، أو مُستقبل كلمات مجردة من أي معنى إنساني، وبالتالي فإن العزلة التي يجد الإنسان نفسه فيها هي إحدى بذور اللامبالاة بالآخر ... يهرب من الواقع ولا يتفاعل معه فيبتعد عن الواقع أو يبتعد الواقع عنه، أو يتم التفاعل مع الواقع بصورة مجردة و مبتذلة و سطحية، و هذا بيّن بخصوص واقع الإنسان العربي اليوم الذي إن لم تستقطبه قوى التطرّف و التعصّب، استقطبه جسد روبي و هيفاء، و بعد أن كان يفكرّ في مقدمة ابن خلدون أصبح تفكيره لا يتجاوز حدود مؤخرة نانسي عجرم.</p>
+<p class="para">في عصر فقدت الكلمات معانيها في زحمة السرعة، غابت اللغة و حلتّ محلها الصورة و" في نظام البصري أو الفيديوقراطية صار بإمكان المرء تجاهل خطابات الحقيقة و الخلاص و إنكار الكليات والمثل، و لكن لم يعد بإمكانه إنكار قيمة الصورة... و ما يرينا العالم هو أيضا ما يعمينا عن النظر إليه<sup>22</sup>" .</p>
+<p class="para">أما <u>كوني الحياة</u> فنفهمه على أنه كوني مبدع خلاقّ منفتح ، تميّزه <u>قوى الفعل</u> لا <u>قوى الانفعال</u> أو هو كوني إيتيقي؛ لا يزال الإنسان سؤاله بامتياز، أليس كوني الحياة هو أن يحافظ كلّ منا على خصوصيته دون نفي الآخر و نفي حقه في أن يعيش خصوصيته؟ بحيث تتحقق حكمة العيش معا، حكمة تنقذ الكوني من العولمي و تقتلع الهوية من الهاوية.</p>
+<p class="subhead t-red">مرحلة الاستخلاص</p>
+<p class="para">لذلك لا نجد اليوم ضرورة أكثر الحاحا من ضرورة الدخول في صراع حقيقي لا يقطع مع العولمة، و إنما يقطع مع ما يكون ضدّ الإنسان و ضدّ هذا الكوكب الذي بدت بعض الفواجع الطبيعية اليوم تعبرّ عن سخطها من الإنسان، الضرورة تدعونا للوقوف في هذه المسيرة الصراعية مع عالمية المبادئ ضد عولمة المصالح أو مع أنسنة العولمة ضدّ عولمة الإنسان.</p>
+<p class="para">و من المفيد كذلك أن نلاحظ في النهاية أنه من يُراجع التاريخ يكتشف دون جهد أن الأمم والشعوب تزداد انشغالاً بتاريخها وماضيها و تراثها حين يكون حاضرها مأزوماً و مؤشرات أسهمها الحضارية في هبوط، فالأزمات الكبرى التي تطال "أنا" الإنسان الحاضر تدفع به آليًا إلى البحث عن "الأنا" الماضي عبر الغوص والبحث عن مسوغات تاريخية تعيد لذاته المتصدّعة اعتبارها من جديد عبر اجترار الماضي "المجيد".</p>
+<p class="para">كما يجدر بالفلسفة اليوم أن تعيد صهر مقولة الهويّة حتىّ لا يصيبها ما أصاب الوعي و الإنيّة من مرض فقر المعنى، أو أن تهجر هذه المقولة "التي تتحدث إلى الناس" لصالح مفاهيم أكثر تحديداً وأقل التباساً ؟ و لعلّ هذا ما لاحظه ج. ك. كوفمان عندما كشف كيف تبدو الهوية في المعرفة العادية وكأنها عبارة عن ماهية مستقلة أو معطى أولي، و بيّن أن هذا بالضبط ما تنكره البحوث الاجتماعية اليوم، والتي تؤكد جميعاً على أن الهوية هي في الحقيقة نتاج تركيب معين. ورغم ذلك من الصعب أن نهجر مصطلحاً يعكس -في العمق- مشكلة اجتماعية، وإن كان في نفسه غامضاً <sup>23</sup> . لقد بدأ المفهوم في التصدع كما كان واقع الهوية، و لكن أليست الكتابة ضد مفهوم الهوية أو الدعوة إلى هجر هذه المقولة من الفلسفة نوعاً من الكلام عنها ؟ ثم أليس من اللازم التظننّ على المواقف الرافضة لمقولة الهوية كما طال تظننّا من أصابه داء الهوس بها ؟</p>
+<p class="para"><small><sup>22</sup>- ريجيس ديبراي- <u>حياة الصورة و موتها</u>- ص289.<br>
+<sup>23</sup>- من المؤشرات على هذا التحول صدور كتاب حديث بهذا العنوان: <u>هستريا الهوية</u> أ.دوبان.- دار لوشيغش ميدي، 2004.</small></p>
+<!-- PROOFREAD: 1284 part1 p10 — "دار لوشيغش ميدي" small footnote print -->
+<!-- NOTE: decorative vertical letters in the right margin of every page omitted (page furniture) -->
+
+</section>
+
+</div>
+</body>
+</html>

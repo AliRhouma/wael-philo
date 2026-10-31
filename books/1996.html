@@ -1,0 +1,345 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<title>Wael Academy — Philosophie · فرض تأليفي- الدولة والأخلاق</title>
+<script>
+  window.MathJax = {
+    tex: { inlineMath: [['\\(','\\)']], displayMath: [['\\[','\\]']] },
+    chtml: { fontURL: 'https://cdn.jsdelivr.net/npm/mathjax@3/es5/output/chtml/fonts/woff-v2', matchFontHeight: true },
+    startup: { typeset: true }
+  };
+</script>
+<script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js" async></script>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Sora:wght@400;500;600;700;800&family=Cairo:wght@400;500;600;700;800;900&family=Tajawal:wght@400;500;700;800&family=JetBrains+Mono:wght@400;500;600;700&display=swap');
+:root{
+  /* ===== Wael Academy palette — MAIN ACCENT = green-teal gradient #0FAB8F → #067360 ===== */
+  --bg:#fff; --panel:#f2f8f8; --hair:#e6e6e9; --hair2:#d6d6db;
+  --fg:#0f2a31;        /* body text (and +/− signs) */
+  --fg2:#3f5b62;       /* softer text */
+  --fg3:#7c959b;       /* muted (footer) */
+  --blue:#067360;      /* deep accent — small numbers, borders, watermark, accent equations */
+  --blue-dark:#045260; /* titles & wordmarks (also the balance colour) */
+  --teal:#0fab8f;      /* bright accent end */
+  --loop:#0d9c82;      /* logo-loop helper */
+  --orange:#067360;    /* kicker/category labels (gold retired → deep teal) */
+  --red:#f5322f;       /* EXERCISE CHIPS ONLY — never for emphasis */
+  --cream:#e6f3f4; --blue-soft:#e6f3f4;  /* pale teal — callout fill + table sub-row fill */
+  --blue-line:#cde7e4; /* hairline */
+  --sub-ink:#045260;   /* table sub-row text */
+  --grad:linear-gradient(148deg,#0fab8f 0%,#0d9c82 52%,#067360 100%);
+  --mono:'JetBrains Mono',monospace; --latin:'Sora',sans-serif; --ar:'Cairo',sans-serif; --arb:'Tajawal',sans-serif;
+}
+*{box-sizing:border-box;margin:0;padding:0;}
+body{font-family:var(--latin);color:var(--fg);background:#e4e4e7;padding:28px 0;
+     -webkit-print-color-adjust:exact;print-color-adjust:exact;}
+html[dir="rtl"] body{font-family:var(--arb);}
+
+/* ===== brand watermark: REAL text (crisp), full-bleed, repeats per page ===== */
+.wm{position:fixed;inset:0;z-index:0;pointer-events:none;display:flex;
+    align-items:center;justify-content:center;overflow:hidden;
+    -webkit-print-color-adjust:exact;print-color-adjust:exact;}
+.wm span{font-family:var(--mono);font-weight:800;font-size:76.8pt;letter-spacing:.16em;
+    color:var(--blue);opacity:.06;white-space:nowrap;transform:rotate(-54deg);}  /* single diagonal: bottom-left → top-right */
+.wm.mono span{color:#000;opacity:.05;}
+
+/* ===== continuous flow stream (no page border) ===== */
+.flow{width:210mm;margin:0 auto;background:transparent;color:var(--fg);
+      padding-block:16mm 18mm;padding-inline:23mm 14mm;position:relative;}   /* spiral gutter: inline-start(=spine) 23mm / outer 14mm — dir-aware; print margins set in render_flow.py */
+@media screen{ .flow{background:#fff;box-shadow:0 10px 40px rgba(0,0,0,.16);} }
+.flow>*{position:relative;z-index:1;}
+.flow p,.flow li,.flow .data,.flow .note,.flow .ex{break-inside:auto;}
+.flow .fig,.flow figure,.flow img,.flow svg.figsvg,.flow table,.flow tr,.flow .chapdiv,.flow .exh,.flow .qrcard,.flow .meta{break-inside:avoid;}
+.flow h1,.flow h2,.flow h3,.flow .exh,.flow .subhead,.flow .chapdiv{break-after:avoid;}
+.flow img,.flow svg.figsvg{max-width:100%;height:auto;}
+.flow figcaption,.flow .figcap{display:none;}          /* rule 3: no figure captions */
+
+/* ===== front matter + chapters each start on a fresh page ===== */
+.flow .cover{break-after:page;}        /* cover alone on page 1 */
+.flow .toc{break-after:page;}          /* Sommaire alone on the next page */
+.flow .chapter{break-before:page;}
+.flow .chapter:first-of-type{break-before:auto;}
+
+/* ===== cover ===== */
+.cover{padding:14mm 0 8mm;border-bottom:2px solid var(--blue);margin-bottom:6mm;}
+.cover .badge{font-family:var(--mono);font-size:8.5pt;letter-spacing:.28em;text-transform:uppercase;color:var(--orange);margin-bottom:10px;}
+.cover h1{font-family:var(--latin);font-weight:800;font-size:34pt;line-height:1.03;letter-spacing:-.025em;color:var(--blue-dark);}
+.cover .grule{width:120px;height:5px;border-radius:5px;background:var(--grad);margin:14px 0;}
+.cover .sub{font-family:var(--mono);font-size:10pt;letter-spacing:.14em;text-transform:uppercase;color:var(--teal);}
+.cover .auth{font-size:11pt;color:var(--fg2);margin-top:6px;font-weight:600;}
+
+/* ===== table of contents ===== */
+.toc{margin:2mm 0 4mm;}
+.toc h2{font-family:var(--latin);font-weight:800;font-size:15pt;color:var(--blue-dark);margin-bottom:4mm;}
+.toc .trititle{font-family:var(--mono);font-size:8pt;letter-spacing:.2em;text-transform:uppercase;color:var(--orange);margin:4mm 0 2mm;}
+.toc ol{list-style:none;}
+.toc li{display:flex;align-items:baseline;gap:8px;font-size:10pt;padding:2.2px 0;color:var(--fg);line-height:1.4;}
+.toc li .n{font-family:var(--mono);font-weight:700;font-size:9pt;color:var(--blue);min-width:26px;}
+.toc li .dots{flex:1;border-bottom:1px dotted var(--hair2);transform:translateY(-3px);}
+
+/* ===== chapter divider band ===== */
+.chapdiv{margin:0 0 5mm;padding:6mm 16px 5mm;border-radius:12px;background:var(--grad);
+    -webkit-print-color-adjust:exact;print-color-adjust:exact;}   /* green-filled chapter band */
+.chapdiv .cn{font-family:var(--mono);font-size:8.5pt;font-weight:700;letter-spacing:.24em;text-transform:uppercase;color:rgba(255,255,255,.82);margin-bottom:5px;}
+.chapdiv h2{font-family:var(--latin);font-weight:800;font-size:17pt;line-height:1.1;letter-spacing:-.015em;color:#fff;}
+/* conclusion block — same green-filled look as the chapter band */
+.conclusion{background:var(--grad);border-radius:12px;padding:6mm 16px;margin:5mm 0;color:#fff;break-inside:avoid;
+    -webkit-print-color-adjust:exact;print-color-adjust:exact;}
+.conclusion .ck{font-family:var(--mono);font-size:8.5pt;font-weight:700;letter-spacing:.24em;text-transform:uppercase;color:rgba(255,255,255,.82);margin-bottom:6px;}
+.conclusion h3{font-family:var(--latin);font-weight:800;font-size:13pt;line-height:1.2;color:#fff;margin-bottom:4px;}
+.conclusion p,.conclusion li{font-size:10.4pt;line-height:1.7;color:#fff;}
+.conclusion b,.conclusion strong{color:#fff;font-weight:700;}
+
+/* ===== unit header (lesson/exercise) + QR emplacement ===== */
+.exh{display:flex;align-items:center;gap:11px;margin:6mm 0 3mm;}
+.exh .idx{font-family:var(--mono);font-size:9pt;font-weight:600;color:#fff;background:var(--grad);
+    border-radius:6px;padding:4px 11px;letter-spacing:.08em;text-transform:uppercase;
+    -webkit-print-color-adjust:exact;print-color-adjust:exact;}
+.exh .idx.ex{background:var(--red);}   /* exercise chip = red */
+.exh h2{font-family:var(--latin);font-size:14pt;font-weight:700;letter-spacing:-.01em;color:var(--blue-dark);}
+.exh .qrcard{margin-inline-start:auto;flex:0 0 auto;display:flex;flex-direction:column;align-items:center;gap:3px;width:26mm;}
+.qrcard .qrt{font-family:var(--mono);font-size:6.5pt;letter-spacing:.1em;text-transform:uppercase;color:var(--teal);text-align:center;}
+.qrcard .qrslot{width:24mm;height:24mm;padding:1.5mm;background:#fff;border:1px solid var(--blue-line);border-radius:8px;display:flex;align-items:center;justify-content:center;}
+.qrcard .qrslot img,.qrcard .qrslot svg{width:100%;height:100%;display:block;}
+
+/* sub-exercise label when one file holds several exercices */
+.exsub{font-family:var(--latin);font-weight:800;font-size:11.5pt;color:var(--blue-dark);margin:5mm 0 2.5mm;padding-bottom:3px;border-bottom:2px solid var(--blue-line);}
+
+/* ===== text blocks ===== */
+.lead{font-size:11pt;line-height:1.7;margin:2mm 0 3mm;color:var(--fg);}
+.para{font-size:10.6pt;line-height:1.7;margin:2mm 0 2.5mm;color:var(--fg);}
+.consigne{font-size:10.4pt;line-height:1.6;margin:1mm 0 2mm;color:var(--fg);font-style:italic;}
+.subhead{font-family:var(--latin);font-weight:800;font-size:12pt;letter-spacing:-.01em;color:var(--blue-dark);margin:5mm 0 2.5mm;}
+/* emphasis — green accent = .t-blue/.t-green ; balance = .t-navy ; red = SECONDARY accent (.t-red) on titles + a few words */
+.t-blue{color:var(--blue);font-weight:600;} .t-navy{color:var(--blue-dark);font-weight:700;}
+.t-red{color:var(--red);font-weight:600;} .t-green{color:var(--teal);font-weight:600;} .t-gold{color:var(--orange);font-weight:600;}
+.subhead.t-red{color:var(--red);font-weight:800;}   /* red Roman-numeral section title (I, II, …) — keeps subhead weight */
+/* highlighter marks — a soft colour wash behind a key word (agent picks green or red per what balances the page) */
+.hl-green,.hl-red{border-radius:3px;padding:.02em .24em;font-weight:600;box-decoration-break:clone;-webkit-box-decoration-break:clone;
+    -webkit-print-color-adjust:exact;print-color-adjust:exact;}
+.hl-green{background:rgba(15,171,143,.20);color:var(--blue-dark);}   /* green highlight */
+.hl-red{background:rgba(245,50,47,.13);color:#c0261f;}               /* red highlight  */
+
+.data{background:var(--blue-soft);border:1px solid var(--blue-line);border-inline-start:4px solid var(--blue);
+    border-radius:8px;padding:11px 16px;margin:3mm 0;font-size:10pt;line-height:1.65;color:var(--fg2);}
+.data b{color:var(--fg);font-weight:700;}
+.note{border:1px dashed var(--hair2);border-radius:9px;padding:11px 16px;margin:4mm 0;background:var(--panel);}
+.note .kicker{font-family:var(--mono);font-size:7.5pt;letter-spacing:.18em;color:var(--orange);display:block;margin-bottom:5px;}
+.note .nb{font-size:10pt;line-height:1.7;color:var(--fg2);} .note b{color:var(--fg);}
+.ex:not(.idx){background:var(--blue-soft);border:1px solid var(--blue-line);border-inline-start:3px solid var(--blue);
+    border-radius:7px;padding:7px 11px;font-size:9.6pt;line-height:1.6;color:var(--fg2);margin:2mm 0;}   /* :not(.idx) so it never hits the exercise chip (which is .idx.ex) */
+.ex .extag{display:inline-block;font-family:var(--latin);font-weight:800;font-size:7.6pt;color:var(--blue-dark);background:#fff;
+    border:1px solid var(--blue);border-radius:5px;padding:1px 9px;margin-inline-end:7px;vertical-align:middle;text-transform:uppercase;letter-spacing:.06em;}
+
+/* ===== lists ===== */
+ol.q{list-style:none;counter-reset:q;margin:1mm 0 2mm;}
+ol.q>li{counter-increment:q;position:relative;padding-inline-start:30px;margin-bottom:2.5mm;font-size:10.4pt;line-height:1.6;}
+ol.q>li::before{content:counter(q);position:absolute;inset-inline-start:0;top:1px;width:21px;height:21px;background:var(--grad);color:#fff;
+    border-radius:50%;font-family:var(--mono);font-size:9pt;font-weight:600;display:flex;align-items:center;justify-content:center;
+    -webkit-print-color-adjust:exact;print-color-adjust:exact;}
+ol.sub{list-style:none;counter-reset:s;margin:4px 0 0;padding-inline-start:2px;border-inline-start:1px solid var(--blue-line);}
+ol.sub li{counter-increment:s;position:relative;padding:2.5px 0 2.5px 26px;font-size:10.1pt;line-height:1.55;}
+ol.sub li::before{content:counter(s,lower-alpha)".";position:absolute;inset-inline-start:10px;top:2.5px;font-family:var(--mono);font-size:9pt;font-weight:600;color:var(--teal);}
+ol.qn{list-style:none;counter-reset:qn;margin:1mm 0 2mm;}
+ol.qn>li{counter-increment:qn;position:relative;padding-inline-start:26px;margin-bottom:2.2mm;font-size:10.4pt;line-height:1.55;}
+ol.qn>li::before{content:counter(qn)".";position:absolute;inset-inline-start:0;top:0;font-family:var(--mono);font-size:9.5pt;font-weight:700;color:var(--blue);}
+ul.b{list-style:none;margin:1mm 0 2mm;} ul.b>li{position:relative;padding-inline-start:22px;margin-bottom:2.4mm;font-size:10.4pt;line-height:1.6;}
+ul.b>li::before{content:"";position:absolute;inset-inline-start:3px;top:8px;width:8px;height:8px;border-radius:50%;background:var(--grad);
+    -webkit-print-color-adjust:exact;print-color-adjust:exact;}
+ul.dash{list-style:none;margin:1mm 0 2mm;} ul.dash>li{position:relative;padding-inline-start:20px;margin-bottom:1.8mm;font-size:10.4pt;line-height:1.6;}
+ul.dash>li::before{content:"–";position:absolute;inset-inline-start:2px;top:0;color:var(--fg);font-weight:700;}  /* dash / +/− signs = body colour */
+.flow ul.opts{list-style:none;margin:4px 0 3px;padding-inline-start:16px;}
+.flow ul.opts li{padding:2px 0;font-size:10.2pt;line-height:1.5;color:var(--fg);}
+
+/* ===== figures / tables ===== */
+.fig{margin:3mm 0;} .fig svg.figsvg{display:block;margin:0 auto;background:#fff;max-width:100%;height:auto;}
+.photo{display:block;margin:3mm auto;border-radius:8px;border:1px solid var(--hair);max-width:100%;}
+.figrow{display:flex;flex-wrap:wrap;gap:9px;justify-content:center;margin:3mm auto;max-width:190mm;}
+.flow .figrow img{border-radius:7px;border:1px solid var(--hair);height:46mm;width:auto;max-width:none;object-fit:cover;}
+.schemarow{display:flex;gap:16px;align-items:flex-start;flex-wrap:wrap;margin:2mm 0;}
+.schemarow .col-txt{flex:1 1 90mm;min-width:80mm;} .schemarow .col-fig{flex:0 0 78mm;} .schemarow .col-fig .fig{margin:0;}
+.flow table{border-collapse:collapse;width:100%;margin:3mm 0;font-size:9.8pt;line-height:1.5;}
+.flow table th,.flow table td{border:1px solid var(--blue-line);padding:6px 10px;text-align:start;vertical-align:top;}
+.flow table th{background:var(--grad);color:#fff;font-family:var(--latin);font-weight:700;font-size:9.4pt;
+    -webkit-print-color-adjust:exact;print-color-adjust:exact;}
+.flow table tr:nth-child(even) td{background:var(--blue-soft);color:var(--sub-ink);}   /* sub-row: #E6F3F4 / #045260 */
+
+mjx-container{color:var(--fg) !important;font-weight:400 !important;font-size:1.0em !important;}
+.eq-hi mjx-container,mjx-container.eq-hi{color:var(--blue) !important;}   /* accent (green) equation — highlight a key result; balance with plain math */
+.eq-red mjx-container,mjx-container.eq-red{color:var(--red) !important;}  /* red accent equation / symbol — complements the green .eq-hi */
+
+/* ===== per-file books: credit line, copies list, figures at their size ===== */
+.credit{display:flex;flex-wrap:wrap;align-items:center;gap:5px;margin:-1mm 0 3.5mm;font-size:9.4pt;color:var(--fg2);}
+.credit .who{font-weight:700;color:var(--blue-dark);}
+.credit .tg{font-family:var(--mono);font-size:7.2pt;letter-spacing:.04em;border-radius:5px;padding:1px 7px;line-height:1.6;
+    border:1px solid var(--blue-line);color:var(--blue);background:#fff;-webkit-print-color-adjust:exact;print-color-adjust:exact;}
+.credit .tg.sec{background:var(--blue-dark);border-color:var(--blue-dark);color:#fff;}
+.credit .tg.cor{background:#fff;border-color:var(--red);color:var(--red);}
+.credit a{color:var(--fg3);font-family:var(--mono);font-size:7pt;text-decoration:none;}
+.cover .auth .credit{margin:4mm 0 0;}
+.cover .copies{margin-top:5mm;font-size:8.6pt;color:var(--fg2);}
+.cover .copies ul{list-style:none;margin:2mm 0 0;padding:0;columns:2;}
+.cover .copies a{color:var(--fg3);text-decoration:none;font-size:8pt;}
+.flow figure.fig{text-align:center;}
+.flow figure.fig img{max-height:60mm;width:auto;max-width:70%;display:inline-block;}
+
+/* chapter tag on each part of a multi-chapter book (the book keeps the original order of the file) */
+.chtag{display:inline-block;margin:5mm 0 2mm;padding:1mm 3mm;border-radius:2mm;background:#eef3fb;border:1px solid #c9d6ea;
+  color:#1f3a6b;font-size:9pt;font-weight:700}
+.chtag span{color:#6b7f9e;font-weight:600;margin-inline-end:1.5mm}
+
+@media print{ body{background:#fff;padding:0;} .flow{width:auto;max-width:none;margin:0;padding:0;} }
+@page{size:A4;}   /* margins come from render_flow.py — do NOT set them here */
+</style>
+<meta data-pagefind-filter="type[content]" content="فرض">
+<meta data-pagefind-filter="resource[content]" content="Taki Academy">
+<meta data-pagefind-meta="n[content]" content="1996">
+<meta data-pagefind-meta="title[content]" content="فرض تأليفي- الدولة والأخلاق">
+<meta data-pagefind-filter="chapter[content]" content="القيم: الأخلاق والدولة">
+<meta data-pagefind-filter="section[content]" content="باكالوريا رياضيات"><style>.qrcard{display:none!important}.wa-nav{position:sticky;top:0;z-index:50;background:#045260;padding:10px 18px;font-family:Cairo,sans-serif;direction:rtl}.wa-nav a{color:#fff;text-decoration:none;font-weight:700}@media print{.wa-nav{display:none}}</style>
+</head>
+
+<body dir="rtl" lang="ar"
+      data-brand="Wael Academy" data-handle="@WaelAcademy"
+      data-tagline="في تُرابنا.. مغامرة بمغامرة"
+      data-phone="+216 50 40 40 42" data-site="waeldocuments.com"
+      data-cta="سجل معانا وأقرى عن بعد مع منصة Wael Academy"
+      data-subject="Philosophie · فرض تأليفي- الدولة والأخلاق" data-watermark="Wael Academy" data-pagefind-body><nav class="wa-nav" data-pagefind-ignore><a href="../index.html">→ الرجوع إلى فهرس الفلسفة</a></nav>
+
+<!-- single full-page diagonal watermark, bottom-left → top-right (repeats on every page) -->
+<div class="wm" aria-hidden="true"><span>WAEL&nbsp;ACADEMY</span></div>
+
+<div class="flow colored">
+<div class="cover"><div class="badge">◉ Wael Academy · Philosophie</div><h1>فرض تأليفي- الدولة والأخلاق</h1><div class="grule"></div><div class="sub">القيم: الأخلاق والدولة</div><div class="auth"><div class="credit">المؤلّف / المصدر : <span class="who">Taki Academy — اسم الأستاذ : سفيان سعدالله — www.takiacademy.com — 73.832.000</span> <span class="tg">فرض تأليفي</span><span class="tg sec">الفلسفة · باكالوريا رياضيات</span> <a href="https://drive.google.com/file/d/1JhsG2qaAuQ993Fl3_R9u8yGC4tz-wVND/view">↗ فرض تأليفي- الدولة والأخلاق.pdf</a></div></div><div class="copies" data-pagefind-ignore><b>نسخ هذا الملف في الدرايفات (1)</b><ul><li><a href="https://drive.google.com/file/d/1JhsG2qaAuQ993Fl3_R9u8yGC4tz-wVND/view">Mohamed Amine Hammami · Bac 2025 › Philo</a></li></ul></div></div>
+<section class="chapter"><div class="chapdiv"><div class="cn">المحور</div><h2>القيم: الأخلاق والدولة</h2></div>
+<!-- SOURCE: Taki Academy — اسم الأستاذ : سفيان سعدالله — www.takiacademy.com — 73.832.000 -->
+<div class="exh"><span class="idx ex">فرض</span><h2>تدريب منهجي : الدولة والأخلاق</h2>
+  <div class="qrcard"><div class="qrt">فيديو الدرس</div><div class="qrslot"><img src="qr/1996.svg" alt="QR"></div></div></div>
+<div class="credit">المؤلّف / المصدر : <span class="who">Taki Academy — اسم الأستاذ : سفيان سعدالله — www.takiacademy.com — 73.832.000</span> <span class="tg">فرض تأليفي</span><span class="tg sec">الفلسفة · باكالوريا رياضيات</span> <a href="https://drive.google.com/file/d/1JhsG2qaAuQ993Fl3_R9u8yGC4tz-wVND/view">↗ فرض تأليفي- الدولة والأخلاق.pdf</a></div>
+<p class="para">فلسفة</p>
+<p class="para">القسم : السنوات الرابعة شعب علمية</p>
+<p class="para">الدرس: <span class="t-gold">تدريب منهجي : الدولة والأخلاق</span></p>
+<p class="para">اسم الأستاذ : سفيان سعدالله</p>
+<div class="exsub"><span class="t-red">القسم الأوّل:</span></div>
+<p class="subhead t-navy"><b><u>التمرين الأوّل:</u></b></p>
+<p class="consigne">قيل: "يَجدر بالتفكير أن يَنتَقل من المواطن إلى الإنسان". اكشف عن أحد ضمنيّات هذا القول</p>
+<p class="para">-المواطنة لا تستوفي نمط الوجود الإنساني إذا ما حصرناها في قيمة شكلية ذات بعد إداري-سياسي. / أصبحت المواطنة مجرد انتماء قانوني اجرائي شكلي داخل الدولة.</p>
+<p class="para">-التظنن عن الدولة بوصفها التحقق التام-الضروري لوجود لإنسان-قد تفقد المواطنة قيمتها في ظل سيادة قهرية. المواطنة مشروع انساني لمقاومة النظام السائد.</p>
+<p class="para">-المواطنة ليست وضعا مدنيا خالصا بقدر ما هي مشروع انساني ثقافي واقتصادي وسياسي.</p>
+<p class="para">-اختزال المواطنة في بعد محلي قُطري ما يقلص من بعدها الإنساني والقيمي والكوني</p>
+<p class="para">-المواطنة العالمية هي الأفق الحقوقي الإنساني الذي يتخطى الانتماء المحلي والخضوع للدولة</p>
+<p class="subhead t-navy"><b><u>التمرين الثاني:</u></b></p>
+<p class="consigne">إنّ السّعي إلى جلب السعادة لا يكون بمعزل عن الوعي بالشقاوة. قدّم حجّة تدعم هذا الإقرار</p>
+<p class="para">-تتوقف السعادة على الوعي بالشقاوة بغرض استبعاد أسبابها</p>
+<p class="para">-التفكير في صياغة كيفية تحقيق وُجودٍ تَصرفنا عن بؤرة الشقاوة.</p>
+<p class="para">-من مظاهر الشقاوة الألم الجسدي واضطراب النفس ويتمثل دور العقل / الوعي في البحث عن قاعدة / آداب سلوكية تحمي الانسان من الشقاوة</p>
+<p class="para">-ارتباط السعادة اليوم بالرفاه المادي والتملّك والثروة ولكن اصطدم الانسان بعوائق تجسم بؤس العيش من قبيل التورط في الاستهلاك والخضوع لمنطق السوق والربح والوقوع في المديونية.</p>
+<p class="para">-اختزال السعادة في المجتمع المعاصر في ما هو شهوي وقيم مادية نفعية مما يتعارض مع الأخلاق بما هي مقاومة الرغبات أو الاعتدال والاحتكام الى العقل</p>
+<p class="para">-على الرغم من التقدم التكنولوجي والثورات العلمية فإنّ الوجود الإنساني مهدد بالأمراض والشيخوخة وأنه عرضة للموت جراء متغيرات العالم الخارجي وتقلباته وهي من بين مظاهر بؤس العيش.</p>
+<p class="para">-الاضطرابات النفسية شاهد على بؤس الانسان الذي تتقاذفه / تتلاعب به رغبات لاواعية في تناقض مع نظم أخلاقية ضرورية لاستقامة الحياة. السعادة هي الوعي بأسباب الاضطرابات.</p>
+<p class="para">-الشقي هو من ظلّ طريقه الى السعادة. وقد تتنوع سبل تحقيقها .</p>
+<p class="subhead t-red">النص :</p>
+<div class="data"><p class="para">إنّ الصيغة الأكثر عموميّة التي يقوم عليها كل دين وكل أخلاق هي: "افعل هذا وذاك، ولا تفعل هذا وذاك وهكذا ستصبح سعيدا". وليست الأخلاق والدين إلا هذا الأمر. وإنّي أسمّي هذا بالخطيئة الأصليّة الكبرى للعقل، بالغباوة الخالدة. وقد تغيّرت هذه الصيغة في فَمي إلى الصيغة المضادة: " إعادة تقييمي لكلّ القيم".[...] وأضع هذا الكلام في صيغة، فأقول: إنّ فضيلة الإنسان هي نتيجة لسعادته، فالحياة الطويلة والنسل الكثير ليست أجر الفضيلة، ولكن الفضيلة بالأحرى هي أن تجري العمليات المتصلة ببناء خلايا الإنسان ببطء يؤدي مع أشياء أخرى، إلى حياة طويلة ونسل كثير. وتقول الكنيسة والأخلاق : "لأنّ الفسق والترف يدمّران الإنسان"، وعقلي الذي عاد إلى رشده يقول : حينما يقترب الإنسان من الدمار وينحلّ من الناحية الفيزيولوجيّة، آنذاك يأتي الفسق والترف. وهذا الشاب "أصبح واهنا وذبل قبل الأوان" ويقول أصدقاؤه إن ذلك يرجع إلى هذا المرض أو ذاك. أمّا أنا فأقول لكم إنّه أصبح مريضا ولم يقاوم المرض نتيجة لحياة فقيرة أو تعب وراثي.</p>
+<p class="para">نيتشه، أفول الأصنام</p></div>
+<p class="consigne"><b>أنجز المهام التالية انطلاقا من النص</b></p>
+<p class="consigne">1. صغ اشكالية النص بدقّة (2ن)</p>
+<p class="para">ما قيمة القيم؟ وهل من اللزوم الخضوع للقيم أم التحرر منها؟</p>
+<p class="consigne">2. ما هي مبرّرات نقد الأخلاق؟ (2ن)</p>
+<p class="para">-تكريس قيم الضعفاء</p>
+<p class="para">-الخضوع للقيم</p>
+<p class="para">-التعالي عن الحياة</p>
+<p class="para">-توهم سعادة اخروية</p>
+<p class="consigne"><b>3. اكشف عن أحد رهانات النص.</b></p>
+<p class="para">-تجاوز الأوامر الأخلاقية باتجاه الاقبال على الحياة</p>
+<p class="para">-رفض القيم الأخلاقية طلبا للسعادة</p>
+<p class="para">-نقد الكنسية والعمل على خوض تجربة التحرر</p>
+<div class="exsub">القسم الثاني: يختار المترشح أحد السؤالين التاليين ليحرر محاولة فلسفية في حدود الثلاثين سطرا: (10 نقاط)</div>
+<p class="subhead t-navy"><b><u>السؤال الأوّل: بانتقالها من الوطنية الى العالمية، هل تَحتفظ المواطنة بمقامها الحقوقي؟</u></b></p>
+<p class="para">انجاز مفصل</p>
+<p class="para">تمهيد: الانطلاق من توتر او احراج</p>
+<p class="para">الإشكالية: ما هي أسس السيادة الوطنية؟ وما مقتضيات المحافظة على الحقوق؟ وهل من معنى للسيادة الوطنيّة في ظل المواطنة العالمية؟ ألا تعدّ انتهاكا للحقوق؟</p>
+<p class="subhead t-red">التخطيط:</p>
+<p class="para">1. المواطنة والمحافظة على الحقوق: ( من المحلّي/ القُطري الى العالمي)</p>
+<p class="para">*يمكن تحديد المفاهيم في بداية الفقرة أو بحسب التمشي العام</p>
+<p class="para">أ- تحديد مفاهيم ("الوطنية"/ السيادة الوطنية-المواطنة "العالمية"-الحقوق)</p>
+<p class="para">-الدولة الوطنية ذات سيادة بمعنى لها سلطة عليا لا تخضع لأية قوة في الداخل او الخارج وتتميز السيادة الوطنية بالاستقلالية والحرية في تقرير المصير.</p>
+<p class="para">-العالمية: قيمة مدنية كونية  تتخطى المحلي ولا ترتبط بعرق وجنس ولغة ودين ... قدر ارتباطها بالمساواة والحرية والعدالة. فالمواطنة العالمية أفق مشترك وما يوحّد الشعوب وفق منظومة حقوقية. وتدلّ على انفتاح الوطني على العالمي</p>
+<p class="para">-مقام الحقوق: انه مقام الحريات في التعبير والتفكير والممارسة...وتشمل الحقوق المواطنة والعدالة والمساواة فالحقوق شاملة لكل ابعاد الوجود الإنساني.</p>
+<p class="para">ب. تأمين السيادة الوطنية لحقوق المواطنة</p>
+<p class="para">-الحق بما هو الحق المدني : من شؤوطه إبرام عقد بين الأفراد يحمي كل حقوقهم ويحفظ ممتلكاتهم. وتكمن قوة الدولة في التآلف بين كل القوى وتأمين حقوقهم وحرياتهم.</p>
+<p class="para">-سيادة القانون هي الشرط الضمن للحقوق المدنية : فالدولة ليست سلطة قهرية أو قوّة متعالية بل إن قوة الدولة تكمن في تأمين حقوق المواطنين فالحق يصنع القوة، وبهذا يجوز تعريف الدولة الديمقراطية بأنها دولة الحق وبعبارة أخرى دولة قوة الحق.</p>
+<p class="para">ج- فكرة "الانتقال من الوطنية الى العالمية:"</p>
+<p class="para">-فكرة الانتقال : الثورة الرقمية والتواصل بين المجتمعات- انفتاح المجتمعات ورفض الانغلاق</p>
+<p class="para">- تأكيد الأساس الإنساني للحقوق سواء في اطار المحلي او العالمي- استنكار التعصب ونبذ العنف</p>
+<p class="para">-أسس "المحافظة" على المقام الحقوقي:</p>
+<p class="para">من اهمه الأسس ان الانسان كائن عاقل وحر في مقدوره وضع دستور كوني يتجاوز الخصوصي السياسي او المحلي الوطني نحو الكوني او العالمي ويُعبر عن كل القيم المدنية مثل المواطنة العالمية والمساواة والحريات والعدالة ويتطلع نحو السلم في جميع أنحاء العالم مما يَقضي على اسباب الحروب ويضمن حق الانسان في الانتماء الى العالم على غرار ما قال سقراط "انا مواطن عالمي" تخطيا للانتماء الجغرافي نحو الكوني فما هي شروط تحقيق المواطنة العالمية.</p>
+<p class="para">-إنشاء دستور مدني شامل ينظم العلاقات بين الدول ومثاله لدى كانط إقامة أنظمة جمهورية وبهذا يتحقق الوفاق بين المحلي والعالمي. هذا الدستور العالمي يُقنن العلاقات الانسانية داخليا وخارجيا وينتهي الى اعتبار الناس جميعا "مواطنين لمدينة انسانية شاملة" كما يقول كانط نظرا لكونهم يشتركون في مختلف أرجاء العالم في الحقوق والواجبات بقطع النظر عن اختلافاتهم ثقافية وخصوصياتهم الدينية والتاريخية. وهكذا تبدو فكرة المواطنة العالمية او الحق الكوسموسياسي من الناحية النظرية فكرة متميزة تسمح بحماية حقوق المواطنين وتضمن السلام.</p>
+<p class="para">2 .المواطنة العالمية وانتهاك السيادة الوطنية /الحقوق</p>
+<p class="para">أ. الدولة الوطنية وعدم المحافظة على الحقوق</p>
+<p class="para">-انفراد السياسي بسنّ القوانين و تعديلها أو نقضها، وأن الأفراد وقد تنازلوا عن حقوقهم أصبحوا رعايا بحكم خضوعهم للقانون فالسياسي له الحق المطلق في الارغام وسلب الحقوق.</p>
+<p class="para">ب. المواطنة العالمية ومشروعها الهيمني (سلب الحقوق)</p>
+<p class="para">-المواطنة العالمية على مستوى تطبيقي ترتهن إلى سياسات الدول الكبرى وحرصها الدائم على الهيمنة وانتهاك السيادة الوطنية للدول المحلية – الوطنية بأشكال متنوعة.</p>
+<p class="para">-تخضع المواطنة العالمية لايدولوجيا او لمنطق عولمي سياسي يهدد السيادة الوطنية - هيمنة السيادة العالمية تحت رداء المواطنة العالمية على السيادة الوطنية.</p>
+<p class="para">- ينقاد السياسي المحلي اليوم إلى انظمة سياسية عالمية او قل بأكثر تدقيق أنظمة عولمية همها الهيمنة والقضاء على الخصوصيات الثقافية والسياسية</p>
+<p class="para">-نشهد اليوم انحسار السياسي المحلي او السيادة الوطنية وتقهقرها مقابل سيطرة السياسي العالمي او الخارجي تحت مُسمّى المواطنة العالمية التي هي تعبيرة أخرى لأفق سياسي عولمي يدلّ على تأزم العلاقة بين المواطنة العالمية والسيادة الوطنية.</p>
+<p class="para">-انسداد المجال السياسي الداخلي وتلاشي مبدأ السيادة الوطنية والاقتصار على الاستقلالية الشكلية ويظهر هذا الانسداد على مستوى القرارات السياسية على الصعيدين الداخلي والخارجي ومثاله أن تزكية نظام سياسي ما او تدعيم المقاومة الفلسطينية يخضع لاختيارات "الدول المشعة" بحسب مصطلح هانتنغتون والتي تبرر سيادتها على المحلي بدعوى المواطنة العالمية والحريات والدفاع عن النفس.</p>
+<p class="para">السيادة الوطنية الا جهة الانضواء تحت إمرة الأنظمة السياسية العالمية "المشعة" ومصالحها الاقتصادية.</p>
+<p class="subhead t-navy"><b>العنصر النقدي:</b></p>
+<p class="para">+المواطنة العالمية منظومة قيمية مدنية (الحريات- المواطنة) تدعم السيادة الوطنية.</p>
+<p class="para">+الوعي بالطابع الأيديولوجي للمواطنة العالمية +نقد الدولة الوطنية القائمة على العنف</p>
+<ul class="dash">
+<li>غير أن الواقع العالمي ينزع الى تفكيك الدولة الوطنية وتجريدها من قواه وسلب خصوصياتها المحلية فيصبح المنطق السائد هو منطق الأقوى عسكريا واقتصاديا واعلاميا.</li>
+</ul>
+<p class="subhead t-blue">خاتمة :</p>
+<p class="para">لا شك ان الوعي بمخاطر او التوظيفات الأيديولوجية للمواطنة العالمية والهيمنة على الدول الوطنية المحلية من شأنه ان يدفعنا الى مواجهة كل منزع عالمي الهيمني ايديولوجي بغاية استعادة المحلي والسيادة الوطنية. احتراما للاستقلالية والحرية وحقوق الشعوب، وخصوصياتها الثقافية، والتاريخية، وقيمها.</p>
+<p class="para">***</p>
+<p class="subhead t-navy"><b><u>السؤال الثاني: هل العقل أساس السعادة بالضرورة؟</u></b></p>
+<p class="para">التمهيد :</p>
+<p class="para">-قد لا يصبو العامي الى اعتبار العقل شرطا كافيا / علة كافية لتحصيل السعادة</p>
+<p class="para">-السعادة غاية الانسان... ولكن تتنوع سبل بلوغها.</p>
+<p class="para">-التوتر القائم بين العقل وما يفرضه من قيم أخلاقية وبين ما تستدعيه السعادة من تحرر/تحقيق للملذات والمنافع</p>
+<p class="para">-التعارض بين نزوع الانسان العفوي / الطبيعي الى جلب السعادة وبين الالتزام بالعقل ومبادئه وما يشرعه من قيم أخلاقية.</p>
+<p class="para">الإشكالية: ما هي سبل تحقيق السعادة؟ هل يمكن للعقل ان يكون أساس السعادة؟ واذا سلمنا بهذا، هل يعدّ بالضرورة شرطا كافيا لجلب السعادة؟</p>
+<p class="para">أو</p>
+<p class="para">ما هي شروط امكان تحصيل السعادة؟ هل تتوقّف على الاحتكام الى العقل وما يفرضه من قيم تضمن السعادة أم التحرر منها؟ / ألا يفضي الالتزام بالعقل الى استبعاد السعادة ذاتها؟</p>
+<p class="para">أو</p>
+<p class="para">ما هي شروط امكان تحصيل السعادة؟ هل تتوقف على الاحتكام الى العقل وحده أم مراجعة منزلته نحو فهم أكثر تعين لجدارة إنسانية بالسعادة؟</p>
+<p class="para">أو</p>
+<p class="para">هل يمثل العقل ركيزة لجلب السعادة ام يمكن ان يكون عائقا يحول دون تحققها؟</p>
+<p class="para">تخطيط مفصّل:</p>
+<p class="subhead t-navy"><b>1. العقل هو أساس السعادة :</b></p>
+<p class="para">*تحديد أوّلي للمفاهيم : يمكن الانطلاق من كون الانسان بما هو كائن عاقل هو الكائن الوحيد الذي يبحث عن سبل تحصيل السعادة. باعتبار ذلك منفذا ممكنا للأمر من جهة السائل والمسؤول أي الانسان من جهة كونه كائنا عاقلا.</p>
+<p class="para">*البحث في شروط امكان السعادة من جهة الارتباط بالعقل لا بوصفه ملكة تفكير خالص بل تأسيسا للأفعال. ويحيل "الاحتكام" الى الالتزام بالعقل تفكيرا وتدبيرا (تنظيم الأفعال). ويظهر هذا بحسب المستويات التالية التي تترابط فيما بينها بحكم صلتها بالعقل :</p>
+<p class="para">انطولوجيا: العقل هو قدرة على فهم العالم /مبدأ وجود/ رؤية للعالم / التفكير في الوجود – الترّفع عن الحياة اليومية.</p>
+<p class="para">السعادة واساسها العقل هي ادراك للخير وللحق وللجمال (مثال التجربة السقراطية).</p>
+<p class="para">العقل والتّعالي عن عالم المحسوسات لتحصيل السعادة –تكون السعادة معرفة بـ"الخير الأسمى" / انها المثل الاعلى. -توافق الانسان مع العالم (الرواقية: التوافق مع الطبيعة)</p>
+<p class="para">معرفيا: العقل هو ملكة معرفة / مصدر تأمل. ومن معاني السعادة وتجلياتها نظريا التفكير في الانسان ومختلف علاقاته. السعادة هي توافق الانسان مع ذاته من حيث هو كائن يفكر- بهذا تكون السعادة معرفة تتوجه الى الفعل.</p>
+<p class="para">عمليا: العقل هو أساس استقامة السلوك- التحرر من الجسد ورغباته - الانسان السعيد هو الانسان الفاضل. -العقل أداة تعقل وتدبير. - الانسان السعيد هو الانسان الفاضل: - العقل ومبدأ المداولة الارسطي والتوسط بين نقيضين .</p>
+<p class="para">-العقل اساس السعادة : العقل وقاعدة اختيار ما يجب فعله (الخير) واستبعاد ما يجب تجنبه (الشر).  العقل في مفهومه الأبيقوري وضرورة التمييز بين الألم والاضطراب (الشقاء) وبين طمأنينة النفس وسلامة الجسد وهو السبيل الى السعادة (الأبيقورية). مما يؤكد قيمة العقل في جلب السعادة.</p>
+<p class="para">-العقل والتأسيس الكانطي لجدارة الانسان بالسعادة : ارتباط السعادة باستعداد الانسان من حيث هو كائن عاقل وارادي. كلما تحرر الانسان من الدوافع والمنافع كان أهلا للسعادة بوصفها غاية مطلقة او مشروع بناء علاقات أساسها العقل.</p>
+<p class="subhead t-navy"><b>2 .ليس العقل أساس السعادة / الاقبال على السعادة والادبار على العقل:</b></p>
+<p class="para">-ضرورة الإقرار بوجاهة مطلب السعادة مع انحسار العقل عن بلوغ ذلك/ التظنن على اقتران السعادة بالعقل:</p>
+<p class="para">في علاقة الانسان بذاته: نقد الدلالة الميتافيزيقية للعقل للعقل /استبعاد العقل التأملي العقل المستقل عن التجارب. وتحويل العقل الى سلطة مكرسة لصنم الحقيقة والمشرعة لقيم أخلاقية تنفي الجسد- "العقل =الفضيلة = السعادة). التلازم بين العقل والفضيلة والسعادة هي معادلة الإنسان المنحط.</p>
+<p class="para">السعادة لا تتحقق الا على قدر معرفة الانسان وقدراته الحقيقة: الانسان الرغبة لدى سبينوزا /الجسد وإرادة القوة عند نيتشه .</p>
+<p class="para">-المبالغة في تقدير العقل وضرورة المعرفة بمكونات الانسان الرغبوية طلبا للسعادة. - فهم الجوانب اللاواعية والبحث عن سبل تحقيق التوازن النفسي طلبا للسعادة. يمكن توظيف فرويد</p>
+<p class="para"><u>في علاقة الانسان بالحياة:</u></p>
+<p class="para">العقل ماهية صورية متعالية عن الحياة وصيرورتها / العقل مصدر تشريع لقيم الضعفاء الحسد والحقد ...قيم تنفي الحياة / افول العقل النظري وسلبه للحياة</p>
+<p class="para">- السعادة هي أن نتعلم كيف نحيا وفق قيم الأقوياء : الصراع والمخاطرة والنُبل...</p>
+<p class="para"><u>في علاقة الانسان بالواقع :</u></p>
+<p class="para">-العقل التأملي واعراضه عن الواقع التاريخي -لا ترتبط السعادة بالعقل قدر ما ترتبط بالواقع وشروط واقعية واقتصادية واجتماعية أساسها قيم العدالة والمساواة. (يمكن توظيف الماركسية)</p>
+<p class="para">- التحرر من العقل المجرد/ التأملي من اجل بناء فهم جديد للعقل يفضي بالضرورة الى إعادة تأويل دلالة السعادة- ترتبط السعادة برغد العيش وتوفر سبل الرفاه وتحقيق أغراض نفعية.</p>
+<p class="para">-  السعادة تقترن لا بإشباع الحاجات  بل أيضا توليد حاجات كمالية  تتحوّل الى حاجات ضرورية بحُكم تطور الوسائل التكنولوجية.( يمكن توظيف التصور النفعي او اقتران السعادة برعد العيش)</p>
+<p class="subhead t-navy"><b><u>النقد :</u></b></p>
+<p class="para">+رغم تنوع سبل تحقيق السعادة في ارتباطها بالعقل تأسيسا او نقدا فان الفلسفة في تناولها الى هذا الاشكال ترتقي بمختلف مكوّنات الوجود لإنساني وغاياته (السعادة) الى مستوى السؤال الذي يزعزع البديهات : العقل والسعادة. وغاية الامر ربما التخلص من التصورات المتعالية / الميتافيزيقية او الأخلاقوية التي تختزل السعادة في العقل.</p>
+<p class="para">-ما آل اليه وضع المجتمعات المعاصرة : التطور التقني أملا في سعادة انتهى الى تزايد مصادر الشقاء عقل حسابي اداتي مصلحي ومنطق السوق والحساب (منطق الشراء والرغبة والاستهلاك والمصلحة) لا يولي اهمية للقيم الإنسانية. (توظيف ماركوز ونقده لحضارة البعد الواحد)</p>
+<p class="para">-ضرورة مراجعة النظر في شروط السعادة باتجاه التمييز بين سعادة حقيقية وأخرى مزيفة/ الوعي بالفرق النوعي بين السعادة ووهم السعادة.</p>
+<p class="subhead t-blue">الخاتمة:</p>
+<p class="para">-تأكيد قيمة الفلسفة في التساؤل عن شروط امكان تحقيق السعادة</p>
+<p class="para">- مساءلة مشروعية أفق ايتيقي ما على تأسيس مشروع انساني</p>
+
+</section>
+
+</div>
+</body>
+</html>

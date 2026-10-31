@@ -1,0 +1,395 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<title>Wael Academy — Philosophie · العمل : النجاعة و العدالة</title>
+<script>
+  window.MathJax = {
+    tex: { inlineMath: [['\\(','\\)']], displayMath: [['\\[','\\]']] },
+    chtml: { fontURL: 'https://cdn.jsdelivr.net/npm/mathjax@3/es5/output/chtml/fonts/woff-v2', matchFontHeight: true },
+    startup: { typeset: true }
+  };
+</script>
+<script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js" async></script>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Sora:wght@400;500;600;700;800&family=Cairo:wght@400;500;600;700;800;900&family=Tajawal:wght@400;500;700;800&family=JetBrains+Mono:wght@400;500;600;700&display=swap');
+:root{
+  /* ===== Wael Academy palette — MAIN ACCENT = green-teal gradient #0FAB8F → #067360 ===== */
+  --bg:#fff; --panel:#f2f8f8; --hair:#e6e6e9; --hair2:#d6d6db;
+  --fg:#0f2a31;        /* body text (and +/− signs) */
+  --fg2:#3f5b62;       /* softer text */
+  --fg3:#7c959b;       /* muted (footer) */
+  --blue:#067360;      /* deep accent — small numbers, borders, watermark, accent equations */
+  --blue-dark:#045260; /* titles & wordmarks (also the balance colour) */
+  --teal:#0fab8f;      /* bright accent end */
+  --loop:#0d9c82;      /* logo-loop helper */
+  --orange:#067360;    /* kicker/category labels (gold retired → deep teal) */
+  --red:#f5322f;       /* EXERCISE CHIPS ONLY — never for emphasis */
+  --cream:#e6f3f4; --blue-soft:#e6f3f4;  /* pale teal — callout fill + table sub-row fill */
+  --blue-line:#cde7e4; /* hairline */
+  --sub-ink:#045260;   /* table sub-row text */
+  --grad:linear-gradient(148deg,#0fab8f 0%,#0d9c82 52%,#067360 100%);
+  --mono:'JetBrains Mono',monospace; --latin:'Sora',sans-serif; --ar:'Cairo',sans-serif; --arb:'Tajawal',sans-serif;
+}
+*{box-sizing:border-box;margin:0;padding:0;}
+body{font-family:var(--latin);color:var(--fg);background:#e4e4e7;padding:28px 0;
+     -webkit-print-color-adjust:exact;print-color-adjust:exact;}
+html[dir="rtl"] body{font-family:var(--arb);}
+
+/* ===== brand watermark: REAL text (crisp), full-bleed, repeats per page ===== */
+.wm{position:fixed;inset:0;z-index:0;pointer-events:none;display:flex;
+    align-items:center;justify-content:center;overflow:hidden;
+    -webkit-print-color-adjust:exact;print-color-adjust:exact;}
+.wm span{font-family:var(--mono);font-weight:800;font-size:76.8pt;letter-spacing:.16em;
+    color:var(--blue);opacity:.06;white-space:nowrap;transform:rotate(-54deg);}  /* single diagonal: bottom-left → top-right */
+.wm.mono span{color:#000;opacity:.05;}
+
+/* ===== continuous flow stream (no page border) ===== */
+.flow{width:210mm;margin:0 auto;background:transparent;color:var(--fg);
+      padding-block:16mm 18mm;padding-inline:23mm 14mm;position:relative;}   /* spiral gutter: inline-start(=spine) 23mm / outer 14mm — dir-aware; print margins set in render_flow.py */
+@media screen{ .flow{background:#fff;box-shadow:0 10px 40px rgba(0,0,0,.16);} }
+.flow>*{position:relative;z-index:1;}
+.flow p,.flow li,.flow .data,.flow .note,.flow .ex{break-inside:auto;}
+.flow .fig,.flow figure,.flow img,.flow svg.figsvg,.flow table,.flow tr,.flow .chapdiv,.flow .exh,.flow .qrcard,.flow .meta{break-inside:avoid;}
+.flow h1,.flow h2,.flow h3,.flow .exh,.flow .subhead,.flow .chapdiv{break-after:avoid;}
+.flow img,.flow svg.figsvg{max-width:100%;height:auto;}
+.flow figcaption,.flow .figcap{display:none;}          /* rule 3: no figure captions */
+
+/* ===== front matter + chapters each start on a fresh page ===== */
+.flow .cover{break-after:page;}        /* cover alone on page 1 */
+.flow .toc{break-after:page;}          /* Sommaire alone on the next page */
+.flow .chapter{break-before:page;}
+.flow .chapter:first-of-type{break-before:auto;}
+
+/* ===== cover ===== */
+.cover{padding:14mm 0 8mm;border-bottom:2px solid var(--blue);margin-bottom:6mm;}
+.cover .badge{font-family:var(--mono);font-size:8.5pt;letter-spacing:.28em;text-transform:uppercase;color:var(--orange);margin-bottom:10px;}
+.cover h1{font-family:var(--latin);font-weight:800;font-size:34pt;line-height:1.03;letter-spacing:-.025em;color:var(--blue-dark);}
+.cover .grule{width:120px;height:5px;border-radius:5px;background:var(--grad);margin:14px 0;}
+.cover .sub{font-family:var(--mono);font-size:10pt;letter-spacing:.14em;text-transform:uppercase;color:var(--teal);}
+.cover .auth{font-size:11pt;color:var(--fg2);margin-top:6px;font-weight:600;}
+
+/* ===== table of contents ===== */
+.toc{margin:2mm 0 4mm;}
+.toc h2{font-family:var(--latin);font-weight:800;font-size:15pt;color:var(--blue-dark);margin-bottom:4mm;}
+.toc .trititle{font-family:var(--mono);font-size:8pt;letter-spacing:.2em;text-transform:uppercase;color:var(--orange);margin:4mm 0 2mm;}
+.toc ol{list-style:none;}
+.toc li{display:flex;align-items:baseline;gap:8px;font-size:10pt;padding:2.2px 0;color:var(--fg);line-height:1.4;}
+.toc li .n{font-family:var(--mono);font-weight:700;font-size:9pt;color:var(--blue);min-width:26px;}
+.toc li .dots{flex:1;border-bottom:1px dotted var(--hair2);transform:translateY(-3px);}
+
+/* ===== chapter divider band ===== */
+.chapdiv{margin:0 0 5mm;padding:6mm 16px 5mm;border-radius:12px;background:var(--grad);
+    -webkit-print-color-adjust:exact;print-color-adjust:exact;}   /* green-filled chapter band */
+.chapdiv .cn{font-family:var(--mono);font-size:8.5pt;font-weight:700;letter-spacing:.24em;text-transform:uppercase;color:rgba(255,255,255,.82);margin-bottom:5px;}
+.chapdiv h2{font-family:var(--latin);font-weight:800;font-size:17pt;line-height:1.1;letter-spacing:-.015em;color:#fff;}
+/* conclusion block — same green-filled look as the chapter band */
+.conclusion{background:var(--grad);border-radius:12px;padding:6mm 16px;margin:5mm 0;color:#fff;break-inside:avoid;
+    -webkit-print-color-adjust:exact;print-color-adjust:exact;}
+.conclusion .ck{font-family:var(--mono);font-size:8.5pt;font-weight:700;letter-spacing:.24em;text-transform:uppercase;color:rgba(255,255,255,.82);margin-bottom:6px;}
+.conclusion h3{font-family:var(--latin);font-weight:800;font-size:13pt;line-height:1.2;color:#fff;margin-bottom:4px;}
+.conclusion p,.conclusion li{font-size:10.4pt;line-height:1.7;color:#fff;}
+.conclusion b,.conclusion strong{color:#fff;font-weight:700;}
+
+/* ===== unit header (lesson/exercise) + QR emplacement ===== */
+.exh{display:flex;align-items:center;gap:11px;margin:6mm 0 3mm;}
+.exh .idx{font-family:var(--mono);font-size:9pt;font-weight:600;color:#fff;background:var(--grad);
+    border-radius:6px;padding:4px 11px;letter-spacing:.08em;text-transform:uppercase;
+    -webkit-print-color-adjust:exact;print-color-adjust:exact;}
+.exh .idx.ex{background:var(--red);}   /* exercise chip = red */
+.exh h2{font-family:var(--latin);font-size:14pt;font-weight:700;letter-spacing:-.01em;color:var(--blue-dark);}
+.exh .qrcard{margin-inline-start:auto;flex:0 0 auto;display:flex;flex-direction:column;align-items:center;gap:3px;width:26mm;}
+.qrcard .qrt{font-family:var(--mono);font-size:6.5pt;letter-spacing:.1em;text-transform:uppercase;color:var(--teal);text-align:center;}
+.qrcard .qrslot{width:24mm;height:24mm;padding:1.5mm;background:#fff;border:1px solid var(--blue-line);border-radius:8px;display:flex;align-items:center;justify-content:center;}
+.qrcard .qrslot img,.qrcard .qrslot svg{width:100%;height:100%;display:block;}
+
+/* sub-exercise label when one file holds several exercices */
+.exsub{font-family:var(--latin);font-weight:800;font-size:11.5pt;color:var(--blue-dark);margin:5mm 0 2.5mm;padding-bottom:3px;border-bottom:2px solid var(--blue-line);}
+
+/* ===== text blocks ===== */
+.lead{font-size:11pt;line-height:1.7;margin:2mm 0 3mm;color:var(--fg);}
+.para{font-size:10.6pt;line-height:1.7;margin:2mm 0 2.5mm;color:var(--fg);}
+.consigne{font-size:10.4pt;line-height:1.6;margin:1mm 0 2mm;color:var(--fg);font-style:italic;}
+.subhead{font-family:var(--latin);font-weight:800;font-size:12pt;letter-spacing:-.01em;color:var(--blue-dark);margin:5mm 0 2.5mm;}
+/* emphasis — green accent = .t-blue/.t-green ; balance = .t-navy ; red = SECONDARY accent (.t-red) on titles + a few words */
+.t-blue{color:var(--blue);font-weight:600;} .t-navy{color:var(--blue-dark);font-weight:700;}
+.t-red{color:var(--red);font-weight:600;} .t-green{color:var(--teal);font-weight:600;} .t-gold{color:var(--orange);font-weight:600;}
+.subhead.t-red{color:var(--red);font-weight:800;}   /* red Roman-numeral section title (I, II, …) — keeps subhead weight */
+/* highlighter marks — a soft colour wash behind a key word (agent picks green or red per what balances the page) */
+.hl-green,.hl-red{border-radius:3px;padding:.02em .24em;font-weight:600;box-decoration-break:clone;-webkit-box-decoration-break:clone;
+    -webkit-print-color-adjust:exact;print-color-adjust:exact;}
+.hl-green{background:rgba(15,171,143,.20);color:var(--blue-dark);}   /* green highlight */
+.hl-red{background:rgba(245,50,47,.13);color:#c0261f;}               /* red highlight  */
+
+.data{background:var(--blue-soft);border:1px solid var(--blue-line);border-inline-start:4px solid var(--blue);
+    border-radius:8px;padding:11px 16px;margin:3mm 0;font-size:10pt;line-height:1.65;color:var(--fg2);}
+.data b{color:var(--fg);font-weight:700;}
+.note{border:1px dashed var(--hair2);border-radius:9px;padding:11px 16px;margin:4mm 0;background:var(--panel);}
+.note .kicker{font-family:var(--mono);font-size:7.5pt;letter-spacing:.18em;color:var(--orange);display:block;margin-bottom:5px;}
+.note .nb{font-size:10pt;line-height:1.7;color:var(--fg2);} .note b{color:var(--fg);}
+.ex:not(.idx){background:var(--blue-soft);border:1px solid var(--blue-line);border-inline-start:3px solid var(--blue);
+    border-radius:7px;padding:7px 11px;font-size:9.6pt;line-height:1.6;color:var(--fg2);margin:2mm 0;}   /* :not(.idx) so it never hits the exercise chip (which is .idx.ex) */
+.ex .extag{display:inline-block;font-family:var(--latin);font-weight:800;font-size:7.6pt;color:var(--blue-dark);background:#fff;
+    border:1px solid var(--blue);border-radius:5px;padding:1px 9px;margin-inline-end:7px;vertical-align:middle;text-transform:uppercase;letter-spacing:.06em;}
+
+/* ===== lists ===== */
+ol.q{list-style:none;counter-reset:q;margin:1mm 0 2mm;}
+ol.q>li{counter-increment:q;position:relative;padding-inline-start:30px;margin-bottom:2.5mm;font-size:10.4pt;line-height:1.6;}
+ol.q>li::before{content:counter(q);position:absolute;inset-inline-start:0;top:1px;width:21px;height:21px;background:var(--grad);color:#fff;
+    border-radius:50%;font-family:var(--mono);font-size:9pt;font-weight:600;display:flex;align-items:center;justify-content:center;
+    -webkit-print-color-adjust:exact;print-color-adjust:exact;}
+ol.sub{list-style:none;counter-reset:s;margin:4px 0 0;padding-inline-start:2px;border-inline-start:1px solid var(--blue-line);}
+ol.sub li{counter-increment:s;position:relative;padding:2.5px 0 2.5px 26px;font-size:10.1pt;line-height:1.55;}
+ol.sub li::before{content:counter(s,lower-alpha)".";position:absolute;inset-inline-start:10px;top:2.5px;font-family:var(--mono);font-size:9pt;font-weight:600;color:var(--teal);}
+ol.qn{list-style:none;counter-reset:qn;margin:1mm 0 2mm;}
+ol.qn>li{counter-increment:qn;position:relative;padding-inline-start:26px;margin-bottom:2.2mm;font-size:10.4pt;line-height:1.55;}
+ol.qn>li::before{content:counter(qn)".";position:absolute;inset-inline-start:0;top:0;font-family:var(--mono);font-size:9.5pt;font-weight:700;color:var(--blue);}
+ul.b{list-style:none;margin:1mm 0 2mm;} ul.b>li{position:relative;padding-inline-start:22px;margin-bottom:2.4mm;font-size:10.4pt;line-height:1.6;}
+ul.b>li::before{content:"";position:absolute;inset-inline-start:3px;top:8px;width:8px;height:8px;border-radius:50%;background:var(--grad);
+    -webkit-print-color-adjust:exact;print-color-adjust:exact;}
+ul.dash{list-style:none;margin:1mm 0 2mm;} ul.dash>li{position:relative;padding-inline-start:20px;margin-bottom:1.8mm;font-size:10.4pt;line-height:1.6;}
+ul.dash>li::before{content:"–";position:absolute;inset-inline-start:2px;top:0;color:var(--fg);font-weight:700;}  /* dash / +/− signs = body colour */
+.flow ul.opts{list-style:none;margin:4px 0 3px;padding-inline-start:16px;}
+.flow ul.opts li{padding:2px 0;font-size:10.2pt;line-height:1.5;color:var(--fg);}
+
+/* ===== figures / tables ===== */
+.fig{margin:3mm 0;} .fig svg.figsvg{display:block;margin:0 auto;background:#fff;max-width:100%;height:auto;}
+.photo{display:block;margin:3mm auto;border-radius:8px;border:1px solid var(--hair);max-width:100%;}
+.figrow{display:flex;flex-wrap:wrap;gap:9px;justify-content:center;margin:3mm auto;max-width:190mm;}
+.flow .figrow img{border-radius:7px;border:1px solid var(--hair);height:46mm;width:auto;max-width:none;object-fit:cover;}
+.schemarow{display:flex;gap:16px;align-items:flex-start;flex-wrap:wrap;margin:2mm 0;}
+.schemarow .col-txt{flex:1 1 90mm;min-width:80mm;} .schemarow .col-fig{flex:0 0 78mm;} .schemarow .col-fig .fig{margin:0;}
+.flow table{border-collapse:collapse;width:100%;margin:3mm 0;font-size:9.8pt;line-height:1.5;}
+.flow table th,.flow table td{border:1px solid var(--blue-line);padding:6px 10px;text-align:start;vertical-align:top;}
+.flow table th{background:var(--grad);color:#fff;font-family:var(--latin);font-weight:700;font-size:9.4pt;
+    -webkit-print-color-adjust:exact;print-color-adjust:exact;}
+.flow table tr:nth-child(even) td{background:var(--blue-soft);color:var(--sub-ink);}   /* sub-row: #E6F3F4 / #045260 */
+
+mjx-container{color:var(--fg) !important;font-weight:400 !important;font-size:1.0em !important;}
+.eq-hi mjx-container,mjx-container.eq-hi{color:var(--blue) !important;}   /* accent (green) equation — highlight a key result; balance with plain math */
+.eq-red mjx-container,mjx-container.eq-red{color:var(--red) !important;}  /* red accent equation / symbol — complements the green .eq-hi */
+
+/* ===== per-file books: credit line, copies list, figures at their size ===== */
+.credit{display:flex;flex-wrap:wrap;align-items:center;gap:5px;margin:-1mm 0 3.5mm;font-size:9.4pt;color:var(--fg2);}
+.credit .who{font-weight:700;color:var(--blue-dark);}
+.credit .tg{font-family:var(--mono);font-size:7.2pt;letter-spacing:.04em;border-radius:5px;padding:1px 7px;line-height:1.6;
+    border:1px solid var(--blue-line);color:var(--blue);background:#fff;-webkit-print-color-adjust:exact;print-color-adjust:exact;}
+.credit .tg.sec{background:var(--blue-dark);border-color:var(--blue-dark);color:#fff;}
+.credit .tg.cor{background:#fff;border-color:var(--red);color:var(--red);}
+.credit a{color:var(--fg3);font-family:var(--mono);font-size:7pt;text-decoration:none;}
+.cover .auth .credit{margin:4mm 0 0;}
+.cover .copies{margin-top:5mm;font-size:8.6pt;color:var(--fg2);}
+.cover .copies ul{list-style:none;margin:2mm 0 0;padding:0;columns:2;}
+.cover .copies a{color:var(--fg3);text-decoration:none;font-size:8pt;}
+.flow figure.fig{text-align:center;}
+.flow figure.fig img{max-height:60mm;width:auto;max-width:70%;display:inline-block;}
+
+/* chapter tag on each part of a multi-chapter book (the book keeps the original order of the file) */
+.chtag{display:inline-block;margin:5mm 0 2mm;padding:1mm 3mm;border-radius:2mm;background:#eef3fb;border:1px solid #c9d6ea;
+  color:#1f3a6b;font-size:9pt;font-weight:700}
+.chtag span{color:#6b7f9e;font-weight:600;margin-inline-end:1.5mm}
+
+@media print{ body{background:#fff;padding:0;} .flow{width:auto;max-width:none;margin:0;padding:0;} }
+@page{size:A4;}   /* margins come from render_flow.py — do NOT set them here */
+</style>
+<meta data-pagefind-filter="type[content]" content="ملخّص">
+<meta data-pagefind-filter="resource[content]" content="المصدر غير مذكور">
+<meta data-pagefind-meta="n[content]" content="1896">
+<meta data-pagefind-meta="title[content]" content="العمل : النجاعة و العدالة">
+<meta data-pagefind-filter="chapter[content]" content="القيم: الأخلاق والدولة">
+<meta data-pagefind-filter="chapter[content]" content="العمل: النجاعة والعدالة">
+<meta data-pagefind-filter="section[content]" content="باكالوريا آداب"><style>.qrcard{display:none!important}.wa-nav{position:sticky;top:0;z-index:50;background:#045260;padding:10px 18px;font-family:Cairo,sans-serif;direction:rtl}.wa-nav a{color:#fff;text-decoration:none;font-weight:700}@media print{.wa-nav{display:none}}</style>
+</head>
+
+<body dir="rtl" lang="ar"
+      data-brand="Wael Academy" data-handle="@WaelAcademy"
+      data-tagline="في تُرابنا.. مغامرة بمغامرة"
+      data-phone="+216 50 40 40 42" data-site="waeldocuments.com"
+      data-cta="سجل معانا وأقرى عن بعد مع منصة Wael Academy"
+      data-subject="Philosophie · العمل : النجاعة و العدالة" data-watermark="Wael Academy" data-pagefind-body><nav class="wa-nav" data-pagefind-ignore><a href="../index.html">→ الرجوع إلى فهرس الفلسفة</a></nav>
+
+<!-- single full-page diagonal watermark, bottom-left → top-right (repeats on every page) -->
+<div class="wm" aria-hidden="true"><span>WAEL&nbsp;ACADEMY</span></div>
+
+<div class="flow colored">
+<div class="cover"><div class="badge">◉ Wael Academy · Philosophie</div><h1>العمل : النجاعة و العدالة</h1><div class="grule"></div><div class="sub">القيم: الأخلاق والدولة</div><div class="auth"><div class="credit">المؤلّف / المصدر : <span class="who">المصدر غير مذكور في الوثيقة</span> <span class="tg cor">إصلاح</span><span class="tg sec">الفلسفة · باكالوريا آداب</span> <a href="https://drive.google.com/file/d/1miZQbM2iz84D0_yMsTSW6oUCwCI4jHXN/view">↗ IMG_1189.JPG</a> <a href="https://drive.google.com/file/d/1KnRSIxSXY_Q3HKWfsNvWkLH_jffEb8Lt/view">↗ IMG_1190.JPG</a> <a href="https://drive.google.com/file/d/1mRQgJiOdJX7CfgPZ_Zk61VG3NlIQ-WPV/view">↗ IMG_1191.JPG</a> <a href="https://drive.google.com/file/d/1NLiuK5bujGkymK9C-unt_rHGOMhYoO6Z/view">↗ IMG_1192.JPG</a> <a href="https://drive.google.com/file/d/1AOxrdJOp9BS0RajNsJW18xpGSDXkHsbw/view">↗ IMG_1193.JPG</a> <a href="https://drive.google.com/file/d/1FBDVnOM2QimSMY4u6Br0xrlOJpK0W1ES/view">↗ IMG_1194.JPG</a> <a href="https://drive.google.com/file/d/1JtvHhKeAkOIk-AY9914pyys3J4rUwSLu/view">↗ IMG_1195.JPG</a></div></div><div class="copies" data-pagefind-ignore><b>نسخ هذا الملف في الدرايفات (7)</b><ul><li><a href="https://drive.google.com/file/d/1miZQbM2iz84D0_yMsTSW6oUCwCI4jHXN/view">Mohamed Ali Ben Abdallah · Bac lettres › الفلسفة / القيم بين النسبي و المطلق / العمل : النجاعة و العدالة</a></li><li><a href="https://drive.google.com/file/d/1KnRSIxSXY_Q3HKWfsNvWkLH_jffEb8Lt/view">Mohamed Ali Ben Abdallah · Bac lettres › الفلسفة / القيم بين النسبي و المطلق / العمل : النجاعة و العدالة</a></li><li><a href="https://drive.google.com/file/d/1mRQgJiOdJX7CfgPZ_Zk61VG3NlIQ-WPV/view">Mohamed Ali Ben Abdallah · Bac lettres › الفلسفة / القيم بين النسبي و المطلق / العمل : النجاعة و العدالة</a></li><li><a href="https://drive.google.com/file/d/1NLiuK5bujGkymK9C-unt_rHGOMhYoO6Z/view">Mohamed Ali Ben Abdallah · Bac lettres › الفلسفة / القيم بين النسبي و المطلق / العمل : النجاعة و العدالة</a></li><li><a href="https://drive.google.com/file/d/1AOxrdJOp9BS0RajNsJW18xpGSDXkHsbw/view">Mohamed Ali Ben Abdallah · Bac lettres › الفلسفة / القيم بين النسبي و المطلق / العمل : النجاعة و العدالة</a></li><li><a href="https://drive.google.com/file/d/1FBDVnOM2QimSMY4u6Br0xrlOJpK0W1ES/view">Mohamed Ali Ben Abdallah · Bac lettres › الفلسفة / القيم بين النسبي و المطلق / العمل : النجاعة و العدالة</a></li><li><a href="https://drive.google.com/file/d/1JtvHhKeAkOIk-AY9914pyys3J4rUwSLu/view">Mohamed Ali Ben Abdallah · Bac lettres › الفلسفة / القيم بين النسبي و المطلق / العمل : النجاعة و العدالة</a></li></ul></div></div>
+<section class="chapter">
+<div class="chtag"><span>المحور</span> القيم: الأخلاق والدولة</div>
+<!-- NOTE: one book for 7 files of the Drive folder "الفلسفة / القيم بين النسبي و المطلق / العمل : النجاعة و العدالة" (photo), in file order -->
+<div class="exh"><span class="idx">ملخّص</span><h2>العمل : النجاعة و العدالة</h2>
+  <div class="qrcard"><div class="qrt">فيديو الدرس</div><div class="qrslot"><img src="qr/1896.svg" alt="QR"></div></div></div>
+<div class="credit">المؤلّف / المصدر : <span class="who">المصدر غير مذكور في الوثيقة</span> <span class="tg cor">إصلاح</span><span class="tg sec">الفلسفة · باكالوريا آداب</span> <a href="https://drive.google.com/file/d/1miZQbM2iz84D0_yMsTSW6oUCwCI4jHXN/view">↗ IMG_1189.JPG</a> <a href="https://drive.google.com/file/d/1KnRSIxSXY_Q3HKWfsNvWkLH_jffEb8Lt/view">↗ IMG_1190.JPG</a> <a href="https://drive.google.com/file/d/1mRQgJiOdJX7CfgPZ_Zk61VG3NlIQ-WPV/view">↗ IMG_1191.JPG</a> <a href="https://drive.google.com/file/d/1NLiuK5bujGkymK9C-unt_rHGOMhYoO6Z/view">↗ IMG_1192.JPG</a> <a href="https://drive.google.com/file/d/1AOxrdJOp9BS0RajNsJW18xpGSDXkHsbw/view">↗ IMG_1193.JPG</a> <a href="https://drive.google.com/file/d/1FBDVnOM2QimSMY4u6Br0xrlOJpK0W1ES/view">↗ IMG_1194.JPG</a> <a href="https://drive.google.com/file/d/1JtvHhKeAkOIk-AY9914pyys3J4rUwSLu/view">↗ IMG_1195.JPG</a></div>
+
+<!-- file: IMG_1189 -->
+
+<div class="chtag"><span>المحور</span> العمل: النجاعة والعدالة</div>
+
+<!-- NOTE: handwritten sheet in three columns (right to left); highlighter not reproduced -->
+<p class="para"><span class="t-blue">الكلّي في دلالته الأكسيولوجية.</span></p>
+<p class="subhead t-navy">- العمل: دلالته وقيمته -</p>
+<p class="para"><span class="t-red">• في دلالته الفلسفية الإنسانية:</span></p>
+<p class="para">إنّ الإنسان كائن علائقيّ يقيم وسائط بينه وبين عالمه ولعلّ أهمّها العمل.</p>
+<p class="para">• قبل فلسفي ما بعد العدالة:</p>
+<!-- PROOFREAD: 1896 part1 p01 — "قبل فلسفي" (second word very short, unsure) -->
+<p class="para">• التصوّر الإيتيمولوجي: من الكلمة اللاتينية <span dir="ltr">Tripalium</span> وهي آلة الحدّاد تصلح للتعذيب فيكون العمل جهدا عضليا مهينا كما يصوّره أرسطو أي نشاطا غير لائق بالإنسان بل بمهمّة العبيد.</p>
+<!-- PROOFREAD: 1896 part1 p01 — "آلة الحدّاد" -->
+<p class="para">• التصوّر الديني: هو السقوط والتعب ويتعلّق في المسيحية بالخطيئة الأولى.</p>
+<p class="para">• التصوّر الأسطوري: مع عمل بروميثيوس الذي ورغم استنزاف أخيه أبيميثيوس جميع الموارد المتاحة لمنح الحيوانات، عمل جاهدا الإتقان منح البشر والاهتمام بهم. هذا ما سبّب له غضب الآلهة ونهايته المأساوية. أمّا مع سيزيف ومحنته، فيبقى عمله رغم الجهد الذي يبذله عملا غير مجدي.</p>
+<!-- PROOFREAD: 1896 part1 p01 — "عمل جاهدا الإتقان" -->
+<p class="para">• التصوّر الميتافيزيقي: إنّ الإنسان متميّز أنطولوجيا</p>
+<p class="subhead t-navy">النجاعة: مقتضياتها ونتائجها</p>
+<p class="para"><span class="t-red">• في دلالة النجاعة:</span></p>
+<p class="para">إنّ النجاعة هي المعيار الذي نحدّد عبره مدى نجاح العمل ومدى تحقّق الغايات المراد بلوغها أي أنّها ما يقيس مردودية العمل الإنتاجي عبر جملة الوسائل المؤدّية إلى تحقيق العملية الإنتاجية.</p>
+<!-- PROOFREAD: 1896 part1 p01 — "ما يقيس مردودية" -->
+<p class="para"><span class="t-green">←</span> إنّ المنفعة تصبح القيمة المطلقة في العملية الإنتاجية.</p>
+<p class="para">إنّ النجاعة لم تكن وليدة المجتمع الصناعي بل طالما تلازمت مع الحياة الإجتماعية:</p>
+<!-- PROOFREAD: 1896 part1 p01 — "بل طالما تلازمت" -->
+<p class="para"><span class="t-red">• النظرية الفيزيوقراطية:</span> إنّ الأرض هي مصدر الثروة لأنّها السبب صانعة الثروة، فالعمل وحده هو صانع الثروة.</p>
+<!-- PROOFREAD: 1896 part1 p01 — "لأنّها السبب صانعة الثروة، فالعمل وحده" -->
+<p class="para">← الاعتماد على الفلاحين لارتباطهم بالعمل الزراعي واستبعاد الصناعة والتجارة: أعمال عقيمة لا منتجة.</p>
+<!-- PROOFREAD: 1896 part1 p01 — "الفلاحين" -->
+<p class="para"><span class="t-red">• النظرية المركنتيلية:</span> انتقلت من النظام الإقطاعي لتوقف الاعتماد عليه والمجال الزراعي لصالح التجارة والصناعة واعتبار أنّ ثروة الدولة تعتمد على مدى امتلاكها للمعادن</p>
+<!-- PROOFREAD: 1896 part1 p01 — "المركنتيلية" (spelling on page unclear) -->
+<p class="subhead t-navy">- النجاعة ومأزق العدالة -</p>
+<p class="para">إنّ النجاعة جعلت من العامل <span class="t-red">"رجل العملية الواحدة"</span> وفق هارن وقد أصبح الرهان عليها في العملية الإنتاجية تغيب العدالة وتنقسم الأمم بين دول المركز أي الدول الغنية ودول المحيط هي دول الفقيرة. هنا ما أبطل الثالوث المقدّس للنظام الرأسمالي مع ريكاردو <span class="t-red">"الربح، السعادة، الإنتاج اللامحدود":</span></p>
+<!-- PROOFREAD: 1896 part1 p01 — "وفق هارن" / "هنا ما أبطل" / "مع ريكاردو" -->
+<p class="para">وهنا تلوح العدالة كمفهوم يحيلنا إلى مجال الفضائل والقيم الأخلاقية العليا ولكنّه يبقى مجال مأزق لاختلاف دلالاتها وفق كلّ تصوّر ناقد للنجاعة كقيمة القيم ونتائج العالم في إطار النظام الرأسمالي المتوحّش.</p>
+<!-- PROOFREAD: 1896 part1 p01 — "تلوح" / "كقيمة القيم ونتائج العالم" -->
+<p class="para">← العدالة في التصوّر الإشتراكي: إنّ المقاربة الليبرالية للعدالة والحقّ هي مقاربة وهمية فهي مقولة إيديولوجية غايتها المغالطة، "فإعطاء كلّ ذي حقّ حقّه" كما تدّعي المنظومة الرأسمالية هو تضييق لحقّ العامل في الأجر مقابل تبرير استغلال أصحاب رؤوس الأموال لفائض القيمة فتكون العدالة هنا تكريس للتفاوت واللامساواة وتبرير للظلم. وهنا يقدّم التصوّر الإشتراكي مفهوما جديدا للعدالة هي</p>
+<!-- PROOFREAD: 1896 part1 p01 — "تضييق" / "مفهوما جديدا" -->
+<!-- file: IMG_1190 -->
+
+
+<!-- NOTE: handwritten sheet (page 2), three columns read right to left; continues from IMG_1189; highlighter not reproduced -->
+<p class="para">بفضل الوعي والتأمّل والإرادة والحرية. فهو كائن عارف لا فاعل فقيمته في إنغلاقه على ذاته.</p>
+<p class="para">← من هنا انطلقت ثورة في الفكر الإنساني أرجعت قيمة العمل ليصبح قيمة إنسانية.</p>
+<p class="para">• إنّ الطبيعة لم تهب الإنسان شيئا لا نابا (عكس الحيوان) أو مخالبا (لحمايته من الكسل) ⇐ إنّ الإنسان بين الحاجة والضرورة، عجز عن تكيّفها نقل الفعل على المستوى الأنطولوجي، ليكون العمل وسيلته في التحرّر والتحكّم في الطبيعة.</p>
+<!-- PROOFREAD: 1897 part1 p01 — "(لحمايته من الكسل)" / "عجز عن تكيّفها" -->
+<p class="para">فالإنسان <span class="t-red">"هو الحيوان الوحيد الذي يجب أن يعمل"</span> وفقا لكانط. أي أنّ العمل ماهية الإنسان وقوام ذاته.</p>
+<p class="para"><span class="t-green">← الإنسان حيوان عامل</span></p>
+<p class="para">إنّه يوظّف خصوصيته الإنسانية كالوعي والحرية والذكاء في عمله أوّلا كون العمل مجاهدة إنسانية فهو عمل تحت ضغط الحاجة <span class="t-red">(أفلاطون الجمهورية): "لا شكّ أنّ الأساس الحقيقي هو الحاجة وأعظمها المأكل وثانيها المسكن وثالثها الملبس."</span>) ، ثانيا لإبعاد كلّ أشكال الملل والقلق وكلّ الرذائل <span class="t-red">"يقول فولتير: العمل يمنع عنّا ثلاث آفات: القلق والحاجة والرذيلة."</span> وأخيرا التحرّر من طبعه الكسول وتحويل الطبيعة وإعادة تشكيلها لصنع إنسان يشبع حاجاته.</p>
+<!-- PROOFREAD: 1897 part1 p01 — "أوّلا كون العمل" -->
+<p class="para">ثمينة في الذهب والفضّة واعتماد الصادرات والتخفيض من الواردات مع زيادات في النفقات الحكومية.</p>
+<p class="para"><span class="t-red">• النظرية الكلاسيكية:</span> أبدى سميث نقدا لاذعا لمبادئ المركنتيلية. بل قام بهدم هذا التوجّه تماما في أطروحته "ثروة الأمم" باعتبار أنّ ازدهار الأمم ورخاءها يتأتّى من التقسيم التقني العمل الذي يؤدّي إنتاجية أعظم.</p>
+<!-- PROOFREAD: 1897 part1 p01 — "المركنتيلية" (spelling on page unclear) -->
+<p class="para">وكان ذلك في إطار عقلنة العمل واعتباره مصدر الثروة.</p>
+<p class="para">ومنذ القرن 18، نجد مفهوم ارتباط العمل بالنجاعة وتطوّر مع آدام سميث الذي أحدث مجانسة بين الفعل الاقتصادي بتطوّر العمل وربطا بالعمل المطلوب لإنتاجه ريكاردو وجعل من تكوين القيمة بكمية العمل الضرورية <span class="t-red">"تخضع قيمة سلعة ما إلى كمية العمل النسبية الضرورية لإنتاجها".</span></p>
+<!-- PROOFREAD: 1897 part1 p01 — "أحدث مجانسة بين الفعل" -->
+<p class="para">← أصبحت نجاعة العمل منبعا لثروة الأمم وفق شروط:</p>
+<p class="para"><span class="t-red">• التقسيم التقني للعمل:</span> إنّ التطوّر العظيم الذي حصل منذ الثورة الصناعية في القوى الفاعلة في العمل هو نتيجة تقسيم العمل بطريقة تراتبية ليصبح العمل ناجعا في جميع المجالات ويتمثّل في تخصّص كلّ عامل في مرحلة من المراحل الإنتاجية أي تقسيم العمل إلى مهام بسيطة بطريقة منظّمة قصد تأمين تلبية الحاجة إلى أقلّ فترة زمنية، أدّى ذلك إلى</p>
+<!-- PROOFREAD: 1897 part1 p01 — "الذي حصل منذ" / "إلى أقلّ فترة زمنية" -->
+<p class="para">← زيادة براعة العاملين.</p>
+<p class="para">← حفظ الوقت واستغلاله.</p>
+<p class="para">عدالة المساواة بإلغاء كلّ أشكال التفاوت كالملكية الخاصّة مقابل فرض التساوي في عدم الملكية والمساواة في عدم الثروة. فالمشروع الماركسي طامح لإرساء عدالة مطلقة لنسف كلّ أشكال الاغتراب وهذا ما يحقّقه المجتمع الشيوعي الذي ينفي كلّ أشكال التفاوت. وهذا ما يمثّله حلم "آتين" كابيه بدولة <span class="t-red">"إيكاريا"</span> أين جميع الأهالي يعملون بنفس القدر والدولة صاحبة المصانع ووسائل الإنتاج، حلم سعى إلى تبنّيه في كتابه <span class="t-red">"رحلة إلى إيكاريا".</span></p>
+<!-- PROOFREAD: 1897 part1 p01 — "مقابل فرض التساوي" / "حلم سعى إلى تبنّيه" -->
+<p class="para">ونعود مع ماركس الذي يضحّي بمنفعة الأفراد من أجل الصالح العام وهو ما يؤكّده انجلز في كتاب ضدّ دوهرنغ: <span class="t-red">"منذ اللحظة التي قامت فيها البورجوازية بإلغاء الامتيازات الطبقية. ظهرت بجانبها مطالبة البروليتاريا بإلغاء الطبقات ذاتها."</span></p>
+<!-- PROOFREAD: 1897 part1 p01 — "ظهرت بجانبها" -->
+<p class="para">أعتبر المشروع الماركسي طوباوي، يكرّس عدالة جوفاء، فقد ضحّى بالنجاعة والمنفعة لصالح المنفعة العامّة، وفي هذا نفي لجميع المحفّزات للعمل، هذا ما يبيّنه فايل بقوله:</p>
+<p class="para"><span class="t-red">"العدالة بما هي مساواة تعني أن نوزّع الفقر بعدل على الجميع".</span></p>
+<p class="para">← العدالة في التصوّر الليبيرالي: إختلفت العدالة في التصوّرات الكلاسيكية، فمع الكلاسيكيين الشرع نقف أمام عدالة تضمن المردودية وتخدم العملية الإنتاجية بحقّ الفرد في المنفعة من ثروة وملكية خاصّة باعتبارها حقّا طبيعيا للبشر، بل محفّزه الأوّل للعمل والمضيّ منها.</p>
+<!-- PROOFREAD: 1897 part1 p01 — "الكلاسيكيين الشرع" / "والمضيّ منها" -->
+<!-- file: IMG_1191 -->
+
+
+<!-- NOTE: handwritten sheet (page 3), three columns read right to left; highlighter not reproduced -->
+<p class="para">← إنّ العمل إذا شرط أساسي للحياة الإنسانية وبه إكتسب الإنسان وعيه وحرّيته وإرادته، فالفعل لم يعد التأمّل كما زعم التوجّهات المثالية بل يكرّسها وينشئ ذاته ويصبح سيّدا على الطبيعة وكائنا نوعيا واعيا <span class="t-green">بفضل العمل</span> وهذا ما يؤكّده روسو <span class="t-red">"لم يوجد الإنسان فقط ليتأمّل وإنّما ليفعل".</span></p>
+<p class="para">← إنفصل الإنسان عن عالم الحيوان وحقّق وجوده وحقّق التحرّر الحضاري البشري في إطار المستحث من أجل الإعتراف يكون بفضل عمل العبد لا سلطة السيّد الرمزية كما يبيّن <span class="t-red">هيغل في علم ظهور العقل.</span></p>
+<!-- PROOFREAD: 1898 part1 p01 — "في إطار المستحث" -->
+<p class="para">يقول روسو <span class="t-red">"إنّ الوسيلة الأكثر ضمانا كي تجعلوه بائسا هي أن تعوّده على أن يحصل على كلّ شيء".</span></p>
+<p class="para"><span class="t-green">← العمل قيمة أنطولوجية وإنسانية.</span></p>
+<p class="para"><span class="t-red">• في دلالته المادية الإقتصادية:</span></p>
+<p class="para">إنّ العمل هو عملية انخراط الإنسان في مجال الاكتساب فهو مقترن بالممارسة والإنتاج يستحضر قوى الإنسان الجسدية والعقلية.</p>
+<p class="para">فالعمل هو <span class="t-red">"عمل منتج، فهو يساهم في خلق إنتاج ما."</span> رغم ما يقتضيه الأمر من معاناة ومشقّة وتعب.</p>
+<p class="para">← اختراع عدد هائل من الآلات التي سهّلت العملية الإنتاجية وجعلتها أكثر دقّة وحسابا.</p>
+<p class="para">← هذا ما جعل المجتمع أكثر تنظيما لتصبح الثروة ممتدّة لجميع فئات المجتمع لتشمل الطبقات الدنيا.</p>
+<p class="para">← عموم الرفاه على جميع الفئات بتكديس البضائع وفق أسعار مختلفة.</p>
+<!-- PROOFREAD: 1898 part1 p01 — "بتكديس" -->
+<p class="para"><span class="t-red">• جملة التشريعات القانونية لتحقيق المردودية:</span></p>
+<p class="para">← ضمان حقّ الملكية: باعتبارها اليد الخفية التي تحرّك الجميع، فحسب آدام سميث إنّ الإنسان يتحرّك وفق مصالحه <span class="t-red">"إنّنا لا نخاطب فيهم إنسانيتهم وإنّما أنانيتهم، ونحن لا نحدّثهم إطلاقا عن حاجياتنا، إنّنا نحدّثهم دوما عن فوائدهم"</span> هذا ما دعّمه جون لوك في كتابه "الحكم المدني"، باعتبار الطبيعة هي ملك شائع عام لجميع الناس، ولكن عندما نضيف إلى هذه المعطاة شيئا تصبح حقّا خاصّا لذلك الشخص أي <span class="t-red">"تبديل الحال الذي خلقته الطبيعة عليها هو ما يبرّر الملكية الفردية":</span> مثال أنّ مياه الأنهار ملك للإنسانية ولكنّ المياه في الجرّة هي لصاحب الجرّة إذ <span class="t-red">"أنّه انتزعه بجهده الخاص".</span></p>
+<!-- PROOFREAD: 1898 part1 p01 — "هذه المعطاة" -->
+<p class="para">← الحرّية الفردية: باعتبارها حرّية السوق، أي المنافسة داخل فضاء تجاري تبادلي عادل يقوم على قوانين العرض والطلب أي أنّ العمل ذاته يصبح بضاعة في السوق، سوق الشغل وهو تجارة من خلالها يسعى العامل إلى بيع جهد عمله بأعلى سعر</p>
+<p class="para">وهنا تتحوّل المنفعة إلى قيمة إنسانية أوجب حمايتها عبر القوانين والتشريعات فكلّما دعّمناها تحقّقت نجاعة واجتماعية في السعادة والرفاه.</p>
+<!-- PROOFREAD: 1898 part1 p01 — "نجاعة واجتماعية" -->
+<p class="para">فتكون العدالة هنا محاولة لتوزيع المنفعة على الجميع في إطار العلاقات التعاقدية الطوعية لتحقّق كلّ من عامّة في آخر المطاف، هذا ما يؤكّد عليه سميث بقوله <span class="t-red">"نحن لا ننتظر وجبة عشائنا من عطف الجزّار وبائع الجعة والخبز".</span></p>
+<!-- PROOFREAD: 1898 part1 p01 — "لتحقّق كلّ من عامّة في آخر المطاف" -->
+<p class="para">لتكون المنفعة الخاصّة غاية وسيلة لبلوغ منفعة المجتمع.</p>
+<!-- NOTE: "وسيلة" is written above "غاية" on the page -->
+<p class="para">يعتبر المشروع الليبيرالي الكلاسيكي مشروع النجاعة العصري، رغم إدّعائه طرح عدالة لم تكن سوى وسيلة تحقيق النجاعة لتنتهي العدالة في مأزق الأنانية والطبقية والاغتراب بشتّى أنواعه ما يهدّد سلم المجتمع.</p>
+<p class="para">أمّا العدالة مع الليبيراليين الجدد، فقد اتّخذت مفهوما آخر مغاير لما سبقها، فلم تكن التصوّر الوضعي أو حتّى التصوّر النفعي لتكون العدالة هنا القيمة المعيارية للحياة العملية والسياسية كما يبيّن راولس في <span class="t-red">"نظرية العدالة".</span> لكنّها ليست عدالة المساواة وفقا المثالية المتعالية عن الناس بل هي نابعة منهم خاضعة للتطوّر الزمني والتاريخي، فيصبح المجتمع معيار العدالة أي كلّ شيء أصبح يبنى وفق اتّفاق عام أشبه به من الاتّفاق الاجتماعي.</p>
+<!-- PROOFREAD: 1898 part1 p01 — "عدالة المساواة وفقا المثالية" / "أشبه به من" -->
+<!-- file: IMG_1192 -->
+
+
+<!-- NOTE: handwritten sheet (page 4), three columns read right to left; highlighter not reproduced -->
+<p class="para">كما أكّد على ذلك كانط مسبقا: <span class="t-red">"إنّ الإنسان في حاجة إلى أشغال شاقّة لا لهو معها".</span></p>
+<p class="para">إلّا أنّ هذا التعب في عملية الإنتاج يحقّق للإنسان شعورا بالإرتياح لكونه يعود له بالمنفعة.</p>
+<p class="para">فمع "ساي" عالم الإقتصاد، يتحوّل العمل من قيمة في ذاته إلى العمل المنتج القيمة في المنفعة بما هي إبداع للثروة التي تتحقّق في وجهين، منفعة الأشياء (تحويل الإنسان المواد الطبيعية الخام إلى مواد مادية إستهلاكية إستعمالية) ومنفعة الأفراد (إشباع حاجات البشر وتحقيق الربح والفائدة والثروة).</p>
+<p class="para">← فالعمل هو عملية تحويل المادّة إلى أشياء نافعة تستجيب لحاجة الإنسان وهو نقطة إلتقاء الفكري بالمادّي (المجهود العقلي والعضلي) أي أنّه موضعة الذات: مشروع واستباق ينطلق من تصوّر الإنسان لما يريده ثمّ تحقيقه عبر العمل.</p>
+<!-- PROOFREAD: 1899 part1 p01 — "موضعة الذات" -->
+<p class="para"><span class="t-green">←</span> لم يعد الإنسان كائن الحاجة والوعي والحرّية بل كائن المنفعة والأنانية، فالمنفعة الفردية هي محرّكه الأساسي بل القيمة الإنسانية المطلقة، هذا ما يؤكّده نيتشه <span class="t-red">"البحث عن العمل من أجل الربح، هذا ما يتساوى فيه تقريبا كلّ سكّان البلاد المتمدّنة".</span></p>
+<p class="para">ممكن. إنّ هذا المبدأ يقوم على مقولة <span class="t-red">"دعه يعمل دعه يمرّ"</span> التي تبنّاها آدام سميث في كتابه ثروة الأمم.</p>
+<p class="para">← المنافسة الحرّة: فالأفراد في سعيهم لتحقيق المصلحة الفردية في إطار سوق حرّة يحقّقون الصالح العام.</p>
+<p class="para">⇐ إنّ النجاعة قيمة إنسانية في إطارها تتّحد الذات بالموضوع وفيها تتحقّق حقيقة العمل وحرّية الإنسان في مجتمع الرفاه والوفرة والاستهلاك.</p>
+<p class="para"><span class="t-green">← تحقّق النجاعة قيمة أنطولوجية.</span> بتطوّر الآلات داخل العملية الإنتاجية بزيادة استثمار الثروات الطبيعية وهذا ما يتطلّب قوّة إنسانية ⇐ يحلّ محلّ العالم الطبيعي عالم إنساني وثقافي ويحرّر الإنسان من دائرة الحيوانية الوحشية.</p>
+<p class="para"><span class="t-green">← تحقّق النجاعة قيمة أخلاقية وإجتماعية:</span> إنّ في العمل الناجع فيه وعي الإنسانية بضرورة التوحّد لتحقيق غاية ما <span class="t-red">"لكنّ الإنسان محتاج باستمرار تقريبا إلى العون من بني جنسه".</span> فتكون النجاعة دافعا لتحقيق مصلحة الجميع وفق علاقات تبادلية <span class="t-red">"أعطوني ما أنا بحاجة إليه وسيكون لكم منّي ما أنتم بحاجة إليه".</span> وهكذا يتمّ القضاء على الاستغلال وتحقيق فضاء عادل بين الجميع. وقد كان ذلك بارزا في تطوّر النظام الليبرالي ونقده الذاتي لنفسه حتّى يحقّق المقاصد المطلوبة منه ما كان بارزا خاصّة مع أزمة الثلاثينات الاقتصادية</p>
+<p class="para">وما تحدّد العدالة بما هي إنصاف وفق مبدأين: مبدأ التمتّع بنفس الحقوق الاجتماعية والسياسية مهما تعدّدت الإختلافات الإنسانية (حقّ الانتخاب، حقّ الشغل، حقّ التعبير، حقّ المعتقد...) ومبدأ العدالة التوزيعية، أي في مبدأ الاستحقاق وفق نجاعة العامل ومردوديته يعتبر المساواة الحسابية عين الجور واللاعدالة فمثلا اللاتساوي في الأجور هو عين العدالة بين مهندس وعامل بسيط مثلا هو عين العدالة لأنّه التناسب على الاستحقاق.</p>
+<!-- PROOFREAD: 1899 part1 p01 — "وما تحدّد" / "يعتبر" / "فمثلا اللاتساوي في الأجور هو عين العدالة" (first "العدالة" may be "اللاعدالة") -->
+<p class="para">ويقول هيوم في هذا الإطار <span class="t-red">"إذا جعلتم العدالة غير نافعة تماما فإنّكم ستخرّبون بذلك ماهيتها وستعلّقون الإلزام الذي تفرضه على البشر".</span></p>
+<p class="para">⇐ إنّ العدالة التوزيعية هي توزيع الثروات وفق الموهبة والكفاءة والمجهود.</p>
+<p class="para">⇐ إنّ العدالة حسب تلك النظرية لا تتحقّق فعليا إلّا داخل المؤسّسة الاجتماعية.</p>
+<p class="para">⇐ العدالة: مبدأ المساواة في الحقوق والواجبات: إنصاف.</p>
+<p class="para">ومبدأ اللامساواة في توزيع الثروة: المنفعة.</p>
+<p class="para">⇐ ضرورة تأكيد أولوية الإنصاف على المنفعة.</p>
+<!-- file: IMG_1193 -->
+
+
+<!-- NOTE: handwritten notes (double page); yellow highlighter on "ولكن" left out -->
+<p class="para">تحوّل <span class="t-red">"الكلاسيكيين الجدد"</span> وإعلان نهاية المقاربة <span class="t-red">"الميكرو اقتصادية"</span> وصعود نجم المقاربة <span class="t-red">"الماكرو اقتصادية"</span> مع بروز منظّر كاينز وتحقيق المصلحة الخاصّة والعامّة بخلق مفهوم دولة الرعاية وإرساء الضمانات الاجتماعية في النظام الرأسمالي، فبحسب هذا الإطار <span class="t-red">"يجب أن يكون الهدف الاجتماعي للاستثمار الماهر هو هزيمة قوى الظلام والجهل التي تغلّف مستقبلنا"</span>.</p>
+<!-- PROOFREAD: 1900 part1 p01 — "منظّر" -->
+<p class="para">ولكن إنّ النجاعة تحوّلت إلى نجاعة سالبة عمياء سحقت القيم الإنسانية وجعلتها تتمظهر داخل الجور واللاعدالة. فما هي مظاهر ذلك؟</p>
+<p class="para">إنّ المجتمع الليبرالي أوقع الإنسان من منظور ماركسي في الاغتراب:</p>
+<p class="para">*الاغتراب: هو وضعية سالبة لإنسانية الإنسان فيصبح الإنسان غريبا عن ذاته ومجتمعه فتغدو أفعاله الصادرة عنه لا تعبّر عن ذاته، إنّها فقدان الإنسان لكينونته الحرّة وذاته وقيمته في مقابل الإعلاء من قيمة السلعة ورأس المال وجعل النجاعة قيمة القيم.</p>
+<p class="para">أ- الاغتراب الاقتصادي: إنّ العمل لم يعد ذلك المجال الذي يحقّق فيه الإنسان إنسانيته بل أمسى مجال اغتراب، ففي المستوى الاقتصادي، أصبح العمل مجرّد بضاعة تباع وتشترى في سوق الشغل، إنّه مجرّد جهد نطلق عليها بقوّة العمل التي تضاف إلى قوّة الآلات والأرض، فهي مجرّد قوّة يشتريها صاحب رأس المال ليستغلّها لفترة، إنّه الاغتراب في نظام الأجر كما يقول ريكور <span class="t-red">"العمل مغترب في نظام الأجرة"</span>. وبهذا يصبح الإنسان مجرّد قوّة إنتاج ما يطلق عليه ماركس بالعمل المضطهد أو المسترق، أي تحويل إنتاج وعناء الإنسان الشقي مستلبة بالمستولي عليه، فيقف المنتج أمام المنتج كقوّة غريبة، فهو عدم التوافق بين الماهية والوجود، إنّه نزول الإنسان لمنزلة الشيء بفقدانه لاستقلاليته وسيادته وفاعليته ليكون منقادا كليّا لقوّة غريبة عنه، فقوّة النظام الرأسمالي الذي يمنح الحقّ في الاستيلاء على فائض القيمة ما يعتبره ماركس سرقة لقسط من مجهود العامل <span class="t-red">"لأنّ رأس المال يتحكّم في كمّية معيّنة من عمل الآخرين لا يدفع ثمنها فيكون نظام الأجرة من ضروب أكل لحوم البشر"</span>.</p>
+<!-- PROOFREAD: 1900 part1 p01 — "لفترة" / "بالعمل المضطهد أو المسترق" / "الشقي مستلبة بالمستولي عليه" / "لقسط" / "نظام الأجرة من ضروب" -->
+<p class="para">← إنّ العملية الإنتاجية هي عملية ميكانيكية يرتبط فيها الاقتصادي بالسياسي بلا مساس بالأخلاقي، وهنا تكمن المفارقة: أزمة العمل أدّت بنا إلى مشاكل وعيوب في إطار المنظومة الاقتصادية ذات النوع التي تُعلي النجاعة والمنفعة.</p>
+<!-- PROOFREAD: 1900 part1 p01 — "يرتبط فيها" / "ذات النوع التي تُعلي" -->
+<p class="para">لكن الأمر لا يتعلّق بهدم مبدأ النجاعة بل بالتفكير في إمكانية أخلقة هذه المنظومة. كما يبيّن إريك فايل إذ أنّ <span class="t-red">"الحكومة التي تطلب العمل دون أن تأخذ في الاعتبار المصالح هي حكومة غير عادلة، ذلك أنّ المصلحة في مسار المجتمع"</span>.</p>
+<!-- PROOFREAD: 1900 part1 p01 — "الأمر" / "بالتفكير" / "مسار" -->
+<p class="para">إنّ النظام الغير عادل ينتهي ضرورة بالهدم والاندثار لذلك أوجب الجمع بين المفهومين ذلك أنّ <span class="t-red">"العدالة من غير النجاعة لا تعني شيئا وأنّ النجاعة لا تعني شيئا من غير العدالة"</span>.</p>
+<p class="para">ويكون ذلك عبر وعي الإنسان بحدود مصلحته دون التعدّي على مصلحة المجتمع.</p>
+<p class="para">أي عبر وضع حدود للمصلحة الفردية دون القضاء عليها نهائيا والتعالي على ثنائية الاستعباد والتحرّر من جهة أخرى أي انخراط الإنسان في رحلة لتحقيق قيمتي العدالة والنجاعة في الفعل وبالفعل كما يقول سارتر <span class="t-red">"إنّما الإنسان يصنع ذاته عندما يصنع شيئا"</span></p>
+<!-- PROOFREAD: 1900 part1 p01 — "نهائيا والتعالي" -->
+<p class="para">ولا يكون ذلك عبر الحرية المطلقة في بنية مبادئ نظرية تحلّق فوق العالم بل فالفعل حريّة حياتي" في إطار الإنسان المشروع، فهذا المشروع يحقّق التأرجح بين سيادة الإنسان وعبوديته، إنّها الحرية الفعلية في بنية الفعل والعمل داخل منشأة صناعية لاستغلال العالم.</p>
+<!-- PROOFREAD: 1900 part1 p01 — "في بنية مبادئ نظرية" / "حريّة حياتي"" / "منشأة صناعية" -->
+<!-- file: IMG_1194 -->
+
+
+<!-- NOTE: handwritten notes (right page; left page blank) -->
+<p class="para">إنّ الآلة كذلك لم تعد ذلك الوسيط الذي يسمح للإنسان بالإبداع في عديد المجالات، بل أصبحت تحتوي عاملا متخصّصا في معمل اليوم، يقول فريدمان في عمّال اليوم <span class="t-red">"إنّني أتمنّى شغلا أحسّ منه أنّني أبدع شيئا ما وأن أتقنه، لأنّه عندما يصبح لكلّ شيء وعندما تكون جميع الأشياء متشابهة فإنّك لا تحسّ أنّك أبدعت شيئا ذا أهمية، إنّها آلة عملاقة لا أستطيع التحكّم فيها"</span>.</p>
+<!-- PROOFREAD: 1901 part1 p01 — "يسمح للإنسان" / "تحتوي" / "عندما يصبح لكلّ شيء" -->
+<p class="para">ثمّ إنّ تفتيت العمل حوّل العامل إلى إنسان يقضي ما عليه بدون وعي، كأن يقوم أو يركّب أشكالا بطريقة معيّنة لا سواها، فيصبح عمله أصبح مزيّفا. وهذا ما أشار إليه فريدمان في مثال مصانع المنتوجات الغذائية <span class="t-red">"هذه عاملة ليس لها طوال اليوم وطيلة الأسبوع بل طيلة السنة سوى أن تضع على كلّ قارورة شريطا فاقع اللون وطابع المعمل المنتج ويبقى على زميلتها في السلسلة أن تلصقه. وهنا نرى أنّه بتكيّف العمل مع الإنسان أصبح الإنسان هو الذي يتكيّف مع الآلة والعمل تكيّفا تامّا"</span>.</p>
+<!-- PROOFREAD: 1901 part1 p01 — "إنسان يقضي ما عليه بدون وعي، كأن يقوم أو يركّب أشكالا" / "فيصبح عمله أصبح مزيّفا" / "أن تضع" / "بتكيّف ... يتكيّف ... تكيّفا" -->
+<p class="para">إنّ تقسيم العمل كذلك أنتج شريحتين: شريحة من التقنيين وأطبّاء يخطّطون وجمع من العمّال ينجزون، إنّهم يلتصقون بالآلات التي تحكمهم فيصبح العامل وفق ماركس <span class="t-red">"قطعة آدمية ملتصقة بقطعة من الفولاذ"</span>.</p>
+<!-- PROOFREAD: 1901 part1 p01 — "وأطبّاء" -->
+<p class="para">ب- الاغتراب الاجتماعي: أنتج اكتساح النجاعة منظومة القيم، اغترابا اجتماعيا يتمثّل في غياب التوزيع العادل للثروة، فالعامل رغم أنّه المصدر الأوّل لخلق الثروة والعمود الفقري للعملية الإنتاجية، فإنّه يبقى الأفقر في كلّ المجتمعات الرأسمالية باعتبار مجهوداته مجرّد حركة تسرق بطرق مقنّنة، إنّه <span class="t-red">"يبني القصور ويسكن الأكواخ ويستخرج الذهب والفضّة ويموت جوعا"</span>. فيصبح المجتمع في حالة من التناحر والطبقية المجحفة في مجتمع فيه أقليّة من أصحاب رؤوس الأموال الذين يتمتّعون بالثراء الفاحش وأغلبيّة من العمّال المضطهدين الذين يعيشون حالة من الظلم والحيف، إذ أنّهم حتّى في خارج العمل، تلاحقهم النجاعة العمياء، فوقت الترفيه لم يعد ملكه</p>
+<!-- NOTE: "ويسكن الأكواخ" is written as an insertion above the line -->
+<!-- PROOFREAD: 1901 part1 p01 — "حركة تسرق بطرق مقنّنة" -->
+<!-- file: IMG_1195 -->
+
+
+<!-- NOTE: handwritten notes (right page; left page blank) -->
+<p class="para">بل أصبح مبرمجا، إنّها "صناعة الترفيه" وفق ماركوز، فالعامل الذي <span class="t-red">"يهرب من العمل كما يهرب من الطاعون"</span> وفق ماركس، لا يجد وسيلة لإشباع حاجاته المتزايدة بحكم دوامة الاستهلاك فيرتدّ ويهوي ويسقط لأسفل درجات الحيوانية: الأكل والشرب والجنس</p>
+<!-- PROOFREAD: 1902 part1 p01 — "فيرتدّ ويهوي" -->
+<p class="para">ج- اغتراب سياسي: إنّ الدولة أصبحت عميلة النظام الرأسمالي، فلم تعد مهمّتها فرض العدالة بين جميع المواطنين بل أصبحت مجالا لإخفاء الصراع الطبقي عبر القول بالعدالة والمساواة السياسية والحرّيات والمناداة بحقوق الإنسان أي المبادئ التي أعلنت عنها الثورة الفرنسية، فالمواطن أصبح خادما ومصالح الدولة وهمية ووعيه وعي قطيعي.</p>
+<!-- PROOFREAD: 1902 part1 p01 — "فرض" / "خادما ومصالح الدولة وهمية" -->
+<p class="para">د- اغتراب أنطولوجي وأنثروبولوجي: إنّ التبادل التجاري للسلع والبضائع مع الحضارات القديمة، أنتج تبادل الثقافات والعلوم والقيم وحتّى الآلهة والأديان بشكل أعمق، فالعملية الاقتصادية كانت تفترض التزاوج بين الشعوب واستهلاك لمنتجات لثقافات وشعوب مغايرة، منتجات فيها صبغة الإنسانية كما وضّح مارسال موس.</p>
+<p class="para">إلّا أنّنا اليوم، أصبح الربح الوفير والمنفعة وفق قانون السوق، الهدف الوحيد للعملية الإنتاجية، فلم تعد منتوجاتنا إنسانية <span class="t-red">"فالشيء صامت، وهو لا يحمل إلينا مباشرة نكهة الإنسان"</span> وفق حنّة أرندت، إنّ منتجات اليوم لم تعد تحمل جهود العمّال وأنفاسهم وإبداعاتهم، بل أصبحت مشبعة بالآلات والتقنيات.</p>
+<!-- PROOFREAD: 1902 part1 p01 — "حنّة أرندت" / "بالآلات والتقنيات" -->
+<p class="para">← إنّ النجاعة في المجتمع الرأسمالي وسيلة لسحق إنسانية الإنسان، فتصبح غاية الغايات وقيمة القيم، فتهدم العدالة الاجتماعية وتكرّس المنفعة الفردية وتنفي السلوكات الاجتماعية، إنّها تحوّل الناس إلى عبيد كما تكشف لنا السينما الناقدة لشارلي شابلن في شريط الأزمنة الحديثة. فنصبح في إطار روبو منفصل عن وجوده، فأنا أنتج أنا مغلوب ويصبح العمل وفق بول ريكور <span class="t-red">"لأنّ الآلهة التي تسحقني هي عينها التي ستلبّي شهوتي"</span>.</p>
+<!-- PROOFREAD: 1902 part1 p01 — "وتنفي" / "الآلهة" / "ستلبّي" -->
+
+</section>
+
+</div>
+</body>
+</html>

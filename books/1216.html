@@ -1,0 +1,376 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<title>Wael Academy — Philosophie · 3.إنية الغيرية</title>
+<script>
+  window.MathJax = {
+    tex: { inlineMath: [['\\(','\\)']], displayMath: [['\\[','\\]']] },
+    chtml: { fontURL: 'https://cdn.jsdelivr.net/npm/mathjax@3/es5/output/chtml/fonts/woff-v2', matchFontHeight: true },
+    startup: { typeset: true }
+  };
+</script>
+<script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js" async></script>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Sora:wght@400;500;600;700;800&family=Cairo:wght@400;500;600;700;800;900&family=Tajawal:wght@400;500;700;800&family=JetBrains+Mono:wght@400;500;600;700&display=swap');
+:root{
+  /* ===== Wael Academy palette — MAIN ACCENT = green-teal gradient #0FAB8F → #067360 ===== */
+  --bg:#fff; --panel:#f2f8f8; --hair:#e6e6e9; --hair2:#d6d6db;
+  --fg:#0f2a31;        /* body text (and +/− signs) */
+  --fg2:#3f5b62;       /* softer text */
+  --fg3:#7c959b;       /* muted (footer) */
+  --blue:#067360;      /* deep accent — small numbers, borders, watermark, accent equations */
+  --blue-dark:#045260; /* titles & wordmarks (also the balance colour) */
+  --teal:#0fab8f;      /* bright accent end */
+  --loop:#0d9c82;      /* logo-loop helper */
+  --orange:#067360;    /* kicker/category labels (gold retired → deep teal) */
+  --red:#f5322f;       /* EXERCISE CHIPS ONLY — never for emphasis */
+  --cream:#e6f3f4; --blue-soft:#e6f3f4;  /* pale teal — callout fill + table sub-row fill */
+  --blue-line:#cde7e4; /* hairline */
+  --sub-ink:#045260;   /* table sub-row text */
+  --grad:linear-gradient(148deg,#0fab8f 0%,#0d9c82 52%,#067360 100%);
+  --mono:'JetBrains Mono',monospace; --latin:'Sora',sans-serif; --ar:'Cairo',sans-serif; --arb:'Tajawal',sans-serif;
+}
+*{box-sizing:border-box;margin:0;padding:0;}
+body{font-family:var(--latin);color:var(--fg);background:#e4e4e7;padding:28px 0;
+     -webkit-print-color-adjust:exact;print-color-adjust:exact;}
+html[dir="rtl"] body{font-family:var(--arb);}
+
+/* ===== brand watermark: REAL text (crisp), full-bleed, repeats per page ===== */
+.wm{position:fixed;inset:0;z-index:0;pointer-events:none;display:flex;
+    align-items:center;justify-content:center;overflow:hidden;
+    -webkit-print-color-adjust:exact;print-color-adjust:exact;}
+.wm span{font-family:var(--mono);font-weight:800;font-size:76.8pt;letter-spacing:.16em;
+    color:var(--blue);opacity:.06;white-space:nowrap;transform:rotate(-54deg);}  /* single diagonal: bottom-left → top-right */
+.wm.mono span{color:#000;opacity:.05;}
+
+/* ===== continuous flow stream (no page border) ===== */
+.flow{width:210mm;margin:0 auto;background:transparent;color:var(--fg);
+      padding-block:16mm 18mm;padding-inline:23mm 14mm;position:relative;}   /* spiral gutter: inline-start(=spine) 23mm / outer 14mm — dir-aware; print margins set in render_flow.py */
+@media screen{ .flow{background:#fff;box-shadow:0 10px 40px rgba(0,0,0,.16);} }
+.flow>*{position:relative;z-index:1;}
+.flow p,.flow li,.flow .data,.flow .note,.flow .ex{break-inside:auto;}
+.flow .fig,.flow figure,.flow img,.flow svg.figsvg,.flow table,.flow tr,.flow .chapdiv,.flow .exh,.flow .qrcard,.flow .meta{break-inside:avoid;}
+.flow h1,.flow h2,.flow h3,.flow .exh,.flow .subhead,.flow .chapdiv{break-after:avoid;}
+.flow img,.flow svg.figsvg{max-width:100%;height:auto;}
+.flow figcaption,.flow .figcap{display:none;}          /* rule 3: no figure captions */
+
+/* ===== front matter + chapters each start on a fresh page ===== */
+.flow .cover{break-after:page;}        /* cover alone on page 1 */
+.flow .toc{break-after:page;}          /* Sommaire alone on the next page */
+.flow .chapter{break-before:page;}
+.flow .chapter:first-of-type{break-before:auto;}
+
+/* ===== cover ===== */
+.cover{padding:14mm 0 8mm;border-bottom:2px solid var(--blue);margin-bottom:6mm;}
+.cover .badge{font-family:var(--mono);font-size:8.5pt;letter-spacing:.28em;text-transform:uppercase;color:var(--orange);margin-bottom:10px;}
+.cover h1{font-family:var(--latin);font-weight:800;font-size:34pt;line-height:1.03;letter-spacing:-.025em;color:var(--blue-dark);}
+.cover .grule{width:120px;height:5px;border-radius:5px;background:var(--grad);margin:14px 0;}
+.cover .sub{font-family:var(--mono);font-size:10pt;letter-spacing:.14em;text-transform:uppercase;color:var(--teal);}
+.cover .auth{font-size:11pt;color:var(--fg2);margin-top:6px;font-weight:600;}
+
+/* ===== table of contents ===== */
+.toc{margin:2mm 0 4mm;}
+.toc h2{font-family:var(--latin);font-weight:800;font-size:15pt;color:var(--blue-dark);margin-bottom:4mm;}
+.toc .trititle{font-family:var(--mono);font-size:8pt;letter-spacing:.2em;text-transform:uppercase;color:var(--orange);margin:4mm 0 2mm;}
+.toc ol{list-style:none;}
+.toc li{display:flex;align-items:baseline;gap:8px;font-size:10pt;padding:2.2px 0;color:var(--fg);line-height:1.4;}
+.toc li .n{font-family:var(--mono);font-weight:700;font-size:9pt;color:var(--blue);min-width:26px;}
+.toc li .dots{flex:1;border-bottom:1px dotted var(--hair2);transform:translateY(-3px);}
+
+/* ===== chapter divider band ===== */
+.chapdiv{margin:0 0 5mm;padding:6mm 16px 5mm;border-radius:12px;background:var(--grad);
+    -webkit-print-color-adjust:exact;print-color-adjust:exact;}   /* green-filled chapter band */
+.chapdiv .cn{font-family:var(--mono);font-size:8.5pt;font-weight:700;letter-spacing:.24em;text-transform:uppercase;color:rgba(255,255,255,.82);margin-bottom:5px;}
+.chapdiv h2{font-family:var(--latin);font-weight:800;font-size:17pt;line-height:1.1;letter-spacing:-.015em;color:#fff;}
+/* conclusion block — same green-filled look as the chapter band */
+.conclusion{background:var(--grad);border-radius:12px;padding:6mm 16px;margin:5mm 0;color:#fff;break-inside:avoid;
+    -webkit-print-color-adjust:exact;print-color-adjust:exact;}
+.conclusion .ck{font-family:var(--mono);font-size:8.5pt;font-weight:700;letter-spacing:.24em;text-transform:uppercase;color:rgba(255,255,255,.82);margin-bottom:6px;}
+.conclusion h3{font-family:var(--latin);font-weight:800;font-size:13pt;line-height:1.2;color:#fff;margin-bottom:4px;}
+.conclusion p,.conclusion li{font-size:10.4pt;line-height:1.7;color:#fff;}
+.conclusion b,.conclusion strong{color:#fff;font-weight:700;}
+
+/* ===== unit header (lesson/exercise) + QR emplacement ===== */
+.exh{display:flex;align-items:center;gap:11px;margin:6mm 0 3mm;}
+.exh .idx{font-family:var(--mono);font-size:9pt;font-weight:600;color:#fff;background:var(--grad);
+    border-radius:6px;padding:4px 11px;letter-spacing:.08em;text-transform:uppercase;
+    -webkit-print-color-adjust:exact;print-color-adjust:exact;}
+.exh .idx.ex{background:var(--red);}   /* exercise chip = red */
+.exh h2{font-family:var(--latin);font-size:14pt;font-weight:700;letter-spacing:-.01em;color:var(--blue-dark);}
+.exh .qrcard{margin-inline-start:auto;flex:0 0 auto;display:flex;flex-direction:column;align-items:center;gap:3px;width:26mm;}
+.qrcard .qrt{font-family:var(--mono);font-size:6.5pt;letter-spacing:.1em;text-transform:uppercase;color:var(--teal);text-align:center;}
+.qrcard .qrslot{width:24mm;height:24mm;padding:1.5mm;background:#fff;border:1px solid var(--blue-line);border-radius:8px;display:flex;align-items:center;justify-content:center;}
+.qrcard .qrslot img,.qrcard .qrslot svg{width:100%;height:100%;display:block;}
+
+/* sub-exercise label when one file holds several exercices */
+.exsub{font-family:var(--latin);font-weight:800;font-size:11.5pt;color:var(--blue-dark);margin:5mm 0 2.5mm;padding-bottom:3px;border-bottom:2px solid var(--blue-line);}
+
+/* ===== text blocks ===== */
+.lead{font-size:11pt;line-height:1.7;margin:2mm 0 3mm;color:var(--fg);}
+.para{font-size:10.6pt;line-height:1.7;margin:2mm 0 2.5mm;color:var(--fg);}
+.consigne{font-size:10.4pt;line-height:1.6;margin:1mm 0 2mm;color:var(--fg);font-style:italic;}
+.subhead{font-family:var(--latin);font-weight:800;font-size:12pt;letter-spacing:-.01em;color:var(--blue-dark);margin:5mm 0 2.5mm;}
+/* emphasis — green accent = .t-blue/.t-green ; balance = .t-navy ; red = SECONDARY accent (.t-red) on titles + a few words */
+.t-blue{color:var(--blue);font-weight:600;} .t-navy{color:var(--blue-dark);font-weight:700;}
+.t-red{color:var(--red);font-weight:600;} .t-green{color:var(--teal);font-weight:600;} .t-gold{color:var(--orange);font-weight:600;}
+.subhead.t-red{color:var(--red);font-weight:800;}   /* red Roman-numeral section title (I, II, …) — keeps subhead weight */
+/* highlighter marks — a soft colour wash behind a key word (agent picks green or red per what balances the page) */
+.hl-green,.hl-red{border-radius:3px;padding:.02em .24em;font-weight:600;box-decoration-break:clone;-webkit-box-decoration-break:clone;
+    -webkit-print-color-adjust:exact;print-color-adjust:exact;}
+.hl-green{background:rgba(15,171,143,.20);color:var(--blue-dark);}   /* green highlight */
+.hl-red{background:rgba(245,50,47,.13);color:#c0261f;}               /* red highlight  */
+
+.data{background:var(--blue-soft);border:1px solid var(--blue-line);border-inline-start:4px solid var(--blue);
+    border-radius:8px;padding:11px 16px;margin:3mm 0;font-size:10pt;line-height:1.65;color:var(--fg2);}
+.data b{color:var(--fg);font-weight:700;}
+.note{border:1px dashed var(--hair2);border-radius:9px;padding:11px 16px;margin:4mm 0;background:var(--panel);}
+.note .kicker{font-family:var(--mono);font-size:7.5pt;letter-spacing:.18em;color:var(--orange);display:block;margin-bottom:5px;}
+.note .nb{font-size:10pt;line-height:1.7;color:var(--fg2);} .note b{color:var(--fg);}
+.ex:not(.idx){background:var(--blue-soft);border:1px solid var(--blue-line);border-inline-start:3px solid var(--blue);
+    border-radius:7px;padding:7px 11px;font-size:9.6pt;line-height:1.6;color:var(--fg2);margin:2mm 0;}   /* :not(.idx) so it never hits the exercise chip (which is .idx.ex) */
+.ex .extag{display:inline-block;font-family:var(--latin);font-weight:800;font-size:7.6pt;color:var(--blue-dark);background:#fff;
+    border:1px solid var(--blue);border-radius:5px;padding:1px 9px;margin-inline-end:7px;vertical-align:middle;text-transform:uppercase;letter-spacing:.06em;}
+
+/* ===== lists ===== */
+ol.q{list-style:none;counter-reset:q;margin:1mm 0 2mm;}
+ol.q>li{counter-increment:q;position:relative;padding-inline-start:30px;margin-bottom:2.5mm;font-size:10.4pt;line-height:1.6;}
+ol.q>li::before{content:counter(q);position:absolute;inset-inline-start:0;top:1px;width:21px;height:21px;background:var(--grad);color:#fff;
+    border-radius:50%;font-family:var(--mono);font-size:9pt;font-weight:600;display:flex;align-items:center;justify-content:center;
+    -webkit-print-color-adjust:exact;print-color-adjust:exact;}
+ol.sub{list-style:none;counter-reset:s;margin:4px 0 0;padding-inline-start:2px;border-inline-start:1px solid var(--blue-line);}
+ol.sub li{counter-increment:s;position:relative;padding:2.5px 0 2.5px 26px;font-size:10.1pt;line-height:1.55;}
+ol.sub li::before{content:counter(s,lower-alpha)".";position:absolute;inset-inline-start:10px;top:2.5px;font-family:var(--mono);font-size:9pt;font-weight:600;color:var(--teal);}
+ol.qn{list-style:none;counter-reset:qn;margin:1mm 0 2mm;}
+ol.qn>li{counter-increment:qn;position:relative;padding-inline-start:26px;margin-bottom:2.2mm;font-size:10.4pt;line-height:1.55;}
+ol.qn>li::before{content:counter(qn)".";position:absolute;inset-inline-start:0;top:0;font-family:var(--mono);font-size:9.5pt;font-weight:700;color:var(--blue);}
+ul.b{list-style:none;margin:1mm 0 2mm;} ul.b>li{position:relative;padding-inline-start:22px;margin-bottom:2.4mm;font-size:10.4pt;line-height:1.6;}
+ul.b>li::before{content:"";position:absolute;inset-inline-start:3px;top:8px;width:8px;height:8px;border-radius:50%;background:var(--grad);
+    -webkit-print-color-adjust:exact;print-color-adjust:exact;}
+ul.dash{list-style:none;margin:1mm 0 2mm;} ul.dash>li{position:relative;padding-inline-start:20px;margin-bottom:1.8mm;font-size:10.4pt;line-height:1.6;}
+ul.dash>li::before{content:"–";position:absolute;inset-inline-start:2px;top:0;color:var(--fg);font-weight:700;}  /* dash / +/− signs = body colour */
+.flow ul.opts{list-style:none;margin:4px 0 3px;padding-inline-start:16px;}
+.flow ul.opts li{padding:2px 0;font-size:10.2pt;line-height:1.5;color:var(--fg);}
+
+/* ===== figures / tables ===== */
+.fig{margin:3mm 0;} .fig svg.figsvg{display:block;margin:0 auto;background:#fff;max-width:100%;height:auto;}
+.photo{display:block;margin:3mm auto;border-radius:8px;border:1px solid var(--hair);max-width:100%;}
+.figrow{display:flex;flex-wrap:wrap;gap:9px;justify-content:center;margin:3mm auto;max-width:190mm;}
+.flow .figrow img{border-radius:7px;border:1px solid var(--hair);height:46mm;width:auto;max-width:none;object-fit:cover;}
+.schemarow{display:flex;gap:16px;align-items:flex-start;flex-wrap:wrap;margin:2mm 0;}
+.schemarow .col-txt{flex:1 1 90mm;min-width:80mm;} .schemarow .col-fig{flex:0 0 78mm;} .schemarow .col-fig .fig{margin:0;}
+.flow table{border-collapse:collapse;width:100%;margin:3mm 0;font-size:9.8pt;line-height:1.5;}
+.flow table th,.flow table td{border:1px solid var(--blue-line);padding:6px 10px;text-align:start;vertical-align:top;}
+.flow table th{background:var(--grad);color:#fff;font-family:var(--latin);font-weight:700;font-size:9.4pt;
+    -webkit-print-color-adjust:exact;print-color-adjust:exact;}
+.flow table tr:nth-child(even) td{background:var(--blue-soft);color:var(--sub-ink);}   /* sub-row: #E6F3F4 / #045260 */
+
+mjx-container{color:var(--fg) !important;font-weight:400 !important;font-size:1.0em !important;}
+.eq-hi mjx-container,mjx-container.eq-hi{color:var(--blue) !important;}   /* accent (green) equation — highlight a key result; balance with plain math */
+.eq-red mjx-container,mjx-container.eq-red{color:var(--red) !important;}  /* red accent equation / symbol — complements the green .eq-hi */
+
+/* ===== per-file books: credit line, copies list, figures at their size ===== */
+.credit{display:flex;flex-wrap:wrap;align-items:center;gap:5px;margin:-1mm 0 3.5mm;font-size:9.4pt;color:var(--fg2);}
+.credit .who{font-weight:700;color:var(--blue-dark);}
+.credit .tg{font-family:var(--mono);font-size:7.2pt;letter-spacing:.04em;border-radius:5px;padding:1px 7px;line-height:1.6;
+    border:1px solid var(--blue-line);color:var(--blue);background:#fff;-webkit-print-color-adjust:exact;print-color-adjust:exact;}
+.credit .tg.sec{background:var(--blue-dark);border-color:var(--blue-dark);color:#fff;}
+.credit .tg.cor{background:#fff;border-color:var(--red);color:var(--red);}
+.credit a{color:var(--fg3);font-family:var(--mono);font-size:7pt;text-decoration:none;}
+.cover .auth .credit{margin:4mm 0 0;}
+.cover .copies{margin-top:5mm;font-size:8.6pt;color:var(--fg2);}
+.cover .copies ul{list-style:none;margin:2mm 0 0;padding:0;columns:2;}
+.cover .copies a{color:var(--fg3);text-decoration:none;font-size:8pt;}
+.flow figure.fig{text-align:center;}
+.flow figure.fig img{max-height:60mm;width:auto;max-width:70%;display:inline-block;}
+
+/* chapter tag on each part of a multi-chapter book (the book keeps the original order of the file) */
+.chtag{display:inline-block;margin:5mm 0 2mm;padding:1mm 3mm;border-radius:2mm;background:#eef3fb;border:1px solid #c9d6ea;
+  color:#1f3a6b;font-size:9pt;font-weight:700}
+.chtag span{color:#6b7f9e;font-weight:600;margin-inline-end:1.5mm}
+
+@media print{ body{background:#fff;padding:0;} .flow{width:auto;max-width:none;margin:0;padding:0;} }
+@page{size:A4;}   /* margins come from render_flow.py — do NOT set them here */
+</style>
+<meta data-pagefind-filter="type[content]" content="درس">
+<meta data-pagefind-filter="resource[content]" content="PHILOFOU">
+<meta data-pagefind-meta="n[content]" content="1216">
+<meta data-pagefind-meta="title[content]" content="3.إنية الغيرية">
+<meta data-pagefind-filter="chapter[content]" content="الإنية والغيرية">
+<meta data-pagefind-filter="section[content]" content="باكالوريا رياضيات"><style>.qrcard{display:none!important}.wa-nav{position:sticky;top:0;z-index:50;background:#045260;padding:10px 18px;font-family:Cairo,sans-serif;direction:rtl}.wa-nav a{color:#fff;text-decoration:none;font-weight:700}@media print{.wa-nav{display:none}}</style>
+</head>
+
+<body dir="rtl" lang="ar"
+      data-brand="Wael Academy" data-handle="@WaelAcademy"
+      data-tagline="في تُرابنا.. مغامرة بمغامرة"
+      data-phone="+216 50 40 40 42" data-site="waeldocuments.com"
+      data-cta="سجل معانا وأقرى عن بعد مع منصة Wael Academy"
+      data-subject="Philosophie · 3.إنية الغيرية" data-watermark="Wael Academy" data-pagefind-body><nav class="wa-nav" data-pagefind-ignore><a href="../index.html">→ الرجوع إلى فهرس الفلسفة</a></nav>
+
+<!-- single full-page diagonal watermark, bottom-left → top-right (repeats on every page) -->
+<div class="wm" aria-hidden="true"><span>WAEL&nbsp;ACADEMY</span></div>
+
+<div class="flow colored">
+<div class="cover"><div class="badge">◉ Wael Academy · Philosophie</div><h1>3.إنية الغيرية</h1><div class="grule"></div><div class="sub">الإنية والغيرية</div><div class="auth"><div class="credit">المؤلّف / المصدر : <span class="who">PHILOFOU · المعهد النموذجي- أريانة · الصّحبي بوقرّة philofoubouguerra@yahoo.fr · المركز الجهوي للتربية و التكوين [ أريانة]</span> <span class="tg sec">الفلسفة · باكالوريا رياضيات</span> <a href="https://drive.google.com/file/d/1Dbhz0ozQS5jNa1Dc-OWRLdgeXS5YLdzo/view">↗ 3.إنية الغيرية.pdf</a></div></div><div class="copies" data-pagefind-ignore><b>نسخ هذا الملف في الدرايفات (1)</b><ul><li><a href="https://drive.google.com/file/d/1Dbhz0ozQS5jNa1Dc-OWRLdgeXS5YLdzo/view">Mohamed Ahmed Zahi · Bac Math Zahi 2024/2025 › Philo / الإنساني بين الكثرة والوحدة / الإنية والغيرية / autres documents</a></li></ul></div></div>
+<section class="chapter"><div class="chapdiv"><div class="cn">المحور</div><h2>الإنية والغيرية</h2></div>
+<!-- SOURCE: PHILOFOU · المعهد النموذجي- أريانة · الصّحبي بوقرّة philofoubouguerra@yahoo.fr · المركز الجهوي للتربية و التكوين [ أريانة] -->
+<div class="exh"><span class="idx">درس</span><h2>إنيّة الغيريّة</h2>
+  <div class="qrcard"><div class="qrt">فيديو الدرس</div><div class="qrslot"><img src="qr/1216.svg" alt="QR"></div></div></div>
+<div class="credit">المؤلّف / المصدر : <span class="who">PHILOFOU · المعهد النموذجي- أريانة · الصّحبي بوقرّة philofoubouguerra@yahoo.fr · المركز الجهوي للتربية و التكوين [ أريانة]</span> <span class="tg sec">الفلسفة · باكالوريا رياضيات</span> <a href="https://drive.google.com/file/d/1Dbhz0ozQS5jNa1Dc-OWRLdgeXS5YLdzo/view">↗ 3.إنية الغيرية.pdf</a></div>
+<p class="subhead t-red"><u>الجزء الثالث</u> :</p>
+<p class="subhead t-red">إنيّة الغيريّة</p>
+<p class="subhead t-navy">من الأنا الآخر إلى أنا الآخر</p>
+<!-- CROP: 1216 1 1 0.20 0.37 0.74 0.69 1216_statues -->
+<figure class="fig"><img src="https://wael-philo.b-cdn.net/figs/1216/1216_statues.png" alt=""></figure>
+<div class="note"><div class="nb"><b>" أن أكون إنسانا يعني أن أكون غيري<br>في الوقت الذيَ أبقى فيه أنا نفسي"</b><br><b>بول ريكور- <u>التاريخ و الحقيقة</u></b></div></div>
+<p class="para">يأخذ "الغير <span dir="ltr">Autrui</span> " في اللغة العربيّة معاني التمييز و الاختلاف و التعدّد والنفي و التغيّر،و ترجع لفظة الغير إلى كلمة غير التيّ تستعمل عادة للاستثناء بمعنى "لا" و بمعنى" سوى"،و يأخذ " الغير " في الدلالة المعجميّة الفرسية معنى الآخر من الناس بوجه عام، أما " الآخر <span dir="ltr">L'autre</span>" فيفيد الاختلاف و التميّز، و هذا يعني أن مفهوم الغير هو تضييق لمعنى الآخر، وبالتالي فكلّ غير هو آخر و لكن ليس كلّ آخر غيرا، فالغير أخص والآخر أعمّ، بمعنى أن الآخر المرادف للغير هو الذي يتمّ حصره في مجال الإنسان فقط دون غيره.و تحافظ الدلالة الفلسفية على هذا الاختلاف بين الدلالتين، إذ يحمل الغير في الفلسفة على معنى الآخرالبشري، إذ يبرز الغير كآخر بشري مخالف للذات، كما يبرز كائنا مماثلا للذات من حيث التركيب الأنطولوجي، ومن حيث مقوّمات الوعي و الإرادة و الحريّة؛ و هذا يعني أن بين الآخر والغير تمايزا طفيفا من جهة كون الآخر يختلف عني أما الغير فهو يختلف و يشبهني في آن.</p>
+<!-- CROP: 1216 1 2 0.545 0.525 0.78 0.595 1216_p2_visage1 -->
+<figure class="fig"><img src="https://wael-philo.b-cdn.net/figs/1216/1216_p2_visage1.png" alt=""></figure>
+<div class="data"><p><b>-<u>الغير هو الآخر الإنساني</u> :</b> الغير ليس إنسانا آخر و إنما أنا آخر <span dir="ltr">alter ego</span> ، الغير يختلف عني و يشبهني لأنه مثلي أنا يمتلك أنا أخرى.</p></div>
+<p class="para">الإشكال الذي سنحاول تسليط بعض الضوء عليه لا يرتبط بالآخر بعامة و إنما بالآخر الإنساني أي بالغير، دلالة و حضورا و منزلة، و نحن لا نتحدث عن مشكل إلا لكون هذا الأخير كما يختلف عنّي يشبهني،و ينتقل من معنى إلى آخر بحسب زمنية اللقاء و الإعتراف والمعرفة و التعرفّ و التعارف؛ وهي زمنيّة كما تحدّد درجة الإختلاف و التشابه تحدّد شكل العلاقة ،بحيث يغيرّ وجه الغير بتغيرّ العلاقة به و معه .</p>
+<!-- CROP: 1216 1 2 0.64 0.77 0.82 0.86 1216_p2_visage2 -->
+<figure class="fig"><img src="https://wael-philo.b-cdn.net/figs/1216/1216_p2_visage2.png" alt=""></figure>
+<div class="data"><p><b>-<u>الغير و الزمان</u> :</b> الذات الإنسانية لا تعيش في الزمان فحسب بل تؤلّفه و تبنيه ، و يحتاج الغير شيء من الزمن حتى يظهر لنا ، و لكن العلاقة بين الزمن و الغير أكثر عمقا من هذا ، فظهوره الأول في شكل غريب <span dir="ltr">étranger</span> ، ثمّ في الحياة اليومية كمجاور <span dir="ltr">voisins</span> ، ثم في علاقة أخرى كقريب <span dir="ltr">prochain</span> أو صديق… كلّ هذا و غيره يكشف أن الزمنية في النهاية هي زمانية العلاقة.</p></div>
+<p class="para">فما الذي يختلف في الكيان الماثل أمامي إلى درجة تدفعني لاعتباره آخر؟ و ما الذي فيه-رغم غيريّته- يشبهني بحيث يكون غيرا؟و هل يمثّل الغير في اختلافه تهديدا لي أم أنهّ بقدر ما يشبهني يهدّدني؟ ألا تبيّن درجات الإختلاف و التشابه في الغيرعن زمنيّة علاقة الإنيّة بالغيرّية؟ أليس من الممكن أن نتحدّث عن الغيريّة بمنطق الغرابة والغربة و الاغتراب كما نتحدث عنها بمنطق التشابه و المحايثة و المماثلة؟ ألا يمكن أن نتحدث عن غير عدوّ و غير صديق؟ بل أليس من الممكن أن يكون الغير العدُوّ ذاته صديقا و أن يكون صديق الأمس عدوّا؟ ألا يعني هذا أن الزمان هو الذيَ يحددّ شكل العلاقة بالغير و هو الذي يصنع لهذا الأخير وجها لا يكون حسب إنيّة الغير و إنما حسب إنيّة الأنا؟ ألا يعني ذلك في النهاية أن مشكل الغير هو الحقيقة مشكل الأنا، إذ ما الغير إن لم يكن أنا الذي أرفضه أو أخشاه أو احبّه باعتباره أنا التي ليست أنا؟ المشكل إذا هو في " الليس " و بقدر ما نفهم أو نتفهم منزلته في تحديد الإنيّة بقدر ما نفهم العلاقة و الحاجة إليها.</p>
+<p class="subhead t-red">1. الغير بما هو أنا آخر:</p>
+<p class="para">نحن لا نجد في عالم الأنانة مكانا للغير إلاّ هناك في العالم و هذا التعامل يفقده كما أفقد العالم و موضوعاته البداهة و اليقين، و الغير الذي تقصيه يظهر كشيء ليس أنا أو هو غيريّة دونيّة ابستيمولوجيا وأنطولوجيا، و هذا يعني أنني أتمثل وجود الغير بنفس الطريقة التي أتمثل بها وجود الموضوعات الخارجيّة، ولذلك يفتقر الغير لبداهة الأنا، فما يدرك بالحدس ليس كما يدرك بالحواس الخادعة. فيمكن ان أشاهد انسانا يحمل طربوشا، ولكن يتخللّ هذا الحكم ادعاء الحواس و تطاولها ، إذ قد يكون الذي أرى آلة أو شيء آخر يحمل طربوشا، فحواسي غير قادرة على أن تحددّ بدقة و يقين ما تشاهده حقيقة، و أي تمييز هو إماّ تعدّ على الحواس أو تطاول منها.</p>
+<!-- CROP: 1216 1 4 0.675 0.17 0.845 0.37 1216_p4_tableau -->
+<figure class="fig"><img src="https://wael-philo.b-cdn.net/figs/1216/1216_p4_tableau.png" alt=""></figure>
+<p class="para">يكشف لنا هذا المثال داخل منطق الأنانة كيف أن وجوّد الغير هو في النهاية وجودا محتملا <span dir="ltr"><i>existence probable</i></span> وليس يقينيا و لا بديهيا. بين وجودي إذا ووجود الغير ثمة هوّة أو مسافة هي مسافة اليقين و البداهة. ينجرّ عن هذا القول التعامل مع الغير باعتباره ليس أنا. و لكن إذا كانت الإنيّة كما تحاول الديكارتية إظهارها حقيقة مطلقة و ثابتة وبديهية، فإنها يجب أن تكون كونيّة، وحتى تكون كذلك يجب أن يشاركني فيها غيري.</p>
+<p class="para">سنبيّن في هذا المستوى كيف أن تأكيد وجود الغير هو شرط إثبات الإنيّة؛ فالوجود الذي ينكشف للذات في الشك هو وجود مفرد و شخصي، و عندما يشددّ ديكارت في التأمل الثاني على سؤال الأنا: ما أنا؟ ينفي كلّ إمكانيّة لتحديد ذاته كإنسان، طالما يصرّ على البحث عن تحديد لإنيته كذات، أي بدل البحث في حقيقته كإنسان لن يعثر إلا على حقيقته كذات، و لعلّ هذا ما يفسرّ التمييز الهيقلي الواضح بين الحقيقة و اليقين، و بالتالي بدل من أن يعالج مشكل الإنية أي الحقيقة، حقيقة الإنسان، يقدّم يقينا بخصوص الذات. وهذا يعني أن الكوجيتو لا يحددّ انتماءنا للإنساني و بالتالي لا يلمّ بسؤال ما الإنسان؟ و لكن إذا كانت الذات المفكرّة تظهر لذاتها على نحو فردي وشخصي، فإن الفكر الذي من خلاله تتأمّل ذاتها هو كوني من جهة كونه خاصية الإنسان ، وإن كان الفكر في حاجة لنشاط الذات، أو لفعاليّة ذاتية فإن مضمون الفكر يبقى كونياّ. و أن نفكرّ يعني أن نعتمد على الذات ، و ليس انطلاقا من الاعتماد على أفكار الآخرين، لأنّ الذي يرتبط بأراء الغير لا يفكرّ، و بالتالي فعاليّة التفكير ذاتها ترتبط بقدرة الذات على إحداث مسافة مع آراء الآخرين و لكن هذا لا يعني اقصاء الغير خارج مجال الوعي، بتعلّة عدم الحاجة إليه حتى أفكرّ، و لذلك يجب أن نميز بين الشروط الصوريّة لفعالية الفكر و بين المحتوى الموضوعي له، بحيث نميزّ بين ما يكون ذاتيا صرفا و ما يكون كليّا.</p>
+<!-- CROP: 1216 1 5 0.665 0.215 0.85 0.36 1216_p5_statues -->
+<figure class="fig"><img src="https://wael-philo.b-cdn.net/figs/1216/1216_p5_statues.png" alt=""></figure>
+<p class="para">و هذا يعني أنه لا يمكن إثبات وجود الذات المفكرّة دون أن يمتلك فكري هذا بعدا كونياّ، أي دون اعتماد قواعد إنسانيّة مشتركة و مبادئ كونيّة، و بالتالي يكون الأنا كلّي حتى و إن بدا شخصياّ و ذاتياّ، وعندما أقول أنا اتعالى على كلّ خصوصيّة و ذاتيّة.</p>
+<!-- CROP: 1216 1 5 0.125 0.37 0.31 0.46 1216_p5_hegel -->
+<figure class="fig"><img src="https://wael-philo.b-cdn.net/figs/1216/1216_p5_hegel.png" alt=""></figure>
+<div class="data"><p><span dir="ltr">Hegel :« Le moi est <i>la pensée</i> et donc <i>l'universel</i>. Lorsque je dis moi, j'écarte toute particularité, le caractère, le naturel, les connaissances, l'âge. Le moi est tout à fait vide, ponctuel, simple, mais actif dans cette simplicité. »<br><b>(<i>Principes de la philosophie du droit</i>, addition au §4, page 72)</b></span></p></div>
+<p class="para">المغالطة تكمن في نظر هيقل في إظهار الكونيّ على أنه فردي، إذ ما يكون في ظاهره فريدا في نوعه، هو في حقيقة الأمر كليّا؛ فالذات التي تعلن وجودها بصيغة المفرد أنا، ليست ذات ديكارت دون غيرها و إنما ذات كلّ إنسان، فينقلب المفرد كليّا و عندها ليس من الممكن اقصاء الغير من مجال الوعي، فالاقصاء لا يكون ممكنا إلا عندما يثبت ديكارت كما قلنا وجوده الذاتي و المفرد. أن نفكّر بشكل كلّي، يعني أساسا أن نفكرّ بنفس الطريقة التي يعتمدها غيري، حتى و إن كان حضور الغير ليس ضروريا لفعل التفكير ذاته، و هذا يعني أن الأنانة تحمل ضمنياّ في أعماق الكوجيتو الغير في كليّته، بحيث عندما أقول :"أنا أفكرّ" فأنا أقول:"أننا نوجد"، و داخل هذه الصياغة يكون للغير نفس الدرجة من الوجود و إن كان أقل يقينا أو اعتبرته وجودا محتملا. ألسنا نتحدث بهذا المعنى عن غيريّة ضمنيّة سواء كنّا نقرّ بوجودها او نغالط؟ ألا يفترض منا هذا القول التأكيد على الطابع البينذاتي للفكر؟</p>
+<!-- CROP: 1216 1 6 0.72 0.15 0.855 0.35 1216_p6_tableau -->
+<figure class="fig"><img src="https://wael-philo.b-cdn.net/figs/1216/1216_p6_tableau.png" alt=""></figure>
+<p class="para">ان يعلن الوعي ولادة الذات كفكر هذا لا يعني الانغلاق في عالم الأنانة وإقصاء الغير، بل يعني أن يتحوّل كلّ إثبات للإنية إثباتا للغيريّة. و الإنيّة ليست انصرافا عن الغيريّة بل هي انصراف إلى الغيريّة، و كأن جوهر الإنيّة يكمن في رفضها لكلّ جوهريةّ باعتبارها تخارجا نحو الغير و رفضا للإنغلاق. ألا يبدو الحبّ<sup>1</sup> بهذا المعنى التمظهر الحقيقي للإنيّة من جهة كونه يعلن رفض الإنسان أن يكون وجودا في ذاته؟</p>
+<p class="subhead t-red">2. الإنـيّة رفض للأنانة:</p>
+<p class="para">لا يعني الوعي بالذات بالنسبة لفويرباخ <span dir="ltr">Feuerbach</span> مجردّ وجود الذات، كوجود فريد ومخصوص و مختلفة عن الغير، بحيث إذا قصدنا بالوعي بالذات أن أكون موضوع ذاتي، فلا يكون الإنسان موضوعا لذاته من جهة كونه فرد ، بل على العكس من ذلك هنالك بعد إنساني مخصوص لهذا الوعي، و عندما نقول مخصوصا لا نقول مخصوصا للذات المفردة و إنما كخاصيّة إنسانيّة، أي ترتبط بالنوع. و الوعي التفكرّي الذي يكون حكرا على الإنسان هو الذي يحيل حسب فويرباخ على الماهية الإنسانيّة أو على الوجود الذي يحولّ ماهيته موضوعا<sup>2</sup>.</p>
+<!-- CROP: 1216 1 6 0.12 0.645 0.36 0.745 1216_p6_visages -->
+<figure class="fig"><img src="https://wael-philo.b-cdn.net/figs/1216/1216_p6_visages.png" alt=""></figure>
+<div class="data"><p>إن الوعي المحمول على معنى <u>شعور</u> بالذات وقدرة على التميز بين الأشياء الحسيّة <u>وإدراك</u> الأشياء الخارجيّة وحتّى الحكم عليها انطلاقا من خصائص حسيّة محدّدة، إنّ وعيا كهذا لا يمكن إنكاره على الحيوان. غير أنّ الوعي بالمعنى الأدق لا يوجد إلا لدى كائن اتخذ من <u>نوعه</u> الخاص <u>وماهيته</u> الخاصّة موضوعا…</p></div>
+<p class="para"><sup>1</sup>- سنخصصّ في خاتمة المقال لحظة الحديث عن أفق العلاقة بين الإنية و الغيريّة مساحة خاصة لمسألة الحب، بحيث يكون الوجه الأعمق للعلاقة، و لكن لا في معناه الجنسي و لا الإيديولوجي و لا التيولوجين و إنما في معناه الفلسفي و الأنتروبولوجي.</p>
+<p class="para"><span dir="ltr"><sup>2</sup> <b>- Ludwing Feuerbach, <u><i>L'Essence du Christianisme</i></u>, Gallimard, 1960</b></span></p>
+<p class="para">في الحياة يمتد احساسنا بالآخرين، بحيث نكون على صلة بالغير كأفراد، وحقيقة الحياة لا أتفكرّها في فرادتي وانغلاقي، بل على العكس يلزم الاحساس بالحياة الفرد بأن يقطع مع تفرّده، و أن يرفض الوعي الذي يقف في حدود الشعور بالذات، و تعني قدرة الإنسان هذه على الرفض أن الدافع الذيّ ينشطّ الحياة ليس محصورا في المصلحة الذاتية أو إثبات الأنانة و تحصينها ، و إنما كذلك في المصلحة الإنسانيّة، أي لمصلة النوع و التثبّت من الماهية وإثباتها.</p>
+<div class="data"><p>فالإنسان هو بالنسبة إلى نفسه <u>أنا</u> <u>وأنت</u> في آن. فإذا كان بإمكانه أن يحتلّ موقع الآخر فذاك، تحديدا، لكون موضوعه، ليس فرديته، بل نوعه، وماهيته.</p></div>
+<p class="para">ان تتجاوز الإنية منطق الأنانة و أن تنشغل كذلك بالنوع و الماهية أليس هذا هو جوهر الحبّ و قد تلحفّ بمنطق الغيرية<sup>3</sup>.</p>
+<!-- CROP: 1216 1 7 0.66 0.43 0.825 0.52 1216_p7_feuerbach -->
+<figure class="fig"><img src="https://wael-philo.b-cdn.net/figs/1216/1216_p7_feuerbach.png" alt=""></figure>
+<div class="data"><p><span dir="ltr"><b>« Mais l'essence humaine, éthique de l'homme, consiste justement à renoncer à son être pour soi simplement naturel, à se poser un fondement de son être, à être par <i>un autre</i>, à avoir le fondement de son être dans <i>l'être d'un autre</i>. C'est ainsi que l'amant fait de l'aimée le fondement de son être. »</b></span></p></div>
+<p class="para">فكرة فويرباخ هي التالية :الإنسان لا يردّ إلى ماهيته الطبيعية المباشرة، أي إلى الماهية التي تجعل منه كائنا حياّ بنفس درجة الكائنات الأخرى، لأنه لو اختزل الإنسان في ما به يكون فردا أو كائنا حياّ لكان مجرد وجود خاضع لقوانين الطبيعة ، وخاصة القانون الذي تحدثّ عنه هوبز بإطناب: قانون حفظ البقاء؛فشرف الإنسان يكمن في تعاليه على القانون الأناني للأنانة، ولعل ماهية الإنسان الحقيقية تكمن في ترفّعه و رفضه الخضوع لمثل هكذا قانون؛ فأن يكون المرء إنسانا يعني في المحصلة النهائية أن يعلن انتماءه للنوع و الماهية، و أقول نهائية لأن الماهية الحقيقية تكتمل بهذا الإعلان وليست قبل ذلك، ولعلّ هذا ما دفع فويرباخ للتمييز بين "الماهية الطبيعية" الخاضعة لقوانين الطبيعة، وبين "الماهية الإيتيقية" الخاضعة للفضاء الإنساني كنوع مخصوص، و المرتبطة بفكرة الترفعّ و التعالي و الرفض. وينجرّ عن هذا الرفض تحويل الغير غاية وجودي ذاته. فالإنسان حسب فويرباخ ليس مجرّد كائن حيّ و إنما هو ذات تبحث في الغير عن حقيقتها وتحققّ بفضل الغير ماهيتها<sup>4</sup>. فالوعي بالانتماء للنوع الإنساني يرتبط بشكل كلّي بقدرتي على التعرّف على ذاتي في غيري. و الحبّ بالنسبة لفويرباخ هو التمظهر الأرقى بالنسبة لماهية الإنسان، لأنه يمكن الفرد من التعامل مع الغير كوجود ضروري لوجوده، بمعنى التعامل مع وجود أنا آخر غيري ومختلف باعتباره شرط بقاء النوع- من جهة- و النظر إلى أنا الآخر باعتباره كذلك وجودا مماثلا <span dir="ltr">mon semblable</span> ، و هذه المفارقة لا تكون ممكنا إلا إذا تجاوزت التعامل مع الغير كغيريّة، أو قطعت مع النظر للغيريّة باعتبارها عائقا، أو النظر للغير باعتباره ما ليس أنا، خاصة إذا كان من الممكن التعرّف على الذات في فضاء الغيريّة هذا، و الحبّ إذا هو الحلّ للتموقع أو الاقامة في حدود المفارقة، لأنه الوحيد الذي يلطفّ التناقض و يبقيه في آن، و الحب هو شرط التعامل مع الغير دون اقصاءه و هو بالتالي شرط التحررّ من الوجه المغالطي للإنية، أي شرط التحررّ من الأنانة.</p>
+<!-- CROP: 1216 1 8 0.68 0.565 0.905 0.80 1216_p8_amants -->
+<figure class="fig"><img src="https://wael-philo.b-cdn.net/figs/1216/1216_p8_amants.png" alt=""></figure>
+<p class="para">و بالفعل فالغير هو أنا آخر <span dir="ltr">alter ego</span> ، بمعنى آخر غير أنا <span dir="ltr">un autre que moi</span> وهو أيضا أنا أخرى <span dir="ltr">un autre moi</span> ؛ ومفهوم أنا الآخر يحتوي ضمنيا شيئا من الغيريّة كآخر و شيئا من الإنيّة كأنا. و تجربة الحبّ كما يقدمها فوريباخ تستوعب شيئا من هذا و شيئا من ذاك. وإذا كنّافي منطق الصراع نتحدث عن اعتراف الغير بالأنا، فإننا في الحب نتحدث عن اعتراف الأنا بالغير، لأنّه الفضاء الذي تتعرف فيه الأنا على ذاتها.و لكن ما الذي يجعل الآخر شرطا ضروريا للتعرف على ذاتي؟ و ما وجه الحاجة إلى الغير؟</p>
+<p class="para"><span dir="ltr"><sup>3</sup> <b>- Ludwig Feuerbach, <i>Pensées sur la mort et l'immortalité de l'âme</i>, éditions du Cerf, page 140.</b></span></p>
+<p class="para"><sup>4</sup>- يمكن أن نتلمس هنا بقايا من الجدلية الهيقلية، و خاصة في مسألة حاجة الوعي في الذات إلى الآخر لينتقل من عالم اليقين إلى عالم الحقيقة.</p>
+<p class="subhead t-red">3. الإنيّة وجود للغـــير:</p>
+<!-- CROP: 1216 1 9 0.655 0.22 0.815 0.385 1216_p9_visages -->
+<figure class="fig"><img src="https://wael-philo.b-cdn.net/figs/1216/1216_p9_visages.png" alt=""></figure>
+<p class="para">يسترعي انتباهنا في معرض تحليلنا لفلسفة الحب لدى فويرباخ مفهوم هو من التضخمّ بحيث وجب التوقفّ عنده و التمعنّ فيه ألاوهو مفهوم" الإعتراف"،فأن أحب حسب فويرباخ هو في الوقت ذاته أن أعترف بالحاجة في وجودي إلى الغير و أن يعترف الغير بي ، وهذا يعني أن الاعتراف ليس من طرف واحد، و إنما هو عود ومعاودة أو هو معرفة مزدوجة.</p>
+<p class="para">تعرف الأناغيرها ويعرفها انا الآخر ، فيحصل الاعتراف كتبادل للمعرفة أو معرفة مضاعفة <span dir="ltr">(re-connaissance)</span>، و هذا الصدى المعرفي هو الذي يظهر أن الفعل الذي يمكنني من ولوج معرفة ذاتي لا يدرك في عزلة الوعي، إذ لا يمكن أن أعرف ذاتي في وحدة الأنانة، و الوعي بالذات ليس معرفة بها، و عزلة الإنسان قد تجعله عرضة للمغالطة التي يكون هو صاحبها و المعرّض لها في آن، و المغالطة هنا تأخذ شكل الكذب على الذات،إذ يمكن أن نتسترّ أو أن نخفي على الذات بعض الجوانب الشخصية التي تشوبنا أو تعيبنا، باعتبارها جوانب تهددّ كبريائنا،أو باعتبارها جوانب لا يطالها الوعي كما أثبت التحليل النفسي مع فرويد، و قد بينّ سارتر في كتابه <u>الوجود والعدم</u> كيف يكون الوعي الانساني قادرا على النفي، بحيث يمتنع إلى درجة الانقلاب على ذاته؛ و تتمظهر هذه القدرة في سلوكيات متعددّة منها: رفض المراهق الخضوع للسلطة الأبوية،أو رفض الإنسان للسلطة السياسية التي تحدّ من حريّته، و في وضعية الاحتلال تكون المقاومة شكلا من أشكال الرفض، وقد بينّ سارتر كيف أن الوعي بالاحتلال الألماني لفرنسا هو بالدرجة الأولى التعرّف على هذه القدرة فينا على الرفض و المقاومة؛ والرفض يمكن أن يتحوّل نشاطا فعليّا كتجربة الإلتزام و الانخراط في المقاومة. و الوعي الحامل في أعماقه هذه القدرة على الرفض، على أن يقول :"لا" على حدّ عبارة آلان، لا يتمظهر فقط في رفض وضعيّة عينيّة ملموسة، كرفض الاحتلال مثلا، و إنما يمكن أن يكون رفضا استبطانيا خالصا، بحيث لا يكون هذا الوعي موجها للعالم الخارجي فحسب كما تغالط في ذلك الأنانة<sup>5</sup>، وإنما ينقلب كذلك على ذاته، بحيث يمكنه رفض معرفة ما يعرف.و إذا كانت الدلالة الابيتيمولوجية للوعي تشددّ على مسألة المعرفة، فإن القدرة على الرفض هذه تجعل الوعي قادرا على أن يكون ذاته، أي على أن يكون معرفة.</p>
+<!-- CROP: 1216 1 10 0.71 0.435 0.85 0.555 1216_p10_sculpture -->
+<figure class="fig"><img src="https://wael-philo.b-cdn.net/figs/1216/1216_p10_sculpture.png" alt=""></figure>
+<p class="para">فعندما نفقد مثلا كائنا عزيزا علينا قد نرفض –و نحن نذكر بعض هذه الوضعيات- موته، و كأننا نتجاهل ما نعرف، أو نرفض كما قلت آنفا معرفة ما نعرف، و هذا الرفض المتحصنّ في أعماق الوعي هو الذي يجعل معاودة فعل المعرفة ممكنا، و بالتالي يجعل العلاقة مع الغير ممكنة.</p>
+<p class="para">تبيّن لنا فيما تقدّم أن العزلة لا تمكنني من معرفة ذاتي فحسب بل قد تدفعني إلى الكذب و المغالطة ، هنا يجب أن نلاحظ الطابع المفارقي للمغالطة التي من المفترض تكون لإيهام الغير و تظليله وهي هنا لإيهام الذات و تظليلها، و لذلك نحن لا نجد فرقا بين هذا الشكل من المغالطات ومفهوم "سوء النيّة" لدى سارتر، بل إلى رفض ما أكون، بحيث من يقول أنا لا يكون بالضرورة أنا، و إذا كانت العزلة تظهر بمثابة العائق الحقيقي أمام معرفتي لذاتي فإنّ المرور عبر الغير أصبح ضروريا، و هذا راجع لمعرفتي واعترافي بعجزي عن إدراك حقيقة ذاتي دون وساطة الغير، ودون أن يتمّ الاعتراف بي ، تشترط معرفتي لذاتي إذا الاعتراف بالغير، وهذا العود المعرفيّ <span dir="ltr">re – connaissance</span> يعني ان ما أكونه بالنسبة لذاتي هو رهين ما أكونه بالنسبة للغير،بمعنى أنه لا يمكن أن أكون موضوعا لذاتي حتى أتمكن من معرفتها إلا إذا كنت موضوعا في نظر الغير، أي معترف بي كموضوع، أليس النمط المزدوج للوجود هذا ، أوجد لذاتي و أوجد للغير هو الخاصية الأساسية للحقيقة الإنسانيّة؟</p>
+<p class="para"><sup>5</sup>- يمكن العودة للتأملات الميتافيزيقية على مستوى التأمل الأول لرصد الطرقة المغالطية التي تعتمدها الأنانة في الرفض ، إذ يستنفر ديكارت كلّ فعاليات الرفض و الشك في اتجاه خارج الذات.</p>
+<!-- CROP: 1216 1 11 0.115 0.34 0.265 0.435 1216_p11_sartre -->
+<figure class="fig"><img src="https://wael-philo.b-cdn.net/figs/1216/1216_p11_sartre.png" alt=""></figure>
+<p class="para">يكشف سارتر الطابع المزدوج للوجود الإنساني، إذ يحددُ الإنساني حسبه بالخاصية التي تجعل الإنسان يوجد لذاته أو هو وجود لذاته « <span dir="ltr">l'être pour Soi</span> » و يجب أن نفهم الوجود لذاته هذا على مستويين:</p>
+<p class="para">يعني أن يكون الإنسان وجودا لذاته أن تكون له مطلق الحريّة في اختيار شكل وجوده، باعتباره خالقا لماهيته،هذا ما يؤكده كتاب <u>الوجودية مذهب إنساني</u>، كما يعني أن يكون الإنسان وجودا لذاته أن يكون موضوع ذاته، باعتباره وعيا بالذات، قادرا على معرفة ذاته، هذا المستوى من الوجود هو الّذي يمثل جوهر حديثنا،إذ يعتبر سارتر أن شكل الوجود هذا في مستواه الثاني هو شديد الصلة بالوجود للغير « <span dir="ltr">être pour autrui</span> »،فبأيّ معنى يتحددّ الوجود الإنساني باعتباره وجودا للغير؟</p>
+<!-- CROP: 1216 1 11 0.73 0.67 0.87 0.84 1216_p11_portrait -->
+<figure class="fig"><img src="https://wael-philo.b-cdn.net/figs/1216/1216_p11_portrait.png" alt=""></figure>
+<p class="para">يعتمد سارتر في الإجابة على هذه الأسئلة على تجربة الخجل كمثال، فان أخجل يعني أن ينتابني شعور مخز عن الذات، خجل يحرج وجودي ذاته،الخجل إذا يعبرّ عن حميميّة الذات التي حولتّ ذاتها موضوعا في هذه الوضعيّة لا تواجهه و إنما تجابهه؛ و هو بهذا المعنى وعي مباشر بنيته الوجود لذاته، يختلف عن الطابع الاستبطاني التفكّري للكوجيتو. لأن الاستبطان لا ينتج ظاهرة الخجل كأن أخجل من نفسي في العزلة، بل لا يكون ممكنا إلا في حضور الغير،إذ ما يخجلني هو ما يظهر فيّ للغير أو ما ينظر إليه الغير،و بالتالي الحضور المباشر للغير في وعيي هو الذي ينتج ظاهرة الخجل، وهو حضور مفروض على الوعي و له القدرة على اختراقه. ولعل هذا ما يفسرّ تعاملنا مع الخجل لا على أنه ما ينتجه الوعي و إنما على أنه أمر يرهقنا و يضنينا، بل و لعلّ هذا ما يظهر الغير على أنه عائق أمام حريّتي،إذ بمجرّد حضوره أرغمُ على النظر إلى ذاتي، أي أنتقل من المستوى الأول للوجود إلى المستوى الثاني، و طالما كنت بمفردي فلن أشعر بالخجل مهما كانت الحركة التي أقوم بها خرقاء او فظّة،إذ أقوم بهذا الفعل باعتباري وجودا لذاته، و لكن بمجرّد الوعي بحضور الغير تتغيرّ الوضعيّة، فيتغيّر مستوى وجودي،ففي اللحظة التي أدرك فيها أنني موضوع نظر، أنظر إلى ذاتي كما هي<sup>6</sup>.</p>
+<div class="data"><p><span dir="ltr">Sartre: « et par l'apparition d'autrui, je suis en mesure de porter un jugement sur moi-même comme sur un objet, car c'est comme objet que j'apparais à autrui. »</span></p></div>
+<!-- CROP: 1216 1 12 0.555 0.495 0.84 0.6 1216_p12_oeil -->
+<figure class="fig"><img src="https://wael-philo.b-cdn.net/figs/1216/1216_p12_oeil.png" alt=""></figure>
+<p class="para">الغير إذا يدفعني للعودة إلى ذاتي، فيحدّ من تلك القدرة على الرفض وعلى الكذب، لأنني في هذه اللحظة لا أنظر إلى ذاتي كما أريد أن أنظر إليها و إنما كما ينظر لها، و ما كنت أقوم به دون الحكم عليه في العزلة أعدّه الآن فعلا أخرقا و فظاّ؛ الحكم يفترض علاقة بينذاتيّة،و هذا لا يعني إثباتا مباشرا لحضور الغير فحسب و إنما أيضا اعترافابأن الغير ينظر إليّ كما أنا دون كذب و مغالطة. الخجل إذا بهذا المعنى أيضا إعتراف، و يجب أن أتحمل عبء حقيقتي، و إذا تمرّس الإنسان بالقدرة اللامتناهية على الرفض، وهي قدرة مكونّة لجوهر حريّته،فإن حضور الغير نعيشه على أنه نفي لهذه القدرة، و حدّ لحريّتنا، إذ في هذه الحالة لا يمكن أن أنكر أو أنفي حقيقة وجودي الذي رصده الغير، و كما تقتلعني نظرة الغير من العالم الضمن-ذاتي،تحوّلني موضوعا من بين موضوعات العالم و أشياءه، وهذا ما يدفعنا للتسائل:امتلاك الغير إنيّة ألا يمثلّ تهديدا حقيقيا للإنيّتي ؟</p>
+<p class="para"><span dir="ltr"><sup>6</sup>- <b>Sartre, « <i>L'Etre et le Néant</i> », page 266</b></span></p>
+<p class="subhead t-red">4. في وجه الحاجة للغيريّة:</p>
+<p class="subhead t-navy">أ- الغيرية شرط المعرفة:</p>
+<p class="para">ليس هنالك بالضرورة تشابهابين ما أكونه بالنسبة لذاتي، و ما أكونه بالنسبة لغيري، و الخطر يكمن في أن الآخر ينظر إليّ كشيء، انطلاقا من حركة خرقاء أو ما شابه، يعتبرني وجودا أخرقا أو فظّا، بحيث تكون هذه الأحكام السمة النهائية لوجودي، كوضعيّة جون فال جون <span dir="ltr">Jean Valjean</span> في <u>البؤساء</u> <span dir="ltr">« <i>Les Misérables</i> »</span>، فمهما ترفّعت أفعاله و سلوكياته الخيرة و النبيلة، ومهماكانت أخلاقه فاضلة وكريمة، يبقى بالنسبة للشرطي جافيت <span dir="ltr">(Javert)</span> سارقا للخبز، وهو بهذا يجمّده في فعل مضى، و يحددّ كل أفعاله اللاحقة بما كان، أو هو في الحقيقة لا ينظر إليه الآن إلاّ بمنظار خارج الزمن و التاريخ.</p>
+<!-- CROP: 1216 1 13 0.115 0.575 0.505 0.66 1216_p13_miserables -->
+<figure class="fig"><img src="https://wael-philo.b-cdn.net/figs/1216/1216_p13_miserables.png" alt=""></figure>
+<p class="para">و هذا يعني أن الغير أيضا يمتلك القدرة على الرفض و بالتالي الكذب والمغالطة. بل أكثر من ذلك ينتقل موضوع نظره إلى مستوى آخر من الوجود يسميه سارتر: "الوجود في ذاته" <span dir="ltr">«être en soi»</span> و هو وجود الأشياء. و بالفعل فالشيئ هو ما هو و لا يكون غير ماهو عليه، وإذا حكم علينا الغير و أبقى على حكمه فهذا مردّه أنه يعاملنا على أننا أشياء. و هذا يعني وجود تناقض مفضوح بين يقين الإنية، باعتباره يقينا يُظهر الذات وجودا حرّا قادرا على القطع مع ماضيها و على استهلال حياة جديدة، و بين وجود الإنية في نظر الغير، هذا التناقض هو الذي تحدث عنه سارتر في استعراضه لشخصية غارسان <span dir="ltr">Garcin</span> ، الذي تذكرّه إيناس<span dir="ltr">Inès</span> دائما بجبنه ، و لعلّ ذلك ما دفعه للقول<sup>7</sup>:</p>
+<!-- CROP: 1216 1 14 0.12 0.25 0.455 0.365 1216_p14_enfer -->
+<figure class="fig"><img src="https://wael-philo.b-cdn.net/figs/1216/1216_p14_enfer.png" alt=""></figure>
+<div class="data"><p><span dir="ltr">Garcin « l'Enfer, c'est les Autres »</span></p></div>
+<div class="data"><p>سارتر[ بلسان قارسان]: <b>الجحيم هو الغير</b></p></div>
+<p class="para">إذا كان مشهد الغير يشكلّ تهديدا، فهذا يعني في النهاية أن الصراع هو جوهر العلاقة بالغير، و قدرة الغير على موضعتي هو تهديد لحريّتي،إذ يختزلني في ما مضى و يمنعني من بناء آنيّة على النحو الذّي أرتضيه ، ألست ملزما أمام هذا التهديد بمواجهة الغير كما كنت ملزما في ما قبل بمجابهة الأنانة؟ أليس الصراع هو جوهر الوجود الإنساني و الشكل الأصيل للرفض؟</p>
+<p class="subhead t-navy">ب- الغيرية شرط الإعتراف:</p>
+<p class="para">تأخذ الرغبة الإنسانية بالنسبة هيقل شكل رغبة في الإعتراف، إذ الإنسان لا يرغب فقط في امتلاك الأشياء و موضوعات العالم، بل يحمل في أعماقه الحاجة إلى الإعتراف بوجوده؛ و يمتلك الإنسان في آن قانون طبيعي يدفعه لحفظ بقاءه و وعيا بحريته كوجود لذاته ، فيشده قانون حفظ البقاء إلى فردانيّته الطبيعية، في حين يدفعه الوعي نحو الوجود لذاته أي نحو حريّته، ولذلك يقتضي تمظهر الحرية للذات المغامرة بالحياة ، و بالتالي الدخول في صراع حتى الموت من أجل الحريّة ؛ و لكن الصراع لا يعني بالضرورة العنف، فما الذي يجعل هذا الصراع بهذه الدرجة من العنف؟ الإجابة حسب هيقل تكمن في كون الإنسان لا يحافظ على سكينة حالة الطبيعة كما يعتقد جون جاك روسو، لأن هذه الحالة مناقضة لماهية الإنسان، فعطالة حالة الطبيعة لا تتفقّ مع جوهر طبيعة الإنسان، الذيّ يعرّف بقدرته على التغيير، و لعلّ ذلك ما يفسرّ حسب هيقل كيف يبدأ التاريخ بالقطع العنيف مع الحياة المّطردة للإنسان البدائي،الذي يستهلك الطبيعة كما يفعل الحيوان دون الفعل فيها أو تغييرها، إذ "تضع الطبيعة على ذمّته ما هو في حاجة إليه" على حدّ عبارة روسو،فهي ليست فضاء عدائياّ يجب مواجهته لحفظ البقاء،بل هي على العكس ما يتناغم و حاجيات الإنسان، و لذلك ليس هنالك ما يدفعنا أو يبررّ تغيير هذا الانسجام بين الطبيعة و الإنسان. و هذا يعني أنه ليس هنالك أي إمكانية للتغيير في حالة الطبيعة هذه،و لكن هذا الوضع بالرغم من سكينته يتعارض مع ما يمثل إنيّة الإنسان ، باعتباره كائنا تاريخيا يصير غير ما هو عليه، وبالتالي يقطع الوجود التاريخي للإنية مع كلّ إنسجام وتناغم و سكينة، و لأن الإنسان فعاليّة تاريخية لا يمكن أن يتلاءم وجوده مع عطالة حالة الطبيعة،و لذلك لا يمكن في هذه الحالة الحديث عن الإنسان باعتباره وجودا لذاته، إذ لا فرق بينه و بين الحيوان؛ وهذا ما يبررّ القطع مع هذه الحالة؛إذ لا يمكن للإنسان أن يثبت حريّته، و لا يمكن لقانون البقاء أن يضمن الحريّة، لأنه لو كان كذلك لضمنها لغير الإنسان،وبالفعل يحيل قانون حفظ البقاء على معنى الحفظ-من جهة- والبقاء-من جهة ثانية، وهي معاني تشرّع في مضمونها لحالة العطالة و السكينة، و هي بالتالي تتعارض مع فكرة التاريخ،فأن نحفظ شيئا هو أن نبقيه كما هو، و في معرض حديثنا عن الإنسان الحفظ هنا هو الإبقاء على الأنانة كما هي، أي على ماهية ثابة ومكتملة. و نحن نعلم أن معنى الحفظ هذا أو البقاء يعيدنا إلى دلالة الوجود في ذاته أو الشيء كوجود في الذات.فإن كان يتلاءم هذا الأمر مع الأشياء فهل يتلاءم مع الإنسان؟</p>
+<p class="para"><span dir="ltr"><sup>7</sup> - <b>Sartre dans « Huis clos » (scène V, pages 120 et 122)</b></span></p>
+<!-- CROP: 1216 1 16 0.715 0.17 0.835 0.315 1216_p16_hegel -->
+<figure class="fig"><img src="https://wael-philo.b-cdn.net/figs/1216/1216_p16_hegel.png" alt=""></figure>
+<p class="para">يعتبر هيقل أن شرف الإنسان يكمن في كونه" وجودا لذاته"أي وجودا مغايرا وتاريخيا و ليس وجودا ثابتا ونهائيا،و بالتالي لحظة يعي الإنسان بأنه وجود لذاته يقطع الحبل الذي يشده للطبيعة و أشياءها ليظهر وجودا مضافا قبالتها،و هذه الرغبة في القطع مع الطبيعة أو رفض البقاء موضوعا من موضوعاتها، تأخذ شكل صراع ضدّ الغير.</p>
+<p class="para">فكلّ فرد يريد أن يثبت للآخر أنه وجود حرّ و أنه مستعدّ للموت أو التضحية بالحياة، ومن يدخل الصراع دون المغامرة بالحياة يدخل الصراع و مازال مشدودا إلى الطبيعة أو مازال خاضعا لقانون البقاء.</p>
+<!-- CROP: 1216 1 16 0.695 0.435 0.905 0.72 1216_p16_corde -->
+<figure class="fig"><img src="https://wael-philo.b-cdn.net/figs/1216/1216_p16_corde.png" alt=""></figure>
+<p class="para">هذا الصراع إذا ليس صراعا للبقاء-كما تحدث عن ذلك هوبز و داروين- وإنما صراعا شرفياّ من أجل الإعتراف. الإنسان يرغب إذا في أن يعترف به الغير بما هو وجود لذاته ، و هذا يفترض أن أظهر في وجه الغير وجودا حرّا، مستعدّ للمواجهة، ولا يتردّد في التنازل عن حياته من أجل حريته، و لذلك يأخذ الصراع من أجل الإعتراف مظهرين: بماهو نشاط يقوم به الإنسان على ذاته، أي أن أثبت لذاتي حرّيتي ، وهو كذلك إجراء نمارسه على الغير، إذ نفرض عليه الدخول في صراع لنوفرّ شروط إمكان الإعتراف، ويمكن أن نختزل ذلك بالقول:</p>
+<p class="para">يرغب الإنسان في أن يعترف به الغير، وهذا يقتضي التعرّف على الذات في الغير، و الاعتراف بالغير كمماثل للذات؛ هنالك إذا في فعالية الاعتراف هذه شيء من المبادلة ، أو الصدى المعرفي الذي تحدثنا عنه آنفا، أن أعترف بالغير و أن يعترف الغير بي، فالفرد الذي يواجه الغير في صراع الموت هذا يجب أن يعثر عند الآخر على صورة من ذاته، باعتباره أيضا وجودا لذاته أي وجودا حرّا مستعداّ بدوره على التضحية بحياته، و إلا فقد الصراع الشرفي شرفيّته، و عندها يصبح سيآن بين أن نخوض الصراع و بين أن لا نخوضه. يقودنا هذا الصراع إلى جدليّة السيد و العبد حيث المواجهة بين طرفين لا يجب أن تنتهي إلى موت الغير، و إن كان هنالك استعداد له، لأن حصول الموت يتعارض مع مبدأ الإعتراف، إذ كيف يمكن أن أعلن إنتصاري على غريم ميّت، فالموت نفي للإعتراف، و غنم الجدليّة يتحققّ ببقاء الطرفين، و هو بقاء يفرز موقفين مختلفين من الصراع او شكلين من الوعي: <u>موقف العبد</u> الذي يتنازل عن الصراع خوفا من الموت، و الذي يعلن إيثاره البقاء على حياة الحريّة، و العبد تاريخيا هو الذي أعلن هيمنة قانون الطبيعة على الإنسان وهو الذي يعلن تفوّق قانون البقاء لديه، و لعلّ هذا ما يفسر الإرتباط الإيتيمولوجي بين لفظة عبد <span dir="ltr">servus</span> في اللاتينية و فعل حفظ <span dir="ltr">conservare</span>،في مقابل <u>موقف السيّد</u> الذّي كان مستعدا لمواصلة الصراع و التضحية بحياته، فخيّر الحرية على الحياة.</p>
+<!-- CROP: 1216 1 17 0.675 0.545 0.88 0.745 1216_p17_table -->
+<figure class="fig"><img src="https://wael-philo.b-cdn.net/figs/1216/1216_p17_table.png" alt=""></figure>
+<p class="para">و لكن موقف السيدّ بالرغم من قيمته التاريخية لا يخلو من هينات باعتباره يستعيد من جديد منطق العطالة التي قطع معها ، بحيث يرفض أن يكون غير ذاته،أي يرفض أن يكون وجودا لذاته، فيختار الوجود على نمط الأشياء أي وجودا في ذاته؛نتحدّث إذا عن حالة نكوص وارتداد إلى الوراء، إذ لم يعد هنالك من رغبة إلا إبقاء الأمر على ما هو عليه، أي المحافظة <span dir="ltr"><i>conservare</i></span> على حياة الترف والاستمتاع و استهلاك الأشياء التي ينتجها غيره . فينحدر السيد إلى أحطّ درجات الرغبة و يجعل التدمير شرط علاقته بالطبيعة، و لكن هل تفيد هذه العلاقة بالطبيعة السيطرة عليها؟ لا، لأن العمل هو شرط سيادتها، وطالما أن السيد لا يعمل فلن يكون سيدا على الطبيعة. و في المقابل يدخل العبد في صراع جديد مع الطبيعة فيقوّي تاريخيا إرادته، وهذه القوةّ التي تدرك بفضل العمل تستعيد للعبد إنسانيته المفقودة في الصراع الأول،فيكون العبد عبدا للسيد و سيدا على الطبيعة و يكون السيد سيدا على العبد وعبدا للطبيعة، وهذا يعني تاريخيا- و إن ظهر في الأمر مفارقة- أن في السيادة بعض عبودية و أن في العبودية شيئ من السيادة.</p>
+<!-- CROP: 1216 1 18 0.115 0.35 0.85 0.49 1216_p18_sid_abd -->
+<figure class="fig"><img src="https://wael-philo.b-cdn.net/figs/1216/1216_p18_sid_abd.png" alt=""></figure>
+<p class="para">ولتجاوز المفارقة وتذليلها كان من اللازم إزالة الفوارق و تجاوز علاقات السيادة والعبودية، كالنهاية التاريخية للتميز العنصري <span dir="ltr">l'apartheid</span> ،بحيث يكون دور العبد أن يكون فاعلا في التاريخ ، كما كان السيد تاريخيا منطلق التاريخ ، و بحيث نكفّ عن الحديث عن حرية طرف أو حريّة آخر، لنتحدث عن حرية كونية تقدمّ الثورة الفرنسية مثالا صارخا عنها،و إذا كانت الحرية هي معنى التاريخ، فإن هذا يعني بناء وحدة سياسية يمكن لكلّ حرية فرديّة أن تجد في فضاءها مكانا لها، و لن يكون هذا ممكنا إلا إذا حصر كلّ طرف حريته ليمكنّ الطرف الآخر من التواجد كحرية أيضا، والإنسان لا يكون حرّا إلا إذا إعترف وأقرّ بحرية الغير،و الاعتراف بحرية الغير يبقى رهين النظر إليه لا كموضوع أو عبد و إنما كشبيه، و لكن ما هو المقياس الذي يمكنني من التعامل مع الغير كمماثل؟ وماهي العلامات والإشارات التي تقدمّ الغير كوجود حرّ<sup>8</sup>؟</p>
+<p class="para"><sup>8</sup>- بيّن آلان رونو في معرض حديثه عن مسألة الحق كيف أنه لا يمكن الحديث عن إجرائية مفهوم الحق إذا لم تكن لدينا مقاييس مميزة من خلالها لا نخلط بين غيريّة الغير و غيريّة الأشياء، إذ تمثل هذه المقاييس و العلامات شرط التعامل مع غيرية الغير كغيرية المماثل للإنية.</p>
+<p class="subhead t-red">5. الغيرية نــظيرة الإنـــيّة:</p>
+<p class="subhead t-navy">أ- الغير وجودا صنويا:</p>
+<p class="para">يظهر الغير داخل مجال إدراكنا بين الظواهر و الموضوعات الماثلة أمامنا، كالأشياء و النباتات و الحيوانات، و مسألة الحق التي تعرضنا لها في ما سبق ترتبط بقدرة هذا الإدراك التمييز داخل هذه الكثرة، وتنوعّ الظواهر بين الإنساني و غيره،فيتمكنّ من رصد إشارة أو علامة أو سمة تميزّ الكائن العاقل الحرّ،فما هي هذه السمة المميّزة؟</p>
+<p class="para">يتعلّق الأمر هنا بانقلاب حقيقيّ على منطق الأنانة، و تفكيك نهائيّ للعزلة، بحيث نبينّ كيف يمكن للإنسان إنطلاقا من وعيه الخاص أن يقرّ ضرورة بحضور الكائنات العاقلة و الحرةّ خارج مجال أنانته،من جهة كون الغيرية وجودا صنوا ماثلا أمامنا، وتسمى قدرة الإدراك على رصد الحرية وسط موضوعات الماثلة أمامه،أي رصد ذوات أخرى تمتلك عقلا و حريةّ"فينومينولوجيا الحرية" ، بمعنى القدرة على التعرفّ بفضل إشارة أو سمة على الغير كشيء مختلف عن الأشياء و كوجود صنو، و بما اننا نرصد الإنسان باعتباره جسدا أولّ الأمر فإنّنا نوجهّ السؤال الذي طرحناه آنفا إلى ما يوجد من إنساني في بنية الجسد بحيث يكون اشارة أو علامة ندرك من خلالها ما به يكون هذا الكائن أمامنا وجودا مماثلا ؟</p>
+<!-- CROP: 1216 1 19 0.775 0.675 0.885 0.84 1216_p19_fichte -->
+<figure class="fig"><img src="https://wael-philo.b-cdn.net/figs/1216/1216_p19_fichte.png" alt=""></figure>
+<p class="para">يميزّ فيختة بهذا الغرض بين نظامين للواقع ،بين نظام الطبيعة غير العضويّ <span dir="ltr">la nature inorganique</span> ، كأن نتحدّث عن عالم الجماد الذي تكون الظواهر فيه خاضعة لمبدأ السببية، فالصخرة الساكنة قاصرة ذاتيا عن تغيير حالتها،بحيث نتحدّث هنا عن مبدأ العطالة، في هذا العالم ليس هنالك مكان للحريّة ؛ وبين نظام الإنساني،حيث يكون للإنسان بما هو إرادة القدرة على رفض الخضوع لعلّة خارجيّة.</p>
+<p class="para">التمييز الذي يتحدث عنه فيختة بين عالم العطالة للجماد و عالم الحركة للكائنات الحية، يصاحبه أيضا تمييز داخل عالم الكائنات الحية بين الحيوان والإنسان و ذلك لامتلاك الإنسان جسدا يأتي بفضله افعالا و حركات لا يدركها الحيوان، و لذلك تعلن لنا بنية الجسد حضور كائن حرّ ، يختزل في وجهه-على حدّ عبارة هيقل-كثافة روحيّة. فأن ندرك الغير كمثيل هو أن نضبط السمات و الإشارات، أي ما تعبّر عنه العيون و ما يقوله اللسان، حيث تقودنا هذا السمات إلى أعماق ذات الغير،و هذا يعني أن الغير ليس مطلق التخارج كحال الأشياء العاطلة.</p>
+<!-- CROP: 1216 1 20 0.73 0.395 0.865 0.515 1216_p20_magritte -->
+<figure class="fig"><img src="https://wael-philo.b-cdn.net/figs/1216/1216_p20_magritte.png" alt=""></figure>
+<p class="para">فهل من معنى للحديث عن إنغلاق إنية على ذاتهاو عن عجز الوعي اختراق وعي الذات الأخرى كما تتدعي ذلك الديكارتيّة؟ و هل لا ندرك من الآخرين غيري هناك إلاّ ما يحملونه على رؤوسه من طرابيش و قبعات؟</p>
+<p class="subhead t-navy">ب- التواصل مع الغير:</p>
+<!-- CROP: 1216 1 20 0.75 0.55 0.87 0.63 1216_p20_rousseau -->
+<figure class="fig"><img src="https://wael-philo.b-cdn.net/figs/1216/1216_p20_rousseau.png" alt=""></figure>
+<p class="para">يؤكد روسو إمتلاك الإنسان القدرة على التعرّف المباشر على الغير باعتباره أنا آخر <span dir="ltr">alter ego</span>،فيتأثر بما يصيبه،لأن عاطفة الشفقة هي أقدم عاطفة تعلن التواصل المباشر بين الأنا و الغير.</p>
+<!-- CROP: 1216 1 20 0.71 0.665 0.83 0.755 1216_p20_schopenhauer -->
+<figure class="fig"><img src="https://wael-philo.b-cdn.net/figs/1216/1216_p20_schopenhauer.png" alt=""></figure>
+<p class="para">وهذا يعني ضمنيا قدرة الفرد على مشاركة الغير آلامه، وغير بعيد عن ذلك يعرّف شوبنهاور الشفقة <span dir="ltr">la compassion</span> أو الرأفة <span dir="ltr">la pitié</span> إيتيمولوجياعلى أنها ابتلاء مباشر او مشاركة في الابتلاء <span dir="ltr">souffrir avec</span> .</p>
+<p class="para">طالما أنه يوجد في الأنا إحساسا بالحياة في كليّتها، تبقى ظاهرة التعرّف على الغير و مقاسمته المشاعر و الآلام ممكنة، و بالتالي تقبلّ الغير باعتباره كيانا مماثلا، لا يشترط ضرورة وساطة العالم و لا حتى وساطة الجسد<sup>9</sup>. يجب أن يتموقع الإنسان حسب شوبنهاور فيما وراء التمثّل،حتى يختبر حضور الغير كمماثل، و بالفعل فالوقوف على حدود التمثّل لايظهر لنا إلاّعالما مكونا من كائنات متنوعة و مختلفة،فيزيد التمثلّ الهوّة بين الأنا و الغير، لتكون الأنا مجرّد وجود متفرّج؛ أما الإرادة فهي ما به ندرك معنى الحياة في كليتها، و بفضلها نكفّ عن وضعية المشاهد و اللامبالي.</p>
+<!-- CROP: 1216 1 21 0.695 0.34 0.865 0.47 1216_p21_tableau -->
+<figure class="fig"><img src="https://wael-philo.b-cdn.net/figs/1216/1216_p21_tableau.png" alt=""></figure>
+<p class="para">ألسنا نعيش اليوم – في ظلّ هيمنة الصورة-تواصلا فاقدا لفضيلته، يجعل الغير مجرّد ملامح في العالم للفرجة، أو يفقد الغير ملامحه الأصيلة التي تجعل منه في آن كائنا مختلفاعنيّ و يشبهني، بل تواصلا يجعل من الأنا مجرّد نظر غبيّ ،باهت و معطلّ؟</p>
+<p class="para">و الغريب هو أننا نعيش زمنا نسميّه زمن التواصل أو زمن يدعيّ أنه زمن التواصل ، إلى درجة قد سمحت للبعض لادعاء أن هذا الراهن هو فرصتنا الحقيقية للتواصل مع الغير، بفضل امتلاكه وامتلاكنا وسائل متعددّة للاتصال، و لكن هل يمكن اعتبار التلفاز و المذياع و الحاسوب و غيرها من الوسائل أدوات للتواصل الحقيقي، أم هي أدوات إيصال،فهل نحن نتواصل مثلامع التلفاز؟هل تمكننا بالفعل هذه التقنيات المعاصرة من احداث علاقة حقيقية مع الغير؟ و عن أي علاقة حقيقية أو أصيلة نتحدّث؟</p>
+<p class="para"><sup>9</sup>- بين لنا ماكس شيلر في كتابه "<u>أشكال الودّ</u> "كيف يسمح لنا التعاطف الوجداني من التماهي مع الغير.<br><span dir="ltr"><b>Max Scheller : « l'ouvrage <i>Des formes de la sympathie</i> »</b></span></p>
+<p class="subhead t-red">6. الصداقة تواصل مع الغير:</p>
+<!-- CROP: 1216 1 22 0.665 0.21 0.87 0.445 1216_p22_enfants -->
+<figure class="fig"><img src="https://wael-philo.b-cdn.net/figs/1216/1216_p22_enfants.png" alt=""></figure>
+<p class="para">جمود فضاء اليومي لا يعني بالضرورة تجمّد العلاقة بالغير، بل على العكس من ذلك يكون هذا الفضاء مناسبة للالتقاءو التعارف، أو تجاذب الود والتعاطف؛ ويحيل التعاطف أو الود من جهة الدلالة الايتيمولوجية على فكرة التجاذب العاطفي أو المشاركة في الود، وهذا يعني أن الودّ في جوهره تجاذب وجداني، أو مشاركة وجدانية، أو تجاوب عاطفي، وهو بهذا المعنى احساس مشترك، بحيث يكون للودّ القدرة على الانفتاح خارج عالم الأنا متجاوزا حدود الذات .</p>
+<p class="para">ويدرك التجاذب العاطفي مع من نشعر تجاهه بالألفة <span dir="ltr">affinités</span> أو الميل ، والصداقة <span dir="ltr">l'amitié</span> هي الالفة التي ننتقيها أو نختارها، ولكن الصداقة ليست الود، بل هي ما يفوقه، فالود قد يقربني من الغير و لكنه لا يفترض بالضرورة المبادلة أو المعاملة بالمثل؛ و لا العطف صداقة إذ هو هذا الشعور الذي يجعلنا نريد الخير للغير، وهنا أيضا ليس هنالك عودة أو مبادلة؛أما تبادلنا الودّ و العطف نكون أصدقاء، ولا ينقص هذه الوضعية إلا تحويل الودّ المتبادل حباّ، فالصديق هو ذاك الذي يحب بصدق الخير لغيره، و لذلك عدّت الصداقة فضيلة.</p>
+<p class="para">و لكن عالمنا اليوم لا ينظر للصداقة على أنها قيمة أخلاقية، إذ ننظر اليوم للصداقة على أنهانوع من التعايش الممتع، لذلك كثيرا ما نخلط بين الرفيق أو الصاحب الذي نشاركه حفلا و بين الصديق، او نخلط بين الزميل و الصديق، بحيث نعتبر مكتسبا ما هو بالأساس واقعا، أي نعتبر الكائن هو ما ينبغي أن يكون. الزمالة و الرفقة كلها علاقات سطحية، في حين تحيل الصداقة على علاقة أكثر عمقا. و لذلك من الضروري أن نميّز في لدلالات الصداقة بين ثلاث أشكال من الصداقة واحدة فقط تكون حسب أرسطو أفضلها:</p>
+<!-- CROP: 1216 1 23 0.12 0.27 0.80 0.36 1216_p23_amities -->
+<figure class="fig"><img src="https://wael-philo.b-cdn.net/figs/1216/1216_p23_amities.png" alt=""></figure>
+<table>
+<tr><th>صداقة المتعة</th><th>صداقة المنفعة</th><th>صداقة الفضيلة</th></tr>
+<tr>
+<td>نحب ما نرغب فيه، و بالتالي الصداقة هنا تكون تجميعا لذوات لها نفس الرغبات ونفس الملذات، و الصديق هنا هو ذاك الذي نحبذ مجالسته.<br>- صداقة تقوم على مبدا امبيدوكل <span dir="ltr">Empédocle</span> الذي يقول بتجاذب المتشابهان كأن نقول في لغتنا:" الطيور على أشكالها تقع".<br>-هذه الصداقة تبدو عرضية و مؤقتة ترتبط بما تحققه من متعة، و لكن إذا زالت اللذة زالت الصداقة، لذلك هي تولد بسرعة وتموت بسرعة.</td>
+<td>نحب ما ينفعنا، و بالتالي الصداقة هنا تكون تجميعا لمصالح مشتركة ومتبادلة، فالصديق هو الذي يخدمني واخدمه.<br>- صداقة تقوم على مبدا هيرقليدس <span dir="ltr">Héraclite</span> الذي يقول بتجاذب المتضادان فما لا أمتلكه يمتلكه غيري، و ما لا يمتلك غيري عندي.<br>-هذه الصداقة تبدو كذلك عرضية ترتبط بما تحققه من منفعة، و لكن إذا زالت الحاجة و المصلحة زالت الصداقة، لذلك هي تولد بسرعة و تموت أيضا بسرعة.</td>
+<td>نحب الخير للغير. و بالتالي للصداقة هنا سجل أخلاقي يتجاوز منطق اللذة والمنفعة.<br>- من يقدم الكحول لصديقه المدمن مسايرة أو مجاملة لا يحب الخير لغيره وبالتالي ليس صديقا.<br>-هذه الصداقة تحركها نية صادقة وإرادة ثابتة و لذلك ترتبط بالفضيلة أو بأهلها.<br>- لذلك يميز أرسطو بين سجل العاطفة والانفعال الذي يرتبط بالميل و بين سجل الفضيلة و الحكمة الذي يرتبط بالإرادة.</td>
+</tr>
+</table>
+<p class="para">دوافع الصداقة إذا بالنسبة أرسطو هي: المنفعة، والمتعة، و الفضيلة. لكن الصداقة الحقيقية هي صداقة الفضيلة لما تتسم به من نبل أخلاقي، وخصوصا لأنها تحقق التلاحم الاجتماعي بين أفراد المجتمع، باعتبار الإنسان "حيوانا مدنيا"؛ لذا يقول أرسطو: "إن المواطنين لو تعلق بعضهم ببعض برباط الصداقة لما احتاجوا إلى العدالة". إن صداقة الفضيلة هي ذلك الوسط الذهبي الذي لا يمنع تحقق المنفعة والمتعة، في حين أن الصداقة القائمة على المنفعة أو على المتعة صداقة زائلة بزوال نوعية الرغبة في الغير.</p>
+<p class="para">يجب أن نعترف أن الراهن لا يفرزمثل هكذا علاقة مع الغير أو مثل هكذا صداقة تبدو نادرة إن لم نقل مستحيلة، فكثيرا ما تحركنّا اللذة أو المصلحة ونادرا ما تحركنا الفضيلة، أو نادرا ما تحركنا إرادة فعل الخير لغيرنا دون أن يكون في هذا الفعل خيرا لنا. و هذا يعني أننا لا نفهم الصداقة على أنها عاطفة وجدانية و إنما على أنها فضيلة أو قيمة أخلاقية، و بالتالي إذا كان الودّ وجدان يوجد فإن الصداقة قيمة تنشد، ولقد تفطّن كانط لصعوبة تحقق الصداقة، إذ يقتضي تحققها مزج الاحترام بالحب، أي إحداث نوع من التوازن المثالي بين الحب الذي يزيل كلّ المسافات مع الغير و بين الإحترام الذي يستعيد شيء من المسافة. والعلاقات اليوم موزعة بين هذا و ذاك و نادرا ما نجد توازنا حقيقيا و لعل ذلك ما دفع كانط للإقرار بمثالية هذا التوازن، فالحب بمفرده قد يتحوّل اساءة للصداقة، و الاحترام يبقى في صوريته باردا، كالاحترام المتبادل بين الزملاء.</p>
+<p class="subhead t-red">7. الحب الأفق البعيد للعلاقة:</p>
+<!-- CROP: 1216 1 24 0.65 0.475 0.865 0.625 1216_p24_mains -->
+<figure class="fig"><img src="https://wael-philo.b-cdn.net/figs/1216/1216_p24_mains.png" alt=""></figure>
+<p class="para">هنالك في الصداقة شيء من الحب، و لكن الحب ليس الصداقة، وكثيرا ما نتكلم عن الحب و لكن هل نعرف معناه الحقيقي؟نحن كثيرا ما نقول يجب أن نحبّ و لكن هل الحبّ واجب أو أمر أخلاقي؟ و إذا لم يكن كذلك فهل هو فكرةّ؟ و هل الوطنية مثلا التي تدعو إلى القتل او التضحية بالنفس من أجل الوطن هي الحبّ؟</p>
+<p class="para">يبدو أننا نستعيد من جديد مقاربة فويرباخ التي تؤكد أنه بالحب يمكن للإنية ان تتجاوز منطق الأنانة ، فالحب في جوهره إيثار و الإيثار غيريّة، و لذلك لا يمكن اعتباره فكرة مجرّدة و لا هو بدرجة أقلّ إيديولوجيا،و لا يمكن أن يحتوي في داخله نفيا للغير؟ وهل يدرك رجل الدين الحب الحقيقي عندما يفصل الحياة بين مقدسات و مدنسات؟ بل هل يمكن أن نتحدث عن حبّ مقدس و حبّ مدنس؟ عن حبّ لاهوتي و حبّ ناسوتي؟ و هل الحب أخلاقي أم ضدّ الأخلاق؟ و هل يختزل الحب في الرغبة وفي البحث عن المتعة؟</p>
+<p class="para">الرغبة في جوهرها سعي للامتلاك، فبقدر ما يكون الغير ملكا لي أحبه ولحظة يكف عن ذلك يتحولّ الحب كرها و نقمة، كما أنّ الرغبة نفي للحرية والحب لا يتعارض مع الحرية، و لعلّ هذا ما يفسر أيضا الفصل بين الحب والواجب، إذ لا يرتبط بالأمر لا في شكله الشرطي و لا في شكله القطعي، ومانعدّه اليوم حبا هو في الحقيقة الإرتباط <span dir="ltr">L'attachement</span> ،و لذلك يكون غالبا خانقا، بل و كثيرا ما نصادف الحب خارج حدود الارتباط ذاته، لأننا بفضله نفهم الغير دون الحكم عليه، و هو الذي يُظهر في الغير أفضل ما فيه، بل أكثر من ذلك عندما نُحب حقيقة ينتفي منطق الثنائية بحيث تكون الإنية غيريّة و الغيريّة إنيّة.</p>
+<p class="para">ننتقل اليوم من وهم علاقة إلى علاقة وهمية اخرى، أو نحافظ على هشاشة علاقاتنا كمن يحافظ على الوهم دون أن يدرك ذلك، و لذلك تمثل مسألة العلاقة اليوم مشكلا حقيقيا، ليس بين الإنيّة و الغيريّة فحسب بل أيضا و بشكل أكثر خطورة و راهنية بين الخصوصيات و الهويات الثقافية أو بين النحن والهم.</p>
+<p class="para">و إذا كان من الممكن أن يكون الحبّ عاملا أساسيا في صنع الحضارة وبناءها فإنه يمكن بالمثل أن يكون علّة بؤس الإنسان و شقاءه. بحيث كما ينتقل بنا من الكوسموس إلى الكونيّ المفتوح، يمكن أن يعود بنا إلى الكوسموس بل وأخطر الكاووس أو الفوضى العارمة التي تسم واقعنا. والمشكل لا يكمن في البعد الثقافي و الحضاري الذي يميّز الإنسان وإنماكذلك في البعد الذاتي و النفسي الذي تحدثنا عنه باطناب،إذ أكثر علاقات الحب اليوم صمّاء لا لغة فيها و لا خطاب، لا بين الأنا و الغير و لا حتى بين الأنا وذاتها.</p>
+
+</section>
+
+</div>
+</body>
+</html>

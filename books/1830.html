@@ -1,0 +1,515 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<title>Wael Academy — Philosophie · 5  الأخلاق الخير و السعادة</title>
+<script>
+  window.MathJax = {
+    tex: { inlineMath: [['\\(','\\)']], displayMath: [['\\[','\\]']] },
+    chtml: { fontURL: 'https://cdn.jsdelivr.net/npm/mathjax@3/es5/output/chtml/fonts/woff-v2', matchFontHeight: true },
+    startup: { typeset: true }
+  };
+</script>
+<script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js" async></script>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Sora:wght@400;500;600;700;800&family=Cairo:wght@400;500;600;700;800;900&family=Tajawal:wght@400;500;700;800&family=JetBrains+Mono:wght@400;500;600;700&display=swap');
+:root{
+  /* ===== Wael Academy palette — MAIN ACCENT = green-teal gradient #0FAB8F → #067360 ===== */
+  --bg:#fff; --panel:#f2f8f8; --hair:#e6e6e9; --hair2:#d6d6db;
+  --fg:#0f2a31;        /* body text (and +/− signs) */
+  --fg2:#3f5b62;       /* softer text */
+  --fg3:#7c959b;       /* muted (footer) */
+  --blue:#067360;      /* deep accent — small numbers, borders, watermark, accent equations */
+  --blue-dark:#045260; /* titles & wordmarks (also the balance colour) */
+  --teal:#0fab8f;      /* bright accent end */
+  --loop:#0d9c82;      /* logo-loop helper */
+  --orange:#067360;    /* kicker/category labels (gold retired → deep teal) */
+  --red:#f5322f;       /* EXERCISE CHIPS ONLY — never for emphasis */
+  --cream:#e6f3f4; --blue-soft:#e6f3f4;  /* pale teal — callout fill + table sub-row fill */
+  --blue-line:#cde7e4; /* hairline */
+  --sub-ink:#045260;   /* table sub-row text */
+  --grad:linear-gradient(148deg,#0fab8f 0%,#0d9c82 52%,#067360 100%);
+  --mono:'JetBrains Mono',monospace; --latin:'Sora',sans-serif; --ar:'Cairo',sans-serif; --arb:'Tajawal',sans-serif;
+}
+*{box-sizing:border-box;margin:0;padding:0;}
+body{font-family:var(--latin);color:var(--fg);background:#e4e4e7;padding:28px 0;
+     -webkit-print-color-adjust:exact;print-color-adjust:exact;}
+html[dir="rtl"] body{font-family:var(--arb);}
+
+/* ===== brand watermark: REAL text (crisp), full-bleed, repeats per page ===== */
+.wm{position:fixed;inset:0;z-index:0;pointer-events:none;display:flex;
+    align-items:center;justify-content:center;overflow:hidden;
+    -webkit-print-color-adjust:exact;print-color-adjust:exact;}
+.wm span{font-family:var(--mono);font-weight:800;font-size:76.8pt;letter-spacing:.16em;
+    color:var(--blue);opacity:.06;white-space:nowrap;transform:rotate(-54deg);}  /* single diagonal: bottom-left → top-right */
+.wm.mono span{color:#000;opacity:.05;}
+
+/* ===== continuous flow stream (no page border) ===== */
+.flow{width:210mm;margin:0 auto;background:transparent;color:var(--fg);
+      padding-block:16mm 18mm;padding-inline:23mm 14mm;position:relative;}   /* spiral gutter: inline-start(=spine) 23mm / outer 14mm — dir-aware; print margins set in render_flow.py */
+@media screen{ .flow{background:#fff;box-shadow:0 10px 40px rgba(0,0,0,.16);} }
+.flow>*{position:relative;z-index:1;}
+.flow p,.flow li,.flow .data,.flow .note,.flow .ex{break-inside:auto;}
+.flow .fig,.flow figure,.flow img,.flow svg.figsvg,.flow table,.flow tr,.flow .chapdiv,.flow .exh,.flow .qrcard,.flow .meta{break-inside:avoid;}
+.flow h1,.flow h2,.flow h3,.flow .exh,.flow .subhead,.flow .chapdiv{break-after:avoid;}
+.flow img,.flow svg.figsvg{max-width:100%;height:auto;}
+.flow figcaption,.flow .figcap{display:none;}          /* rule 3: no figure captions */
+
+/* ===== front matter + chapters each start on a fresh page ===== */
+.flow .cover{break-after:page;}        /* cover alone on page 1 */
+.flow .toc{break-after:page;}          /* Sommaire alone on the next page */
+.flow .chapter{break-before:page;}
+.flow .chapter:first-of-type{break-before:auto;}
+
+/* ===== cover ===== */
+.cover{padding:14mm 0 8mm;border-bottom:2px solid var(--blue);margin-bottom:6mm;}
+.cover .badge{font-family:var(--mono);font-size:8.5pt;letter-spacing:.28em;text-transform:uppercase;color:var(--orange);margin-bottom:10px;}
+.cover h1{font-family:var(--latin);font-weight:800;font-size:34pt;line-height:1.03;letter-spacing:-.025em;color:var(--blue-dark);}
+.cover .grule{width:120px;height:5px;border-radius:5px;background:var(--grad);margin:14px 0;}
+.cover .sub{font-family:var(--mono);font-size:10pt;letter-spacing:.14em;text-transform:uppercase;color:var(--teal);}
+.cover .auth{font-size:11pt;color:var(--fg2);margin-top:6px;font-weight:600;}
+
+/* ===== table of contents ===== */
+.toc{margin:2mm 0 4mm;}
+.toc h2{font-family:var(--latin);font-weight:800;font-size:15pt;color:var(--blue-dark);margin-bottom:4mm;}
+.toc .trititle{font-family:var(--mono);font-size:8pt;letter-spacing:.2em;text-transform:uppercase;color:var(--orange);margin:4mm 0 2mm;}
+.toc ol{list-style:none;}
+.toc li{display:flex;align-items:baseline;gap:8px;font-size:10pt;padding:2.2px 0;color:var(--fg);line-height:1.4;}
+.toc li .n{font-family:var(--mono);font-weight:700;font-size:9pt;color:var(--blue);min-width:26px;}
+.toc li .dots{flex:1;border-bottom:1px dotted var(--hair2);transform:translateY(-3px);}
+
+/* ===== chapter divider band ===== */
+.chapdiv{margin:0 0 5mm;padding:6mm 16px 5mm;border-radius:12px;background:var(--grad);
+    -webkit-print-color-adjust:exact;print-color-adjust:exact;}   /* green-filled chapter band */
+.chapdiv .cn{font-family:var(--mono);font-size:8.5pt;font-weight:700;letter-spacing:.24em;text-transform:uppercase;color:rgba(255,255,255,.82);margin-bottom:5px;}
+.chapdiv h2{font-family:var(--latin);font-weight:800;font-size:17pt;line-height:1.1;letter-spacing:-.015em;color:#fff;}
+/* conclusion block — same green-filled look as the chapter band */
+.conclusion{background:var(--grad);border-radius:12px;padding:6mm 16px;margin:5mm 0;color:#fff;break-inside:avoid;
+    -webkit-print-color-adjust:exact;print-color-adjust:exact;}
+.conclusion .ck{font-family:var(--mono);font-size:8.5pt;font-weight:700;letter-spacing:.24em;text-transform:uppercase;color:rgba(255,255,255,.82);margin-bottom:6px;}
+.conclusion h3{font-family:var(--latin);font-weight:800;font-size:13pt;line-height:1.2;color:#fff;margin-bottom:4px;}
+.conclusion p,.conclusion li{font-size:10.4pt;line-height:1.7;color:#fff;}
+.conclusion b,.conclusion strong{color:#fff;font-weight:700;}
+
+/* ===== unit header (lesson/exercise) + QR emplacement ===== */
+.exh{display:flex;align-items:center;gap:11px;margin:6mm 0 3mm;}
+.exh .idx{font-family:var(--mono);font-size:9pt;font-weight:600;color:#fff;background:var(--grad);
+    border-radius:6px;padding:4px 11px;letter-spacing:.08em;text-transform:uppercase;
+    -webkit-print-color-adjust:exact;print-color-adjust:exact;}
+.exh .idx.ex{background:var(--red);}   /* exercise chip = red */
+.exh h2{font-family:var(--latin);font-size:14pt;font-weight:700;letter-spacing:-.01em;color:var(--blue-dark);}
+.exh .qrcard{margin-inline-start:auto;flex:0 0 auto;display:flex;flex-direction:column;align-items:center;gap:3px;width:26mm;}
+.qrcard .qrt{font-family:var(--mono);font-size:6.5pt;letter-spacing:.1em;text-transform:uppercase;color:var(--teal);text-align:center;}
+.qrcard .qrslot{width:24mm;height:24mm;padding:1.5mm;background:#fff;border:1px solid var(--blue-line);border-radius:8px;display:flex;align-items:center;justify-content:center;}
+.qrcard .qrslot img,.qrcard .qrslot svg{width:100%;height:100%;display:block;}
+
+/* sub-exercise label when one file holds several exercices */
+.exsub{font-family:var(--latin);font-weight:800;font-size:11.5pt;color:var(--blue-dark);margin:5mm 0 2.5mm;padding-bottom:3px;border-bottom:2px solid var(--blue-line);}
+
+/* ===== text blocks ===== */
+.lead{font-size:11pt;line-height:1.7;margin:2mm 0 3mm;color:var(--fg);}
+.para{font-size:10.6pt;line-height:1.7;margin:2mm 0 2.5mm;color:var(--fg);}
+.consigne{font-size:10.4pt;line-height:1.6;margin:1mm 0 2mm;color:var(--fg);font-style:italic;}
+.subhead{font-family:var(--latin);font-weight:800;font-size:12pt;letter-spacing:-.01em;color:var(--blue-dark);margin:5mm 0 2.5mm;}
+/* emphasis — green accent = .t-blue/.t-green ; balance = .t-navy ; red = SECONDARY accent (.t-red) on titles + a few words */
+.t-blue{color:var(--blue);font-weight:600;} .t-navy{color:var(--blue-dark);font-weight:700;}
+.t-red{color:var(--red);font-weight:600;} .t-green{color:var(--teal);font-weight:600;} .t-gold{color:var(--orange);font-weight:600;}
+.subhead.t-red{color:var(--red);font-weight:800;}   /* red Roman-numeral section title (I, II, …) — keeps subhead weight */
+/* highlighter marks — a soft colour wash behind a key word (agent picks green or red per what balances the page) */
+.hl-green,.hl-red{border-radius:3px;padding:.02em .24em;font-weight:600;box-decoration-break:clone;-webkit-box-decoration-break:clone;
+    -webkit-print-color-adjust:exact;print-color-adjust:exact;}
+.hl-green{background:rgba(15,171,143,.20);color:var(--blue-dark);}   /* green highlight */
+.hl-red{background:rgba(245,50,47,.13);color:#c0261f;}               /* red highlight  */
+
+.data{background:var(--blue-soft);border:1px solid var(--blue-line);border-inline-start:4px solid var(--blue);
+    border-radius:8px;padding:11px 16px;margin:3mm 0;font-size:10pt;line-height:1.65;color:var(--fg2);}
+.data b{color:var(--fg);font-weight:700;}
+.note{border:1px dashed var(--hair2);border-radius:9px;padding:11px 16px;margin:4mm 0;background:var(--panel);}
+.note .kicker{font-family:var(--mono);font-size:7.5pt;letter-spacing:.18em;color:var(--orange);display:block;margin-bottom:5px;}
+.note .nb{font-size:10pt;line-height:1.7;color:var(--fg2);} .note b{color:var(--fg);}
+.ex:not(.idx){background:var(--blue-soft);border:1px solid var(--blue-line);border-inline-start:3px solid var(--blue);
+    border-radius:7px;padding:7px 11px;font-size:9.6pt;line-height:1.6;color:var(--fg2);margin:2mm 0;}   /* :not(.idx) so it never hits the exercise chip (which is .idx.ex) */
+.ex .extag{display:inline-block;font-family:var(--latin);font-weight:800;font-size:7.6pt;color:var(--blue-dark);background:#fff;
+    border:1px solid var(--blue);border-radius:5px;padding:1px 9px;margin-inline-end:7px;vertical-align:middle;text-transform:uppercase;letter-spacing:.06em;}
+
+/* ===== lists ===== */
+ol.q{list-style:none;counter-reset:q;margin:1mm 0 2mm;}
+ol.q>li{counter-increment:q;position:relative;padding-inline-start:30px;margin-bottom:2.5mm;font-size:10.4pt;line-height:1.6;}
+ol.q>li::before{content:counter(q);position:absolute;inset-inline-start:0;top:1px;width:21px;height:21px;background:var(--grad);color:#fff;
+    border-radius:50%;font-family:var(--mono);font-size:9pt;font-weight:600;display:flex;align-items:center;justify-content:center;
+    -webkit-print-color-adjust:exact;print-color-adjust:exact;}
+ol.sub{list-style:none;counter-reset:s;margin:4px 0 0;padding-inline-start:2px;border-inline-start:1px solid var(--blue-line);}
+ol.sub li{counter-increment:s;position:relative;padding:2.5px 0 2.5px 26px;font-size:10.1pt;line-height:1.55;}
+ol.sub li::before{content:counter(s,lower-alpha)".";position:absolute;inset-inline-start:10px;top:2.5px;font-family:var(--mono);font-size:9pt;font-weight:600;color:var(--teal);}
+ol.qn{list-style:none;counter-reset:qn;margin:1mm 0 2mm;}
+ol.qn>li{counter-increment:qn;position:relative;padding-inline-start:26px;margin-bottom:2.2mm;font-size:10.4pt;line-height:1.55;}
+ol.qn>li::before{content:counter(qn)".";position:absolute;inset-inline-start:0;top:0;font-family:var(--mono);font-size:9.5pt;font-weight:700;color:var(--blue);}
+ul.b{list-style:none;margin:1mm 0 2mm;} ul.b>li{position:relative;padding-inline-start:22px;margin-bottom:2.4mm;font-size:10.4pt;line-height:1.6;}
+ul.b>li::before{content:"";position:absolute;inset-inline-start:3px;top:8px;width:8px;height:8px;border-radius:50%;background:var(--grad);
+    -webkit-print-color-adjust:exact;print-color-adjust:exact;}
+ul.dash{list-style:none;margin:1mm 0 2mm;} ul.dash>li{position:relative;padding-inline-start:20px;margin-bottom:1.8mm;font-size:10.4pt;line-height:1.6;}
+ul.dash>li::before{content:"–";position:absolute;inset-inline-start:2px;top:0;color:var(--fg);font-weight:700;}  /* dash / +/− signs = body colour */
+.flow ul.opts{list-style:none;margin:4px 0 3px;padding-inline-start:16px;}
+.flow ul.opts li{padding:2px 0;font-size:10.2pt;line-height:1.5;color:var(--fg);}
+
+/* ===== figures / tables ===== */
+.fig{margin:3mm 0;} .fig svg.figsvg{display:block;margin:0 auto;background:#fff;max-width:100%;height:auto;}
+.photo{display:block;margin:3mm auto;border-radius:8px;border:1px solid var(--hair);max-width:100%;}
+.figrow{display:flex;flex-wrap:wrap;gap:9px;justify-content:center;margin:3mm auto;max-width:190mm;}
+.flow .figrow img{border-radius:7px;border:1px solid var(--hair);height:46mm;width:auto;max-width:none;object-fit:cover;}
+.schemarow{display:flex;gap:16px;align-items:flex-start;flex-wrap:wrap;margin:2mm 0;}
+.schemarow .col-txt{flex:1 1 90mm;min-width:80mm;} .schemarow .col-fig{flex:0 0 78mm;} .schemarow .col-fig .fig{margin:0;}
+.flow table{border-collapse:collapse;width:100%;margin:3mm 0;font-size:9.8pt;line-height:1.5;}
+.flow table th,.flow table td{border:1px solid var(--blue-line);padding:6px 10px;text-align:start;vertical-align:top;}
+.flow table th{background:var(--grad);color:#fff;font-family:var(--latin);font-weight:700;font-size:9.4pt;
+    -webkit-print-color-adjust:exact;print-color-adjust:exact;}
+.flow table tr:nth-child(even) td{background:var(--blue-soft);color:var(--sub-ink);}   /* sub-row: #E6F3F4 / #045260 */
+
+mjx-container{color:var(--fg) !important;font-weight:400 !important;font-size:1.0em !important;}
+.eq-hi mjx-container,mjx-container.eq-hi{color:var(--blue) !important;}   /* accent (green) equation — highlight a key result; balance with plain math */
+.eq-red mjx-container,mjx-container.eq-red{color:var(--red) !important;}  /* red accent equation / symbol — complements the green .eq-hi */
+
+/* ===== per-file books: credit line, copies list, figures at their size ===== */
+.credit{display:flex;flex-wrap:wrap;align-items:center;gap:5px;margin:-1mm 0 3.5mm;font-size:9.4pt;color:var(--fg2);}
+.credit .who{font-weight:700;color:var(--blue-dark);}
+.credit .tg{font-family:var(--mono);font-size:7.2pt;letter-spacing:.04em;border-radius:5px;padding:1px 7px;line-height:1.6;
+    border:1px solid var(--blue-line);color:var(--blue);background:#fff;-webkit-print-color-adjust:exact;print-color-adjust:exact;}
+.credit .tg.sec{background:var(--blue-dark);border-color:var(--blue-dark);color:#fff;}
+.credit .tg.cor{background:#fff;border-color:var(--red);color:var(--red);}
+.credit a{color:var(--fg3);font-family:var(--mono);font-size:7pt;text-decoration:none;}
+.cover .auth .credit{margin:4mm 0 0;}
+.cover .copies{margin-top:5mm;font-size:8.6pt;color:var(--fg2);}
+.cover .copies ul{list-style:none;margin:2mm 0 0;padding:0;columns:2;}
+.cover .copies a{color:var(--fg3);text-decoration:none;font-size:8pt;}
+.flow figure.fig{text-align:center;}
+.flow figure.fig img{max-height:60mm;width:auto;max-width:70%;display:inline-block;}
+
+/* chapter tag on each part of a multi-chapter book (the book keeps the original order of the file) */
+.chtag{display:inline-block;margin:5mm 0 2mm;padding:1mm 3mm;border-radius:2mm;background:#eef3fb;border:1px solid #c9d6ea;
+  color:#1f3a6b;font-size:9pt;font-weight:700}
+.chtag span{color:#6b7f9e;font-weight:600;margin-inline-end:1.5mm}
+
+@media print{ body{background:#fff;padding:0;} .flow{width:auto;max-width:none;margin:0;padding:0;} }
+@page{size:A4;}   /* margins come from render_flow.py — do NOT set them here */
+</style>
+<meta data-pagefind-filter="type[content]" content="درس">
+<meta data-pagefind-filter="resource[content]" content="المعهد النموذجي فرحات حشاد بصفاقس">
+<meta data-pagefind-meta="n[content]" content="1830">
+<meta data-pagefind-meta="title[content]" content="5  الأخلاق الخير و السعادة">
+<meta data-pagefind-filter="chapter[content]" content="القيم: الأخلاق والدولة">
+<meta data-pagefind-filter="section[content]" content="باكالوريا علوم تجريبية"><style>.qrcard{display:none!important}.wa-nav{position:sticky;top:0;z-index:50;background:#045260;padding:10px 18px;font-family:Cairo,sans-serif;direction:rtl}.wa-nav a{color:#fff;text-decoration:none;font-weight:700}@media print{.wa-nav{display:none}}</style>
+</head>
+
+<body dir="rtl" lang="ar"
+      data-brand="Wael Academy" data-handle="@WaelAcademy"
+      data-tagline="في تُرابنا.. مغامرة بمغامرة"
+      data-phone="+216 50 40 40 42" data-site="waeldocuments.com"
+      data-cta="سجل معانا وأقرى عن بعد مع منصة Wael Academy"
+      data-subject="Philosophie · 5  الأخلاق الخير و السعادة" data-watermark="Wael Academy" data-pagefind-body><nav class="wa-nav" data-pagefind-ignore><a href="../index.html">→ الرجوع إلى فهرس الفلسفة</a></nav>
+
+<!-- single full-page diagonal watermark, bottom-left → top-right (repeats on every page) -->
+<div class="wm" aria-hidden="true"><span>WAEL&nbsp;ACADEMY</span></div>
+
+<div class="flow colored">
+<div class="cover"><div class="badge">◉ Wael Academy · Philosophie</div><h1>5  الأخلاق الخير و السعادة</h1><div class="grule"></div><div class="sub">القيم: الأخلاق والدولة</div><div class="auth"><div class="credit">المؤلّف / المصدر : <span class="who">المعهد النموذجي فرحات حشاد بصفاقس — الأستاذ :نـاجي خليف</span> <span class="tg sec">الفلسفة · باكالوريا علوم تجريبية</span> <a href="https://drive.google.com/file/d/1QLS1wbe1cvP8uVe76l_Brql52ZzkuII9/view">↗ 5  الأخلاق الخير و السعادة</a></div></div><div class="copies" data-pagefind-ignore><b>نسخ هذا الملف في الدرايفات (2)</b><ul><li><a href="https://drive.google.com/file/d/1QLS1wbe1cvP8uVe76l_Brql52ZzkuII9/view">Mariem Bjaoui · Mariem Bjaoui Bac sciences 2025 › 4 philosophie</a></li><li><a href="https://drive.google.com/file/d/1AUmUcbX7ZmLjI3tcJEGc5fERxsmVBr_b/view">une · Bac science 2026 › bac 2026 / philo</a></li></ul></div></div>
+<section class="chapter"><div class="chapdiv"><div class="cn">المحور</div><h2>القيم: الأخلاق والدولة</h2></div>
+<!-- SOURCE: المعهد النموذجي فرحات حشاد بصفاقس — الأستاذ :نـاجي خليف -->
+<div class="exh"><span class="idx">درس</span><h2>مسألة الأخلاق :الخير و السعادة</h2>
+  <div class="qrcard"><div class="qrt">فيديو الدرس</div><div class="qrslot"><img src="qr/1830.svg" alt="QR"></div></div></div>
+<div class="credit">المؤلّف / المصدر : <span class="who">المعهد النموذجي فرحات حشاد بصفاقس — الأستاذ :نـاجي خليف</span> <span class="tg sec">الفلسفة · باكالوريا علوم تجريبية</span> <a href="https://drive.google.com/file/d/1QLS1wbe1cvP8uVe76l_Brql52ZzkuII9/view">↗ 5  الأخلاق الخير و السعادة</a></div>
+<!-- NOTE: the printed pages carry many handwritten annotations (margin notes, underlines, highlighter, circled words, a large scribble over p01); they are left out -->
+<p class="para"><b>المعانـــــي:</b> السعادة / الخير / الرفاه /الفضيلة /الواجب /المنفعة/اللذّة</p>
+<p class="para"><b>الأخلاق</b>:دراسة لمبادئ السلوك البشري و غاياته ولجملة المعايير المحددة للفعل.</p>
+<p class="para">الأخلاق: معرفة الفضائل، وكيفية اكتسابها لتزكو بها النفس ومعرفة الرذائل لتتنزه عنها.</p>
+<p class="para"><b>الخير</b>:هو أساس مبحث الأخلاق وهو غرض أفعال الإنسان .و يقال مقابل الشر و يقصد به الفعل الذي يحقق الرضا و الإشباع لما فيه من نفع او مصلحة أو ما يجلب من لذة و سعادة.</p>
+<p class="para"><b>السعادة</b>:نيل الخير و حالة الرضا التي تحقق السرور والفرح وتستبعد كل ما يعكر صفو النفس من حزن وآلام...أو هي حالة الرضا التام و المستمر لما تناله النفس من خير. يقول الفارابي:<b>"أمّا أنّ السعادة هي غاية يتشوّقها كلّ انسان وأنّ كلّ من ينحو سعيه نحوها فإنّما هو يطلبها على أنها كمال ما".</b></p>
+<p class="para"><b>الفضيلة</b>:استعداد الإنسان اراديا لفعل الخير ونقيضها الرذيلة.</p>
+<p class="para"><b>الواجب</b>:الدعامة التي يستند إليها كل تقدير عملي و كل حكم أخلاقي.</p>
+<p class="para">يعرف كانط الواجب:"هو ضرورة انجاز فعل احتراما للقانون الذي يجسم ارادة الإنسان.</p>
+<p class="subhead t-navy"><b>*<u>تأطير المسألة:</u></b></p>
+<p class="para">يقول كانط:<b>"فمشكلة تحديد أيّ فعل يمكن أن يجلب السعادة لكائن عاقل تحديدا يقينا وعامّا هي مشكلة لا حلّ لها على الإطلاق".</b></p>
+<p class="para">اذا سلّمنا بأنّ الأخلاق بحث في أفعال الإنسان والمعايير المحدّدة لها والغايات المنتظرة منها فإنّها تستحضر بالضرورة قيم الخير والفضيلة والحرية والرفاه والسعادة...من جهة دورها في استكمال الإنسان لإنسانيته .وعلى هذا الأساس يطلق على الفعل الأخلاقي الفعل الخيّر والفاضل والنافع في مقابل الفعل الرذايل والضار.إذن يتنزّل الخير بما هو الغاية القصوى التي يهدف اليها فعل المرء.وهو يتدرّج في أفعاله في سلّم الخيرات حتّى ينال اسماها وكمالها وهو السعادة. وعلى الرّغم من الرغبة الكونيّة للسعادة إلاّ أنّها أثارت جدلا واسعا بين المفكّرين من جهة محدّدات وأسس الفعل الأخلاقي وغاياته ومشكل العلاقة بين الخير والسعادة.</p>
+<p class="para">يبدو أنّ تباين المشاريع الفلسفيّة ينحصر حول أساس الفعل الأخلاقي .فمنها من أسّسه على العقل وربطه بالفضيلة ومنها من وصل السعادة باللّذة والرفاه ومراكمة المنافع الحسية ومنها من أقامها على الواجب.</p>
+<p class="para">على أيّ نحو وجب النظر إلى السعادة؟ هل بماهي مثل أعلى أخلاقي نحصل عليه بالتعالي على اللذة والمتع الحسّية أم من خلال مراكمة المنافع وإشباع اللذات وتحقيق أكبر قدر ممكن من الرفاه؟</p>
+<p class="para">فعلام يتأسّس الفعل الأخلاقي ؟ وما طبيعة العلاقة بين الخير والسعادة ؟ هل هي علاقة توافق تنزّل مطلب السعادة ضمن دائرة ما هو أخلاقي أم هي علاقة تعارض تكشف عن تقاطب بينهما؟وهل من الممكن الجمع في الفعل الأخلاقي بين الخير والسعادة؟ واذا اعتبرنا أنّ الحضارة المعاصرة قائمة على الرفاه فهل حقّا يكون ضامنا للسعادة ؟ وإذا خلصنا الى وجود معوّقات للسعادة فهل اليأس من تحصيلها يشرّع القول بزيفها ووهميتها؟</p>
+<p class="subhead t-red"><b><i><u>1-في تلازم الخير والسعادة:تماهي الوجود السعيد مع الوجود الخيّر. السعادة بما هي فضيلة.</u></i></b></p>
+<p class="para">يقوم هذا التصوّر على فكرة أنّ السعادة مثل أعلى أخلاقي وهي خير أسمى وكمال تقترن بالحكمة والفضيلة.اذن هي أرقى مراتب الوجود الخيّر .وعليه فإنّ الحياة السعيدة هي الحياة الفاضلة والفضيلة هي الفعل العقلاني المطابق للخير . وبالتالي لا تكون حياة المرء سعيدة إلاّ إذا كانت مطابقة للعقل وما يوجبه ويستحسنه فالخير والسعادة كلاهما يدركان بالتعقّل والتأمّل .وبناء على هذا فإنّ السعادة هي خير يطلب لذاته وهو ما يقتضي من الإنسان زهدا في اللذّة بما هي تعبير عن الشهوات الحيوانيّة المناقضة للفضيلة.ناهيك أنّ اشباعها يفضي الى السقوط في الرذيلة ويمنع من الترقي نحو الكمال الأخلاقي.</p>
+<p class="para">اذن السعادة هي حالة من الرضى الوجودي التي تشترط تحكّما في شهوات الجسد وانفعالاته.</p>
+<p class="para"><b>أهم ما نحتفظ به:</b></p>
+<p class="para"><b>-الزهد في اللذّة شرط امكان تحقق مطلب السعادة</b></p>
+<p class="para"><b>-استبعاد اعتبار السعادة متعة حسيّة</b></p>
+<p class="para">(Bac 2023 "إنّ الحياة السعيدة هي حياة المتعة" قدّم حجة تدحض هذا الاقرار).لماذا ؟</p>
+<p class="para">- تشترط السعادة أن تكون دائمة ومكتملة في حين تعدّ المتعة حالة طارئة وعابرة ونسبيّة.</p>
+<p class="para">- السعادة مثل أعلى أخلاقي فينظر إليها بما هي كمال المرء وعلامة دالة على الرقي. الأشياء الممتعة يمكن أن تكون جالبة للألم والإضطراب وهما دليل شقاء المرء.</p>
+<p class="para">- حياة المتعة لا تتوافق مع العقل</p>
+<p class="para">-اشباع اللذّات يفضي إلى السقوط في الرذيلة</p>
+<p class="para">-ترتبط اللذّة بالجسد وهو عائق أخلاقي ووجودي</p>
+<p class="subhead t-navy"><b>المرجعيّة:أرسطو.</b></p>
+<p class="para">خلافا لعامّة الناس الذين ذهبوا إلى فهم مادّي وحسّي للسعادة فوصلوها بالثراء وبالجاه وبالشهرة وباللّذات ورغد العيش يقرن أرسطو السعادة بالحكمة وبالتأمّل معتبرا أنّها سبيل المرء للترقّي إلى الكمال :<b>" التأمّل رفيع بذاته على أنّ السعادة يمكن اعتبارها ضربا من التأمّل".</b></p>
+<p class="para">فالسعادة عقليّة وهي الخير الأسمى.لقد أثبت أرسطو تصوّره بحجج عقليّة .فاللّذة جزئيّة ومنتجة لسعادة مؤقّتة أي أنها زائلة-والثروة جالبة للتوتر ومهدّدة بالتلاشي والأمجاد عابرة.</p>
+<p class="para">وفي المقابل فإنّ السعادة كمال وهي الخير في ذاته. فالسعادة داخل الأساس العقلي للأخلاق هي ظاهرة روحيّة خالصة، تستوجب مجاهدة ومغالبة الذّات ومقاومة نوازعها والتصدّي لجانبها الرّغائبي المتّصل بالجسد باعتباره عرض وجودي وعائق أخلاقي.</p>
+<p class="para">←ترتبط السعادة إذا بمقياس فكريّ وروحي أي بقيم الخير  والفضيلة الخلقيّة وبممارسة حياة الحكمة والتأمّل .فتكون اللذة الحسية والرفاه المادي عائقا أمام السعادة الروحية</p>
+<p class="para">ولكن ألا يتسبّب هذا الزهد في اللذّة في شعور المرء بالألم؟ أليس في ربط السعادة بالحرمان من الملذّات ما يجعل من السعادة حلما مستحيلا ؟</p>
+<p class="subhead t-navy"><b>* السعادة و اللذّة : <u>في التظنّن على اعتبار التعفّف في طلب الملذّت شرط امكان تحقيق السعادة .</u></b></p>
+<p class="para"><b>الفكرة الأساسيّة: وهم السعادة بما هي مثل أعلى أخلاقي:</b></p>
+<p class="para">إذا كانت الأخلاق قائمة على العدول عن الغرائز فإن السعادة مع ذلك تفترض تجنّب الألم.وعليه فإنّ الإعتدال هو شرط تحقيق السعادة حيث لا افراط في اللذّة ولا تفريط فيها. فالسعادة المقترنة باللذّة ليست بالضرورة سقوطا في الحيوانيّة بل تنبني على عقل يقظ يحقّق شروط سكينة النفس ويجنّب اضطرابها (أبيقور). <b>إذن تعدّ اللذّة بداية الحياة السعيدة وغايتها</b> وهي الخير الموافق لطبيعتنا والقاعدة التي تحدّد اختياراتنا. إنّ الإقرار بأنّ اللذّة هي الخير الرئيسي والطبيعي للإنسان يقتضي التمييز بين لذّة ينبغي العمل على تحقيقها ولذّة يجب التخلّي عنها ما دامت تفضي الى الشقاء.وبالفعل فإنّ تحقّق السعادة بطلب اللذّة يقترن بالحكمة بما هي مبدا كلّ الفضائل وأصلها.</p>
+<p class="subhead t-navy"><b>-موقف أبيقور:</b></p>
+<p class="para">أقرّت فلسفة اللذّة أنّ الفعل الخيّر هو ذلك الذي يفضي بالضرورة الى خيرات ممتعة .وتبعا لهذا فانّ معيار اللذّة والألم هو المعيار الأوحد لقياس خيريّة الأفعال و شريّتها.يظهر هذا الربط بين اللذّة والسعادة في الأخلاق الأبيقورية .أقرّ أبيقور أنّ اللذّة تنشأ من اشباع حاجة ومن الحالة النفسية التي تعقب اشباعها .فالخير هو خلو الجسم من الاضطراب لأنّ الجسم هو الذي يسمح للنفس بتحقيق الطمأنينة أو ما يعرف بالأتراكسيا.اذن اللذّة هي المبدا الذي يجب أن ننطلق منه لنحدّد ما يجب أن نختاره و ما يجب أن نتجنّبه لتكون اللذّة الخير الأوّل الموافق لطبيعتنا.يقول أبيقور:<b>"إنّ اللذّة هي بداية الحياة السعيدة وغايتها".</b></p>
+<p class="para">يستبعد أبيقور فهم العامّة من الناس للذّة والمتّصلة بالشهوات والمتع الجسديّة :<b>"لا تتمثّل الحياة السعيدة في السكر والتمتّع بالنساء"</b> :"وإنّما اللذّة التي نقصدها هي التي تتميّز بانعدام الألم في الجسم والإضطراب في النفس".</p>
+<p class="subhead t-navy"><b>الرفاه والمنفعة أساس السعادة:</b></p>
+<p class="para">-واصل المذهب النفعي المعاصر مع ج.س.ميل و بنثام هذا الموقف الذي يقيم نظرته للخير على أساس حسي  تجريبي يتماشى وحضارتنا اليوم التي يغلب عليها الطابع البراغماتي ..<b>يقول ج.س.ميل:"إنّني أعني بالسعادة اللذّة وغياب الألم كما أعني باللاسعادة الألم والحرمان من اللذّة".</b></p>
+<p class="para">يساوي الخير في هذا الإتجاه ما هو نافع وأصبح معيار الخيريّة حسّيّا وأصبح مقداره وكمّه هما المحدّدان للسعادة فضلا عن درجة شموله. إنّ الحياة السعيدة هي الحياة الزاخرة بالملذات كمّا وكيفا.اذن يعدّ الرفاه(قيمة مادية تقدر الفرد على اشباع أكبر مقدار من المتع الحسيّة ما يتجاوز الضروريّات.</p>
+<p class="para">في هذا الموقف استبدال المقياس الكيفي للسّعادة بالمقياس الكمّي. لم يعد البحث موجّها نحو ماهية السّعادة وإنّما نحو كمّها والحاجات المشبعة لها. يبدو أن من شروط السعادة مراكمة المنافع فتحمل السعادة على معنى الشعور بالرضى الناتج عن وفرة وسائل الرفاه وتنوّعها.</p>
+<p class="subhead t-navy"><b>-في حدود اعتبار الرفاه مقياسا كافيا للسعادة:</b></p>
+<p class="para">-يفضي منطق الكمّ الى اختزال الوجود البشري في بعده المادّي وهوما لا يضمن فعليا السعادة.فقد يكون المرء سجين حاجات مصطنعة تضاعف من شقائه</p>
+<p class="para">-قد يكون الرفاه غطاء الايديولوجيا الرأسمالية وما تضمره العولمة من نزوع نحو الهيمنة</p>
+<p class="para">-الرفاه قيمة اقتصادية وليس قيمة أخلاقيةوهو مرتبط بصنف خاص من المجتمعات وحتى داخل هذه المجتمعات نرصد تنامي الآلام والتعاسة (نسب عالية في الإدمان والانتحار والطلاق...)</p>
+<!-- PROOFREAD: 1830 part1 p04 — "نرصد تنامي" (word partly hidden by a handwritten scribble) -->
+<ul class="dash">
+<li>ترتبط المنافع باختلاف الأذواق والمصالح مولّدة ضربا من الفردانية التي تؤدي الى تصادم الأفراد ما يهدد الكوني.</li>
+</ul>
+<ul class="b">
+<li><b><i><u>في إمكان الفصل بين الخير والسعادة:</u></i></b></li>
+</ul>
+<p class="para">اذا كانت نظريات اللذّة والمنفعة تحكم على الفعل الخلقي بالاستناد الى آثاره فإنّ نظرية الواجب تحكم على الفعل في ذاته لا بالنظر الى نتائجه. فالسعادة ليست غاية الفعل الأخلاقي إذ أخلاقية الفعل تستمدّ من المبدأ العقلي الذي يؤسّسه. فطبيعة الوجود الذي يخصّ الخير عقلي أمّا طبيعة الوجود الذي يخصّ السعادة فهو حسّي أو متخيّل.وبالفعل فإنّ للخير دلالة كلية في حين أنّ للسعادة دلالة نسبيّة.إذن الفعل الخيّر هو الذي نقوم به لذاته ولا ننتظر من ورائه نتائج.فالخير لا يطلب لأنّه نافع أو لأنّه ما به نحقّق السعادة.الفعل الخيّر هو الإمتثال للواجب وإن تعارض مع الرغبة أو مع السعادة.وهذا سعت فلسفة كانط الى بيانه. أكّد كانط على ضرورة التمييز بين أخلاق الواجب التي يمثل العقل أساسا لها وأخلاق السعادة التي تتأسس على الرغبة وتتصل بعناصر خبريّة-حسيّة . فالخير عند كانط يرتبط بالواجب الأخلاقي في حين ترتبط السعادة بالمبدأ المادّي للرغبة فتكون مجرّد شعور بالمتعة يصاحب الوجود.وعلى هذا الأساس أبرز كانط أنّ السعادة لا تقوم على مبادئ موضوعيّة-عقليّة بل على مبادئ تجريبيّة <b>"إنّ جميع العناصر التي تؤلّف مفهوم السعادة هي في مجملها عناصر خبريّة"..</b></p>
+<p class="para">يعارض <b>كانط</b> المذهب الطّبيعي الذي يعتبر الفعل وسيلة لإنتاج السعادة للمرء .وكأنّ الغايات والمقاصد هي التي تمنح للفعل قيمته.</p>
+<p class="para">فما الذي يجعل فعلا ما فعلا أخلاقيا؟ ..</p>
+<p class="para">إنّ ما يضفي على الأفعال صفة الخير ليس هو النتائج التي تترتّب عليها بل هو الطابع الإلزامي الذي يتّسم به فعلها حين يكون مطابقا للقانون الأخلاقي.ليس ما يحدّد الإرادة هو أيّ مضمون تجريبي بل هو الصّورة الخالصة للقانون الذي هو قاعدة عمل تدفع الفرد إلى إنجازه  دون انتظار هدف أو غاية أي أنّه صادر عن الواجب الذي حدّده <b>كانط</b>  بقوله:"<b>إنّه ضرورة أداء الفعل احتراما للقانون</b>."فالواجب هو الدّعامة التي يستند إليها كلّ تقدير عملي وكلّ حكم أخلاقي.</p>
+<p class="para">إنّ الواجب صوريّ أي تشريع كلي لاصلة له بمتغيّرات التّجربة.يعدّ الإلزام الأخلاقي ضابطا للفعل الأخلاقي في علاقة بالأمر وبالقانون  الواجب.ولمّا كان هذا الإلزام مصدره الإرادة الخيّرة فهو يتحوّل الى التزام وبذلك لا يتناقض مع الحريّة. في هذا الشّأن ميّز <b>كانط</b> بين صنفين من الأوامر.</p>
+<p class="para"><b>أوامر شرطيّة وأوامر قطعيّة</b>.يسمّي <b>كانط</b> الأوامر بقوانين العقل العملي. يقرّر النوع الأوّل من الأوامر ارتباط الفعل بالغايات والنتائج فتكون مقيّدة بشروط حسيّة وهو ما يجعل منها نسبيّة ولا ترقى الى مرتبة القانون. أما في الصنف الثاني من الأوامر فهي غير مقيدة بشرط لأنّ ما يلزمنا به أمر ضروري في ذاته فهو ينبع من الارادة الحرّة. فتكون أوامر كليّة صادرة عن الواجب. انّ أخلاق الواجب تتسم بالصرامة والصوريّة فلا تتأثّر بالمتغيرات الزمنيّة أو الظروف الاجتماعيّة.</p>
+<p class="para">إذن تستمدّ أخلاقيّة الفعل من المبدأ العقلي الذي يؤسّسه.يقول كانط:<b>" لا تصلح المبادئ التجريبيّة لأن نؤسّس عليها أيّ قانون أخلاقي</b>".فكلّما كان الفعل عاقلا كان فعلا خيّرا.</p>
+<p class="para"><b>وفعلا تغدو السعادة عند كانط استحقاقا وجدارة فالأخلاق ليست مذهبا يعلّمنا كيف نكون سعداء بل كيف نكون جديرين بالسعادة.</b></p>
+<p class="para">رغم ما تميّزت هذه الرؤية من طابع انساني وكوني يتجاوز نسبويّة المصالح وتناقضاتها وتقريظ العقل كقدرة على تشريع معيار كوني للأخلاقية إلاّ أنّ هذه الأخلاق تبقى من جهة طابعها الصوري و المجرّد طوباويّة وصعبة التحقّق واقعيّا. فضلا عن كونها أهملت دور عناصر موضوعيّة كالتاريخ والمجتمعات في تغيير القيم. يبدو أنّ أخلاقيّة فعل دون سعادة هي أخلاقيّة مثاليّة صوريّة وزهديّة.</p>
+<p class="para">وبالتالي قد يتسبّب الواجب الأخلاقي في شقاء الفرد وألمه.</p>
+<p class="subhead t-navy"><b><u>المجتمع أصل الواجب ومصدر القيم: القراءة السّوسيولوجيّة (دوركايم)</u></b></p>
+<p class="para">بالنظر إلى خصوصيّة هذه القراءة من جهة أنّها قراءة علميّة تنظر إلى الظّاهرة الأخلاقيّة وكأنّها ظاهرة طبيعيّة موصوفة بالتّعالي على الأفراد وممارسة الهيمنة عليهم إذ تتّسم بطابع قسريّ. إنّ الفعل الخيّر هو ذاك الّذي يتوافق مع ما أقرّه المجتمع خيرا. فالفرد يكسب سلوكه أخلاقيّة كلّما امتثل للمنظومة القيميّة التي رسّخها الضّمير الجمعي في ضميره الفرديّ وما دام لكلّ مجتمع منظومته الخاصة فإنّ القيم ليست مطلقة وإنّما نسبيّة.</p>
+<p class="subhead t-navy"><b><u>الأخلاق الطّبقيّة:</u></b></p>
+<p class="para">على نقيض هذا التصوّر تعلن الماركسيّة أنّ المجتمع طبقي بحيث يستحيل الحديث عن أخلاق مطلقة .ولهذا هي تتغيّر من طبقة الى أخرى بحسب الوضع المادي لها وبحسب العلاقات الإقتصاديّة القائمة بينها يقول <b>انقلس:</b>"إنّ مفاهيم الخير والشر قد تغيّرت كثيرا من شعب الى شعب ومن عصر الى عصر الى حدّ التعارض."</p>
+<p class="subhead t-navy"><b><u>أخلاق الفرد بما هي أخلاق الإبداع وليس أخلاق الاتّباع:</u></b></p>
+<p class="para">خلافا لكلّ المشاريع التي ركّزت الأخلاق على ثوابت قبليّة مهما كان مصدرها فإنّ سارتر يعترض عليها معتبرا أنّها تسلب الفرد حريّته في أن يكون واضعا لقيمه خالقا لها <u>بحسب الظّرف.</u> فالفرد بما هو حرّية لا يستشعر وجوده إلاّ إذا مارسها مترجمة اختياراته.</p>
+<p class="para"><b>يتجلّى هذا الطّابع النسبي في أخلاق القوّة عند نيتشه</b> الذي سفّه قيم الشفقة التي رأى فيها اعاقة لفيض الحياة وتدفّق القوّة .فالسعادة عنده لا تكون بالعلوّ عن الغرائز وإنّما بإنعاشها والإنصات للمبدإ الكامن في الإنسان وهو ارادة القوّة .ميّز نيتشه بين أخلاق العبيد وأخلاق السادة .فالأولى ناتجة عن عجز وعدم قدرة الأفراد على مواجهة الحياة فركنوا إلى الزّهد فيها وقمعوا الغرائز.أمّا الصنف الثاني فإنّها ناتجة عن الخلق والارتقاء التي أعلت من شأن الحياة . <b>يقول نيتشه:" كم هي سذاجة مطلقة أن نقول يجب على الإنسان"</b></p>
+<p class="subhead t-red"><b><i><u>**معوقـــــات السعـــــادة.</u></i></b></p>
+<p class="para">تشقّ الوجود الإنساني ضروب من الشقاء والألم والحزن والحرمان مضاعفة من توتّر واضطراب المرء مانعة شعوره بالسعادة التي تتطلّب التوازن والغبطة والفرح...وطمأنينة النفس.ولعلّ تردّي الوضع الإنساني قيميّا بمفعول أيديولوجيا</p>
+<!-- NOTE: p06 is a separate printed sheet whose content is handwritten (black ink, photocopied); student blue-ink notes on it are left out -->
+<p class="para">المعهد النموذجي فرحات حشاد بصفاقس 1 — السنة الدراسية:2024-2025 — الأستاذ: ناجي خليف</p>
+<p class="para">السؤال: <b>هل يُغنينا فعل الخير عن طلب السعادة؟</b></p>
+<p class="para">المقدمة</p>
+<p class="para">التمهيد: الإنطلاق من التقابل القائم بين أخلاق تطلب الخير لذاته بصرف النظر عن نتائجه وبين أخلاق لا تنظر الى القيم الا من جهة تحقيقها للسعادة...</p>
+<p class="para"><u>الإشكالية</u> : ما طبيعة العلاقة بين الخير والسعادة؟ هل هي علاقة تعارض يستوجب فيها الفعل الخيّر التضحية بمطلب السعادة أم أنها علاقة تماهي وتلازم يمكن عبرها للإنسان أن يكون خيّرا وسعيدا؟</p>
+<p class="para">II- <u>الجوهر:</u></p>
+<p class="para">1- <u>التسليم بأن فعل الخير يغنينا عن طلب السعادة:</u></p>
+<p class="para">أ- ← الفعل الخيّر الذي يغنينا عن طلب السعادة هو:</p>
+<ul class="b">
+<li>الفعل الذي يستند الى ارادة خيّرة تكون مبدأ الفعل الذي يتم بمقتضى الواجب الأخلاقي بما هو واجب عقلي غير مقيد بنتائج وغايات أو مرتبط بأوامر قطعية</li>
+<li>الفعل المرتبط بأخلاق كونية تطلب الخير في ذاته دون النظر الى مطلب السعادة</li>
+<li>الفعل المقترن بالخير بما هو مثل أعلى عقلي منفصل عن كل ما هو حسّي /خبري</li>
+<li>الخير بما هو قيمة في ذاته / ضروري وثابت ودائم</li>
+</ul>
+<p class="para">ب- <u>تحديد دلالة السعادة في تقابلها مع الخير بماهي:</u></p>
+<p class="para">← السعادة بوصفها تجربة شخصية مشروطة برغبات وميولات حسية</p>
+<p class="para">← من جهة انها منفعة حسية متصلة باللذات وبمراكمة المنافع</p>
+<p class="para">← السعادة المحكومة بالنسبية والتغير والزوال</p>
+<p class="para">II- <u>في اثبات ان فعل الخير لا يغنينا عن طلب السعادة:</u></p>
+<ul class="b">
+<li>السعادة شعور بالرضا وهو لا يتحقق الا اذا ارتبط باللذة والمنفعة لأن الحرمان منها يتسبب في الألم.</li>
+<li>فعل الخير لا يقتضي بالضرورة مقاومة الرغبات والزهد التام في الذات بل عقلنتها أي الاعتدال في اشباعها (ما يسمى بحساب اللذات)</li>
+<li>خيرية الفعل تتحدد بعائدها على أساس النفع وتكون خيرا مشتركا</li>
+</ul>
+<p class="para">* <u>تحديد السعادة في انسجامها مع فعل الخير:</u></p>
+<p class="para">← السعادة بماهي الخير الأسمى</p>
+<p class="para">← " غاية قصوى للفعل الخيّر</p>
+<p class="para">← " خير بماهي دفع للأحزان والآلام وتحقيق للسكينة : الأتراكسيا</p>
+<p class="para">← الرفاه خير وهو أحد السبل الموصلة الى تحقيق السعادة</p>
+<p class="para">← الحكيم هو من يكون خيّرا وفاضلا وسعيدا</p>
+<p class="para">III- <u>الاستخلاص + التقييم:</u></p>
+<p class="para">استخلاص ان السعادة رغم ما يشقها من تجاذبات واختلافات فإنها تظل القوة الدافعة لتفكير الانسان في الغاية من وجوده فتلهمه وتحفزه على مجابهة العراقيل التي تتسبب في الشعور بالاحباط واليأس من الحياة.</p>
+<p class="subhead t-navy"><b>النص:</b></p>
+<div class="data"><p class="para">« لا تصلح المبادئ التجريبيّة لأن يؤسّس عليها أيّ قانون أخلاقيّ .وبالفعل فإنّ الطابع الكلّي الذي يسمح لهذه القوانين بأن تكون صالحة لجميع الكائنات العاقلة دون تمييز، والضرورة العمليّة اللامشروطة المفروضة عليها بفعل ذلك، ينتفيان بمجرّد تأسيسها على التكوين الخاصّ بالطبيعة الإنسانيّة أو على الظروف العرضيّة التي وُضعت فيها.ومع ذلك فإنّ أكثر المبادئ عرضة للإدانة هو مبدأ السعادة الشخصيّة، لا لأنّه فاسد فحسب، وأنّ التجربة تناقض الافتراض القائل بأنّ رغد العيش يتناسب دومًا مع حسن السلوك، ولا لأنّه لا يوفر أساسا للأخلاقيّة، إذ أنّ جعل الانسان سعيدا يختلف كلّ الاختلاف عن جعله طيّبا، وجعله إنسانا جريصا على مصالحه ومنتبها لها يختلف أيضا عن جعله فاضلا، بل خاصّة لأنّ مبدأ السعادة الشخصيّة يقيم الأخلاق على دوافع هي بالأحرى تقوّضها وتقضي على ما فيها من عظمة. وفعلا، فهي تجمع في صنف واحد الدّوافع التي تولد الفضيلة والدوافع التي تحرّض على الرذيلة، إنّها لاتزيد عن أن تعلّم الإنسان كيف يتقن الحساب، بينما تقضي قضاء مبرما على الفارق النوعي بين هذين الصنفين من الدّوافع.»</p>
+<p class="para">إيمانوال كانط : تأسيس ميتافيزيقا الأخلاق</p></div>
+<p class="consigne">أجب عن الأسئلة التّالية انطلاقا من النص:</p>
+<p class="para">1- صغ الإشكالية التي يعالجها الكاتب في هذا النص. (نقطتان )</p>
+<p class="para">2- اذكر حجّتين من بين الحجج التي دحض بها الكاتب فكرة تأسيس الأخلاقيّة على " مبدأ السعادة الشخصيّة ". (نقطتان )</p>
+<p class="para">3- صُغ تعريفا للفعل الأخلاقي بالاستناد إلى النص مستحضرا خاصّيتين من خصائصه. ( نقطتان )</p>
+<!-- PROOFREAD: 1830 part1 p07 — "جريصا" (as printed? likely typo for حريصا) -->
+<!-- PROOFREAD: 1830 part1 p06 — handwritten plan, partly covered by a large scribble: "II- الجوهر" (numeral), "التضحية بمطلب", "خيرية الفعل تتحدد بعائدها" -->
+<!-- NOTE: p08 is another printed sheet (مراجعة) with handwritten black-ink answers (photocopied); blue-ink student notes and the large scribble are left out -->
+<div class="exsub">مراجعة</div>
+<p class="para">المعهد النموذجي بصفاقس — السنة الدراسية:2021-2022 — الأستاذ: نـاجي خليـف — 1</p>
+<p class="subhead t-red"><b>المسألة: الأخلاق : الخير و السعادة</b></p>
+<p class="para"><b>التمرين الأول</b>: ".كلّما كان الفعل عاقلا كان فعلا خيّرا"</p>
+<p class="consigne">ماهي المسلمة <u>الضمنيّة</u> لهذا القول؟</p>
+<ul class="b">
+<li>- الفعل الخيّر هو الفعل الفاضل الذي يدرك بالانصراف عن اللذة والزهد فيها والانصراف الى حياة التأمل والحكمة، وبالتالي لا تكون حياة الانسان سعيدة الا اذا كانت مطابقة العقل وما يوجبه أو يستحسنه أي الخير.........</li>
+<li>الفعل الأخلاقي يتحدد وفق مبادئه لا وفق نتائجه.. ما يجعل من الخير مطلقا أي قيمة كلية تتعالى على ما هو نفعي ليكون الواجب أساسه.. فالخير ليس قيمة خيرية متصلة بما هو حسي أو محددات اجتماعية.</li>
+</ul>
+<p class="para"><b>التمرين الثاني</b>: "الأخلاق تظل واحدة لدى كلّ الناس الذين يستخدمون عقولهم".</p>
+<p class="consigne">اكشف احدى <u>تبعات</u> هذا الاقرار</p>
+<p class="para">← من تبعات القول بكونية المعايير المحددة للفعل الأخلاقي والتي من شأنها أن تضع الأفراد في تعارض بينهم ما يفرض عليهم التوحد والاتفاق لتأسيس أخلاق كونية بأبعاد انسانية.........</p>
+<p class="para">← اعتماد العقل مصدرا وحيدا للأخلاقية ينجر عنه تحويل الأخلاق الى قواعد فعل صورية ومجردة لا تأخذ بعين الاعتبار متغيرات الزمن وواقع الأفراد ما يجعلها طوباوية ناهيك عن تسببها في تألم الفرد والشعور بالشقاء.</p>
+<p class="para"><b>التمرين الثالث</b>: "إن المجتمع هو الذي يرسم للفرد برنامج حياته". بيّن <u>قيمة</u> هذا الاقرار.</p>
+<ul class="b">
+<li>- وحدة الأفراد وتعزيز التماسك داخل النسيج المجتمعي ودفع كل أشكال الصدام والتفكك.......</li>
+<li>خلق التماثل والنمطية في الفعل ما يغيب الخلق والابداع والذاتية (أخلاق الاتباع العبيد) / التأسيس لنسبية القيم ما يضمن حق كل شعب في امتلاك منظومته القيمية الخاصة به / تألم الفرد وشقائه لأن المجتمع سلطة اكراه.</li>
+</ul>
+<p class="para"><b>التمرين الرابع</b>: يفضي أوفر قدر من الرفاه إلى أدنى حظّ من السعادة".</p>
+<p class="consigne">قدّم <u>حجّة تدعم بها</u> هذا الإقرار.</p>
+<p class="para">← تثبت تجربة المعيش عدم التناسب بين وفرة وسائل الرفاه ومقدار السعادة وشمولها واقتدارها، إذ بينت دراسات علمية بنتائج أن المجتمعات التي بلغت مستوى عال من الوفرة ما يوحي بسعادة مواطنيها أن نسب الانتحار والادمان... مرتفعة جدا ما يمنع مواصلة الاعتقاد بداهة التلازم بينهما</p>
+<p class="para">← لا سبيل لتحقيق ديمقراطية في السعادة (غياب المساواة والفوارق...)</p>
+<p class="para">← الرفاه يخلق عبودية العلامات والأشياء سجنا للمرء داخل بعد استهلاكي</p>
+<!-- NOTE: p09 is entirely handwritten (black ink, blue-ink section labels in the margin); page number "15" left out -->
+<p class="subhead t-navy">I- الموقف الزهدي</p>
+<ul class="b">
+<li>أرسطو: "السعادة هي العمل وفقا لما يقضي به الكمال"</li>
+<li>أرسطو: "التأمل رفيع بذاته، على انه يمكن اعتبار السعادة ضربا من التأمل"</li>
+</ul>
+<p class="subhead t-navy">الرفاه واللذة أساس السعادة</p>
+<ul class="b">
+<li>أبيقور: "ان اللذة هي بداية الحياة السعيدة وغايتها"</li>
+<li>ج.س.ميل: "وحسب مبدأ السعادة القصوى يكون الهدف الأسمى هو حياة خالية اكثر ما يمكن من الألم، ثرية قدر المستطاع باللذات كمّا وكيفا"</li>
+<li>بونتيوس: "ان رسم صورة نعيم هذا العالم لا يتطلب سوى جمع الثروات والمناصب والسلطة والمجد والملذات"</li>
+</ul>
+<p class="subhead t-navy">الفصل بين الخير والسعادة</p>
+<ul class="b">
+<li>كانط: "لا تصلح المبادئ التجريبية لأن يؤسس عليها أي قانون اخلاقي"</li>
+<li>كانط: "ان أكثر المبادئ عرضة للإدانة هو مبدأ السعادة الشخصية"</li>
+</ul>
+<p class="subhead t-navy">قراءة نقدية للخير والسعادة</p>
+<ul class="b">
+<li>ج. بودريار: "ان ثورة رغد العيش هي وريثة ومنفذة وصية الثورة البورجوازية"</li>
+<li>فرويد: "لم يدخل في خطة الخلق المبيتة أن يكون الإنسان سعيدا"</li>
+<li>نيتشه: "توجد أخلاق للأسياد وأخلاق للعبيد"</li>
+<li>" : "يمتلك النبيل احساسا عميقا بأن له الحق في تحديد القيمة"</li>
+</ul>
+<p class="subhead t-red"><b>عينات تمهيد</b></p>
+<p class="para">1- يتنازع الانسان في سعيه الى استكمال انسانيته وتحقيق كماله طرفان الأول يصدر عن مقتضيات الفضيلة وما يصطحبها من شعور بالحرمان والألم والثاني توسع أشكال الرفاه وتضخمها والحاجة اليها وهو ما دعا الى النظر في...</p>
+<p class="para">2- يعكس واقعنا الراهن مفارقة بين وفرة وسائل الرفاه بما يوحي بتحقق السعادة وما يعيشه البشر من فقر ومجاعة وحروب تعكس بؤسهم وشقائهم وهو ما دفع للنظر في شروط امكان تحقيق السعادة...</p>
+<p class="para">3- يُعد مطلب السعادة مطلبا متأكدا لدى جميع الناس ويحرصون على تحقيقهم غير أنهم يواجهوا حيرة بين جعلها منحصرة في مراكمة المنافع وجمع الثروات والتنعم باللذات وبين تعلقهم بمثل عليا ترتبط بإنسانيتهم وهو ما دعا الى التفكير في...</p>
+<p class="para">4- يواجه الإنسان اليوم تحديا أمام تواتر سريع لصناعة قيم جديدة تتلائم مع طبيعة الحضارة المعاصرة وما تستوجبه الأخلاق من التقيد بمثل عليا وهو ما دفعه في ظل هذه الريبة (الحيرة) القيمية الى التساؤل عن...</p>
+<!-- PROOFREAD: 1830 part1 p09 — "بونتيوس", "المبيتة", "تحقيقهم" (handwriting) -->
+<!-- NOTE: p10 is an entirely handwritten essay plan on a framed sheet; blue-ink student notes left out -->
+<p class="subhead t-red"><b><u>هل يمكن للمرء أن يكون خيّرا وسعيدا؟</u></b></p>
+<p class="para">I- <u>المقدمة</u>:</p>
+<p class="para">أ- <u>التمهيد</u>: أمام مشهد حضاري تميز بفردية مطلب السعادة وما تقتضيه الأخلاقية نشطت الفلسفة باحثة عما يؤسس أخلاقية الفعل</p>
+<p class="para">ب- <u>الإشكالية</u>: بم تتحدد أخلاقية الفعل؟ هل تتحدد بمقتضى الخير كقيمة أم بالسعي الى السعادة كمطلب؟ وهل يمكن الجمع في الفعل الأخلاقي بين الخير والسعادة؟</p>
+<p class="para">II- <u>الجوهر</u>:</p>
+<p class="para">1- <u>لحظة أولى</u>: في امكان التلازم بين الخير والسعادة:</p>
+<p class="para">أ- <u>وجوديا</u>:</p>
+<ul class="b">
+<li>تماهي الوجود السعيد مع الوجود الخيّر.</li>
+<li>اعتبار السعادة أرقى مراتب الوجود الخيّر أي بماهي كمال</li>
+<li>السعادة الحقيقية مكوّنة لماهية الإنسان بما هو كائن عاقل وبالتالي لا تكون حياة الإنسان سعيدة إلا إذا كانت مُطابقة العقل وما يُوجبه أو يستحسنه أي الخير</li>
+</ul>
+<p class="para">ب- <u>معرفيا</u>: بلوغ السعادة يقتضي معرفة الخير الأسمى.</p>
+<p class="para">← الخير والسعادة كلاهما يدركان بالتعقل والتأمل والمعرفة وطلب الحكمة. يقول أرسطو: "التأمل رفيع بذاته على أن السعادة يمكن اعتبارها ضربا من التأمل" ويضيف: "من أحسن الأفعال المطابقة للفضيلة هو الفعل المطابق للحكمة".</p>
+<p class="para">ج- <u>عمليا</u>: ممارسة الخير في جوهره يفضي الى تحصيل السعادة.........</p>
+<ul class="b">
+<li>لا تؤخذ الفضيلة بمعنى القيمة النظرية المجردة بل بمعنى الحكمة العملية فالحياة السعيدة هي الحياة الفاضلة والفضيلة هي الفعل العقلاني المطابق للخير</li>
+<li>سعادة الفرد من سعادة المدينة وخيره من خيرها.........</li>
+</ul>
+<p class="para">2- <u>في امكان الفصل بين الخير والسعادة</u></p>
+<p class="para">أ- وجوديا: الوجود السعيد ليس بالضرورة وجودا خيّرا.........</p>
+<p class="para">← طبيعة الوجود الذي يخص الخير فهو عقلي أما طبيعة الوجود الذي يخصّ السعادة فهو حسّي.........</p>
+<p class="para">← السعادة جزئية في حين أن الخير كلي</p>
+<p class="para">ب- معرفيا:</p>
+<p class="para">← يمكن للخير أن نحدد له الشروط العقلية فتكون له دلالة كلية في حين أن حقيقة السعادة نسبية</p>
+<p class="para">← معرفة الخير لا تفضي بالضرورة إلى بلوغ السعادة.</p>
+<p class="para">ج- عمليا: يقتضي الوجود العملي التزام الإرادة بالخير أما طلبها للسعادة فهو يحيد بها عنه.</p>
+<p class="para">← السعادة ليست غاية الفعل الأخلاقي إذ أن أخلاقية الفعل تستمد من المبدأ العقلي الذي يؤسسه</p>
+<p class="para">← الفعل الخيّر هو الامتثال للواجب وإن</p>
+<!-- NOTE: p11 is entirely handwritten (blue ink) -->
+<p class="subhead">مرحلة الاستخلاص والتقييم</p>
+<p class="para">خلاصة القول، تمتنع مسألة العلاقة بين الخير والسعادة عن الحسم بحيث يصعب حسمها (وضع تعريف) نهائيا وهو ما يكشف عن أهميتها في ظل التحولات الراهنة لصناعة قيم جديدة ساهم الإعلام والعولمة في الترويج لها ما جعل الإنسان المعاصر يعيش ريبية قيمية.</p>
+<p class="para">تمزق بين رهان أخروي تؤدي إلى التقشف</p>
+<p class="para">وبين مقتضيات العيش التي تتطلب الرفاه</p>
+<p class="para">ويبقى أن تحقق السعادة لا يكون بمعزل عن السياسي والاقتصادي والخلقي والثقافي</p>
+<!-- PROOFREAD: 1830 part1 p11 — "تمتنع" (could be تفتح), "بحيث يصعب", "الراهنة" (word end unclear), "الإعلام" (looks like الإسلام), "لها ما جعل" (possibly مما), "ريبية قيمية", "رهان أخروي", "التقشف"; the two short lines are inserted between lines, exact placement unsure -->
+<!-- NOTE: p12 is an entirely handwritten essay plan (black ink, photocopied); blue-ink student notes and highlighter left out -->
+<p class="para">المعهد النموذجي فرحات حشاد بصفاقس — <u>الأستاذ</u> : ناجي خليف</p>
+<p class="para"><u>السؤال</u>: <b>هل من تعارض بين طلب اللذة وتحقق السعادة؟</b></p>
+<p class="para">I- <u>المقدمة</u> :</p>
+<p class="para">أ- <u>التمهيد</u>: ما يعيشه المرء من تمزق في حضارتنا المعاصرة التي غلب عليها التوجه المادي الذي بدوره اختزل السعادة في المتع واشباع اللذات وبين رهان أخلاقي يربط السعادة بالفضيلة بماهي عنوان رقي وكمال الفرد.</p>
+<p class="para">ب- <u>الإشكالية</u> : أية علاقة بين اللذة والسعادة؟ هل تُعدّ اللذة شرط امكان تحققها أم انها ما يعيق هذا التحقق؟</p>
+<p class="para">أو: ماهي شروط إمكان تحقق السعادة؟ هل تستوجب اقبالا على اللذة واشباعا لها أم انصرافا عنها وزهدا فيها؟</p>
+<p class="para">II- الجوهر</p>
+<ul class="b">
+<li><u>لحظة أولى</u>: تحقق السعادة رهين الزهد في السعادة :</li>
+<li>تحديد دلالة السعادة بماهي:</li>
+</ul>
+<p class="para">← مثل أعلى أخلاقي</p>
+<p class="para">← خير أسمى يقترن بالحكمة أو الفضيلة</p>
+<p class="para">← الرضا الوجودي المقترن بالسكينة.</p>
+<ul class="b">
+<li>تحديد دلالة اللذة بماهي منفعة حسية واحساس يقترن باشباع الرغبات.</li>
+<li>تحديد المقصود بالتعارض لا على معنى التقاطب بين الطرفين أو على معنى أن التسليم بطرف يقضي بالتضحية بالطرف الآخر وانما على معنى:</li>
+<li>التعفف عن طلب اللذات</li>
+<li>التعالي عليها والزهد فيها</li>
+<li>الإعراض عنها والكف عن اشباعها.</li>
+</ul>
+<p class="para">← مبررات التخلي عن طلب اللذة:</p>
+<ul class="b">
+<li>ترتبط اللذة بالجسد، وهو عرض وجودي وعائق أخلاقي، وأنّ تحررنا من قيوده وانفعالاته وشهواته هو شرط امكان الترقي نحو الكمال الأخلاقي، وبالتالي تحصيل السعادة.</li>
+<li>أنّ اشباع اللذة يفضي الى السقوط في الرذيلة في حين تقترن السعادة بالفضيلة التي تكون على صلة وثيقة بالنفس أو والعقل وبممارسة حياة التأمل والحكمة.</li>
+</ul>
+<p class="para">- توظيف أرسطو: "التأمل رفيع بذاته، على أن السعادة يمكن اعتبارها ضربا من التأمل"</p>
+<p class="para">- السعيد هو من يطابق فعله ماهيته الحقيقية التي هي العقل. فالسعادة خير في ذاته يدركه المرء بتعقله.</p>
+<ul class="b">
+<li>الطابع المؤقت والعرضي/الزائل للذة في مقابل فكرة الدوام التي يفترضها مفهوم السعادة</li>
+</ul>
+<p class="para">← استنتاج أن اللذة عائق أمام السعادة التي تستوجب مجاهدة النفس والتصدي لجانبها الرغائبي.</p>
+<p class="para"><u>لحظة ثانية</u>: في التظنن على أن التخلي عن طلب اللذة يحقق السعادة:</p>
+<ul class="b">
+<li>فهم السعادة لا بما ظاهرة روحية خالصة وانما متعة حسية تكمن في تحقيق أكبر قدر من الملذات وتجنب الآلام.</li>
+</ul>
+<p class="para">•• <u>اللذة بماهي شرط تحقق السعادة</u>:</p>
+<ul class="b">
+<li>ارتباط السعادة بالرفاه المادي الذي يُقلّص من بؤس البشر</li>
+<li>تأكيد أن اللذة هي بداية الحياة السعيدة وغايتها وهي الخير الموافق لطبيعتنا والقاعدة التي تحدد اختياراتنا.</li>
+<li>تحقق السعادة بطلب اللذة يقترن بالحكمة بماهي مبدأ لكل الفضائل، إذ ليست السعادة المقترنة باللذة سقوطا في الحيوانية بل تنبني على عقل يقظ يحقق سكينة النفس ويجنب اضطرابها (قصد الاعتدال) هو شرط تحقق السعادة حيث لا افراط ولا تفريط فيها</li>
+<li>اذا كانت الأخلاق قائمة على الحرمان والكبت والتعفف والعدول عن الغرائز فإنها مع ذلك تفترض تجنب الألم والعمل على ابتهاج الذات وهنا وجب التمييز بين لذة يكون فيها خيرنا وجب العمل على تحقيقها ولذة فيها ألم لنا وجب العمل على تجنبها.</li>
+</ul>
+<p class="para"><u>لحظة 3</u> : استخلاص ان الانسان ليس بعقل خالص وانه كائن رغائبي وان سعادته متوقفة على ارادته</p>
+<!-- PROOFREAD: 1830 part1 p12 — "رهين الزهد في السعادة" (last word unclear, perhaps اللذة), "قصد الاعتدال", "تحقيق أكبر قدر" -->
+<!-- NOTE: p13 is a printed sheet (مراجعة) with handwritten black-ink answers; blue-ink student notes and a scribble left out -->
+<div class="exsub">مراجعة</div>
+<p class="para">الإصلاح</p>
+<p class="para">المعهد النموذجي بصفاقس 1 — السنة الدراسية:2021-2025 — الأستاذ: نـاجي خليـف</p>
+<!-- PROOFREAD: 1830 part1 p13 — year "2021-2025" overwritten on the sheet -->
+<p class="subhead t-red"><b>المسألة: الأخلاق: الخير والسعادة</b></p>
+<p class="para"><u>تمرين عدد1</u>: "السعادة أساس أخلاقيّة الفعل" قدّم حجّة داحضة لهذا القول.</p>
+<ul class="b">
+<li>يُحمل الأساس على معنى ما هو ثابت وكُلّي ويتجاور مع المبدأ وهو ما يتعارض مع الطابع الفردي/ المؤقت/ العارض للسعادة</li>
+<li>هناك تعارض بين الطابع العقلي للأساس والطابع الخبري (الحسي) للسعادة</li>
+<li>تتأسس أخلاقية الفعل على المبدأ/ الواجب في حين تكون السعادة غاية. وهو ما يُبرر أي وسيلة لتحصيلها وإن كانت لا أخلاقية.</li>
+</ul>
+<p class="para"><u>تمرين عدد 2</u>: "السعادة رفاه". اكشف احدى تبعات هذا القول.</p>
+<ul class="b">
+<li>حصر السعادة في الرفاه يستتبعه اختزال وجود الإنسان في نمطية تملكي/ استهلاكي تقوده المنفعة وما يتسبب في سقوط المرء في عبودية العلامات فيتنازل عن الفضيلة وما تستوجبه من تدبير للعناية وفق مقتضيات العقل... (تضاعف اغتراب الإنسان واختلال توازنه النفسي)</li>
+<li>حصر السعادة في الرفاه يجعل منها ظاهرة مادية قابلة للقيس وفق منطق الوفرة ومراكمة المنافع وهو ما يقضي على الطابع الكيفي/الروحي لها بما هي قيمة أخلاقية لا قيمة اقتصادية.</li>
+</ul>
+<p class="para"><u>تمرين عدد3</u>: " تستلزم السعادة إنكار الملذّات" اكشف عن ضمنيّة من ضمنيّات هذا القول</p>
+<ul class="b">
+<li>من ضمنيات هذا الإقرار التسليم بأن السعادة ظاهرة روحية عقلية تخضع لمقياس روحي وهو الفضيلة وتشترط زهدا في اللذات وهجرانا للمتع الحسية..</li>
+<li>" بأن السعادة مثل أعلى أخلاقي وكمال يحصل بالتأمل والحكمة</li>
+<li>التسليم بأن اللذة مصدر الشرور والرذائل ومجلبة للشقاء وهي انحطاط وتدني للإنسان مادامت اللذة متصلة بالجسد وهو عائق أمام كمال النفس.</li>
+</ul>
+<p class="para"><u>تمرين عدد4</u>: "الواجب الأخلاقي كوني" أبرز قيمة هذا القول.</p>
+<p class="para">(+)</p>
+<ul class="b">
+<li>تثمين الطابع الإنساني والكوني للأخلاق التي تترفع عن النسبية وتتعارض مع الميول والأهواء.</li>
+<li>قدرة العقل على تأسيس قواعد سلوك مطلقة قادرة على تحقيق وحدة البشر في الجانب العملي</li>
+</ul>
+<p class="para">(-)</p>
+<ul class="b">
+<li>الطابع الكوني للأخلاق يجعل منها صورية فتكون مثالية وطوباوية تنكر لعامل الزمن/ مفهوم الواجب قد يصبح مصدر ألم وشقاء.</li>
+<li>الفقرة: هل يمكن للمرء أن يكون خيّرا وسعيدا؟</li>
+</ul>
+<p class="para">- هل في تحقيق أوفر قدر من الرفاه ما يضمن أوفر حظ من السعادة؟</p>
+<!-- PROOFREAD: 1830 part1 p13 — "يتجاور", "تدبير للعناية", "تملكي/ استهلاكي" (handwriting, partly under a scribble) -->
+<!-- PROOFREAD: 1830 part1 p08 — handwritten answers partly hidden by a scribble: "تضع الأفراد في تعارض بينهم ما يفرض عليهم", "بأبعاد انسانية", "تألم الفرد وشقائه لأن المجتمع سلطة اكراه", "واقتدارها", "بنتائج" -->
+
+
+</section>
+
+</div>
+</body>
+</html>

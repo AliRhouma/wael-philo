@@ -1,0 +1,1224 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<title>Wael Academy — Philosophie · الدولة</title>
+<script>
+  window.MathJax = {
+    tex: { inlineMath: [['\\(','\\)']], displayMath: [['\\[','\\]']] },
+    chtml: { fontURL: 'https://cdn.jsdelivr.net/npm/mathjax@3/es5/output/chtml/fonts/woff-v2', matchFontHeight: true },
+    startup: { typeset: true }
+  };
+</script>
+<script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js" async></script>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Sora:wght@400;500;600;700;800&family=Cairo:wght@400;500;600;700;800;900&family=Tajawal:wght@400;500;700;800&family=JetBrains+Mono:wght@400;500;600;700&display=swap');
+:root{
+  /* ===== Wael Academy palette — MAIN ACCENT = green-teal gradient #0FAB8F → #067360 ===== */
+  --bg:#fff; --panel:#f2f8f8; --hair:#e6e6e9; --hair2:#d6d6db;
+  --fg:#0f2a31;        /* body text (and +/− signs) */
+  --fg2:#3f5b62;       /* softer text */
+  --fg3:#7c959b;       /* muted (footer) */
+  --blue:#067360;      /* deep accent — small numbers, borders, watermark, accent equations */
+  --blue-dark:#045260; /* titles & wordmarks (also the balance colour) */
+  --teal:#0fab8f;      /* bright accent end */
+  --loop:#0d9c82;      /* logo-loop helper */
+  --orange:#067360;    /* kicker/category labels (gold retired → deep teal) */
+  --red:#f5322f;       /* EXERCISE CHIPS ONLY — never for emphasis */
+  --cream:#e6f3f4; --blue-soft:#e6f3f4;  /* pale teal — callout fill + table sub-row fill */
+  --blue-line:#cde7e4; /* hairline */
+  --sub-ink:#045260;   /* table sub-row text */
+  --grad:linear-gradient(148deg,#0fab8f 0%,#0d9c82 52%,#067360 100%);
+  --mono:'JetBrains Mono',monospace; --latin:'Sora',sans-serif; --ar:'Cairo',sans-serif; --arb:'Tajawal',sans-serif;
+}
+*{box-sizing:border-box;margin:0;padding:0;}
+body{font-family:var(--latin);color:var(--fg);background:#e4e4e7;padding:28px 0;
+     -webkit-print-color-adjust:exact;print-color-adjust:exact;}
+html[dir="rtl"] body{font-family:var(--arb);}
+
+/* ===== brand watermark: REAL text (crisp), full-bleed, repeats per page ===== */
+.wm{position:fixed;inset:0;z-index:0;pointer-events:none;display:flex;
+    align-items:center;justify-content:center;overflow:hidden;
+    -webkit-print-color-adjust:exact;print-color-adjust:exact;}
+.wm span{font-family:var(--mono);font-weight:800;font-size:76.8pt;letter-spacing:.16em;
+    color:var(--blue);opacity:.06;white-space:nowrap;transform:rotate(-54deg);}  /* single diagonal: bottom-left → top-right */
+.wm.mono span{color:#000;opacity:.05;}
+
+/* ===== continuous flow stream (no page border) ===== */
+.flow{width:210mm;margin:0 auto;background:transparent;color:var(--fg);
+      padding-block:16mm 18mm;padding-inline:23mm 14mm;position:relative;}   /* spiral gutter: inline-start(=spine) 23mm / outer 14mm — dir-aware; print margins set in render_flow.py */
+@media screen{ .flow{background:#fff;box-shadow:0 10px 40px rgba(0,0,0,.16);} }
+.flow>*{position:relative;z-index:1;}
+.flow p,.flow li,.flow .data,.flow .note,.flow .ex{break-inside:auto;}
+.flow .fig,.flow figure,.flow img,.flow svg.figsvg,.flow table,.flow tr,.flow .chapdiv,.flow .exh,.flow .qrcard,.flow .meta{break-inside:avoid;}
+.flow h1,.flow h2,.flow h3,.flow .exh,.flow .subhead,.flow .chapdiv{break-after:avoid;}
+.flow img,.flow svg.figsvg{max-width:100%;height:auto;}
+.flow figcaption,.flow .figcap{display:none;}          /* rule 3: no figure captions */
+
+/* ===== front matter + chapters each start on a fresh page ===== */
+.flow .cover{break-after:page;}        /* cover alone on page 1 */
+.flow .toc{break-after:page;}          /* Sommaire alone on the next page */
+.flow .chapter{break-before:page;}
+.flow .chapter:first-of-type{break-before:auto;}
+
+/* ===== cover ===== */
+.cover{padding:14mm 0 8mm;border-bottom:2px solid var(--blue);margin-bottom:6mm;}
+.cover .badge{font-family:var(--mono);font-size:8.5pt;letter-spacing:.28em;text-transform:uppercase;color:var(--orange);margin-bottom:10px;}
+.cover h1{font-family:var(--latin);font-weight:800;font-size:34pt;line-height:1.03;letter-spacing:-.025em;color:var(--blue-dark);}
+.cover .grule{width:120px;height:5px;border-radius:5px;background:var(--grad);margin:14px 0;}
+.cover .sub{font-family:var(--mono);font-size:10pt;letter-spacing:.14em;text-transform:uppercase;color:var(--teal);}
+.cover .auth{font-size:11pt;color:var(--fg2);margin-top:6px;font-weight:600;}
+
+/* ===== table of contents ===== */
+.toc{margin:2mm 0 4mm;}
+.toc h2{font-family:var(--latin);font-weight:800;font-size:15pt;color:var(--blue-dark);margin-bottom:4mm;}
+.toc .trititle{font-family:var(--mono);font-size:8pt;letter-spacing:.2em;text-transform:uppercase;color:var(--orange);margin:4mm 0 2mm;}
+.toc ol{list-style:none;}
+.toc li{display:flex;align-items:baseline;gap:8px;font-size:10pt;padding:2.2px 0;color:var(--fg);line-height:1.4;}
+.toc li .n{font-family:var(--mono);font-weight:700;font-size:9pt;color:var(--blue);min-width:26px;}
+.toc li .dots{flex:1;border-bottom:1px dotted var(--hair2);transform:translateY(-3px);}
+
+/* ===== chapter divider band ===== */
+.chapdiv{margin:0 0 5mm;padding:6mm 16px 5mm;border-radius:12px;background:var(--grad);
+    -webkit-print-color-adjust:exact;print-color-adjust:exact;}   /* green-filled chapter band */
+.chapdiv .cn{font-family:var(--mono);font-size:8.5pt;font-weight:700;letter-spacing:.24em;text-transform:uppercase;color:rgba(255,255,255,.82);margin-bottom:5px;}
+.chapdiv h2{font-family:var(--latin);font-weight:800;font-size:17pt;line-height:1.1;letter-spacing:-.015em;color:#fff;}
+/* conclusion block — same green-filled look as the chapter band */
+.conclusion{background:var(--grad);border-radius:12px;padding:6mm 16px;margin:5mm 0;color:#fff;break-inside:avoid;
+    -webkit-print-color-adjust:exact;print-color-adjust:exact;}
+.conclusion .ck{font-family:var(--mono);font-size:8.5pt;font-weight:700;letter-spacing:.24em;text-transform:uppercase;color:rgba(255,255,255,.82);margin-bottom:6px;}
+.conclusion h3{font-family:var(--latin);font-weight:800;font-size:13pt;line-height:1.2;color:#fff;margin-bottom:4px;}
+.conclusion p,.conclusion li{font-size:10.4pt;line-height:1.7;color:#fff;}
+.conclusion b,.conclusion strong{color:#fff;font-weight:700;}
+
+/* ===== unit header (lesson/exercise) + QR emplacement ===== */
+.exh{display:flex;align-items:center;gap:11px;margin:6mm 0 3mm;}
+.exh .idx{font-family:var(--mono);font-size:9pt;font-weight:600;color:#fff;background:var(--grad);
+    border-radius:6px;padding:4px 11px;letter-spacing:.08em;text-transform:uppercase;
+    -webkit-print-color-adjust:exact;print-color-adjust:exact;}
+.exh .idx.ex{background:var(--red);}   /* exercise chip = red */
+.exh h2{font-family:var(--latin);font-size:14pt;font-weight:700;letter-spacing:-.01em;color:var(--blue-dark);}
+.exh .qrcard{margin-inline-start:auto;flex:0 0 auto;display:flex;flex-direction:column;align-items:center;gap:3px;width:26mm;}
+.qrcard .qrt{font-family:var(--mono);font-size:6.5pt;letter-spacing:.1em;text-transform:uppercase;color:var(--teal);text-align:center;}
+.qrcard .qrslot{width:24mm;height:24mm;padding:1.5mm;background:#fff;border:1px solid var(--blue-line);border-radius:8px;display:flex;align-items:center;justify-content:center;}
+.qrcard .qrslot img,.qrcard .qrslot svg{width:100%;height:100%;display:block;}
+
+/* sub-exercise label when one file holds several exercices */
+.exsub{font-family:var(--latin);font-weight:800;font-size:11.5pt;color:var(--blue-dark);margin:5mm 0 2.5mm;padding-bottom:3px;border-bottom:2px solid var(--blue-line);}
+
+/* ===== text blocks ===== */
+.lead{font-size:11pt;line-height:1.7;margin:2mm 0 3mm;color:var(--fg);}
+.para{font-size:10.6pt;line-height:1.7;margin:2mm 0 2.5mm;color:var(--fg);}
+.consigne{font-size:10.4pt;line-height:1.6;margin:1mm 0 2mm;color:var(--fg);font-style:italic;}
+.subhead{font-family:var(--latin);font-weight:800;font-size:12pt;letter-spacing:-.01em;color:var(--blue-dark);margin:5mm 0 2.5mm;}
+/* emphasis — green accent = .t-blue/.t-green ; balance = .t-navy ; red = SECONDARY accent (.t-red) on titles + a few words */
+.t-blue{color:var(--blue);font-weight:600;} .t-navy{color:var(--blue-dark);font-weight:700;}
+.t-red{color:var(--red);font-weight:600;} .t-green{color:var(--teal);font-weight:600;} .t-gold{color:var(--orange);font-weight:600;}
+.subhead.t-red{color:var(--red);font-weight:800;}   /* red Roman-numeral section title (I, II, …) — keeps subhead weight */
+/* highlighter marks — a soft colour wash behind a key word (agent picks green or red per what balances the page) */
+.hl-green,.hl-red{border-radius:3px;padding:.02em .24em;font-weight:600;box-decoration-break:clone;-webkit-box-decoration-break:clone;
+    -webkit-print-color-adjust:exact;print-color-adjust:exact;}
+.hl-green{background:rgba(15,171,143,.20);color:var(--blue-dark);}   /* green highlight */
+.hl-red{background:rgba(245,50,47,.13);color:#c0261f;}               /* red highlight  */
+
+.data{background:var(--blue-soft);border:1px solid var(--blue-line);border-inline-start:4px solid var(--blue);
+    border-radius:8px;padding:11px 16px;margin:3mm 0;font-size:10pt;line-height:1.65;color:var(--fg2);}
+.data b{color:var(--fg);font-weight:700;}
+.note{border:1px dashed var(--hair2);border-radius:9px;padding:11px 16px;margin:4mm 0;background:var(--panel);}
+.note .kicker{font-family:var(--mono);font-size:7.5pt;letter-spacing:.18em;color:var(--orange);display:block;margin-bottom:5px;}
+.note .nb{font-size:10pt;line-height:1.7;color:var(--fg2);} .note b{color:var(--fg);}
+.ex:not(.idx){background:var(--blue-soft);border:1px solid var(--blue-line);border-inline-start:3px solid var(--blue);
+    border-radius:7px;padding:7px 11px;font-size:9.6pt;line-height:1.6;color:var(--fg2);margin:2mm 0;}   /* :not(.idx) so it never hits the exercise chip (which is .idx.ex) */
+.ex .extag{display:inline-block;font-family:var(--latin);font-weight:800;font-size:7.6pt;color:var(--blue-dark);background:#fff;
+    border:1px solid var(--blue);border-radius:5px;padding:1px 9px;margin-inline-end:7px;vertical-align:middle;text-transform:uppercase;letter-spacing:.06em;}
+
+/* ===== lists ===== */
+ol.q{list-style:none;counter-reset:q;margin:1mm 0 2mm;}
+ol.q>li{counter-increment:q;position:relative;padding-inline-start:30px;margin-bottom:2.5mm;font-size:10.4pt;line-height:1.6;}
+ol.q>li::before{content:counter(q);position:absolute;inset-inline-start:0;top:1px;width:21px;height:21px;background:var(--grad);color:#fff;
+    border-radius:50%;font-family:var(--mono);font-size:9pt;font-weight:600;display:flex;align-items:center;justify-content:center;
+    -webkit-print-color-adjust:exact;print-color-adjust:exact;}
+ol.sub{list-style:none;counter-reset:s;margin:4px 0 0;padding-inline-start:2px;border-inline-start:1px solid var(--blue-line);}
+ol.sub li{counter-increment:s;position:relative;padding:2.5px 0 2.5px 26px;font-size:10.1pt;line-height:1.55;}
+ol.sub li::before{content:counter(s,lower-alpha)".";position:absolute;inset-inline-start:10px;top:2.5px;font-family:var(--mono);font-size:9pt;font-weight:600;color:var(--teal);}
+ol.qn{list-style:none;counter-reset:qn;margin:1mm 0 2mm;}
+ol.qn>li{counter-increment:qn;position:relative;padding-inline-start:26px;margin-bottom:2.2mm;font-size:10.4pt;line-height:1.55;}
+ol.qn>li::before{content:counter(qn)".";position:absolute;inset-inline-start:0;top:0;font-family:var(--mono);font-size:9.5pt;font-weight:700;color:var(--blue);}
+ul.b{list-style:none;margin:1mm 0 2mm;} ul.b>li{position:relative;padding-inline-start:22px;margin-bottom:2.4mm;font-size:10.4pt;line-height:1.6;}
+ul.b>li::before{content:"";position:absolute;inset-inline-start:3px;top:8px;width:8px;height:8px;border-radius:50%;background:var(--grad);
+    -webkit-print-color-adjust:exact;print-color-adjust:exact;}
+ul.dash{list-style:none;margin:1mm 0 2mm;} ul.dash>li{position:relative;padding-inline-start:20px;margin-bottom:1.8mm;font-size:10.4pt;line-height:1.6;}
+ul.dash>li::before{content:"–";position:absolute;inset-inline-start:2px;top:0;color:var(--fg);font-weight:700;}  /* dash / +/− signs = body colour */
+.flow ul.opts{list-style:none;margin:4px 0 3px;padding-inline-start:16px;}
+.flow ul.opts li{padding:2px 0;font-size:10.2pt;line-height:1.5;color:var(--fg);}
+
+/* ===== figures / tables ===== */
+.fig{margin:3mm 0;} .fig svg.figsvg{display:block;margin:0 auto;background:#fff;max-width:100%;height:auto;}
+.photo{display:block;margin:3mm auto;border-radius:8px;border:1px solid var(--hair);max-width:100%;}
+.figrow{display:flex;flex-wrap:wrap;gap:9px;justify-content:center;margin:3mm auto;max-width:190mm;}
+.flow .figrow img{border-radius:7px;border:1px solid var(--hair);height:46mm;width:auto;max-width:none;object-fit:cover;}
+.schemarow{display:flex;gap:16px;align-items:flex-start;flex-wrap:wrap;margin:2mm 0;}
+.schemarow .col-txt{flex:1 1 90mm;min-width:80mm;} .schemarow .col-fig{flex:0 0 78mm;} .schemarow .col-fig .fig{margin:0;}
+.flow table{border-collapse:collapse;width:100%;margin:3mm 0;font-size:9.8pt;line-height:1.5;}
+.flow table th,.flow table td{border:1px solid var(--blue-line);padding:6px 10px;text-align:start;vertical-align:top;}
+.flow table th{background:var(--grad);color:#fff;font-family:var(--latin);font-weight:700;font-size:9.4pt;
+    -webkit-print-color-adjust:exact;print-color-adjust:exact;}
+.flow table tr:nth-child(even) td{background:var(--blue-soft);color:var(--sub-ink);}   /* sub-row: #E6F3F4 / #045260 */
+
+mjx-container{color:var(--fg) !important;font-weight:400 !important;font-size:1.0em !important;}
+.eq-hi mjx-container,mjx-container.eq-hi{color:var(--blue) !important;}   /* accent (green) equation — highlight a key result; balance with plain math */
+.eq-red mjx-container,mjx-container.eq-red{color:var(--red) !important;}  /* red accent equation / symbol — complements the green .eq-hi */
+
+/* ===== per-file books: credit line, copies list, figures at their size ===== */
+.credit{display:flex;flex-wrap:wrap;align-items:center;gap:5px;margin:-1mm 0 3.5mm;font-size:9.4pt;color:var(--fg2);}
+.credit .who{font-weight:700;color:var(--blue-dark);}
+.credit .tg{font-family:var(--mono);font-size:7.2pt;letter-spacing:.04em;border-radius:5px;padding:1px 7px;line-height:1.6;
+    border:1px solid var(--blue-line);color:var(--blue);background:#fff;-webkit-print-color-adjust:exact;print-color-adjust:exact;}
+.credit .tg.sec{background:var(--blue-dark);border-color:var(--blue-dark);color:#fff;}
+.credit .tg.cor{background:#fff;border-color:var(--red);color:var(--red);}
+.credit a{color:var(--fg3);font-family:var(--mono);font-size:7pt;text-decoration:none;}
+.cover .auth .credit{margin:4mm 0 0;}
+.cover .copies{margin-top:5mm;font-size:8.6pt;color:var(--fg2);}
+.cover .copies ul{list-style:none;margin:2mm 0 0;padding:0;columns:2;}
+.cover .copies a{color:var(--fg3);text-decoration:none;font-size:8pt;}
+.flow figure.fig{text-align:center;}
+.flow figure.fig img{max-height:60mm;width:auto;max-width:70%;display:inline-block;}
+
+/* chapter tag on each part of a multi-chapter book (the book keeps the original order of the file) */
+.chtag{display:inline-block;margin:5mm 0 2mm;padding:1mm 3mm;border-radius:2mm;background:#eef3fb;border:1px solid #c9d6ea;
+  color:#1f3a6b;font-size:9pt;font-weight:700}
+.chtag span{color:#6b7f9e;font-weight:600;margin-inline-end:1.5mm}
+
+@media print{ body{background:#fff;padding:0;} .flow{width:auto;max-width:none;margin:0;padding:0;} }
+@page{size:A4;}   /* margins come from render_flow.py — do NOT set them here */
+</style>
+<meta data-pagefind-filter="type[content]" content="درس">
+<meta data-pagefind-filter="resource[content]" content="الأستاذ صابر الجربي">
+<meta data-pagefind-meta="n[content]" content="1770">
+<meta data-pagefind-meta="title[content]" content="الدولة">
+<meta data-pagefind-filter="chapter[content]" content="القيم: الأخلاق والدولة">
+<meta data-pagefind-filter="section[content]" content="باكالوريا علوم تجريبية"><style>.qrcard{display:none!important}.wa-nav{position:sticky;top:0;z-index:50;background:#045260;padding:10px 18px;font-family:Cairo,sans-serif;direction:rtl}.wa-nav a{color:#fff;text-decoration:none;font-weight:700}@media print{.wa-nav{display:none}}</style>
+</head>
+
+<body dir="rtl" lang="ar"
+      data-brand="Wael Academy" data-handle="@WaelAcademy"
+      data-tagline="في تُرابنا.. مغامرة بمغامرة"
+      data-phone="+216 50 40 40 42" data-site="waeldocuments.com"
+      data-cta="سجل معانا وأقرى عن بعد مع منصة Wael Academy"
+      data-subject="Philosophie · الدولة" data-watermark="Wael Academy" data-pagefind-body><nav class="wa-nav" data-pagefind-ignore><a href="../index.html">→ الرجوع إلى فهرس الفلسفة</a></nav>
+
+<!-- single full-page diagonal watermark, bottom-left → top-right (repeats on every page) -->
+<div class="wm" aria-hidden="true"><span>WAEL&nbsp;ACADEMY</span></div>
+
+<div class="flow colored">
+<div class="cover"><div class="badge">◉ Wael Academy · Philosophie</div><h1>الدولة</h1><div class="grule"></div><div class="sub">القيم: الأخلاق والدولة</div><div class="auth"><div class="credit">المؤلّف / المصدر : <span class="who">الأستاذ صابر الجربي</span> <span class="tg cor">إصلاح</span><span class="tg sec">الفلسفة · باكالوريا علوم تجريبية</span> <a href="https://drive.google.com/file/d/1QdAHt-k3WWKZ-EtCJuF5nNIstlG7hZrn/view">↗ 20260505_105746.jpg</a> <a href="https://drive.google.com/file/d/1xxCAJUY2hHjQqwjjpZZRN6_S6zeuQSDc/view">↗ 20260505_105804.jpg</a> <a href="https://drive.google.com/file/d/1khbsQGxQfyPf2vgbrsjpxZ_oEhY9VjH_/view">↗ 20260505_105808.jpg</a> <a href="https://drive.google.com/file/d/1SeXL_SKZCLRLST2UdNvWzWkmyZdLgv-q/view">↗ 20260505_105816.jpg</a> <a href="https://drive.google.com/file/d/1OlNun8Q2-ACX9Z_2aGhPaDsRdHw03rtU/view">↗ 20260505_105826.jpg</a> <a href="https://drive.google.com/file/d/1OzQtR2T-GSd5zj5DxR6F0lzuNBplUUkF/view">↗ 20260505_105830.jpg</a> <a href="https://drive.google.com/file/d/1tkLiMpBHeXKSKHjO3wLeoht6pQAoKIWo/view">↗ 20260505_105834.jpg</a> <a href="https://drive.google.com/file/d/1-i7X3E_DKeMZ0FAQfoLyGKx46pU5iFXC/view">↗ 20260505_105837.jpg</a> <a href="https://drive.google.com/file/d/1jP0_vYWdyPqZb5PU_qALKFnmApy206oY/view">↗ 20260505_105844.jpg</a> <a href="https://drive.google.com/file/d/1iYQ6uTqwwdGuyBmZVb6WdyTxn1zgA85y/view">↗ 20260505_105849.jpg</a> <a href="https://drive.google.com/file/d/1u0eF0NL1RDi8eva0R-O-nvjao-JAVv6_/view">↗ 20260505_105855.jpg</a> <a href="https://drive.google.com/file/d/1jaJxfYS2HoEGwamMwGDJd80WvdJzw19p/view">↗ 20260505_105900.jpg</a> <a href="https://drive.google.com/file/d/1SsLTCyL0Xkxj4-DyFBMEzJqV_BCZZmLr/view">↗ 20260505_110014.jpg</a> <a href="https://drive.google.com/file/d/1Vx2qNgXYjNaFeWXTRDY8vnm6sFaWZrLQ/view">↗ 20260505_110019.jpg</a> <a href="https://drive.google.com/file/d/17eDGZKwhBQPtPsq5PeRncCFGbyuEjrPt/view">↗ 20260505_110025.jpg</a> <a href="https://drive.google.com/file/d/1vTg4gGaCNldey_O7Iqg41XyFvV87BHI5/view">↗ 20260505_110029.jpg</a> <a href="https://drive.google.com/file/d/18SWoHf_AyoTLYa8X4e4upa3fxG9uwnHG/view">↗ 20260505_110035.jpg</a> <a href="https://drive.google.com/file/d/1--pKNEodilXvdvt2-fcn7Z1IDy_ucDDp/view">↗ 20260505_110038.jpg</a> <a href="https://drive.google.com/file/d/1D_K7Weklk6PMe4jXHVFN-gPnmPiC6Uo4/view">↗ 20260505_110044.jpg</a> <a href="https://drive.google.com/file/d/1amXr2E2ZLRChrZvzN-HD400WTNcQhJRG/view">↗ 20260505_110048.jpg</a> <a href="https://drive.google.com/file/d/1KBt6_W0QgQqLo1jUG1Ro0BxUaIW0ee-K/view">↗ 20260505_110056.jpg</a> <a href="https://drive.google.com/file/d/1nPF7B-fuYZVQ974E6hjOCvlebhtF7MfB/view">↗ 20260505_110100.jpg</a> <a href="https://drive.google.com/file/d/1KVDUNSGuWIyyTbBG1LY8yYbThC616Ez5/view">↗ 20260505_110106.jpg</a> <a href="https://drive.google.com/file/d/1yhH__ZPCaG5wMY99SRpmh-Xh6XNMhHzF/view">↗ 20260505_110113.jpg</a> <a href="https://drive.google.com/file/d/1M-Bd3NfSFxCHzr6Quw2_lCFNhwt6z0jO/view">↗ 20260505_110117.jpg</a> <a href="https://drive.google.com/file/d/1GXesJHOzhWc8zmgWQTn5v058ubWn7pK4/view">↗ 20260505_110122.jpg</a> <a href="https://drive.google.com/file/d/17do3K7DrQWZjVuJC3YhjHVQj4JnORBAP/view">↗ 20260505_110126.jpg</a> <a href="https://drive.google.com/file/d/1_lIxN_km0EgL8v-mddWK3eDy25uvgWoK/view">↗ 20260505_110130.jpg</a> <a href="https://drive.google.com/file/d/1s7eUzaHeY-rVjHVDTNZK8xdhD9JgBv0N/view">↗ 20260505_110134.jpg</a> <a href="https://drive.google.com/file/d/1NUOSMJWpb8DkZf9uAvTi-vXAK3_J__ah/view">↗ 20260505_110138.jpg</a> <a href="https://drive.google.com/file/d/1v1Bqf2W5PpeTjusEj_42pGeilfajcxXK/view">↗ 20260505_110142.jpg</a> <a href="https://drive.google.com/file/d/1cQLzQ4C8DJuOa1I2v1vWTE3IqES_mlnl/view">↗ 20260505_110150.jpg</a> <a href="https://drive.google.com/file/d/1hJJ1nv7xJEnkm2hUCk2byaVkbJ966T8h/view">↗ 20260505_110157.jpg</a> <a href="https://drive.google.com/file/d/148pP2w5GVfYLqDklIl6IDIFEwnqkO6fB/view">↗ 20260505_110201.jpg</a> <a href="https://drive.google.com/file/d/1jNPtiEIHxbeCIlXXD7f7bRswZ1XqWMUm/view">↗ 20260505_110206.jpg</a> <a href="https://drive.google.com/file/d/1UIeP-ATY8DJzTGul6JT-w1oIBsxQ5kU0/view">↗ 20260505_110211.jpg</a> <a href="https://drive.google.com/file/d/1vUpGE8KLY3Mkr6mRXLF9BDilbkfoK3Sc/view">↗ 20260505_110215.jpg</a> <a href="https://drive.google.com/file/d/1RFd8jM8X33xFgwH9Yicm9TjC3-9n3Nuk/view">↗ 20260505_110220.jpg</a> <a href="https://drive.google.com/file/d/13f0z93o1xtAyb4tsAIQFh62drfgGGd6H/view">↗ 20260505_110225.jpg</a> <a href="https://drive.google.com/file/d/1enb6xeSo1MIxLyqVGQlA_NVJrZCvNPqd/view">↗ 20260505_110229.jpg</a> <a href="https://drive.google.com/file/d/1cI1t7v9ZtM_iTg2QaVFzOuYpxHPej13g/view">↗ 20260505_110233.jpg</a> <a href="https://drive.google.com/file/d/1AiLbmeIj-2vl701Ct0lSW4eNXcIYQPuU/view">↗ 20260505_110237.jpg</a></div></div><div class="copies" data-pagefind-ignore><b>نسخ هذا الملف في الدرايفات (42)</b><ul><li><a href="https://drive.google.com/file/d/1QdAHt-k3WWKZ-EtCJuF5nNIstlG7hZrn/view">une · Bac science 2026 › فلسفة / الدولة</a></li><li><a href="https://drive.google.com/file/d/1xxCAJUY2hHjQqwjjpZZRN6_S6zeuQSDc/view">une · Bac science 2026 › فلسفة / الدولة</a></li><li><a href="https://drive.google.com/file/d/1khbsQGxQfyPf2vgbrsjpxZ_oEhY9VjH_/view">une · Bac science 2026 › فلسفة / الدولة</a></li><li><a href="https://drive.google.com/file/d/1SeXL_SKZCLRLST2UdNvWzWkmyZdLgv-q/view">une · Bac science 2026 › فلسفة / الدولة</a></li><li><a href="https://drive.google.com/file/d/1OlNun8Q2-ACX9Z_2aGhPaDsRdHw03rtU/view">une · Bac science 2026 › فلسفة / الدولة</a></li><li><a href="https://drive.google.com/file/d/1OzQtR2T-GSd5zj5DxR6F0lzuNBplUUkF/view">une · Bac science 2026 › فلسفة / الدولة</a></li><li><a href="https://drive.google.com/file/d/1tkLiMpBHeXKSKHjO3wLeoht6pQAoKIWo/view">une · Bac science 2026 › فلسفة / الدولة</a></li><li><a href="https://drive.google.com/file/d/1-i7X3E_DKeMZ0FAQfoLyGKx46pU5iFXC/view">une · Bac science 2026 › فلسفة / الدولة</a></li><li><a href="https://drive.google.com/file/d/1jP0_vYWdyPqZb5PU_qALKFnmApy206oY/view">une · Bac science 2026 › فلسفة / الدولة</a></li><li><a href="https://drive.google.com/file/d/1iYQ6uTqwwdGuyBmZVb6WdyTxn1zgA85y/view">une · Bac science 2026 › فلسفة / الدولة</a></li><li><a href="https://drive.google.com/file/d/1u0eF0NL1RDi8eva0R-O-nvjao-JAVv6_/view">une · Bac science 2026 › فلسفة / الدولة</a></li><li><a href="https://drive.google.com/file/d/1jaJxfYS2HoEGwamMwGDJd80WvdJzw19p/view">une · Bac science 2026 › فلسفة / الدولة</a></li><li><a href="https://drive.google.com/file/d/1SsLTCyL0Xkxj4-DyFBMEzJqV_BCZZmLr/view">une · Bac science 2026 › فلسفة / الدولة</a></li><li><a href="https://drive.google.com/file/d/1Vx2qNgXYjNaFeWXTRDY8vnm6sFaWZrLQ/view">une · Bac science 2026 › فلسفة / الدولة</a></li><li><a href="https://drive.google.com/file/d/17eDGZKwhBQPtPsq5PeRncCFGbyuEjrPt/view">une · Bac science 2026 › فلسفة / الدولة</a></li><li><a href="https://drive.google.com/file/d/1vTg4gGaCNldey_O7Iqg41XyFvV87BHI5/view">une · Bac science 2026 › فلسفة / الدولة</a></li><li><a href="https://drive.google.com/file/d/18SWoHf_AyoTLYa8X4e4upa3fxG9uwnHG/view">une · Bac science 2026 › فلسفة / الدولة</a></li><li><a href="https://drive.google.com/file/d/1--pKNEodilXvdvt2-fcn7Z1IDy_ucDDp/view">une · Bac science 2026 › فلسفة / الدولة</a></li><li><a href="https://drive.google.com/file/d/1D_K7Weklk6PMe4jXHVFN-gPnmPiC6Uo4/view">une · Bac science 2026 › فلسفة / الدولة</a></li><li><a href="https://drive.google.com/file/d/1amXr2E2ZLRChrZvzN-HD400WTNcQhJRG/view">une · Bac science 2026 › فلسفة / الدولة</a></li><li><a href="https://drive.google.com/file/d/1KBt6_W0QgQqLo1jUG1Ro0BxUaIW0ee-K/view">une · Bac science 2026 › فلسفة / الدولة</a></li><li><a href="https://drive.google.com/file/d/1nPF7B-fuYZVQ974E6hjOCvlebhtF7MfB/view">une · Bac science 2026 › فلسفة / الدولة</a></li><li><a href="https://drive.google.com/file/d/1KVDUNSGuWIyyTbBG1LY8yYbThC616Ez5/view">une · Bac science 2026 › فلسفة / الدولة</a></li><li><a href="https://drive.google.com/file/d/1yhH__ZPCaG5wMY99SRpmh-Xh6XNMhHzF/view">une · Bac science 2026 › فلسفة / الدولة</a></li><li><a href="https://drive.google.com/file/d/1M-Bd3NfSFxCHzr6Quw2_lCFNhwt6z0jO/view">une · Bac science 2026 › فلسفة / الدولة</a></li><li><a href="https://drive.google.com/file/d/1GXesJHOzhWc8zmgWQTn5v058ubWn7pK4/view">une · Bac science 2026 › فلسفة / الدولة</a></li><li><a href="https://drive.google.com/file/d/17do3K7DrQWZjVuJC3YhjHVQj4JnORBAP/view">une · Bac science 2026 › فلسفة / الدولة</a></li><li><a href="https://drive.google.com/file/d/1_lIxN_km0EgL8v-mddWK3eDy25uvgWoK/view">une · Bac science 2026 › فلسفة / الدولة</a></li><li><a href="https://drive.google.com/file/d/1s7eUzaHeY-rVjHVDTNZK8xdhD9JgBv0N/view">une · Bac science 2026 › فلسفة / الدولة</a></li><li><a href="https://drive.google.com/file/d/1NUOSMJWpb8DkZf9uAvTi-vXAK3_J__ah/view">une · Bac science 2026 › فلسفة / الدولة</a></li><li><a href="https://drive.google.com/file/d/1v1Bqf2W5PpeTjusEj_42pGeilfajcxXK/view">une · Bac science 2026 › فلسفة / الدولة</a></li><li><a href="https://drive.google.com/file/d/1cQLzQ4C8DJuOa1I2v1vWTE3IqES_mlnl/view">une · Bac science 2026 › فلسفة / الدولة</a></li><li><a href="https://drive.google.com/file/d/1hJJ1nv7xJEnkm2hUCk2byaVkbJ966T8h/view">une · Bac science 2026 › فلسفة / الدولة</a></li><li><a href="https://drive.google.com/file/d/148pP2w5GVfYLqDklIl6IDIFEwnqkO6fB/view">une · Bac science 2026 › فلسفة / الدولة</a></li><li><a href="https://drive.google.com/file/d/1jNPtiEIHxbeCIlXXD7f7bRswZ1XqWMUm/view">une · Bac science 2026 › فلسفة / الدولة</a></li><li><a href="https://drive.google.com/file/d/1UIeP-ATY8DJzTGul6JT-w1oIBsxQ5kU0/view">une · Bac science 2026 › فلسفة / الدولة</a></li><li><a href="https://drive.google.com/file/d/1vUpGE8KLY3Mkr6mRXLF9BDilbkfoK3Sc/view">une · Bac science 2026 › فلسفة / الدولة</a></li><li><a href="https://drive.google.com/file/d/1RFd8jM8X33xFgwH9Yicm9TjC3-9n3Nuk/view">une · Bac science 2026 › فلسفة / الدولة</a></li><li><a href="https://drive.google.com/file/d/13f0z93o1xtAyb4tsAIQFh62drfgGGd6H/view">une · Bac science 2026 › فلسفة / الدولة</a></li><li><a href="https://drive.google.com/file/d/1enb6xeSo1MIxLyqVGQlA_NVJrZCvNPqd/view">une · Bac science 2026 › فلسفة / الدولة</a></li><li><a href="https://drive.google.com/file/d/1cI1t7v9ZtM_iTg2QaVFzOuYpxHPej13g/view">une · Bac science 2026 › فلسفة / الدولة</a></li><li><a href="https://drive.google.com/file/d/1AiLbmeIj-2vl701Ct0lSW4eNXcIYQPuU/view">une · Bac science 2026 › فلسفة / الدولة</a></li></ul></div></div>
+<section class="chapter"><div class="chapdiv"><div class="cn">المحور</div><h2>القيم: الأخلاق والدولة</h2></div>
+<!-- SOURCE: الأستاذ صابر الجربي -->
+<!-- NOTE: one book for 42 files of the Drive folder "فلسفة / الدولة" (photo), in file order -->
+<div class="exh"><span class="idx">درس</span><h2>الدولة</h2>
+  <div class="qrcard"><div class="qrt">فيديو الدرس</div><div class="qrslot"><img src="qr/1770.svg" alt="QR"></div></div></div>
+<div class="credit">المؤلّف / المصدر : <span class="who">الأستاذ صابر الجربي</span> <span class="tg cor">إصلاح</span><span class="tg sec">الفلسفة · باكالوريا علوم تجريبية</span> <a href="https://drive.google.com/file/d/1QdAHt-k3WWKZ-EtCJuF5nNIstlG7hZrn/view">↗ 20260505_105746.jpg</a> <a href="https://drive.google.com/file/d/1xxCAJUY2hHjQqwjjpZZRN6_S6zeuQSDc/view">↗ 20260505_105804.jpg</a> <a href="https://drive.google.com/file/d/1khbsQGxQfyPf2vgbrsjpxZ_oEhY9VjH_/view">↗ 20260505_105808.jpg</a> <a href="https://drive.google.com/file/d/1SeXL_SKZCLRLST2UdNvWzWkmyZdLgv-q/view">↗ 20260505_105816.jpg</a> <a href="https://drive.google.com/file/d/1OlNun8Q2-ACX9Z_2aGhPaDsRdHw03rtU/view">↗ 20260505_105826.jpg</a> <a href="https://drive.google.com/file/d/1OzQtR2T-GSd5zj5DxR6F0lzuNBplUUkF/view">↗ 20260505_105830.jpg</a> <a href="https://drive.google.com/file/d/1tkLiMpBHeXKSKHjO3wLeoht6pQAoKIWo/view">↗ 20260505_105834.jpg</a> <a href="https://drive.google.com/file/d/1-i7X3E_DKeMZ0FAQfoLyGKx46pU5iFXC/view">↗ 20260505_105837.jpg</a> <a href="https://drive.google.com/file/d/1jP0_vYWdyPqZb5PU_qALKFnmApy206oY/view">↗ 20260505_105844.jpg</a> <a href="https://drive.google.com/file/d/1iYQ6uTqwwdGuyBmZVb6WdyTxn1zgA85y/view">↗ 20260505_105849.jpg</a> <a href="https://drive.google.com/file/d/1u0eF0NL1RDi8eva0R-O-nvjao-JAVv6_/view">↗ 20260505_105855.jpg</a> <a href="https://drive.google.com/file/d/1jaJxfYS2HoEGwamMwGDJd80WvdJzw19p/view">↗ 20260505_105900.jpg</a> <a href="https://drive.google.com/file/d/1SsLTCyL0Xkxj4-DyFBMEzJqV_BCZZmLr/view">↗ 20260505_110014.jpg</a> <a href="https://drive.google.com/file/d/1Vx2qNgXYjNaFeWXTRDY8vnm6sFaWZrLQ/view">↗ 20260505_110019.jpg</a> <a href="https://drive.google.com/file/d/17eDGZKwhBQPtPsq5PeRncCFGbyuEjrPt/view">↗ 20260505_110025.jpg</a> <a href="https://drive.google.com/file/d/1vTg4gGaCNldey_O7Iqg41XyFvV87BHI5/view">↗ 20260505_110029.jpg</a> <a href="https://drive.google.com/file/d/18SWoHf_AyoTLYa8X4e4upa3fxG9uwnHG/view">↗ 20260505_110035.jpg</a> <a href="https://drive.google.com/file/d/1--pKNEodilXvdvt2-fcn7Z1IDy_ucDDp/view">↗ 20260505_110038.jpg</a> <a href="https://drive.google.com/file/d/1D_K7Weklk6PMe4jXHVFN-gPnmPiC6Uo4/view">↗ 20260505_110044.jpg</a> <a href="https://drive.google.com/file/d/1amXr2E2ZLRChrZvzN-HD400WTNcQhJRG/view">↗ 20260505_110048.jpg</a> <a href="https://drive.google.com/file/d/1KBt6_W0QgQqLo1jUG1Ro0BxUaIW0ee-K/view">↗ 20260505_110056.jpg</a> <a href="https://drive.google.com/file/d/1nPF7B-fuYZVQ974E6hjOCvlebhtF7MfB/view">↗ 20260505_110100.jpg</a> <a href="https://drive.google.com/file/d/1KVDUNSGuWIyyTbBG1LY8yYbThC616Ez5/view">↗ 20260505_110106.jpg</a> <a href="https://drive.google.com/file/d/1yhH__ZPCaG5wMY99SRpmh-Xh6XNMhHzF/view">↗ 20260505_110113.jpg</a> <a href="https://drive.google.com/file/d/1M-Bd3NfSFxCHzr6Quw2_lCFNhwt6z0jO/view">↗ 20260505_110117.jpg</a> <a href="https://drive.google.com/file/d/1GXesJHOzhWc8zmgWQTn5v058ubWn7pK4/view">↗ 20260505_110122.jpg</a> <a href="https://drive.google.com/file/d/17do3K7DrQWZjVuJC3YhjHVQj4JnORBAP/view">↗ 20260505_110126.jpg</a> <a href="https://drive.google.com/file/d/1_lIxN_km0EgL8v-mddWK3eDy25uvgWoK/view">↗ 20260505_110130.jpg</a> <a href="https://drive.google.com/file/d/1s7eUzaHeY-rVjHVDTNZK8xdhD9JgBv0N/view">↗ 20260505_110134.jpg</a> <a href="https://drive.google.com/file/d/1NUOSMJWpb8DkZf9uAvTi-vXAK3_J__ah/view">↗ 20260505_110138.jpg</a> <a href="https://drive.google.com/file/d/1v1Bqf2W5PpeTjusEj_42pGeilfajcxXK/view">↗ 20260505_110142.jpg</a> <a href="https://drive.google.com/file/d/1cQLzQ4C8DJuOa1I2v1vWTE3IqES_mlnl/view">↗ 20260505_110150.jpg</a> <a href="https://drive.google.com/file/d/1hJJ1nv7xJEnkm2hUCk2byaVkbJ966T8h/view">↗ 20260505_110157.jpg</a> <a href="https://drive.google.com/file/d/148pP2w5GVfYLqDklIl6IDIFEwnqkO6fB/view">↗ 20260505_110201.jpg</a> <a href="https://drive.google.com/file/d/1jNPtiEIHxbeCIlXXD7f7bRswZ1XqWMUm/view">↗ 20260505_110206.jpg</a> <a href="https://drive.google.com/file/d/1UIeP-ATY8DJzTGul6JT-w1oIBsxQ5kU0/view">↗ 20260505_110211.jpg</a> <a href="https://drive.google.com/file/d/1vUpGE8KLY3Mkr6mRXLF9BDilbkfoK3Sc/view">↗ 20260505_110215.jpg</a> <a href="https://drive.google.com/file/d/1RFd8jM8X33xFgwH9Yicm9TjC3-9n3Nuk/view">↗ 20260505_110220.jpg</a> <a href="https://drive.google.com/file/d/13f0z93o1xtAyb4tsAIQFh62drfgGGd6H/view">↗ 20260505_110225.jpg</a> <a href="https://drive.google.com/file/d/1enb6xeSo1MIxLyqVGQlA_NVJrZCvNPqd/view">↗ 20260505_110229.jpg</a> <a href="https://drive.google.com/file/d/1cI1t7v9ZtM_iTg2QaVFzOuYpxHPej13g/view">↗ 20260505_110233.jpg</a> <a href="https://drive.google.com/file/d/1AiLbmeIj-2vl701Ct0lSW4eNXcIYQPuU/view">↗ 20260505_110237.jpg</a></div>
+
+<!-- file: 20260505_105746 -->
+
+
+<!-- NOTE: handwritten title in red on the plastic sleeve, pen strokes and a handwritten "علاقة تعارض" written over the printed text are annotations, left out -->
+<!-- PROOFREAD: 1770 part1 p01 — photo of a whole printed page at small size inside a plastic sleeve; small print, whole page needs re-checking -->
+<p class="para">مطلب الكلي المحور الثالث القيم بين النسبي و المطلق</p>
+<!-- PROOFREAD: 1770 part1 p01 — header line "مطلب الكلي" (doubtful reading) -->
+<p class="subhead t-red"><b>* الدولة : السادة و المواطنة</b></p>
+<p class="para">الحق/ السلطة / الديمقراطية / العدالة / المواطن العالمي</p>
+<p class="subhead t-red"><b><u>I في السؤال عن السيادة</u></b></p>
+<p class="subhead t-navy"><b>• **التميز بين السلطة والدولة والسيادة **</b></p>
+<p class="para"><b><u>*السلطة</u></b> هو مفهوم اشمل وأوسع من مفهوم الدولة انها كل علاقة بين طرفين ولا تختزل السلطة في مؤسسات الدولة فقد لا تحتاج السلطة الى الدولة ولكن لا يمكن الحديث عن دولة دون سلطة ان مفهوم السلطة هو أعمق واشمل من مفهوم الدولة.</p>
+<p class="para"><b><u>*الدولة</u></b> هيئة سياسية وشخصية معنوية تشتغل عن طريق مؤسسات من اجل تنظيم الحياة العامة لذلك تحتكر لنفسها حق استعمال القوة والعنف ويجب التمييز بين القوة بما هي شيء ضروري للمحافظة على توازن المجتمع وبين العنف بما هو استخدام مفرط للقوة.</p>
+<p class="para"><b><u>*السيادة</u></b> هي ركن من اركان الدولة وهي الركن الأساسي في الدولة فلا يمكن تصور دولة دون سيادة وإذا كان مفهوم السلطة هو أعمق من مفهوم الدولة فان السيادة هي منبع السلطات اوهي السلطة العليا التي لا يجب اختراقها فهي قوة وهيبة الدولة التي تمنعها من الاختراق الداخلي والخارجي. و السيادة مطلب شعبي. لكن لمن تكون السيادة؟ هل هي للحاكم ام للقانون والشعب؟ على أي شيء تقوم السيادة في الدولة هل تقوم على حق القوة ام على قوة الحق والقانون؟ ماهي علاقة السيادة بالمواطن هل تتعارض ام تتوافق مقتضيات السيادة مع متطلبات المواطنة؟</p>
+<p class="subhead t-red"><b><u>II العلاقة بين السادة و المواطنة</u></b></p>
+<p class="subhead t-navy"><b><u>1/في التعارض بين السيادة والمواطنة</u></b></p>
+<p class="para"><b>نوع السيادة:</b> سيادة قائمة على حق القوة وخوف الرعية</p>
+<p class="para"><b>نظام الحكم:</b> النظام الديكتاتوري والنظام الاستبدادي والذي يقوم على سلطة الشخص الواحد الذي يستأثر بالدولة والسيادة بحكم القوة ولا يسمح للشعب بالمشاركة في الحكم احتكار و جمع في يد واحدة كل السلطات (التشريعية والقضائية والتنفيذية)</p>
+<p class="para"><b>اهم الفلاسفة</b> هوبز والمفكر الايطالي ماكيافيلي</p>
+<p class="para"><b>اهم المفاهيم:</b> حق القوّة/العنف/المكر والخداع /الراعي والرعية/ العبودية/ التنين/ السلطة</p>
+<p class="para"><b>التحليل:</b> وفقا للتصور الذي اعتمد عليه هوبز بان الحالة الطبيعية الانسان هي حالة الصراع وحرب الكل ضد الكل باعتبار ان الانسان عدواني وشرير بطبعه وهو ذئب لأخيه الانسان حسب تعبيره فان ذلك يفترض قيام دولة قوية ومستبدة ذات سلطة مطلقة لها كل الحق في استخدام كل القوة والعنف من اجل التصدي للطبيعة العدوانية للبشر وتحقيق الأمن والسلام وهو نفس ما ذهب اليه ماكيافلي بانه على الحاكم ان يتمتع بقوة الأسد وحيلة الثعلب من اجل التصدي لفساد الطبيعة البشرية حسب رايه</p>
+<p class="para"><b>النتيجة</b> تنازل الافراد عن جميع حقوقهم لصاحب السيادة وعدم ارتقائهم الى رتبة المواطن بل مجرد عبيد او رعية:</p>
+<p class="para"><b>يقول افلاطون عن النظام الديكتاتوري " انه أسوأ أنواع الحكم واشدهم خطورة لانه يدمر روح الانسان... وان الطاغية هو ذئب يكل لحوم البشر"</b></p>
+<p class="para">ولكن أي نظام يمكن ان يحقق التوافق بين السيادة والمواطنة وهل يمكن ان نتحدث عن توافق كلي بين السيادة و المواطنة؟</p>
+<p class="subhead t-navy"><b><u>2/في التوافق بين السيادة والمواطنة</u></b></p>
+<p class="para"><b>نوع السيادة:</b> سيادة قائمة على قوة الحق والقانون</p>
+<p class="para"><b>طبيعة الحكم:</b> النظام الديمقراطي والذي يعني الحكم للشعب أي مشاركة الشعب في اتخاذ القرارات وسن القوانين والتي يلتزم بها الجميع الحكام والمحكوم على حد سواء</p>
+<p class="para"><b>اهم الفلاسفة:</b> فلاسفة التعاقد: سبينوزا، ج ج روسو، ج لوك</p>
+<p class="para"><b>اهم المفاهيم:</b> الحق/الحق الطبيعي/الحق المدني/العقل/الإرادة العامة/ القانون/الحرية/العدالة/الطاعة/ المواطنة.</p>
+<p class="para"><b>التحليل:</b> يقوم الجانب الاخر من فلسفة التعاقد على اعتبار ان أفضل حل للخروج من الحالة الطبيعية هو النظام الديمقراطي والذي يقوم بدوره حسب سبينوزا على العقل بما هو قدرة على تشريع القوانين وتنظيم الحياة وفق هذا النظام تتحوّل الحقوق الطبيعية الى حقوق مدنية تقوم سيادة الدولة وقوتها في هذا النظام على المشاركة بين الحاكم والمحكوم في إطار المجتمع المدني اوضمن الإرادة العامة حسب روسو من خلال العقد الاجتماعي و ان خضوع الافراد للقانون هنا هو تأكيد لحريتهم.</p>
+<p class="para"><b>النتيجة:</b> وفقا لمبدأ المشاركة في الحكم يصبح الشعب شريكا في السيادة فتحقق معنى المواطنة بما فيها من حقوق وواجبات.</p>
+<p class="subhead t-red"><b><u>III في حدود الديمقراطية و الحاجة الى المواطنة العالمية</u></b></p>
+<p class="subhead t-navy"><b><u>1. في نقد الديمقراطية</u></b></p>
+<p class="para">لئن قدمت لنا الديمقراطية حلا لنظام يضمن توافقا بين السيادة والمواطنة. فان هذا النظام هو الاخر لا يخلو من تناقضات ونقائص وحتى من تجاوزات سياسية وقانونية و أخلاقية خاصة فيما يتعلق بالحريات وهيمنة الأغلبية على حساب الأقلية وهو تقسيم النتيجه هذا النظام إضافة الى ارتباط النظام الديمقراطي بالنظام الراس مالي الذي يزيد من حرية التملّك والاستثمار على حساب الطبقة الفقيرة وهو شكل من اشكال الهيمنة باسم القانون والشرعية هذا ويبقى النظام الديمقراطي نظاما مثاليا ومنقوصا حسب روسو وهو ما يستوجب إعادة تأهيل ومراجعة الديمقراطية حتى تكون قادرة على حل تناقضاتها وذاك بإخراجها من النسبي الى المطلق و من المجال السياسي الضيق الى المجال الاجتماعي والإنساني فتصبح قيم الديموقراطية قيما كونية وانسانية تصل الى كل ذات وتعميم قيم المواطنة بشكل عالمي في إطار المواطنة العالمية والديمقراطية المركبة</p>
+<!-- PROOFREAD: 1770 part1 p01 — "وهو تقسيم النتيجه هذا النظام" (covered by pen strokes, doubtful) -->
+<p class="subhead t-navy"><b><u>2. في الحاجة الى المواطنة العالمية</u></b></p>
+<p class="para">تطرح المواطنة العالمية باعتبارها أحد رهانات المسالة والتي تعني، نشر وتعميم ثقافة حقوق الانسان بشكل كوني وعالمي وخاصة امام اكتساح وتوسع العولمة التي تسعى الى التحكم و السيطرة على العالم فتشكل خطرا على المواطنة وعلى سيادة تبرز الحاجة الى نظام عالمي جديد وفي إطار تصور ايتقي يحمي ويرعى السيادة والمواطنة ان المواطنة العالمية ليست الغاء او تعويض للمواطنة المحلية انما امتداد لها بل انه لا يمكن الحديث عن المواطنة العالمية دون المواطنة المحلية. ان المواطنة العالمية هي تأكيد على تقارب الشعوب رغم اختلافها الثقافي واشتراكها في قيم تجمعها وتوحدها باسم الإنسانية خاصة بعد ان تحول العالم اليوم الى قرية صغيرة وبعد ان تفاقمت الهجرة بين الشعوب ان القيم السياسية تبقى قيما منقوصة ومجرد شعارات مالم تتحول الى قيم وجودية وكونية و في اطار منظومة اتقية تراعي و تحمي القيم الإنسانية في كل مكان من العالم ...</p>
+<!-- file: 20260505_105804 -->
+
+
+<p class="subhead t-red">الدولة : السيادة والمواطنة</p>
+<p class="para"><u>المعاني</u> : الحق / الديمقراطية / السلطة / العدالة / المواطن العالمي</p>
+<!-- PROOFREAD: 1771 part1 p01 — "المعاني" (underlined first word, doubtful) -->
+<p class="para">- تتنزل المسألة ضمن مبحث السوسيو قيمي / القيم تحيل على مجال الممارسة : الدولة ممارسة سياسية تترتب عنها آثار قيمية : السيادة والمواطنة</p>
+<!-- PROOFREAD: 1771 part1 p01 — "مبحث السوسيو قيمي / القيم تحيل" (doubtful) -->
+<p class="para">- تتعلق المسألة المطروحة بسيادة الدولة وبمصير ومكانة الأفراد فيها فتطرح الاشكالية : على ماذا تتأسس سيادة الدولة ؟ هل تستمد سيادتها من سلطة حكامها أم من سيادة المواطنين ؟</p>
+<p class="subhead t-navy">الدولة :</p>
+<p class="para">- تنظيم قانوني لمجموعة من الناس</p>
+<p class="para">- وحدة سياسية تضم مجموعة من الأفراد في حدود جغرافية معينة لها استقلاليتها وسيادتها.</p>
+<p class="para">- الدولة كما صرح "بردو" فكرة بمعنى أنها تمارس نفوذها على الأذهان.</p>
+<p class="subhead t-navy">السلطة :</p>
+<p class="para">نميز بين سلطة الأفراد وسلطة الدولة</p>
+<table>
+<tr><td>هي باقية وان تغير الأشخاص.</td><td>ترتبط بأشخاص تستمر باستمرارهم وتنتهي بنهايتهم</td></tr>
+</table>
+<p class="para"><u>يعرفها سعيد</u> « السلطة هي القدرة على الفعل في الأشخاص والتأثير فيهم باللجوء الى مجموعة من الوسائل تتراوح بين الاقناع والقهر »</p>
+<!-- PROOFREAD: 1771 part1 p01 — "سعيد" (name doubtful) -->
+<p class="para">السلطة هي الميزة الاساسية للسياسي الذي لا نتمثل له وجودا خارج دائرة السلطوي ، الوجود السياسي قائم على خاصيتي الالزام والارغام معا يؤسس لعلاقة غير متكافئة بين من يمتلك السلطة = الحاكم ومن لا يمتلكها : المحكومين.</p>
+<p class="para">رغم أن سلطة الدولة مؤسسة للارغام والالزام الا أنها ترتقي بالوجود الانساني من مرتبة الوجود الحيواني</p>
+<table>
+<tr><th>حالة الدولة</th><th>خارج الدولة</th></tr>
+<tr><td>تنظم الوجود الانساني</td><td>رغبات / أهواء / حالة فوضى وعنف</td></tr>
+</table>
+<p class="para">الدولة شكل من أشكال السلطة لكن ليس كل سلطة بحاجة الى أن تأخذ شكل دولة.</p>
+<p class="para">← مفهوم السلطة أشمل من مفهوم الدولة</p>
+<p class="subhead t-navy"><u>موقف فوكو</u></p>
+<p class="para">يقول فوكو « مازلنا نجهل ماهية السلطة »</p>
+<p class="para">اذن ينقد : ⊕ اعتبار السلطة <u>ملكية</u> بيد البعض (الحاكم) في حين</p>
+<!-- PROOFREAD: 1771 part1 p01 — "بيد البعض" (doubtful) -->
+<!-- file: 20260505_105808 -->
+
+
+<!-- PROOFREAD: 1772 part1 p01 — handwritten page, best reading; re-check -->
+<!-- NOTE: a small pencil mark in the left margin is an annotation, left out -->
+<p class="para">أن البقية لا يملكونها (المحكومين)</p>
+<p class="para">" نظاما عاما من جهة الهيمنة يمارسه عنصر أو مجموعة على عنصر آخر أو مجموعة أخرى"</p>
+<p class="para">⊛ اعتبار السلطة <u>مركزية</u> تختزل في الجهاز السياسي للدولة أي أن تتركز بيد أجهزة ومؤسسات الدولة إضافة الى جعلها هرمية قائمة على الزوج حاكم / محكوم . " لا أعني مجموع الأجهزة والمؤسسات التي تتضمن خضوع المواطنين في إطار دولة ما "</p>
+<p class="para">⊛ أسلوب الممارسة : أي أن تكون السلطة كيانا عنيفا بالمعنى المادي " لا أعني نمطا من الاخضاع الذي هو على العكس من العنف وانما تتخذ شكل القاعدة ".</p>
+<p class="para">اذن يستبعد فوكو أن تكون السلطة متجسدة في أجهزة الدولة ومحتكرة بيد الطبقة المهيمنة.</p>
+<p class="para"><u>يؤسس</u> فوكو ضد هذا لتصبح السلطة <u>علاقات قوى</u> مما يعني قيامها على صراع يقترن بتبادل دائم للمواقع: <u>تبادل</u>. اضافة الى انتشارها في كامل النسيج الاجتماعي فهي <u>مبثوثة</u> تظهر أحيانا وتختفي أحيانا تأكيدا لطابعها <u>المكروفيزيائي</u></p>
+<p class="para">← السلطة حاضرة في كامل النسيج الاجتماعي وتتوزع في كل لحظة.</p>
+<p class="para">← السلطة لها دلالات عدة وسلطة الدولة شكل من أشكال السلطة نعني الشكل السياسي .</p>
+<p class="subhead t-navy">السيادة:</p>
+<p class="para">السلطة العليا التي للدولة .</p>
+<p class="para">هي السلطة المستقلة القادرة على تحديد نفسها بنفسها .</p>
+<p class="subhead t-navy">المواطنة:</p>
+<p class="para">مقتضى انساني يحيل على اعتبار الافراد في دولة ، لهم حقوق وعليهم واجبات <u>ويشاركون بفاعلية في الحياة السياسية</u></p>
+<p class="para">← يطرح من هنا مشكل العلاقة بين السيادة والمواطنة.</p>
+<p class="subhead t-navy"><u>① في التعارض بين السيادة والمواطنة</u></p>
+<p class="para">- حضور السيادة وانتفاء المواطنة</p>
+<p class="para">- دولة العنف .</p>
+<p class="para">- كلما حضرت الدولة إلا وحضر معها</p>
+<p class="para">معادلة = أمر ← عنف ← طاعة</p>
+<p class="para">= كل دولة هي عنيفة.</p>
+<p class="para">في هذا السياق يؤكد <u>فيبر</u> أن الدولة تحتكر العنف وهو عنف يتميز بسمة رئيسية هي الشرعية ؛</p>
+<p class="para">عنف الدولة شرعي : من أين يستمد مشروعيته ؟</p>
+<!-- file: 20260505_105816 -->
+
+
+<!-- PROOFREAD: 1773 part1 p01 — handwritten page, best reading; re-check -->
+<p class="para">يخص عنف الدولة فيما يسميه علماء السياسة بالعنف الجزائي التأديبي</p>
+<table>
+<tr><th>العنف الشرعي</th><th>العنف غير المشروع</th></tr>
+<tr><td>اذا كانت مهمته جزائية تأديبية تعمل على:</td><td>اذا كان مبررا للتسلط تلجأ اليه الدولة خدمة لمصالحها</td></tr>
+</table>
+<p class="para">- سن القوانين</p>
+<p class="para">- التدخل بين النزاعات</p>
+<p class="para">- تنفيذ ما تتفق عليه المجموعة</p>
+<p class="para">- التسيير والتنظيم.</p>
+<p class="para">تجوز للدولة أن تمارس العنف اذا كان في ذلك حماية لمصالح الافراد.</p>
+<p class="para">العنف مشروع اذا كان متفقا عليه (يحتكره الحاكم) محتكر وغير مشاع لمصلحة الجميع.</p>
+<p class="para">← تتحول السيادة الى استبداد</p>
+<p class="para">الاستبداد . نظام حكم يقوم على التفرد بالسلطة المطلقة ولا يقبل المشاركة السياسية سواء في اتخاذ القرار أو مناقشته ولا يرتكز على القانون</p>
+<p class="para">الاستبداد يقوم على:</p>
+<p class="para">- التفرد بالسلطة المطلقة</p>
+<p class="para">- غياب المشاركة السياسية</p>
+<p class="para">- غياب المراقبة والمحاسبة</p>
+<p class="para">- الافتقاد لحق قانوني.</p>
+<p class="para">يصبح العنف ممارسة ملازمة للدولة .</p>
+<p class="subhead t-navy"><u>المرجعيات المدعمة :</u></p>
+<p class="subhead t-navy"><u>ماكيافلي</u> :</p>
+<p class="para">السلطة تؤخذ بالقوة وتتم المحافظة عليها بالعنف والدماء وعلى الأمير أن تكون متصفا بمكر الثعلب وقوة الأسد</p>
+<p class="para">على الأمير أن يتظاهر بامتلاك الصفات الانسانية (الاخلاص / الرحمة / التدين) وأن يعمل بعكسها ان اقتضى الأمر ويمكن للأمير أن يعطي وعودا ولا ينفذها ، أن يكون قاسيا ، أن يدفع الرعية الى خوفه</p>
+<p class="para">← يعمل الأمير بشتى الوسائل على الحفاظ على سلطة بقطع النظر عن أخلاقية أو لا أخلاقية الوسائل.</p>
+<p class="para"><u>السيادة</u> : تضمن الامير سيادته بشتى الوسائل أخلاقية أو لا أخلاقية مشروعة أو لا مشروعة مادامت "الغاية تبرر الوسيلة".</p>
+<p class="para"><u>المواطنة</u> : انتفاء صفة المواطنة فالأفراد رعايا</p>
+<p class="para">← تعارض بين السيادة والمواطنة</p>
+<p class="subhead t-navy"><u>هوبس</u> :</p>
+<p class="para"><u>حالة الطبيعة</u> : هي حالة عنف وحرب وفوضى تعود ذلك الى طبع الانسان الشرير والعدواني .</p>
+<!-- file: 20260505_105826 -->
+
+
+<!-- PROOFREAD: 1774 part1 p01 — handwritten page with a pasted printed table (partly blurred); best reading, re-check -->
+<p class="para">حالة الطبيعة هي حالة حرب كونية تهدد بالموت والفناء . فكان لابد من تغيير الوضع .</p>
+<p class="para"><u>حالة الاجتماع</u> : الانتقال الى هذه الحالة تم بموجب <u>عقد</u></p>
+<p class="para">العقد اتفاق مبرم بين مجموعة من الاشخاص يتضمن بنود يتم بموجبه انشاء دولة .</p>
+<p class="para">تنازل الافراد اراديا عن جميع حقوقهم الطبيعية لفائدة سيد أعلى / صاحب السيادة / تنين .</p>
+<p class="para">التنازل <u>ارادي</u> / <u>كلي</u> ومتزامن .</p>
+<p class="para">قائم على القبول والرضى من طرف الجميع في نفس الوقت</p>
+<p class="para">العقد بين الافراد دون صاحب السيادة</p>
+<p class="para">فالافراد يتنازلون لكن صاحب السيادة لا يتنازل بل يحرص على تأمين الامن والسلم .</p>
+<p class="para">الحاكم مطلق التفرد &nbsp;&nbsp;&nbsp; الافراد مطلق الطاعة رعايا .</p>
+<p class="para">نظام استبدادي / سلطة مطلقة</p>
+<p class="para">دولة العنف .</p>
+<p class="para"><u>السيادة</u> السيد الاعلى له مطلق النفوذ هو من يشرع للقوانين ويعمل على تنفيذها</p>
+<p class="para"><u>المواطنة</u> : تفيد فقط الانتماء الى وطن والعيش المشترك في الجماعة دون مشاركة فاعلة في الحياة السياسية</p>
+<p class="para">← الافراد رعايا والحكم مستبد .</p>
+<p class="para">ص 234</p>
+<table>
+<tr><th>الفلسفة</th><th>هوبز Hobbes<br>1679-1588</th><th></th></tr>
+<tr><td>حالة الطبيعة</td><td>حالة صراع وحرب الكل ضد الكل ناتجة عن طبيعة الإنسان المولع بالحرية والهيمنة. إذ يعد عدوانيا وشريرا بطبعه</td><td>الانسان شرير بطبعه</td></tr>
+<tr><td>العقد الاجتماعي</td><td>تنازل الأفراد كليا عن كل ما لهم من قوة وحقوق طبيعية لصاحب السيادة</td><td>تفويض - تنازل لصاحب السيادة</td></tr>
+<tr><td>أطراف العقد</td><td>الأفراد دون صاحب السيادة</td><td>صاحب السيادة ليس طرفا في العقد</td></tr>
+<tr><td>التزامات العقد</td><td>على الأفراد طاعة الحاكم والذوبان في إرادته مقابل تأمين الأمن والسلام</td><td>الافراد رعايا عليهم بالطاعة المطلقة</td></tr>
+<tr><td>نظام الحكم</td><td>نظام استبدادي والسلطة فيه مطلقة. نظام دولة التنين أو نظام رئاسي</td><td>الحكم مستبد ؛ ليس للافراد حق ابداء الرأي أو المشاركة في السلطة</td></tr>
+<tr><td>غاية الدولة</td><td>حفظ الحياة وضمان الأمن والسلام</td><td></td></tr>
+</table>
+<!-- PROOFREAD: 1774 part1 p01 — printed table cell "حالة الطبيعة" partly blurred ("ناتجة عن طبيعة الإنسان المولع بالحرية والهيمنة. إذ يعد") -->
+<p class="para">الدولة كيان مصطنع + نظام صوري مطلق : في حل من كل الالتزامات مستبد : متسلط وعنيف</p>
+<!-- PROOFREAD: 1774 part1 p01 — "نظام صوري" (written small, doubtful) -->
+<div class="data"><p class="para">تعارض بين السيادة والمواطنة</p></div>
+<!-- file: 20260505_105830 -->
+
+
+<!-- PROOFREAD: 1775 part1 p01 — handwritten page, best reading; re-check -->
+<p class="para">إن هذا الاستبداد من شانه أن يؤدي جملة من النتائج أهمها :</p>
+<p class="para">- تحول الأفراد الى رعايا فاقدين لحقوقهم</p>
+<p class="para">- سلطة تقضي على المواطنة وتحل محلها الطغيان</p>
+<p class="para">- تحول الأفراد الى عبيد لا يعود حسب لابويسي الى الحاكم فقط وانما يتحمل الافراد بدورهم مسؤولية ذلك حين يصبحون في حالة رضا بعبوديتهم يعلن لابويسي " لتواطأ عنف الواحد وجبن الجميع في صورة آثمة فاسدة تشكل المستبد ونظيره المهان " عندما تحدث عن <u>اغتراب سياسي</u></p>
+<!-- PROOFREAD: 1775 part1 p01 — name "لابويسي" (written twice, letters unclear) -->
+<p class="subhead t-navy">الاغتراب السياسي</p>
+<p class="para">تشير الى وضعية الفرد في دولة استبدادية حيث تكون مسلوب الارادة ولا تكون فاعلا ولا تشارك فهو رعي مطالب بالطاعة المطلقة لصاحب السلطة الذي يفرط في استعمال القوة ، لنشر الخوف ويلجأ الى المراوغة والتضليل الحفاظا على نفوذه وبسط سلطته .</p>
+<p class="para">اذن سبب الاغتراب :</p>
+<p class="para">- دهاء الطاغية الذي يحول الافراد الى عبيد سعداء بعبوديتهم</p>
+<p class="para">- استكانة الافراد المطلقة التي ترى في الاستبداد ضرورة لوجودهم</p>
+<p class="subhead t-navy"><u>② في التوافق بين السيادة والمواطنة</u></p>
+<p class="para">الدولة التي تضمن المواطنة هي دولة الحق ومنه تستمد مشروعيتها .</p>
+<p class="para">ليتحقق ذلك لا بد من :</p>
+<p class="para">- عدم قيام الدولة على الارغام بل على اتفاق الافراد بشكل تكون بموجبه السيادة ممثلة للمجتمع وليست تعبيرا عن ارادة خاصة</p>
+<p class="para">- أن تكون سيادة الدولة قانونية فالقانون سلطة فوق الجميع وهو أساس كل مشروعية .</p>
+<p class="para">- العمل على ضمان المواطنة = وهي مفهوم سياسي يشير الى العلاقة الحقوقية التي تربط الفرد بالدولة .</p>
+<p class="para">الفرد مواطن ينتمي الى مجتمع تحكمه قوانين ويتمتع فيه بحقوق وعليه واجبات .</p>
+<p class="para">⇐ لتكون السيادة مشروعة لا ينبغي أن تكون مستبدة بل لا بد أن تكون هناك توافق بين سيادة الدولة وحقوق وحريات الافراد .</p>
+<p class="para">السياسة التي ترتكز على الحق وتتوافق مع القانون تكون أساسها العدل وهاجسها تكريس مبدأ المواطنة .</p>
+<p class="para">اذن تفترض المواطنة :</p>
+<p class="para">- الانتماء الى الدولة</p>
+<!-- file: 20260505_105834 -->
+
+
+<!-- PROOFREAD: 1776 part1 p01 — handwritten page, best reading; re-check -->
+<p class="para">- التمتع بالحقوق والقيام بالواجبات</p>
+<p class="para">- المشاركة الفاعلة في الحياة السياسية .</p>
+<p class="para">← لا معنى للمواطنة الا في دولة ديمقراطية</p>
+<p class="para">الديمقراطية تفيد حكم الشعب للشعب فهي نظام سياسي يقوم على ضمان سيادة الشعوب وحقوقها</p>
+<p class="para">في النظام الديمقراطي تتوافق السيادة مع المواطنة .</p>
+<p class="para">يتحقق هذا المشروع وفق الشروط التالية التي عبّر عنها منتسكيو</p>
+<p class="para">- الفصل بين السلط لان الجميع بينها بيد شخص واحد يؤدي الى الاستبداد</p>
+<!-- PROOFREAD: 1776 part1 p01 — "لان الجميع بينها" (doubtful) -->
+<p class="para">- الحرص على تطبيق القانون باعتباره ضامن الحريات</p>
+<p class="para">- ضمان التعددية الحزبية</p>
+<p class="para">- عدم احتكار الاعلام</p>
+<p class="para">- الاقرار بحق الاقلية = ضمان المساواة .</p>
+<p class="subhead t-navy"><u>المرجعيات المدعمة</u></p>
+<p class="subhead t-navy"><u>روسو</u> :</p>
+<p class="para"><u>حالة الطبيعة</u> : حالة حرية وأمن وسلم .</p>
+<p class="para">لكن الاستمرار في هذا الوضع أصبح غير ممكن وكأن الافراد بحاجة الى تجميع قواهم .</p>
+<p class="para"><u>حالة الاجتماع</u> تنازل الافراد عن حقوقهم الطبيعية لفائدة الارادة العامة</p>
+<p class="para">العقد يضمن للافراد حقوقهم</p>
+<p class="para">يؤسس روسو لنظام حكم <u>ديمقراطي</u> تكون فيه السيادة للشعب لان الفرد تنازل عن حقوقهم للمصلحة العامة لا للمصلحة الخاصة .</p>
+<p class="para">القانون يضمن حرية الافراد لذا يعتبر روسو أن مصير الحرية من مصير القوانين تسود بسيادتها وتذهب بذهابها</p>
+<p class="para">← الشعب الحر هو من يطيع القانون ولا يطيع الافراد .</p>
+<p class="para">الارادة العامة هي أساس القانونية والمشروعية . ومن يطيع الفرد القانون الصادر عن الارادة العامة فانه لا يطيع شخصا بل يطيع القانون وبالتالي يطيع نفسه " من يمنح نفسه للمجموعة كلها فانه لم يمنح نفسه لأحد "</p>
+<!-- PROOFREAD: 1776 part1 p01 — "ومن يطيع الفرد" (doubtful) -->
+<p class="para">الفرد تنازل عن حريته الطبيعية ليغنم حرية مدنية وبذلك تحولت القوة الى الحق والطاعة الى واجب</p>
+<p class="para">⇐ النظام الديمقراطي هو الحل الامثل لمشكل السيادة .</p>
+<p class="para"><u>السيادة</u> : ترتبط بالحقوق الطبيعية</p>
+<!-- file: 20260505_105837 -->
+
+
+<p class="para">تحولت الى حقوق مدنية .</p>
+<p class="para">المواطنة : اعتراف بمنزلة الفرد وحقه في المشاركة في ادارة الشؤون المدنية .</p>
+<!-- PROOFREAD: 1777 part1 p01 — "بمنزلة" and "المدنية" (doubtful); first letters of the first two lines near the cut sheet edge -->
+<p class="subhead t-navy"><u>سبينوزا</u></p>
+<p class="para"><u>حالة الطبيعة</u> هي حالة استعمال القوى الطبيعية = ممارسة العنف وهيمنة القوي .</p>
+<p class="para"><u>العقد</u> : تنازل لفائدة الدولة التي ستكون التحقق الفعلي للحرية .</p>
+<!-- PROOFREAD: 1777 part1 p01 — "ستكون التحقق الفعلي للحرية" (doubtful) -->
+<p class="para">وجدت الدولة لتحرر الانسان من الخوف</p>
+<p class="para">تعامل الدولة الافراد على أنهم مواطنون</p>
+<p class="para">يميز سبينوزا بين العبد / الابن / المواطن</p>
+<p class="para"><u>العبد</u> : هو من <u>يخضع</u> للاوامر تحقيقا لمصلحة السيد .</p>
+<p class="para"><u>الابن</u> : <u>ينفذ</u> بناء على أوامر الأب أفعالا تحقق مصلحته <u>الخاصة</u></p>
+<p class="para"><u>المواطن</u> : <u>ينفذ</u> بناء على أوامر الحاكم أفعالا تحقق المصلحة <u>العامة</u> وبالتالي المصلحة الشخصية .</p>
+<p class="para"><u>السيادة</u> : الدولة تحترم حقوق الافراد في التفكير والتعبير والمعتقد</p>
+<p class="para"><u>المواطنة</u> : الافراد مواطنين يطيعون سلطة القانون</p>
+<p class="para">← النظام الديمقراطي هو أفضل الأنظمة</p>
+<p class="subhead t-navy">التوافق بين السيادة والمواطنة</p>
+<table>
+<tr><th>روسو Rousseau<br>1778-1712</th><th>لوك Locke<br>1704-1632 ,</th><th>سبينوزا Spinoza<br>1677-1632</th></tr>
+<!-- PROOFREAD: 1777 part1 p01 — table header: the dates (esp. Spinoza "1677-1632") are blurred; separator between the two years unclear -->
+<tr><td>حالة سلم، يتميز فيها الإنسان بضمير عاطفي، وهو مسالم وفزع وأمام كل خطر يكون الفرار حركته الأول، فضلا عن تميزه بالحرية المطلقة</td><td>حالة تمتع بالحقوق الطبيعية في ظل سيادة القانون الطبيعي الذي يضمن حق الحياة والحرية والملكية</td><td>حالة تتسم بهيمنة القوي على الضعيف وسيادة قانون الغاب بحكم أن الحق الطبيعي هو القوة الطبيعية ذاتها، ولذلك يحد الحق بقدر ما تحد القوة</td></tr>
+<!-- PROOFREAD: 1777 part1 p01 — table row 1: "يتميز", "الأول،", "تميزه" (Rousseau) and "تمتع" (Locke) doubtful -->
+<tr><td>تنازل الأفراد عن حقوقهم الطبيعية لصالح الإرادة العامة</td><td>تنازل الأفراد عن بعض حقوقهم لصالح السلطة المدنية</td><td>تنازل الأفراد عن تسيير شؤونهم بأنفسهم وفق منطق الانفعال وتنظيم الحياة وفق مقتضيات العقل، لذلك لا يمثل العقد تنازلا عن الحق الطبيعي بل تأمينا له</td></tr>
+<!-- PROOFREAD: 1777 part1 p01 — table row 2: whether "الطبيعية" belongs to the Rousseau cell (as typed) or follows "بعض حقوقهم" in the Locke cell -->
+<tr><td>بين الأفراد والإرادة العامة التي تعبر عن المجموع</td><td>بين الأفراد والسلطة الحاكمة</td><td>بين الأفراد والسلطة الحاكمة</td></tr>
+<tr><td>وجوب طاعة الجميع للإرادة العامة مقابل تأمين الحقوق المدنية مثل الحرية والملكية</td><td>على الحاكم مثل الأفراد الالتزام بالعقد واحترام حق الجميع في الحرية والملكية</td><td>على الأفراد طاعة القانون مثلما على الحاكم أن يحترم حق الأفراد في الحرية</td></tr>
+<!-- PROOFREAD: 1777 part1 p01 — table row 4: "الالتزام" (Locke) doubtful -->
+<tr><td>نظام الحكم ديمقراطي مباشر، والسلطة فيه مطلقة للإرادة العامة. نظام دولة الحق</td><td>نظام الحكم ملكي والسلطة فيه مقيدة برأي الأغلبية في برلمان تقتصر عضويته على أصحاب الممتلكات. نظام دولة الوفاق</td><td>نظام الحكم ديمقراطي. نظام دولة الحرية</td></tr>
+<tr><td>سيادة الشعب وتأمين المصلحة العامة</td><td>تأمين الحريات المدنية: الحرية الفردية والملكية الخاصة</td><td>العيش وفق نظام العقل وضمان الأمن والحرية</td></tr>
+</table>
+<p class="para">السيادة وفضاء المواطنة يتحقق ذلك في دولة ديمقراطية ضامنة للعدالة .</p>
+<!-- PROOFREAD: 1777 part1 p01 — "يتحقق ذلك" (doubtful) -->
+<!-- file: 20260505_105844 -->
+
+
+<p class="subhead t-navy"><u>العدالة كأساس الحق</u></p>
+<p class="para">العدالة تتحدد باعتبارها العمل على احترام حقوق كل فرد دون استبداد فالعدل يتمثل في <u>اعطاء كل ذي حق</u> حقه .</p>
+<p class="para">المساواة التي تتأسس عليها العدالة تبدو لا واقعية لان الواقع يشهد وجود تفاوت بين البشر لذلك نتحدث عن <u>انصاف</u></p>
+<p class="para">من عدالة القانون</p>
+<!-- PROOFREAD: 1778 part1 p01 — "من عدالة القانون" (first word doubtful) -->
+<p class="para">الانصاف يفيد العدالة وتصحيحها القانون .</p>
+<!-- PROOFREAD: 1778 part1 p01 — "يفيد العدالة وتصحيحها" (doubtful) -->
+<p class="para">مقتضيات العدالة :</p>
+<p class="para">- كل الناس متساوون من جهة الحقوق</p>
+<p class="para">- يتمتعون بحريات مدنية لا تنتهك</p>
+<p class="para">- التساوي في الفرص</p>
+<p class="para">أساس العدالة الانصاف لان البشر أحرار ومتساوون في التمتع بالحقوق والحريات .</p>
+<p class="subhead t-navy"><u>ملاحظات نقدية</u></p>
+<p class="subhead t-navy"><u>نقد الديمقراطية</u> :</p>
+<p class="para">- الديمقراطية تقوم على أساس حكم الاغلبية وهو ما يؤدي الى انتهاك حقوق الأقلية</p>
+<p class="para">- الديمقراطية تقوم على أساس العدالة بمعنى مساواة البشر أمام القانون في حين أن القانون لا يتضمن دوما الانصاف</p>
+<p class="para">- لا تتضمن الدولة بالضرورة فرصا متكافئة من جهة التشغيل مثلا .</p>
+<p class="para">- التشريع القوانين يستند الى ارادة الأغلبية حين الواقع قد يشهد خلاف ذلك حيث تصبح التشريعات موجهة وخاضعة لسلطة مؤسسات أو شخصيات نافذة تحتكر تصريحات لخدمة المصلحة الخاصة .</p>
+<!-- PROOFREAD: 1778 part1 p01 — "التشريع القوانين" and "تحتكر تصريحات" (doubtful) -->
+<p class="para">- الديمقراطية تحولت لدى البعض الى شعار تبرر به الممارسات اللاانسانية</p>
+<p class="para">- باسم الديمقراطية كثيرا ما تقع انتهاكات حقوق الانسان</p>
+<p class="subhead t-navy"><u>نقد السيادة</u></p>
+<p class="para">- لا تمثل الدولة دوما ضمانا للحقوق والحريات بل تصبح آلة استبداد</p>
+<p class="para">- حقوق الانسان / الحرية / العدالة أصبحت شعارات جوفاء لا معنى لها</p>
+<p class="para">أكد على ذلك ماركس حين كشف عن الطابع الزائف للشعارات التي ترفعها الدولة فالدولة انما هي في خدمة مصالح البرجوازية</p>
+<!-- PROOFREAD: 1778 part1 p01 — "الزائف" (doubtful) -->
+<p class="para">لقول لينين « الدولة هي آلة لصيانة سيادة طبقة على اخرى ».</p>
+<p class="para">هذا الوضع يؤذن بزوال الدولة</p>
+<!-- file: 20260505_105849 -->
+
+
+<p class="para">ذا مازالت مبررات قيامها من ذلك الطبقية</p>
+<!-- PROOFREAD: 1779 part1 p01 — first word cut by the sheet edge: only "ذا" visible -->
+<p class="para">← زوال الطبقية ايذان بزوال الدولة</p>
+<p class="subhead t-navy"><u>في نقد المواطنة</u></p>
+<p class="para">- المواطنة اصبحت شعارا يرفع وتبرر به عديد الممارسات اللاانسانية</p>
+<p class="para">- في حضارة التصنيع تغيرت صورة المواطن : تركز على المنفعة والمردودية</p>
+<!-- NOTE: a crossed-out word after "التصنيع" left out -->
+<p class="para">← اذا كان شرط تحقق المواطنة هو تمتع المواطن بأهم حقوقه مثل الحرية والديمقراطية فان المجتمع المعاصر لم يعد يحمي حقوق الانسان بقدر ما يسلط عليه آليات رقابة واخضاع .</p>
+<p class="subhead t-navy"><u>السيادة الوطنية ومطلب المواطنة العالمية .</u></p>
+<p class="para">يتلازم مفهوم المواطنة مع حضور الدولة ويؤسس لشكل من الحكم ديمقراطي</p>
+<p class="para">تحقيق النظري في واقع الممارسة السياسية وفي الوضع العالمي يدفع الى اعادة التفكير في مسألة السيادة وعلاقتها بالمواطنة</p>
+<!-- PROOFREAD: 1779 part1 p01 — "تحقيق النظري" (a stroke before it, doubtful) -->
+<p class="para">عادة ما ننظر الى الانسان كشخصية سياسية حين يعترف به كمواطن</p>
+<p class="para">غير أن التعريف الاختزالي الذي يربط المواطنة بالوطن لا يستوعب معه الانسان من هنا كان لا بد من اعادة التفكير في المواطنة والانخراط فيها كتجربة عالمية تستوجب جملة من الشروط :</p>
+<!-- PROOFREAD: 1779 part1 p01 — "لا يستوعب معه" and "والانخراط فيها" (doubtful) -->
+<p class="para">- افتراض المساواة بين البشر في الطبيعة البشرية والحقوق الانسانية</p>
+<p class="para">- النظر الى العالم على أنه وطن للجميع</p>
+<p class="para">- توفير اطار قانوني ملائم لتحقيق المشروع</p>
+<p class="para">المواطن العالمي : هو الذي يكون قادرا على ممارسة حقوقه من جهة كونه كائنا بشريا وليس من جهة كونه كائنا قوميا .</p>
+<p class="para">المواطنة العالمية تفيد توزيع الحقوق بشكل متساو بين الجميع بقطع النظر عن الفروقات العرقية أو الشخصية أو الفردية .</p>
+<!-- PROOFREAD: 1779 part1 p01 — "الشخصية" (doubtful) -->
+<p class="para">تقول كاشان : تكون المواطن عالميا ، لا الفرد الخاص بل الذات السياسية وهي تكشف وجودها الخصوصي وتعلنه داخل العلاقات السياسية ».</p>
+<!-- PROOFREAD: 1779 part1 p01 — "كاشان" (name doubtful) -->
+<p class="para">← اذن تحمل المفهوم حلم الافراد في عالم موحد مشترك يرتقي الى تحقيق الكونية .</p>
+<!-- file: 20260505_105855 -->
+
+
+<p class="para">. لكن مشروعا كهذا يبدو قابلا للتشويه والانتهاك بالاضافة الى أنه أصبح يوظف في اتجاه انتهاك سيادة الدول ← باسم المواطنة العالمية يقع التدخل في شؤون الدول .</p>
+<p class="para">الخطر الذي واجه مشروع العالمية مرده الخلط بين العالمية والعولمة .</p>
+<table>
+<tr><th>العالمية</th><th>العولمة</th></tr>
+<tr><td>قيم انسانية</td><td>حركة اقتصادية تخدم الهيمنة والسلع على حساب القيم الانسانية .</td></tr>
+</table>
+<!-- PROOFREAD: 1780 part1 p01 — "تخدم الهيمنة والسلع" (doubtful) -->
+<p class="para">عالمنا يردد مقولة العالمية والعولمة فالمجتمعات تدعي الانفتاح على بعضها لكن الواقع يناقض ذلك اذ غاب الوعي بوحدة انسانية لتصبح العالمية مجرد ترثرة .</p>
+<!-- PROOFREAD: 1780 part1 p01 — "ترثرة" (spelling as seen, doubtful) -->
+<p class="para">← المواطنة العالمية تتضمن مخاطر منها توظيفاتها الايديولوجية والسياسية</p>
+<p class="para">- ايديولوجيا ، المواطنة العالمية توظف في اتجاه التسويق للعولمة مما أثمر تفاوتا طبقيا ومشكلات اقتصادية .</p>
+<p class="para">- سياسيا ، أصبحت المواطنة العالمية مبررا يشرع لتدخل الدول في سياسات بعضها البعض</p>
+<p class="para">⇐ العالمية كقيمة لا تتناقض مع المواطنة ولا تعني الذوبان في سلطة الغير بل تفترض وحدة الوجود الانساني</p>
+<p class="subhead t-navy">ما الحل ؟</p>
+<p class="para">- تكريس العالمية لا يتحقق الا بالدفاع عن السيادة الوطنية تحذيرا من هيمنة قوى سياسية ما .</p>
+<!-- PROOFREAD: 1780 part1 p01 — "تحذيرا من" (doubtful) -->
+<p class="para">- المراهنة على الحرية والديمقراطية كحقوق كونية</p>
+<p class="para">- احترام حقوق الانسان لأنها السبيل الذي يحقق لقاء الانسان بالانسان خارج دائرة الهيمنة والاستبداد .</p>
+<!-- file: 20260505_105900 -->
+
+
+<p class="subhead t-red"><u>الدولة : السيادة والمواطنة</u></p>
+<p class="para">يعيش الانسان في اطار سياسي يبدو ضروريا وملازما لوجوده فكأنما وجوده في الدولة حتمي أو هو قدر الانسان البشري هذا الوضع يدفع ضرورة للتفكير في الدولة والتساؤل عن ..</p>
+<p class="para">- تبدو الدولة أقوى النظم والمؤسسات الاجتماعية وأعمها فحيثما عاش البشر فترة من الزمن فاننا نجد التنظيم والسلطة وحيثما نجد التنظيم والسلطة تتوفر نواة الدولة حتى كأنها بدت قدر العمران البشري وضرورة لا مفر منها ولعل السؤال الفلسفي الأساسي حول الدولة يتلخص في ...</p>
+<p class="para">- (حول الحرية) لا ينفك الخطابات السياسية في كل المنابر تعدد وتنوه بحقوق الانسان ، ايذانا بمولد انسان جديد ومستقبل مشرق ضمن دولة الأمن والنظام والحرية أهدافها والانسان غايتها ، أي دولة تجسد فعلا معنى الحرية غير أن مفهوم الدولة في حد ذاته ربما فيه من الانعكاس لمظاهر السلطة والالزام والارغام ليتحمل معه تعارضا وتناقضا مع مفهوم الحرية بما هي أساس كينونة الانسان من استقلالية وارادة حرة ، هذا التعارض يتشكل وضعا اشكاليا يدفعنا للتساؤل .</p>
+<!-- PROOFREAD: 1781 part1 p01 — "ليتحمل معه" (doubtful) -->
+<p class="subhead t-navy"><u>مفارقة :</u></p>
+<p class="para">الدولة تدعي ضمان الحقوق والحريات لكن واقع الممارسة السياسية يؤكد انتهاك الحقوق والحريات .</p>
+<!-- file: 20260505_110014 -->
+
+
+<p class="subhead t-red">الاخلاق : الخير والسعادة</p>
+<p class="para">العلاقة</p>
+<ul class="dash">
+<li>توافق
+  <ul class="dash">
+  <li>خير + سعادة
+    <ul class="dash">
+    <li>السعادة والفضيلة (أرسطو)</li>
+    <li>السعادة واللذة (أبيقور)</li>
+    <li>السعادة والمنفعة (ميل)</li>
+    </ul>
+  </li>
+  </ul>
+</li>
+<li>تعارض
+  <ul class="dash">
+  <li>سعادة دون الخير نيتشه</li>
+  <li>الخير دون سعادة
+    <ul class="dash">
+    <li>اخلاق الواجب
+      <ul class="dash">
+      <li>الزام خارجي فرض على الذات المجتمع (دوركايم)</li>
+      <li>التزام ذاتي صادر عن ارادة أساسه العقل كانط</li>
+      </ul>
+    </li>
+    </ul>
+  </li>
+  </ul>
+</li>
+</ul>
+<!-- PROOFREAD: 1782 part1 p01 — "فرض على الذات" (doubtful) -->
+<p class="para"><u>الاخلاق</u> : جملة القواعد والمبادئ المحددة لسلوك الافراد داخل مجتمع ما</p>
+<p class="para"><u>الخير</u> = الغاية القصوى التي ينشدها الفعل الانساني</p>
+<p class="para"><u>السعادة</u> : حالة ارضاء تام للذات وتكتسي ديمومة</p>
+<!-- PROOFREAD: 1782 part1 p01 — "ارضاء" (doubtful) -->
+<!-- file: 20260505_110019 -->
+
+<!-- NOTE: this photo is a second shot of the same notebook page as item 1782 (transcribed in full there); it shows no words that 1782 hides -->
+<!-- file: 20260505_110025 -->
+
+
+<p class="subhead t-red"><u>I في التوافق بين الخير والسعادة :</u></p>
+<ul class="dash">
+<li>الفضيلة</li>
+<li>اللذة</li>
+<li>المنفعة</li>
+</ul>
+<p class="subhead t-navy">① <u>السعادة والفضيلة</u> : أرسطو .</p>
+<p class="para">السعادة أمر ينشده جميع الناس .</p>
+<table>
+<tr><th>عامة الناس يرون السعادة في</th><th>الحكيم (الفيلسوف)</th></tr>
+<tr><td>- اللذة</td><td>وقتية / زائلة / تافهة .</td></tr>
+<tr><td>- الشهرة</td><td>الكثير من المشاهير يعانون آلاما لا حصر لها</td></tr>
+<tr><td>- المال</td><td>لا يطلب لذاته انما لما يحققه</td></tr>
+</table>
+<!-- PROOFREAD: 1784 part1 p01 — "الكثير من المشاهير يعانون آلاما لا حصر لها" (doubtful) -->
+<p class="para">سعادة مادية حسية</p>
+<p class="subhead t-navy">السعادة في <u>الفضيلة</u></p>
+<p class="para"><span class="t-blue">ميل</span> ← استعداد يكتسب <u>اراديا</u></p>
+<p class="para"><span class="t-blue">فطري</span> ، ميل طبيعي</p>
+<!-- PROOFREAD: 1784 part1 p01 — blue-ink words "ميل" / "فطري" (doubtful) -->
+<p class="para">في نطاق يحدده <u>العقل</u></p>
+<!-- PROOFREAD: 1784 part1 p01 — "في نطاق يحدده" (doubtful) -->
+<p class="para">← الفضيلة في التوافق مع العقل</p>
+<!-- file: 20260505_110029 -->
+
+
+<p class="para">الفضيلة = حالة توسط بين الافراط</p>
+<ul class="dash">
+<li>توسط</li>
+<li>تفريط : نقصان<br>رذيلة</li>
+<li>اسراف<br>رذيلة</li>
+</ul>
+<!-- PROOFREAD: 1785 part1 p01 — "اسراف" (left branch of the first line, or "افراط") -->
+<p class="para">الكرم / التبذير / الشح</p>
+<ul class="dash">
+<li>فضيلة<br>توسط</li>
+<li>افراط<br>رذيلة</li>
+<li>تفريط<br>رذيلة</li>
+</ul>
+<p class="para"><u>الشجاعة</u> / التهور / الجبن</p>
+<ul class="dash">
+<li>توسط<br>فضيلة</li>
+<li>افراط<br>رذيلة</li>
+<li>تفريط<br>رذيلة</li>
+</ul>
+<p class="para">الفضيلة = هي الحكمة<br>التأمل</p>
+<p class="para">الفضيلة = العقل = السعادة ⇐ الخير</p>
+<p class="para">تمرين : ليست <u>السعادة</u> نقيض <u>الفضيلة</u> بل هي<br><u>الفضيلة عينها</u></p>
+<p class="para">حدد ارسطو السعادة في<br>سلوك العقل .</p>
+<!-- PROOFREAD: 1785 part1 p01 — "ارسطو" -->
+<p class="para">السعادة <u>ليست</u> نقيض فضيلة بل فضيلة</p>
+<ul class="dash">
+<li>نقيض فضيلة<br>اللذات الحسية</li>
+<li>فضيلة<br>الاعتدال</li>
+<li>مطلب الاستعداد</li>
+</ul>
+<!-- PROOFREAD: 1785 part1 p01 — "مطلب الاستعداد" (bottom right, linked by a line) -->
+<!-- file: 20260505_110035 -->
+
+
+<p class="para">لا تتحدد السعادة باللذات ....<br>بل تتحدد بالفضيلة بما هي مقترنة<br>بالحكمة والعقل ....</p>
+<p class="subhead t-navy">② <u>السعادة واللذة :</u></p>
+<p class="para">أبيقور .</p>
+<p class="para">" اللذة هي بداية الحياة السعيدة ونهايتها "</p>
+<p class="para">اللذة = • غياب الالم الجسدي</p>
+<p class="para">• سكينة وطمأنينة النفس<br><span dir="ltr">Ataraxie</span></p>
+<p class="para">من شروط السعادة</p>
+<p class="para">• تجنب اللذة التي يعقبها<br>ألم .</p>
+<p class="para">• تجنب الالم الذي لا تلحقه لذة .</p>
+<!-- PROOFREAD: 1786 part1 p01 — "الذي لا تلحقه" -->
+<p class="para">السعادة</p>
+<ul class="dash">
+<li>الالم<br>ما ينبغي<br>تجنبه</li>
+<li>اللذة<br>ما يتوجب الحرص<br>على تحقيقه</li>
+</ul>
+<p class="para"><u>الاعتدال</u></p>
+<!-- file: 20260505_110038 -->
+
+
+<!-- PROOFREAD: 1787 part1 p01 — handwritten page, best reading; re-check -->
+<p class="para">عرضي : " تشترط <u>السعادة</u> انكار <u>الملذات</u> "</p>
+<p class="para">ما هي الضمنية ؟</p>
+<!-- PROOFREAD: 1787 part1 p01 — "ما هي الضمنية ؟" (small writing, doubtful) -->
+<p class="para">السعادة ≠ <u>الملذات</u></p>
+<p class="para">? ← الملذات الحسية المادية</p>
+<p class="para">الحكمة<br>العقل<br>الفضيلة<br>التأمل ..</p>
+<p class="para">مقتضيات القول : الملذات الحسية تجلب الشقاء والالم اذن لا تتحقق السعادة</p>
+<p class="para">السعادة في العقل .</p>
+<p class="para">السعادة عقلية وليست حسية .</p>
+<p class="subhead t-navy">③ <u>السعادة والمنفعة</u></p>
+<p class="para">ميل ..</p>
+<p class="para"><u>المنفعة</u> ربط الفعل بنتائجه .</p>
+<p class="para">" نعني بلفظ سعادة اللذة وغياب الالم ونعني بالشقاء الالم وغياب السعادة "</p>
+<p class="para">يميز بين منفعة تتحقق للذات ومنفعة تتحقق للآخرين : أكون سعيدا بقدر ما أسعد الآخرين</p>
+<!-- file: 20260505_110044 -->
+
+
+<!-- PROOFREAD: 1788 part1 p01 — handwritten diagram page, best reading; re-check -->
+<p class="para">(2017) هل من الضروري أن نختار بين الالتزام بالواجب الاخلاقي وطلب السعادة ؟</p>
+<ul class="dash">
+<li>نختار بين الالتزام بالواجب الاخلاقي وطلب السعادة
+  <ul class="dash">
+  <li>واجب اخلاقي دون سعادة</li>
+  <li>سعادة دون التزام بالواجب</li>
+  </ul>
+</li>
+<li>لا نختار = نوفق التأليف ..
+  <ul class="dash">
+  <li>واجب اخلاقي + سعادة
+    <ul class="dash">
+    <li>السعادة في الفضيلة</li>
+    <li>السعادة في اللذة بما هي حالة صفاء سكينة للنفس وسكينة للجسد</li>
+    </ul>
+  </li>
+  </ul>
+</li>
+</ul>
+<!-- PROOFREAD: 1788 part1 p01 — "بما هي حالة صفاء سكينة للنفس وسكينة للجسد" (doubtful) -->
+<p class="subhead t-red">II <u>في التعارض بين الخير والسعادة</u> :</p>
+<ul class="dash">
+<li>سعادة دون خير</li>
+<li>خير دون سعادة</li>
+</ul>
+<p class="subhead t-navy">① السعادة وارادة القوة</p>
+<p class="para">نيتشه</p>
+<p class="para">فيلسوف <u>المطرقة</u></p>
+<p class="para">(الهدم)</p>
+<p class="para">يتولى تحطيم القيم</p>
+<p class="para">يميز بين</p>
+<ul class="dash">
+<li>أخلاق العبيد</li>
+<li>اخلاق الا</li>
+</ul>
+<!-- PROOFREAD: 1788 part1 p01 — last word cut by the page bottom: "اخلاق الا" (only visible letters typed) -->
+<!-- file: 20260505_110048 -->
+
+
+<!-- PROOFREAD: 1789 part1 p01 — handwritten diagram page, best reading; re-check -->
+<table>
+<tr><th>أخلاق العبيد</th><th>أخلاق الاسياد</th></tr>
+<tr><td>أخلاق الشفقة<br>الرحمة<br>ايثار الغير<br>تتنكر للحياة<br>وتتعالى عن الجسد<br>اخلاق ارتكاسية .</td><td>أخلاق القوة<br>تعبير عن ارادة<br>تحتفل بالحياة<br>وتحتفي بالجسد</td></tr>
+</table>
+<p class="para">السعادة شأن ذاتي وتتحقق بالقطع مع القيم .</p>
+<p class="subhead t-navy">② <u>اخلاق الواجب</u></p>
+<p class="para">أمر ونهي / الزام وارغام</p>
+<p class="para">الواجب</p>
+<table>
+<tr><th>الالتزام</th><th>الالزام</th></tr>
+<tr><td>ذاتي<br>صادر عن ارادة<br>اساسه<br>العقل .</td><td>خارجي<br>مفروض على الذات<br>فرضه المجتمع</td></tr>
+</table>
+<p class="subhead t-navy">⊛ الواجب <u>الزام</u> :</p>
+<p class="para">خارجي</p>
+<p class="para">فرضه المجتمع</p>
+<ul class="dash">
+<li>سن القيم</li>
+<li>يرسخها</li>
+<li>يتولى المراقبة والعقاب</li>
+</ul>
+<p class="para">في الافراد عن طريق التربية</p>
+<!-- PROOFREAD: 1789 part1 p01 — "في الافراد عن طريق التربية" (written under "يرسخها", doubtful) -->
+<!-- file: 20260505_110056 -->
+
+
+<!-- PROOFREAD: 1790 part1 p01 — handwritten diagram page, best reading; re-check -->
+<p class="para">المجتمع سلطة فوق فردية</p>
+<p class="para">دوركايم " حين يتكلم ضميرنا داخلنا فان المجتمع هو المتكلم فينا "</p>
+<p class="para">ربط الاخلاق المجتمع</p>
+<ul class="dash">
+<li>+</li>
+<li>-</li>
+</ul>
+<p class="para">عرضي : ان المجتمع هو الذي يرسم للفرد <u>منهاج حياته</u></p>
+<ul class="dash">
+<li><u>السلوك</u></li>
+<li>الكشف عن قيمة القول
+  <ul class="dash">
+  <li><u>مكسب</u> : تماسك / انسجام / تأكيد الطابع النسبي للاخلاق</li>
+  <li><u>حد</u> : تنمط / تبعية / الحد من الحرية</li>
+  </ul>
+</li>
+</ul>
+<p class="subhead t-navy">⊛ الواجب <u>التزام</u> :</p>
+<p class="para">ذاتي<br>صادر عن ارادة<br>اساسه العقل</p>
+<p class="para">كانط</p>
+<p class="para">يريد التأسيس لاخلاق مطلقة كونية أساسها العقل</p>
+<!-- file: 20260505_110100 -->
+
+
+<!-- PROOFREAD: 1791 part1 p01 — handwritten diagram page, best reading; re-check -->
+<ul class="dash">
+<li>يميز بين الامر الشرطي والامر القطعي
+  <ul class="dash">
+  <li>الامر الشرطي : يكون الفعل مشروطا مرتبطا بالنتيجة مثلا لا اسرق
+    <ul class="dash">
+    <li>حرام — أسرق</li>
+    <li>اخاف العقاب — أسرق</li>
+    <li>لا احتاج — أسرق</li>
+    </ul>
+    تتغير الفعل بتغير النتيجة
+  </li>
+  <li>الامر القطعي : يطلب لذاته لا أسرق لا أريد ان أسرق الامر القطعي هو الاخلاقي</li>
+  </ul>
+</li>
+<li>3 قواعد
+  <ul class="dash">
+  <li>قابلية الفعل للتعميم</li>
+  <li>الانسان غاية لا وسيلة .</li>
+  <li>الارادة الطيبة والنية الخيرة</li>
+  </ul>
+</li>
+</ul>
+<p class="para">← أخلاق مطلقة كونية اساسها العقل .</p>
+<p class="para">تعلمنا الكانطية كيف نكون متخلقين لكنها لا تعلمنا كيف نكون سعداء .</p>
+<p class="subhead t-red">III السعادة <u>والرفاه</u></p>
+<p class="para">بودريار رغد العيش الاستهلاك .</p>
+<p class="para">الحضارة المعاصرة ربطت السعادة</p>
+<!-- file: 20260505_110106 -->
+
+
+<!-- PROOFREAD: 1792 part1 p01 — handwritten diagram page, best reading; re-check -->
+<p class="para">بالاستهلاك = بقدر ما استهلك بقدر ما أكون سعيدا</p>
+<p class="para">سعادة قابلة للقيس معروضة أمام الجميع</p>
+<p class="para">رؤية نقدية</p>
+<p class="subhead t-red">IV السعادة <u>وهم</u></p>
+<p class="para">الانسان كائن ألم</p>
+<p class="para">بائنة الالم</p>
+<!-- PROOFREAD: 1792 part1 p01 — "بائنة الالم" (first word doubtful: بائنة / مباينة / منابع) -->
+<ul class="dash">
+<li>من جسده : مرض / شيخوخة / موت</li>
+<li>جهازه النفسي</li>
+<li>الطبيعة</li>
+</ul>
+<p class="para">لا أمل في السعادة</p>
+<p class="para">N.B &nbsp; هل يعني هذا اليأس من السعادة ؟</p>
+<p class="para">اليأس من السعادة هو يأس من الحياة ومن الانسان لذلك لا بد من الوعي أنه لا سعادة مطلقة لا شقاء مطلق والانسان خالق سعادته</p>
+<!-- file: 20260505_110113 -->
+
+
+<p class="subhead t-red">القيم بين <u>النسبي</u> و<u>المطلق</u></p>
+<ul class="dash">
+<li>التغير</li>
+<li>الثبات</li>
+</ul>
+<ul class="dash">
+<li>مبحث آكسيولوجي<br>(القيم)<br>تحيل على مجال<br><u>الممارسة</u><br>تجربة الانسان<br>العملية</li>
+<li>ما يقبل<br>التثمين</li>
+</ul>
+<!-- PROOFREAD: 1793 part1 p01 — "مبحث آكسيولوجي" -->
+<p class="para">المشكل : هل القيم مطلقة<br>ثابتة أم هي نسبية<br>متغيرة ؟</p>
+<ul class="dash">
+<li>الدولة :<br>السيادة<br>والمواطنة
+  <ul class="dash"><li>ممارسة سياسية<br>تنتج عنها آثار<br>قيمية هي السيادة<br>والمواطنة
+    <ul class="dash"><li>قيمة</li><li>قيمة</li></ul></li></ul>
+</li>
+<li>الاخلاق :<br>الخير<br>والسعادة
+  <ul class="dash"><li>التزام عملي<br>بالواجب<br>تنتج عنه آثار<br>قيمية هي الخير<br>والسعادة
+    <ul class="dash"><li>قيمة</li><li>قيمة</li></ul></li></ul>
+</li>
+</ul>
+<!-- PROOFREAD: 1793 part1 p01 — "التزام عملي" -->
+<p class="subhead t-navy">الدولة : السيادة والمواطنة</p>
+<!-- NOTE: the "و" before المواطنة is circled on the page -->
+<p class="para">العلاقة</p>
+<ul class="dash">
+<li>تعارض</li>
+<li>توافق</li>
+</ul>
+<!-- file: 20260505_110117 -->
+
+
+<!-- PROOFREAD: 1794 part1 p01 — handwritten diagram page, best reading; re-check -->
+<!-- NOTE: a branch crossed out by the writer ("حضور المواطنة وغياب السيادة") is left out -->
+<table>
+<tr><th>تعارض</th><th>توافق</th></tr>
+<tr><td>! تحديد دلالة التعارض<br>• يفيد التعارض حضور طرف وغياب آخر .<br><u>أو</u> يفيد التعارض التقابل بين طرفين متنافرين الانتصار لاحدهما يقود بالضرورة الى استبعاد الآخر .</td><td>?</td></tr>
+<tr><td>حضور السيادة وغياب المواطنة<br>نظام حكم استبدادي<br>دولة العنف<br><b>حق القوة</b><br>سيادة القوة<br>سيادة العنف</td><td>حضور السيادة وتحقق المواطنة<br>نظام حكم ديمقراطي<br><b>قوة الحق</b><br>سيادة الحق<br>دولة الحق القانون</td></tr>
+</table>
+<p class="para"><u>الدولة</u> = تنظيم سياسي ......</p>
+<p class="para"><u>السيادة</u> : سلطة الدولة العليا ......</p>
+<p class="para"><u>المواطنة</u> صفة فرد في دولة ......</p>
+<p class="subhead t-red">II أسس السيادة</p>
+<p class="para">① في التعارض بين السيادة والمواطنة حق القوة</p>
+<p class="para">② في التوافق بين السيادة والمواطنة قوة الحق</p>
+<p class="para">③ حدود الديمقراطية</p>
+<p class="para">④ السيادة الوطنية والمواطنة العالمية</p>
+<!-- file: 20260505_110122 -->
+
+
+<!-- NOTE: a branch crossed out by the writer ("(الاستبداد)") is left out -->
+<p class="subhead t-navy">هل تضمن دولة القانون حق المواطنة ؟</p>
+<ul class="dash">
+<li>تضمن<br>دولة<br>القانون<br>حق<br>المواطنة<br>(الديمقراطية)</li>
+<li>لا تضمن<br>دولة القانون<br>حق المواطنة (حدود الديمقراطية)</li>
+</ul>
+<p class="para">دولة القانون = دولة ديمقراطية</p>
+<p class="subhead t-navy">هل تقتضي الطاعة ضرورة الحد من المواطنة ؟</p>
+<ul class="dash">
+<li>تقتضي<br>الطاعة<br>ضرورة الحد<br>من<br>المواطنة<br>استبداد<br>الطاعة<br>=<br>خضوع</li>
+<li>لا تقتضي<br>الطاعة الحد<br>.....<br>الطاعة<br>التزام<br>بالقانون<br>=<br>التزام بالقانون .</li>
+</ul>
+<p class="subhead t-navy">هل الاحتكام الى سلطة القانون ما يضمن العدالة ؟</p>
+<ul class="dash">
+<li>في الاحتكام<br>...<br>ضمان العدالة (الديمقراطية)</li>
+<li>الاحتكام .....<br>تهديد ___<br>(حدود ___)</li>
+</ul>
+<!-- PROOFREAD: 1795 part1 p01 — "تهديد" -->
+<!-- file: 20260505_110126 -->
+
+
+<!-- PROOFREAD: 1796 part1 p01 — handwritten diagram page, best reading; re-check -->
+<p class="subhead t-red">I <u>في دلالة الدولة :</u></p>
+<p class="subhead t-navy">① <u>في التمييز بين الدولة والسلطة</u></p>
+<p class="para">يسود الاعتقاد أن الدولة هي السلطة والسلطة هي الدولة والنتيجة لا سلطة الا سلطة الدولة .</p>
+<p class="para"><u>فوكو</u> :</p>
+<ul class="dash">
+<li>أسس ممارسة منتشرة في كامل النسيج الاجتماعي</li>
+<li>نقد اعتبار السلطة تملكية ومركزية
+  <ul class="dash">
+  <li>فئة من تملكها ومن لا تملكها : الحاكم / المحكوم</li>
+  <li>تتركز بيد أجهزة ومؤسسات الدولة</li>
+  </ul>
+</li>
+</ul>
+<p class="para">الدولة ليست السلطة والسلطة ليست الدولة انما الدولة سلطة وهي سلطة في شكلها السياسي</p>
+<p class="para">الدولة = سلطة سياسية<br>نفوذ<br>هيبة</p>
+<p class="para">ذلك هو معنى السيادة</p>
+<p class="para">السيادة = سلطة الدولة العليا التي لا يعلو عليها شيء لا في الداخل ولا في الخارج</p>
+<!-- file: 20260505_110130 -->
+
+
+<!-- PROOFREAD: 1797 part1 p01 — handwritten diagram page, best reading; re-check -->
+<p class="subhead t-navy">② <u>في دلالة الدولة :</u></p>
+<p class="para">الدولة : تنظيم سياسي لمجموعة من الافراد .</p>
+<ul class="dash">
+<li>في الدولة يوجد النظام</li>
+<li>خارج الدولة توجد الفوضى</li>
+</ul>
+<p class="para">= لا نظام دون دولة</p>
+<p class="para">الدولة ضرورة يستوجبها الوجود الانساني</p>
+<p class="para">السؤال أي شكل دولة نؤسس له ؟</p>
+<ul class="dash">
+<li>دولة العنف حق القوة</li>
+<li>دولة القانون قوة الحق .</li>
+</ul>
+<p class="subhead t-red">II <u>أسس السيادة :</u></p>
+<p class="subhead t-navy">① <u>في التعارض بين السيادة والمواطنة .</u></p>
+<p class="para">يفيد التعارض حضور طرف وغياب آخر ومنا</p>
+<p class="para">وفي الحقل السياسي <u>تحضر</u> السيادة وتغيب المواطنة</p>
+<!-- PROOFREAD: 1797 part1 p01 — "ومنا" (short word at line end, doubtful) -->
+<!-- file: 20260505_110134 -->
+
+
+<p class="subhead t-navy">نظام حكم <u>استبدادي</u></p>
+<p class="para">الاستبداد : نظام حكم يقوم على تفرد الحاكم<br>بممارسة النفوذ</p>
+<p class="para">غياب المشاركة من طرف الافراد<br>في الحياة السياسية</p>
+<p class="para">غياب المراقبة والمحاسبة من طرف<br>الافراد للحاكم</p>
+<p class="para">الافتقاد لاساس قانوني !</p>
+<p class="para">حكم لمنطق الاهواء ≠ العقل<br>الانفعالات !</p>
+<p class="para">ممارسة <u>العنف</u> !<br>الافراط في استخدام القوة</p>
+<p class="para">مبدأ <u>الطغيان</u> حين تنتفي <u>سلطة القانون</u></p>
+<!-- NOTE: "مبدأ" and "تنتفي" are circled on the page -->
+<!-- PROOFREAD: 1798 part1 p01 — "تنتفي" -->
+<p class="para">استخلص من القول خصائص الحكم<br>الاستبدادي</p>
+<!-- PROOFREAD: 1798 part1 p01 — "من القول خصائص" -->
+<p class="para">افتقاد الاساس القانوني<br>غياب</p>
+<p class="para">ـ ممارسة العنف</p>
+<p class="para">سلطة الاهواء</p>
+<p class="subhead t-navy">المرجعيات <u>المدعمة</u></p>
+<p class="para">ماكيافللي</p>
+<p class="para">هوبس .</p>
+<!-- file: 20260505_110138 -->
+
+
+<p class="para"><u>ماكيافللي</u> = السلطة تؤخذ بالقوة ويحافظ<br>عليها بالعنف</p>
+<p class="para">على الامير أن يعمد الى كل الوسائل<br>للحفاظ على سيادته ، يكذب /<br>يراوغ / يعطي وعود ولا يحققها<br>يتظاهر بالتدين ... كل<br>الوسائل متاحة مادامت<br>الغاية تبرر الوسيلة</p>
+<p class="para">على الامير أن يتصف بمكر الثعلب<br>وقوة الاسد</p>
+<p class="para">سيادة + غياب المواطنة</p>
+<p class="para">هوبس : من فلاسفة العقد الاجتماعي</p>
+<p class="para">(هوبس / روسو / لوك / سبينوزا)</p>
+<p class="para"><u>ص 334</u></p>
+<p class="para">① افترضوا أن الانسان عاش حالة دون<br>دولة = حالة الطبيعة</p>
+<p class="para">فرضية عقلية<br>منطقية<br>لا تاريخية</p>
+<p class="para">الدولة <u>اصطناع</u> = نظرية الحق<br>الطبيعي</p>
+<!-- PROOFREAD: 1799 part1 p01 — "نظرية الحق الطبيعي" -->
+<ul class="dash">
+<li>≠<br>نظرية الحق<br>الالهي</li>
+<li>≠<br>نظرية الاصل<br>الطبيعي</li>
+</ul>
+<p class="para">ارسطو " الانسان مدني بطبعه "</p>
+<!-- file: 20260505_110142 -->
+
+
+<!-- PROOFREAD: 1800 part1 p01 — handwritten page, best reading; re-check -->
+<p class="subhead t-navy">حالة الطبيعة</p>
+<p class="para">حالة قبل مدنية / قبل سياسية يعيش فيها الانسان وفق قوانين طبيعته</p>
+<p class="para">⊙ استحال الاستمرار فيها</p>
+<p class="para">⊙ كان لا بد من تغيير الوضع وهو ما حصل بموجب <u>عقد</u></p>
+<p class="para">اتفاق بين مجموعة من الناس تم بموجبه الانتقال من حالة الطبيعة الى حالة الاجتماع</p>
+<p class="subhead t-navy"><u>هوبس</u> &nbsp; حالة الطبيعة</p>
+<p class="para">" الانسان شرير بطبعه "</p>
+<p class="para">" الانسان ذئب للانسان "</p>
+<p class="para">فوضى / عنف / حرب</p>
+<p class="para">خطر ← انسان آخر</p>
+<p class="para"><u>عقد</u> تنازل عن الحقوق الطبيعية (الحرية / العنف) لفائدة سيد أعلى / صاحب <u>السيادة / التنين</u> <span dir="ltr">Leviathan</span> اللوفياتون</p>
+<p class="para">حيوان خرافي رمز الرهبة والخوف والعنف</p>
+<!-- file: 20260505_110150 -->
+
+
+<p class="para">سيادة + غياب المواطنة</p>
+<p class="para"><u>التحليل</u> : مخاطر <u>الاستبداد</u></p>
+<!-- PROOFREAD: 1801 part1 p01 — "التحليل" -->
+<p class="para">تهديد الحرية<br>انتفاء المواطنة<br>!!! تكريس <u>الاغتراب السياسي</u></p>
+<p class="para">وضعية الفرد في حكم استبدادي<br>يكون فاقدا لحقوقه وحريته</p>
+<p class="para">بول <u>ريكور</u> مرض السلطة<br>داء</p>
+<p class="para">مرد السؤال ؟</p>
+<ul class="dash">
+<li>الحاكم = نفوذه المطلق</li>
+<li>المحكوم = خوفه<br>جهله</li>
+</ul>
+<p class="para">" يتواطأ عنف الواحد وجبن الجميع في صورة<br>فاسدة تشكل المستبد ونظيره المهان "</p>
+<p class="para">الحل : <u>الثورة</u> / <u>المقاومة</u></p>
+<p class="subhead t-navy"><u>② في التوافق بين السيادة والمواطنة</u></p>
+<p class="para">نظام حكم ديمقراطي</p>
+<!-- file: 20260505_110157 -->
+
+
+<p class="para"><u>تذكير</u> : ( السيادة —<br>الدولة —<br>المواطنة</p>
+<p class="para">المشكل العلاقة</p>
+<ul class="dash">
+<li><u>تعارض</u><br>حضور السيادة<br>وغياب المواطنة</li>
+<li><u>توافق</u><br>حضور السيادة وتحقق<br>المواطنة</li>
+</ul>
+<p class="subhead t-navy"><u>① في التعارض بين السيادة والمواطنة</u></p>
+<p class="para">+ تعريف التعارض</p>
+<p class="para">+ في الحقل السياسي تحضر السيادة<br>وتغيب المواطنة</p>
+<p class="para">+ حكم استبدادي<br>تعريفه</p>
+<p class="para">+ خصائصه .</p>
+<p class="para">! افتقاد لاساس قانوني</p>
+<p class="para">! حكم بمنطق الاهواء ≠ العقل</p>
+<p class="para">! ممارسة العنف</p>
+<p class="subhead t-navy"><u>المرجعية</u></p>
+<p class="para"><u>هوبس</u></p>
+<p class="para">- الانسان شرير .</p>
+<p class="para">- حالة الطبيعة : فوضى ...</p>
+<p class="para">خطر ← الانسان الآخر .</p>
+<p class="para">" لو لم يجبر الجنس البشري على صنع<br>حياة لأصابه الهلاك "</p>
+<!-- PROOFREAD: 1802 part1 p01 — "على صنع" -->
+<!-- file: 20260505_110201 -->
+
+
+<!-- PROOFREAD: 1803 part1 p01 — handwritten diagram page, best reading; re-check -->
+<p class="para">تنازل بموجب عقد</p>
+<p class="para">تنازل لفائدة السيد الاعلى التنين .</p>
+<p class="para">بيع حرية طبيعية لاشترى الامن والسلم .</p>
+<p class="para">ذوبان الكل في الواحد</p>
+<table>
+<tr><th>العنف الطبيعي</th><th>العنف المدني</th></tr>
+<tr><td>فوضى</td><td>النظام<br>السلم .</td></tr>
+</table>
+<p class="para">حالما يوجد سيد (لا) وجود بعد <u>لشعب</u> يتصف بالسيادة .</p>
+<p class="para">ماهي الضمنية ؟</p>
+<p class="para"><u>حضور سيد ينفي سيادة شعب</u></p>
+<p class="para">نظام الحكم الاستبدادي</p>
+<p class="para">قمع الحقوق / نفي الحريات</p>
+<p class="para">تهديد للمواطنة</p>
+<p class="para">تنتفي سيادة الشعب لممارسة الحاكم للعنف .</p>
+<p class="subhead t-navy">هل تقتضي الطاعة ضرورة الى الحد من المواطنة ؟</p>
+<ul class="dash">
+<li>تقتضي الطاعة الى الحد من المواطنة الاستبداد .</li>
+<li>لا تقتضي الطاعة ... الطاعة شرط تحقق للمواطنة الديمقراطية .</li>
+</ul>
+<!-- file: 20260505_110206 -->
+
+
+<p class="subhead t-navy">- <u>مخاطر الاستبداد</u></p>
+<ul class="dash">
+  <li>سلب الحرية</li>
+  <li>انتفاء المواطنة</li>
+  <li>تكريس <u>الاغتراب السياسي</u> .</li>
+</ul>
+<p class="para">الثورة ——— وخضوع الفرد في حكم استبدادي يكون<br>فاقدا لحقوقه وحريته ———</p>
+<!-- PROOFREAD: 1804 part1 p01 — "وخضوع" / "استبدادي" -->
+<p class="subhead t-navy">② <u>في التوافق</u> :</p>
+<p class="para">حضور السيادة وتحقق المواطنة<br><u>نظام حكم ديمقراطي</u></p>
+<p class="para">تكون السيادة ——— <u>حكم</u> الاغلبية<br>قانونية = <u>دولة القانون</u></p>
+<ul class="dash">
+  <li>قاعدة ملزمة<br>تخضع السيادة للتنظيم<br>العلاقات بين الافراد داخل<br>مجتمع ما .</li>
+  <li>القانون : صادر عن<br><u>إرادة عامة</u><br>وما يصدر عن الإرادة<br>عامة يتوافق مع الارادة الخاصة<br>= <u>تتحقق المواطنة</u></li>
+</ul>
+<p class="para">المواطنة صفة فرد في دولة</p>
+<!-- file: 20260505_110211 -->
+
+
+<p class="para">له حقوق وعليه واجبات<br>يشارك بفاعلية في الحياة .<br>السياسية</p>
+<p class="para">=&gt; طاعة القانون حرية وليست<br>عبودية .</p>
+<ul class="dash">
+  <li>لا – 24</li>
+  <li>نعم – 26</li>
+  <li>50</li>
+  <li>طاعة القانون<br>طاعة الارادة<br><u>العامة</u></li>
+  <li>قاعدة<br>الاغلبية</li>
+</ul>
+<!-- PROOFREAD: 1805 part1 p01 — "hand-drawn diagram; labels only: لا – 24 / نعم – 26 / 50" -->
+<p class="para">" <span style="border:1px solid">طاعة</span> القانون <u>حرية</u> .</p>
+<p class="para">حجة تدعم القول .<br>أطيع القانون فاضمن حريتي<br>ما دليلك ؟</p>
+<!-- PROOFREAD: 1805 part1 p01 — "فاضمن" -->
+<p class="para">_ طاعة القانون <u>حرية</u> لأن في طاعة القانون<br>طاعة للارادة العامة التي تتوافق<br>مع الارادة الخاصة فتضمن الحرية .</p>
+<p class="para">_ طاعة ... <u>حرية</u> بدليل أن انتفاء<br>القانون ——— تكريس للفوضى أو ان<br><u>تهدد الحرية</u><br>يؤدي الى الاستبداد فتهدد<br>الحرية .</p>
+<!-- PROOFREAD: 1805 part1 p01 — "تكريس للفوضى أو ان" (end of line at page edge) -->
+<!-- file: 20260505_110215 -->
+
+
+<p class="para">ما الذي نعنيه بأن <u>المقاومة</u> والطاعة فضيلتا<br><u>المواطن</u> ؟</p>
+<ul class="dash">
+  <li>مقاومة<br>للاستبداد</li>
+  <li>طاعة<br>القانون</li>
+</ul>
+<p class="para">نعني بهذا القول أن المواطن مؤمن يقاوم<br>الاستبداد لكونه تهديد للحرية وهو<br>ايضا يطيع القانون لأن طاعة القانون<br>حرية وليست عبودية .</p>
+<!-- PROOFREAD: 1806 part1 p01 — "مؤمن" -->
+<p class="para">الدولة الديمقراطية هي دولة <u>عادلة</u></p>
+<p class="para">اعطاء كل ذي حق<br>حقه<br>وفق القانون<br>= الانصاف ،</p>
+<p class="subhead t-navy"><u>المرجعيات المدعمة</u></p>
+<ul class="dash">
+  <li>روسو</li>
+  <li>سبينوزا</li>
+</ul>
+<p class="para"><u>روسو</u> : حالة الطبيعة<br>" الانسان خير بطبعه "<br>" حر بطبعه "<br>يعيش وحيدا سعيدا .</p>
+<!-- PROOFREAD: 1806 part1 p01 — "حر بطبعه" -->
+<!-- file: 20260505_110220 -->
+
+
+<!-- NOTE: entirely handwritten notebook page (page number 16); printed sheets visible behind the notebook are not part of this page -->
+<p class="para">ظهرت متغيرات = العجز عن مواجهة الطبيعة<br>بشكل فردي</p>
+<table>
+<tr><th>هوبز</th><th>روسو .</th></tr>
+<tr><td>الإنسان شرير بطبعه<br>خطر ← البقاء<br>أمن<br>تنازلت لفائدة<br>سيد أعلى<br>لبعت حريتي لاشتري<br>الأمن والسلم<br>ذ وبات الكل في الواحد<br>ضمان البقاء لا حسن<br>البقاء</td><td>الإنسان خير<br>خطر ← الطبيعة<br>تنازلت للإرادة العامة<br>ويمثلها القانون<br>لبعت حريتي <u>الطبيعية</u><br>لاشتري حرية مدنية<br><u>يضمنها</u><br>القانون .</td></tr>
+</table>
+<!-- PROOFREAD: 1807 part1 p01 — "ذ وبات الكل في الواحد" / "لبعت" -->
+<p class="para"><u>نتيجة</u> : الاغتراب<br>السياسي .</p>
+<p class="para">عقد تنازل للإرادة العامة وتمثلها القانون</p>
+<p class="para"><u>المعضلة السياسية</u> : كيف أتنازل عن حريتي<br>وأبقى مع ذلك حرا ؟ "<br>(المشكل)</p>
+<p class="para">← من منح نفسه للمجموعة كلها فإنه لم يمنح نفسه لأحد</p>
+<!-- file: 20260505_110225 -->
+
+
+<p class="para">" المواطن يطيع لكنه لا يخضع ".</p>
+<p class="subhead t-navy">( رهان )</p>
+<ul class="dash">
+  <li>تحرر من الاستبداد<br>باعتباره قمع<br>للحقوق والحريات =</li>
+  <li><u>تحرر</u> من الاغتراب السياسي .</li>
+  <li>تأسيس لنظام<br>ديمقراطي حامي<br>للحقوق .</li>
+</ul>
+<p class="para"><u>سبينوزا</u> : حالة الطبيعة<br>للناس حقوق طبيعية وفقها<br>تتصرف</p>
+<!-- PROOFREAD: 1808 part1 p01 — "تتصرف" -->
+<p class="para">الاسماك ——— تعيش في الماء<br>يأكل كبيرها صغيرها .</p>
+<p class="para">فكانت الاسماك تعيش في الماء<br>وتأكل كبيرها صغيرها بموجب<br>الحق الطبيعي</p>
+<p class="para">يفيد<br>القوة</p>
+<!-- PROOFREAD: 1808 part1 p01 — "left margin note: يفيد / القوة" -->
+<p class="para">=&gt; قانون الغاب<br>=&gt; الدولة = التحقق الفعلي للحرية</p>
+<!-- PROOFREAD: 1808 part1 p01 — "قانون الغاب" -->
+<p class="para">طاعة الدولة ضمان للحرية</p>
+<p class="para">العبد = يخضع للسيد خدمة لمصلحة سيده<br>المواطن = يطيع الدولة خدمة للمصلحة العامة التي<br>هي المصلحة الخاصة</p>
+<!-- file: 20260505_110229 -->
+
+
+<p class="para">هل تضمن دولة القانون حق المواطنة ؟</p>
+<ul class="dash">
+  <li>تضمن<br>- - - -<br>الديمقراطية</li>
+  <li>نقد دولة<br>القانون</li>
+</ul>
+<p class="subhead t-navy">③ <u>حدود الديمقراطية</u> :</p>
+<p class="para">- الديمقراطية = <u>حكم الاغلبية</u><br>انتهاك لحقوق الاقلية</p>
+<p class="para">- القانون لا يضمن العدالة دوما<br>=&gt; الدولة لا تضمن فرصا متكافئة<br>للجميع .</p>
+<!-- PROOFREAD: 1809 part1 p01 — "فرصا متكافئة" (last letters at page edge) -->
+<p class="para">- القانون يصبح أحيانا جائرا .</p>
+<p class="para">- القانون يخدم مصالح الطبقة المهيمنة<br><u>ماركس</u> لأن الدولة هي دولة الأقوى<br>( طبقات )</p>
+<p class="para">من يهيمن اقتصاديا<br>يهيمن سياسيا .</p>
+<!-- file: 20260505_110233 -->
+
+
+<p class="para">• المواطنة العالمية قائمة على أساس</p>
+<ul class="dash">
+  <li>كونية حقوق الانسان</li>
+  <li>اعتبار الارض وطن الجميع</li>
+  <li>حق الكونية</li>
+</ul>
+<!-- PROOFREAD: 1810 part1 p01 — "حق الكونية" -->
+<p class="para">⊛ المواطنة العالمية تهديد للمواطنة المحلية<br>ولسيادة <u>الدولة</u></p>
+<ul class="dash">
+  <li>اصبحت مجرد شعار</li>
+  <li>باسمها يقع التعدي على الحقوق والحريات</li>
+  <li>باسمها يقع التدخل في سياسات<br>بعضها البعض</li>
+  <li>تحولت الى مجرد شعار ,</li>
+</ul>
+<!-- NOTE: one crossed-out word before ممارسة left out -->
+<p class="para"><u>الحل</u> مراعاة حقوق<br>الانسان في أي<br>ممارسة<br>سياسية</p>
+<!-- file: 20260505_110237 -->
+
+
+<p class="subhead t-navy">④ <u>السيادة الوطنية والمواطنة العالمية</u> ،</p>
+<p class="para">المواطن هو فرد في دولة<br>له حقوق وعليه واجبات<br>يشارك بفاعلية في الحياة السياسية</p>
+<p class="para">=&gt; اقترن مفهوم المواطنة بالدولة وتحديدا<br>بدولة ديمقراطية</p>
+<p class="para">لكن = الواقع يشهد تغيرات</p>
+<ul class="dash">
+  <li>سهولة التنقل</li>
+  <li>ثورة الاتصالات</li>
+  <li>انفتاح الشعوب على بعضها</li>
+  <li>سطوة العولمة</li>
+</ul>
+<!-- PROOFREAD: 1811 part1 p01 — "سطوة العولمة" -->
+<p class="para">=&gt; ضرورة توسيع دائرة المواطنة المحلية<br>للحديث عن مواطنة عالمية</p>
+<p class="para">⊛ المواطنة العالمية امتداد للمواطنة المحلية<br>ولسيادة الدولة</p>
+<p class="para">المواطن العالمي = هو من يتمتع بحقوقه<br>بحكم أنه مواطن كوني .</p>
+
+</section>
+
+</div>
+</body>
+</html>

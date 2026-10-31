@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<title>Wael Academy — Philosophie · سؤال حول العلم والنمذجة</title>
+<script>
+  window.MathJax = {
+    tex: { inlineMath: [['\\(','\\)']], displayMath: [['\\[','\\]']] },
+    chtml: { fontURL: 'https://cdn.jsdelivr.net/npm/mathjax@3/es5/output/chtml/fonts/woff-v2', matchFontHeight: true },
+    startup: { typeset: true }
+  };
+</script>
+<script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js" async></script>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Sora:wght@400;500;600;700;800&family=Cairo:wght@400;500;600;700;800;900&family=Tajawal:wght@400;500;700;800&family=JetBrains+Mono:wght@400;500;600;700&display=swap');
+:root{
+  /* ===== Wael Academy palette — MAIN ACCENT = green-teal gradient #0FAB8F → #067360 ===== */
+  --bg:#fff; --panel:#f2f8f8; --hair:#e6e6e9; --hair2:#d6d6db;
+  --fg:#0f2a31;        /* body text (and +/− signs) */
+  --fg2:#3f5b62;       /* softer text */
+  --fg3:#7c959b;       /* muted (footer) */
+  --blue:#067360;      /* deep accent — small numbers, borders, watermark, accent equations */
+  --blue-dark:#045260; /* titles & wordmarks (also the balance colour) */
+  --teal:#0fab8f;      /* bright accent end */
+  --loop:#0d9c82;      /* logo-loop helper */
+  --orange:#067360;    /* kicker/category labels (gold retired → deep teal) */
+  --red:#f5322f;       /* EXERCISE CHIPS ONLY — never for emphasis */
+  --cream:#e6f3f4; --blue-soft:#e6f3f4;  /* pale teal — callout fill + table sub-row fill */
+  --blue-line:#cde7e4; /* hairline */
+  --sub-ink:#045260;   /* table sub-row text */
+  --grad:linear-gradient(148deg,#0fab8f 0%,#0d9c82 52%,#067360 100%);
+  --mono:'JetBrains Mono',monospace; --latin:'Sora',sans-serif; --ar:'Cairo',sans-serif; --arb:'Tajawal',sans-serif;
+}
+*{box-sizing:border-box;margin:0;padding:0;}
+body{font-family:var(--latin);color:var(--fg);background:#e4e4e7;padding:28px 0;
+     -webkit-print-color-adjust:exact;print-color-adjust:exact;}
+html[dir="rtl"] body{font-family:var(--arb);}
+
+/* ===== brand watermark: REAL text (crisp), full-bleed, repeats per page ===== */
+.wm{position:fixed;inset:0;z-index:0;pointer-events:none;display:flex;
+    align-items:center;justify-content:center;overflow:hidden;
+    -webkit-print-color-adjust:exact;print-color-adjust:exact;}
+.wm span{font-family:var(--mono);font-weight:800;font-size:76.8pt;letter-spacing:.16em;
+    color:var(--blue);opacity:.06;white-space:nowrap;transform:rotate(-54deg);}  /* single diagonal: bottom-left → top-right */
+.wm.mono span{color:#000;opacity:.05;}
+
+/* ===== continuous flow stream (no page border) ===== */
+.flow{width:210mm;margin:0 auto;background:transparent;color:var(--fg);
+      padding-block:16mm 18mm;padding-inline:23mm 14mm;position:relative;}   /* spiral gutter: inline-start(=spine) 23mm / outer 14mm — dir-aware; print margins set in render_flow.py */
+@media screen{ .flow{background:#fff;box-shadow:0 10px 40px rgba(0,0,0,.16);} }
+.flow>*{position:relative;z-index:1;}
+.flow p,.flow li,.flow .data,.flow .note,.flow .ex{break-inside:auto;}
+.flow .fig,.flow figure,.flow img,.flow svg.figsvg,.flow table,.flow tr,.flow .chapdiv,.flow .exh,.flow .qrcard,.flow .meta{break-inside:avoid;}
+.flow h1,.flow h2,.flow h3,.flow .exh,.flow .subhead,.flow .chapdiv{break-after:avoid;}
+.flow img,.flow svg.figsvg{max-width:100%;height:auto;}
+.flow figcaption,.flow .figcap{display:none;}          /* rule 3: no figure captions */
+
+/* ===== front matter + chapters each start on a fresh page ===== */
+.flow .cover{break-after:page;}        /* cover alone on page 1 */
+.flow .toc{break-after:page;}          /* Sommaire alone on the next page */
+.flow .chapter{break-before:page;}
+.flow .chapter:first-of-type{break-before:auto;}
+
+/* ===== cover ===== */
+.cover{padding:14mm 0 8mm;border-bottom:2px solid var(--blue);margin-bottom:6mm;}
+.cover .badge{font-family:var(--mono);font-size:8.5pt;letter-spacing:.28em;text-transform:uppercase;color:var(--orange);margin-bottom:10px;}
+.cover h1{font-family:var(--latin);font-weight:800;font-size:34pt;line-height:1.03;letter-spacing:-.025em;color:var(--blue-dark);}
+.cover .grule{width:120px;height:5px;border-radius:5px;background:var(--grad);margin:14px 0;}
+.cover .sub{font-family:var(--mono);font-size:10pt;letter-spacing:.14em;text-transform:uppercase;color:var(--teal);}
+.cover .auth{font-size:11pt;color:var(--fg2);margin-top:6px;font-weight:600;}
+
+/* ===== table of contents ===== */
+.toc{margin:2mm 0 4mm;}
+.toc h2{font-family:var(--latin);font-weight:800;font-size:15pt;color:var(--blue-dark);margin-bottom:4mm;}
+.toc .trititle{font-family:var(--mono);font-size:8pt;letter-spacing:.2em;text-transform:uppercase;color:var(--orange);margin:4mm 0 2mm;}
+.toc ol{list-style:none;}
+.toc li{display:flex;align-items:baseline;gap:8px;font-size:10pt;padding:2.2px 0;color:var(--fg);line-height:1.4;}
+.toc li .n{font-family:var(--mono);font-weight:700;font-size:9pt;color:var(--blue);min-width:26px;}
+.toc li .dots{flex:1;border-bottom:1px dotted var(--hair2);transform:translateY(-3px);}
+
+/* ===== chapter divider band ===== */
+.chapdiv{margin:0 0 5mm;padding:6mm 16px 5mm;border-radius:12px;background:var(--grad);
+    -webkit-print-color-adjust:exact;print-color-adjust:exact;}   /* green-filled chapter band */
+.chapdiv .cn{font-family:var(--mono);font-size:8.5pt;font-weight:700;letter-spacing:.24em;text-transform:uppercase;color:rgba(255,255,255,.82);margin-bottom:5px;}
+.chapdiv h2{font-family:var(--latin);font-weight:800;font-size:17pt;line-height:1.1;letter-spacing:-.015em;color:#fff;}
+/* conclusion block — same green-filled look as the chapter band */
+.conclusion{background:var(--grad);border-radius:12px;padding:6mm 16px;margin:5mm 0;color:#fff;break-inside:avoid;
+    -webkit-print-color-adjust:exact;print-color-adjust:exact;}
+.conclusion .ck{font-family:var(--mono);font-size:8.5pt;font-weight:700;letter-spacing:.24em;text-transform:uppercase;color:rgba(255,255,255,.82);margin-bottom:6px;}
+.conclusion h3{font-family:var(--latin);font-weight:800;font-size:13pt;line-height:1.2;color:#fff;margin-bottom:4px;}
+.conclusion p,.conclusion li{font-size:10.4pt;line-height:1.7;color:#fff;}
+.conclusion b,.conclusion strong{color:#fff;font-weight:700;}
+
+/* ===== unit header (lesson/exercise) + QR emplacement ===== */
+.exh{display:flex;align-items:center;gap:11px;margin:6mm 0 3mm;}
+.exh .idx{font-family:var(--mono);font-size:9pt;font-weight:600;color:#fff;background:var(--grad);
+    border-radius:6px;padding:4px 11px;letter-spacing:.08em;text-transform:uppercase;
+    -webkit-print-color-adjust:exact;print-color-adjust:exact;}
+.exh .idx.ex{background:var(--red);}   /* exercise chip = red */
+.exh h2{font-family:var(--latin);font-size:14pt;font-weight:700;letter-spacing:-.01em;color:var(--blue-dark);}
+.exh .qrcard{margin-inline-start:auto;flex:0 0 auto;display:flex;flex-direction:column;align-items:center;gap:3px;width:26mm;}
+.qrcard .qrt{font-family:var(--mono);font-size:6.5pt;letter-spacing:.1em;text-transform:uppercase;color:var(--teal);text-align:center;}
+.qrcard .qrslot{width:24mm;height:24mm;padding:1.5mm;background:#fff;border:1px solid var(--blue-line);border-radius:8px;display:flex;align-items:center;justify-content:center;}
+.qrcard .qrslot img,.qrcard .qrslot svg{width:100%;height:100%;display:block;}
+
+/* sub-exercise label when one file holds several exercices */
+.exsub{font-family:var(--latin);font-weight:800;font-size:11.5pt;color:var(--blue-dark);margin:5mm 0 2.5mm;padding-bottom:3px;border-bottom:2px solid var(--blue-line);}
+
+/* ===== text blocks ===== */
+.lead{font-size:11pt;line-height:1.7;margin:2mm 0 3mm;color:var(--fg);}
+.para{font-size:10.6pt;line-height:1.7;margin:2mm 0 2.5mm;color:var(--fg);}
+.consigne{font-size:10.4pt;line-height:1.6;margin:1mm 0 2mm;color:var(--fg);font-style:italic;}
+.subhead{font-family:var(--latin);font-weight:800;font-size:12pt;letter-spacing:-.01em;color:var(--blue-dark);margin:5mm 0 2.5mm;}
+/* emphasis — green accent = .t-blue/.t-green ; balance = .t-navy ; red = SECONDARY accent (.t-red) on titles + a few words */
+.t-blue{color:var(--blue);font-weight:600;} .t-navy{color:var(--blue-dark);font-weight:700;}
+.t-red{color:var(--red);font-weight:600;} .t-green{color:var(--teal);font-weight:600;} .t-gold{color:var(--orange);font-weight:600;}
+.subhead.t-red{color:var(--red);font-weight:800;}   /* red Roman-numeral section title (I, II, …) — keeps subhead weight */
+/* highlighter marks — a soft colour wash behind a key word (agent picks green or red per what balances the page) */
+.hl-green,.hl-red{border-radius:3px;padding:.02em .24em;font-weight:600;box-decoration-break:clone;-webkit-box-decoration-break:clone;
+    -webkit-print-color-adjust:exact;print-color-adjust:exact;}
+.hl-green{background:rgba(15,171,143,.20);color:var(--blue-dark);}   /* green highlight */
+.hl-red{background:rgba(245,50,47,.13);color:#c0261f;}               /* red highlight  */
+
+.data{background:var(--blue-soft);border:1px solid var(--blue-line);border-inline-start:4px solid var(--blue);
+    border-radius:8px;padding:11px 16px;margin:3mm 0;font-size:10pt;line-height:1.65;color:var(--fg2);}
+.data b{color:var(--fg);font-weight:700;}
+.note{border:1px dashed var(--hair2);border-radius:9px;padding:11px 16px;margin:4mm 0;background:var(--panel);}
+.note .kicker{font-family:var(--mono);font-size:7.5pt;letter-spacing:.18em;color:var(--orange);display:block;margin-bottom:5px;}
+.note .nb{font-size:10pt;line-height:1.7;color:var(--fg2);} .note b{color:var(--fg);}
+.ex:not(.idx){background:var(--blue-soft);border:1px solid var(--blue-line);border-inline-start:3px solid var(--blue);
+    border-radius:7px;padding:7px 11px;font-size:9.6pt;line-height:1.6;color:var(--fg2);margin:2mm 0;}   /* :not(.idx) so it never hits the exercise chip (which is .idx.ex) */
+.ex .extag{display:inline-block;font-family:var(--latin);font-weight:800;font-size:7.6pt;color:var(--blue-dark);background:#fff;
+    border:1px solid var(--blue);border-radius:5px;padding:1px 9px;margin-inline-end:7px;vertical-align:middle;text-transform:uppercase;letter-spacing:.06em;}
+
+/* ===== lists ===== */
+ol.q{list-style:none;counter-reset:q;margin:1mm 0 2mm;}
+ol.q>li{counter-increment:q;position:relative;padding-inline-start:30px;margin-bottom:2.5mm;font-size:10.4pt;line-height:1.6;}
+ol.q>li::before{content:counter(q);position:absolute;inset-inline-start:0;top:1px;width:21px;height:21px;background:var(--grad);color:#fff;
+    border-radius:50%;font-family:var(--mono);font-size:9pt;font-weight:600;display:flex;align-items:center;justify-content:center;
+    -webkit-print-color-adjust:exact;print-color-adjust:exact;}
+ol.sub{list-style:none;counter-reset:s;margin:4px 0 0;padding-inline-start:2px;border-inline-start:1px solid var(--blue-line);}
+ol.sub li{counter-increment:s;position:relative;padding:2.5px 0 2.5px 26px;font-size:10.1pt;line-height:1.55;}
+ol.sub li::before{content:counter(s,lower-alpha)".";position:absolute;inset-inline-start:10px;top:2.5px;font-family:var(--mono);font-size:9pt;font-weight:600;color:var(--teal);}
+ol.qn{list-style:none;counter-reset:qn;margin:1mm 0 2mm;}
+ol.qn>li{counter-increment:qn;position:relative;padding-inline-start:26px;margin-bottom:2.2mm;font-size:10.4pt;line-height:1.55;}
+ol.qn>li::before{content:counter(qn)".";position:absolute;inset-inline-start:0;top:0;font-family:var(--mono);font-size:9.5pt;font-weight:700;color:var(--blue);}
+ul.b{list-style:none;margin:1mm 0 2mm;} ul.b>li{position:relative;padding-inline-start:22px;margin-bottom:2.4mm;font-size:10.4pt;line-height:1.6;}
+ul.b>li::before{content:"";position:absolute;inset-inline-start:3px;top:8px;width:8px;height:8px;border-radius:50%;background:var(--grad);
+    -webkit-print-color-adjust:exact;print-color-adjust:exact;}
+ul.dash{list-style:none;margin:1mm 0 2mm;} ul.dash>li{position:relative;padding-inline-start:20px;margin-bottom:1.8mm;font-size:10.4pt;line-height:1.6;}
+ul.dash>li::before{content:"–";position:absolute;inset-inline-start:2px;top:0;color:var(--fg);font-weight:700;}  /* dash / +/− signs = body colour */
+.flow ul.opts{list-style:none;margin:4px 0 3px;padding-inline-start:16px;}
+.flow ul.opts li{padding:2px 0;font-size:10.2pt;line-height:1.5;color:var(--fg);}
+
+/* ===== figures / tables ===== */
+.fig{margin:3mm 0;} .fig svg.figsvg{display:block;margin:0 auto;background:#fff;max-width:100%;height:auto;}
+.photo{display:block;margin:3mm auto;border-radius:8px;border:1px solid var(--hair);max-width:100%;}
+.figrow{display:flex;flex-wrap:wrap;gap:9px;justify-content:center;margin:3mm auto;max-width:190mm;}
+.flow .figrow img{border-radius:7px;border:1px solid var(--hair);height:46mm;width:auto;max-width:none;object-fit:cover;}
+.schemarow{display:flex;gap:16px;align-items:flex-start;flex-wrap:wrap;margin:2mm 0;}
+.schemarow .col-txt{flex:1 1 90mm;min-width:80mm;} .schemarow .col-fig{flex:0 0 78mm;} .schemarow .col-fig .fig{margin:0;}
+.flow table{border-collapse:collapse;width:100%;margin:3mm 0;font-size:9.8pt;line-height:1.5;}
+.flow table th,.flow table td{border:1px solid var(--blue-line);padding:6px 10px;text-align:start;vertical-align:top;}
+.flow table th{background:var(--grad);color:#fff;font-family:var(--latin);font-weight:700;font-size:9.4pt;
+    -webkit-print-color-adjust:exact;print-color-adjust:exact;}
+.flow table tr:nth-child(even) td{background:var(--blue-soft);color:var(--sub-ink);}   /* sub-row: #E6F3F4 / #045260 */
+
+mjx-container{color:var(--fg) !important;font-weight:400 !important;font-size:1.0em !important;}
+.eq-hi mjx-container,mjx-container.eq-hi{color:var(--blue) !important;}   /* accent (green) equation — highlight a key result; balance with plain math */
+.eq-red mjx-container,mjx-container.eq-red{color:var(--red) !important;}  /* red accent equation / symbol — complements the green .eq-hi */
+
+/* ===== per-file books: credit line, copies list, figures at their size ===== */
+.credit{display:flex;flex-wrap:wrap;align-items:center;gap:5px;margin:-1mm 0 3.5mm;font-size:9.4pt;color:var(--fg2);}
+.credit .who{font-weight:700;color:var(--blue-dark);}
+.credit .tg{font-family:var(--mono);font-size:7.2pt;letter-spacing:.04em;border-radius:5px;padding:1px 7px;line-height:1.6;
+    border:1px solid var(--blue-line);color:var(--blue);background:#fff;-webkit-print-color-adjust:exact;print-color-adjust:exact;}
+.credit .tg.sec{background:var(--blue-dark);border-color:var(--blue-dark);color:#fff;}
+.credit .tg.cor{background:#fff;border-color:var(--red);color:var(--red);}
+.credit a{color:var(--fg3);font-family:var(--mono);font-size:7pt;text-decoration:none;}
+.cover .auth .credit{margin:4mm 0 0;}
+.cover .copies{margin-top:5mm;font-size:8.6pt;color:var(--fg2);}
+.cover .copies ul{list-style:none;margin:2mm 0 0;padding:0;columns:2;}
+.cover .copies a{color:var(--fg3);text-decoration:none;font-size:8pt;}
+.flow figure.fig{text-align:center;}
+.flow figure.fig img{max-height:60mm;width:auto;max-width:70%;display:inline-block;}
+
+/* chapter tag on each part of a multi-chapter book (the book keeps the original order of the file) */
+.chtag{display:inline-block;margin:5mm 0 2mm;padding:1mm 3mm;border-radius:2mm;background:#eef3fb;border:1px solid #c9d6ea;
+  color:#1f3a6b;font-size:9pt;font-weight:700}
+.chtag span{color:#6b7f9e;font-weight:600;margin-inline-end:1.5mm}
+
+@media print{ body{background:#fff;padding:0;} .flow{width:auto;max-width:none;margin:0;padding:0;} }
+@page{size:A4;}   /* margins come from render_flow.py — do NOT set them here */
+</style>
+<meta data-pagefind-filter="type[content]" content="منهجية">
+<meta data-pagefind-filter="resource[content]" content="المصدر غير مذكور">
+<meta data-pagefind-meta="n[content]" content="1692">
+<meta data-pagefind-meta="title[content]" content="سؤال حول العلم والنمذجة">
+<meta data-pagefind-filter="chapter[content]" content="العلم بين الحقيقة والنمذجة">
+<meta data-pagefind-filter="section[content]" content="باكالوريا رياضيات"><style>.qrcard{display:none!important}.wa-nav{position:sticky;top:0;z-index:50;background:#045260;padding:10px 18px;font-family:Cairo,sans-serif;direction:rtl}.wa-nav a{color:#fff;text-decoration:none;font-weight:700}@media print{.wa-nav{display:none}}</style>
+</head>
+
+<body dir="rtl" lang="ar"
+      data-brand="Wael Academy" data-handle="@WaelAcademy"
+      data-tagline="في تُرابنا.. مغامرة بمغامرة"
+      data-phone="+216 50 40 40 42" data-site="waeldocuments.com"
+      data-cta="سجل معانا وأقرى عن بعد مع منصة Wael Academy"
+      data-subject="Philosophie · سؤال حول العلم والنمذجة" data-watermark="Wael Academy" data-pagefind-body><nav class="wa-nav" data-pagefind-ignore><a href="../index.html">→ الرجوع إلى فهرس الفلسفة</a></nav>
+
+<!-- single full-page diagonal watermark, bottom-left → top-right (repeats on every page) -->
+<div class="wm" aria-hidden="true"><span>WAEL&nbsp;ACADEMY</span></div>
+
+<div class="flow colored">
+<div class="cover"><div class="badge">◉ Wael Academy · Philosophie</div><h1>سؤال حول العلم والنمذجة</h1><div class="grule"></div><div class="sub">العلم بين الحقيقة والنمذجة</div><div class="auth"><div class="credit">المؤلّف / المصدر : <span class="who">المصدر غير مذكور في الوثيقة</span> <span class="tg sec">الفلسفة · باكالوريا رياضيات</span> <a href="https://drive.google.com/file/d/1wkNOhDdK3i4jNmF_QJWrdOBc1tSgkfL9/view">↗ سؤال حول العلم والنمذجة.pdf</a></div></div><div class="copies" data-pagefind-ignore><b>نسخ هذا الملف في الدرايفات (5)</b><ul><li><a href="https://drive.google.com/file/d/1wkNOhDdK3i4jNmF_QJWrdOBc1tSgkfL9/view">Iyed Hasnaoui · bac 2024 › Nouveau dossier / Philosphie / العلم والنمذجة</a></li><li><a href="https://drive.google.com/file/d/1Fnrz7D5PFXL-5772QFEM8el8iTshs28Y/view">Emna bac maths 2025 · Drive de Emna (Bac maths) › Philosphie / العلم والنمذجة</a></li><li><a href="https://drive.google.com/file/d/1D7mSNwPw1FjAdtThzF6vOnaqGn7VdDi1/view">Mohamed aziz saideni lycee Farhat Hached bizertebac 2026 · BAC MATH 2026 MOHAMED AZIZ SAIDENI › TOUT 2026 / Philosphie / العلم والنمذجة</a></li><li><a href="https://drive.google.com/file/d/1mXEH7me4QaLkZ0kTHLNP82cnDmSkUE71/view">chahredine thamri · Chahredine thamri › Chahredine Thamri / mes documents / philosophie / Philosphie / العلم والنمذجة</a></li><li><a href="https://drive.google.com/file/d/1ce6RtzzTZwAEengt-db2N2_HBsK9ykUU/view">Mohamed Ahmed Zahi · Bac Math Zahi 2024/2025 › Philo / العلم بين الحقيقة والنمذجة / + favoris pour moi</a></li></ul></div></div>
+<section class="chapter"><div class="chapdiv"><div class="cn">المحور</div><h2>العلم بين الحقيقة والنمذجة</h2></div>
+<div class="exh"><span class="idx">منهجية</span><h2>سؤال حول العلم بين الحقيقة والنمذجة</h2>
+  <div class="qrcard"><div class="qrt">فيديو الدرس</div><div class="qrslot"><img src="qr/1692.svg" alt="QR"></div></div></div>
+<div class="credit">المؤلّف / المصدر : <span class="who">المصدر غير مذكور في الوثيقة</span> <span class="tg sec">الفلسفة · باكالوريا رياضيات</span> <a href="https://drive.google.com/file/d/1wkNOhDdK3i4jNmF_QJWrdOBc1tSgkfL9/view">↗ سؤال حول العلم والنمذجة.pdf</a></div>
+<!-- NOTE: many words are printed in bold on the page; only headings and quotations are marked here (dense photocopy) -->
+<p class="subhead t-red"><u><b>هل يُمكننا مَعرفة الواقع الواحد بنماذج علميّة مُتعدّدة ؟</b></u></p>
+<p class="para">أصبح من اليقين لدى أغلب النّاس أنّ العلمَ هو الخطابُ الإنسانيّ الوحيدُ الذي ينفردُ بدقّة النماذج التي يبتكرُها وموضوعيّتها ممّا يجعلها واحدة وكونيّة بالنسبة إلى جميع النّاس، على عكس الأعمال الفنية أو العقائد الدينيّة أو القيم الأخلاقيّة. غير أنّ هذا اليقين سرعان ما يواجه معطى يهدّد بداهته يتمثّل في أنّ العلماء المعاصرين أصبحوا ينمذجون نفس الوضعيّات الواقعية بكيفيات متعدّدة ومختلفة . على منوال ما قدمه البير اينشتاين من نمذجة للجاذبية تفهمها بما هي انحناء للزمكان وليس بما هي قوّة كما نمذجها نيوتن . ومن شأن هذا الوضع أن يجعل من نمذجة العلوم للواقع ملتبسة مبررة التساؤل ' هل يُمكننا معرفة الواقع الواحد بنماذج علميّة متعدّدة ؟</p>
+<p class="para"><b>فعلى أيّ نحو يُمكنُ معرفة الواقع في وحدته علميًا ؟ هل أنّ وحدة الواقع تقتضي أن لا يكون من الممكن معرفته علميًا إلاّ بنموذج واحد يعبّر عن حقيقته بحيث يكون من التناقض أن تتعدّد النماذج لتحقيق ذلك الهدف أم أنّ الواقع هو من التركيب بحيث لا يكون من الممكن التوصّل إلى معرفته علميًا إلاّ من داخل مشاريع متعدّدة كلّ واحدٍ منها يسعى إلى نمذجته من منظور معيّن ؟</b></p>
+<p class="para">مثّلت معرفةُ الواقع مطلبا ملازمًا لوجود الإنسان في العالم. ولئن حاول الإنسان تحقيق ذلك المطلب بوسائط رمزيّة مختلفة مثل الأسطورة والسحر والدين والفلسفة، فإنّ نشأة العلم خلال العصر الحديث قد مثّل ثورة نوعيّة قطعت مع كلّ تلك الوسائط المذكورة تأسيسا لمشروع عقليّ جديد يهدف إلى إنتاج معرفة يُمكن التحقق من ملاءمتها للواقع بواسطة إجراءات منهجيّة دقيقة إيفاءً لانفرادها بالموضوعية والكونيّة. ولا يعني الواقع، في السياق العلميّ، كما بيّن ذلك غاستون باشلار الواقع الخبري المعطى كما تدركه الحواس بشكل مباشر، بل الواقع الموضوعيّ المبنيّ بشكل افتراضي بواسطة العقل. وهو ما عبّر عنه باشلار بقوله " <u>لا شيء يُعطى، كلّ شيء يُبنى</u>". إنّ الواقعَ الخبريّ المعطى معقّد وهدفُ العلم أن يكشفَ عن بنياته البسيطة ونظامه الموضوعيّ اللازمنيّ. لذلك أعلنَ غاليلي، منذ بدايات العلم، أنّ " <u>الكون كتاب كُتب بلغة رياضيّة</u>." وليس من الممكن أن يحقّق ذلك الهدف إلاّ بواسطة النمذجة من خلال ابتكار نماذج أي بنيات رمزيّة تمكّن من تمثّل الواقع بشكل نظريّ مبسّط يتيح تفسير نظامه بواسطة قوانين دقيقة ، وهذه البنيات يمكن التحقق من ملاءمتها للواقع بواسطة التجريب. فالنماذج، كما وصفها، جان لوي لوموانيو <u>هي أداة لإنتاج المعارف وعرضها</u>".</p>
+<!-- PROOFREAD: 1692 part1 p01 — "إيفاءً لانفرادها" (faint) -->
+<p class="para">وإذا كان الواقعُ واحدًا ببنياته ونظامه أي بالقوانين الكونيّة التي تنظّمه فإنّ معرفة كلّ نسق من أنساقه علميًا لا يُمكن أن تتحقّق إلاّ بنموذج واحد لا مكان فيه للتعدّد. ففي <u>المقام الأوّل</u>، لكلّ نسق من أنساق الواقع بنية من العلاقات البسيطة التي تتكرّر بشكل منظّم وحتميّ تعبيرا عن قانون طبيعيّ واحد لا يتغيّر أو يتحوّل، لذلك لا يُمكن التوصّل إلى معرفة ذلك القانون الذي يخـ ـول تفسيرًا موضوعيًا ودقيقا لتلك البنية الواقعيّة البسيطة من العلاقات إلاّ بنموذج واحد وهو ما يشهد عليه تاريخ النماذج العلميّة، إذ أنّ طفوَ الأجسام أو سقوطها الحر أو مدارات الكواكب حول الشمس أو الجاذبيّة ...كلّها ظواهر تم تفسيرها بواسطة نماذج واحدة : نموذج دفعة أرخميدس، نموذج غاليلي في تفسيرالسقوط الحرّ، نموذج كبلير، نموذج نيوتن.</p>
+<!-- PROOFREAD: 1692 part1 p01 — "يخـ ـول" (gap in print) -->
+<p class="para">أمّا في <u>المقام الثاني</u>، فإنّ التحقق من ملاءمة النموذج للواقع يعتمدُ التجربة العلميّة التي تحسمُ مسألة صلاحيته، فإمّا أن يتمّ إثباته ، أو تكذيبُه باتجاه تعديله أو التخلّي عنه بشكل تام. وفي هذا السياق قد تتعدّد النماذج كفرضيّات في محاولة تفسير الظاهرة ، ولكن التجربة ستكـ ـون الفيصل بينها، فلا تبقي منها إلاّ على النموذج الذي صمد أمام محاكمتها. لهذا كتبَ كلود برنار متحدثا عن دور التجربة العلمية " <u>يجب على المجرّب أن يُخضِعَ فكرته للطبيعة وأن يكونَ مستعدًا للتخلي عنها أو تعديلها أو تغييرها بحسب ما تشيرُ عليه ملاحظة الوقائع التي أحدثها بواسطة التجربة</u>".</p>
+<p class="para">( 31 )</p>
+<p class="para">وأخيرًا، فإنّ ما يُميّز المعرفة العلميّة هي وحدة حقائقها الكونيّة التي تجعلها تنفردُ بإجماع جميع النّاس حولها بعيدًا عن التنوّع والاختلاف، اللّذين يقترنان بالتصوّرات الجزئيّة والذاتيّة مثل العقائد المقدّسة أو القيم الأخلاقيّة والجماليّة. وإذا ما تمّ الاعتراف بإمكانية معرفة الواقع بواسطة نماذج علميّة متعدّدة فمن شأن ذلك أن يسلبَ العلم دقّته وموضوعيته وكونيّته جاعلاً منه مجرّد تخمينات جزئيّة تكون موضوع جدال ونزاع بين العلماء ، بحيث يصبح من المبرر الشكّ في قيمة العلم المعرفيّة ، مع ما قد يعنيه ذلك من تبعات خطرة على الحضارة المعاصرة التي بنت قدراتها على أساسه. لهذا لم يُبالغ كلود برنار لمّا كتب " <u>الفنّ هو أنا، العلمُ هو نحنُ</u>".</p>
+<p class="para">وخلاصة ما سبقَ أنّ المعرفةَ العلميّة بوحدة الواقع الموضوعيّ بنظامه وقوانينه لا يُمكن أن تتحقق إلاّ بنمذجة واحدة لا مكان فيها للتعدّد وللاختلاف تجسيمًا للوحدة الحقيقة الموضوعيّة والكونيّة في العلم. فإلى أيّ حدّ يكون من المشروع الإقرار بذلك ؟</p>
+<p class="para">إنّ ما هو إشكاليّ في كلّ الحجاج السابق هو حضورُ منطق الوحدة في فهم الواقع والنمذجة والحقيقة. <u>فأوّلا</u>، ليس من الممكن، في العلم المعاصر كما تشكّلت معالمه بعد الأزمات التي واجهته في بداية القرن العشرين، ومثلما بيّن ذلك ادغار موران، القبول بتعريف الواقع من حيث هو معقّد قابل للاختزال في البساطة والنظام، ذلك أنّ كلّ محاولة لاختزاله في بنيات بسيطة ونهائية تصطدم بالتركيب، وكلّ محاولة لردّه للنظام والحتميّة، إلاّ وواجهت اللانظام والمصادفة والاحتمال. فالذرّة، مثلا، ليست نهاية المادة، بل هي بجسيماتها وتفاعلاتها كونٌ مركّب للغاية، كما أنّه ليس من الممكن ردّها للنظام لأنّها مجال للاحتمالات التي لا يُمكن تقديم توقّعات دقيقة في شأنها. ومن هذا المنظور يصبح من التناقض الدفاع عن وحدة النموذج في العلوم باسم وحدة الواقع ونظامه.يكتب موران <u>إنّ الطبيعة لا تقبل التبسيط وتركيبها يتحدّى تمامًا ذهننا</u>".</p>
+<p class="para"><u>وثانيًا</u>، ليس من الوجيه، مثلما نبّه إلى ذلك جيرار فوريز، المطابقة بين النمذجة والحقيقة الموضوعيّة والكونيّة. فالنمذجة ليست إنشاء بنية رمزيّة تكون مطابقة للواقع ، بل هي مشروع يهدف إلى 'تنظيم الواقع من منظور ذلك المشروع وأهدافه قصد التمكّن من التأثير فيه. وبما أن المشاريع المعرفيّة مختلفة بحسب الأهداف التي تنشد تحقيقها، فإنّ نمذجة الواقع ستتم طبقا لبناء ينسجم مع منظور ذلك المشروع وأهدافه ، ممّا يحتم تعدّد النماذج في معرفة نفس الوضعيّة الواقعيّة، دون أن يعنيَ ذلك تناقضها أو المفاضلة بينها بحسب الصدق والخطأ. وقد تجلّى ذلك بوضوح مع نمذجة اينشتاين للجاذبيّة . فإذا كان نيوتن قد فسّرها من خلال نموذجه بما هي قوّة، فإنّ اينشتاين من داخل مشروعه المعرفيّ المختلف ،قد فسّرها من داخل نموذجه النسبيّ بما هي انحناء للزمكان. وكلا النموذجين صالحان علميًا دون أيّ تناقض. يكتب فوريز <u>يُمكن نمذجة نفس الوضعية الواقعيّة بكيفيات لا متناهية</u>".</p>
+<p class="para"><u>وأخيرًا</u>، ليس من الوجيه، مثلما بيّن ذلك كارل بوبر، اعتبار تعدّد النماذج في العلم مناقضا لمطلب الحقيقة ومصدر تهديد لقيمة العلم المعرفية ، بل ه و علامة فكر نقديّ خلاّق قادر على تحرير العلم من وثن اليقين وإكسابه القدرة على نقد ذاته إثراءً للمعرفة والانفتاح بها دائما على آفاق الممكن. فلا مكان في العلم للنموذج الواحد واليقيني والنهائي ، بل لنماذج متعدّدة وتقريبيّة ومؤقتة ، قابلة للتكذيب وللتجاوز . يكتب بوبر "<u>تظلّ كلّ النظريات بحسب طبيعتها نفسه ا. مؤقتة وتخمينية وافتراضية</u>".</p>
+<!-- PROOFREAD: 1692 part1 p01 — "ه و" / "نفسه ا." (broken print) -->
+<p class="para">وباختصار، فإنّ معرفة الواقع من حولنا لا يُمكن أن تتحقق في العلوم المعاصرة إلاّ بواسطة نماذج متعدّدة، دون أن يعبّر ذلك عن تناقض أو يبرّر الشكّ في حقيقتها، من حيث أنّ كلّ نموذج منها يعبّر عن مشروع معرفيّ خصوصيّ يبني النسقَ الواقعيّ من منظوره مقدّمًا فـ ـي شأنه تنظيمًا معيّنا يتيح معرفته على نحو تقريبيّ ومؤقت والتأثير فيه بشكل ناجع. ومن شأن هذا الموقف أن يحرّر الفكر العلميّ من دوغمائيّة اليقين فلا يرى في التعدّد عيبًا يهدّد العلم بل مزية تكسبه روح النقد والإبداع من أجل إثراء المعرفة الإنسانيّة بالواقع المركّب باتجاه الحقيقة اللامتناهية.</p>
+<p class="para">( 32 )</p>
+
+</section>
+
+</div>
+</body>
+</html>

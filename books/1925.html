@@ -1,0 +1,365 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<title>Wael Academy — Philosophie · numérisé_20260717-1326</title>
+<script>
+  window.MathJax = {
+    tex: { inlineMath: [['\\(','\\)']], displayMath: [['\\[','\\]']] },
+    chtml: { fontURL: 'https://cdn.jsdelivr.net/npm/mathjax@3/es5/output/chtml/fonts/woff-v2', matchFontHeight: true },
+    startup: { typeset: true }
+  };
+</script>
+<script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js" async></script>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Sora:wght@400;500;600;700;800&family=Cairo:wght@400;500;600;700;800;900&family=Tajawal:wght@400;500;700;800&family=JetBrains+Mono:wght@400;500;600;700&display=swap');
+:root{
+  /* ===== Wael Academy palette — MAIN ACCENT = green-teal gradient #0FAB8F → #067360 ===== */
+  --bg:#fff; --panel:#f2f8f8; --hair:#e6e6e9; --hair2:#d6d6db;
+  --fg:#0f2a31;        /* body text (and +/− signs) */
+  --fg2:#3f5b62;       /* softer text */
+  --fg3:#7c959b;       /* muted (footer) */
+  --blue:#067360;      /* deep accent — small numbers, borders, watermark, accent equations */
+  --blue-dark:#045260; /* titles & wordmarks (also the balance colour) */
+  --teal:#0fab8f;      /* bright accent end */
+  --loop:#0d9c82;      /* logo-loop helper */
+  --orange:#067360;    /* kicker/category labels (gold retired → deep teal) */
+  --red:#f5322f;       /* EXERCISE CHIPS ONLY — never for emphasis */
+  --cream:#e6f3f4; --blue-soft:#e6f3f4;  /* pale teal — callout fill + table sub-row fill */
+  --blue-line:#cde7e4; /* hairline */
+  --sub-ink:#045260;   /* table sub-row text */
+  --grad:linear-gradient(148deg,#0fab8f 0%,#0d9c82 52%,#067360 100%);
+  --mono:'JetBrains Mono',monospace; --latin:'Sora',sans-serif; --ar:'Cairo',sans-serif; --arb:'Tajawal',sans-serif;
+}
+*{box-sizing:border-box;margin:0;padding:0;}
+body{font-family:var(--latin);color:var(--fg);background:#e4e4e7;padding:28px 0;
+     -webkit-print-color-adjust:exact;print-color-adjust:exact;}
+html[dir="rtl"] body{font-family:var(--arb);}
+
+/* ===== brand watermark: REAL text (crisp), full-bleed, repeats per page ===== */
+.wm{position:fixed;inset:0;z-index:0;pointer-events:none;display:flex;
+    align-items:center;justify-content:center;overflow:hidden;
+    -webkit-print-color-adjust:exact;print-color-adjust:exact;}
+.wm span{font-family:var(--mono);font-weight:800;font-size:76.8pt;letter-spacing:.16em;
+    color:var(--blue);opacity:.06;white-space:nowrap;transform:rotate(-54deg);}  /* single diagonal: bottom-left → top-right */
+.wm.mono span{color:#000;opacity:.05;}
+
+/* ===== continuous flow stream (no page border) ===== */
+.flow{width:210mm;margin:0 auto;background:transparent;color:var(--fg);
+      padding-block:16mm 18mm;padding-inline:23mm 14mm;position:relative;}   /* spiral gutter: inline-start(=spine) 23mm / outer 14mm — dir-aware; print margins set in render_flow.py */
+@media screen{ .flow{background:#fff;box-shadow:0 10px 40px rgba(0,0,0,.16);} }
+.flow>*{position:relative;z-index:1;}
+.flow p,.flow li,.flow .data,.flow .note,.flow .ex{break-inside:auto;}
+.flow .fig,.flow figure,.flow img,.flow svg.figsvg,.flow table,.flow tr,.flow .chapdiv,.flow .exh,.flow .qrcard,.flow .meta{break-inside:avoid;}
+.flow h1,.flow h2,.flow h3,.flow .exh,.flow .subhead,.flow .chapdiv{break-after:avoid;}
+.flow img,.flow svg.figsvg{max-width:100%;height:auto;}
+.flow figcaption,.flow .figcap{display:none;}          /* rule 3: no figure captions */
+
+/* ===== front matter + chapters each start on a fresh page ===== */
+.flow .cover{break-after:page;}        /* cover alone on page 1 */
+.flow .toc{break-after:page;}          /* Sommaire alone on the next page */
+.flow .chapter{break-before:page;}
+.flow .chapter:first-of-type{break-before:auto;}
+
+/* ===== cover ===== */
+.cover{padding:14mm 0 8mm;border-bottom:2px solid var(--blue);margin-bottom:6mm;}
+.cover .badge{font-family:var(--mono);font-size:8.5pt;letter-spacing:.28em;text-transform:uppercase;color:var(--orange);margin-bottom:10px;}
+.cover h1{font-family:var(--latin);font-weight:800;font-size:34pt;line-height:1.03;letter-spacing:-.025em;color:var(--blue-dark);}
+.cover .grule{width:120px;height:5px;border-radius:5px;background:var(--grad);margin:14px 0;}
+.cover .sub{font-family:var(--mono);font-size:10pt;letter-spacing:.14em;text-transform:uppercase;color:var(--teal);}
+.cover .auth{font-size:11pt;color:var(--fg2);margin-top:6px;font-weight:600;}
+
+/* ===== table of contents ===== */
+.toc{margin:2mm 0 4mm;}
+.toc h2{font-family:var(--latin);font-weight:800;font-size:15pt;color:var(--blue-dark);margin-bottom:4mm;}
+.toc .trititle{font-family:var(--mono);font-size:8pt;letter-spacing:.2em;text-transform:uppercase;color:var(--orange);margin:4mm 0 2mm;}
+.toc ol{list-style:none;}
+.toc li{display:flex;align-items:baseline;gap:8px;font-size:10pt;padding:2.2px 0;color:var(--fg);line-height:1.4;}
+.toc li .n{font-family:var(--mono);font-weight:700;font-size:9pt;color:var(--blue);min-width:26px;}
+.toc li .dots{flex:1;border-bottom:1px dotted var(--hair2);transform:translateY(-3px);}
+
+/* ===== chapter divider band ===== */
+.chapdiv{margin:0 0 5mm;padding:6mm 16px 5mm;border-radius:12px;background:var(--grad);
+    -webkit-print-color-adjust:exact;print-color-adjust:exact;}   /* green-filled chapter band */
+.chapdiv .cn{font-family:var(--mono);font-size:8.5pt;font-weight:700;letter-spacing:.24em;text-transform:uppercase;color:rgba(255,255,255,.82);margin-bottom:5px;}
+.chapdiv h2{font-family:var(--latin);font-weight:800;font-size:17pt;line-height:1.1;letter-spacing:-.015em;color:#fff;}
+/* conclusion block — same green-filled look as the chapter band */
+.conclusion{background:var(--grad);border-radius:12px;padding:6mm 16px;margin:5mm 0;color:#fff;break-inside:avoid;
+    -webkit-print-color-adjust:exact;print-color-adjust:exact;}
+.conclusion .ck{font-family:var(--mono);font-size:8.5pt;font-weight:700;letter-spacing:.24em;text-transform:uppercase;color:rgba(255,255,255,.82);margin-bottom:6px;}
+.conclusion h3{font-family:var(--latin);font-weight:800;font-size:13pt;line-height:1.2;color:#fff;margin-bottom:4px;}
+.conclusion p,.conclusion li{font-size:10.4pt;line-height:1.7;color:#fff;}
+.conclusion b,.conclusion strong{color:#fff;font-weight:700;}
+
+/* ===== unit header (lesson/exercise) + QR emplacement ===== */
+.exh{display:flex;align-items:center;gap:11px;margin:6mm 0 3mm;}
+.exh .idx{font-family:var(--mono);font-size:9pt;font-weight:600;color:#fff;background:var(--grad);
+    border-radius:6px;padding:4px 11px;letter-spacing:.08em;text-transform:uppercase;
+    -webkit-print-color-adjust:exact;print-color-adjust:exact;}
+.exh .idx.ex{background:var(--red);}   /* exercise chip = red */
+.exh h2{font-family:var(--latin);font-size:14pt;font-weight:700;letter-spacing:-.01em;color:var(--blue-dark);}
+.exh .qrcard{margin-inline-start:auto;flex:0 0 auto;display:flex;flex-direction:column;align-items:center;gap:3px;width:26mm;}
+.qrcard .qrt{font-family:var(--mono);font-size:6.5pt;letter-spacing:.1em;text-transform:uppercase;color:var(--teal);text-align:center;}
+.qrcard .qrslot{width:24mm;height:24mm;padding:1.5mm;background:#fff;border:1px solid var(--blue-line);border-radius:8px;display:flex;align-items:center;justify-content:center;}
+.qrcard .qrslot img,.qrcard .qrslot svg{width:100%;height:100%;display:block;}
+
+/* sub-exercise label when one file holds several exercices */
+.exsub{font-family:var(--latin);font-weight:800;font-size:11.5pt;color:var(--blue-dark);margin:5mm 0 2.5mm;padding-bottom:3px;border-bottom:2px solid var(--blue-line);}
+
+/* ===== text blocks ===== */
+.lead{font-size:11pt;line-height:1.7;margin:2mm 0 3mm;color:var(--fg);}
+.para{font-size:10.6pt;line-height:1.7;margin:2mm 0 2.5mm;color:var(--fg);}
+.consigne{font-size:10.4pt;line-height:1.6;margin:1mm 0 2mm;color:var(--fg);font-style:italic;}
+.subhead{font-family:var(--latin);font-weight:800;font-size:12pt;letter-spacing:-.01em;color:var(--blue-dark);margin:5mm 0 2.5mm;}
+/* emphasis — green accent = .t-blue/.t-green ; balance = .t-navy ; red = SECONDARY accent (.t-red) on titles + a few words */
+.t-blue{color:var(--blue);font-weight:600;} .t-navy{color:var(--blue-dark);font-weight:700;}
+.t-red{color:var(--red);font-weight:600;} .t-green{color:var(--teal);font-weight:600;} .t-gold{color:var(--orange);font-weight:600;}
+.subhead.t-red{color:var(--red);font-weight:800;}   /* red Roman-numeral section title (I, II, …) — keeps subhead weight */
+/* highlighter marks — a soft colour wash behind a key word (agent picks green or red per what balances the page) */
+.hl-green,.hl-red{border-radius:3px;padding:.02em .24em;font-weight:600;box-decoration-break:clone;-webkit-box-decoration-break:clone;
+    -webkit-print-color-adjust:exact;print-color-adjust:exact;}
+.hl-green{background:rgba(15,171,143,.20);color:var(--blue-dark);}   /* green highlight */
+.hl-red{background:rgba(245,50,47,.13);color:#c0261f;}               /* red highlight  */
+
+.data{background:var(--blue-soft);border:1px solid var(--blue-line);border-inline-start:4px solid var(--blue);
+    border-radius:8px;padding:11px 16px;margin:3mm 0;font-size:10pt;line-height:1.65;color:var(--fg2);}
+.data b{color:var(--fg);font-weight:700;}
+.note{border:1px dashed var(--hair2);border-radius:9px;padding:11px 16px;margin:4mm 0;background:var(--panel);}
+.note .kicker{font-family:var(--mono);font-size:7.5pt;letter-spacing:.18em;color:var(--orange);display:block;margin-bottom:5px;}
+.note .nb{font-size:10pt;line-height:1.7;color:var(--fg2);} .note b{color:var(--fg);}
+.ex:not(.idx){background:var(--blue-soft);border:1px solid var(--blue-line);border-inline-start:3px solid var(--blue);
+    border-radius:7px;padding:7px 11px;font-size:9.6pt;line-height:1.6;color:var(--fg2);margin:2mm 0;}   /* :not(.idx) so it never hits the exercise chip (which is .idx.ex) */
+.ex .extag{display:inline-block;font-family:var(--latin);font-weight:800;font-size:7.6pt;color:var(--blue-dark);background:#fff;
+    border:1px solid var(--blue);border-radius:5px;padding:1px 9px;margin-inline-end:7px;vertical-align:middle;text-transform:uppercase;letter-spacing:.06em;}
+
+/* ===== lists ===== */
+ol.q{list-style:none;counter-reset:q;margin:1mm 0 2mm;}
+ol.q>li{counter-increment:q;position:relative;padding-inline-start:30px;margin-bottom:2.5mm;font-size:10.4pt;line-height:1.6;}
+ol.q>li::before{content:counter(q);position:absolute;inset-inline-start:0;top:1px;width:21px;height:21px;background:var(--grad);color:#fff;
+    border-radius:50%;font-family:var(--mono);font-size:9pt;font-weight:600;display:flex;align-items:center;justify-content:center;
+    -webkit-print-color-adjust:exact;print-color-adjust:exact;}
+ol.sub{list-style:none;counter-reset:s;margin:4px 0 0;padding-inline-start:2px;border-inline-start:1px solid var(--blue-line);}
+ol.sub li{counter-increment:s;position:relative;padding:2.5px 0 2.5px 26px;font-size:10.1pt;line-height:1.55;}
+ol.sub li::before{content:counter(s,lower-alpha)".";position:absolute;inset-inline-start:10px;top:2.5px;font-family:var(--mono);font-size:9pt;font-weight:600;color:var(--teal);}
+ol.qn{list-style:none;counter-reset:qn;margin:1mm 0 2mm;}
+ol.qn>li{counter-increment:qn;position:relative;padding-inline-start:26px;margin-bottom:2.2mm;font-size:10.4pt;line-height:1.55;}
+ol.qn>li::before{content:counter(qn)".";position:absolute;inset-inline-start:0;top:0;font-family:var(--mono);font-size:9.5pt;font-weight:700;color:var(--blue);}
+ul.b{list-style:none;margin:1mm 0 2mm;} ul.b>li{position:relative;padding-inline-start:22px;margin-bottom:2.4mm;font-size:10.4pt;line-height:1.6;}
+ul.b>li::before{content:"";position:absolute;inset-inline-start:3px;top:8px;width:8px;height:8px;border-radius:50%;background:var(--grad);
+    -webkit-print-color-adjust:exact;print-color-adjust:exact;}
+ul.dash{list-style:none;margin:1mm 0 2mm;} ul.dash>li{position:relative;padding-inline-start:20px;margin-bottom:1.8mm;font-size:10.4pt;line-height:1.6;}
+ul.dash>li::before{content:"–";position:absolute;inset-inline-start:2px;top:0;color:var(--fg);font-weight:700;}  /* dash / +/− signs = body colour */
+.flow ul.opts{list-style:none;margin:4px 0 3px;padding-inline-start:16px;}
+.flow ul.opts li{padding:2px 0;font-size:10.2pt;line-height:1.5;color:var(--fg);}
+
+/* ===== figures / tables ===== */
+.fig{margin:3mm 0;} .fig svg.figsvg{display:block;margin:0 auto;background:#fff;max-width:100%;height:auto;}
+.photo{display:block;margin:3mm auto;border-radius:8px;border:1px solid var(--hair);max-width:100%;}
+.figrow{display:flex;flex-wrap:wrap;gap:9px;justify-content:center;margin:3mm auto;max-width:190mm;}
+.flow .figrow img{border-radius:7px;border:1px solid var(--hair);height:46mm;width:auto;max-width:none;object-fit:cover;}
+.schemarow{display:flex;gap:16px;align-items:flex-start;flex-wrap:wrap;margin:2mm 0;}
+.schemarow .col-txt{flex:1 1 90mm;min-width:80mm;} .schemarow .col-fig{flex:0 0 78mm;} .schemarow .col-fig .fig{margin:0;}
+.flow table{border-collapse:collapse;width:100%;margin:3mm 0;font-size:9.8pt;line-height:1.5;}
+.flow table th,.flow table td{border:1px solid var(--blue-line);padding:6px 10px;text-align:start;vertical-align:top;}
+.flow table th{background:var(--grad);color:#fff;font-family:var(--latin);font-weight:700;font-size:9.4pt;
+    -webkit-print-color-adjust:exact;print-color-adjust:exact;}
+.flow table tr:nth-child(even) td{background:var(--blue-soft);color:var(--sub-ink);}   /* sub-row: #E6F3F4 / #045260 */
+
+mjx-container{color:var(--fg) !important;font-weight:400 !important;font-size:1.0em !important;}
+.eq-hi mjx-container,mjx-container.eq-hi{color:var(--blue) !important;}   /* accent (green) equation — highlight a key result; balance with plain math */
+.eq-red mjx-container,mjx-container.eq-red{color:var(--red) !important;}  /* red accent equation / symbol — complements the green .eq-hi */
+
+/* ===== per-file books: credit line, copies list, figures at their size ===== */
+.credit{display:flex;flex-wrap:wrap;align-items:center;gap:5px;margin:-1mm 0 3.5mm;font-size:9.4pt;color:var(--fg2);}
+.credit .who{font-weight:700;color:var(--blue-dark);}
+.credit .tg{font-family:var(--mono);font-size:7.2pt;letter-spacing:.04em;border-radius:5px;padding:1px 7px;line-height:1.6;
+    border:1px solid var(--blue-line);color:var(--blue);background:#fff;-webkit-print-color-adjust:exact;print-color-adjust:exact;}
+.credit .tg.sec{background:var(--blue-dark);border-color:var(--blue-dark);color:#fff;}
+.credit .tg.cor{background:#fff;border-color:var(--red);color:var(--red);}
+.credit a{color:var(--fg3);font-family:var(--mono);font-size:7pt;text-decoration:none;}
+.cover .auth .credit{margin:4mm 0 0;}
+.cover .copies{margin-top:5mm;font-size:8.6pt;color:var(--fg2);}
+.cover .copies ul{list-style:none;margin:2mm 0 0;padding:0;columns:2;}
+.cover .copies a{color:var(--fg3);text-decoration:none;font-size:8pt;}
+.flow figure.fig{text-align:center;}
+.flow figure.fig img{max-height:60mm;width:auto;max-width:70%;display:inline-block;}
+
+/* chapter tag on each part of a multi-chapter book (the book keeps the original order of the file) */
+.chtag{display:inline-block;margin:5mm 0 2mm;padding:1mm 3mm;border-radius:2mm;background:#eef3fb;border:1px solid #c9d6ea;
+  color:#1f3a6b;font-size:9pt;font-weight:700}
+.chtag span{color:#6b7f9e;font-weight:600;margin-inline-end:1.5mm}
+
+@media print{ body{background:#fff;padding:0;} .flow{width:auto;max-width:none;margin:0;padding:0;} }
+@page{size:A4;}   /* margins come from render_flow.py — do NOT set them here */
+</style>
+<meta data-pagefind-filter="type[content]" content="ملخّص">
+<meta data-pagefind-filter="resource[content]" content="المصدر غير مذكور">
+<meta data-pagefind-meta="n[content]" content="1925">
+<meta data-pagefind-meta="title[content]" content="numérisé_20260717-1326">
+<meta data-pagefind-filter="chapter[content]" content="القيم: الأخلاق والدولة">
+<meta data-pagefind-filter="chapter[content]" content="الخصوصية والكونية">
+<meta data-pagefind-filter="section[content]" content="باكالوريا علوم تجريبية"><style>.qrcard{display:none!important}.wa-nav{position:sticky;top:0;z-index:50;background:#045260;padding:10px 18px;font-family:Cairo,sans-serif;direction:rtl}.wa-nav a{color:#fff;text-decoration:none;font-weight:700}@media print{.wa-nav{display:none}}</style>
+</head>
+
+<body dir="rtl" lang="ar"
+      data-brand="Wael Academy" data-handle="@WaelAcademy"
+      data-tagline="في تُرابنا.. مغامرة بمغامرة"
+      data-phone="+216 50 40 40 42" data-site="waeldocuments.com"
+      data-cta="سجل معانا وأقرى عن بعد مع منصة Wael Academy"
+      data-subject="Philosophie · numérisé_20260717-1326" data-watermark="Wael Academy" data-pagefind-body><nav class="wa-nav" data-pagefind-ignore><a href="../index.html">→ الرجوع إلى فهرس الفلسفة</a></nav>
+
+<!-- single full-page diagonal watermark, bottom-left → top-right (repeats on every page) -->
+<div class="wm" aria-hidden="true"><span>WAEL&nbsp;ACADEMY</span></div>
+
+<div class="flow colored">
+<div class="cover"><div class="badge">◉ Wael Academy · Philosophie</div><h1>numérisé_20260717-1326</h1><div class="grule"></div><div class="sub">القيم: الأخلاق والدولة</div><div class="auth"><div class="credit">المؤلّف / المصدر : <span class="who">المصدر غير مذكور في الوثيقة</span> <span class="tg sec">الفلسفة · باكالوريا علوم تجريبية</span> <a href="https://drive.google.com/file/d/1NHGy_aMCsP15sJNYK64iEYrwDwkhfEJJ/view">↗ numérisé_20260717-1326.pdf</a></div></div><div class="copies" data-pagefind-ignore><b>نسخ هذا الملف في الدرايفات (1)</b><ul><li><a href="https://drive.google.com/file/d/1NHGy_aMCsP15sJNYK64iEYrwDwkhfEJJ/view">BAC SCIENCE — Drive 1: Bac Science (Pilote Sousse docs) · Bac 2027 › Philo / الأخلاق الخير و السعادة</a></li></ul></div></div>
+<section class="chapter">
+<div class="chtag"><span>المحور</span> القيم: الأخلاق والدولة</div>
+<div class="exh"><span class="idx">ملخّص</span><h2>مراجعة مسألة : الأخلاق : الخير والسعادة</h2>
+  <div class="qrcard"><div class="qrt">فيديو الدرس</div><div class="qrslot"><img src="qr/1925.svg" alt="QR"></div></div></div>
+<div class="credit">المؤلّف / المصدر : <span class="who">المصدر غير مذكور في الوثيقة</span> <span class="tg sec">الفلسفة · باكالوريا علوم تجريبية</span> <a href="https://drive.google.com/file/d/1NHGy_aMCsP15sJNYK64iEYrwDwkhfEJJ/view">↗ numérisé_20260717-1326.pdf</a></div>
+<p class="subhead t-navy"><u>دواعي البحث في الأخلاق :</u></p>
+<p class="para">- القيم الأخلاقية هي التي تتجلى في إطارها إنسانية الإنسان وتميزه النوعي عن الوجود الحيواني فالقيم الأخلاقية هي التي تضفي معنى على وجوده</p>
+<p class="para">- أصبحت القيم عبارة على شعارات فطابعها إيديولوجي ومتعالية عن سياق الواقع عوضا أن تكون قواعد توجه السلوك الإنساني</p>
+<p class="subhead t-navy">* <u>في التطابق بين الخير والسعادة</u></p>
+<p class="para">+ <u>السعادة والفضيلة : أرسطو</u></p>
+<p class="para">- المطابقة بين الخير والسعادة تفيد بأن الفعل الأخلاقي هو الذي يهدف تحصيل السعادة وهي الخير الأسمى الذي ينشده الإنسان من كل أفعاله .</p>
+<p class="para">- السعادة غاية في حد ذاتها وهي حالة الرضا التام</p>
+<p class="para">- السعادة هي الخير الأسمى لا يتحقق إلا في المجال الإنساني إلا في التأمل والحكمة فالسعادة في العمل دون تأمل يتسبب في الإنحراف عن الإعتدال</p>
+<!-- PROOFREAD: 1925 part1 p01 — small interlinear insertions (e.g. "الفعل الأخلاقي هو الذي ...", "في المعرفة") partly illegible, not transcribed -->
+<p class="para">- يميز أرسطو بين تصور الجمهور (العوام) للسعادة بما هي اللذة والأهواء والإستمتاع المادي وتصور الفيلسوف بما هي أسمى الفضائل وهي الحكمة .</p>
+<p class="para">⇐ إن الخير والسعادة يتحققان لدى الحكماء والفلاسفة الذين يربطون بين الحكمة النظرية والحكمة العملية وهكذا فاللذة العابرة لا تصنع السعادة</p>
+<p class="para">+ <u>السعادة واللذة : أبيقور</u></p>
+<p class="para">- السعادة هي الغاية القصوى التي يطلبها الفعل الإنساني</p>
+<p class="para">- السعادة هي تحقيق اللذة واجتناب الألم</p>
+<p class="para">- اللذة مشروطة بمبدأ الحكمة في طلبها فالسعادة تقتضي الإقتناع بالقليل من الرغبات والإقتصار على الضروري منها تجنبا للألم ،</p>
+<p class="para">- تكفي تقديم ما هو ضروري للجسم حتى نتجنب الألم لنكون سعداء .</p>
+<p class="para">⇐ السعادة تتحقق ضمن حالة يسميها أبيقور الطمأنينة والسكينة .</p>
+<p class="para">" اللذة هي مبدأ الحياة السعيدة وغايتها "</p>
+<p class="para">+ <u>السعادة والمنفعة : ستوارت ميل</u></p>
+<p class="para">- الخير يحدد من جهة ما هو نافع وأن معيار قيمة الفعل الأخلاقي يرجع إلى نفعية نتائجه</p>
+<p class="para">- المنفعة هي القدرة على إنتاج السعادة أي تحقيق اللذة وتجنب الألم</p>
+<p class="para">تؤسس هذه الفلسفة المنفعة العامة أي تحقيق أكبر قدر من السعادة لأكبر عدد من الناس</p>
+<p class="para">- السعادة قابلة للحساب وفق عملية جمع أكبر قدر من اللذة وطرح أكبر قدر من الألم</p>
+<p class="para">⇐ اللذة أساس السعادة</p>
+<p class="subhead t-navy">* <u>في الفصل بين الخير والسعادة</u></p>
+<p class="para">- ينطلق كانط من البحث في ماهية الخير الذي يكتسب الفعل الأخلاقي صفته الأخلاقية</p>
+<p class="para">- تفسير كانط الأوامر إلى نوعان : أوامر شرطية تبحث عن النتيجة والمصلحة وهو ضروري لبلوغ غاية معينة حيث يرد مثلا : إذا أردت كسب ثقة الحرفاء فلا تغش في الميزان " .</p>
+<p class="para">⇐ يبحث عن السعادة واللذة والمنفعة والمصلحة الفردية</p>
+<p class="para">⇐ يجعل الإرادة تابعة ومستعبدة ، مفتقرة للنية لذلك يكون عاجزا عن إضفاء طابع الكونية .</p>
+<p class="para">⇐ أوامر قطعية لا تكترث بالنتائج بل انها تحترم المبدأ</p>
+<p class="para">- أوامر غير مقيدة بشروط وهي صادرة عن العقل</p>
+<p class="para">⇐ الأمر القطعي ضرورة عقلانية لذلك تكون الإرادة مستقلة عن الأهواء والرغبات فتسمى إرادة خيّرة .</p>
+<p class="para">- الخير يكون في إحترام الواجب وضرورة أداء الفعل وفقا للقانون .</p>
+<p class="para">⇐ العقل أساسا لكونية الخير</p>
+<p class="para">فما منزلة السعادة من الخير ؟</p>
+<p class="para">- السعادة أوامر نفعية مصلحية إنها ضرب من ضروب الأمر الشرطي .</p>
+<p class="para">⇐ في التشكيك على قيمة الخير والسعادة</p>
+<p class="para">+ <u>مآزق السعادة : مآزق الحوسبة بودريار</u></p>
+<p class="para">- السعادة تحولت من فكرة مثالية إلى واقعة متجسدة ومرئية :</p>
+<p class="para">فهل نحن سعداء حقا زمن العولمة ؟</p>
+<p class="para">- السعادة في المجتمعات الصناعية الرأسمالية سعادة إستهلاكية فما هي إستتباعات هذا التصور الجديد للسعادة ؟</p>
+<p class="para">- السعادة مرئية قابلة للقيس ومعروضة أمام الجميع إنها مكتسبات مادية إستهلاكية</p>
+<p class="para">- يكشف بودريار التناقض الصارخ بين ما تعد به السعادة الإستهلاكية من تحرّر وما تؤدي إليه من إغتراب وإنتهاك للقيم الحقيقية وتشويه لها</p>
+<p class="para">- سعادة الإستهلاك إغتيال مبرمج وممنهج للرغبة واللذة الجسدية وتأكيد لتعاسة النفس</p>
+<p class="para">+ <u>حدود السعادة :</u></p>
+<p class="para">هل السعادة حقيقة أم وهم ؟</p>
+<p class="para">- يعتبر فرويد أن السعادة وهم وذلك للأسباب التالية :</p>
+<p class="para">* الطبيعة قوة غاشمة ضد الإنسان ومهما حاول الإنتصار عليها ظلت الكوارث تهدده بإستمرار وجوده مما يؤكد أنها مصدرا للألم .</p>
+<p class="para">* تناهوية الإنسان : يعتبر الجسد من حقيقة واحدة وثابتة هي حقيقة الموت فالإنسان كائن التناهي وهو ما يمثل مصدر القلق والألم</p>
+<p class="para">* الوجود الإجتماعي يتحقق عن طريق الكبت لمنطق الغرائز مما يرغم الفرد على التخلي عن حقوقه الطبيعية في اللذة والإشباع المتواصل وهذا يعني أن الحضارة تخفف من الألم الجسدي لتقدم لنا ألما أخطر هو ألم النفس .</p>
+<p class="para">⇐ الألم هو قدر الإنسان إذ لا يمكن الظفر بالسعادة</p>
+<p class="para">* عوض طلب السعادة علينا تخفيف البؤس الذي يحيط بنا</p>
+<p class="para">- الإنتقال إلى بناء حياة إنسانية ممكنة على سطح الأرض يكون فيها العالم مقاما مشتركا ويخلو قدر الإمكان من الشر والعنف والألم . وهنا نحتاج إلى التسامح وإلى قيم الحوار والإعتراف بحق الجميع في الحياة .</p>
+<p class="para">إن الأخلاق المطلوبة هي التي تكفل حياة تتعدد فيها تصوراتنا للسعادة ولكن رغم ذلك نقدر على العيش معا وذلك هو التطلع الإيتيقي الذي تحدث عنه ريكور</p>
+<p class="para">" لحياة مع ومن أجل الآخرين "</p>
+<!-- PROOFREAD: 1925 part1 p02 — "مآزق الحوسبة" and "يعتبر الجسد من حقيقة" uncertain -->
+<p class="subhead t-red"><span class="t-blue">الأخلاق : الخير والسعادة</span></p>
+<p class="para">الأخلاق : هي مجموعة من القواعد والنواهي التي توجه سلوك الإنسان نحو فعل الخير</p>
+<p class="para">الخير : المعيار الذي يحدد أخلاقية الفعل</p>
+<p class="para">السعادة : غاية الوجود الإنساني وهي حالة من الرضا التام والطمأنينة والسكينة للنفس</p>
+<p class="para">الإيديولوجيا : مجموعة من الأفكار التي يعتقد أصحابها أنها تستجيب العقل والمنطق وتخدم المصلحة العامة في حين أنها وعي زائف</p>
+<p class="subhead t-navy"><span class="t-gold">دواعي البحث في الأخلاق</span></p>
+<p class="para">- القيم الأخلاقية هي التي تتجلى في إطارها إنسانية الإنسان وتميزه النوعي عن الوجود الحيواني فالقيم الأخلاقية هي التي تضفي معنى على وجوده</p>
+<p class="para">- أصبحت القيم اليوم عبارة على شعارات فطابعها إيديولوجي ومتعالية على سياق الواقع عوضا أن تكون قواعد توجه سلوك الإنسان</p>
+<p class="subhead t-navy"><span class="t-gold">في التطابق بين الخير والسعادة</span></p>
+<p class="para">• السعادة والفضيلة : <span class="t-blue">أرسطو</span></p>
+<p class="para">- يؤكد أرسطو أن المطابقة بين الخير والسعادة تفيد بأن الفعل الأخلاقي هو الذي يهدف لتحصيل السعادة وهي الخير الأسمى الذي ينشده الإنسان من كل أفعاله أي أن الفعل الأخلاقي هو الذي تنشد من ورائه تحصيل السعادة</p>
+<p class="para">- السعادة غاية في حد ذاتها وهي حالة من الرضا التام</p>
+<p class="para">- السعادة هي الخير الأسمى المتمثل في الكمال الإنساني عن طريق التأمل والحكمة ذلك أن العمل دون تأمل وتفكر يتسبب في الإنحراف عن الإعتدال</p>
+<p class="para">- لا يقيم أرسطو تعارضا بين الخير والفضيلة من جهة والسعادة من جهة أخرى فالخير باعتباره مقصد الفعل وغايته ومرجعه يمكن من ممارسة الفضائل</p>
+<p class="para">- يميز أرسطو بين تصور الجمهور (العوام) للسعادة بما هي لذة واستمتاع مادي وتصور الفيلسوف بما هي أسمى الفضائل وهي الحكمة = يتمثل الخير بالنسبة للإنسان في نشاط تقوم فيه النفس طبقا للفضيلة وفي حالة تعدد الفضائل طبقا لأكثرها اكتمالا</p>
+<p class="para"><span class="t-red">⇐</span> إن الخير والسعادة يتحققان لدى الحكماء والفلاسفة الذين يربطون بين الحكمة النظرية والحكمة العملية وهكذا فاللذة العابرة لا تصنع السعادة</p>
+<p class="para">• السعادة واللذة : <span class="t-blue">أبيقور</span></p>
+<p class="para">- السعادة هي تحقيق اللذة واجتناب الألم " اللذة هي بداية الحياة السعيدة وغايتها وهي الخير الأول الموافق لطبيعتنا والقاعدة التي ننطلق منها في تحديد ما ينبغي اختياره وما ينبغي تجنبه "</p>
+<p class="para">- اللذة مشروطة بمبدأ الحكمة في طلبها فالسعادة تقتضي الإقتناع بالقليل من الرغبات والإقتصار على الضروري منها تجنبا للألم " الحكمة هي أعظم خير نعرفه "</p>
+<p class="para">- إن اللذة التي يعنيها أبيقور والتي بما هي بينها والخير والسعادة هي لذة حسية ونفسية أو عقلية والتي لا يمكن للسعادة أن تكون ممكنة من دونهما</p>
+<p class="para">- حسب أبيقور السعادة هي الغاية القصوى التي يطلبها الفعل الإنساني لا عن دون السؤال شرط " عندما نقول أن اللذة هي غايتنا القصوى فإننا لا نعني بذلك اللذات الخاصة بالفساق أو اللذات المتعلقة بالمتعة الجنسية</p>
+<p class="para">- يكفي تقديم ما هو ضروري للجسم حتى نتجنب الألم</p>
+<p class="para"><span class="t-red">⇐</span> السعادة تتحقق ضمن حالة يسميها أبيقور الطمأنينة والسكينة</p>
+<p class="para">• السعادة والمنفعة <span class="t-blue">ستوارت ميل</span></p>
+<p class="para">- الخير يتحدد في جهة ما هو نافع وأن معيار قيمة الفعل الأخلاقي يرجع الى نفعية نتائجه</p>
+<p class="para">- المنفعة هي القدرة على إنتاج السعادة أي تحقيق اللذة وتجنب الألم " نعني بلفظ السعادة اللذة وانعدام الألم "</p>
+<p class="para">- تؤسس هذه الفلسفة للمنفعة العامة أي أن تحقق أكبر قدر من السعادة لأكبر عدد من الناس</p>
+<p class="para">- السعادة قابلة للحساب وفق عملية جمع أكبر قدر من اللذة وطرح أكبر قدر من الألم " يكون الهدف الأسمى هو حياة خالية أكبر ما يكون من الألم وثرية قدر المستطاع باللذات كمًا وكيفًا "</p>
+<p class="para"><span class="t-red">⇐</span> تكون اللذة هي أساس السعادة</p>
+<p class="subhead t-navy"><span class="t-gold">في الفصل بين الخير والسعادة</span> <span class="t-blue">كانط</span></p>
+<p class="para">• ينطلق كانط من البحث في ماهية الخير الذي منه يكتسب الفعل الأخلاقي صفته الأخلاقية أي الخير في ذاته غير مربوط بنتيجة أو بغاية</p>
+<p class="para">• ينقد كانط التصورات القديمة للخير والفضيلة أي ينقد أساس الأخلاق</p>
+<p class="para">• قسّم كانط الأوامر الى نوعان :</p>
+<p class="para"><span class="t-red">أوامر شرطية</span> تبحث عن النتيجة والمصلحة وهو ضروري لبلوغ غاية معينة حيث يرد مثلا " إذا أردت كسب ثقة الحرفاء فلا تغش "</p>
+<p class="para">في الميزان " وهذا ما يجعل الفعل غير أخلاقي</p>
+<p class="para">- يبحث عن السعادة واللذة والمنفعة والمصلحة الفردية</p>
+<p class="para"><span class="t-red">أوامر قطعية</span> هي لا تكترث بالنتائج بل تحترم المبدأ</p>
+<p class="para">هي أوامر غير مقيدة بشروط وهي صادرة عن العقل كعدم الغش احتراما للواجب دون اعتبار لمصلحة وهذا الفعل يعد أخلاقيا لأنه خالي من الغايات</p>
+<p class="para">- الأمر القطعي ضرورة عقلانية لذلك تكون الإرادة مستقلة عن الأهواء والرغبات فتسمى إرادة خيّرة</p>
+<p class="para">- الخير يكون في احترام الواجب وضرورة أداء الفعل للقانون</p>
+<p class="para"><span class="t-red">⇐</span> العقل أساس لكونية الخير والسعادة عند كانط هي أوامر نفعية لأنها ضرب من ضروب الأمر الشرطي</p>
+<p class="subhead t-navy"><span class="t-gold">في التشكيك على الخير والسعادة</span></p>
+<p class="para">مآزق السعادة الكونية <span class="t-blue">بودريار</span></p>
+<p class="para">- السعادة تحولت من فكرة مثالية الى واقعة متجسدة</p>
+<p class="para">فهل نحن سعداء حقا زمن العولمة ؟</p>
+<p class="para">يوضح بودريار أن السعادة في المجتمعات <u>الإستهلاكية</u> الصناعية هي سعادة إستهلاكية مبنية على خلفية إيديولوجية وذلك بأن هذه المجتمعات توهمنا بأن الحاجات الإصطناعية هي حاجات طبيعية</p>
+<p class="para">فما هي إستتباعات هذا التصور الجديد للسعادة ؟</p>
+<p class="para">- السعادة مرئية قابلة للقيس ومعروضة أمام الجميع . انها مكتسبات مادية إستهلاكية</p>
+<p class="para">- يكشف بودريار التناقض الصارخ بين ما تعد به السعادة الإستهلاكية من تحرر وما تؤدي إليه من إغتراب وإنتهاك للقيم الحقيقية وتشويه لها</p>
+<p class="para">- سعادة الإستهلاك هي إغتيال مبرمج وموجه للرغبة واللذة الجسدية وتأكيد لتعاسة النفس</p>
+<p class="subhead t-navy"><span class="t-gold">حدود السعادة</span></p>
+<p class="para">هل السعادة حقيقة أم وهم ؟</p>
+<p class="para">تعتبر فرويد أن السعادة وهم فمن الملاحظ أنه لم يدخل في خطة الخلق البتة أن يكون الإنسان سعيدا "</p>
+<p class="para">لأن الأخلاق في نظر كانط تفترض القيام بالفعل احتراما للقوانين أي القيام بالفعل تمثلا لمبدأ الواجب وفي حالة التاجر هذا فإنه قام بالفعل لأجل غاية أي أنه فعل عاملا فيه الإنسان غيره كغاية لا وسيلة ومعارضة لذلك فإن كانط يعتبر " إفعل الفعل بحيث تعامل الإنسانية في شخصك وفي شخص كل إنسان سواك بوصفها دائما في نفس الوقت غاية في ذاتها ولا تعاملها أبدا كما لو كانت مجرد وسيلة "</p>
+<p class="para">ذلك أن الطبيعة قوة غاشمة ضد الإنسان ومهما حاول الإنتصار عليها ظلت الكوارث تهدده بإستمرار في وجوده مما يسبب الألم أيضا تناهوية الإنسان بأن يعتبر الجسد عن حقيقة واحدة وثابتة هي حقيقة الموت فالإنسان كائن التناهي وهو ما يشكل مصدرا للألم</p>
+<p class="para"><span class="t-blue">⇐ الألم هو قدر الإنسان إذ لا يمكن الظفر بالسعادة فعوض طلب السعادة علينا تخفيف البؤس الذي يحيط بنا</span></p>
+<p class="para">• إن الأخلاق المطلوبة هي حياة تتعدد فيها تصورات للسعادة ولكن رغم ذلك نقدر على العيش معا وذلك هو التطلع الإيتيقي الذي تحدث عنه ريكور " <span class="t-red">لحياة مع ومن أجل الآخرين</span> "</p>
+<p class="subhead t-red">سعادة * الاخلاق</p>
+<p class="para">فلاسفة تفاهمو اللي فما سعادة في الدنيا اما كل واحد عندو تصور ليها مثلا:</p>
+<p class="para">* ابيقور يتصور اللي السعادة في عملية الحساب العقلي للذات والالام معنتها ابيقور يحبك حسبها كي تلقى لذة وراها الم كبير سيب عليك منها وكي تلقى الم صغير وراه لذة كبيرة اصبر عليه ميسالش , ويقلك فمة 3 انواع لذات :لذات ضرورية وخيرة كالاكل ولذات غير ضرورية وخيرة كالتانق في اللباس و لذات غير ضرورية و غير خيرة كالسياسة ويقلك ركز مع الاولى واعدل مع الثانية وابعث الثالثة</p>
+<p class="para">معنتها كي تبدا فمة لذة صغيرة و وراها الم كبير لخطاك منها والعكس هو الباهي.</p>
+<p class="para">* اما ارستيب يعتقد انو السعادة في اغتراف اللذات الحاضرة معنتها اي فرصة متع جو تلقاها متفلتهاش وانشالله تخلى ههه</p>
+<p class="para">وفما بنتام وميل : بنتام قلك السعادة في تحقيق منفعة معناتها كي تعمل حاجة تجيبلك ربح اذيكا السعادة ياخي اتهموه بالانانية ياخي جاء ميل من بعدو زاد فكرة الامتداد معنتها السعادة كي تحقق المنفعة لاكبر عدد من العباد .</p>
+<p class="para">وفما اللي يقولو مفماش سعادة كيما وشوبنهاور اللي يقول قدرنا التعاسة و"حياتنا نسيج من الالم والملل" وفرويد اللي يقول "لم يدخل في خطة الخلق البتة ان يكون الانسان سعيدا "</p>
+<p class="para"><span dir="ltr">remarque:</span></p>
+<p class="para">شو موقف شوبنهاور وفرويد مبني على انو الانسان عندو برشا رغبات مينجمش يحققهم مادامو يعيش في مجتمع وحضارة وقوانين اذاكا علاش مفماش سعادة وفما الم وشوبنهاور يفترض اذا كان حققنا رغباتنا الكل تو تقلقو معادش فما حاجة نحبو عليها اذاكا علاش فما ملل والحل عندو الاخلاق الزهدية والفن.</p>
+<p class="para"><span dir="ltr">behi tawwa el akhle9 :</span></p>
+<p class="para">كيف كيف ديما الفلاسفة مش متفاهمين على المسائل الكل من بينها الاخلاق فعندك ايمانويل كانط يقول اللي الواجب الأخلاقي والأخلاق تنبع من العقل خاطر هو "اكثر الأشياء توزعا بالعدل بين الناس" وهذا يخلينا نحكيو على كانط اللي يحب على الاخلاق الكونية اللي تشمل العالم الكل وكانط يقلك اللي الفعل ما يتسمى اخلاقي كان ما يكون نابع من الإرادة متاعك الخيرة ويكون دون ارغام ودون اي مصلحة او منفعة ولا يلبي اي ميل ماكانتشي ما يتسماش اخلاقي باهي هذا كانط وعندك روسو يقول الواجب الاخلاقي ينبع من الوجدان خاطرو يؤمن ان الناس ملانكة وماعندهمش الشر وعندك دوركهايم يقول اللي الواجب الاخلاقي ينبع من المجتمع خاطر المجتمع يسطرلك اخلاقك وهذا يخليه يقول اللي الاخلاق متعالية على الفرد ومرغمة له وهوما الكل يختلفو في تحديد مصدر الواجب الاخلاقي ويشتركو في فكرة معاييرو ويجي نيتشه في الاخر يقلب بيهم الطاولة ويسالهم هي الاخلاق بكلها شنيا قيمتها شنيا زادت للبشرية قدمتها ولا وخرتها ويجاوب يقول اللي الاخلاق حاجة خايبة وهي اداة تمويه</p>
+<p class="para">وفما حكاية صغيرة ماركس يقول مفماش اخلاق وحدة في البلاد خاطر فما طبقات اذاكا علاش كل طبقة عندها اخلاقها</p>
+
+<div class="chtag"><span>المحور</span> الخصوصية والكونية</div>
+
+<p class="subhead t-red">(2الكونية *الخصوصية</p>
+<p class="para">"معظم الناس هم أناس آخرون" أوسكار وايلد</p>
+<p class="para">تهتم الفلسفة منذ نشأتها بالكلي، فهي عند أرسطو "علم بالكلي" وعند كانط "علم الغايات الجوهرية للعقل البشري"، ويمثل الكل عند هيجل الحق وتصر الحداثة على التعامل مع الكوني كمطلب أنثروبولوجي إتيقي وتطرح سؤال ما الإنسان؟ باحثة عن منظومة حقوق كونية ينبغي أن يساهم القانون الدولي في حمايتها وفرضها على الأنظمة السياسية كمبادئ ثابتة لا يجب انتهاكها أو التفريط فيها احتراما للقاعدة الكانطية التي تقول: "عامل الإنسانية في شخصك وفي أي شخص آخر لا كوسيلة بل كغاية."</p>
+<p class="para">لكن تعظيم شأن الكوني <span dir="ltr">universell</span> من قبل الفلسفة المعاصرة قد أدى إلى إهمال أشياء كثيرة من بينها أن ماهو موجود هو الجزئي وأن الكلي ليس سوى مجرد مقولة لغوية ومعطى اسمي أو تصور نظري ومجرد مفهوم وهي في ذلك تتناسى أن النزعة العالمية وقع تحنيطها من طرف عقيدة العولمة بماهي انتصار لنزعة ثقافية خاصة وقع فرضها على بقية الأمم عن طريق الدعاية والإكراه. زد على ذلك أن الحرص من طرف الفلسفة الحديثة على البحث عن ماهية الإنسان قد أدى إلى التقصير في فهم الشأن الإنساني وإسقاط من الحسبان التنوع والتعدد رغم ملازمتهما للحالة البشرية وهو ما أدى الى الصوم عن طرح سؤال من هو الإنساني؟ ومما يلفت النظر أنه قد أفضى أيضا إلى احتجاج الجماعاتيين <span dir="ltr">communautaires</span> على ورثاء النزعة الكونية الكانطية بتساؤلهم مستغربين: أليس اختزال الإنساني فيماهو كوني استخفافا بكل هوية؟</p>
+<p class="para">إذا سافرنا بهذا السؤال من مسرح سلبية الاستغراب إلى مسرح قساوة الإشكال نحصل على الإحراج التالي: هل يسبب حرص الإنسان على انجاز مطلب الكوني أزمة في الهوية أم حلا لها؟ ويمكن أن نقسم هذه الإشكالية إلى مجموعة من الأسئلة الفرعية: ما الفرق بين الإنسان والإنساني والإنسانية؟ وماهو مطلوبنا اليوم؟ هل نشارك في صناعة الكونية أم نعمل على المحافظة على الهوية؟ ماذا نفعل إن حصل تصادم بين المطلبين؟ هل نضحي بالكونية من أجل الهوية أم بالهوية من أجل الكونية ؟ ما السبيل إلى كونية لا</p>
+<!-- PROOFREAD: 1925 part1 p06 — text ends mid-sentence at page bottom ("ما السبيل إلى كونية لا"); "ورثاء" and "الصوم" as printed -->
+<!-- NOTE: 1925 part1 p05 is a cropped re-scan of the right column of p04 (not repeated) -->
+<!-- PROOFREAD: 1925 part1 p04 — top-left boxed block (Kant) placed after right column as on the page; several faint words uncertain -->
+<!-- PROOFREAD: 1925 part1 p03 — "والتي بما هي بينها" , "لا عن دون السؤال شرط" uncertain -->
+<!-- NOTE: 1925 part1 p03 — a second, coloured version of the same summary begins here -->
+<!-- PROOFREAD: 1925 part1 p01 — margin insertions near Kant paragraph ("كان نقطة أساسية في الأخلاق ...", "في ذاته غير مربوطة بنتيجة أو بغاية", "والعواطف والاعتبارات") partly illegible, not transcribed -->
+
+</section>
+
+</div>
+</body>
+</html>

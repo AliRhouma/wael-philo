@@ -1,0 +1,386 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<title>Wael Academy — Philosophie · الٱنية و الغيرية</title>
+<script>
+  window.MathJax = {
+    tex: { inlineMath: [['\\(','\\)']], displayMath: [['\\[','\\]']] },
+    chtml: { fontURL: 'https://cdn.jsdelivr.net/npm/mathjax@3/es5/output/chtml/fonts/woff-v2', matchFontHeight: true },
+    startup: { typeset: true }
+  };
+</script>
+<script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js" async></script>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Sora:wght@400;500;600;700;800&family=Cairo:wght@400;500;600;700;800;900&family=Tajawal:wght@400;500;700;800&family=JetBrains+Mono:wght@400;500;600;700&display=swap');
+:root{
+  /* ===== Wael Academy palette — MAIN ACCENT = green-teal gradient #0FAB8F → #067360 ===== */
+  --bg:#fff; --panel:#f2f8f8; --hair:#e6e6e9; --hair2:#d6d6db;
+  --fg:#0f2a31;        /* body text (and +/− signs) */
+  --fg2:#3f5b62;       /* softer text */
+  --fg3:#7c959b;       /* muted (footer) */
+  --blue:#067360;      /* deep accent — small numbers, borders, watermark, accent equations */
+  --blue-dark:#045260; /* titles & wordmarks (also the balance colour) */
+  --teal:#0fab8f;      /* bright accent end */
+  --loop:#0d9c82;      /* logo-loop helper */
+  --orange:#067360;    /* kicker/category labels (gold retired → deep teal) */
+  --red:#f5322f;       /* EXERCISE CHIPS ONLY — never for emphasis */
+  --cream:#e6f3f4; --blue-soft:#e6f3f4;  /* pale teal — callout fill + table sub-row fill */
+  --blue-line:#cde7e4; /* hairline */
+  --sub-ink:#045260;   /* table sub-row text */
+  --grad:linear-gradient(148deg,#0fab8f 0%,#0d9c82 52%,#067360 100%);
+  --mono:'JetBrains Mono',monospace; --latin:'Sora',sans-serif; --ar:'Cairo',sans-serif; --arb:'Tajawal',sans-serif;
+}
+*{box-sizing:border-box;margin:0;padding:0;}
+body{font-family:var(--latin);color:var(--fg);background:#e4e4e7;padding:28px 0;
+     -webkit-print-color-adjust:exact;print-color-adjust:exact;}
+html[dir="rtl"] body{font-family:var(--arb);}
+
+/* ===== brand watermark: REAL text (crisp), full-bleed, repeats per page ===== */
+.wm{position:fixed;inset:0;z-index:0;pointer-events:none;display:flex;
+    align-items:center;justify-content:center;overflow:hidden;
+    -webkit-print-color-adjust:exact;print-color-adjust:exact;}
+.wm span{font-family:var(--mono);font-weight:800;font-size:76.8pt;letter-spacing:.16em;
+    color:var(--blue);opacity:.06;white-space:nowrap;transform:rotate(-54deg);}  /* single diagonal: bottom-left → top-right */
+.wm.mono span{color:#000;opacity:.05;}
+
+/* ===== continuous flow stream (no page border) ===== */
+.flow{width:210mm;margin:0 auto;background:transparent;color:var(--fg);
+      padding-block:16mm 18mm;padding-inline:23mm 14mm;position:relative;}   /* spiral gutter: inline-start(=spine) 23mm / outer 14mm — dir-aware; print margins set in render_flow.py */
+@media screen{ .flow{background:#fff;box-shadow:0 10px 40px rgba(0,0,0,.16);} }
+.flow>*{position:relative;z-index:1;}
+.flow p,.flow li,.flow .data,.flow .note,.flow .ex{break-inside:auto;}
+.flow .fig,.flow figure,.flow img,.flow svg.figsvg,.flow table,.flow tr,.flow .chapdiv,.flow .exh,.flow .qrcard,.flow .meta{break-inside:avoid;}
+.flow h1,.flow h2,.flow h3,.flow .exh,.flow .subhead,.flow .chapdiv{break-after:avoid;}
+.flow img,.flow svg.figsvg{max-width:100%;height:auto;}
+.flow figcaption,.flow .figcap{display:none;}          /* rule 3: no figure captions */
+
+/* ===== front matter + chapters each start on a fresh page ===== */
+.flow .cover{break-after:page;}        /* cover alone on page 1 */
+.flow .toc{break-after:page;}          /* Sommaire alone on the next page */
+.flow .chapter{break-before:page;}
+.flow .chapter:first-of-type{break-before:auto;}
+
+/* ===== cover ===== */
+.cover{padding:14mm 0 8mm;border-bottom:2px solid var(--blue);margin-bottom:6mm;}
+.cover .badge{font-family:var(--mono);font-size:8.5pt;letter-spacing:.28em;text-transform:uppercase;color:var(--orange);margin-bottom:10px;}
+.cover h1{font-family:var(--latin);font-weight:800;font-size:34pt;line-height:1.03;letter-spacing:-.025em;color:var(--blue-dark);}
+.cover .grule{width:120px;height:5px;border-radius:5px;background:var(--grad);margin:14px 0;}
+.cover .sub{font-family:var(--mono);font-size:10pt;letter-spacing:.14em;text-transform:uppercase;color:var(--teal);}
+.cover .auth{font-size:11pt;color:var(--fg2);margin-top:6px;font-weight:600;}
+
+/* ===== table of contents ===== */
+.toc{margin:2mm 0 4mm;}
+.toc h2{font-family:var(--latin);font-weight:800;font-size:15pt;color:var(--blue-dark);margin-bottom:4mm;}
+.toc .trititle{font-family:var(--mono);font-size:8pt;letter-spacing:.2em;text-transform:uppercase;color:var(--orange);margin:4mm 0 2mm;}
+.toc ol{list-style:none;}
+.toc li{display:flex;align-items:baseline;gap:8px;font-size:10pt;padding:2.2px 0;color:var(--fg);line-height:1.4;}
+.toc li .n{font-family:var(--mono);font-weight:700;font-size:9pt;color:var(--blue);min-width:26px;}
+.toc li .dots{flex:1;border-bottom:1px dotted var(--hair2);transform:translateY(-3px);}
+
+/* ===== chapter divider band ===== */
+.chapdiv{margin:0 0 5mm;padding:6mm 16px 5mm;border-radius:12px;background:var(--grad);
+    -webkit-print-color-adjust:exact;print-color-adjust:exact;}   /* green-filled chapter band */
+.chapdiv .cn{font-family:var(--mono);font-size:8.5pt;font-weight:700;letter-spacing:.24em;text-transform:uppercase;color:rgba(255,255,255,.82);margin-bottom:5px;}
+.chapdiv h2{font-family:var(--latin);font-weight:800;font-size:17pt;line-height:1.1;letter-spacing:-.015em;color:#fff;}
+/* conclusion block — same green-filled look as the chapter band */
+.conclusion{background:var(--grad);border-radius:12px;padding:6mm 16px;margin:5mm 0;color:#fff;break-inside:avoid;
+    -webkit-print-color-adjust:exact;print-color-adjust:exact;}
+.conclusion .ck{font-family:var(--mono);font-size:8.5pt;font-weight:700;letter-spacing:.24em;text-transform:uppercase;color:rgba(255,255,255,.82);margin-bottom:6px;}
+.conclusion h3{font-family:var(--latin);font-weight:800;font-size:13pt;line-height:1.2;color:#fff;margin-bottom:4px;}
+.conclusion p,.conclusion li{font-size:10.4pt;line-height:1.7;color:#fff;}
+.conclusion b,.conclusion strong{color:#fff;font-weight:700;}
+
+/* ===== unit header (lesson/exercise) + QR emplacement ===== */
+.exh{display:flex;align-items:center;gap:11px;margin:6mm 0 3mm;}
+.exh .idx{font-family:var(--mono);font-size:9pt;font-weight:600;color:#fff;background:var(--grad);
+    border-radius:6px;padding:4px 11px;letter-spacing:.08em;text-transform:uppercase;
+    -webkit-print-color-adjust:exact;print-color-adjust:exact;}
+.exh .idx.ex{background:var(--red);}   /* exercise chip = red */
+.exh h2{font-family:var(--latin);font-size:14pt;font-weight:700;letter-spacing:-.01em;color:var(--blue-dark);}
+.exh .qrcard{margin-inline-start:auto;flex:0 0 auto;display:flex;flex-direction:column;align-items:center;gap:3px;width:26mm;}
+.qrcard .qrt{font-family:var(--mono);font-size:6.5pt;letter-spacing:.1em;text-transform:uppercase;color:var(--teal);text-align:center;}
+.qrcard .qrslot{width:24mm;height:24mm;padding:1.5mm;background:#fff;border:1px solid var(--blue-line);border-radius:8px;display:flex;align-items:center;justify-content:center;}
+.qrcard .qrslot img,.qrcard .qrslot svg{width:100%;height:100%;display:block;}
+
+/* sub-exercise label when one file holds several exercices */
+.exsub{font-family:var(--latin);font-weight:800;font-size:11.5pt;color:var(--blue-dark);margin:5mm 0 2.5mm;padding-bottom:3px;border-bottom:2px solid var(--blue-line);}
+
+/* ===== text blocks ===== */
+.lead{font-size:11pt;line-height:1.7;margin:2mm 0 3mm;color:var(--fg);}
+.para{font-size:10.6pt;line-height:1.7;margin:2mm 0 2.5mm;color:var(--fg);}
+.consigne{font-size:10.4pt;line-height:1.6;margin:1mm 0 2mm;color:var(--fg);font-style:italic;}
+.subhead{font-family:var(--latin);font-weight:800;font-size:12pt;letter-spacing:-.01em;color:var(--blue-dark);margin:5mm 0 2.5mm;}
+/* emphasis — green accent = .t-blue/.t-green ; balance = .t-navy ; red = SECONDARY accent (.t-red) on titles + a few words */
+.t-blue{color:var(--blue);font-weight:600;} .t-navy{color:var(--blue-dark);font-weight:700;}
+.t-red{color:var(--red);font-weight:600;} .t-green{color:var(--teal);font-weight:600;} .t-gold{color:var(--orange);font-weight:600;}
+.subhead.t-red{color:var(--red);font-weight:800;}   /* red Roman-numeral section title (I, II, …) — keeps subhead weight */
+/* highlighter marks — a soft colour wash behind a key word (agent picks green or red per what balances the page) */
+.hl-green,.hl-red{border-radius:3px;padding:.02em .24em;font-weight:600;box-decoration-break:clone;-webkit-box-decoration-break:clone;
+    -webkit-print-color-adjust:exact;print-color-adjust:exact;}
+.hl-green{background:rgba(15,171,143,.20);color:var(--blue-dark);}   /* green highlight */
+.hl-red{background:rgba(245,50,47,.13);color:#c0261f;}               /* red highlight  */
+
+.data{background:var(--blue-soft);border:1px solid var(--blue-line);border-inline-start:4px solid var(--blue);
+    border-radius:8px;padding:11px 16px;margin:3mm 0;font-size:10pt;line-height:1.65;color:var(--fg2);}
+.data b{color:var(--fg);font-weight:700;}
+.note{border:1px dashed var(--hair2);border-radius:9px;padding:11px 16px;margin:4mm 0;background:var(--panel);}
+.note .kicker{font-family:var(--mono);font-size:7.5pt;letter-spacing:.18em;color:var(--orange);display:block;margin-bottom:5px;}
+.note .nb{font-size:10pt;line-height:1.7;color:var(--fg2);} .note b{color:var(--fg);}
+.ex:not(.idx){background:var(--blue-soft);border:1px solid var(--blue-line);border-inline-start:3px solid var(--blue);
+    border-radius:7px;padding:7px 11px;font-size:9.6pt;line-height:1.6;color:var(--fg2);margin:2mm 0;}   /* :not(.idx) so it never hits the exercise chip (which is .idx.ex) */
+.ex .extag{display:inline-block;font-family:var(--latin);font-weight:800;font-size:7.6pt;color:var(--blue-dark);background:#fff;
+    border:1px solid var(--blue);border-radius:5px;padding:1px 9px;margin-inline-end:7px;vertical-align:middle;text-transform:uppercase;letter-spacing:.06em;}
+
+/* ===== lists ===== */
+ol.q{list-style:none;counter-reset:q;margin:1mm 0 2mm;}
+ol.q>li{counter-increment:q;position:relative;padding-inline-start:30px;margin-bottom:2.5mm;font-size:10.4pt;line-height:1.6;}
+ol.q>li::before{content:counter(q);position:absolute;inset-inline-start:0;top:1px;width:21px;height:21px;background:var(--grad);color:#fff;
+    border-radius:50%;font-family:var(--mono);font-size:9pt;font-weight:600;display:flex;align-items:center;justify-content:center;
+    -webkit-print-color-adjust:exact;print-color-adjust:exact;}
+ol.sub{list-style:none;counter-reset:s;margin:4px 0 0;padding-inline-start:2px;border-inline-start:1px solid var(--blue-line);}
+ol.sub li{counter-increment:s;position:relative;padding:2.5px 0 2.5px 26px;font-size:10.1pt;line-height:1.55;}
+ol.sub li::before{content:counter(s,lower-alpha)".";position:absolute;inset-inline-start:10px;top:2.5px;font-family:var(--mono);font-size:9pt;font-weight:600;color:var(--teal);}
+ol.qn{list-style:none;counter-reset:qn;margin:1mm 0 2mm;}
+ol.qn>li{counter-increment:qn;position:relative;padding-inline-start:26px;margin-bottom:2.2mm;font-size:10.4pt;line-height:1.55;}
+ol.qn>li::before{content:counter(qn)".";position:absolute;inset-inline-start:0;top:0;font-family:var(--mono);font-size:9.5pt;font-weight:700;color:var(--blue);}
+ul.b{list-style:none;margin:1mm 0 2mm;} ul.b>li{position:relative;padding-inline-start:22px;margin-bottom:2.4mm;font-size:10.4pt;line-height:1.6;}
+ul.b>li::before{content:"";position:absolute;inset-inline-start:3px;top:8px;width:8px;height:8px;border-radius:50%;background:var(--grad);
+    -webkit-print-color-adjust:exact;print-color-adjust:exact;}
+ul.dash{list-style:none;margin:1mm 0 2mm;} ul.dash>li{position:relative;padding-inline-start:20px;margin-bottom:1.8mm;font-size:10.4pt;line-height:1.6;}
+ul.dash>li::before{content:"–";position:absolute;inset-inline-start:2px;top:0;color:var(--fg);font-weight:700;}  /* dash / +/− signs = body colour */
+.flow ul.opts{list-style:none;margin:4px 0 3px;padding-inline-start:16px;}
+.flow ul.opts li{padding:2px 0;font-size:10.2pt;line-height:1.5;color:var(--fg);}
+
+/* ===== figures / tables ===== */
+.fig{margin:3mm 0;} .fig svg.figsvg{display:block;margin:0 auto;background:#fff;max-width:100%;height:auto;}
+.photo{display:block;margin:3mm auto;border-radius:8px;border:1px solid var(--hair);max-width:100%;}
+.figrow{display:flex;flex-wrap:wrap;gap:9px;justify-content:center;margin:3mm auto;max-width:190mm;}
+.flow .figrow img{border-radius:7px;border:1px solid var(--hair);height:46mm;width:auto;max-width:none;object-fit:cover;}
+.schemarow{display:flex;gap:16px;align-items:flex-start;flex-wrap:wrap;margin:2mm 0;}
+.schemarow .col-txt{flex:1 1 90mm;min-width:80mm;} .schemarow .col-fig{flex:0 0 78mm;} .schemarow .col-fig .fig{margin:0;}
+.flow table{border-collapse:collapse;width:100%;margin:3mm 0;font-size:9.8pt;line-height:1.5;}
+.flow table th,.flow table td{border:1px solid var(--blue-line);padding:6px 10px;text-align:start;vertical-align:top;}
+.flow table th{background:var(--grad);color:#fff;font-family:var(--latin);font-weight:700;font-size:9.4pt;
+    -webkit-print-color-adjust:exact;print-color-adjust:exact;}
+.flow table tr:nth-child(even) td{background:var(--blue-soft);color:var(--sub-ink);}   /* sub-row: #E6F3F4 / #045260 */
+
+mjx-container{color:var(--fg) !important;font-weight:400 !important;font-size:1.0em !important;}
+.eq-hi mjx-container,mjx-container.eq-hi{color:var(--blue) !important;}   /* accent (green) equation — highlight a key result; balance with plain math */
+.eq-red mjx-container,mjx-container.eq-red{color:var(--red) !important;}  /* red accent equation / symbol — complements the green .eq-hi */
+
+/* ===== per-file books: credit line, copies list, figures at their size ===== */
+.credit{display:flex;flex-wrap:wrap;align-items:center;gap:5px;margin:-1mm 0 3.5mm;font-size:9.4pt;color:var(--fg2);}
+.credit .who{font-weight:700;color:var(--blue-dark);}
+.credit .tg{font-family:var(--mono);font-size:7.2pt;letter-spacing:.04em;border-radius:5px;padding:1px 7px;line-height:1.6;
+    border:1px solid var(--blue-line);color:var(--blue);background:#fff;-webkit-print-color-adjust:exact;print-color-adjust:exact;}
+.credit .tg.sec{background:var(--blue-dark);border-color:var(--blue-dark);color:#fff;}
+.credit .tg.cor{background:#fff;border-color:var(--red);color:var(--red);}
+.credit a{color:var(--fg3);font-family:var(--mono);font-size:7pt;text-decoration:none;}
+.cover .auth .credit{margin:4mm 0 0;}
+.cover .copies{margin-top:5mm;font-size:8.6pt;color:var(--fg2);}
+.cover .copies ul{list-style:none;margin:2mm 0 0;padding:0;columns:2;}
+.cover .copies a{color:var(--fg3);text-decoration:none;font-size:8pt;}
+.flow figure.fig{text-align:center;}
+.flow figure.fig img{max-height:60mm;width:auto;max-width:70%;display:inline-block;}
+
+/* chapter tag on each part of a multi-chapter book (the book keeps the original order of the file) */
+.chtag{display:inline-block;margin:5mm 0 2mm;padding:1mm 3mm;border-radius:2mm;background:#eef3fb;border:1px solid #c9d6ea;
+  color:#1f3a6b;font-size:9pt;font-weight:700}
+.chtag span{color:#6b7f9e;font-weight:600;margin-inline-end:1.5mm}
+
+@media print{ body{background:#fff;padding:0;} .flow{width:auto;max-width:none;margin:0;padding:0;} }
+@page{size:A4;}   /* margins come from render_flow.py — do NOT set them here */
+</style>
+<meta data-pagefind-filter="type[content]" content="جذاذة">
+<meta data-pagefind-filter="resource[content]" content="الأستاذ حسان العجمي">
+<meta data-pagefind-meta="n[content]" content="1359">
+<meta data-pagefind-meta="title[content]" content="الٱنية و الغيرية">
+<meta data-pagefind-filter="chapter[content]" content="الإنية والغيرية">
+<meta data-pagefind-filter="section[content]" content="باكالوريا علوم تجريبية"><style>.qrcard{display:none!important}.wa-nav{position:sticky;top:0;z-index:50;background:#045260;padding:10px 18px;font-family:Cairo,sans-serif;direction:rtl}.wa-nav a{color:#fff;text-decoration:none;font-weight:700}@media print{.wa-nav{display:none}}</style>
+</head>
+
+<body dir="rtl" lang="ar"
+      data-brand="Wael Academy" data-handle="@WaelAcademy"
+      data-tagline="في تُرابنا.. مغامرة بمغامرة"
+      data-phone="+216 50 40 40 42" data-site="waeldocuments.com"
+      data-cta="سجل معانا وأقرى عن بعد مع منصة Wael Academy"
+      data-subject="Philosophie · الٱنية و الغيرية" data-watermark="Wael Academy" data-pagefind-body><nav class="wa-nav" data-pagefind-ignore><a href="../index.html">→ الرجوع إلى فهرس الفلسفة</a></nav>
+
+<!-- single full-page diagonal watermark, bottom-left → top-right (repeats on every page) -->
+<div class="wm" aria-hidden="true"><span>WAEL&nbsp;ACADEMY</span></div>
+
+<div class="flow colored">
+<div class="cover"><div class="badge">◉ Wael Academy · Philosophie</div><h1>الٱنية و الغيرية</h1><div class="grule"></div><div class="sub">الإنية والغيرية</div><div class="auth"><div class="credit">المؤلّف / المصدر : <span class="who">الأستاذ: حسان العجمي</span> <span class="tg sec">الفلسفة · باكالوريا علوم تجريبية</span> <a href="https://drive.google.com/file/d/1EY9miOmcunbLezpddmb6gTAdC_clyACu/view">↗ الٱنية و الغيرية.pdf</a></div></div><div class="copies" data-pagefind-ignore><b>نسخ هذا الملف في الدرايفات (1)</b><ul><li><a href="https://drive.google.com/file/d/1EY9miOmcunbLezpddmb6gTAdC_clyACu/view">une · Bac science 2026 › فلسفة</a></li></ul></div></div>
+<section class="chapter"><div class="chapdiv"><div class="cn">المحور</div><h2>الإنية والغيرية</h2></div>
+<!-- SOURCE: الأستاذ: حسان العجمي -->
+<div class="exh"><span class="idx">جذاذة</span><h2>الإنية والغيرية:</h2>
+  <div class="qrcard"><div class="qrt">فيديو الدرس</div><div class="qrslot"><img src="qr/1359.svg" alt="QR"></div></div></div>
+<div class="credit">المؤلّف / المصدر : <span class="who">الأستاذ: حسان العجمي</span> <span class="tg sec">الفلسفة · باكالوريا علوم تجريبية</span> <a href="https://drive.google.com/file/d/1EY9miOmcunbLezpddmb6gTAdC_clyACu/view">↗ الٱنية و الغيرية.pdf</a></div>
+<!-- NOTE: highlighter, pen strokes and handwritten margin notes over the printed text are left out -->
+<p class="para">جذاذة مراجعة لمسألة الإنية والغيرية</p>
+<p class="subhead t-red"><b><u>دواعي الاهتمام بالمسألة: (ما الذي يدفعنا للتفكير في المسألة؟)</u></b></p>
+<ul class="b">
+<li>حاجة الإنسان إلى إثبات ذاته لذاته أوّلا ولغيره ثانيا، وما قد يثيره ذلك من إحراج ومشاكل خاصة في مستوى علاقته بالأخر في كافّة أشكاله الممكنة.</li>
+<li>التّوتّر القائم بين التصور المباشر السّائد للغيرية باعتبارها موضوعا سلبيّا والتّساؤل الفلسفي عن دلالتها وأهمية حضورها من عدمه.</li>
+<li>سؤال "ما الإنسان" بوصفه سؤالا استشكاليّا غير محسوم وإنّما هو سؤال متجدّد نظرا للواقع المتطوّر باستمرار.</li>
+</ul>
+<p class="subhead t-red"><b><u>تدقيقات مفهوميّة:</u></b></p>
+<p class="para"><b><u>الإنيّة:</u></b> إنيّة الشيء هي جوهره وما يحقّق كمال وجوده وهو ما يحدّد ماهيته أي حقيقته، بعبارة أخرى هي ما يكون به الشيء هو-هو.</p>
+<p class="para"><b><u>الغيرية:</u></b> يحيل اللّفظ إلى التمايز والاختلاف والتباين، إنه مغاير للإنية أو هو ما يقابلها، وهي قد تحيل على ماهو لا إنساني كالعالم والطبيعة إضافة إلى كونها آخرا إنسانيّا.</p>
+<p class="subhead t-red"><b><u>I. علاقة التعارض بين الإنيّة والغيرية:</u></b></p>
+<p class="subhead t-navy"><b><u>1. أفلاطون:</u></b></p>
+<p class="para">إنّ علاقة الإنسان بالجسد تتضمّن مفارقة مفادها أنّه يستحيل من جهة تصوّر الأنا ككيان مستقلّ دون جسد، لكن يبدو أنّ الجسد لا يمكنه أن يعبّر عن ماهية الإنسان وذلك لسببين:</p>
+<p class="para">سبب أنطولوجي (وجوديّ): هشاشة الجسد وتعرّضه للمرض وكثرة رغباته وانفعالاته، كل ذلك يجعله غير ثابت وعرضة للزّوال والفناء.</p>
+<p class="para">سبب ابستمولوجي (معرفي): الجسد بحواسه لا يدرك حقيقة الأشياء، فكل ما يمكن أن تنتجه الحواس هو ظنون وآراء نسبيّة.</p>
+<p class="para">ولذلك ذهبت التصورات الميتافيزيقة، وأهمّها تصوّر أفلاطون، إلى ضرورة استبعاد الجسد من مجال تحديد الإنية واعتباره غيرية يجب التخلّي عنها وذلك في مقابل التأكيد على أنّ النّفس وحدها هي ما يحدّد إنيّة الإنسان.</p>
+<p class="para">يعتبر أفلاطون أنّ النّفس تنتمي إلى العالم المعقول المثالي الثابت والخالد، بينما ينتمي الجسد إلى العالم المحسوس المتغير والزّائل باستمرار، ولذلك ينغي أن يتحدّد الوجود الإنساني من خلال شيء ثابت وهو النّفس، مع استبعاد تامّ لكلّ ماهو زائل أي الجسد، ولذلك اعتبر أفلاطون الجسد <b>"قبر النفس"</b>، لأنه يعيقها عن إدراك الحقيقة لكثرة رغباته وانفعالاته.</p>
+<p class="para">←يجب أن تتخلى النفس عن الجسد لأنه يمنعها من الفضيلة أي الحكمة والمعرفة مقابل رذيلة الجسد وانحطاط رغباته، وهو تخلّ لصالح هذه النفس بما هي جوهر روحانيّ حيث يقول عنها ابن سينا أنها <b>"هبطت من المحلّ الأرفع"</b>، إضافة إلى كونها فكرا خالصا غير ماديّ وهي مبدأ الحياة والحركة بالنسبة للجسد أيضا وهي مصدر الشعور والإدراك والوعي.</p>
+<p class="para">← لكي تنتصر النفس على قبرها (الجسد) يجب أن <b>"تتدرب على الموت"</b> بمعنى إماتة الرّغبات والانفعالات والتّحكّم فيها عبر النّفس والعقل.</p>
+<p class="subhead t-navy"><b><u>2. ديكارت:</u></b></p>
+<p class="para">التفكير الديكارتي انطلق من عملية شكّ شملت كلّ شيء بما ذلك الجسد، وانتهت إلى يقين واحد: هو عدم قدرة في شكّه في أنّه هو الذي يشكّ، أي استحال عليه أن يشكّ في أنّ عقله هو الذي يقوم بعملية الشكّ، ولذلك اعتبر أنّ الحقيقة المطلقة هي أنّ وجوده يتمثّل في التفكير أو النّفس المفكّرة، ومن ذلك استنتج بقوله <b>"أنا أفكّر إذن أنا موجود"</b>.</p>
+<p class="para">اعتبر النّفس جوهرا مفكّرا، وهو ما يحدّد وجود الإنسان، لأنّه بسيط وخالد وثابت. في مقابل ذلك اعتبر الجسد جوهرا ممتدّا ينتمي للطبيعة الفيزيائيّة، أي له طول وعرض وعمق وارتفاع، وهو غير ثابت لأنّ هذه الخاصيّات تتغيّر وتزول، ولا يمكن منطقيّا لما هو زائل أن يكون إنيّة ثابتة للإنسان.</p>
+<p class="subhead t-red"><b><u>II. علاقة التوافق بين الإنيّة الغيرية:</u></b></p>
+<p class="para"><b><u>فرويد:</u></b> إنّ نظرية التحليل النّفسي مع فرويد تتجاوز فكرة الماهية والإنية الثابتة: "ليس الوعي ماهية الحياة النّفسيّة، بل هو صفة من صفاتها، غيابها أكثر بكثير من حضورها"، لقد تمّ استبدال مفهوم الإنية الواحديّة بمفهوم الجهاز النّفسي الذي تحدّده أقطاب ثلاث:</p>
+<p class="para">1- الأنا: هو الوعي أو الذات كما هي في حالتها الطبيعية<br>
+2- الهو: نعني به جملة الدّوافع والغرائز الحيوية التي من خلالها يعمل الإنسان على حفظ بقائه (دافع الأيروس= دافع الحب، ودافع التوناتوس، دافع الموت أي النزعة العدوانية المدمرة تجاه الأخر)<br>
+3- الأنا الأعلى: نعني به أشكال السلطة التي ينشأ في إطارها الانا منذ طفولته، سلطة الوالدين، المجتمع، الدين، القانون، الأخلاق...</p>
+<p class="para">← فالإنية إذن ليست بسيطة، وليست مجرّد وعي مطلق، بل هي إنية مركّبة ومعقّدة تستبطن الغيرية داخليا (الهو والأنا الأعلى) وهي في صراع مستمر معهما باعتبارها صارت مجرّد خادم لهما، أي تحاول التوفيق بين متطلّبات الهو ومقتضيات الأنا الأعلى.</p>
+<p class="subhead t-navy"><b><u>سارتر:</u></b></p>
+<ul class="b">
+<li>يؤكد سارتر أنّ وجود غير ضروري لوجود الأنا، فمن خلال الغير يدرك الأنا وجوده ويعيه ويدرك قيمته.</li>
+<li>الغير ليس شيئا أو موضوعا كباقي الأشياء الماديّة، وإنّما هو ذات واعية حرّة، أي أنا آخر مماثل لي، مما يجعله شرطا ضروريا لوجودي.</li>
+<li>لكن علاقة الأنا مع الغير هي علاقة صراع ونفي، فكل منهما يتحول تحت نظرة الآخر إلى موضوع أو شيء. لكن الأنا في حاجة دائمة للغير مهما تعذدت طبيعة العلاقة، وهذا ما تثبته تجربة الخجل: " إنّ الخجل هو بالطبيعة اعتراف، اعتراف بأني أكون كما يراني الأخرون".</li>
+<li>على هذا النحو فإن اللقاء مع الآخر هو لقاء بين حريّتي وحريّته، ومن خلال هذا اللقاء وهذه المواجهة، يحقق الأنا ذاته وحريّته." هكذا سنكتشف في الحال عالما نسمّيه بينذاتية، وفيه يقرّر الإنسان ما يكون عليه الإنسان وما يكون عليه الأخرون".</li>
+</ul>
+<p class="para"><b><u>ميرلوبونتي:</u></b> يتجاوز النظرة الدّونية للجسد ليعلن تماهي الأنا مع الجسد وتماثلها معه إذ يقول "إني جسدي، ولا أملك سوى جسدي"، بمعنى أنّ الجسد ليس مجرّد موضوع ملكية أو شيئا عاديا وليس مجرّد صفة مضافة للذّات، بل هو عين الذات وهو ما يجعلها ممكنة الوجود، فالجسد هو ما يظهرني للعالم، وبواسطته أتفاعل معه ومع الأخرين، ومن خلاله أقصد الأشياء والبشر كي أضفي عليهم القيمة والمعنى وأقيم معهم العلاقات. وهذه العلاقات البينذاتية (أي بين الذات والذات الأخرى) قائمة على الجسد الخاص بما هو الجسد الذي أعي به العالم والأخرين وأدرك به المعنى والقيمة.</p>
+<p class="para"><b><u>ماركس:</u></b> إن الوعي ليس شيئا ثابتا، ولا هو معطى مسبقا، بل هو متطوّر باستمرار ومتجذّر في التاريخ والمادة، وعليه لا يمكن التفكير في ماهية الإنسان خارج التاريخ المادي المتحول باستمرار. فالإنسان كائن تاريخيّ يتأثر بالظروف الخارجية وبالواقع الذي يعيش فيه. وهذا ما يسميه ماركس ب «الحتمية الاجتماعية والتاريخية". إنّ أحكام الإنسان القيمية والأخلاقية والسياسية وحتى الدّينية وتمثّلاته لنفسه وللعالم هي نتاج تاريخي-ماديّ. وعلى هذا النحو لا يملك الإنسان طبيعة ثابتة وإنما هو كائن متغير لا يستقرّ على حال ثابتة، فـ"ليس الوعي هو الذي يحدّد الحياة، بل إن الحياة هي التي تحدّد الوعي"..</p>
+<div class="exsub"><u>تدريب فلسفي : الأنية و الغير</u></div>
+<p class="para">النّص:"مثلما أدرك الإنسان نفسه مباشرة بواسطة الكوجيتو، فإنه اكتشف أيضا الآخرين جميعا، و يكتشفهم بصفتهم شرط وجوده. ولقد تفطن –الإنسان- أنه لا يمكن أن يوجد البتّة شرط أن يعترف الناس به كما هو. ولكي أحصل على وجه من وجوه حقيقة ما عنّي، ينبغي أن أمرّ عبر الأخر. إن الأخر ضروري لوجودي، و هو ضروري بنفس القدر أيضا عن المعرفة التي لديّ عنّي. و ضمن هذه الشروط، فإن اكتشاف ما هو حميميّ في، سيكشفني في الوقت نفسه للأخر بصفته حرية ماثلة قبالتي، فالأخر لا يفكّر و لا يريد إلا من أجلي أنا أو ضدّي، و هكذا فإننا نكتشف في الحال عالما نسميه البينذاتية، و يقرّر الإنسان في هذا العالم ما يكون، و بما يكون الآخرون."</p>
+<p class="para">سارتر، الوجودية مذهب إنساني.</p>
+<p class="consigne">السؤال الأوّل: حدّد الأطروحة المستبعدة: ( نقطتان)</p>
+<p class="consigne">السؤال الثاني: حدّد إشكالية النّص: (نقطتان)</p>
+<p class="consigne">السؤال الثالث: حدّد قيمة "البينذاتية" في الوجود الإنساني: (نقطتان)</p>
+<!-- NOTE: the answers below are handwritten on the sheet; a vertical handwritten margin label is left out -->
+<p class="subhead t-navy"><u>السؤال الأوّل:</u></p>
+<p class="para">الوعي بالذات يشترط إقصاء الآخر</p>
+<p class="subhead t-navy"><u>السؤال الثاني:</u></p>
+<p class="para">ما هو شرط الوعي بالذات؟<br>
+هل يستوجب / يقتضي / يتطلّب إقصاء الآخر وعزله أم يقتضي / يفترض الإنفتاح عليه ضمن علاقة بينذاتيّة؟</p>
+<p class="subhead t-navy"><u>السؤال الثالث:</u></p>
+<p class="para">تساعدنا البينذاتية على إكتشاف الذات إضافة إلى إثراء الوجود الذاتي.</p>
+<p class="subhead t-navy"><u>ملاحظة</u></p>
+<p class="para">في المقاربة الوجودية يتحقق الوعي بضرورة الإنفتاح على الآخر.</p>
+<p class="para">" كلّما كان الآخر مختلفا عنّي كلّما أشرأب الإنفتاح عليه ".<br>
+رهان عملي / رهان فكري<br>
+( الرهان الفكري يتحوّل إلى ممارسة فعلية )<br>
+إكشف عن أحد رهانات هذا القول.<br>
+الرهان هو الهدف / الغاية من القول<br>
+يراهن هذا القول على تجاوز (الذات) عزلة الذات الإستبداد للهويّة<br>
+الإيجابيّة للآخر بما الإنفتاح عليه<br>
+مقولة الإختلاف يولّد الإثراء بالنسبة للذات؟</p>
+<!-- PROOFREAD: 1359 part1 p03 — handwritten notes at bottom: "أشرأب" / "تجاوز (الذات) عزلة الذات الإستبداد للهويّة" / "الإيجابيّة للآخر بما الإنفتاح عليه" / "مقولة الإختلاف" (left-margin words cut off) -->
+<p class="para">...ت حين نخرجها بإنفتاحها على الآخر خارجي ...ـها فقط و إنما بإعترافها بآخر كامن فيها؟</p>
+<!-- PROOFREAD: 1359 part1 p04 — top two lines cut off at the right edge of the sheet -->
+<p class="subhead t-navy"><u>إكشف عن إحدى ضمنيات هذا القول؟</u></p>
+<p class="para">المعنى الضمني الذي يمكن أن نفهمه / نستخرجه من القول دون أن يكون مصرّحا به دون أن يتناقض مع روح القول.<br>
+التصوّر الميتافيزيقي (الوعي بالذات هو وعي من خلال النفس (أفلاطون) الذات المفكّرة (ديكارت))<br>
+يسلّم هذا القول ضمنيّا بأنّ الوعي بالذات ليس بسيطا / بديهيا بل وإنّما هو وعي مركب من غيرية داخلية (مع فرويد) وأخرى خارجيّة (مع أفلاطون و ديكارت باعتباره جسدا أو فكرا)</p>
+<p class="subhead t-navy"><u>إكشف عن إحدى رهانات هذا القول</u></p>
+<p class="para">ما يؤول إليه<br>
+نتائج القول / ما يترتب عنه</p>
+<ul class="b">
+<li>يؤدي هذا القول إلى تجاوز التسلط الإقصائي للآخر</li>
+<li>يؤدي إلى الإعتراف بأهميّة الآخر في عمليّة الوعي بالذات</li>
+</ul>
+<p class="subhead t-navy">قدم حجة / دعم / دحض</p>
+<p class="para">كان في النص: reformulation تحمل ... تسطع معانها<br>
+بعد مقابلة أو كـ...<br>
+نحو حمل من هذا المستوى ما يمكنا أن نستنتجه<br>
+و لكننا نعتبر / نسيد أن هذا الإعتبار يؤدي إلى تعميق استبعاد الجسد قدرة الجسد</p>
+<!-- PROOFREAD: 1359 part1 p04 — the "قدم حجة" block is a hasty, partly cut-off handwritten draft; most words uncertain; right-margin fragments ("مقار... وجو...", "مقاربة ... مادي ... تاري...", "مقار... البينذ...") left out as cut off -->
+<p class="subhead t-navy">هل يمكن إلغاء الجسد إثباتا للانيّة؟</p>
+<p class="para">يمكن إلغاء الجسد إثباتا للانيّة.</p>
+<p class="para">1) تحديد المفاهيم</p>
+<ul class="b">
+<li>الانيّة</li>
+<li>الجسد (-)</li>
+<li>إقصاء</li>
+</ul>
+<p class="para">علاقة تعارض.<br>
+تحقق الانيّة يستلزم إقصاء الجسد.</p>
+<p class="para">2): تحديد العلاقة بين المفاهيم</p>
+<p class="para">3): تنزيل العلاقة ضمن التصوّر الفلسفي الملائم<br>
+تتنزل هذه العلاقة ضمن المقاربة الميتافيزيقيّة التي ......</p>
+<p class="para">4) الحجاج: استعمال الحجج</p>
+<p class="para">5) الاستنتاج: يليه بيان حدود الموقف<br>
+تحصيل أهم الأفكار حول الاطروحة الاولى<br>
+= مثال نحوصل في هذا المستوى / ما يمكن أن نستنتجه .....<br>
+و لكن / غير أنّ هذا التصوّر يؤدي إلى تهميش مستطاع / قدرة الجسد في الوقت الذي أنّ الواقع يؤكد ضرورة الاعتراف بالجسد وأهميّة حضوره.</p>
+<p class="para">I التعريف = المفهوم: الجسد (+) : الجسد مقوم أساسي من مقوّمات الانيّة على اعتبار أن الجسد حضوره إيجابي وشيئ مهم</p>
+<p class="para">استخلاص الموقف حول الموضوع</p>
+<!-- PROOFREAD: 1359 part1 p05 — handwritten draft: "مستطاع" / "حول الموضوع" / "إستعمال الحجج" uncertain -->
+<!-- NOTE: page p06 is a second copy of the printed page 2 of the جذاذة (with different annotations); transcribed again as it appears. Interlinear and margin handwriting left out. -->
+<p class="para">اعتبر النّفس جوهرا مفكّرا، وهو ما يحدّد وجود الإنسان، لأنّه بسيط وخالد وثابت. في مقابل ذلك اعتبر الجسد جوهرا ممتدّا ينتمي للطبيعة الفيزيائيّة، أي له طول وعرض وعمق وارتفاع، وهو غير ثابت لأنّ هذه الخاصيّات تتغيّر وتزول، ولا يمكن منطقيّا لما هو زائل أن يكون إنيّة ثابتة للإنسان.</p>
+<p class="subhead t-red"><b><u>II. علاقة التوافق بين الإنيّة الغيرية:</u></b></p>
+<p class="para"><b><u>فرويد:</u></b> إنّ نظرية التحليل النّفسي مع فرويد تتجاوز فكرة الماهية والإنية الثابتة: "ليس الوعي ماهية الحياة النّفسيّة، بل هو صفة من صفاتها، غيابها أكثر بكثير من حضورها"، لقد تمّ استبدال مفهوم الإنية الواحديّة بمفهوم الجهاز النّفسي الذي تحدّده أقطاب ثلاث:</p>
+<p class="para">1- الأنا: هو الوعي أو الذات كما هي في حالتها الطبيعية<br>
+2- الهو نعني به جملة الدّوافع والغرائز الحيوية التي من خلالها يعمل الإنسان على حفظ بقائه (دافع الأيروس= دافع الحبّ، ودافع التوناتوس، دافع الموت أي النزعة العدوانية المدمرة تجاه الأخر)<br>
+3- الأنا الأعلى: نعني به أشكال السلطة التي ينشأ في إطارها الانا منذ طفولته، سلطة الوالدين، المجتمع، الدّين، القانون، الأخلاق...</p>
+<p class="para">← فالإنيّة إذن ليست بسيطة، وليست مجرّد وعي مطلق، بل هي إنية مركّبة ومعقّدة تستبطن الغيرية داخليا (الهو والأنا الأعلى) وهي في صراع مستمر معهما باعتبارها صارت مجرّد خادم لهما، أي تحاول التوفيق بين متطلّبات الهو ومقتضيات الأنا الأعلى.</p>
+<p class="subhead t-navy"><b><u>سارتر:</u></b></p>
+<ul class="b">
+<li>يؤكد سارتر أنّ وجود غير ضروري لوجود الأنا، فمن خلال الغير يدرك الأنا وجوده ويعيه ويدرك قيمته.</li>
+<li>الغير ليس شيئا أو موضوعا كباقي الأشياء الماديّة، وإنما هو ذات واعية حرّة، أي أنا آخر مماثل لي، مما يجعله شرطا ضروريا لوجودي.</li>
+<li>لكن علاقة الأنا مع الغير هي علاقة صراع ونفي، فكل منهما يتحول تحت نظرة الأخر إلى موضوع أو شيء. لكن الأنا في حاجة دائمة للغير مهما تعذدت طبيعة العلاقة، وهذا ما تثبته تجربة الخجل: " إنّ الخجل هو بالطبيعة اعتراف، اعتراف بأني أكون كما يراني الأخرون".</li>
+<li>على هذا النحو فإن اللقاء مع الأخر هو لقاء بين حريتي وحرّيته، ومن خلال هذا اللقاء وهذه المواجهة، يحقّق الأنا ذاته وحرّيته." هكذا سنكتشف في الحال عالما نسمّيه بينذاتية، وفيه يقرّر الإنسان ما يكون عليه الإنسان وما يكون عليه الأخرون".</li>
+</ul>
+<p class="subhead t-navy">سبينوزا:</p>
+<p class="para">« النفس و الجسد شيء واحد تارة نتصوّره من جهة الفكر و طورًا من جهة الإمتداد »<br>
+حسب سبينوزا هي القوّة التي تدفع الإنسان نحو الوجود المادي لا القيمي و الأخلاقي على حدّ السّواء.</p>
+<!-- PROOFREAD: 1359 part1 p06 — handwritten Spinoza block: "حسب سبينوزا هي القوّة" (subject word may be missing) / "المادي لا القيمي" -->
+<p class="subhead t-red"><b>الإنساني بين الوحدة و الكثرة : الانية و الغيرية</b></p>
+<p class="para">1)مبررات طرح المسالة :التغيرات التي تطرأ على مجالات الواقع الإنساني مما احدث توترا في علاقة الانا بالغير<br>
+2)التعريف: الانية: فعل تأكيد الذات وما يقتضيه من تماثل وتطابق ووحدة<br>
+الغيرية: فعل السلب والنفي وما يفيده من اختلاف والخارج وكثرة<br>
+3)المفارقة : كل محاولة لطرح علاقة الانية والغيرية تثير صعوبات نظرية تعكس صعوبات على مستوى الواقع الإنساني الوجودي والمعرفي والقيمي ما يستوجب نمطا خاصا من الوعي يستجيب لهذه التغيرات المستوى الانطولوجي<br>
+4)هذه المفارقة تحيل بدورها على عدة دلالات لعلاقة الانا بالغير وانعكاسها على الإنساني بمطالبه....<br>
+*الدلالة الأولى: الانية كوحدة متعالية وثنائية مما يستدعي مبررات لفهم الإنسان :<br>
+-المبرر المثالي :الانسان =نفس : الانية معرفة بالنفس(اعرف نفسك بنفسك" سقراط) لذا فان كل ما يعيق هذه المعرفة هو غيرية (الجسد قبر للنفس "افلاطون") ، الاخر عائق (الرغبة واللذة والشهوة) ...ثنائية نفس/جسد<br>
++++تكريس علاقة مثالية بين الانا والاخر : الإنساني هو مثل عليا : الفضيلة ، الخير الاسمى<br>
++++الحرية هي تحرر من كل ماهو حسي كدلالة على الضعف والنقص<br>
+-المبرر الميتافيزيقي :الانسان = فكر : الانية يقين بالذات واستنتاج الوجود من هذا اليقين ، الاخر يزعزع ويهدد هذا اليقين .يغدو الأخر مجرد موضوع ....مطوية الاخر (ديكارت)<br>
+++++تكريس علاقة عقلانية بين الانا والاخر<br>
+++++الحرية تحرر فكري و عقلاني (بناء الحداثة)<br>
++++++فهم الوعي على انه عزلة واستقلالية وادراك الذات لذاتها بمعزل عن كل ما هو اخر<br>
+-المبرر الجدلي : الانية نزاع : لا يمكن الحديث عن وعي بالذات إلا من خلال اعتراف الأخر (هيجل)<br>
+النتيجة: -الغيرية هي كل ما يناقض الانية ويتعارض معها (فهم الاختلاف على انه تعارض ومن ثمة تكريس المماثلة) - الأخر مجرد موضوع أو موضعة الأخر -- الانسان ثنائية<br>
+*الدلالة الثانية :الانسان وحدة محايثة<br>
+-المبرر : المحايثة : وحدة النفس والجسد ، الانسان يفهم من خلال فكره ورغباته وانفعالاته على حد السواء<br>
+الرغبة قوة تفسر العلاقات الإنسانية (سبينوزا)<br>
++++++العقل ملكة محايثة وليست متعالية<br>
+++++++الحرية ليست مطلقة وانما وعي بالضرورة<br>
+-المبرر الفينومينولوجي: الانسان ظاهرة : الانا ليس ذات متعالية وانما منخرطة في العالم تعي بذاتها حسيا من خلال علاقتها القصدية بالأخر (ميرلوبنتي)<br>
+++++++الانسان ظاهرة وجود : يدرك ذاته حسيا عبر الجسد الخاص<br>
+++++++علاقة الانا بالغير ليست علاقة ذات بموضوع وانما علاقة بينذاتية<br>
+++++++الوعي ادراك حسي للعالم والأخر وسيط بين الذات وذاتها<br>
+النتيجة: إعادة الاعتبار للغيرية في فهم انيتنا - تجاوز الثنائيات الميتافيزيقية - تجاوز الفهم الموضوعي للوجود-تجاوز حصر تفسير العلاقات في المجال المعرفي والانفتاح على تعدد واختلاف وتنوع المعاني والتاويلات.<br>
+الدلالة الثالثة : الانسان بنية : انهيار مسلمات وثوابت الوعي وسيادة الانا ومركزيته:<br>
+-بنية مادية تتحدد علاقة الانا بالغير من خلال الوضعيات الاقتصادية والاجتماعية المتغيرة (التاريخ - ماركس)<br>
+-بنية نفسية لاشعورية: تتحدد العلاقات من خلال اللاوعي الذي يعبر عن قوى لاشعورية تتفاعل فيما بينها (فرويد)<br>
++++++اعادة فهم الانسان على أساس الواقع المادي /النفسي<br>
++++++العلاقات بين الانا والغير خاضعة للضرورة<br>
+الدلالة الرابعة :الانسان بنية دلالية :<br>
+-الانية بنية وجود مركب وليس بسيطا وواضحا (ادغار موران)<br>
+- الغيرية هي القدرة على الإيحاء والتعبير بما يحيل على وجود ممكن . الوجه حسب "ليفيناس" هو تأكيد لحضور الغير كأساس لوجود الانا. ايتيقا الغير<br>
+-الانسان مشروع وليس معطى (سارتر)<br>
+++++الحرية مسؤولية كونية تجاه الأخر<br>
++++++علاقة الانا بالغير مبنية على الإحساس الذي يحول القيم إلى سلوك : علاقة ايتيقية<br>
+الدلالة الخامسة : الانسان مشروع سلطوي يحول الغيرية الكامنة داخل الانا إلى سلطة متجذرة في ادق جزئياته (فوكو)</p>
+<!-- PROOFREAD: 1359 part1 p07 — heavy highlighter makes many lines hard to read: "المستوى الانطولوجي" / "على الإنساني بمطالبه" / "مطوية الاخر" / "بنية مادية تتحدد علاقة الانا بالغير من خلال الوضعيات الاقتصادية والاجتماعية المتغيرة (التاريخ - ماركس)" / "على حد السواء" -->
+
+</section>
+
+</div>
+</body>
+</html>

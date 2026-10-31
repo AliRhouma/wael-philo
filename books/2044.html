@@ -1,0 +1,310 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<title>Wael Academy — Philosophie · Mnhjiyya</title>
+<script>
+  window.MathJax = {
+    tex: { inlineMath: [['\\(','\\)']], displayMath: [['\\[','\\]']] },
+    chtml: { fontURL: 'https://cdn.jsdelivr.net/npm/mathjax@3/es5/output/chtml/fonts/woff-v2', matchFontHeight: true },
+    startup: { typeset: true }
+  };
+</script>
+<script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js" async></script>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Sora:wght@400;500;600;700;800&family=Cairo:wght@400;500;600;700;800;900&family=Tajawal:wght@400;500;700;800&family=JetBrains+Mono:wght@400;500;600;700&display=swap');
+:root{
+  /* ===== Wael Academy palette — MAIN ACCENT = green-teal gradient #0FAB8F → #067360 ===== */
+  --bg:#fff; --panel:#f2f8f8; --hair:#e6e6e9; --hair2:#d6d6db;
+  --fg:#0f2a31;        /* body text (and +/− signs) */
+  --fg2:#3f5b62;       /* softer text */
+  --fg3:#7c959b;       /* muted (footer) */
+  --blue:#067360;      /* deep accent — small numbers, borders, watermark, accent equations */
+  --blue-dark:#045260; /* titles & wordmarks (also the balance colour) */
+  --teal:#0fab8f;      /* bright accent end */
+  --loop:#0d9c82;      /* logo-loop helper */
+  --orange:#067360;    /* kicker/category labels (gold retired → deep teal) */
+  --red:#f5322f;       /* EXERCISE CHIPS ONLY — never for emphasis */
+  --cream:#e6f3f4; --blue-soft:#e6f3f4;  /* pale teal — callout fill + table sub-row fill */
+  --blue-line:#cde7e4; /* hairline */
+  --sub-ink:#045260;   /* table sub-row text */
+  --grad:linear-gradient(148deg,#0fab8f 0%,#0d9c82 52%,#067360 100%);
+  --mono:'JetBrains Mono',monospace; --latin:'Sora',sans-serif; --ar:'Cairo',sans-serif; --arb:'Tajawal',sans-serif;
+}
+*{box-sizing:border-box;margin:0;padding:0;}
+body{font-family:var(--latin);color:var(--fg);background:#e4e4e7;padding:28px 0;
+     -webkit-print-color-adjust:exact;print-color-adjust:exact;}
+html[dir="rtl"] body{font-family:var(--arb);}
+
+/* ===== brand watermark: REAL text (crisp), full-bleed, repeats per page ===== */
+.wm{position:fixed;inset:0;z-index:0;pointer-events:none;display:flex;
+    align-items:center;justify-content:center;overflow:hidden;
+    -webkit-print-color-adjust:exact;print-color-adjust:exact;}
+.wm span{font-family:var(--mono);font-weight:800;font-size:76.8pt;letter-spacing:.16em;
+    color:var(--blue);opacity:.06;white-space:nowrap;transform:rotate(-54deg);}  /* single diagonal: bottom-left → top-right */
+.wm.mono span{color:#000;opacity:.05;}
+
+/* ===== continuous flow stream (no page border) ===== */
+.flow{width:210mm;margin:0 auto;background:transparent;color:var(--fg);
+      padding-block:16mm 18mm;padding-inline:23mm 14mm;position:relative;}   /* spiral gutter: inline-start(=spine) 23mm / outer 14mm — dir-aware; print margins set in render_flow.py */
+@media screen{ .flow{background:#fff;box-shadow:0 10px 40px rgba(0,0,0,.16);} }
+.flow>*{position:relative;z-index:1;}
+.flow p,.flow li,.flow .data,.flow .note,.flow .ex{break-inside:auto;}
+.flow .fig,.flow figure,.flow img,.flow svg.figsvg,.flow table,.flow tr,.flow .chapdiv,.flow .exh,.flow .qrcard,.flow .meta{break-inside:avoid;}
+.flow h1,.flow h2,.flow h3,.flow .exh,.flow .subhead,.flow .chapdiv{break-after:avoid;}
+.flow img,.flow svg.figsvg{max-width:100%;height:auto;}
+.flow figcaption,.flow .figcap{display:none;}          /* rule 3: no figure captions */
+
+/* ===== front matter + chapters each start on a fresh page ===== */
+.flow .cover{break-after:page;}        /* cover alone on page 1 */
+.flow .toc{break-after:page;}          /* Sommaire alone on the next page */
+.flow .chapter{break-before:page;}
+.flow .chapter:first-of-type{break-before:auto;}
+
+/* ===== cover ===== */
+.cover{padding:14mm 0 8mm;border-bottom:2px solid var(--blue);margin-bottom:6mm;}
+.cover .badge{font-family:var(--mono);font-size:8.5pt;letter-spacing:.28em;text-transform:uppercase;color:var(--orange);margin-bottom:10px;}
+.cover h1{font-family:var(--latin);font-weight:800;font-size:34pt;line-height:1.03;letter-spacing:-.025em;color:var(--blue-dark);}
+.cover .grule{width:120px;height:5px;border-radius:5px;background:var(--grad);margin:14px 0;}
+.cover .sub{font-family:var(--mono);font-size:10pt;letter-spacing:.14em;text-transform:uppercase;color:var(--teal);}
+.cover .auth{font-size:11pt;color:var(--fg2);margin-top:6px;font-weight:600;}
+
+/* ===== table of contents ===== */
+.toc{margin:2mm 0 4mm;}
+.toc h2{font-family:var(--latin);font-weight:800;font-size:15pt;color:var(--blue-dark);margin-bottom:4mm;}
+.toc .trititle{font-family:var(--mono);font-size:8pt;letter-spacing:.2em;text-transform:uppercase;color:var(--orange);margin:4mm 0 2mm;}
+.toc ol{list-style:none;}
+.toc li{display:flex;align-items:baseline;gap:8px;font-size:10pt;padding:2.2px 0;color:var(--fg);line-height:1.4;}
+.toc li .n{font-family:var(--mono);font-weight:700;font-size:9pt;color:var(--blue);min-width:26px;}
+.toc li .dots{flex:1;border-bottom:1px dotted var(--hair2);transform:translateY(-3px);}
+
+/* ===== chapter divider band ===== */
+.chapdiv{margin:0 0 5mm;padding:6mm 16px 5mm;border-radius:12px;background:var(--grad);
+    -webkit-print-color-adjust:exact;print-color-adjust:exact;}   /* green-filled chapter band */
+.chapdiv .cn{font-family:var(--mono);font-size:8.5pt;font-weight:700;letter-spacing:.24em;text-transform:uppercase;color:rgba(255,255,255,.82);margin-bottom:5px;}
+.chapdiv h2{font-family:var(--latin);font-weight:800;font-size:17pt;line-height:1.1;letter-spacing:-.015em;color:#fff;}
+/* conclusion block — same green-filled look as the chapter band */
+.conclusion{background:var(--grad);border-radius:12px;padding:6mm 16px;margin:5mm 0;color:#fff;break-inside:avoid;
+    -webkit-print-color-adjust:exact;print-color-adjust:exact;}
+.conclusion .ck{font-family:var(--mono);font-size:8.5pt;font-weight:700;letter-spacing:.24em;text-transform:uppercase;color:rgba(255,255,255,.82);margin-bottom:6px;}
+.conclusion h3{font-family:var(--latin);font-weight:800;font-size:13pt;line-height:1.2;color:#fff;margin-bottom:4px;}
+.conclusion p,.conclusion li{font-size:10.4pt;line-height:1.7;color:#fff;}
+.conclusion b,.conclusion strong{color:#fff;font-weight:700;}
+
+/* ===== unit header (lesson/exercise) + QR emplacement ===== */
+.exh{display:flex;align-items:center;gap:11px;margin:6mm 0 3mm;}
+.exh .idx{font-family:var(--mono);font-size:9pt;font-weight:600;color:#fff;background:var(--grad);
+    border-radius:6px;padding:4px 11px;letter-spacing:.08em;text-transform:uppercase;
+    -webkit-print-color-adjust:exact;print-color-adjust:exact;}
+.exh .idx.ex{background:var(--red);}   /* exercise chip = red */
+.exh h2{font-family:var(--latin);font-size:14pt;font-weight:700;letter-spacing:-.01em;color:var(--blue-dark);}
+.exh .qrcard{margin-inline-start:auto;flex:0 0 auto;display:flex;flex-direction:column;align-items:center;gap:3px;width:26mm;}
+.qrcard .qrt{font-family:var(--mono);font-size:6.5pt;letter-spacing:.1em;text-transform:uppercase;color:var(--teal);text-align:center;}
+.qrcard .qrslot{width:24mm;height:24mm;padding:1.5mm;background:#fff;border:1px solid var(--blue-line);border-radius:8px;display:flex;align-items:center;justify-content:center;}
+.qrcard .qrslot img,.qrcard .qrslot svg{width:100%;height:100%;display:block;}
+
+/* sub-exercise label when one file holds several exercices */
+.exsub{font-family:var(--latin);font-weight:800;font-size:11.5pt;color:var(--blue-dark);margin:5mm 0 2.5mm;padding-bottom:3px;border-bottom:2px solid var(--blue-line);}
+
+/* ===== text blocks ===== */
+.lead{font-size:11pt;line-height:1.7;margin:2mm 0 3mm;color:var(--fg);}
+.para{font-size:10.6pt;line-height:1.7;margin:2mm 0 2.5mm;color:var(--fg);}
+.consigne{font-size:10.4pt;line-height:1.6;margin:1mm 0 2mm;color:var(--fg);font-style:italic;}
+.subhead{font-family:var(--latin);font-weight:800;font-size:12pt;letter-spacing:-.01em;color:var(--blue-dark);margin:5mm 0 2.5mm;}
+/* emphasis — green accent = .t-blue/.t-green ; balance = .t-navy ; red = SECONDARY accent (.t-red) on titles + a few words */
+.t-blue{color:var(--blue);font-weight:600;} .t-navy{color:var(--blue-dark);font-weight:700;}
+.t-red{color:var(--red);font-weight:600;} .t-green{color:var(--teal);font-weight:600;} .t-gold{color:var(--orange);font-weight:600;}
+.subhead.t-red{color:var(--red);font-weight:800;}   /* red Roman-numeral section title (I, II, …) — keeps subhead weight */
+/* highlighter marks — a soft colour wash behind a key word (agent picks green or red per what balances the page) */
+.hl-green,.hl-red{border-radius:3px;padding:.02em .24em;font-weight:600;box-decoration-break:clone;-webkit-box-decoration-break:clone;
+    -webkit-print-color-adjust:exact;print-color-adjust:exact;}
+.hl-green{background:rgba(15,171,143,.20);color:var(--blue-dark);}   /* green highlight */
+.hl-red{background:rgba(245,50,47,.13);color:#c0261f;}               /* red highlight  */
+
+.data{background:var(--blue-soft);border:1px solid var(--blue-line);border-inline-start:4px solid var(--blue);
+    border-radius:8px;padding:11px 16px;margin:3mm 0;font-size:10pt;line-height:1.65;color:var(--fg2);}
+.data b{color:var(--fg);font-weight:700;}
+.note{border:1px dashed var(--hair2);border-radius:9px;padding:11px 16px;margin:4mm 0;background:var(--panel);}
+.note .kicker{font-family:var(--mono);font-size:7.5pt;letter-spacing:.18em;color:var(--orange);display:block;margin-bottom:5px;}
+.note .nb{font-size:10pt;line-height:1.7;color:var(--fg2);} .note b{color:var(--fg);}
+.ex:not(.idx){background:var(--blue-soft);border:1px solid var(--blue-line);border-inline-start:3px solid var(--blue);
+    border-radius:7px;padding:7px 11px;font-size:9.6pt;line-height:1.6;color:var(--fg2);margin:2mm 0;}   /* :not(.idx) so it never hits the exercise chip (which is .idx.ex) */
+.ex .extag{display:inline-block;font-family:var(--latin);font-weight:800;font-size:7.6pt;color:var(--blue-dark);background:#fff;
+    border:1px solid var(--blue);border-radius:5px;padding:1px 9px;margin-inline-end:7px;vertical-align:middle;text-transform:uppercase;letter-spacing:.06em;}
+
+/* ===== lists ===== */
+ol.q{list-style:none;counter-reset:q;margin:1mm 0 2mm;}
+ol.q>li{counter-increment:q;position:relative;padding-inline-start:30px;margin-bottom:2.5mm;font-size:10.4pt;line-height:1.6;}
+ol.q>li::before{content:counter(q);position:absolute;inset-inline-start:0;top:1px;width:21px;height:21px;background:var(--grad);color:#fff;
+    border-radius:50%;font-family:var(--mono);font-size:9pt;font-weight:600;display:flex;align-items:center;justify-content:center;
+    -webkit-print-color-adjust:exact;print-color-adjust:exact;}
+ol.sub{list-style:none;counter-reset:s;margin:4px 0 0;padding-inline-start:2px;border-inline-start:1px solid var(--blue-line);}
+ol.sub li{counter-increment:s;position:relative;padding:2.5px 0 2.5px 26px;font-size:10.1pt;line-height:1.55;}
+ol.sub li::before{content:counter(s,lower-alpha)".";position:absolute;inset-inline-start:10px;top:2.5px;font-family:var(--mono);font-size:9pt;font-weight:600;color:var(--teal);}
+ol.qn{list-style:none;counter-reset:qn;margin:1mm 0 2mm;}
+ol.qn>li{counter-increment:qn;position:relative;padding-inline-start:26px;margin-bottom:2.2mm;font-size:10.4pt;line-height:1.55;}
+ol.qn>li::before{content:counter(qn)".";position:absolute;inset-inline-start:0;top:0;font-family:var(--mono);font-size:9.5pt;font-weight:700;color:var(--blue);}
+ul.b{list-style:none;margin:1mm 0 2mm;} ul.b>li{position:relative;padding-inline-start:22px;margin-bottom:2.4mm;font-size:10.4pt;line-height:1.6;}
+ul.b>li::before{content:"";position:absolute;inset-inline-start:3px;top:8px;width:8px;height:8px;border-radius:50%;background:var(--grad);
+    -webkit-print-color-adjust:exact;print-color-adjust:exact;}
+ul.dash{list-style:none;margin:1mm 0 2mm;} ul.dash>li{position:relative;padding-inline-start:20px;margin-bottom:1.8mm;font-size:10.4pt;line-height:1.6;}
+ul.dash>li::before{content:"–";position:absolute;inset-inline-start:2px;top:0;color:var(--fg);font-weight:700;}  /* dash / +/− signs = body colour */
+.flow ul.opts{list-style:none;margin:4px 0 3px;padding-inline-start:16px;}
+.flow ul.opts li{padding:2px 0;font-size:10.2pt;line-height:1.5;color:var(--fg);}
+
+/* ===== figures / tables ===== */
+.fig{margin:3mm 0;} .fig svg.figsvg{display:block;margin:0 auto;background:#fff;max-width:100%;height:auto;}
+.photo{display:block;margin:3mm auto;border-radius:8px;border:1px solid var(--hair);max-width:100%;}
+.figrow{display:flex;flex-wrap:wrap;gap:9px;justify-content:center;margin:3mm auto;max-width:190mm;}
+.flow .figrow img{border-radius:7px;border:1px solid var(--hair);height:46mm;width:auto;max-width:none;object-fit:cover;}
+.schemarow{display:flex;gap:16px;align-items:flex-start;flex-wrap:wrap;margin:2mm 0;}
+.schemarow .col-txt{flex:1 1 90mm;min-width:80mm;} .schemarow .col-fig{flex:0 0 78mm;} .schemarow .col-fig .fig{margin:0;}
+.flow table{border-collapse:collapse;width:100%;margin:3mm 0;font-size:9.8pt;line-height:1.5;}
+.flow table th,.flow table td{border:1px solid var(--blue-line);padding:6px 10px;text-align:start;vertical-align:top;}
+.flow table th{background:var(--grad);color:#fff;font-family:var(--latin);font-weight:700;font-size:9.4pt;
+    -webkit-print-color-adjust:exact;print-color-adjust:exact;}
+.flow table tr:nth-child(even) td{background:var(--blue-soft);color:var(--sub-ink);}   /* sub-row: #E6F3F4 / #045260 */
+
+mjx-container{color:var(--fg) !important;font-weight:400 !important;font-size:1.0em !important;}
+.eq-hi mjx-container,mjx-container.eq-hi{color:var(--blue) !important;}   /* accent (green) equation — highlight a key result; balance with plain math */
+.eq-red mjx-container,mjx-container.eq-red{color:var(--red) !important;}  /* red accent equation / symbol — complements the green .eq-hi */
+
+/* ===== per-file books: credit line, copies list, figures at their size ===== */
+.credit{display:flex;flex-wrap:wrap;align-items:center;gap:5px;margin:-1mm 0 3.5mm;font-size:9.4pt;color:var(--fg2);}
+.credit .who{font-weight:700;color:var(--blue-dark);}
+.credit .tg{font-family:var(--mono);font-size:7.2pt;letter-spacing:.04em;border-radius:5px;padding:1px 7px;line-height:1.6;
+    border:1px solid var(--blue-line);color:var(--blue);background:#fff;-webkit-print-color-adjust:exact;print-color-adjust:exact;}
+.credit .tg.sec{background:var(--blue-dark);border-color:var(--blue-dark);color:#fff;}
+.credit .tg.cor{background:#fff;border-color:var(--red);color:var(--red);}
+.credit a{color:var(--fg3);font-family:var(--mono);font-size:7pt;text-decoration:none;}
+.cover .auth .credit{margin:4mm 0 0;}
+.cover .copies{margin-top:5mm;font-size:8.6pt;color:var(--fg2);}
+.cover .copies ul{list-style:none;margin:2mm 0 0;padding:0;columns:2;}
+.cover .copies a{color:var(--fg3);text-decoration:none;font-size:8pt;}
+.flow figure.fig{text-align:center;}
+.flow figure.fig img{max-height:60mm;width:auto;max-width:70%;display:inline-block;}
+
+/* chapter tag on each part of a multi-chapter book (the book keeps the original order of the file) */
+.chtag{display:inline-block;margin:5mm 0 2mm;padding:1mm 3mm;border-radius:2mm;background:#eef3fb;border:1px solid #c9d6ea;
+  color:#1f3a6b;font-size:9pt;font-weight:700}
+.chtag span{color:#6b7f9e;font-weight:600;margin-inline-end:1.5mm}
+
+@media print{ body{background:#fff;padding:0;} .flow{width:auto;max-width:none;margin:0;padding:0;} }
+@page{size:A4;}   /* margins come from render_flow.py — do NOT set them here */
+</style>
+<meta data-pagefind-filter="type[content]" content="منهجية">
+<meta data-pagefind-filter="resource[content]" content="المصدر غير مذكور">
+<meta data-pagefind-meta="n[content]" content="2044">
+<meta data-pagefind-meta="title[content]" content="Mnhjiyya">
+<meta data-pagefind-filter="chapter[content]" content="المنهجية">
+<meta data-pagefind-filter="section[content]" content="باكالوريا علوم الإعلامية"><style>.qrcard{display:none!important}.wa-nav{position:sticky;top:0;z-index:50;background:#045260;padding:10px 18px;font-family:Cairo,sans-serif;direction:rtl}.wa-nav a{color:#fff;text-decoration:none;font-weight:700}@media print{.wa-nav{display:none}}</style>
+</head>
+
+<body dir="rtl" lang="ar"
+      data-brand="Wael Academy" data-handle="@WaelAcademy"
+      data-tagline="في تُرابنا.. مغامرة بمغامرة"
+      data-phone="+216 50 40 40 42" data-site="waeldocuments.com"
+      data-cta="سجل معانا وأقرى عن بعد مع منصة Wael Academy"
+      data-subject="Philosophie · Mnhjiyya" data-watermark="Wael Academy" data-pagefind-body><nav class="wa-nav" data-pagefind-ignore><a href="../index.html">→ الرجوع إلى فهرس الفلسفة</a></nav>
+
+<!-- single full-page diagonal watermark, bottom-left → top-right (repeats on every page) -->
+<div class="wm" aria-hidden="true"><span>WAEL&nbsp;ACADEMY</span></div>
+
+<div class="flow colored">
+<div class="cover"><div class="badge">◉ Wael Academy · Philosophie</div><h1>Mnhjiyya</h1><div class="grule"></div><div class="sub">المنهجية</div><div class="auth"><div class="credit">المؤلّف / المصدر : <span class="who">المصدر غير مذكور في الوثيقة</span> <span class="tg">منهجية</span><span class="tg cor">إصلاح</span><span class="tg sec">الفلسفة · باكالوريا علوم الإعلامية</span> <a href="https://drive.google.com/file/d/1itGIlUpICoG9sw21dhOmr-9FzRU7Yvzp/view">↗ 1.jpg</a> <a href="https://drive.google.com/file/d/1gtRL1Q7Q2kKk0fpmmJbbrpfhkSw35B6C/view">↗ 2.jpg</a> <a href="https://drive.google.com/file/d/11iyU6sL-lOrBYM2o4SSm4dqIP4N85dcC/view">↗ 3.jpg</a> <a href="https://drive.google.com/file/d/1QwlmaJFgaytQn1nkUqD5k0HXFsRYU64O/view">↗ Corrigé-Sujet 3.pdf</a> <a href="https://drive.google.com/file/d/10QuWJv7U-3iAQUL6wsW4NaU_oZfv2zR5/view">↗ 4.jpg</a></div></div><div class="copies" data-pagefind-ignore><b>نسخ هذا الملف في الدرايفات (5)</b><ul><li><a href="https://drive.google.com/file/d/1itGIlUpICoG9sw21dhOmr-9FzRU7Yvzp/view">Jihed Rezgani · Bac Info › Philo / منهجية / Mnhjiyya</a></li><li><a href="https://drive.google.com/file/d/1gtRL1Q7Q2kKk0fpmmJbbrpfhkSw35B6C/view">Jihed Rezgani · Bac Info › Philo / منهجية / Mnhjiyya</a></li><li><a href="https://drive.google.com/file/d/11iyU6sL-lOrBYM2o4SSm4dqIP4N85dcC/view">Jihed Rezgani · Bac Info › Philo / منهجية / Mnhjiyya</a></li><li><a href="https://drive.google.com/file/d/1QwlmaJFgaytQn1nkUqD5k0HXFsRYU64O/view">Jihed Rezgani · Bac Info › Philo / منهجية / Mr Lazher</a></li><li><a href="https://drive.google.com/file/d/10QuWJv7U-3iAQUL6wsW4NaU_oZfv2zR5/view">Jihed Rezgani · Bac Info › Philo / منهجية / Mnhjiyya</a></li></ul></div></div>
+<section class="chapter"><div class="chapdiv"><div class="cn">المحور</div><h2>المنهجية</h2></div>
+<!-- NOTE: one book for 4 files of the Drive folder "Philo / منهجية / Mnhjiyya" (photo), in file order -->
+<div class="exh"><span class="idx">منهجية</span><h2>Mnhjiyya</h2>
+  <div class="qrcard"><div class="qrt">فيديو الدرس</div><div class="qrslot"><img src="qr/2044.svg" alt="QR"></div></div></div>
+<div class="credit">المؤلّف / المصدر : <span class="who">المصدر غير مذكور في الوثيقة</span> <span class="tg">منهجية</span><span class="tg cor">إصلاح</span><span class="tg sec">الفلسفة · باكالوريا علوم الإعلامية</span> <a href="https://drive.google.com/file/d/1itGIlUpICoG9sw21dhOmr-9FzRU7Yvzp/view">↗ 1.jpg</a> <a href="https://drive.google.com/file/d/1gtRL1Q7Q2kKk0fpmmJbbrpfhkSw35B6C/view">↗ 2.jpg</a> <a href="https://drive.google.com/file/d/11iyU6sL-lOrBYM2o4SSm4dqIP4N85dcC/view">↗ 3.jpg</a> <a href="https://drive.google.com/file/d/1QwlmaJFgaytQn1nkUqD5k0HXFsRYU64O/view">↗ Corrigé-Sujet 3.pdf</a> <a href="https://drive.google.com/file/d/10QuWJv7U-3iAQUL6wsW4NaU_oZfv2zR5/view">↗ 4.jpg</a></div>
+
+<!-- file: 1 -->
+
+
+<!-- NOTE: entirely handwritten page (photo); highlighter in the student's own headings, red boxes around words and a red underline are not reproduced; scraps of another sheet visible at the left edge are left out -->
+<p class="subhead t-red">I) الإجابة على الأسئلة:</p>
+<p class="subhead t-navy">1) حدّد ضمنيّات / المسلّمات الضمنيّة / المفترضات هذا القول :</p>
+<!-- PROOFREAD: 2044 part1 p01 — a word crossed out before "المفترضات" is not typed -->
+<p class="para">- الكشف عن ما يخفي داخل هذا القول / ما لم يُقل</p>
+<p class="para"><span class="t-green">الإجابة</span>: يسلّم ضمنيّا هذا القول ...<br>- و يفترض ضمنيّا أنّ...<br>- يخفي هذا القول...</p>
+<p class="subhead t-navy">2) ما دلالة / مفهوم / ما معنى / ما المقصود بـ :</p>
+<p class="para">- يطلب في هذه الصّيغة تحديد مفهوم و معنى ما ورد فيها و تعريف تلك الدّلالة مقارنة بنقيضها.</p>
+<p class="para"><span class="t-green">الإجابة</span>: [التّعريف 1] ولا تفهم إلّا مقارنة بـ .... [التّعريف 2]</p>
+<!-- PROOFREAD: 2044 part1 p01 — a crossed-out word before "إلّا مقارنة" is not typed; "ولا تفهم" uncertain -->
+<p class="subhead t-navy">3) ما هي الإحراجات / الهواجس / المخاوف / التبعات / الإستتباعات / المخاطر:</p>
+<p class="para">- في هذه الصّيغة يطلب منّا الوقوف عن ما هو خطير و مخيف و مزعج و ما يحطّم الإنسان</p>
+<p class="para"><span class="t-green">الإجابة</span>: 3 مخاطر على الأقلّ / يترتّب عن هذا القول...</p>
+<p class="subhead t-navy">4) حدّد رهانات / غايات / أهداف / ما يروم بلوغه / ما يريد تحقيقه :</p>
+<p class="para">- في هذه الصّيغة يُطلب منّا تحديد الغاية القصوى الّتي يُراد بلوغها.</p>
+<p class="para">الرّهانات : <span class="t-red">1) رهان نظري / فكري / معرفي ;<br>2) رهان عملي</span></p>
+<p class="para"><span class="t-green">الإجابة</span>: إنّ الإقرار بـ .... <span class="t-red">يراهن نظريّا على ... أما عمليّا...</span></p>
+<!-- PROOFREAD: 2044 part1 p01 — handwriting: check "يحطّم الإنسان", "الوقوف عن", "يروم بلوغه" -->
+<!-- file: 2 -->
+
+
+<!-- NOTE: entirely handwritten page (photo); the student's highlighter on the headings is not reproduced -->
+<p class="subhead t-navy">5) ما مدى راهنيّة / حضور / ملائمة / اليوم : (موضة والّا موش موضة وعلا</p>
+<!-- PROOFREAD: 2048 part1 p01 — top-left words cut by the page edge, only "(موضة والّا موش موضة وعلا" visible -->
+<p class="para">- الكشف عن مدى ملائمة تلك الفكرة في عصرنا اليوم</p>
+<p class="para">الإجابة: [تفسير الفكرة] غير أنّ الزّمان اليوم [تفسير الفكرة لواقعنا الحاضر]<br>في السّابق</p>
+<p class="subhead t-navy">6) ما وظيفة / ما مهمّة / بماذا يضطلع / ما الّذي ينجزه :</p>
+<p class="para">- المطلوب هو تحديد ما يقدّمه لنا ذلك الموقف.</p>
+<p class="para">الإجابة: إنّ وظائف [الفكرة] ...</p>
+<p class="subhead t-navy">7) ما مشروعيّة / ما وجاهة / ما أحقيّة / ما مدى صحّة / ما قيمة:</p>
+<p class="para">- يطلب منّا بيان صحّة شيء ما مع التّركيز على الحدود أي الإشتغال على ما هو مفيد و نافع ورسم الحدود و مواطن الضّعف والخطأ (نعم... ولا...).</p>
+<p class="para">الإجابة: إنّ مشروعيّة [الفكرة] ولكن [الفكرة ≠]</p>
+<p class="subhead t-red">II) أسئلة النّصّ:</p>
+<p class="subhead t-navy">1) إستخراج الأطروحة:</p>
+<p class="para">- هو ما يدافع عنه النّصّ أي إستخراج الفكرة الرئيسيّة وتوضيحها وتبسيطها</p>
+<p class="para">الإجابة: <span class="t-red">يقدّم النّصّ بـ.... ويعمل على توضيح... وهو يدافع عن...</span></p>
+<p class="subhead t-navy">2) إستخراج الأطروحة المستبعدة:</p>
+<p class="para">- وهو ما يكتب ضدّه النّصّ ويشكّك فيه.</p>
+<p class="para">الإجابة: <span class="t-red">يشكّك النّصّ في... وهو يدحض... ويرفض الموقف القائل بـ.... و يحطّم...</span></p>
+<p class="subhead t-navy">3) ... على وضع إشكاليّة:</p>
+<!-- PROOFREAD: 2048 part1 p01 — the words before "على وضع إشكاليّة" are overwritten/scribbled and not readable -->
+<p class="para">- تحويل عناصر النّصّ إلى أسئلة تكون بمثابة تخطيط للنّصّ</p>
+<p class="para">الإجابة: ما ...؟<br>كيف ...؟<br>هل ....؟</p>
+<p class="para">. فكرة 1 ← سؤال<br>. فكرة 2 ← سؤال<br>. فكرة 3 ← سؤال</p>
+<p class="para">إستعمال - هل ...؟<br>- هل ...؟<br>- هل ...؟</p>
+<!-- PROOFREAD: 2048 part1 p01 — the three "هل ...؟" lines are crossed out with a big X; the two words written below "إستعمال" are unreadable (perhaps "...ممنوع / مرفوضة") -->
+<!-- file: 3 -->
+
+
+<!-- NOTE: part1 is an entirely handwritten page (photo); a keyboard and the edge of another sheet ("على؟") visible in the photo are left out -->
+<p class="subhead t-navy">4) قدّم حجّة على :</p>
+<p class="para">- المطلوب هو حجّة أو أكثر من أجل الإقناع بتلك الفكرة.</p>
+<p class="para">الإجابة: كان ما فمّاش حجّة من النّصّ تنجم تعطي حجّة من عندك.<br>- حجّة واقعيّة ، حجّة مقارنة ، حجّة واقعيّة)</p>
+<!-- PROOFREAD: 2056 part1 p01 — faint handwriting: "كان ما فمّاش" uncertain -->
+<p class="subhead t-red">III) الفقرة:</p>
+<p class="para"><b>1) المقدّمة:</b> وظيفتها صنع توتّر، صراع، مفارقة تسمح بالدّخول في مشكل الموضوع ويحصل ذلك عبر تقنية هي: الإنطلاق من رأي شائع في علاقة توتّر مع موقف فلسفي<br><span class="t-green">تصاغ كالتّالي:</span></p>
+<p class="para">* يعتقد عادة .... ويذهب في ظنّ الكثير من النّاس .... ممّا ينجم عنه...<br>غير أنّ / بيد أنّ / في حين أنّ / بينما / لكنّ الحكمة تقتضي أنّ .... والعقل يقرّ...<br>وممّا يترتّب عنه....</p>
+<p class="para">* يذهب في ظنّ الكثير من النّاس أنّ .... في حين يقرّ العقل بـ...</p>
+<p class="para">* يتردّد على مسامعنا بإستمرار.... إلّا أنّ العقل سرعان ما يكشف...</p>
+<p class="para"><b>2) الإشكاليّة:</b> تحويل عناصر الفقرة على المسودّة إلى أسئلة تكون بمثابة التخطيط العملي.</p>
+<p class="subhead t-navy">3) التحليل :</p>
+<p class="para">أ/ الأسس والمرتكزات: أي بيان الأسباب الّتي جعلت ذلك الموقف ممكنا (3 أسباب على الأقلّ)</p>
+<p class="para">ب/ <span class="t-green">مضمون ومحتوى الفكرة الواردة في الموضوع:</span> توضيح تلك الفكرة. بيان مجالاتها ومظاهرها وإستدعاء مرجعيّة من أجل مزيد الإقناع.</p>
+<p class="para">ج/ المسلّمات الضمنيّة: أي ما يختفي خلف ذلك الإقرار/ السّؤال.</p>
+<p class="para">د/ النّتائج والإستتباعات (الإحراجات): أي ما توصّلنا إليه دون حكم<br>+ المخاطر والإحراجات والمخاوف.</p>
+<p class="para">ح/ الإشكاليّة: طرح سؤال للدّخول الى مرحلة النّقد.</p>
+<!-- PROOFREAD: 2056 part1 p01 — handwriting: check "والعقل يقرّ", "التخطيط العملي", "ح/" -->
+<!-- NOT_PHILO: part2 (Corrigé-Sujet 3.pdf, 12 pages) is a Taki Academy PHYSIQUE handwritten correction ("Sujet 3 (suite)", Exercice N°2, tensions/oscillations) unrelated to this philosophy page — not transcribed -->
+<!-- file: 4 -->
+
+
+<!-- NOTE: entirely handwritten page (photo); the edge of another sheet ("على؟") visible at the left is left out -->
+<p class="subhead t-navy">4) النّقد :</p>
+<p class="para">أ/ <span class="t-green">المكاسب :</span> حجم الرّبح الحاصل أي التغيّر الحاصل في:<br>- علاقتي بذاتي.<br>- علاقتي بالآخر.<br>- علاقتي بالعالم والقيم</p>
+<p class="para">أي رصد ما تغيّر في مستوى رؤيتي للأفكار وللحياة.<br>تصاغ بأسلوب ذاتي: إنّني حين أقرّ بـ ... ما يتغيّر فيّ هو...</p>
+<p class="para">ب/ <span class="t-green">الحدود :</span></p>
+<p class="para">تنسيب + بيان أوجه الضّعف + التّشكيك في + بيان ضعف الحجّة<br>+ الكشف عن المخاطر.</p>
+<p class="para">ج/ <span class="t-green">الراهنيّة:</span> هي رصد مدى حضور فكرة الموضوع في عصرنا اليوم.</p>
+<p class="subhead t-navy">5) الخاتمة:</p>
+<p class="para">تلخيص لأهمّ ما توصّلنا إليه تحليلا ونقدا بلغة دقيقة وصارمة مع تجنّب الأسئلة و تجنّب فتح الآفاق.</p>
+<!-- PROOFREAD: 2058 part1 p01 — handwriting: check "ما يتغيّر فيّ هو" -->
+
+</section>
+
+</div>
+</body>
+</html>

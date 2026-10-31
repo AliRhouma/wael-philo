@@ -1,0 +1,627 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<title>Wael Academy — Philosophie · مراجعة-تمارين</title>
+<script>
+  window.MathJax = {
+    tex: { inlineMath: [['\\(','\\)']], displayMath: [['\\[','\\]']] },
+    chtml: { fontURL: 'https://cdn.jsdelivr.net/npm/mathjax@3/es5/output/chtml/fonts/woff-v2', matchFontHeight: true },
+    startup: { typeset: true }
+  };
+</script>
+<script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js" async></script>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Sora:wght@400;500;600;700;800&family=Cairo:wght@400;500;600;700;800;900&family=Tajawal:wght@400;500;700;800&family=JetBrains+Mono:wght@400;500;600;700&display=swap');
+:root{
+  /* ===== Wael Academy palette — MAIN ACCENT = green-teal gradient #0FAB8F → #067360 ===== */
+  --bg:#fff; --panel:#f2f8f8; --hair:#e6e6e9; --hair2:#d6d6db;
+  --fg:#0f2a31;        /* body text (and +/− signs) */
+  --fg2:#3f5b62;       /* softer text */
+  --fg3:#7c959b;       /* muted (footer) */
+  --blue:#067360;      /* deep accent — small numbers, borders, watermark, accent equations */
+  --blue-dark:#045260; /* titles & wordmarks (also the balance colour) */
+  --teal:#0fab8f;      /* bright accent end */
+  --loop:#0d9c82;      /* logo-loop helper */
+  --orange:#067360;    /* kicker/category labels (gold retired → deep teal) */
+  --red:#f5322f;       /* EXERCISE CHIPS ONLY — never for emphasis */
+  --cream:#e6f3f4; --blue-soft:#e6f3f4;  /* pale teal — callout fill + table sub-row fill */
+  --blue-line:#cde7e4; /* hairline */
+  --sub-ink:#045260;   /* table sub-row text */
+  --grad:linear-gradient(148deg,#0fab8f 0%,#0d9c82 52%,#067360 100%);
+  --mono:'JetBrains Mono',monospace; --latin:'Sora',sans-serif; --ar:'Cairo',sans-serif; --arb:'Tajawal',sans-serif;
+}
+*{box-sizing:border-box;margin:0;padding:0;}
+body{font-family:var(--latin);color:var(--fg);background:#e4e4e7;padding:28px 0;
+     -webkit-print-color-adjust:exact;print-color-adjust:exact;}
+html[dir="rtl"] body{font-family:var(--arb);}
+
+/* ===== brand watermark: REAL text (crisp), full-bleed, repeats per page ===== */
+.wm{position:fixed;inset:0;z-index:0;pointer-events:none;display:flex;
+    align-items:center;justify-content:center;overflow:hidden;
+    -webkit-print-color-adjust:exact;print-color-adjust:exact;}
+.wm span{font-family:var(--mono);font-weight:800;font-size:76.8pt;letter-spacing:.16em;
+    color:var(--blue);opacity:.06;white-space:nowrap;transform:rotate(-54deg);}  /* single diagonal: bottom-left → top-right */
+.wm.mono span{color:#000;opacity:.05;}
+
+/* ===== continuous flow stream (no page border) ===== */
+.flow{width:210mm;margin:0 auto;background:transparent;color:var(--fg);
+      padding-block:16mm 18mm;padding-inline:23mm 14mm;position:relative;}   /* spiral gutter: inline-start(=spine) 23mm / outer 14mm — dir-aware; print margins set in render_flow.py */
+@media screen{ .flow{background:#fff;box-shadow:0 10px 40px rgba(0,0,0,.16);} }
+.flow>*{position:relative;z-index:1;}
+.flow p,.flow li,.flow .data,.flow .note,.flow .ex{break-inside:auto;}
+.flow .fig,.flow figure,.flow img,.flow svg.figsvg,.flow table,.flow tr,.flow .chapdiv,.flow .exh,.flow .qrcard,.flow .meta{break-inside:avoid;}
+.flow h1,.flow h2,.flow h3,.flow .exh,.flow .subhead,.flow .chapdiv{break-after:avoid;}
+.flow img,.flow svg.figsvg{max-width:100%;height:auto;}
+.flow figcaption,.flow .figcap{display:none;}          /* rule 3: no figure captions */
+
+/* ===== front matter + chapters each start on a fresh page ===== */
+.flow .cover{break-after:page;}        /* cover alone on page 1 */
+.flow .toc{break-after:page;}          /* Sommaire alone on the next page */
+.flow .chapter{break-before:page;}
+.flow .chapter:first-of-type{break-before:auto;}
+
+/* ===== cover ===== */
+.cover{padding:14mm 0 8mm;border-bottom:2px solid var(--blue);margin-bottom:6mm;}
+.cover .badge{font-family:var(--mono);font-size:8.5pt;letter-spacing:.28em;text-transform:uppercase;color:var(--orange);margin-bottom:10px;}
+.cover h1{font-family:var(--latin);font-weight:800;font-size:34pt;line-height:1.03;letter-spacing:-.025em;color:var(--blue-dark);}
+.cover .grule{width:120px;height:5px;border-radius:5px;background:var(--grad);margin:14px 0;}
+.cover .sub{font-family:var(--mono);font-size:10pt;letter-spacing:.14em;text-transform:uppercase;color:var(--teal);}
+.cover .auth{font-size:11pt;color:var(--fg2);margin-top:6px;font-weight:600;}
+
+/* ===== table of contents ===== */
+.toc{margin:2mm 0 4mm;}
+.toc h2{font-family:var(--latin);font-weight:800;font-size:15pt;color:var(--blue-dark);margin-bottom:4mm;}
+.toc .trititle{font-family:var(--mono);font-size:8pt;letter-spacing:.2em;text-transform:uppercase;color:var(--orange);margin:4mm 0 2mm;}
+.toc ol{list-style:none;}
+.toc li{display:flex;align-items:baseline;gap:8px;font-size:10pt;padding:2.2px 0;color:var(--fg);line-height:1.4;}
+.toc li .n{font-family:var(--mono);font-weight:700;font-size:9pt;color:var(--blue);min-width:26px;}
+.toc li .dots{flex:1;border-bottom:1px dotted var(--hair2);transform:translateY(-3px);}
+
+/* ===== chapter divider band ===== */
+.chapdiv{margin:0 0 5mm;padding:6mm 16px 5mm;border-radius:12px;background:var(--grad);
+    -webkit-print-color-adjust:exact;print-color-adjust:exact;}   /* green-filled chapter band */
+.chapdiv .cn{font-family:var(--mono);font-size:8.5pt;font-weight:700;letter-spacing:.24em;text-transform:uppercase;color:rgba(255,255,255,.82);margin-bottom:5px;}
+.chapdiv h2{font-family:var(--latin);font-weight:800;font-size:17pt;line-height:1.1;letter-spacing:-.015em;color:#fff;}
+/* conclusion block — same green-filled look as the chapter band */
+.conclusion{background:var(--grad);border-radius:12px;padding:6mm 16px;margin:5mm 0;color:#fff;break-inside:avoid;
+    -webkit-print-color-adjust:exact;print-color-adjust:exact;}
+.conclusion .ck{font-family:var(--mono);font-size:8.5pt;font-weight:700;letter-spacing:.24em;text-transform:uppercase;color:rgba(255,255,255,.82);margin-bottom:6px;}
+.conclusion h3{font-family:var(--latin);font-weight:800;font-size:13pt;line-height:1.2;color:#fff;margin-bottom:4px;}
+.conclusion p,.conclusion li{font-size:10.4pt;line-height:1.7;color:#fff;}
+.conclusion b,.conclusion strong{color:#fff;font-weight:700;}
+
+/* ===== unit header (lesson/exercise) + QR emplacement ===== */
+.exh{display:flex;align-items:center;gap:11px;margin:6mm 0 3mm;}
+.exh .idx{font-family:var(--mono);font-size:9pt;font-weight:600;color:#fff;background:var(--grad);
+    border-radius:6px;padding:4px 11px;letter-spacing:.08em;text-transform:uppercase;
+    -webkit-print-color-adjust:exact;print-color-adjust:exact;}
+.exh .idx.ex{background:var(--red);}   /* exercise chip = red */
+.exh h2{font-family:var(--latin);font-size:14pt;font-weight:700;letter-spacing:-.01em;color:var(--blue-dark);}
+.exh .qrcard{margin-inline-start:auto;flex:0 0 auto;display:flex;flex-direction:column;align-items:center;gap:3px;width:26mm;}
+.qrcard .qrt{font-family:var(--mono);font-size:6.5pt;letter-spacing:.1em;text-transform:uppercase;color:var(--teal);text-align:center;}
+.qrcard .qrslot{width:24mm;height:24mm;padding:1.5mm;background:#fff;border:1px solid var(--blue-line);border-radius:8px;display:flex;align-items:center;justify-content:center;}
+.qrcard .qrslot img,.qrcard .qrslot svg{width:100%;height:100%;display:block;}
+
+/* sub-exercise label when one file holds several exercices */
+.exsub{font-family:var(--latin);font-weight:800;font-size:11.5pt;color:var(--blue-dark);margin:5mm 0 2.5mm;padding-bottom:3px;border-bottom:2px solid var(--blue-line);}
+
+/* ===== text blocks ===== */
+.lead{font-size:11pt;line-height:1.7;margin:2mm 0 3mm;color:var(--fg);}
+.para{font-size:10.6pt;line-height:1.7;margin:2mm 0 2.5mm;color:var(--fg);}
+.consigne{font-size:10.4pt;line-height:1.6;margin:1mm 0 2mm;color:var(--fg);font-style:italic;}
+.subhead{font-family:var(--latin);font-weight:800;font-size:12pt;letter-spacing:-.01em;color:var(--blue-dark);margin:5mm 0 2.5mm;}
+/* emphasis — green accent = .t-blue/.t-green ; balance = .t-navy ; red = SECONDARY accent (.t-red) on titles + a few words */
+.t-blue{color:var(--blue);font-weight:600;} .t-navy{color:var(--blue-dark);font-weight:700;}
+.t-red{color:var(--red);font-weight:600;} .t-green{color:var(--teal);font-weight:600;} .t-gold{color:var(--orange);font-weight:600;}
+.subhead.t-red{color:var(--red);font-weight:800;}   /* red Roman-numeral section title (I, II, …) — keeps subhead weight */
+/* highlighter marks — a soft colour wash behind a key word (agent picks green or red per what balances the page) */
+.hl-green,.hl-red{border-radius:3px;padding:.02em .24em;font-weight:600;box-decoration-break:clone;-webkit-box-decoration-break:clone;
+    -webkit-print-color-adjust:exact;print-color-adjust:exact;}
+.hl-green{background:rgba(15,171,143,.20);color:var(--blue-dark);}   /* green highlight */
+.hl-red{background:rgba(245,50,47,.13);color:#c0261f;}               /* red highlight  */
+
+.data{background:var(--blue-soft);border:1px solid var(--blue-line);border-inline-start:4px solid var(--blue);
+    border-radius:8px;padding:11px 16px;margin:3mm 0;font-size:10pt;line-height:1.65;color:var(--fg2);}
+.data b{color:var(--fg);font-weight:700;}
+.note{border:1px dashed var(--hair2);border-radius:9px;padding:11px 16px;margin:4mm 0;background:var(--panel);}
+.note .kicker{font-family:var(--mono);font-size:7.5pt;letter-spacing:.18em;color:var(--orange);display:block;margin-bottom:5px;}
+.note .nb{font-size:10pt;line-height:1.7;color:var(--fg2);} .note b{color:var(--fg);}
+.ex:not(.idx){background:var(--blue-soft);border:1px solid var(--blue-line);border-inline-start:3px solid var(--blue);
+    border-radius:7px;padding:7px 11px;font-size:9.6pt;line-height:1.6;color:var(--fg2);margin:2mm 0;}   /* :not(.idx) so it never hits the exercise chip (which is .idx.ex) */
+.ex .extag{display:inline-block;font-family:var(--latin);font-weight:800;font-size:7.6pt;color:var(--blue-dark);background:#fff;
+    border:1px solid var(--blue);border-radius:5px;padding:1px 9px;margin-inline-end:7px;vertical-align:middle;text-transform:uppercase;letter-spacing:.06em;}
+
+/* ===== lists ===== */
+ol.q{list-style:none;counter-reset:q;margin:1mm 0 2mm;}
+ol.q>li{counter-increment:q;position:relative;padding-inline-start:30px;margin-bottom:2.5mm;font-size:10.4pt;line-height:1.6;}
+ol.q>li::before{content:counter(q);position:absolute;inset-inline-start:0;top:1px;width:21px;height:21px;background:var(--grad);color:#fff;
+    border-radius:50%;font-family:var(--mono);font-size:9pt;font-weight:600;display:flex;align-items:center;justify-content:center;
+    -webkit-print-color-adjust:exact;print-color-adjust:exact;}
+ol.sub{list-style:none;counter-reset:s;margin:4px 0 0;padding-inline-start:2px;border-inline-start:1px solid var(--blue-line);}
+ol.sub li{counter-increment:s;position:relative;padding:2.5px 0 2.5px 26px;font-size:10.1pt;line-height:1.55;}
+ol.sub li::before{content:counter(s,lower-alpha)".";position:absolute;inset-inline-start:10px;top:2.5px;font-family:var(--mono);font-size:9pt;font-weight:600;color:var(--teal);}
+ol.qn{list-style:none;counter-reset:qn;margin:1mm 0 2mm;}
+ol.qn>li{counter-increment:qn;position:relative;padding-inline-start:26px;margin-bottom:2.2mm;font-size:10.4pt;line-height:1.55;}
+ol.qn>li::before{content:counter(qn)".";position:absolute;inset-inline-start:0;top:0;font-family:var(--mono);font-size:9.5pt;font-weight:700;color:var(--blue);}
+ul.b{list-style:none;margin:1mm 0 2mm;} ul.b>li{position:relative;padding-inline-start:22px;margin-bottom:2.4mm;font-size:10.4pt;line-height:1.6;}
+ul.b>li::before{content:"";position:absolute;inset-inline-start:3px;top:8px;width:8px;height:8px;border-radius:50%;background:var(--grad);
+    -webkit-print-color-adjust:exact;print-color-adjust:exact;}
+ul.dash{list-style:none;margin:1mm 0 2mm;} ul.dash>li{position:relative;padding-inline-start:20px;margin-bottom:1.8mm;font-size:10.4pt;line-height:1.6;}
+ul.dash>li::before{content:"–";position:absolute;inset-inline-start:2px;top:0;color:var(--fg);font-weight:700;}  /* dash / +/− signs = body colour */
+.flow ul.opts{list-style:none;margin:4px 0 3px;padding-inline-start:16px;}
+.flow ul.opts li{padding:2px 0;font-size:10.2pt;line-height:1.5;color:var(--fg);}
+
+/* ===== figures / tables ===== */
+.fig{margin:3mm 0;} .fig svg.figsvg{display:block;margin:0 auto;background:#fff;max-width:100%;height:auto;}
+.photo{display:block;margin:3mm auto;border-radius:8px;border:1px solid var(--hair);max-width:100%;}
+.figrow{display:flex;flex-wrap:wrap;gap:9px;justify-content:center;margin:3mm auto;max-width:190mm;}
+.flow .figrow img{border-radius:7px;border:1px solid var(--hair);height:46mm;width:auto;max-width:none;object-fit:cover;}
+.schemarow{display:flex;gap:16px;align-items:flex-start;flex-wrap:wrap;margin:2mm 0;}
+.schemarow .col-txt{flex:1 1 90mm;min-width:80mm;} .schemarow .col-fig{flex:0 0 78mm;} .schemarow .col-fig .fig{margin:0;}
+.flow table{border-collapse:collapse;width:100%;margin:3mm 0;font-size:9.8pt;line-height:1.5;}
+.flow table th,.flow table td{border:1px solid var(--blue-line);padding:6px 10px;text-align:start;vertical-align:top;}
+.flow table th{background:var(--grad);color:#fff;font-family:var(--latin);font-weight:700;font-size:9.4pt;
+    -webkit-print-color-adjust:exact;print-color-adjust:exact;}
+.flow table tr:nth-child(even) td{background:var(--blue-soft);color:var(--sub-ink);}   /* sub-row: #E6F3F4 / #045260 */
+
+mjx-container{color:var(--fg) !important;font-weight:400 !important;font-size:1.0em !important;}
+.eq-hi mjx-container,mjx-container.eq-hi{color:var(--blue) !important;}   /* accent (green) equation — highlight a key result; balance with plain math */
+.eq-red mjx-container,mjx-container.eq-red{color:var(--red) !important;}  /* red accent equation / symbol — complements the green .eq-hi */
+
+/* ===== per-file books: credit line, copies list, figures at their size ===== */
+.credit{display:flex;flex-wrap:wrap;align-items:center;gap:5px;margin:-1mm 0 3.5mm;font-size:9.4pt;color:var(--fg2);}
+.credit .who{font-weight:700;color:var(--blue-dark);}
+.credit .tg{font-family:var(--mono);font-size:7.2pt;letter-spacing:.04em;border-radius:5px;padding:1px 7px;line-height:1.6;
+    border:1px solid var(--blue-line);color:var(--blue);background:#fff;-webkit-print-color-adjust:exact;print-color-adjust:exact;}
+.credit .tg.sec{background:var(--blue-dark);border-color:var(--blue-dark);color:#fff;}
+.credit .tg.cor{background:#fff;border-color:var(--red);color:var(--red);}
+.credit a{color:var(--fg3);font-family:var(--mono);font-size:7pt;text-decoration:none;}
+.cover .auth .credit{margin:4mm 0 0;}
+.cover .copies{margin-top:5mm;font-size:8.6pt;color:var(--fg2);}
+.cover .copies ul{list-style:none;margin:2mm 0 0;padding:0;columns:2;}
+.cover .copies a{color:var(--fg3);text-decoration:none;font-size:8pt;}
+.flow figure.fig{text-align:center;}
+.flow figure.fig img{max-height:60mm;width:auto;max-width:70%;display:inline-block;}
+
+/* chapter tag on each part of a multi-chapter book (the book keeps the original order of the file) */
+.chtag{display:inline-block;margin:5mm 0 2mm;padding:1mm 3mm;border-radius:2mm;background:#eef3fb;border:1px solid #c9d6ea;
+  color:#1f3a6b;font-size:9pt;font-weight:700}
+.chtag span{color:#6b7f9e;font-weight:600;margin-inline-end:1.5mm}
+
+@media print{ body{background:#fff;padding:0;} .flow{width:auto;max-width:none;margin:0;padding:0;} }
+@page{size:A4;}   /* margins come from render_flow.py — do NOT set them here */
+</style>
+<meta data-pagefind-filter="type[content]" content="ملخّص">
+<meta data-pagefind-filter="resource[content]" content="Taki Academy">
+<meta data-pagefind-meta="n[content]" content="2261">
+<meta data-pagefind-meta="title[content]" content="مراجعة-تمارين">
+<meta data-pagefind-filter="chapter[content]" content="مراجعة (عدّة محاور)">
+<meta data-pagefind-filter="chapter[content]" content="الخصوصية والكونية">
+<meta data-pagefind-filter="chapter[content]" content="العلم بين الحقيقة والنمذجة">
+<meta data-pagefind-filter="chapter[content]" content="القيم: الأخلاق والدولة">
+<meta data-pagefind-filter="chapter[content]" content="الإنية والغيرية">
+<meta data-pagefind-filter="section[content]" content="باكالوريا علوم تجريبية"><style>.qrcard{display:none!important}.wa-nav{position:sticky;top:0;z-index:50;background:#045260;padding:10px 18px;font-family:Cairo,sans-serif;direction:rtl}.wa-nav a{color:#fff;text-decoration:none;font-weight:700}@media print{.wa-nav{display:none}}</style>
+</head>
+
+<body dir="rtl" lang="ar"
+      data-brand="Wael Academy" data-handle="@WaelAcademy"
+      data-tagline="في تُرابنا.. مغامرة بمغامرة"
+      data-phone="+216 50 40 40 42" data-site="waeldocuments.com"
+      data-cta="سجل معانا وأقرى عن بعد مع منصة Wael Academy"
+      data-subject="Philosophie · مراجعة-تمارين" data-watermark="Wael Academy" data-pagefind-body><nav class="wa-nav" data-pagefind-ignore><a href="../index.html">→ الرجوع إلى فهرس الفلسفة</a></nav>
+
+<!-- single full-page diagonal watermark, bottom-left → top-right (repeats on every page) -->
+<div class="wm" aria-hidden="true"><span>WAEL&nbsp;ACADEMY</span></div>
+
+<div class="flow colored">
+<div class="cover"><div class="badge">◉ Wael Academy · Philosophie</div><h1>مراجعة-تمارين</h1><div class="grule"></div><div class="sub">مراجعة (عدّة محاور)</div><div class="auth"><div class="credit">المؤلّف / المصدر : <span class="who">TAKI. ; المعهد النّموذجي بصفاقس — الأستاذ: نـاجي خليـف</span> <span class="tg">تمارين</span><span class="tg">مراجعة</span><span class="tg sec">الفلسفة · باكالوريا علوم تجريبية</span> <a href="https://drive.google.com/file/d/1L6p8El7uTiK8Bg7NUXQDCJiY_U76RBtQ/view">↗ مراجعة-تمارين.pdf</a></div></div><div class="copies" data-pagefind-ignore><b>نسخ هذا الملف في الدرايفات (1)</b><ul><li><a href="https://drive.google.com/file/d/1L6p8El7uTiK8Bg7NUXQDCJiY_U76RBtQ/view">une · Bac science 2026 › فلسفة</a></li></ul></div></div>
+<section class="chapter">
+<div class="chtag"><span>المحور</span> مراجعة (عدّة محاور)</div>
+<!-- SOURCE: TAKI. ; المعهد النّموذجي بصفاقس — الأستاذ: نـاجي خليـف -->
+<!-- NOTE: entirely handwritten review notebook; highlighter, circles, arrows and underlines drawn over the handwriting are left out -->
+<div class="exh"><span class="idx">ملخّص</span><h2>مراجعة للفلسفة</h2>
+  <div class="qrcard"><div class="qrt">فيديو الدرس</div><div class="qrslot"><img src="qr/2261.svg" alt="QR"></div></div></div>
+<div class="credit">المؤلّف / المصدر : <span class="who">TAKI. ; المعهد النّموذجي بصفاقس — الأستاذ: نـاجي خليـف</span> <span class="tg">تمارين</span><span class="tg">مراجعة</span><span class="tg sec">الفلسفة · باكالوريا علوم تجريبية</span> <a href="https://drive.google.com/file/d/1L6p8El7uTiK8Bg7NUXQDCJiY_U76RBtQ/view">↗ مراجعة-تمارين.pdf</a></div>
+<p class="subhead t-navy">أسئلة في كافة المحاور</p>
+<p class="subhead t-red">الإنية و الغيرية :</p>
+<!-- PAGE 1 -->
+<p class="subhead t-navy">« إنّني ما أنا بالوعي و حده »</p>
+<p class="para">الإدراك ـ الأنية</p>
+<!-- PROOFREAD: 2261 part1 p01 — "الإدراك" / "الأنية" are words linked by arrows to the quotation; placement uncertain -->
+<p class="para"><span class="t-green">حجة مضادة :</span></p>
+<p class="para">إن إعتبرنا أنّ الأنية ترتبط بالوعي وحده فمطلوب التلازم الماهوي فإن ما ينتج عن ذلك هو أنّ تكون كلّ الأفعال و السلوكيات واعية ومحددة من قبل الفكر إلّا أنّ ظاهرة الندم تؤكد وجود نوع من التوتر بين أفعالنا ومقتضيات العقل.</p>
+<!-- PROOFREAD: 2261 part1 p01 — "فمطلوب التلازم الماهوي" very uncertain reading; crossed-out words omitted -->
+<p class="para">* الذات لا تدرك ذاتها إلّا من خلال و سائط مغايرة لها تجعل من إدراكها أكثر موضوعية</p>
+<p class="subhead t-navy">« يعرفني الآخر أكثر مما أعرف نفسي »</p>
+<p class="para"><span class="t-green">الحجة :</span></p>
+<p class="para">تتجاوز الذات انغلاقها كلّما انفتحت على غيرها تكون الذات أكثر إدراكا إذا ما انفتحت على الآخر.</p>
+<p class="para">الإكتفاء بمعرفة أنفسنا قد يجعل هذه المعرفة ذاتية و زائفة في حين أنّ معرفة الآخر لنا هي معرفة أكثر موضوعية لأنه قادر على رؤية ما لا يمكن للذات أن تراه.</p>
+<p class="subhead t-navy">« لقد إستطاع الإنسان طويلة قادرون عن الإقتناع الذاتي بأن لا أجساد لهم »</p>
+<!-- PROOFREAD: 2261 part1 p01 — quotation "لقد إستطاع الإنسان طويلة قادرون عن الإقتناع الذاتي" uncertain reading -->
+<p class="para"><span class="t-green">مسلمة تفسيرية</span></p>
+<p class="para">تعريف الإنسان تعريف بالعقل و حده الجسد ما وضعية يعتبره وطلب الإنحراف.</p>
+<!-- PROOFREAD: 2261 part1 p01 — last two lines largely illegible: "و حده الجسد ما وضعية يعتبره وطلب الإنحراف" -->
+<!-- PAGE 2 -->
+<p class="subhead t-navy">« الحوار لا يوجد إلّا من أجل الآخر »</p>
+<p class="para">ثمّن أهمية هذا القول :</p>
+<ul class="b">
+<li>إقرار الحوار و التواصل مع الآخر تأكيد لأفق الإنساني المشترك.</li>
+<li>وجود مشترك</li>
+<li>التشريع لقيم إنسانية و تسامح تقبل الإختلاف و تعايش سلمي</li>
+<li>إنّ الحاجة للآخر متبادلة إذا ما سلمنا أنّ كلّ أنا هي أنا و الآخرين في آن واحد</li>
+</ul>
+<!-- PROOFREAD: 2261 part1 p02 — bullets read with difficulty; margin words cut by the edge ("الأفق", "التعدد"?) not typed -->
+
+<div class="chtag"><span>المحور</span> الخصوصية والكونية</div>
+
+<p class="subhead t-red">الخصوصية و الكونية</p>
+<p class="subhead t-navy">« لا بدّ للثقافة و أن تعطي المشترك بين أصالتهم »</p>
+<!-- PROOFREAD: 2261 part1 p02 — quotation very uncertain: "لا بدّ للثقافة و أن تعطي المشترك بين أصالتهم" -->
+<p class="para"><span class="t-green">الأصالة</span></p>
+<p class="para">تأكيد الإنتماء بالثقافة دون تعصّبا</p>
+<p class="para">* الأصولية و التعصّب</p>
+<p class="para">إعترض على هذا القول.</p>
+<p class="para">التعصّب و الأصولية رفض الآخر و إقصائه إنقطاع الحوار.</p>
+<p class="para">تآكل الهوية و إنغلاقها و إنعزالها و إلى إضمحلال و لا تستطيع ثقافتها لا تنفتح على الآخر</p>
+<!-- PROOFREAD: 2261 part1 p02 — "تآكل الهوية ... لا تنفتح على الآخر" mostly illegible, partly cut at left edge -->
+<p class="subhead t-navy">« بقدر ما تكون ثقافة ما متجذرة لا يمنعها أن تكون منفتحة »</p>
+<!-- PROOFREAD: 2261 part1 p02 — "متجذرة" uncertain -->
+<p class="para">حدّد <u>المسلمات الضمنية</u> لهذا القول :</p>
+<p class="para">تشترط الإنفتاح بالإعتراف على الآخر و الإعتراف به.</p>
+<p class="para">عندما تعتز ثقافة ما بتاريخها و خصوصيتها السبق الثقافي يعني تحصين كل هوية ثقافية لنفسها من خلال التعرف على ثقافات مغايرة لها.</p>
+<!-- PROOFREAD: 2261 part1 p02 — last two paragraphs uncertain reading -->
+<!-- PAGE 3 -->
+<p class="subhead t-navy">* « لا تمنحوا للأطفال هوية بعالم ليس عالمهم »</p>
+<!-- PROOFREAD: 2261 part1 p03 — quotation uncertain -->
+<p class="para">تبعات هذا القول :</p>
+<p class="para">يعيش الإنسان أزمة هوية</p>
+<p class="para">الإغتراب الثقافي</p>
+<p class="para">التشيّؤ الضياع إلى حدّ أنه لم يعد يعرف من يكون</p>
+<p class="para">المخاطر</p>
+<p class="subhead t-navy">* « يريد أن لا يتساوى ما يستحسن الإنسان الحق من أن الأنا و الآخر من العالم المختلفة »</p>
+<!-- PROOFREAD: 2261 part1 p03 — this quotation is largely illegible -->
+<p class="para">حدّد قيمة هذا القول :</p>
+<p class="para">ما هو إيجابي ـ ما هو سلبي</p>
+<p class="para">(+) الإيجابي : تكريس قيمة الإختلاف كدافع للإثراء / قيمة التلاقح الثقافي</p>
+<p class="para">(-) السلبي : إلّا أنّ الحق حين يكون كونيا قد يكون موظفا في القضاء على الخصوصيات الأخرى</p>
+<p class="subhead t-navy">* « كلّ واحد يسمح له أن يشكّل في ذاته هوية مركّبة إنسانية متناسقة »</p>
+<p class="para">أي دلالة الهوية</p>
+<p class="para">المعنى / المقصود به / مفهوم / على ما تدلّ</p>
+<p class="para">فكل هوية روافد كثيرة و هي كل كثرة متناسقة وفقا له.</p>
+<!-- PROOFREAD: 2261 part1 p03 — "فكل هوية روافد كثيرة ... وفقا له" uncertain -->
+<p class="para">* الهوية مركّبة و هي متعدّدة الأبعاد مما ينتج عنه وحدة الذات و كثرة الهويات.</p>
+<!-- PROOFREAD: 2261 part1 p03 — "و كثرة الهويات" uncertain -->
+<p class="para">* البشر متشابهون بالثقافة و مختلفون بالثقافات</p>
+<p class="para">* ما يجمع البشر هو إمتلاكهم جميعا للثقافة و ما يفرقهم هو أنّ لكلّ هو هويته الثقافية الخاصة</p>
+<!-- PROOFREAD: 2261 part1 p03 — last line partly cut at the left edge -->
+<!-- PAGE 4 -->
+
+<div class="chtag"><span>المحور</span> العلم بين الحقيقة والنمذجة</div>
+
+<p class="subhead t-red">* العلم بين الحقيقة و النمذجة :</p>
+<p class="subhead t-navy">* « إنّنا لا نرى الواقع كما هو بل نتمثّلها »</p>
+<p class="para">تمثيلية <span dir="ltr">représentation</span></p>
+<p class="para">الواقع معاش و معطى</p>
+<p class="para">صنع واقع جديد ... الإستنتاج</p>
+<!-- PROOFREAD: 2261 part1 p04 — left-margin note "صنع واقع جديد ... الإستنتاج" partly illegible / cut -->
+<p class="para">* الواقع ثابت / الواقع متغير قابل للبناء</p>
+<p class="para">أي دلالة للواقع العلمي يشترطه هذا القول.</p>
+<p class="para">لم يعد الواقع معطى علمي يتم الإستقراء عليه و إنما هو واقع مبني.</p>
+<!-- PROOFREAD: 2261 part1 p04 — "لم يعد ... يتم الإستقراء عليه" uncertain -->
+<p class="para">الواقع العلمي يتم بناؤه و إنشاؤه و إصطناعه يصنع النموذج و إيجاده بنفسه بأن يمثّله و يختزله إنطلاقا من تمثلات للواقع.</p>
+<p class="para">الواقع العلمي واقع علمي خيالي و إفتراضي يمثّله النموذج و يبنيه بنفسه</p>
+<p class="para">منهجية : الدلالة لا يكون إلّا بالتحديد</p>
+<!-- PROOFREAD: 2261 part1 p04 — faded pencil line "منهجية : ..." uncertain -->
+<p class="subhead t-navy">* « إنّ كلّ ما هو واقعي عقلاني و كلّ ما هو عقلاني واقعي »</p>
+<!-- PROOFREAD: 2261 part1 p04 — first half may read "واقعي لا عقلاني" -->
+<p class="para">ماذا يقصد العلماء المعاصرون حين يقولون</p>
+<p class="para">العقلاني / للتفسير</p>
+<ul class="b">
+<li>أنّ العلم لا ينطلق من الواقع و إنما يصل إليه.</li>
+<li>إنّ قيمة المعرفة العلمية تقاس بالنجاعة و ليس بالمطابقة.</li>
+<li>أنّ الواقع معقد و يحتاج إلى إعادة بنائه من خلال إفتراض و تشكيل واقع يبنيه العقل</li>
+</ul>
+<p class="subhead t-navy">* « النمذجة منتجات العقل »</p>
+<!-- PROOFREAD: 2261 part1 p04 — "منتجات" uncertain -->
+<p class="para">* مسلمة ضمنية :</p>
+<ul class="b">
+<li>الوعي بحدود النمذجة العلمية لإنشاء موقف نقدي منها</li>
+<li>تجاوز الموقف الوثوقي من النمذجة العلمية</li>
+</ul>
+<p class="para">لم يعد العقل العلمي / العقل العلمي من حقل ... / لم يعد للعقل الفكري / التعب و التراخي</p>
+<!-- PROOFREAD: 2261 part1 p04 — bottom notes ("لم يعد العقل العلمي ...") largely illegible and cut by the page edge -->
+<!-- PAGE 5 -->
+<p class="subhead t-navy">« لا يكون النموذج أبدا نهائيا »</p>
+<p class="para">* <span class="t-green">تبعات هذا القول :</span></p>
+<ul class="b">
+<li>تطوير النظرية العلمية.</li>
+<li>لا يقبل النموذج مبدأ الإستبدال الدائم له.</li>
+<li>يتم تغيير النماذج أو إستبدالها حينما يفقد النموذج بعضا من نجاعته أو حينما تحدث مشاكل مع الواقع الذي تم بناؤه أو حينما يتم بناء نماذج أكثر نجاعة و دقّة.</li>
+<li>العقلانية العلمية في النمذجة هي عقلانية منفتحة على ما يطورها و على مراجعة نفسها بإستمرار</li>
+</ul>
+<!-- PROOFREAD: 2261 part1 p05 — "حينما تحدث مشاكل" uncertain -->
+<p class="subhead t-navy">« تقتضي المعرفة العلمية اليوم عصر اللامسؤولية المحضة »</p>
+<!-- PROOFREAD: 2261 part1 p05 — quotation "تقتضي ... عصر اللامسؤولية المحضة" uncertain -->
+<p class="para">حجة :</p>
+<ul class="b">
+<li>التأكيد على النزعة البراغماتية النفعية الذي تجرد الإنسان من كل ما هو قيمي و أخلاقي</li>
+<li>توسّع مجال إستقالة العلماء عن همومهم و هموم الإنسان</li>
+<li>تغليب التصور التقني كوجهة للعلم و تزايد إرتباط العلم فقط على الدولة</li>
+</ul>
+<!-- PROOFREAD: 2261 part1 p05 — "و تزايد إرتباط العلم فقط على الدولة" uncertain -->
+<p class="para">في التوظيف التكنولوجي الذي إختزله في كونه مجرد وسيلة.</p>
+
+<div class="chtag"><span>المحور</span> القيم: الأخلاق والدولة</div>
+
+<p class="subhead t-red">الدولة السيادة و المواطنة :</p>
+<p class="subhead t-navy">* « إنّ تطور الدولة قد أكسب السلطة بعد عقلانيتها »</p>
+<!-- PROOFREAD: 2261 part1 p05 — "قد أكسب السلطة بعد عقلانيتها" uncertain -->
+<p class="para">قيمة هذا القول</p>
+<p class="para">تقييم</p>
+<ul class="b">
+<li>تجاوز التوتر و الصراع في طاعة الإنسان للإنسان الذي تأسس على شخصنة السلطة.</li>
+<li>صار تجريد السلطة و عقلنتها على قبول الأفراد لها بإسم الصالح العام للمواطنين.</li>
+</ul>
+<p class="para">← تخضع للقانون و ليس لإنسان آخر.</p>
+<!-- PAGE 6 -->
+<p class="subhead t-navy">* « أن تكون على صواب حين ترفض نظاما جائرا »</p>
+<p class="para"><span class="t-green">حجة</span></p>
+<p class="para">لأنّ الحاكم السياسي الجائر يميل إلى الإستبداد و التسلّط و ممارسة العنف بكلّ الوسائل الأفراد.</p>
+<!-- PROOFREAD: 2261 part1 p06 — first argument partly crossed out / illegible ("يميل" uncertain) -->
+<p class="subhead t-navy">* « و للذات الحرية تمتثل لأوامر القانون »</p>
+<p class="para">دلالة الحرية :</p>
+<p class="para">الأفق القانون</p>
+<ul class="b">
+<li>الحرية الحقيقية هي التي تتضمن مرجعا لها</li>
+<li>التلازم بين الحرية و القانون يكشف مبدأ ترجمة بالعقل</li>
+</ul>
+<p class="para">فإذا إحترم القانون إحترام الإرادة الذي يعبر عنه الحرية الإنساني العقلي الشرط</p>
+<!-- PROOFREAD: 2261 part1 p06 — "دلالة الحرية" block largely illegible, with interlinear insertions ("الحرية", "الإنساني", "العقلي", "الشرط") and margin words cut by the edge -->
+<p class="subhead t-navy">* « إنّ غاية الدولة هي في الحقيقة تحقيق حرية المواطنين »</p>
+<p class="para"><span class="t-green">حجة مضادة</span></p>
+<p class="para">إنّ ما يصنع حرية المواطنين هو إعتراف الدولة بحق المواطن الحرية الحقيقية هي التي يحفظها القانون.</p>
+<p class="para">إنّ حرية المواطنين يضمنها الخضوع للإرادة العامة الفردية التي هي جزء من الإرادة العامة</p>
+<!-- PROOFREAD: 2261 part1 p06 — "حجة مضادة" paragraphs uncertain, partly cut at the left edge -->
+<p class="subhead t-red">الأخلاق الخير و السعادة</p>
+<p class="subhead t-navy">* « يتمثل الفعل الخير مقاومة للأهواء »</p>
+<p class="para"><span class="t-green">مسلمات :</span></p>
+<p class="para">تأسيس الفعل الخير العقل</p>
+<p class="para">يضبط الأهواء</p>
+<p class="para">يتعارض الخير كقيمة أخلاقية و السلوك الناتج عن أهواء و رغبات</p>
+<p class="para">الأهواء تفرقنا و العقل أن الخير هو ما يوحدنا</p>
+<p class="para">الغريزة ـ العقل الخير</p>
+<!-- PROOFREAD: 2261 part1 p06 — small words written under circled terms ("الغريزة", "العقل الخير") uncertain -->
+<!-- PAGE 7 -->
+<p class="subhead t-navy">* « لا شيء يمكن أن يكون حسنا بالنسبة لي إن لم يكن حسنا بالنسبة للجميع »</p>
+<p class="para"><span class="t-green">حجة :</span></p>
+<p class="para">الخير الحقيقي هو الذي يطلب لذاته لا لمنفعة الذاتية إليس من أجل لذاته الفرد</p>
+<!-- PROOFREAD: 2261 part1 p07 — end of this argument ("إليس من أجل لذاته الفرد") illegible, cut at left edge -->
+<p class="subhead t-navy">* « الواجب الأخلاقي هو ضرورة القيام بفعل عن إحترام للقانون »</p>
+<p class="para">ثمّن (+)</p>
+<p class="para">الفعل الأخلاقي هو الناتج عن الأوامر القطعية الذي تطلب الأفعال في ذاتها و لذاتها</p>
+<p class="para">الخضوع للقانون الأخلاقي هو خضوع لما يمليه العقل و تشرّعه الإرادة لنفسها.</p>
+<p class="para">* تجاوز هذا القول الأوامر الأخلاقية الشرطية كأفعال تطلب هدفا أو غاية أو منفعة و لا يتحقق إلّا بشرط.</p>
+<p class="subhead t-navy">* « يجب على الإنسان العاقل أن يجعل نفسه دائما مشرّعا في مملكة الغايات »</p>
+<p class="para"><span class="t-green">مسلمات :</span></p>
+<p class="para">* مملكة الحاجات الحيوانية</p>
+<p class="para">الأخلاق تستند إلى إرادة التشريع الذاتي تؤسس الذات لنفسها أخلاقها و فقا للعقل و تعمل على الإلتزام بما هي تشرّعه.</p>
+<!-- PROOFREAD: 2261 part1 p07 — "و تعمل على الإلتزام بما هي تشرّعه" uncertain -->
+<p class="subhead t-navy">* « السعادة جزاء يحصل عليه أولئك الذين لا يستحقونه »</p>
+<p class="para">إعترض على هذا القول</p>
+<p class="para">إعترض / كذّب / نقد / التشكيك فيه</p>
+<ul class="b">
+<li>السعادة الحقيقية لا يصل إليها إلّا من يطلبها و يسعى إليها و لا تأتي عن طريقها</li>
+<li>التسليم بمثل هذا القول و ما يترتب عنه إستقالة الجميع لدعوى إنتظار السعادة الذي قد لا تأتي أبدا.</li>
+<li>السعادة الحقيقية لا تحصل لصاحبها إلّا من جرّب نقيضها فإنّ تجربة الإنسان الألم قد إذا يمنحه فرصة الإستمتاع</li>
+</ul>
+<!-- PROOFREAD: 2261 part1 p07 — "لا تأتي عن طريقها", "لا تحصل لصاحبها", "قد إذا يمنحه" uncertain; margin words ("أدرها", "كرد") not typed -->
+<!-- PAGE 8 (printed worksheet) -->
+<!-- NOTE: 2261 part1 p08 — handwritten notes added on the printed sheet (questions at top, "مجموعة تمارين بالإصلاح") and scribbles are left out -->
+<!-- PROOFREAD: 2261 part1 p08 — printed header (school / year / teacher) too small and faded to read -->
+
+<div class="chtag"><span>المحور</span> الإنية والغيرية</div>
+
+<p class="subhead t-red">فلسفة: الإنية والغيرية</p>
+<p class="para"><u>تمرين عدد1:</u> "حين يدرك الأنا جسده الخاص ويدرك الناس الآخرين والطبيعة بأكملها فهو بذلك يدرك ذاته" حدّد دلالة الإنية في سياق القول.</p>
+<p class="para"><u>تمرين عدد 2:</u> "يقتضي الغيرية من انزلاق من آخرين" اكشف عن احدى تبعات القول.</p>
+<!-- PROOFREAD: 2261 part1 p08 — quotation of تمرين عدد 2 faded and partly covered by scribbles: "يقتضي الغيرية من انزلاق من آخرين" -->
+<p class="para"><u>تمرين عدد3:</u> " الآخر هو من يُعير وجودي معنى ". قدم حجة داحضة لهذا القول.</p>
+<p class="para"><u>تمرين عدد4:</u> "يمثل الوجود مع الغير فضاء لتحقق الإنساني" قدم حجة داعمة لهذا القول.</p>
+<p class="para">تمرين عدد 5: " اللاوعي تصدع للإنية " قدم حجة تدحض بها هذا الإقرار.</p>
+<!-- PAGE 9 -->
+<div class="data">
+<p class="para">إنّ فلسفة التّعالي تُلقي بنا وسط الطّريق الشّاسع، المحفوف بالمخاطر، تحت ضوء ساطع للتّبصّر. أن نوجد، (...) هو أن نوجد- في- العالم، ولتفهموا عبارة "الوجود- في" على معنى الحركة. أن نوجد، هو أن ننبثق في العالم. فمن عدم العالم و الوعي ننبثق، فجأة، وعيا- في- العالم. إنّ سعي الوعي إلى استعادة ذاته وإلى التّطابق في الأخير مع ذاته، في دفء الحميميّة وبنوافذ مُغلقة، إنّما هو إعدام للوعي ذاته. وهذه الضّرورة التي تُلزم الوعي بأن يُوجد بما هو وعيٌ بشيء ما غير ذاته، هي ما يُسمّى "قصديّة"(...).</p>
+<p class="para">إنّ الوعي الذي لنا بالأشياء لا يقتصر البتّة على معرفتها. إذ ليست المعرفة أو "التّمثّل" المحض، سوى أحد الأشكال الممكنة لوعيي "بـ" هذه الشّجرة. يمكنني أيضا أن أحبّها، أن أخشاها وأن أكرهها، وهذا التجاوز الذي يقوم به الوعي لذاته بذاته، والذي نسمّيه "قصديّة"، يتجلّى في الخشية والكره والحبّ. إنّ كره الغير هو أيضا ضرب من الانبثاق صوبه، حيث نوجد فجأة قبالة غريب نعيش إزاءه أو نُكابد، في المقام الأوّل، الصفة الموضوعيّة لـ"المكروه". على هذا النحو نقتلع، وبصورة مباغتة، ردود الأفعال الذاتيّة المألوفة، على غرار الكراهيّة والحبّ والخشية والتعاطف، التي كانت تطفو في المستنقع العفن للفكر. فهي ليست سوى كيفيّات لاكتشاف العالم.(...) وبهذا نكون قد تحرّرنا (...) من "الحياة الباطنيّة": وسوف نبحث عبثا (...)، كطفل يُقبّل كتفه، عن لمسات الحُنُوّ، وملاطفات حميميّتنا، ما دام كلّ شيء في نهاية المطاف يوجد خارجنا، كلّ شيء، بما في ذلك نحن أنفسنا: إنّنا نوجد في الخارج وفي العالم وبين الآخرين. إنّنا لا نكتشف ذواتنا بضرب من عزلة لست أعلمها، وإنّما نكتشفها في الطّريق وفي المدينة ووسط الزّحام، شيئًا بين الأشياء وإنسانًا بين النّاس.</p>
+<p class="para">جون بول سارتر- مواقف-1</p>
+</div>
+<!-- PROOFREAD: 2261 part1 p09 — first lines of the printed text are faded at the top ("تحت ضوء ساطع للتّبصّر", "سعي") -->
+<p class="para">أنجز المهام التالية :</p>
+<ul class="b">
+<li>الأطروحة المستبعدة :</li>
+<li>الإشكالية :</li>
+<li>ماهي شروط تحقق الوعي بالذات ؟</li>
+<li>أبرز رهان الكاتب في النص :</li>
+</ul>
+<!-- PAGE 10 -->
+<!-- NOTE: 2261 part1 p10 — handwritten margin words, circles, underlines and the "إصلاح" stamp over the printed text are left out; handwritten answers in the answer spaces are transcribed -->
+
+<div class="chtag"><span>المحور</span> الخصوصية والكونية</div>
+
+<p class="subhead t-red">المسألة : الخصوصيّة و الكونيّة</p>
+<p class="consigne"><u>تمرين عدد1</u>: إنّ التسليم بالكوني شرط لفهم ثقافة الآخر. أيّة دلالة للكوني يفترضها هذا القول؟</p>
+<p class="para">ـ يُقصد بالكوني في سياق القول الكوني الإيتيقي الذي يعترف بالحق في الإختلاف فيصبح مجال عيش إنساني مشترك يُثري الثقافات و يطورها. يستبعد القول الكوني العولمي الذي يقوم بتنميط الثقافات فيفرض عليها التجانس / التماثل مما ينجر عنه القضاء على الحق في الإختلاف</p>
+<p class="consigne"><u>تمرين عدد2</u>: قيل:"إنّنا لا ننتمي إلى ثقافة ما وإنّما نحن أيضا كائنات هذه الأرض".ما هي المسلّمة الضمنيّة لهذا القول؟</p>
+<p class="para">ـ من ضمنيات القول التسليم بالهوية المركّبة بما هي تعبير عن المشترك الإنساني في الأرض على نحو يفسح المجال لإقرار الحق الكسموبوليتي المؤسس للمواطنة العالمية. يستبعد القول ضمنيا النظرة الإختزالية الأحادية القائمة على المركزية الثقافية و التي تعتبر الهوية جوهرا بسيطا و كيانا ثابتا.</p>
+<p class="consigne"><u>تمرين عدد3</u>: "توجد وحدة إنسانيّة بقدر ما يوجد تنوّع بشري" أكشف أحدى تبعات هذا القول.</p>
+<p class="para">ـ من تبعات هذا الإقرار تجاوز النماذج الإقصائية و التنميطية التي فشلت في ادراك جدلية العلاقة بين الكثرة و الوحدة.</p>
+<p class="para">أو لتأسيس فكر مركب لهوية مركبة يقدر على التوحيد بينهما.</p>
+<p class="para">ـ ينتج عن القول إعادة النظر في دلالة الهوية / أو في علاقة الوحدة بالكثرة / أو في مفهوم الإنساني من هوية بسيطة تدفع نحو المركزية إلى هوية مرنة / مفتوحة قاعدتها التلاقح.</p>
+<p class="consigne"><u>تمرين عدد4</u>: "التعصّب لا الإختلاف هو الذي يعوق التواصل. قدم حجّة تثبت بها وجاهة هذا القول.</p>
+<p class="para">يشهد تاريخ الإنسانية بتنوع مظاهر التعصب الذي يبلغ أشدّه في الدين. فنزوع أمة نحو تقديس خصوصيتها بإسم تأكيدها و الحفاظ عليها قد يربك العلاقات بين الأمم. اذ يزجّ التعصب الديني بها في حروب تعمق القطيعة و تزيد من إستحالة التواصل عندما يغيب الحوار و التسامح. في حين أن الإختلاف بما هو خاصية نوعية للوجود الإنساني يفسح المجال لحظة الإعتراف بالآخر فتح فضاءات حوار تساهم في بناء الإنساني.</p>
+<!-- PROOFREAD: 2261 part1 p10 — handwritten answer to تمرين عدد4: "اذ يزجّ", "لحظة الإعتراف بالآخر فتح" uncertain; faint pencil line at the bottom illegible -->
+<!-- PAGE 11 -->
+<!-- NOTE: 2261 part1 p11 — handwritten date note at the top of the page left out -->
+<div class="exsub"><u>التمرين الثالث(النص)(6نقاط)</u></div>
+<div class="data">
+<p class="para">ثمّة مفارقة لا فكاك منها :فمن ناحية على كلّ شخصيّة ثقافيّة أن تنغرس في ماضيها وأن تستنهض روحا وطنيّة تجعلها قادرة على الاضطلاع باستحقاقاتها الروحيّة والثقافيّة في وجه الثقافة الغازية ومن ناحية ثانية نجد أنّ الالتحاق بالحضارة الحديثة يتطلّب الانخراط في عقلانيّة العلم والتقنية والسياسة، وهو ما يفرض في أغلب الأحيان التخلّي نهائيا وبكلّ بساطة عن الموروث الثقافي .ما من ثقافة يمكنها أن تتحمّل صدمة الحضارة العالمية وتستوعبها فهذا أمر لا ريب فيه .وتجد المفارقة هنا تعبيرها في ما يلي:كيف نتوفّق إلى سبيل الحداثة دون أن نقطع مع أصولنا ؟كيف نوقظ ثقافة قديمة نائمة ونتطلّع إلى الحضارة الكونيّة في آن؟...ليس سهلا أن نتحصّن بهويّتنا وننظر إلى الحضارات الأخرى بعين التسامح.وحين ننساق وراء الغريب الثقافي –سواء عبر نوع من الحياد العلمي أو الفضول والحماية إزاء الحضارات الغابرة سواء عبر الحنين إلى ماض سحيق أو من خلال أحلام الفتوّة والبراءة-نجد أنّ اكتشاف التعدّد الثقافي لا يكون قطّ تمرينا مسالما ...فمن اللحظة التي نكتشف فيها وجود ثقافات عدّة بدل ثقافة واحدة أي منذ اللحظة التي نعترف فيها بأفول ضرب من الإحتكار الثقافي –وهميّا أو حقيقيا-نجد أنّ اكتشافنا هذا يهدّدنا بالإنهيار.</p>
+<p class="para"><u>بول ريكور :التاريخ والحقيقة.</u></p>
+</div>
+<p class="consigne">أنجز المهام التالية انطلاقا من النصّ:</p>
+<p class="consigne">-صغ اشكاليّة النص.(2ن)</p>
+<p class="para">ـ ما طبيعة علاقة الهوية الثقافية بالحضارة الكونية ؟ هل يتعارض الحفاظ على الخصوصية مع التطلع إلى الحضارة العالمية؟ أم يمكن التوفق إلى العالمية دون القطع مع الهوية الثقافية ؟</p>
+<p class="consigne">-كيف تفهم المفارقة التي تحدّث عنها الكاتب؟ (2ن)</p>
+<p class="para">: نفهم المفارقة في التمزق الذي تعيشه الأمم أمام معادلة مُربكة عندما تواجه أمرا مصيريا. فهي من جهة تُدعى إلى الحفاظ على ما هو أصيل و جوهري في هويتها بإعتبارها أساس وجود. و لكنها من جهة ثانية تكون مطالبة بالإنخراط في مشروع الحضارة العالمية حتى لا تعيش العزلة فتموت.</p>
+<p class="consigne">-ما الذي يعنيه الكاتب بقوله:"إنّ اكتشاف التعدّد الثقافي لا يكون قطّ تمرينا مسالما."؟ (2ن)</p>
+<p class="para">يُطلعنا المشهد الحضاري أن التعدد الثقافي ليس بالضرورة مناسبة للثراء و بناء الإنساني إذ عندما يبدأ الإختلاف بطريقة سيئة ... و ينظر إليه سلبيا يرفع من منسوب العداوة و الكراهية بين الأمم. فيزج بها في صراعات / حروب تفتك بقيم الحوار و التسامح و تمنع العيش الحكيم بينها.</p>
+<!-- PROOFREAD: 2261 part1 p11 — handwritten answers: "عندما يبدأ الإختلاف بطريقة سيئة", "العيش الحكيم" uncertain -->
+<!-- PAGE 12 -->
+<!-- NOTE: 2261 part1 p12 — handwritten "إصلاح", "مراجعة" and scribbles over the printed header left out -->
+
+<div class="chtag"><span>المحور</span> القيم: الأخلاق والدولة</div>
+
+<p class="subhead t-red">المسألة: الأخلاق: الخير والسعادة</p>
+<p class="consigne"><u>تمرين عدد1</u>: "السعادة أساس أخلاقيّة الفعل" قدّم حجّة داحضة لهذا القول.</p>
+<ul class="b">
+<li>يُحمل الأساس على معنى ما هو ثابت وكلّي و يتجاوز مع المبدأ و هو ما يتعارض مع الطابع الفردي / المؤقت / العارض للسعادة</li>
+<li>هناك تعارض بين الطابع العقلي للأساس و الطابع الخبري (الحسّي) للسعادة</li>
+<li>تتأسس أخلاقية الفعل على المبدأ / الواجب في حين تكون السعادة غاية. و هو ما يُبرّر أي وسيلة لتحصيلها و إن كانت لا أخلاقية.</li>
+</ul>
+<!-- PROOFREAD: 2261 part1 p12 — "و يتجاوز مع المبدأ", "الطابع الخبري" uncertain -->
+<p class="consigne"><u>تمرين عدد 2</u>: "السعادة رفاه" . اكشف احدى تبعات هذا القول.</p>
+<ul class="b">
+<li>حصر السعادة في الرفاه يستتبعه اختزال وجود الإنسان في نمط حياة تملكي / استهلاكي تقوده المنفعة مما يتسبب في سقوط المرء في عبودية العلامات فيتنازل عن الفضيلة و ما تستوجبه من تدبير للحياة وفق مقتضيات العقل. (تضاعف اغتراب الإنسان و اختلال توازنه النفسي)</li>
+<li>حصر السعادة في الرفاه يجعل منها ظاهرة مادية قابلة للقيس وفق منطق الوفرة و مراكمة المنافع و هو ما يقضي على الطابع الكيفي / الروحي / النوعي لها بما هي تجربة أخلاقية لا قيمة إقتصادية</li>
+</ul>
+<!-- PROOFREAD: 2261 part1 p12 — answer to تمرين عدد 2 partly covered by scribbles and cut at the left edge -->
+<p class="consigne"><u>تمرين عدد3</u>: "تستلزم السعادة إنكار الملذّات" اكشف عن ضمنيّة من ضمنيّات هذا القول.</p>
+<ul class="b">
+<li>من ضمنيات هذا الإقرار التسليم بأن السعادة ظاهرة روحية عقلية تخضع لمقياس روحي و هو الفضيلة و تشترط زهدا في الملذات و هجرانا للمتع الحسية.</li>
+<li>بأن السعادة تمثل أعلى أخلاقي و كمال يحصل بالتأمل و الحكمة.</li>
+<li>التسليم بأن اللذة مصدر الشرور و الرذائل و مجلبة للشقاء و هي انحطاط و تدني للإنسان ما دامت اللذة متصلة بالجسد و هو عائق أمام كمال النفس.</li>
+</ul>
+<!-- PROOFREAD: 2261 part1 p12 — answer to تمرين عدد3 partly covered by a scribble ("التسليم", "زهدا في الملذات") -->
+<p class="consigne"><u>تمرين عدد4</u>: "الواجب الأخلاقي كوني" أبرز قيمة هذا القول.</p>
+<p class="para">مكاسب أو حدود</p>
+<ul class="b">
+<li>تثمين الطابع الإنساني و الكوني للأخلاق التي تترفع عن النسبية و تتعارض مع الميول و الأهواء.</li>
+<li>قدرة العقل على تأسيس قواعد سلوك مطلقة قادرة على تحقيق وحدة البشر في الجانب العملي</li>
+</ul>
+<p class="para">ـ الطابع الكوني للأخلاق يجعل منها صورية فتكون مثالية و طوباوية تتنكر لعامل الزمن / مفهوم الواجب قد يصبح مصدر ألم و شقاء.</p>
+<ul class="b">
+<li>الفقرة : هل يمكن للمرء أن يكون خيّرا و سعيدا ؟</li>
+</ul>
+<p class="para">ـ هل في تحقيق أوفر قدر من الرفاه ما يضمن أوفر حظ من السعادة ؟</p>
+<!-- PAGE 13 -->
+<!-- NOTE: 2261 part1 p13 — handwritten note at the top, circles, underlines, highlighter and the large scribble over the page left out -->
+
+<div class="chtag"><span>المحور</span> العلم بين الحقيقة والنمذجة</div>
+
+<p class="subhead t-red">المسألة : العلم بين الحقيقة و النمذجة</p>
+<ul class="b">
+<li>الفقرة : هل يهتم النموذج العلمي بمعرفة الواقع ؟</li>
+</ul>
+<p class="para">ـ هل في القول بأن النموذج بناء خيالي ما يُضعف ثقتنا بالعلم ؟</p>
+<p class="consigne">تمرين عدد1: ما معنى أن يكون النموذج في العلم "نموذج شيئ ما من أجل شيئ ما" ؟</p>
+<p class="para">يُقصد بالنموذج العلمي تمثل نسقي و رمزي لموضوع ما يكون صالحا لغاية تجمع بين و تحقيق المعرفة و التي أصبحت بعد المركزي و الإلزامي و تتعلق بفهم الواقع ... التفسير ... الطبيعة ... يساعد على العمل التطبيقي و تنفيذ النتائج على الواقع</p>
+<!-- PROOFREAD: 2261 part1 p13 — faint pencil answer to تمرين عدد1 largely illegible -->
+<p class="consigne">تمرين عدد2: إنّ عدم تناقض النموذج لا يعني أنّه الأنسب والأفضل. ما هي المسلّمة الضمنيّة لهذا القول؟</p>
+<p class="para">من ضمنيات القول التسليم بعدم كفاية العلاقة المنطقية في الحكم على النموذج على أنه الأنسب ... لأن مقياس الأفضلية ... هو النجاعة و ليس العلاقة المنطقية</p>
+<!-- PROOFREAD: 2261 part1 p13 — faint pencil answer to تمرين عدد2 largely illegible, crossed by a scribble -->
+<p class="consigne">تمرين عدد3: "لا يمكن لأيّ نموذج علمي أن يكون نهائيا" اكشف احدى تبعات هذا القول.</p>
+<p class="para">إجابة 1: من تبعات هذا الإقرار التخلي عن المنظور الوثوقي الذي ... العلم ... أن العلم ... متطور ... بطابعه المفتوح و المرن</p>
+<p class="para">② يترتب عن هذا الإقرار تخلي العلوم عن مطلب الحقيقة لحساب النجاعة</p>
+<p class="para">③ يترتب عن هذا الإقرار ... التبرير الإبستمولوجي ... بإضعاف الثقة بالعلم</p>
+<!-- PROOFREAD: 2261 part1 p13 — faint pencil answers to تمرين عدد3 largely illegible -->
+<p class="consigne">تمرين عدد4: "في الوقت الذي أتقن فيه العلم بناء الأشياء فشل في بناء الإنسان" ما هي المسلمة الضمنية لهذا القول؟</p>
+<p class="para">يسلم القول ضمنيا ... قدرة العلم على تحقيق سعادة الإنسان ... الإشكاليات التي ... طابعه البشري (الإنساني) ... على الجانب الروحي في الإنسان</p>
+<!-- PROOFREAD: 2261 part1 p13 — faint pencil answer to تمرين عدد4 largely illegible -->
+<p class="para">ـ تمرين عدد : "النموذج بناء خيالي" اكشف عن احدى تبعات الإقرار</p>
+<p class="para">① من تبعات هذا القول ... العلم ... التي ... الحسي</p>
+<p class="para">② ... إن العلم ... لم يكن بناء ...</p>
+<p class="para">التبرير الإبستمولوجي</p>
+<!-- PROOFREAD: 2261 part1 p13 — last answers written under heavy highlighter, mostly illegible -->
+<!-- PAGE 14 -->
+<div class="exsub">التّمرين الثّالث: (6نقاط) النص</div>
+<div class="data">
+<p class="para">إنّ الفكر العلمي غير قادر على أن يفكّر في نفسه طالما هو يعتقد أنّ المعرفة العلميّة هي انعكاس للواقع .أليست هذه المعرفة تحمل في ذاتها التجربة التي هي عبارة عن معطيات تمّ التحقق منها بالملاحظات و الإختبارات المختلفة وبرهان المنطق الذي يقوم على اتّساق النظريّات؟وهكذا فإنّ الحقيقة الموضوعيّة للعلم إنّما تفلت من كلّ نظرة علميّة بما أنّها هي هذه النظرة نفسها.</p>
+<p class="para">والحال أن أعمالا شتّى ,و في عديد المسائل ,إنّما تجمعها سمة مشتركة الا وهي أن تبيّن أنّ النظريّات العلميّة هي مثل جبال الجليد لها قسم مغمور هو ليس علميّا في شيء وإن كان ضروريّا لتطوّر العلم .وههنا تقع المنطقة العمياء من العلم ,تلك التي تعتقد أنّ النظريّة العلميّة تعكس الواقع. غير أنّه ليس من جوهر علميّة العلم أن يعكس الواقع، بل أن يترجمه في نظريّات متغيّرة وقابلة للدحض.</p>
+<p class="para">وبالفعل فإنّ شأن النظريّات العلميّة ,هو أن تمنح شكلا وترتيبا وتنظيما للمعطيات التي تمّ التحقّق منها والتي تتأسّس عليها.وعلى هذا النحو تكون النظريّات منظومة أفكار وبناءات ذهنيّة تطبّق على المعطيات لتكون مطابقة لها.لا ينحصر تطوّر المعرفة العلميّة,إذا , في ازدياد الإطّلاع وتوسّعه , بل هو أيضا تطوّر في تحوّلاتها ونُقلاتها من نظريّة إلى أخرى .إنّ النظريّات العلميّة هي نظريّات فانية ,وإنّها لفانية لأنّها علميّة.</p>
+<p class="para">ادغار موران"علم بضمير"</p>
+</div>
+<!-- NOTE: 2261 part1 p14 — faint pencil margin notes beside the text left out -->
+<p class="consigne">أنجز المهام التالية انطلاقا من النصّ:</p>
+<p class="consigne">- صغ إشكاليّة النصّ (2ن)</p>
+<p class="para">أي دور للنظريات العلمية في علاقتها بالواقع ؟</p>
+<p class="para">هل أنها تعكس الواقع بما هو ؟</p>
+<p class="para">أم أنها تترجم في نظريات قابلة للدحض ؟</p>
+<p class="consigne">- أيّ دور للنظريّات العلميّة في علاقتها بالواقع؟</p>
+<p class="para">① مواجهة النسيج المركب للظواهر عبر إطلاق أحكام منها لإستخدام أنساق تتجاوز إلى حدّ ما الطابع الحسي التجريبي</p>
+<p class="para">ترجمة الواقع و تحويله إلى رموز بإنتاج تمثلات نماذج مصورة تكون بنية تبسيط و إختزال المركب تبرز ... العلاقات بين الظواهر</p>
+<p class="para">تنظيم المعطيات عبر رسم ملامحها بشكل منسجم ... تحاول ... التعقيد</p>
+<!-- PROOFREAD: 2261 part1 p14 — handwritten answers to the second task partly illegible; interlinear insertions at the left edge uncertain -->
+<p class="consigne">- إذا كانت النظريّات العلميّة فانية فهل يضعف ذلك ثقتنا في العلم؟</p>
+<p class="para">التسليم بالطابع الفاني للنظريات العلمية يؤكد نسبيتها التاريخية و عدم الثقة بالعلم فيفتح الباب أمام تبريرات المعارضين و يجعل من نشاطه مفتوحا متجددا رافضا كل أشكال الوثوقية فيصبح بحسب ما يمليه مسار البحث الطابع الفرضي علامة نضج الفكر العلمي الذي يشجع على ابداع و فتح العلماء.</p>
+<p class="para">هو أفضل على التحكم في الواقع غير أن إستمرار تغيير النظريات يضعف الثقة بالعلم إذ أفضى به إلى ريبية مفادها اليأس من الحصول على حقيقة واحدة ناهيك أن تحول الممارسة العلمية إلى سجال (خلاف)</p>
+<!-- PROOFREAD: 2261 part1 p14 — last handwritten answer very uncertain in several places -->
+<!-- PAGE 15 -->
+<p class="subhead t-red">المسألة: الدّولة: السيادة والمواطنة</p>
+<p class="consigne"><u>تمرين عدد1:</u> "لا توجد السيادة إلاّ على نمط محدود. " اكشف عن أحد ضمنيّات الإقرار.</p>
+<p class="consigne"><u>تمرين عدد 2:</u> "لا أحد يستطيع أن يكون مواطنا عالميّا مثلما هو مواطن بلده". قدّم حجّة تدعم بها هذا الإقرار.</p>
+<!-- PROOFREAD: 2261 part1 p15 — "لا أحد" partly covered by a scribble -->
+<p class="consigne"><u>تمرين عدد3:</u> " لا بدّ من وضع حدّ للسيادة " قدّم حجّة داحضة لهذا القول.</p>
+<p class="consigne"><u>تمرين عدد4:</u>"في حكم الأغلبيّة ما يهدّد الحريّة الفرديّة".اكشف عن أحد استتباعات الإقرار.</p>
+<!-- PAGE 16 -->
+<!-- NOTE: 2261 part1 p16 — large "إصلاح" stamp, circles and highlighter over the page left out; printed header year here: 2022-2021 -->
+<p class="subhead t-red">المسألة: الدّولة: السيادة والمواطنة</p>
+<p class="consigne"><u>تمرين عدد1:</u> "لا توجد السيادة إلاّ على نمط محدود. " اكشف عن أحد ضمنيّات الإقرار.</p>
+<ul class="b">
+<li>من ضمنيات القول التسليم بالسيادة الشرعية المؤسسة حقوقيا و التي يكون القانون قاعدتها و مرجعها فتكون سيادة مضبوطة دستوريا و أخلاقيا تعكس الإرادة العامة فيكون رهانها الخير المشترك ناهيك عن تكريس ثقافة المشاركة.</li>
+<li>إستبعاد القول ضمنيا السيادة المطلقة المؤسسة على حق القوة و التي ركيزتها العنف و إبتزاز السلطة فتسطو على الحقوق و تنتهك الحريات مما يعمق الإغتراب و الإستياء من الإنساني.</li>
+</ul>
+<p class="consigne"><u>تمرين عدد 2:</u> "لا أحد يستطيع أن يكون مواطنا عالميّا مثلما هو مواطن بلده". قدّم حجّة تدعم بها هذا الإقرار.</p>
+<p class="para">أفضى إنفتاح الشعوب على بعضها ثقافيا و اقتصاديا إلى مراجعة علاقة المواطنة المحلية بالمواطنة العالمية و قد كشف البحث عن غياب الجمع بينهما. إذ تزايد المد العنصري بين الأمم و تعمق التمييز على أساس الجنس و العرق و الدين... و لا شك أن ما تأخذه من إعتداءات على الأقليات المهاجرة أو ذات العقيدة المختلفة عن دولة الإقامة يشكل خير دليل على غياب المساواة التي هي ركيزة المواطنة العالمية. و هو ما يؤكد أن التوظيف السياسي للمواطنة العالمية كشف عن طابعها السيئ و الكارثي حين تصادمت طرحها مع الخصوصيات و على القيم الكونية.</p>
+<!-- PROOFREAD: 2261 part1 p16 — handwritten answer to تمرين عدد 2 partly covered by the stamp; several words uncertain -->
+<p class="consigne"><u>تمرين عدد3:</u> " لا بدّ من وضع حدّ للسيادة " قدّم حجّة داحضة لهذا القول.</p>
+<p class="para">أظهرت تجارب سياسية توجه بعض الحكومات إلى التضييق على ممارسة الدولة لسلطتها متعللين بالإنتهاكات التي طالت الحقوق و الحريات. غير أن الحدّ من السيادة ليس خيارا صائبا بالضرورة. و قد تكون له تداعيات خطيرة على الأمن و السلم الإجتماعيين خاصة إذا اقترن بمطالب تعجز الدولة عن تحقيقها و هو ما يتسبب في إرباك عملها فتتفاقم الفوضى و تضعف قدرة الدولة على تنظيم المؤسسات التابعة لها. هذا و أن الحدّ من السلطة قد يكون صادرا عن شبكات فساد تبحث عن الحفاظ على مصالحها الخاصة كلما شعرت بأنها مهددة.</p>
+<!-- PROOFREAD: 2261 part1 p16 — handwritten answer to تمرين عدد3 partly covered by the stamp; several words uncertain; margin word "الإيديولوجي" left out -->
+<p class="consigne"><u>تمرين عدد4:</u>"في حكم الأغلبيّة ما يهدّد الحريّة الفرديّة".اكشف عن أحد استتباعات الإقرار.</p>
+<p class="para">من تبعات القول تجاوز بداهة مثالية نظام الحكم الديمقراطي الذي يرى أن حكم الأغلبية حائز على الشرعية ما دام انبثق عن عملية اقتراع حرة. إذ تثبت في المشهد السياسي أننا أمام أوليغارشيات (حكم أقلية) تعكس دكتاتورية أشرس من طغيان رجل واحد ناهيك عن الحيف الذي يصيب حقوق الأقليات.</p>
+<!-- PROOFREAD: 2261 part1 p16 — handwritten answer to تمرين عدد4: a few words uncertain -->
+<!-- PAGE 17 -->
+<!-- NOTE: 2261 part1 p17 — highlighter over the printed text left out -->
+<ul class="b">
+<li><u>سؤال الفقرة :</u> هل في الإحتكام إلى سلطة القانون ما يضمن للأفراد مواط</li>
+</ul>
+<!-- PROOFREAD: 2261 part1 p17 — handwritten line at the top cut by the page edge after "مواط" -->
+<p class="consigne">تحليل نص :</p>
+<div class="data">
+<p class="para">تتعيّن الفلسفة السياسية ببحثها عن الكيفية التي تتأتّى بها الإنسانيّة إلى الإنسان بواسطة الهيئة السياسية؛ إنّ القناعة الرّاسخة لكلّ الفلسفة السياسيّة هي أنّ الكائنَ الذي " قد يُوجد دون أن يكون له وطن البتّة(...)، إنّما هو فرد بغيض، أرقي من الإنسان بكثير أو دُونه بكثير... فمن لا حاجة لهُ بالآخرين أو لا يقبل البقاء معهم يكون إمّا إلاها،أو ضربًا من الوحش. فالنّزوع الطبيعي يدفع بالناس جميعا إلى هذا الضرب من الاجتماع"، فأن يكون مآل الإنسانِ رهين هيئة أو كلّ ، أو مدينة " تكتفي بذاتها"، فذلك ما يمنع الانطلاق من التعارُض بين الدّولة والمواطن. إنّ منظور الفلسفة، على خلاف ذلك، يعتبر أنّ الفرد لا يُصبح إنسانا إلا ضمن هذا الجمع الذي هو "كونيّة المواطنين". إنّ عتبة الإنسانيّة هي عتبة المواطنة، ولا يكون المواطن مواطنا إلا بفضل المدينة. وهكذا تتجه الفلسفة السياسيّة من السعادة التي ينشدها كلّ الناس، إلى الغاية المخصوصة للمدينة [...] ومنها إلى المواطن؛ ولأنّ " الدّولة هي المدار الثابت للسياسة وللحكم" فإنّ حركة الفكر السياسي المحض تتجه من المدينة إلى المواطن لا العكس.[...] وهكذا يتميّز المواطن بما لهُ من سلطة :" ذلك أننا إنّما نعرّفه بمشاركته في السلطة العامّة".</p>
+<p class="para">وتُطوّرُ المواطنة، بدورها، الفضائل الخاصّة بهذه المشاركة في السّلطة العامّة. إنّها " الفضائل" الخاصّة التي تنظّم علاقة الحكومة بأناس أحرار، والتي هي فضائل طاعة تتميّز عن العبوديّة، مثلما يتميّز حكم المدينة الجدير بهذا الاسم عن الاستبداد. هكذا يتّجه الفكر السياسي من المدينة إلى المواطنة ومن المواطنة إلى الحسّ المدني لا العكس.</p>
+<p class="para">بول ريكور : التاريخ والحقيقة</p>
+</div>
+<p class="consigne"><u>أجب عن هذه المهام :</u></p>
+<ul class="b">
+<li><u>صغ اشكالية النص :</u></li>
+</ul>
+<p class="para">على أي نحو تتحدد علاقة الدولة بالمواطنة ؟</p>
+<p class="para">هل هي علاقة تعارض تستثني تحقق المواطنة ؟</p>
+<p class="para">أم أن الدولة تمثل مجالا تتحقق المواطنة و تتجلى إنسانية الإنسان</p>
+<!-- PROOFREAD: 2261 part1 p17 — faint pencil lines of the problematic uncertain -->
+<ul class="b">
+<li><u>تبيّن من خلال النص شروط تحقق المواطنة :</u></li>
+</ul>
+<p class="para">1. الإنتماء إلى هيئة سياسية (المدينة / وطن) لأنّ هي التي منها يكتسب الإنسان إنسانيته و خارجها فإنه إله أو وحش. 2. لا يكون المواطن مواطنا إلّا بالإنخراط في المدينة و المشاركة في السلطة "ذلك اننا نعرفه بمشاركته في السلطة العامة".</p>
+<p class="para">3. أن تكون الدولة مشاع للجميع و محققة للمساواة بينهم و رافعة للفوارق</p>
+<!-- PROOFREAD: 2261 part1 p17 — margin insertion near point 2 cut at the left edge; some words uncertain -->
+<ul class="b">
+<li><u>أبرز رهان الكاتب في النص :</u></li>
+<li>تحرير الإنسان من الإغتراب السياسي و عقلنة الممارسة السياسية حتى تكون فاضلة و ترتقي بالوجود الإنساني</li>
+<li>يتمثل في إنطلاق الوعي بأهمية العيش داخل الدولة و عبثية الوجود خارجها و بدونها.</li>
+</ul>
+
+</section>
+
+</div>
+</body>
+</html>

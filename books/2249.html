@@ -1,0 +1,1301 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<title>Wael Academy — Philosophie · Fascicule Revision</title>
+<script>
+  window.MathJax = {
+    tex: { inlineMath: [['\\(','\\)']], displayMath: [['\\[','\\]']] },
+    chtml: { fontURL: 'https://cdn.jsdelivr.net/npm/mathjax@3/es5/output/chtml/fonts/woff-v2', matchFontHeight: true },
+    startup: { typeset: true }
+  };
+</script>
+<script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js" async></script>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Sora:wght@400;500;600;700;800&family=Cairo:wght@400;500;600;700;800;900&family=Tajawal:wght@400;500;700;800&family=JetBrains+Mono:wght@400;500;600;700&display=swap');
+:root{
+  /* ===== Wael Academy palette — MAIN ACCENT = green-teal gradient #0FAB8F → #067360 ===== */
+  --bg:#fff; --panel:#f2f8f8; --hair:#e6e6e9; --hair2:#d6d6db;
+  --fg:#0f2a31;        /* body text (and +/− signs) */
+  --fg2:#3f5b62;       /* softer text */
+  --fg3:#7c959b;       /* muted (footer) */
+  --blue:#067360;      /* deep accent — small numbers, borders, watermark, accent equations */
+  --blue-dark:#045260; /* titles & wordmarks (also the balance colour) */
+  --teal:#0fab8f;      /* bright accent end */
+  --loop:#0d9c82;      /* logo-loop helper */
+  --orange:#067360;    /* kicker/category labels (gold retired → deep teal) */
+  --red:#f5322f;       /* EXERCISE CHIPS ONLY — never for emphasis */
+  --cream:#e6f3f4; --blue-soft:#e6f3f4;  /* pale teal — callout fill + table sub-row fill */
+  --blue-line:#cde7e4; /* hairline */
+  --sub-ink:#045260;   /* table sub-row text */
+  --grad:linear-gradient(148deg,#0fab8f 0%,#0d9c82 52%,#067360 100%);
+  --mono:'JetBrains Mono',monospace; --latin:'Sora',sans-serif; --ar:'Cairo',sans-serif; --arb:'Tajawal',sans-serif;
+}
+*{box-sizing:border-box;margin:0;padding:0;}
+body{font-family:var(--latin);color:var(--fg);background:#e4e4e7;padding:28px 0;
+     -webkit-print-color-adjust:exact;print-color-adjust:exact;}
+html[dir="rtl"] body{font-family:var(--arb);}
+
+/* ===== brand watermark: REAL text (crisp), full-bleed, repeats per page ===== */
+.wm{position:fixed;inset:0;z-index:0;pointer-events:none;display:flex;
+    align-items:center;justify-content:center;overflow:hidden;
+    -webkit-print-color-adjust:exact;print-color-adjust:exact;}
+.wm span{font-family:var(--mono);font-weight:800;font-size:76.8pt;letter-spacing:.16em;
+    color:var(--blue);opacity:.06;white-space:nowrap;transform:rotate(-54deg);}  /* single diagonal: bottom-left → top-right */
+.wm.mono span{color:#000;opacity:.05;}
+
+/* ===== continuous flow stream (no page border) ===== */
+.flow{width:210mm;margin:0 auto;background:transparent;color:var(--fg);
+      padding-block:16mm 18mm;padding-inline:23mm 14mm;position:relative;}   /* spiral gutter: inline-start(=spine) 23mm / outer 14mm — dir-aware; print margins set in render_flow.py */
+@media screen{ .flow{background:#fff;box-shadow:0 10px 40px rgba(0,0,0,.16);} }
+.flow>*{position:relative;z-index:1;}
+.flow p,.flow li,.flow .data,.flow .note,.flow .ex{break-inside:auto;}
+.flow .fig,.flow figure,.flow img,.flow svg.figsvg,.flow table,.flow tr,.flow .chapdiv,.flow .exh,.flow .qrcard,.flow .meta{break-inside:avoid;}
+.flow h1,.flow h2,.flow h3,.flow .exh,.flow .subhead,.flow .chapdiv{break-after:avoid;}
+.flow img,.flow svg.figsvg{max-width:100%;height:auto;}
+.flow figcaption,.flow .figcap{display:none;}          /* rule 3: no figure captions */
+
+/* ===== front matter + chapters each start on a fresh page ===== */
+.flow .cover{break-after:page;}        /* cover alone on page 1 */
+.flow .toc{break-after:page;}          /* Sommaire alone on the next page */
+.flow .chapter{break-before:page;}
+.flow .chapter:first-of-type{break-before:auto;}
+
+/* ===== cover ===== */
+.cover{padding:14mm 0 8mm;border-bottom:2px solid var(--blue);margin-bottom:6mm;}
+.cover .badge{font-family:var(--mono);font-size:8.5pt;letter-spacing:.28em;text-transform:uppercase;color:var(--orange);margin-bottom:10px;}
+.cover h1{font-family:var(--latin);font-weight:800;font-size:34pt;line-height:1.03;letter-spacing:-.025em;color:var(--blue-dark);}
+.cover .grule{width:120px;height:5px;border-radius:5px;background:var(--grad);margin:14px 0;}
+.cover .sub{font-family:var(--mono);font-size:10pt;letter-spacing:.14em;text-transform:uppercase;color:var(--teal);}
+.cover .auth{font-size:11pt;color:var(--fg2);margin-top:6px;font-weight:600;}
+
+/* ===== table of contents ===== */
+.toc{margin:2mm 0 4mm;}
+.toc h2{font-family:var(--latin);font-weight:800;font-size:15pt;color:var(--blue-dark);margin-bottom:4mm;}
+.toc .trititle{font-family:var(--mono);font-size:8pt;letter-spacing:.2em;text-transform:uppercase;color:var(--orange);margin:4mm 0 2mm;}
+.toc ol{list-style:none;}
+.toc li{display:flex;align-items:baseline;gap:8px;font-size:10pt;padding:2.2px 0;color:var(--fg);line-height:1.4;}
+.toc li .n{font-family:var(--mono);font-weight:700;font-size:9pt;color:var(--blue);min-width:26px;}
+.toc li .dots{flex:1;border-bottom:1px dotted var(--hair2);transform:translateY(-3px);}
+
+/* ===== chapter divider band ===== */
+.chapdiv{margin:0 0 5mm;padding:6mm 16px 5mm;border-radius:12px;background:var(--grad);
+    -webkit-print-color-adjust:exact;print-color-adjust:exact;}   /* green-filled chapter band */
+.chapdiv .cn{font-family:var(--mono);font-size:8.5pt;font-weight:700;letter-spacing:.24em;text-transform:uppercase;color:rgba(255,255,255,.82);margin-bottom:5px;}
+.chapdiv h2{font-family:var(--latin);font-weight:800;font-size:17pt;line-height:1.1;letter-spacing:-.015em;color:#fff;}
+/* conclusion block — same green-filled look as the chapter band */
+.conclusion{background:var(--grad);border-radius:12px;padding:6mm 16px;margin:5mm 0;color:#fff;break-inside:avoid;
+    -webkit-print-color-adjust:exact;print-color-adjust:exact;}
+.conclusion .ck{font-family:var(--mono);font-size:8.5pt;font-weight:700;letter-spacing:.24em;text-transform:uppercase;color:rgba(255,255,255,.82);margin-bottom:6px;}
+.conclusion h3{font-family:var(--latin);font-weight:800;font-size:13pt;line-height:1.2;color:#fff;margin-bottom:4px;}
+.conclusion p,.conclusion li{font-size:10.4pt;line-height:1.7;color:#fff;}
+.conclusion b,.conclusion strong{color:#fff;font-weight:700;}
+
+/* ===== unit header (lesson/exercise) + QR emplacement ===== */
+.exh{display:flex;align-items:center;gap:11px;margin:6mm 0 3mm;}
+.exh .idx{font-family:var(--mono);font-size:9pt;font-weight:600;color:#fff;background:var(--grad);
+    border-radius:6px;padding:4px 11px;letter-spacing:.08em;text-transform:uppercase;
+    -webkit-print-color-adjust:exact;print-color-adjust:exact;}
+.exh .idx.ex{background:var(--red);}   /* exercise chip = red */
+.exh h2{font-family:var(--latin);font-size:14pt;font-weight:700;letter-spacing:-.01em;color:var(--blue-dark);}
+.exh .qrcard{margin-inline-start:auto;flex:0 0 auto;display:flex;flex-direction:column;align-items:center;gap:3px;width:26mm;}
+.qrcard .qrt{font-family:var(--mono);font-size:6.5pt;letter-spacing:.1em;text-transform:uppercase;color:var(--teal);text-align:center;}
+.qrcard .qrslot{width:24mm;height:24mm;padding:1.5mm;background:#fff;border:1px solid var(--blue-line);border-radius:8px;display:flex;align-items:center;justify-content:center;}
+.qrcard .qrslot img,.qrcard .qrslot svg{width:100%;height:100%;display:block;}
+
+/* sub-exercise label when one file holds several exercices */
+.exsub{font-family:var(--latin);font-weight:800;font-size:11.5pt;color:var(--blue-dark);margin:5mm 0 2.5mm;padding-bottom:3px;border-bottom:2px solid var(--blue-line);}
+
+/* ===== text blocks ===== */
+.lead{font-size:11pt;line-height:1.7;margin:2mm 0 3mm;color:var(--fg);}
+.para{font-size:10.6pt;line-height:1.7;margin:2mm 0 2.5mm;color:var(--fg);}
+.consigne{font-size:10.4pt;line-height:1.6;margin:1mm 0 2mm;color:var(--fg);font-style:italic;}
+.subhead{font-family:var(--latin);font-weight:800;font-size:12pt;letter-spacing:-.01em;color:var(--blue-dark);margin:5mm 0 2.5mm;}
+/* emphasis — green accent = .t-blue/.t-green ; balance = .t-navy ; red = SECONDARY accent (.t-red) on titles + a few words */
+.t-blue{color:var(--blue);font-weight:600;} .t-navy{color:var(--blue-dark);font-weight:700;}
+.t-red{color:var(--red);font-weight:600;} .t-green{color:var(--teal);font-weight:600;} .t-gold{color:var(--orange);font-weight:600;}
+.subhead.t-red{color:var(--red);font-weight:800;}   /* red Roman-numeral section title (I, II, …) — keeps subhead weight */
+/* highlighter marks — a soft colour wash behind a key word (agent picks green or red per what balances the page) */
+.hl-green,.hl-red{border-radius:3px;padding:.02em .24em;font-weight:600;box-decoration-break:clone;-webkit-box-decoration-break:clone;
+    -webkit-print-color-adjust:exact;print-color-adjust:exact;}
+.hl-green{background:rgba(15,171,143,.20);color:var(--blue-dark);}   /* green highlight */
+.hl-red{background:rgba(245,50,47,.13);color:#c0261f;}               /* red highlight  */
+
+.data{background:var(--blue-soft);border:1px solid var(--blue-line);border-inline-start:4px solid var(--blue);
+    border-radius:8px;padding:11px 16px;margin:3mm 0;font-size:10pt;line-height:1.65;color:var(--fg2);}
+.data b{color:var(--fg);font-weight:700;}
+.note{border:1px dashed var(--hair2);border-radius:9px;padding:11px 16px;margin:4mm 0;background:var(--panel);}
+.note .kicker{font-family:var(--mono);font-size:7.5pt;letter-spacing:.18em;color:var(--orange);display:block;margin-bottom:5px;}
+.note .nb{font-size:10pt;line-height:1.7;color:var(--fg2);} .note b{color:var(--fg);}
+.ex:not(.idx){background:var(--blue-soft);border:1px solid var(--blue-line);border-inline-start:3px solid var(--blue);
+    border-radius:7px;padding:7px 11px;font-size:9.6pt;line-height:1.6;color:var(--fg2);margin:2mm 0;}   /* :not(.idx) so it never hits the exercise chip (which is .idx.ex) */
+.ex .extag{display:inline-block;font-family:var(--latin);font-weight:800;font-size:7.6pt;color:var(--blue-dark);background:#fff;
+    border:1px solid var(--blue);border-radius:5px;padding:1px 9px;margin-inline-end:7px;vertical-align:middle;text-transform:uppercase;letter-spacing:.06em;}
+
+/* ===== lists ===== */
+ol.q{list-style:none;counter-reset:q;margin:1mm 0 2mm;}
+ol.q>li{counter-increment:q;position:relative;padding-inline-start:30px;margin-bottom:2.5mm;font-size:10.4pt;line-height:1.6;}
+ol.q>li::before{content:counter(q);position:absolute;inset-inline-start:0;top:1px;width:21px;height:21px;background:var(--grad);color:#fff;
+    border-radius:50%;font-family:var(--mono);font-size:9pt;font-weight:600;display:flex;align-items:center;justify-content:center;
+    -webkit-print-color-adjust:exact;print-color-adjust:exact;}
+ol.sub{list-style:none;counter-reset:s;margin:4px 0 0;padding-inline-start:2px;border-inline-start:1px solid var(--blue-line);}
+ol.sub li{counter-increment:s;position:relative;padding:2.5px 0 2.5px 26px;font-size:10.1pt;line-height:1.55;}
+ol.sub li::before{content:counter(s,lower-alpha)".";position:absolute;inset-inline-start:10px;top:2.5px;font-family:var(--mono);font-size:9pt;font-weight:600;color:var(--teal);}
+ol.qn{list-style:none;counter-reset:qn;margin:1mm 0 2mm;}
+ol.qn>li{counter-increment:qn;position:relative;padding-inline-start:26px;margin-bottom:2.2mm;font-size:10.4pt;line-height:1.55;}
+ol.qn>li::before{content:counter(qn)".";position:absolute;inset-inline-start:0;top:0;font-family:var(--mono);font-size:9.5pt;font-weight:700;color:var(--blue);}
+ul.b{list-style:none;margin:1mm 0 2mm;} ul.b>li{position:relative;padding-inline-start:22px;margin-bottom:2.4mm;font-size:10.4pt;line-height:1.6;}
+ul.b>li::before{content:"";position:absolute;inset-inline-start:3px;top:8px;width:8px;height:8px;border-radius:50%;background:var(--grad);
+    -webkit-print-color-adjust:exact;print-color-adjust:exact;}
+ul.dash{list-style:none;margin:1mm 0 2mm;} ul.dash>li{position:relative;padding-inline-start:20px;margin-bottom:1.8mm;font-size:10.4pt;line-height:1.6;}
+ul.dash>li::before{content:"–";position:absolute;inset-inline-start:2px;top:0;color:var(--fg);font-weight:700;}  /* dash / +/− signs = body colour */
+.flow ul.opts{list-style:none;margin:4px 0 3px;padding-inline-start:16px;}
+.flow ul.opts li{padding:2px 0;font-size:10.2pt;line-height:1.5;color:var(--fg);}
+
+/* ===== figures / tables ===== */
+.fig{margin:3mm 0;} .fig svg.figsvg{display:block;margin:0 auto;background:#fff;max-width:100%;height:auto;}
+.photo{display:block;margin:3mm auto;border-radius:8px;border:1px solid var(--hair);max-width:100%;}
+.figrow{display:flex;flex-wrap:wrap;gap:9px;justify-content:center;margin:3mm auto;max-width:190mm;}
+.flow .figrow img{border-radius:7px;border:1px solid var(--hair);height:46mm;width:auto;max-width:none;object-fit:cover;}
+.schemarow{display:flex;gap:16px;align-items:flex-start;flex-wrap:wrap;margin:2mm 0;}
+.schemarow .col-txt{flex:1 1 90mm;min-width:80mm;} .schemarow .col-fig{flex:0 0 78mm;} .schemarow .col-fig .fig{margin:0;}
+.flow table{border-collapse:collapse;width:100%;margin:3mm 0;font-size:9.8pt;line-height:1.5;}
+.flow table th,.flow table td{border:1px solid var(--blue-line);padding:6px 10px;text-align:start;vertical-align:top;}
+.flow table th{background:var(--grad);color:#fff;font-family:var(--latin);font-weight:700;font-size:9.4pt;
+    -webkit-print-color-adjust:exact;print-color-adjust:exact;}
+.flow table tr:nth-child(even) td{background:var(--blue-soft);color:var(--sub-ink);}   /* sub-row: #E6F3F4 / #045260 */
+
+mjx-container{color:var(--fg) !important;font-weight:400 !important;font-size:1.0em !important;}
+.eq-hi mjx-container,mjx-container.eq-hi{color:var(--blue) !important;}   /* accent (green) equation — highlight a key result; balance with plain math */
+.eq-red mjx-container,mjx-container.eq-red{color:var(--red) !important;}  /* red accent equation / symbol — complements the green .eq-hi */
+
+/* ===== per-file books: credit line, copies list, figures at their size ===== */
+.credit{display:flex;flex-wrap:wrap;align-items:center;gap:5px;margin:-1mm 0 3.5mm;font-size:9.4pt;color:var(--fg2);}
+.credit .who{font-weight:700;color:var(--blue-dark);}
+.credit .tg{font-family:var(--mono);font-size:7.2pt;letter-spacing:.04em;border-radius:5px;padding:1px 7px;line-height:1.6;
+    border:1px solid var(--blue-line);color:var(--blue);background:#fff;-webkit-print-color-adjust:exact;print-color-adjust:exact;}
+.credit .tg.sec{background:var(--blue-dark);border-color:var(--blue-dark);color:#fff;}
+.credit .tg.cor{background:#fff;border-color:var(--red);color:var(--red);}
+.credit a{color:var(--fg3);font-family:var(--mono);font-size:7pt;text-decoration:none;}
+.cover .auth .credit{margin:4mm 0 0;}
+.cover .copies{margin-top:5mm;font-size:8.6pt;color:var(--fg2);}
+.cover .copies ul{list-style:none;margin:2mm 0 0;padding:0;columns:2;}
+.cover .copies a{color:var(--fg3);text-decoration:none;font-size:8pt;}
+.flow figure.fig{text-align:center;}
+.flow figure.fig img{max-height:60mm;width:auto;max-width:70%;display:inline-block;}
+
+/* chapter tag on each part of a multi-chapter book (the book keeps the original order of the file) */
+.chtag{display:inline-block;margin:5mm 0 2mm;padding:1mm 3mm;border-radius:2mm;background:#eef3fb;border:1px solid #c9d6ea;
+  color:#1f3a6b;font-size:9pt;font-weight:700}
+.chtag span{color:#6b7f9e;font-weight:600;margin-inline-end:1.5mm}
+
+@media print{ body{background:#fff;padding:0;} .flow{width:auto;max-width:none;margin:0;padding:0;} }
+@page{size:A4;}   /* margins come from render_flow.py — do NOT set them here */
+</style>
+<meta data-pagefind-filter="type[content]" content="ملخّص">
+<meta data-pagefind-filter="resource[content]" content="By Rim Rouis Selmi / الأستاذة ريم السالمي روي">
+<meta data-pagefind-meta="n[content]" content="2249">
+<meta data-pagefind-meta="title[content]" content="Fascicule Revision">
+<meta data-pagefind-filter="chapter[content]" content="مراجعة (عدّة محاور)">
+<meta data-pagefind-filter="chapter[content]" content="الإنية والغيرية">
+<meta data-pagefind-filter="chapter[content]" content="الخصوصية والكونية">
+<meta data-pagefind-filter="chapter[content]" content="العلم بين الحقيقة والنمذجة">
+<meta data-pagefind-filter="chapter[content]" content="القيم: الأخلاق والدولة">
+<meta data-pagefind-filter="section[content]" content="باكالوريا رياضيات"><style>.qrcard{display:none!important}.wa-nav{position:sticky;top:0;z-index:50;background:#045260;padding:10px 18px;font-family:Cairo,sans-serif;direction:rtl}.wa-nav a{color:#fff;text-decoration:none;font-weight:700}@media print{.wa-nav{display:none}}</style>
+</head>
+
+<body dir="rtl" lang="ar"
+      data-brand="Wael Academy" data-handle="@WaelAcademy"
+      data-tagline="في تُرابنا.. مغامرة بمغامرة"
+      data-phone="+216 50 40 40 42" data-site="waeldocuments.com"
+      data-cta="سجل معانا وأقرى عن بعد مع منصة Wael Academy"
+      data-subject="Philosophie · Fascicule Revision" data-watermark="Wael Academy" data-pagefind-body><nav class="wa-nav" data-pagefind-ignore><a href="../index.html">→ الرجوع إلى فهرس الفلسفة</a></nav>
+
+<!-- single full-page diagonal watermark, bottom-left → top-right (repeats on every page) -->
+<div class="wm" aria-hidden="true"><span>WAEL&nbsp;ACADEMY</span></div>
+
+<div class="flow colored">
+<div class="cover"><div class="badge">◉ Wael Academy · Philosophie</div><h1>Fascicule Revision</h1><div class="grule"></div><div class="sub">مراجعة (عدّة محاور)</div><div class="auth"><div class="credit">المؤلّف / المصدر : <span class="who">By Rim Rouis Selmi / الأستاذة ريم السالمي رويس - مراجعة باكالوريا 2026 تمارين منهجية - المعهد النموذجي المنزه8 - 2026 / By ROUIS BAC PHILO 2026 FICHES DE COURS ET EXERCICES</span> <span class="tg">مراجعة</span><span class="tg sec">الفلسفة · باكالوريا رياضيات</span> <a href="https://drive.google.com/file/d/1AxGwfQ8geOSULH28AvQjwlvM-jiqMtmO/view">↗ Fascicule Revision.pdf</a></div></div><div class="copies" data-pagefind-ignore><b>نسخ هذا الملف في الدرايفات (1)</b><ul><li><a href="https://drive.google.com/file/d/1AxGwfQ8geOSULH28AvQjwlvM-jiqMtmO/view">Eya Masmoudi · Bac math 2026 › فلسفة</a></li></ul></div></div>
+<section class="chapter">
+<div class="chtag"><span>المحور</span> مراجعة (عدّة محاور)</div>
+<!-- SOURCE: By Rim Rouis Selmi / الأستاذة ريم السالمي رويس - مراجعة باكالوريا 2026 تمارين منهجية - المعهد النموذجي المنزه8 - 2026 / By ROUIS BAC PHILO 2026 FICHES DE COURS ET EXERCICES -->
+<!-- NOTE: running header "مراجعة باكالوريا شعب علمية 2026" on printed pages not repeated. -->
+<!-- NOTE: from p02 the pages are handwritten notes in two columns (right column typed first); running header "مهارات التفكير الفلسفي" and footer not repeated. -->
+<div class="exh"><span class="idx">ملخّص</span><h2>COGITO NEWS</h2>
+  <div class="qrcard"><div class="qrt">فيديو الدرس</div><div class="qrslot"><img src="qr/2249.svg" alt="QR"></div></div></div>
+<div class="credit">المؤلّف / المصدر : <span class="who">By Rim Rouis Selmi / الأستاذة ريم السالمي رويس - مراجعة باكالوريا 2026 تمارين منهجية - المعهد النموذجي المنزه8 - 2026 / By ROUIS BAC PHILO 2026 FICHES DE COURS ET EXERCICES</span> <span class="tg">مراجعة</span><span class="tg sec">الفلسفة · باكالوريا رياضيات</span> <a href="https://drive.google.com/file/d/1AxGwfQ8geOSULH28AvQjwlvM-jiqMtmO/view">↗ Fascicule Revision.pdf</a></div>
+<p class="subhead t-red">L'Ultime Passeport : Révision Bac</p>
+<p class="para">2 6</p>
+<!-- CROP: 2249 1 1 0.07 0.0 0.92 0.38 2249_cover -->
+<figure class="fig"><img src="https://wael-philo.b-cdn.net/figs/2249/2249_cover.png" alt=""></figure>
+
+<div class="chtag"><span>المحور</span> الإنية والغيرية</div>
+
+<p class="subhead t-red">المحور الأول: الانية والغيرية</p>
+<div class="data"><p class="para"><span class="t-red">ما يجب الاحتفاظ به:</span> الأنا في مسار التعرف الى ذاتها بين الإعراض عن الآخر والقطع معه وبين الحاجة اليه</p></div>
+<p class="subhead t-navy">؟ في السؤال عن الانية وحاجتها الى الغيرية.</p>
+<p class="subhead t-navy"><u>الانية بمعزل عن الغيرية</u></p>
+<p class="para">1) <u>الأنا</u>: النفس العاقلة في تطلعها الى الكمال<br>
+<u>الآخر</u>: "جسم" - عائق - هامشي "عرضي"<br>
+يعرقل مسار ادراك ذاتها ومعرفة الفضائل العقلية والحقائق<br>
+← اقصاء - تهميش - ادانة - اماتة</p>
+<p class="para">"افلاطون"</p>
+<p class="para">2) <u>الأنا</u>: انا متعالية - ذات مفكرة - جوهر مفكر خالص: <u>أنانة</u><br>
+<u>الآخر</u>: كتلة فيزيولوجية عاطلة<br>
+جسم - جوهر ممتد<br>
+لا فاعلية له في مسار الانية<br>
+← اقصاء من ذاتية الأنا أفكر</p>
+<p class="para">ديكارت</p>
+<!-- PROOFREAD: 2249 part1 p02 — "أنانة" / "لا فاعلية له في مسار الانية" (small overwritten handwriting) -->
+<p class="para">3) <u>الأنا</u>: احدى هيئات الجهاز النفسي<br>
+<u>الآخر</u>: <u>الهو</u> (ايروس)<br>
+الانا الاعلى (آخر نسقي)<br>
+← <u>صراع آلي بين الهيئات وتنعدم</u><br>
+الانا تقدر تماما على التوفيق بين الهيئات</p>
+<p class="para">فرويد</p>
+<!-- PROOFREAD: 2249 part1 p02 — "(ايروس)", "(آخر نسقي)", "وتنعدم" (word cut at column edge), "تقدر تماما" -->
+<p class="para">3) <u>الانا</u>: ذات واعية<br>
+الآخر: عدو يعد ذكيا لها: للوضع والتشيئة ← سلب الحرية<br>
+← <u>الصراع</u> من اجل انتزاع الاعتراف.</p>
+<p class="para">سارتر</p>
+<!-- PROOFREAD: 2249 part1 p02 — numeral of this item looks like "3" (repeated); "عدو يعد ذكيا لها" uncertain -->
+<p class="subhead t-navy">الانية في أفق الغيرية.</p>
+<p class="para">1) <u>الأنا</u>: المتجسدة: الانية تتحدد بانفتاح الأنا في مسارها القصدي على الآخر والعالم<br>
+الجسد الخاص "الحميم" للمدرك "المعيش"<br>
+"قوام الوجود وموطن الإدراك"<br>
+(حسية الوعي) Merleau Ponty</p>
+<p class="para">2) <u>الأنا</u>: الذات الواعية/ الأنا أفكر<br>
+<u>الآخر</u>: "الأنا الآخر الذي ليس انا ولست انا هو"<br>
+← أهمية الآخر والحاجة الى <u>الاعتراف</u><br>
+(العلاقة البينذاتية / البينية)<br>
+- "الآخر بنية للحقل الادراكي" Deleuze<br>
+- "الآخر مرآتي الاتدادية العاكسة" Hegel<br>
+- "انه ضروري لوجودي" Sartre</p>
+<!-- PROOFREAD: 2249 part1 p02 — "مرآتي الاتدادية العاكسة" (word unclear) -->
+<p class="para">3) <u>الانية جدارة واستحقاق انساني</u><br>
+"الانية مشروع فردي وكل مشروع فردي له بعد كوني": Sartre -<br>
+- الإنية جدارة وهي صنيعة ذواتنا لما نختار لانفسنا من معاني الوجود ولكن لها الا ان تختار الحرية</p>
+<!-- PROOFREAD: 2249 part1 p02 — last line "ولكن لها الا ان تختار الحرية" uncertain -->
+<p class="subhead t-navy">ما يجب الاحتفاظ به</p>
+<div class="data">
+<p class="para"><b>الإنية</b> هي مسار اثبات الانا لذاتها ومعرفة حقيقة وجودها + واثبات ما يميّزها عن كلّ آخر</p>
+<p class="para"><b>الغيرية</b> هي وضعية الإختلاف وهي وجود صفات لا يملكها الشخص حين يقول"أنا" في حين هي تميّز الآخر</p>
+<p class="subhead t-navy">الغاية من إثبات الإنية :</p>
+<ul class="b">
+<li>وعي كلّ شخص حين يقول "<b>أنا</b>"بالخصوصيات والمهارات soft skills المميّزة لشخصيته.</li>
+<li>معرفة الذات أو "<b>الأنا</b>" ما يميّزها عن الأخرين أو الـ"<b>هم</b>" بتعبير <b>هايدقير</b> .</li>
+<li>حاجة الذات بما هي "<b>أنا</b>" وليست "<b>أنت</b>" إلى إثبات وجودها بما تختاره لنفسها بحرية داخل ما يسميه سارتر "<b>مشروع وجودها</b>".</li>
+<li>حاجة الذات إلى إثبات خصوصياتها ومهاراتها القيادية Leadership فلا تخضع للأخرين</li>
+<li>حاجة الذات كـ"<b>أنا تاريخية</b>" متطوّرة إلى تطوير مهارات الشخصية بالإثراء من تجارب الأخر و ما يختلف به من "<b>مقاصد</b>" بتعبير <b>مرلوبونتي</b> فتتفاعل معه بالحوار في علاقة بينذاتية</li>
+</ul>
+</div>
+<p class="subhead t-navy">الإنية و نفي الغيرية</p>
+<ul class="b">
+<li><b>أفلاطون</b>: الإنية حسب أفلاطون هي إثبات النفس إنيتها بالتأمل العقلي و معرفة الفضائل العقلية و الحقائق المطلقة في عالم المثل و هو ما يتطلب اعتبار الجسم بما فيه من رذائل غيرية تمنع الإنية و عائقا يمنع الخير الأسمى</li>
+<li><b>ديكارت</b>: الإنية حسب ديكارت أنانة أو أنا وحدي تتحقق بقدرة النفس على التفكير أو كوجيتو على معرفة حقيقة وجودها بتأمل عقلي داخل الذات دون حاجة إلى الجسم</li>
+<li><b>المنطق</b>: الإنية بقدرة العقل و استدلالاته المنطقية على معرفة الحقائق العلمية بتأمل نظري دون حاجة إلى الجسم و ما فيه من حواس خداعة</li>
+</ul>
+<!-- PROOFREAD: 2249 part1 p03 — the three paragraphs of "الإنية و نفي الغيرية" are badly faded; names "ديكارت", "المنطق" and phrases "بتأمل عقلي داخل الذات", "و استدلالاته المنطقية", "بتأمل نظري", "حواس خداعة" are best readings -->
+<p class="subhead t-navy">الإنية و الحاجة إلى الغيرية</p>
+<ul class="b">
+<li><b>مارلوبونتي</b>: الإنية حسب مارلوبونتي تتحدّد بوعي الأنا بذاتها و معرفة ما يميّزها من مقاصد تختلف بها عن كلّ آخر</li>
+<li>تتحدّد الإنية بما يكون للأنا من جسد خاص تدرك به ظواهر العالم و تضمن اختلافها عن الغير بتنوع التأويلات</li>
+<li>تتشكّل الإنية بما يميّز كلّ ذات من "<b>تجارب إدراك</b>" يسميها مارلوبونتي "<b>مقاصد</b>" تختلف بها عن كلّ آخر في شكل تأويلات خاصة لظواهر العالم</li>
+<li>اختلاف التأويلات تبرّر الحوار مع الآخر بتفاعل بينذاتي تثرى فيه كلّ إنية من غيرية الآخر</li>
+</ul>
+<p class="para">لا إنية دون غيرية</p>
+<!-- CROP: 2249 1 3 0.32 0.55 0.59 0.68 2249_moi_lautre -->
+<figure class="fig"><img src="https://wael-philo.b-cdn.net/figs/2249/2249_moi_lautre.png" alt=""></figure>
+<p class="para">MOI et L'AUTRE</p>
+<p class="subhead t-navy">الإنية و الغيرية</p>
+<ul class="b">
+<li><b>فرويد</b>:كلّ إنية تتحدّد داخليا بمعرفة الشخص لما يميّز الأنا داخل الجهاز النفسي من مهارات لضمان التوازن النفسي في صراعه مع قوى الكبت اللاشعورية أو "الأنا الأعلى" باعتباره غيرية من جهة و مطالب "الهو" المتطرّفة و دوافعه الليبيدية من جهة ثانية باشباع الرغبات الجسدية المقبولة و تحقيق اللذة و انتزاع اعتراف الأنا الأعلى و المجتمع بمشروعيتها</li>
+<li><b>ماركس</b>:يكون إثبات الإنية باثبات الفرد انتمائه إلى طبقة البروليتاريا و النجاح في اثبات معاني الوجود الإنساني بالتغلب على البرجوارية المهدّدة للحياة و الحرية والقيم الأنسانية</li>
+<li><b>سارتر</b>: اثبات الإنية بالإنتصار على الآخر حين يكون جحيما بتهديد الوعي و الحرية للذات فيهدّد معاني الوجود الإنساني</li>
+</ul>
+<ul class="b">
+<li><b>ادغار موران</b>: كلّ إنية تميّز الذات هي إنية مركّبة بتأثير معارف الآخرين و مهاراتهم</li>
+</ul>
+<p class="para"><b>جيل دولوز</b>: يكون اثبات الإنية باثبات الأنا ان الآخر يوجد داخلها بما هي "بنية حقل ادراكي".</p>
+<ul class="b">
+<li>إنّ الأنا في حاجة إلى غيرية الأخرين و تأثيرهم في تركيبة الذات بالتعلّم و الحوار في تفاعل بينذاتي ينتهي إلى الإعتراف بأهمية وجود الأخر داخلنا بمواقفه وتجاربه المميّزة</li>
+<li><b>سارتر</b>:يكون اثبات الإنية باثبات الأنا قدرتها على اختيار معاني وجودها بحرية و إلتزامها بما تختاره لنفسها إراديا من تصوّر لمعاني الوجود في الواقع</li>
+<li>يكون إثبات الإنية بإقرار الأنا حاجها إلى الغير للإثراء من إختلافه شرط احترامه لما تختاره الأنا لنفسها بحرية</li>
+</ul>
+<!-- NOTE: p04 carries a large "ROUIS" watermark across the left column (not content). -->
+<p class="subhead t-red">المعجم الفلسفي</p>
+<!-- CROP: 2249 1 4 0.58 0.15 0.85 0.30 2249_definition -->
+<figure class="fig"><img src="https://wael-philo.b-cdn.net/figs/2249/2249_definition.png" alt=""></figure>
+<div class="data">
+<p class="para"><b>الإنية</b>:تمشي منهجي لوعي الانا بذاتها واثبات حقيقة وجودها التي تميّزها عن كلّ آخر+تحديد هوية الذات و الخصوصيات التي تتعرّف بها إلى ذاتها في العالم+معرفة ما يُميّز الأنا عن الآخر+عند <b>هيقل</b> وعي الذات بذاتها</p>
+<p class="para"><b>الأنا</b>:<b>هي الذات الإنسانية و هي ذات الشخص حين تدرك فكرها أو فعلها و تعبّر عنها</b> +(<b>أفلاطون</b>) النفس و كمال الوجود//(<b>ديكارت</b>) الذات العارفة أو الأنا- أفكر أي الكوجيتو//(<b>هيقل</b>) الذات الواعية بذاتها//(<b>سارتر</b>)ماهية الشخص ووعيه بحرية أفعاله//(<b>نيتشه</b>)الأنا جسدي//(<b>مارلوبونتي</b>)الذات المدركة للعالم كمعيش</p>
+<p class="para"><b>الجسم</b> وهو آخر النفس(في وضع الغيرية)//(<b>أفلاطون</b>) هو عرض+قبرللنفس// (<b>ديكارت</b>)جوهر مادي ممتد أو آلة/(<b>مارلوبونتي</b>)جسم عضوي من جهة وجسد خاص أو معيش+وسيط لإدراك العالم// (<b>فرويد</b>)مركز الجهاز النفسي</p>
+<p class="para"><b>الإنساني</b> هو مجموع القيم الكونية</p>
+<p class="para"><b>الأنانة</b> أو الأنا وحدي و هي وعي الأنا بذاتها و قدراتها و غاياتها بمعزل عن وجود الآخر</p>
+<p class="para"><b>الجوهر</b>: هو حقيقته الكائن أو خاصيته العقلية الثابتة التي لا يوجد إلاّ بها / و هو الوجود الضروري + الوجود البسيط أو غير المركّب فلا يفنى.</p>
+<p class="para"><b>الغيرية</b>:وجود الآخر في <u><b>وضعية الإختلاف و التقابل</b></u> مع الأنا/ الذات/الشخص/ (<b>أفلاطون</b>)وضعية العرضي والهامشي بل والعائق الذي يمنع الوجود الحقيقي</p>
+<p class="para"><b>الآخر</b>:المختلف/ ما ليس أنا // أنا آخر أ/ شخص أو غير //أو هوآخر الأنا سواء كان شخصا أو شيئا أو وضعية تاريخية // قد يكون وسيطا يسمح للأنا بادراك تميّزها من خلال اختلافه /(<b>سارتر</b>)الأنا التي ليست أنا/يكون جحيما نخشاه أو صديقا نحبه</p>
+<p class="para"><b>الغير</b> هو<u><b>الآخر كشخص</b></u>(<b>موران</b>)وهو في الوقت نفسه <u>المماثل والمباين لي</u>, انه المماثل بسماته الإنسانية أو الثقافية المشتركة والمباين بخصائصه الفردية أو فروقه العرقية</p>
+<p class="para"><b>البينذاتية</b> تفاعل ذوات تستفيد فيه كلّ ذات من اختلاف تجارب الذات الأخرى</p>
+<p class="para"><b>العداوة</b> : وجه سلبي لعلاقة الأنا بالأخر ( الغريب/العدو ) نتيجة المركزية الذاتية</p>
+<p class="para"><b>الصداقة</b>:علاقة التقارب و التعاطف بين الأنا و الأخر // تتجاوز الانغلاق الذاتي إلى "<b>الانفتاح الغيري</b>"// الصداقة كما يقدّمها <b>ادغار موران</b> لا تقوم على التباين المطلق اوالتماثل المطلق و إنّما هي تركيب من التماثل و التباين</p>
+<p class="para"><b>الوعي</b>: إدراك موضوع ما و هو الفكرة التي تحملها الذات عن ذاته أو عن الأخر أو عن شيء ما أو وضعية أو غيره</p>
+<p class="para"><b>التاريخ</b>: وجه سلبي لعلاقة الأنا بالأخر ( الغريب/العدو ) نتيجة المركزية الذاتية</p>
+</div>
+<!-- PROOFREAD: 2249 part1 p04 — glossary column is small print; "أنا آخر أ/ شخص", "قبرللنفس", "حقيقته الكائن" are best readings -->
+<p class="subhead t-red">الشواهد الفلسفية</p>
+<!-- CROP: 2249 1 4 0.41 0.07 0.53 0.14 2249_tete -->
+<figure class="fig"><img src="https://wael-philo.b-cdn.net/figs/2249/2249_tete.png" alt=""></figure>
+<p class="para"><b>جون لوك</b> : كلّ امرء هو بالنسبة إلى ذاته الذات نفسيا</p>
+<p class="para"><b>ديكارت</b> : إنّ الأنا التي أنا بها ما أنا متميّزة تماما عن الجسم لا بل إنّ معرفتنا بها أيسر</p>
+<p class="para"><b>ديكارت</b>: "فعلمت من ذلك أنني جوهر كلّ ماهيته أو طبيعته لا تقوم إلاّ على الفكر"</p>
+<p class="para"><b>شوبنهاور</b> : إنّ جسدي هو موضعة لإرادتي</p>
+<p class="para"><b>قوسدورف</b>:"إنّ الأنا ليس له أن يشقّ لنفسه في المطلق طريقا إلى الكينونة، ذلك أنّ الأنا لا يوجد إلاّ في علاقته المتبادلة مع الآخر"</p>
+<p class="para"><b>سارتر</b> : لكي أحصل على حقيقة ما عن ذاتي لزمت وساطة الآخر</p>
+<p class="para"><b>سارتر</b> : إنّ الآخر لضروري لوجودي و لمعرفتي بنفسي</p>
+<p class="para"><b>سارتر</b> : هكذا نكتشف للتو عالما نسميه عالم البينذاتية و في هذا العالم بالذات يقرّر الإنسان ما يكون الآخرون</p>
+<p class="para"><b>سارتر</b> :"أخجل من نفسي كما أظهر للآخرين"</p>
+<p class="para"><b>سارتر</b> :"إنّ الإنسان الذي يكتشف ذاته مباشرة من خلال الكوجيتو يكتشف كلّ الآخرين"</p>
+<p class="para"><b>سارتر</b> :"إنّ اكتشافي لحميميتي يكشف لي في ذات الوقت الآخر بما هو حرية ماثلة قبالتي..لا يفكّر و لا يريد إلاّ من أجلي أو ضدّي"</p>
+<p class="para"><b>سارتر</b> :"الجحيم هم الآخرون"</p>
+<p class="para"><b>غارودي</b> :"إنّ الجحيم كلّه في القطيعة العرقية"</p>
+<p class="para"><b>مارلوبونتي</b> : ما دمنا نعيش مع الآخرين يتعذّر أن نطلق عليهم حكما واحدا من أحكامنا يستثنينا نحن و يشملهم هم</p>
+<p class="para"><b>مارلوبونتي</b> :"أنا لست أمام جسدي و لا في جسدي بل أنا جسدي"</p>
+<p class="para"><b>قوسدورف</b> :" أجد نفسي في كلّ لحظة فردا يدرك و يتمثّل و يفكّر و يحسّ و يرغب ،إلخ ..."</p>
+<p class="para"><b>دولوز</b> : إنّ الغير تعبير عن عالم ممكن</p>
+<!-- PROOFREAD: 2249 part1 p04 — names and words under the "ROUIS" watermark (from "أخجل من نفسي" to "إنّ الغير تعبير عن عالم ممكن") are best readings: "غارودي", "القطيعة العرقية", "قوسدورف", "نحن و يشملهم هم" -->
+<p class="para"><b>ادغار موران</b> : إنّ الغير هو في الوقت نفسه المماثل و المباين لي: إنّه المماثل بسماته الإنسانية أو الثقافية المشتركة و المباين بخصائصه الفردية و فروقه العرقية</p>
+<p class="para"><b>ادغار موران</b> : مركزية الذات في انغلاقها تجعل الغير غريبا و الإنفتاح الغيري يجعله لنا أخويا</p>
+<p class="para"><b>ادغار موران</b> : كلّ واحد منّا يحمل داخله أنا آخر يكون في نفس الوقت غريبا و مطابقا لذاته</p>
+<p class="para"><b>ادغار موران</b> :نستطيع إقحام الآخر و ادماجه في الأنا الذي يخصّنا بالتعاطف و الصداقة و الحبّ</p>
+<p class="para"><b>جيل دولوز</b>:"غير أنّ الآخر ليس موضوعا في حقل ادراكي، و ليس ذاتا تدركني، إنّه في البدء بنية الحقل الإدراكي"</p>
+<p class="para"><b>قستون بيرجي</b>:" إنّ الآخر كلّما كان مختلفا عنّي استطاع مساعدتي على أن أكون أنا"</p>
+<p class="para"><b>نيتشه</b> : انك تقول أنا و أنت فخور بهذه الكلمة،بل هناك ما هو أعظم منها، و أنت ترفض تصديقه، ألا وهو جسدك و عقلك العظيم، هذا الجسد لا يقول أنا بل يكون أنا من خلال الفعل"</p>
+<table>
+<tr><td><b>مراجعة و تدريب منهجي 1</b><br><b>لإمتحان البكالوريا</b></td><td>الإختبار: <b>الفلسفة</b><br>الشعب: <b>العلمية</b><br><b>الإختبار: الإنية و الغيرية</b></td></tr>
+</table>
+<div class="exsub">القسم الأول: (10 نقاط)</div>
+<p class="subhead t-navy">التمرين الأول:(نقطتان)BAC 2009</p>
+<p class="consigne">" إن الحوار هو الذي يحرّر الإنسان من فرديته ". قدّم حجّة تدافع بها عن وجاهة هذه الأطروحة.</p>
+<p class="subhead t-navy">التمرين الثاني:(نقطتان)BAC 2014</p>
+<p class="consigne">قيل:" <b>تحوي الذاتية ضمنيا الغيرية</b> "   اكشف احدى تبعات هذا الإقرار.</p>
+<p class="subhead t-navy">التمرين الثاني:(نقطتان) (مكرّر)BAC 2019</p>
+<p class="consigne">"<b>إنّ الذات لا تتعرّف إلى ذاتها باكتشافها لآخر خارجها وإنّما بانفتاحها على آخر كامن فيها</b>" اكشف احدى ضمنيات القول.</p>
+<p class="subhead t-navy">التمرين الثاني:(نقطتان) (مكرّر)BAC 2021</p>
+<p class="consigne">" <b>إنّ رغبة الذات في اعتراف الآخرين بها علامة عبودية</b>" قدّم حجة تدحض هذا الإقرار.</p>
+<p class="subhead t-navy">التمرين الثالث :(6 نقاط)   النّص: 2013BAC</p>
+<p class="para">إنّ الأمر الذي يشغل كلّ واحد منّا ،إنّما هو الحصول على تقدير الآخرين.و هو أمر أساسي لتعزيز وجودنا الخاص،ذلك أنّ الفضل في وجودنا إنّما يعود في جزء منه إلى اعتراف الآخر بنا. فهو من يمنحنا القيمة، يقبلنا أو يرفضنا يقدّم لنا صورة قيمتنا الخاصة.إنّ تشكّل الذوات الإنسانية تشكّل بيني، يمرّ عبر الرأي و التقدير و الإعتراف. و الآخر هو من يُعير وجودي معنى حين يقدّم لي الصّورة المميّزة عن نفسي.</p>
+<p class="para">و هل ثمّة من هشاشة تفوق هشاشة هذا الوجود المنعكس ؟إنّ علاقة الإعتراف المتبادل هذه سرعان ما تنغّصها كلّ أهواء الحقيقة و الإدعاء و الحسد.(...) ها هي إذن علاقة بينذاتية بامتياز و لكنّها علاقة تحطّمها شرور و رذائل تمسّ الأشخاص المتفرّدين في الصميم.</p>
+<!-- PROOFREAD: 2249 part1 p05 — words under the "ROUIS" watermark: "الفضل في وجودنا", "الخاصة.إنّ تشكّل", "الصّورة المميّزة", "و هل ثمّة من هشاشة", "الإدعاء" are best readings -->
+<p class="para"><b>بول ريكور - التاريخ و الحقيقة</b></p>
+<p class="consigne"><b>أنجز المهام التالية انطلاقا من النّص</b></p>
+<p class="consigne">1- حدّد بدقّة إشكالية النّص.(نقطتان)<br>
+2- حدد سياقيا مفهوم الإعتراف .(نقطتان)<br>
+3-" إنّ تشكّل الذوات الإنسانية بينيّ ".قدّم حجّة مدعّمة لذلك.(نقطتان)</p>
+<div class="exsub">القسم الثاني: (10 نقاط)</div>
+<p class="consigne"><b>اشتغل على أحد هذين السؤالين حجاجيا في محاولة بمعدّل ثلاثين سطرا .</b></p>
+<p class="para">السؤال الأول : إذا كان الآخر حاضرا معنا باستمرار، فهل في ذلك تهديد لفرديتنا؟<b>BAC 2012</b><br>
+السّؤال الثاني : بأيّ معنى يكون الفعل مكوّنا للذات الإنسانية؟<b>BAC 2015</b><br>
+السّؤال الثالث : هل يقتضي الوعي بالذات استبعاد الغيرية ؟<b>BAC 2018</b><br>
+السّؤال الرابع : هل يمكن اعتبار الغيرية نفيا لوحدة الذات و حريتها؟<b>BAC 2021</b></p>
+<div class="exsub">القسم الأول:</div>
+<p class="consigne"><b>التمرين 1</b>: قيل:" <b>تحوي الذاتية ضمنيا الغيرية</b> "   اكشف احدى تبعات هذا الإقرار.<b>2014BAC</b></p>
+<div class="data">
+<p class="subhead t-red">نموذج المحاولة:</p>
+<p class="para"><b>يترتّب عن هذا الإقرار/ من تبعات هذا القول</b> ...إدراك الذات لذاتها لا يتم بمعزل عن الغيرية / سيكون تصور الذات كيانا بسيطا بل اعتبارها كيانا مركبا / ... الأشكال العلائقية القائمة على المواجهة والصراع بل قائمة على التفاعل والاعتراف المتبادل</p>
+<p class="para">و هو ما يؤكده قول(الفيلسوف)..........................................................</p>
+<p class="para">..........................................................</p>
+<p class="para">فلا..................ولا.....................الا.....................</p>
+</div>
+<!-- PROOFREAD: 2249 part1 p06 — handwritten fill-in of exercise 1 is cramped on dotted lines: "سيكون تصور الذات كيانا بسيطا", "الأشكال العلائقية", "بل قائمة على" are best readings -->
+<p class="consigne"><b>التمرين2</b>: " <b>إنّ رغبة الذات في اعتراف الأخرين بها علامة عبودية</b>" قدّم حجة تدحض هذا الإقرار.<b>2021 BAC</b></p>
+<div class="data">
+<p class="para"><b>يبدو ان النظر الى</b> ..........................................................</p>
+<p class="para"><span class="t-blue">قد انبنى..على...جهل باهمية</span>....................و....................</p>
+<p class="para">..........................................................</p>
+<p class="para">..........................................................</p>
+<p class="para">وهو ما نتبينه في قول (الفيلسوف)..........................................................</p>
+<p class="para">بما أنّ (توضيح وبيان وجاهة الفكرة )..........................................................</p>
+<p class="para">..........................................................</p>
+<p class="para">لذلك (استخلاص أهمية الحجة و الحاجة إلى الدفاع على الإنية ضد مظاهر العبودية)</p>
+<p class="para">فلا..................ولا.....................الا.....................</p>
+</div>
+<p class="consigne"><b>النّص:   المهمة 1: حدّد بدقة إشكالية النّص .</b>(نقطتان)</p>
+<div class="data">
+<p class="subhead t-red">نموذج المحاولة :</p>
+<p class="para">أي تعريف لـ... (المفهوم المركزي أي مبحث النص) ....................وما علاقته بـ....................</p>
+<p class="para">..........................................................</p>
+<p class="para">هل ..........................................................</p>
+<p class="para">............أم ..........................................................</p>
+<p class="para">........................ ؟</p>
+<p class="para">وإلى أي مدى يمكن المراهنة على ....................في ظل واقع....................</p>
+<p class="para">..........................................................؟</p>
+</div>
+<p class="consigne"><b>المهمة 2: حدد سياقيا مفهوم الإعتراف</b> .(نقطتان)</p>
+<div class="data">
+<p class="subhead t-red">نموذج المحاولة :</p>
+<p class="para"><u><span class="t-blue">ليس</span></u> الإعتراف..........................................................</p>
+<p class="para">ولا هو ..........................................................</p>
+<p class="para"><u><span class="t-blue">و انما هو</span></u> (الدلالة السياقية)..........................................................</p>
+<p class="para">..........................................................</p>
+<p class="para">ليفيد الإعتراف بذلك مع (الفيلسوف)..........................................................</p>
+<p class="para">..........................................................</p>
+<p class="para"><u><span class="t-blue">لذلك فلا</span></u> (أهمية هذه الدلالة)....................ولا....................</p>
+<p class="para">بل....................</p>
+</div>
+<p class="consigne"><b>المهمة 3: " إنّ تشكّل الذوات الإنسانية بينيّ ".قدّم حجّة مدعّمة لذلك.</b>(نقطتان)</p>
+<div class="data">
+<p class="subhead t-red">نموذج المحاولة :</p>
+<p class="para"><u><b>اذا كان الإقرار بالبينذاتية</b></u> هو إقرار بـ..........................................................</p>
+<p class="para">.......................................................... حيث يكون</p>
+<p class="para">التفاعل مع الآخر في علاقة بينذاتية..........................................................</p>
+<p class="para"><b>وهو ما نتبيّنه في قول (الفيلسوف)</b>..........................................................</p>
+<p class="para"><b>لذلك فلا يمكن للذوات أن تتشكّل إلّا بـ</b>....................<b>ولايمكن</b>....................</p>
+</div>
+<p class="consigne"><b>القسم الثاني : اشتغل على السؤال التالي في شكل تخطيط مفصّل .</b></p>
+<p class="consigne">☑ <b>السّؤال الأول</b> : إذا كان الأخر حاضرا معنا باستمرار، فهل في ذلك تهديد لفرديتنا؟<b>BAC 2012</b></p>
+<table>
+<tr><th></th><th>البناء</th></tr>
+<tr><td rowspan="4"><b>I. بناء المشكل</b></td><td>(وضعية مشكل في الواقع تبدو محرجة و تدفع إلى إعادة التفكير في موضوع ما- تأثير الأخر)<br>..........................................................<br>..........................................................<br>..........................................................<br>.........................................................:</td></tr>
+<tr><td>أي تعريف ل....................وما تأثيره ....................<br>هل....................................................<br>أم....................................................و إلى اي مدى ....................<br>....................................................؟</td></tr>
+<tr><td>تحديد المفهوم1(الآخر)إذا كان الآخر يحيل إلى ....................<br>..........................................................<br>تحديد المفهوم2(الفردية ) و إذا سلمنا أن فرديتنا تحيل إلى هو....................<br>..........................................................<br>(التبعات)<b>فإنّ</b> حضور الآخر و وجوده الفاعل يمكن أن يهدّد فردية الأنا و استقلاليتها <b>حيث</b> يمكن للأنا أن تُسلب انيتها تحت ضغط الآخرين كما يقدمهم سارتر كخطر حين يقول "<span class="t-red">الجحيم هم الآخرون</span>" وهو ما يشترط أن تكون فردية الأنا    (توضيح ببيان الكيفية و آليات التهديد)....................</td></tr>
+<tr><td>(الحجج)....................................................<br>..........................................................<br>..........................................................<br>..........................................................<br>..........................................................<br>..........................................................<br>..........................................................<br>..........................................................</td></tr>
+</table>
+<!-- PROOFREAD: 2249 part1 p08 — words under the "ROUIS" watermark: "إذا سلمنا أن فرديتنا تحيل إلى هو", "يمكن أن يهدّد فردية الأنا و استقلاليتها", "كما يقدمهم سارتر كخطر حين يقول", "آليات التهديد" are best readings -->
+<table>
+<tr><td rowspan="3"></td><td>الإستنتاج المتعلّق بإثبات الأطروحة1 (تهديد للفردية)؟<br>لكن بقدر ما ....................................................<br>الا ان....................................................<br>(سؤال التشكيك): فـ<b>كيف</b>....................................................<br>..........................................................</td></tr>
+<tr><td>إذا اعتبرنا الأخر هو المختلف بما يميّز إنيته كأنا آخر فإنّه لا يكون هناك معنى للخوف من تهديد الآخر حين تكون فردية الأنا مبرّرا لإثبات إنّيتها بإثبات تميّز تجارب الوجود و ما يناسبها من مواقف و هو ما يدعو إلى التفاعل مع الآخر في علاقة بينذاتية ....................</td></tr>
+<tr><td>(التبعات)....................................................<br>..........................................................<br>..........................................................<br>(الحجج)....................................................<br>..........................................................<br>..........................................................<br>..........................................................<br>..........................................................<br>..........................................................<br>..........................................................<br>..........................................................<br>....................الى....................<br>..........................................................<br>..........................................................<br>..........................................................<br>..........................................................</td></tr>
+<tr><td><b>III . استخلاص</b><br>موقف /الخاتمة</td><td>.الى أي مدى يمكن المراهنة على ....................في راهن . <u>الراهن</u>)اليوم في واقع معولم تسيطر عليه الفردانية و ثقافة الإستهلاك؟<br>..........................................................</td></tr>
+</table>
+<!-- PROOFREAD: 2249 part1 p09 — side label of last row partly cut at the edge: "موقف /الخاتمة" uncertain; side label of the upper rows not visible -->
+<table>
+<tr><td>..........................................................<br>..........................................................<br>حيث يكون على كلّ فرد أن يثبت فرديته باثبات إنيته و تميّزه كإنسان لا بما هو فرد يختزل كلّ وجوده في الرغبات المولّدة للعزلة أو الأنانة  حيث يتوجّب عليه احترام فردية الآخرين باحترام منظومة القواعد الكونية المعقلنة للفضاء الإنساني</td></tr>
+</table>
+<!-- NOTE: p10 highlighter marks on the last line left out. -->
+<!-- CROP: 2249 1 10 0.21 0.28 0.82 0.60 2249_entraide -->
+<figure class="fig"><img src="https://wael-philo.b-cdn.net/figs/2249/2249_entraide.png" alt=""></figure>
+
+<div class="chtag"><span>المحور</span> الخصوصية والكونية</div>
+
+<p class="subhead t-red"><u>المحور2</u> : الخصوصية والكونية</p>
+<div class="data"><p class="para"><span class="t-red">ما يجب الاحتفاظ به</span> : حاجة الهويات الى التفاعل البينثقافي في راهن يهددها خطر أزمة الهوية وما يقترن بها من تحديات .</p></div>
+<p class="subhead t-navy">؟ من سؤال من انا؟ الى سؤال من نحن ؟<br>- من السؤال عن الانية الى السؤال عن الهوية -</p>
+<p class="subhead t-navy"><u>التفاعل البينثقافي : مظاهره وشروطه</u></p>
+<p class="para">اذا كانت <u>الهوية</u> : جملة العلامات الرمزية المميزة لفرد أو مجموعة لا تشاركه فيها مع آخر<br>⇓<br>
+<span class="t-gold">اللقاء البينثقافي</span> : <u>مغامرة رهينة</u> "<br>
+وجب الحذر منه وتوقي المزالق المحفوف بها عبر جملة من الشروط الاجرائية :</p>
+<p class="para">1) +الثقافة الحية : مركبة - ديناميكية وتاريخية .<br>
+2) * تقريظ الاختلاف ونبذ التعصب<br>
+3) التماثل في الكوني والتنوع في الوجود<br>
+4) اعتماد أنظمة رمزية (اللغة - فنية..)<br>⇓</p>
+<p class="para">الهوية افقا انسانيا موجها واطارا مرجعيا لافراده منه يستمدون كل مقومات وجودهم وعيشهم المشترك : انتماء مسؤول ومسؤولية انتماء .</p>
+<p class="para">(الهوية/ الاطار) (الهوية المركبة) (الهوية الحية)<br>CH.Taylor   E. Morin   From</p>
+<!-- PROOFREAD: 2249 part1 p11 — "اللقاء البينثقافي" (faded orange), "مغامرة رهينة", "(اللغة - فنية..)" are best readings -->
+<p class="subhead t-navy"><u>أزمة الهوية : مظاهرها وتبعاتها</u></p>
+<p class="para">الاغتراب الثقافي وأزمة الهوية : تفكك الخصوصيات + فقدان المرجعيات<br>
+↲ <u>التعصب</u> : تصلب الهوية ونبذ الآخر<br>
+↲ <u>الاغتراب</u> : ضياع الهوية لضياع مرجعياتها</p>
+<p class="para"><u>المخاطر</u> : ⇓ الإستلاب/ طمس الهوية<br>
+<u>فرض الوصاية</u> + سلب الهوية</p>
+<p class="para">⚠ <u>العولمة</u> : مسار ليبرالي أداة بيد <u>الثقافة المركز</u><br>
+↲ الدمج الاكراهي العنيف<br>
+↲ اعدام الاختلاف<br>
+↲ تكريس هيمنة نموذج ثقافي أوحد<br>
+↲ تكريس التماثل بدل الاختلاف<br>
+بادعاء التفوق والرفعة الثقافية</p>
+<p class="para">اعدام الكوني ⇓ والاعلان عن موت الكوني الحق امام الكوني الزائف/ المعولم .</p>
+<p class="subhead t-navy">ما يجب الاحتفاظ به</p>
+<div class="data"><p class="para"><b>الخصوصية</b> :هو ما تتشكّل به كل هوية من علامات أو مهارات مميزة و ابداعات للشخص أو الثقافة أو المجتمع و ما تختلف به عن كلّ هوية أخرى تقول بها"أنا" أو "نحن"</p></div>
+<div class="data"><p class="para"><b>الكونية</b> : مجموع المبادئ و القيم الإنسانية المشتركة سواء تعلقت بالتفكير(المعرفة العلمية) أوبالفعل و الممارسة (المبادئ الأخلاقية أو السياسية أو التقنيات الفنية أو الصناعية أوالطبية ) و هي ما يتماثل فيه الجميع  من وعي وحرية  رغم اختلافهم الثقافي و تنوع ابداعاتهم</p></div>
+<!-- CROP: 2249 1 12 0.67 0.13 0.90 0.36 2249_identites -->
+<figure class="fig"><img src="https://wael-philo.b-cdn.net/figs/2249/2249_identites.png" alt=""></figure>
+<p class="para">Identité Sociale · Identité Culturelle · Identité Personnelle</p>
+<p class="subhead t-red">الهوية و الحاجة إلى الآخر</p>
+<ul class="b">
+<li><b>تايلور</b>: الهوية الثقافية(نحن):مجموع خصوصيات ثقافية تضمن انتماء الفرد إلى مجموعة أو مجتمع أي جملة التزامات داخل إطار أوأفق تمكن من اتخاذ موقف</li>
+<li><b>ادغار موران</b> :الآخر هو المختلف بخصوصياته + المماثل بأبعاده و قيمه الإنسانية الكونية وهي شروط إمكان تحقق الهوية المركبة يترتب عنها:<br>
+1. ضرورة الوعي بأهمية التضامن المتبادل بين الثقافات المختلفة<br>
+2. ضرورة الجمع بين التنوع و التعددية و المحافظة على الإختلاف بالإعتراف بحق الآخر في الإختلاف</li>
+</ul>
+<p class="para"><span class="t-red">شروط التواصل الثقافي /البينثقافي</span>:</p>
+<p class="para">1. ضرورة أن تكون الهوية حية: أي مبدعة<br>
+2.التماثل في الكوني على قاعدة "المواطنة العالمية "و الإشتراك في ملكية سطح الأرض  و في حقّ الضيافة<br>
+3. <b>ستروس</b> الإعتراف بحقّ الآخر في الإختلاف + التّسامح معه فيكون الإختلاف لثقافي كما يصفه <b>سينقلر</b>"صراعا حميما"أي تنافسا على الإبداع .وهو ما يبرّر مع <b>غاندي</b> الإنفتاح:"أفتح نوافذي على كلّ رياح العالم شرط أن لا تقتلعني من جذوري"(الأصالة)<br>
+4.اعتماد أنظمة رمزية لغوية أو غير لغوية</p>
+<!-- PROOFREAD: 2249 part1 p12 — the middle of the right panel is badly faded: "ادغار موران", "الإنسانية الكونية", "الهوية المركبة", items 1–2 under موران, the heading "شروط التواصل الثقافي /البينثقافي", "ضرورة أن تكون الهوية حية", "التماثل في الكوني", "المواطنة العالمية" are best readings -->
+<p class="subhead t-red">الهوية تشترط مواجهة الآخر</p>
+<p class="para">أزمة الهوية هي عند <b>تايلور"ضياع الهوية"</b> وتكون بتفكّك الخصوصيات و جمودها حين تصير عاجزة عن التطوّر و عن ابداع حلول لمشاكلها أو برفضها للإختلاف.و  مظاهرها:</p>
+<p class="para">1. التعصب و الإنغلاق/أو اللاتسامح: و هو تصلّب الهوية بالثقة المطلقة في خصوصياتها + و عدم الثقة في الأخر أو إقصائه برفض التنوع والإختلاف مثال حسب <b>فولتير</b>التعصب الديني لكاتوليك باريس و رفضهم للهويات المختلفة بقتلهم البروتيستان و من ترك الصلاة</p>
+<p class="para">2.الإغتراب الثقافي/الإنماج:عدم ثقة الهوية بخصوصياتها و إنماجها في ثقافة الآخر مثل (هنتنقتن)انبهار الشعوب غير الغربية حسب <b>هنتنقين</b> بخصوصيات الآخر الغربي و الإنصهار في هويته بالتقليد الأعمى كتمزّق المجتمع التركي بين النموذجين العربي و الأوروبي حين أستبدل أتاتورك الحروف التركية بالاتينية+وما نتج عنه من "<b>تلفيقية خائمة</b>" بتعبيربول ريكورعند اللقاء بالأخرمثل ما كان للشعوب غير المصرية القديمة في لقائها بالثقافة الفرعونية و ما نتج عنه من اندثار بالتوقف عن الإبداع</p>
+<p class="para">3. تعنيف الآخر سواء اتخذ شكلا ماديا(الإستعمار) أو رمزيا ( العولمة):<br>
+*<b>ستروس</b> الإستعمار:المركزية الثقافية/ أو الإتنية (العرقية)بادعاء التفوق على ثقافات توصف بالمتوحّشة لتبرير السيطرة عليها<br>
+*<b>بودريار</b>العولمة بما هي"<b>عنف ناعم</b>" يعتمد استراتيجيات سياسية أو اقتصادية ليبرالية تدّعي الكونية و الدفاع عن حقوق الإنسان</p>
+<!-- NOTE: p12 pen underlines on the right panel left out. -->
+<!-- NOTE: p13 handwritten margin note at top left and the "ROUIS" watermark left out. -->
+<p class="subhead t-red">المعجم الفلسفي</p>
+<!-- CROP: 2249 1 13 0.62 0.15 0.88 0.27 2249_definition2 -->
+<figure class="fig"><img src="https://wael-philo.b-cdn.net/figs/2249/2249_definition2.png" alt=""></figure>
+<div class="data">
+<p class="para"><b>الخصوصية</b> هي العلامة المميزة التي يملكها شخص او مجتمع أو ثقافة و لا يشاركه فيها آخر</p>
+<p class="para"><b>الهوية</b> هي جملة الخصوصيات الثابتة داخل "<u>إطار أو أفق</u>" بتعبير <b>تايلور</b> أو ما يشكّل أصالتها و ما يستمرّ تاريخيا كذاكرة لكلّ شعب أو شخص أو مجموعة تتميّز بها عن كلّ هوية أخرى و هو ما يجعلها بتعبير <b>موران</b> "<u>هوية مركّبة</u>" +و تحيل إلى ما هوإنساني من ابداعات ثقافية فكرية أوتقنية لحل أزمات الهوية</p>
+<p class="para"><b>الثقافة</b> هي ما ليس طبيعيا+ و هي مجموع التجارب المعيشة لشعب ما و ما يحتاجه من ابداع للمعارف والتقنيات و القواعد و الفنون والطقوس و المعتقدات</p>
+<p class="para"><b>التواصل</b> :عملية تفاعل بين الهويات لنقل تجاربها وتأويلها للعالم باعتماد رموز</p>
+<p class="para"><b>الآخر</b> هو المختلف بخصوصياته والمستقلّ بهويته وهوما يبرّر <u><b>الإعتراف بالتنوّع</b></u></p>
+<p class="para"><b>التماثل</b>وهو التشابه في خصوصيات انسانية كونية مشتركة</p>
+<p class="para"><b>الإختلاف</b> هو <u>التقابل</u>في الخصوصيات و <u>تنوّع</u> الفضاء الثقافي والنظم الرمزية</p>
+<p class="para">.<b>الكوني</b>يتعلّق باشتراك إنساني/توافق الشعوب حول قيم انسانية مجرّدة=حقوقالإنسان</p>
+<p class="para"><b>العالمي</b> هي ما ينتشر في العالم عمليا و يشترك فيه الناس داخل وضعياتهم المعيشة</p>
+<p class="para"><b>العولمة</b> سيطرة نموذج ثقافي أو اقتصادي أو سياسي ليبرالي و هو النموذج الغربي + فتح الحدود أمام تنقل البضائع و المعارف والتقنيات و الأشخاص</p>
+<p class="para"><b>المقدس</b> بتعبير ريكور"<u>الآخر الكلّي</u>" أو كائن أعلى لا مرئي نعتقد فيه ونثق في قدرته</p>
+</div>
+<p class="subhead t-red">الشواهد الفلسفية</p>
+<!-- CROP: 2249 1 13 0.45 0.06 0.57 0.14 2249_tete2 -->
+<figure class="fig"><img src="https://wael-philo.b-cdn.net/figs/2249/2249_tete2.png" alt=""></figure>
+<p class="para"><b>اريك فروم</b> : الهوية تجربة تسمح لشخص ما أن يقول أنا-أنا من حيث أكون قطبا فاعلا</p>
+<p class="para"><b>تايلور</b>: ان أعرف من أكون يعني أن أعرف الموقع الذي أحتلّه</p>
+<p class="para"><b>شارل تايلور</b>: "تتحدّد هويتي عبر الإلتزامات وضروب تحقّق الذات التي تعيّن الإطار أو الأفق الذي أستطيع فيه محاولة الحكم على ما يكون خيرا أو صالحا"</p>
+<p class="para"><b>رالف لنتن</b>: الثقافة هي المظهر الخارجي للسلوك المكتسب و لنتائجه</p>
+<p class="para"><b>شارل تايلور</b> : تتحدّد هويتي من خلال علاقاتي الحوارية مع الآخرين</p>
+<p class="para"><b>هيقل</b> : نفهم الهوية على أنّها كيان تاريخي (متطوّرة) و هي تفيد ما هو أصيل</p>
+<p class="para"><b>هيقل</b>: المثقف الكوني هو الذي يحسن ختم أفعاله ببصمة الكلية</p>
+<p class="para"><b>مالبرانش</b> : إنّ العقل الذي نستشيره حين نتأمّل في أعماق أنفسنا هو عقل كوني</p>
+<p class="para"><b>ليفي ستروس</b>:"إنّ مساهمة الثقافات الحقيقية لا تقتصر على لائحة ابتكاراتها الخاصة بل تكمن في الفارق التفاضلي الذي تقدّمه فيما بينها"</p>
+<p class="para"><b>ليفي شتراوس</b> : إنّ العقل بالرغم من كلّ فروقاته الثقافية بين مختلف أجزاء البشريو هو ذاته هنا و هناك</p>
+<p class="para"><b>ليفي شتراوس</b> : الحضارة العالمية هي تحالف الثقافات التي تحتفظ كلّ واحدة منها بخصوصيتها</p>
+<p class="para"><b>ليفي شتراوس</b> : يهدّدنا الآن ما نستطيع تسميته بإفراط التواصل</p>
+<p class="para"><b>ليفي شتراوس</b> : إنّ الهمجي هو قبل كلّ شيء من آمن بوجود الهمجية</p>
+<p class="para"><b>مالك المالكي</b> : الثقافة هي صورة حية تعبّر من خلالها جماعة حية عن نفسها</p>
+<p class="para"><b>فولتير</b> : يمثل التعصب بالنسبة إلى الأوهام ما تمثّله العدوى بالنسبة إلى الحمّى</p>
+<p class="para"><b>سبنقلر</b> : كلّ ثقافة ترتبط ضمن علاقة رمزية مع المادة الممتدّة و الفضاء الذي تتحقّق فيه</p>
+<p class="para"><b>هرسكوفيتش</b> : لكلّ مجتمع قوي ثقافة شديدة التماسك تدفعه إلى مقاومة المحاولات التي تبذل لطمس هويته</p>
+<!-- PROOFREAD: 2249 part1 p13 — lines from "ليفي شتراوس : إنّ العقل" to "هرسكوفيتش" are faded under the watermark; names (especially "مالك المالكي") and the phrases "تحالف الثقافات", "يهدّدنا الآن ما نستطيع تسميته بإفراط التواصل", "قبل كلّ شيء من آمن", "بالنسبة إلى الأوهام ما تمثّله العدوى", "ترتبط ضمن علاقة رمزية", "قوي ثقافة شديدة التماسك" are best readings -->
+<p class="para"><b>ادغار موران</b> : توجد وحدة انسانية بقدر ما يوجد تنوّع انساني ... إنّها وحدة مركّبة خلاّقة</p>
+<p class="para"><b>هابرماس</b> : إنّ الإعتراف بالإختلافات ،الإعتراف المتبادل بالآخر في غيريته يمكن أن يصبح أيضا علامة لهوية مشتركة</p>
+<p class="para"><b>تودوروف</b> : أصبح مفهوم التسامح أكثر اتساعا...لم تتلاشى الإختلافات، كما بسحر ساحر لكنّها لم تعد مصدرا للعداوة، بل صار بالإمكان تثمين وجودها ذاته</p>
+<p class="para"><b>غاندي</b> : أفتح نوافذي على كلّ رياح العالم شرط أن لا تقتلعني من جذوري</p>
+<p class="para"><b>هنتنقتن</b>: الإمبريالية هي النتيجة الحتمية لإدّعاء الكونية</p>
+<p class="para"><b>بودريار</b>:الكونية هي كونيةحقوق الإنسان والقيم أمّا العولمة فهي عولمة التقنيات والسوق والإعلام</p>
+<p class="para"><b>بودريار</b> : كلّ ثقافة تتعمّم تفقد خصوصيتها و تموت</p>
+<p class="para"><b>بودريار</b>: الواقع أن الكوني يهلك في العولمة وعولمة التبادلات تضع نهاية لكونية القيم</p>
+<p class="para"><b>بودريار</b> : (العولمة) هي انتصار الفكر الوحيد على الفكر الكوني</p>
+<table>
+<tr><td><b>مراجعة وتدريب منهجي 2</b><br><b>لإمتحان البكالوريا</b></td><td>الإختبار: <b>الفلسفة</b><br>الشعب: <b>العلمية</b><br><b>اختبار/الخصوصية والكونية</b></td></tr>
+</table>
+<div class="exsub">القسم الأول: (10 نقاط)</div>
+<p class="subhead t-navy">التمرين الأول:(نقطتان).</p>
+<p class="consigne">إنّ تعدّد الثقافات مثل تعدّد الفنون،يجب أن نعجب بتنوعها لاأن نخشى فوضاها"اكشف احدى ضمنيات هذا الإقرار<b>2023BAC</b></p>
+<p class="subhead t-navy">التمرين الأول(مكرّر)(نقطتان).</p>
+<p class="consigne">"إنّ التسليم بالكوني شرط لفهم ثقافة الآخر "حدّد دلالة الكوني يفي سياق هذا القول  <b>2010BAC</b></p>
+<p class="subhead t-navy">التمرين  الأول(مكرّر):(نقطتان)</p>
+<p class="consigne">قيل: "إنّ الذاكرة هي صانعة الهوية وإن فقد المرء ذاكرته فقد هويته" حدّد دلالة الهوية في سياق هذا القول.<b>2011 BAC</b></p>
+<p class="subhead t-navy">التمرين  الثاني:(نقطتان)</p>
+<p class="consigne">"يظلّ الإختلاف الثقافي مربكا ما دام يدار بطريقة سيّئة"  قدّم حجة تدعم هذا الإقرار.<b>2018 BAC</b></p>
+<p class="subhead t-navy">التمرين الثالث :(6 نقاط)   النّص: 2011BAC</p>
+<p class="para">إنّ الوحدة الكوكبية هي المقتضى العقلاني الأدنى لعالم منحسر و مترابط الأجزاء .و إنّ وحدة من هذا القبيل تحتاج إلى وعي  و إحساس بالإنتماء المشترك يربطنا بأرضنا بما هي الوطن الأوّل و الأخيرإذا كانت فكرة الوطن تتضمّن هوية مشتركة و علاقة انتساب وجداني ...و تتضمّن أخيرا مصيرا مشتركا، فبإمكاننا عندئذ أن نقترح فكرة الأرض- الوطن.</p>
+<p class="para">...إنّنا نمتلك جميعا، فيما وراء اختلافاتنا الفردية والثقافية والإجتماعية، هوية وراثية ودماغية و وجدانية مشتركة. إنّنا نتاج التطوّر الذي شهدته الحياة و الذي مثّلت الأرض رحمه و حضنه، و أخيرا فكلّ البشر يعيشون منذ القرن العشرين نفس المشاكل الأساسية للحياة و الموت و يشتركون في نفس المصير الكوكبي.</p>
+<p class="para">...ألا يتعيّن علينا، عندئذ، أن نتعلّم كيف "نسكن" هذا الكوكب؟ أن نتعلّم كيف نسكن الكوكب يعني: أن نتعلّم كيف نعيش ونتقاسم الأشياء ونتواصل ونتّحد على نحو حميمي. هذا ما كنّا نتعلّمه فقط في الثقافات الخصوصية وبفضلها. ويتعيّن علينا مستقبلا أن نتعلّم كيف نكون ونعيش ونتقاسم ونتواصل ونتّحد باعتبارنا أيضا بشرا ينتمون إلى كوكب الأرض. إنّنا لا ننتمي فقط إلى ثقافة ما و إنّما نحن أيضا كائنات هذه الأرض. علينا أن ننذُر أنفسنا لتهيئة سبل سكنى الأرض و تحسينها و فهمها لا للسيطرة عليها.</p>
+<!-- PROOFREAD: 2249 part1 p14 — words under the watermark: "نمتلك جميعا", "شهدته", "ألا يتعيّن علينا", "ونتواصل ونتّحد", "ونعيش ونتقاسم", "كائنات هذه الأرض" are best readings -->
+<p class="para"><b>ادغار موران – تربية المستقبل</b></p>
+<p class="consigne"><b>أنجز المهام التالية انطلاقا من النّص</b></p>
+<p class="consigne">1- صغ الإشكالية التي يطرحها الكاتب في هذا النّص.(نقطتان)<br>
+2- قدّم حجّة تشرّع الحديث عن لمفهوم الأرض - الوطن.(نقطتان)<br>
+3- اذكر تبعة من تبعات مفهوم الأرض- الوطن في مستوى علاقة الإنسان بخصوصيته الثقافية أو في مستوى علاقته بثقافات الآخرين.(نقطتان)</p>
+<div class="exsub">القسم الثاني: (10 نقاط)</div>
+<p class="consigne"><b>اشتغل على أحد هذين السؤالين حجاجيا في محاولة بمعدّل ثلاثين سطرا .</b></p>
+<p class="para"><b>السؤال الأول</b> :إذا كانت كل هوية تنزع إلى إثبات خصوصيتها، فهل في ذلك ما يهدّد الكونية؟<b>2014 BAC</b><br>
+<b>السّؤال الأوّل(مكرّر)</b>: هل من تعارض بين تنوّع القيم ومطلب الكونية؟ <b>2015 BAC</b><br>
+<b>السّؤال الثاني</b>(مكرّر): هل يجب أن نختار بين إقصاء الآخر والذوبان فيه؟ <b>2022 BAC</b><br>
+<b>السّؤال الثاني</b>(مكرّر): هل يمكن للإنسانية إقامة عالم بلا عداوة؟ <b>2020 BAC</b><br>
+<b>السؤال الثاني(مكرّر)</b>: <b>إذا عُدّت الهوية إلتزاما، فهل يجعلها بمنأى عن كلّ نقد؟ 2025 BAC</b></p>
+<p class="consigne"><b>النّص:  المهمة 1: - صغ الإشكالية التي يطرحها الكاتب في هذا النّص.</b> (نقطتان)</p>
+<div class="data">
+<p class="subhead t-red">نموذج المحاولة :</p>
+<p class="para">أي معنى <span class="t-red">للوحدة الكوكبية</span> و ما دلالة..........................................................</p>
+<p class="para"><b>هل</b> هي.......................... ..........................................</p>
+<p class="para">أم هي ..........................................................؟</p>
+<p class="para">وإلى أي مدى يمكن المراهنة على..........................................................؟</p>
+</div>
+<p class="consigne"><b>المهمة 2: قدّم حجّة تشرّع الحديث عن مفهوم الأرض - الوطن.</b> (نقطتان)</p>
+<div class="data">
+<p class="subhead t-red">نموذج المحاولة :</p>
+<p class="para"><u><b>إنّ الإقرار بتصوّر الأرض الوطن</b></u> هو إقرار بـأن الهوية الخصوصية لا يمكن اختزالها في موقع جغرافي خاص بل هي ذات بعد كوني يحيل فيه تصوّر الأرض - الوطن إلى..........................................................</p>
+<p class="para">..........................................................</p>
+<p class="para">كما يشير (الفيلسوف)..........................................................</p>
+<p class="para">..........................................................</p>
+<p class="para">لذلك لا يمكن لمفهوم الأرض - الوطن <span class="t-red">إلاّ أن يبرّر حاجة كلّ هوية إلى</span>..........................................................</p>
+<p class="para">..........................................................</p>
+</div>
+<p class="consigne"><b>المهمة 3: اذكر تبعة من تبعات مفهوم الأرض- الوطن في مستوى علاقة الإنسان بخصوصياته الثّقافية أو في مستوى علاقته بثقافات الآخرين.</b> (نقطتان)</p>
+<div class="data">
+<p class="subhead t-red">نموذج المحاولة :</p>
+<p class="para"><span class="t-blue"><b>من تبعات هذا القول</b></span> أنّ الإقرار بالوحدة الكوكبية يسمح بـ..........................................................</p>
+<p class="para">..........................................................</p>
+<p class="para">.....حيث يمكن أن ننتظر من تصوّرنا للوحدة الكوكبية..........................................................</p>
+<p class="para">.......................................................... و هو ما نتبيّن أهميته من</p>
+<p class="para">خلال قول(الفيلسوف)..........................................................</p>
+<p class="para">..........................................................</p>
+<p class="para"><span class="t-red"><b>لذلك</b></span> فلا ....................ولا....................</p>
+</div>
+<p class="consigne"><b>القسم الثاني : اشتغل على السؤال التالي في شكل تخطيط مفصّل .</b></p>
+<p class="consigne">☑ <b>السّؤال الثاني</b>: هل من تعارض بين تنوّع القيم و مطلب الكونية؟ <b>2015 BAC</b></p>
+<table>
+<tr><th></th><th>البناء</th></tr>
+<tr><td rowspan="2"><b>I. بناء المشكل</b></td><td>إنّ ما نعيشه اليوم من عنف بين المجتمعات  وما يكشفه ذلك من خوف متخفي و من أحقاد و ضغائن يمكن أن يكشف لنا ما يتهدّد منظومة القيم الإنسانية و مطلب الكونية من خطورة تبرّر مراجعة التفكير في مفهومي القيمة و الكوني و اختبار العلاقة بينهما و التساؤل، ......</td></tr>
+<tr><td>كيف تتحدّد....................... أي معنى ....................<br>هل هي....................................................<br>أم انها ....................................................؟<br>كيف يمكن لمطلب الكونية أن....................................................؟<br>و إلى أيّ مدى....................................................؟</td></tr>
+<tr><td rowspan="3"><b>II. بلورة الجواب حجاجيا</b></td><td>تحديد المفهوم1(القيم)إذا كانت القيم تفيد ....................<br>..........................................................<br>تحديد المفهوم2(الكونية) و إذا سلّمنا أنّ الكوني الذي تطالب به كلّ الهويات الثقافية هو....................<br>..........................................................<br>..........................................................<br>..........................................................<br>..........................................................</td></tr>
+<tr><td>فإنّ تنوّع القيم الاجتماعية و الثقافية لكلّ هوية يمكن أن تهدّد مطالب الكونية و القيم الإنسانية المشتركة حين<br>(التبعات)....................................................<br>..........................................................<br>..........................................................</td></tr>
+<tr><td>الحجج....................................................<br>..........................................................<br>..........................................................<br>..........................................................<br>..........................................................<br>..........................................................</td></tr>
+</table>
+<!-- PROOFREAD: 2249 part1 p16 — words under the watermark: "تطالب به كلّ الهويات الثقافية", "تهدّد مطالب الكونية و القيم" are best readings -->
+<table>
+<tr><td rowspan="4"></td><td>..........................................................<br>..........................................................</td></tr>
+<tr><td>الإستنتاج المتعلّق بإثبات الأطروحة1 (التنوع في القيم يتعارض مع مطلب الكوني)؟<br>لكن بقدر ما ....................................................<br>الا ان....................................................<br>(سؤال التشكيك): فكيف....................................................<br>..........................................................<br><b>ألا يمكن</b> لتنوّع القيم الثقافية وإبداعات الهوية الحية أن تضمن توافقا مع القيم الكونية؟</td></tr>
+<tr><td>فإذا اعتبرنا مطلب الكوني هو المراهنة على منظومة قيم إنسانية مشتركة تقوم على اعتبار "<b>وحدة المصير الكوكبي</b>" فإنّه لا معنى للخوف من تنوّع القيم الثقافية طالما كانت تقوم على احترام إرادي لما هو أصيل في كلّ هوية وهو وجودها الإنساني كما نتبيّنه في التصوّر الكانطي الذي يردّه إلى "<b>عقل كوني</b>" و"<b>مواطنة عالمية</b>" تتقاطع مع "<b>المواطنة المحلية</b>" كما يميّزها <b>هابرماس</b> حين يكون تنوّع القيم ضامنا لحقّ كلّ هوية حية في أن تكون مبدعة لخصوصياتها.</td></tr>
+<tr><td>فمطلب الكوني كما يشير <b>كانط</b> هو ....................................................<br>..........................................................<br>..........................................................<br>..........................................................<br>..........................................................<br>..........................................................<br>..........................................................<br>..........................................................</td></tr>
+<tr><td rowspan="2"><b>الخاتمة: استخلاص موقف</b></td><td>الى أي مدى بمكن المراهنة على....................................................<br><u>(الراهن)</u> في واقع معولم تسيطر عليه قيم المصلحة ....................................................؟.<br>..........................................................</td></tr>
+<tr><td>..........................................................<br>..........................................................<br>حيث يكون على كلّ ثقافة الدفاع عن خصوصياتها وقيمها و أن تنفتح مع ذلك على كلّ الثقافات الآخرى باعتبار أبعادها الإنسانية و ما يجمعها معها من قيم كونية تشرّع للتعايش السلمي و التفاعل الإبداعي.</td></tr>
+</table>
+
+<div class="chtag"><span>المحور</span> العلم بين الحقيقة والنمذجة</div>
+
+<p class="subhead t-red"><u>المحور3</u> : العلم بين الحقيقة والنمذجة</p>
+<div class="data"><p class="para"><span class="t-red">ما يجب الاحتفاظ به</span> : حاجة العلم الى النمذجة كمسار علمي معاصر بديل عن التجريب في مقاربة الظواهر المعقدة .</p></div>
+<p class="subhead t-navy">؟ من البراديغم الوضعي الى البراديغم النسقي<br>من مقاربة استقرائية الى مسار بنيوي</p>
+<p class="subhead t-navy">من الواقع</p>
+<p class="para">Modèle descriptif</p>
+<p class="para">من نماذج وصفية تُخبر عن حقيقة الظواهر و تكتشفها تجريبيا<br>- Newton -</p>
+<p class="para"><span class="t-blue"><u>ماذا يدرس العلم</u></span> <span class="t-red">الواقع المعطى</span><br>
+<span class="t-blue"><u>كيف يدرسه</u></span> : تفسير الظواهر باعتماد منهج <span class="t-green">استقرائي تجريبي</span> باخضاع الظواهر الى صرامة التجربة معاكانها والكشف الحقيقة الثابتة</p>
+<p class="para"><span class="t-blue"><u>آليات عمله</u></span> : بكل حياد ونزاهة وموضوعية<br>
+« <span class="t-red">المعرفة - الموضوع</span> »<br>↓</p>
+<p class="para">مقاربة استقرائية تُخضع الظواهر لصرامة التجربة وتكشف حقائقه الثابتة والنهائية بالوقوف على العلاقات السببية بين الظواهر</p>
+<!-- PROOFREAD: 2249 part1 p18 — "Newton" (faded), "معاكانها والكشف الحقيقة الثابتة" uncertain -->
+<p class="para"><span class="t-green">الى</span></p>
+<p class="subhead t-navy">الى النموذج</p>
+<p class="para">Modèle Prédictif</p>
+<p class="para">نماذج افتراضية - رياضية واختزالية تعمل على تبسيط الواقع واعادة تركيبه نسقيا .<br>- Einstein -</p>
+<p class="para"><span class="t-blue">ماذا يدرس العلم</span> <span class="t-red">الواقع المعقد/ الافتراضي</span><br>
+<span class="t-blue">كيف يدرسه</span> : اعادة بناء الظواهر ابستيميا باعتماد منهج <span class="t-green">النمذجة</span> البنائية بأكسمتها وصورنتها وعبر اختزالها وتبسيطها اعادة تركيبها نسقيا <span class="t-red">حقائق نسبية</span> .</p>
+<p class="para"><span class="t-blue">آليات عمله</span> : في حرصه على النجاعة - غائية<br>
+« <span class="t-red">المعرفة - المشروع</span> »<br>↓</p>
+<p class="para">مقاربة سيستيمية تُعيد بناء الواقع خياليا وابداعه اكسيوما عبر مسار افتراضي فلا <u>تحاكي</u> الواقع بل تستكشفه نسقيا وتنشئه بنائيا لتقاربه نسبيا .</p>
+<p class="subhead t-navy">ما يجب الاحتفاظ به</p>
+<div class="data">
+<p class="para"><b>النموذج</b> هو بناء افتراضي لتمثيل النسق الواقعي المعقّد في نسق صوري مبسّط باعتماد رموز و علاقات منطقية  تمكّن من فهم الظاهرة من أجل التحكّم فيها تكنولوجيا.</p>
+<p class="para"><b>النمذجة</b> تمشي اختزالي لظواهر معقّدة لا يمكن استقراءها او إخضاعها لصرامة التجربة لذلك وجب إعادة بنائها خياليا و إبداعها أكسيوميا عبر نماذج مبسّطة لا تتطابق مع الواقع و لا تعبّر عن حقيقة موضوعية بل تبدعه إفتراضياو تبنيه نسقيا من أجل فهمه و التحكم في ظواهره. فلا نطلب من النموذج أن يحاكي الواقع  و لا أن يكون صورة وفيّة له، بل يكفي أن يلا ئمه حتى يضمن نجاعته في إطار رؤية علمية أو مشروع نفعي. وهو ما يمكن أن يدفع إلى الحذر من النمذجة و إدانة توظيفاتها اللا- إنسانية باعتبار تنزيلها في إطار "المعرفة - مشروع" لا من خلال "المعرفة - موضوع" نتيجة تورّطها في مشاريع سلطوية و غايات نفعية تنزّل النمذجة في سياق براقماتي و تبرّر التفكير في نمذجة بديلة تراعي الإنسان و الإنساني داخله.</p>
+</div>
+<!-- CROP: 2249 1 19 0.10 0.23 0.25 0.33 2249_cycle_eau -->
+<figure class="fig"><img src="https://wael-philo.b-cdn.net/figs/2249/2249_cycle_eau.png" alt=""></figure>
+<p class="subhead t-navy"><b>Modele de Thomas Malthus : بناء نموذج رياضي لخصائص النمو الديمغرافي</b></p>
+<!-- CROP: 2249 1 19 0.64 0.36 0.90 0.43 2249_courbes_malthus -->
+<figure class="fig"><img src="https://wael-philo.b-cdn.net/figs/2249/2249_courbes_malthus.png" alt=""></figure>
+<p class="subhead t-navy"><b>Modele de Malthus للتحكم في الواقع</b></p>
+<p class="para"><i>اتخاذ قرار سياسي متعلّق  بالتوازن الاقتصادي للموازنة بين التزايد التصاعدي لنسبة السكان و محدودية الثروات من جهة ثانية</i></p>
+<p class="subhead t-navy"><b>Modele de Malthus لفهم ظاهرة سكانية</b></p>
+<p class="para"><i>معالجة ظاهرة النمو الديمغرافي داخل مخابر الدراسات لفهم أسباب الظاهرة و مظاهرها و تقديمها لصناع القرار من أجل التحكم فيها وخلق الثروات</i></p>
+<p class="subhead t-gold">البعد التركيبي</p>
+<p class="para">يتعلّق بالتمشي المنهجي المعتمد في إعادة بناء الظاهرة رمزيا باعتماد "صورنة" نتدرّج فيها منطقيا من المسلّمات إلى التبعات المناسبة لها</p>
+<p class="subhead t-gold">البعد التداولي</p>
+<p class="para">يتعلّق بالتطبيقات التكنولوجية للنماذج العلمية وفق تصوّر استراتيجي لصنّاع القرار في مؤسسة اقتصادية أو سياسية تهدف إلى تحقيق المصلحة أو النفع وفق غايات مشروع ما.</p>
+<p class="subhead t-gold">البعد الدلالي</p>
+<p class="para">يتعلّق بالفهم الذي تسمح به النماذج العلمية في شكل تأويلات متنوّعة بحسب الفرضيات التي يحتويها البعد التركيبي و فق تصوّر كلّ مخبر بحث و ما ينتج عنها من تسارع في تطوّر البحث العلمي</p>
+<!-- PROOFREAD: 2249 part1 p19 — "غايات مشروع ما" partly hidden by the watermark (first letters not visible) -->
+<!-- CROP: 2249 1 20 0.13 0.14 0.29 0.21 2249_chart_coin -->
+<!-- CROP: 2249 1 20 0.54 0.23 0.71 0.30 2249_corona -->
+<table>
+<tr><td><b>أشكال النّمذجة</b></td><td>1.<b>من الواقع إلى النموذج: modèle descriptif</b>  نماذج توصيفية لتمثيل عناصر الواقع و هو في طور الإشتغال بطريقة تأويلية  تسمح بإعادة تنظيمه للتّحكّم فيه كالمتابعة الإحصائية لموضوع اقتصادي(مؤشرات الإستهلاك مثلا أو مؤشرات البطالة) في جداول و منحنيات تسمح بإعادة تنظيمه نظريا في سيناريو يسمح بالتحكم فيه (التحكم في نسبة التضخم المالي)<br>
+<figure class="fig"><img src="https://wael-philo.b-cdn.net/figs/2249/2249_chart_coin.png" alt=""></figure>
+2.<b>من النموذج إلى الواقع: modèle prédictif</b> هي نماذج رياضية للتوقع واستباق أحداث أو  وضعيات مثل توقع الطّقس في النشرات الجوية أو توقع انتشار فيروس باعتماد متغيّرات معلومة لتحديد متغيّرات غير معلومة<br>
+<figure class="fig"><img src="https://wael-philo.b-cdn.net/figs/2249/2249_corona.png" alt=""></figure></td></tr>
+<tr><td><b>أهداف النّمذجة</b></td><td>1.كلّ نموذج يكون مرتبطا بمشكل في نسق واقعي معقّد نرغب في فهمه علميا<br>
+2.الحاجة إلى تحويل النظرية إلى حل تكنولوجي داخل مشروع اقتصادي أو سياسي</td></tr>
+<tr><td><b>كيف نمذج</b></td><td>1.التساؤل وتحديد المشكل في الواقع ثم ضبط مراحل حلّه plan d'action<br>
+2.تحليل الظاهرة وبناء النموذج بإختزاله في المعطيات الضرورية+ تحديد متغيّراتها<br>
+3.وضع القواعد الضرورية و تنظيم المعطيات لتركيب النسق الإفتراضي في نموذج<br>
+4.valider إثبات صلاحية النموذج بالتحقّق من سلامته المنطقية و ملاءمته لغايات المشروع</td></tr>
+<tr><td><b>شروط النجاعة</b><br>pertinence</td><td>1.أن يكون مناسبا في حلّ المشكل<br>
+2.إذا كان يسمح بالحصول على نتائج دقيقة و أولية escompté تسمح بالتّوقع منها<br>
+3.أن يكون قابلا للتعديل بطريقة تطويرية+ من أجل إعادة استعماله وفق خصائص المشكل<br>
+4.المساعدة في اتخاذ القرار و توظيفه تقنيا في مشروع سياسي أو اقتصادي او غيره</td></tr>
+</table>
+<!-- PROOFREAD: 2249 part1 p20 — rows "شروط النجاعة" are faded under the watermark: "بالحصول على نتائج دقيقة", "للتعديل بطريقة تطويرية", "إعادة استعماله", "اتخاذ القرار و توظيفه تقنيا في مشروع" are best readings -->
+<!-- CROP: 2249 1 20 0.13 0.64 0.86 0.87 2249_laboratoire -->
+<figure class="fig"><img src="https://wael-philo.b-cdn.net/figs/2249/2249_laboratoire.png" alt=""></figure>
+<p class="subhead t-red">العلم بين الحقيقة و النمذجة</p>
+<p class="subhead t-red">المعجم الفلسفي</p>
+<!-- CROP: 2249 1 21 0.64 0.16 0.88 0.28 2249_definition3 -->
+<figure class="fig"><img src="https://wael-philo.b-cdn.net/figs/2249/2249_definition3.png" alt=""></figure>
+<div class="data">
+<p class="para"><b>العلم</b>:بناء نظري ناتج عن دراسة ظواهرالواقع ومعرفة قوانين عملها و نظام علاقاتها والتعبير عنها في قواعد رياضية باعتماد رموز أو متغيرات من أجل التوقع منها // و هو بذلك نظام من النظريات أو الأنساق المعرفية.</p>
+<p class="para"><b>الحقيقة</b>:هي تطابق النظرية وصياغاتها الرياضية مع الظواهر المدروسة</p>
+<p class="para"><b>الواقع</b>:هو بنية من العناصر المادية أو الإفتراضية و ما بينها من علاقات</p>
+<p class="para"><b>النمذجة التقليدية</b>: هي معالجة مخبرية للظواهر باعتماد منهج تجريبي يمكّن من معرفة حقيقتها الموضوعية و التعبير عنها في قواعد رياضية.</p>
+<p class="para"><b>النمذجة السيستيمية/البنائية/التركيبية</b>: و هي إعادة بناء نظام عمل الظواهر او النّسق الواقعي في نسق صناعي افتراضي أو نموذج رياضي يعبّر عن حقيقته.</p>
+<p class="para"><b>الإكتشاف</b>:هو البحث التجريبي عن حقيقة أصلية و ثابتة للظواهر الطبيعية.</p>
+<p class="para"><b>النموذج</b>: كل تمثل خيالي لنسق واقعي سواء كان ذهنيا أو ماديا، يتم التعبير عنه بلغة رمزية(هندسية أو رياضية أو مفهومية أو مادية في تصميم أوغيرها)</p>
+<p class="para"><b>النمذجة</b>:تمشي منهجي و تمثيل اختزالي للواقع في أنساق نظرية أو تقنية داخل سيناريوهات خاصة بمشروع تكون قابلة للتعديل/غايتها الفهم أو التحكّم .</p>
+<p class="para"><b>النسق</b> أو <b>البنية</b> : نظام العلاقات المنطقية بين عناصر و متغيرات تحكمها قواعد تكون تقريبية لنسق واقعي معقّد بنسق افتراضي مركّب.</p>
+<p class="para"><b>البارادبقم</b>: نموذج إرشادي/منهج مقاربة الموضوع وفق بناء نسقي و مبادئ أو معايير و مفاهيم تتفق عليها مجموعة علمية أو مخبر ما للبحث و الحكم.</p>
+<p class="para"><b>الإختزال/التبسيط</b>:"استراتيجيا الإهمال"أي عملية انتقاء العناصر الضرورة  في الأكسمة</p>
+<p class="para"><b>الإستكشاف</b>: تتبع نظام تحوّلات الواقع بالتأويل وفق رؤية المنمذج وفرضياته</p>
+</div>
+<!-- PROOFREAD: 2249 part1 p21 — glossary terms faded under the watermark: "النمذجة التقليدية", "النمذجة السيستيمية", "الإكتشاف", "للظواهر الطبيعية", "النموذج: كل تمثل خيالي", "صناعي افتراضي" are best readings -->
+<p class="subhead t-red">شواهد فلسفية</p>
+<!-- CROP: 2249 1 21 0.48 0.06 0.60 0.14 2249_tete3 -->
+<figure class="fig"><img src="https://wael-philo.b-cdn.net/figs/2249/2249_tete3.png" alt=""></figure>
+<p class="para"><b>الكسندر كويري</b>: العلم طريقة في الرّبط بين وقائع تبدو بمعزل عن بعضها البعض</p>
+<p class="para"><b>ادغار موران</b>:  الهدف الأول من العلم حتى الأن هو إزالة عدم الدّقة و الغموض و التناقض</p>
+<p class="para"><b>ادغارموران</b>: أن الموضوعات الموجودة و المستقلة عن الذات قد يكون بالمستطاع  تفسيرها</p>
+<p class="para"><b>غرانجي</b> : إنّ مفهوم الواقع هو انشاء يتضمّن واجهة من الراهنية و واجهة مركّبة من الإفتراضي و الإحتمالي</p>
+<p class="para"><b>بول فاليري</b> : الحقائق أشياء نصنعها لا أشياء نكتشفها إنّها بناءات و ليست كنوزا</p>
+<p class="para"><b>لوموانييه</b> : إذا ما أرغمناعلى تسمية هذا المنهج البديل الذي ندّعي هنا إحلاله محلّ التجريب أجبنا دون شك: النمذجة</p>
+<p class="para"><b>بول فاليري</b> : لا يجب أن نسمّي علما  إلاّ مجموع الوصفات التي تكلّل بالنجاح.</p>
+<p class="para"><b>لوموانييه</b> : ان العلماء <u>يعتقدون</u> امتلاك بعض المعايير الكونية التي تسمح بضمان بلوغ الحقائق النّهائية المزعومة</p>
+<p class="para"><b>لودفيك باسكال</b> : ان العلماء يميّزون بوضوح بين فعل النمذجة الذي ينتمي إلى التخيل و بين فعل التنظير الذي يصاحبه إيمان جدي بحقيقة القضايا التي تكون الخطاب النظري</p>
+<p class="para"><b>لوموانييه</b>:إنّ النموذج لا يصف ،إنّه لا يعرض معرفة – موضوع عادة ما تعتبر موجودة ،إنّه يقدّم سلفا معرفة – مشروع لا وجود إلاّ به</p>
+<p class="para"><b>فاليزار</b> : النموذج هو كل تمثل لنسق واقعي سواء كان ذهنيا أو ماديا، يتم التعبير عنه بلغة أدبية أو في شكل رسوم بيانية أو رموز رياضية</p>
+<p class="para"><b>لوموانييه</b> : لا يستطيع المنمذج أن يعتبر نفسه خارج النموذج الذي هو بصدد انشائه</p>
+<p class="para"><b>توماس كوهين</b> : البارادبقم هو ما يمتلكه أعضاء جماعة علمية بشكل مشترك</p>
+<p class="para"><b>تانودجي</b> : النماذج وسائط استكشافية يجري استكمالها بقدر ما تتوطّد النظرية</p>
+<p class="para"><b>ماركوز</b>: العلم أرضية للإستثمار التقني</p>
+<p class="para"><b>بول فاليري</b>  : إنّنا لا نفكّر إلاّ من خلال نماذج</p>
+<p class="para"><b>باسكال نوفال</b> : عندما نعبّر عن القانون الثاني لنيوتن حين نكتب (ق=ك.س) فإنّنا نصنع نموذجا. إنّنا نبسّط وضعية واقعية بإرجاعها إلى وضعية بسيطة</p>
+<p class="para"><b>جان  بياجيه</b>  يمكن أن تترجم الصورنة مباشرة في معادلات منطقية – رياضية.</p>
+<p class="para"><b>لوموانييه</b> : لا يستطيع المنمذج أن يعتبر نفسه خارج النموذج الذي هو بصدد إنشائه</p>
+<p class="para"><b>لوموانييه</b> : النمذجة للفهم</p>
+<p class="para"><b>فورستار</b>: إننا نتّخذ كلّ قراراتنا انطلاقا من النماذج</p>
+<p class="para"><b>ادغار موران</b> : لقد أعدّت المعرفة العلمية الجديدة لكي تودع في بنوك المعطيات و أن تستخدم وفق وسائل الأقوياء و قراراتهم</p>
+<p class="para"><b>ادغار موران</b> : أن نعرف و أن نفكّر لا يعني ذلك أن نتوصّل إلى حقيقة مطلقة اليقين، و إنّما أن نتحاور مع اللايقين</p>
+<p class="para"><b>ادغار موران</b> : إنّنا نعيش عصر اللامسؤولية المعمّمة</p>
+<p class="para"><b>نيكولا بولو</b> أنّ النمذجة  إنّما تنخرط ضمن سياق اجتماعي وهوما يضفي عليها طابع النجاعة ولكن أيضا طابع الدنس (الملوث)</p>
+<table>
+<tr><td><b>مراجعة و تدريب منهجي 3</b><br><b>لإمتحان البكالوريا</b></td><td>الإختبار: <b>الفلسفة</b><br>الشعب: <b>العلمية</b><br><b>اختبار ، العلم بتن الحقيقة و النمذجة</b></td></tr>
+</table>
+<div class="exsub">القسم الأول: (10 نقاط)</div>
+<p class="subhead t-navy">التمرين الأول:(نقطتان)</p>
+<p class="consigne">"لا تقتصر مهمة العالم على إنشاء النماذج بل مهمته هي أيضا التفكير في تبعاتها" اكشف أحد ضمنيات هذا القول.<b>2025 BAC</b></p>
+<p class="subhead t-navy">التمرين الأول:(نقطتان) (مكرّر)</p>
+<p class="consigne">"ليست النماذج محاكاة للواقع ". قدّم حجة تدعم هذا الإقرار .<b>2020 BAC</b></p>
+<p class="subhead t-navy">التمرين الثاني:(نقطتان)</p>
+<p class="consigne">" ليس هناك نماذج خاطئة "   اكشف ضمنية من ضمنيات هذا القول.<b>2017 BAC</b></p>
+<p class="subhead t-navy">التمرين الثاني:(نقطتان) (مكرّر)</p>
+<p class="consigne">"لا ننمذج من أجل أن نعرف بل ننمذج من أجل أن نتحكّم"   اكشف إحدى استتباعات هذا القول.<b>2018 BAC</b></p>
+<p class="subhead t-navy">التمرين الثالث :(6 نقاط)   النّص: 2009BAC</p>
+<p class="para">ترتبط مشكلة الواقعية العلمية بمسألة معرفة ما إذا كان العلم في قسمه النظري ، يعدّ في حدّ ذاته وصفا موضوعيا لواقع غالبا ما يعتبر أكثر جوهرية و كذلك – و لهذا السبب بالذات – أكثر واقعية من الواقع المُلاحَظ .إنّ خصوم الواقعية (...) يؤكّدون أن ما يتسنّى لنا التّطلّع إليه و أفضل ما نحن قادرون على الظفر به في شأن المعرفة الموضوعية ليس انتاج نظريات صحيحة تكمن مهمّتها في وصف الآلية الحقيقة للطبيعة،بل فقط انتاج نظريات تكون أدوات ناجعة للحساب و التّوقع. إنّ قبول نظرية علمية لا يلزمنا إذن البتة بالإعتقاد في صحّتها و في أنّ الكائنات التي تصفها هي كائنات واقعية .إذ يكفي ، لتكون نظرية ما مقبولة ، أن يتمّ اعتبارها مُلائمة خبريا (...) إنّ النشاط العلمي هم نشاط انشائي أكثر مما هو اكتشاف :انشاء نماذج ينبغي أن تكون ملائمة للظواهر و ليس اكتشافا للحقيقة الخاصة باللاملاحَظ.</p>
+<!-- PROOFREAD: 2249 part1 p22 — words under the watermark: "في حدّ ذاته", "خصوم الواقعية", "انتاج نظريات صحيحة", "إنّ قبول نظرية", "نظرية ما مقبولة", "تكون ملائمة" are best readings -->
+<p class="para"><b>جاك بوفراس          هل أن ابستيمولوجيا واقعية هي ابستيمولوجيا ممكنة</b></p>
+<p class="consigne"><b>أنجز المهام التالية انطلاقا من النّص</b></p>
+<p class="consigne">1- ما هي الإشكالية التي يطرحها الكاتب في هذا النّص.(نقطتان)<br>
+2- حدد سياقيا مفهوم النموذج.(نقطتان)<br>
+3-  ارصد حجّة يبرّر بها الكاتب رفضه للأطروحة القائلة بأنّ النّظرية العلمية تمثّل اكتشافا لحقيقة الواقع.(نقطتان)</p>
+<div class="exsub">القسم الثاني: (10 نقاط)</div>
+<p class="consigne"><b>اشتغل على أحد هذين السؤالين حجاجيا في محاولة بمعدّل ثلاثين سطرا .</b></p>
+<p class="para"><b>السؤال الأول</b>  :هل يمكن للقيمة التداولية للنماذج أن تحصّن النمذجة العلمية من كلّ نقد؟<b>2011 BAC</b><br>
+<b>السّؤال الثاني</b> : إذا كانت النمذجة فعل اختزال و تبسيط،فهل تمثّل الواقع بحقّ؟<b>2013 BAC</b><br>
+<b>السّؤال الثالث(مكرّر)</b>: هل في تعدّد النماذج إثراء للعلم ؟<b>2019 BAC</b><br>
+<b>السؤال الرابع</b>:هل في حرص المنمذج على نجاعة النموذج ما يفضي إلى تخلي العلم عن مسؤوليته تجاه الإنسانية <b>2021 BAC</b></p>
+
+
+<p class="subhead t-red"><b>القسم الأول:</b></p>
+<p class="consigne"><b>التمرين 1:</b> "لا تقتصر مهمة العالم على إنشاء النماذج بل مهمته هي أيضا التفكير في تبعاتها" اكشف أحد ضمنيات هذا القول.<b>BAC 2025</b></p>
+<div class="data">
+<p class="subhead t-navy"><b>نموذج المحاولة :</b></p>
+<p class="para"><span class="t-red"><b>يسلّم القول ضمنيا / من مسلّمات هذا القول</b></span> أنّ <b>"النماذج"</b> هي ...............................................</p>
+<p class="para">.......................................................................................................</p>
+<p class="para">.......................................................................................................</p>
+<p class="para">وهو ما يدعو إلى التفكير في تجاوز اعتبار النماذج حقائق ................................................</p>
+<p class="para">.............. على اعتبار أنّ ............ كما يشير(الفيلسوف)...............................</p>
+<p class="para">.......................................................................................................</p>
+<p class="para"><span class="t-red"><b>فلا مبرّر لاعتبار النماذج</b></span> ..................ولا هي ...........................................</p>
+<p class="para">..........الا...........................................................................................</p>
+</div>
+<p class="consigne"><b>التمرين2:</b> <b>"لا ننمذج من أجل أن نعرف بل ننمذج من أجل أن نتحكّم"</b> اكشف إحدى استتباعات هذا القول.<b>BAC 2018</b></p>
+<div class="data">
+<p class="subhead t-navy"><b>نموذج المحاولة :</b></p>
+<p class="para"><span class="t-red"><b>يترتّب عن هذا الإقرار / من تبعات هذا القول</b></span> أنّ الإقرار بالغاية من النمذجة هي التحكم يسمح بـ..............</p>
+<p class="para">.......................................................................................................</p>
+<p class="para">.......................................................................................................</p>
+<p class="para">حيث يمكن لهذا التحكم أن يكون ...........................................................................</p>
+<p class="para">.......................................................... و هو ما نتبيّن أهميته من خلال</p>
+<p class="para">قول(الفيلسوف)...........................................................................................</p>
+<p class="para">.......................................................................................................</p>
+<p class="para"><span class="t-red"><b>لذلك فلا</b></span> ..........................................ولا.............................................</p>
+<p class="para">..........الا...........................................................................................</p>
+</div>
+<p class="consigne"><b>النّص: المهمة 1: حدّد الإشكالية التي يطرحها الكاتب في هذا النّص. (نقطتان)</b></p>
+<div class="data">
+<p class="subhead t-navy"><b>نموذج المحاولة :</b></p>
+<p class="para">أي معنى لـ.............. و ما ...........................................................................</p>
+<p class="para"><b>هل هي</b>.................................................................................................</p>
+<p class="para"><b>أم هي</b>................................................................................................؟</p>
+<p class="para"><b>وإلى أي مدى</b> يمكن المراهنة على ..................................في راهن............</p>
+<p class="para">.......................................................................................................؟</p>
+</div>
+<p class="consigne"><b>المهمة 2: حدد سياقيا مفهوم النموذج.</b> (نقطتان)</p>
+<div class="data">
+<p class="subhead t-navy"><b>نموذج المحاولة :</b></p>
+<p class="para"><span class="t-blue"><b><u>النموذج ليس</u></b></span> ...............................................<span class="t-blue"><b><u>و لا هو</u></b></span> ..................</p>
+<p class="para"><b>بما أن ذلك(تبرير رفضه)</b> .......................................................................</p>
+<p class="para"><span class="t-blue"><b><u>و إنما هو</u></b></span> <b>(الدلالة السياقية)</b>........................................................................</p>
+<p class="para">.......................................................................................................</p>
+<p class="para">.......................................................................................................</p>
+<p class="para">ذلك أن النموذج الذي نراهن من خلاله على الملاءمة في العلم يقوم على .......................................</p>
+<p class="para">كما يشير(الفيلسوف في نص ) ...................................................................</p>
+<!-- PROOFREAD: 2249 part1 p24 — "يقوم على" / "كما يشير(الفيلسوف في نص )" faded under the watermark -->
+<p class="para">.......................................................................................................</p>
+<p class="para">فلا..........................ولا...............................الا..................................</p>
+<!-- PROOFREAD: 2249 part1 p24 — "الا" in the فلا…ولا line faded under the watermark -->
+<p class="para">.......................................................................................................</p>
+</div>
+<p class="consigne"><b>المهمة 3: ارصد حجّة يبرّر بها الكاتب رفضه للأطروحة القائلة بأنّ النّظرية العلمية تمثّل اكتشافا لحقيقة الواقع.</b>(نقطتان)</p>
+<!-- PROOFREAD: 2249 part1 p24 — "الكاتب رفضه للأطروحة القائلة" faded under the watermark -->
+<div class="data">
+<p class="subhead t-navy"><b>نموذج المحاولة :</b></p>
+<p class="para"><b>من الخطء اعتبار العلم يكتشف حقيقة الواقع في حين أنّه</b> ................ <b>و الحجة على ذلك أنّ</b>.............</p>
+<p class="para">.......................................................................................................</p>
+<p class="para">..............................<b>حين يعتبر الكاتب أنّ</b> ................................................</p>
+<p class="para">وهو ما نتبينه في قول (الفيلسوف).........................................................................</p>
+<p class="para">بما أنّ(توضيح وبيان وجاهة الفكرة )........................................................................</p>
+<p class="para">.......................................................................................................</p>
+<p class="para">لذلك (استخلاص أهمية الحجة و الحاجة إلى الإعتراض على هذا التّصوّر)........................................</p>
+<p class="para">فلا..........................ولا...............................الا..................................</p>
+</div>
+<p class="subhead t-red"><b>القسم الثاني : اشتغل على السؤال التالي في شكل تخطيط مفصّل .</b></p>
+<p class="consigne">☑ <b>السّؤال الثاني</b>: هل تُبنى النماذجُ العلميةُ طلبًا للحقيقةِ؟ <b>BAC 2023</b></p>
+<table>
+<tr><th colspan="2">البناء</th></tr>
+<tr><td rowspan="2"><b>I. بناء المشكل</b></td><td>(التمهيد: دواعي طرح المشكل).........................................................<br>.......................................................................................<br>.......................................................................................<br>.......................................................................................</td></tr>
+<tr><td>ما دلالة..................................وما علاقتها بـ...................................<br>.هل......................................................................................<br>..ام........................................................ثم إلى اي مدى...........<br>.......................................................................................</td></tr>
+<tr><td rowspan="3"><b>البلورة الجواب حجاجيا</b></td><td>تحديد المفهوم1( النموذج)إذا كانت النماذج...........................................<br>.......................................................................................<br>تحديد المفهوم2(الحقيقة)وإذا سلّمنا أنّ الحقيقة التي يطلبها العلم هي..... ........................<br>.......................................................................................<br>(تبعات) فإنّ طلب الحقيقة يمكن أن تعبّر عنه النماذج باعتبارها ابداعات فكرية رياضية تشكل بنية العلم الكلاسيكي حيث تطلب هذه الحقائق بـ (توضيح).....................................</td></tr>
+<tr><td>الحجج...................................................................................<br>.......................................................................................<br>.......................................................................................<br>.......................................................................................<br>.......................................................................................<br>.......................................................................................<br>.......................................................................................<br>.......................................................................................</td></tr>
+<tr><td></td></tr>
+</table>
+<!-- PROOFREAD: 2249 part1 p25 — side heading of the second block (vertical, faded): read "البلورة الجواب حجاجيا"; numbering not legible; "(تبعات)" and "العلم" partly cut/faded -->
+<table>
+<tr><td rowspan="3"></td><td>الإستنتاج المتعلّق بإثبات الأطروحة1 (النماذج لمعرفة الحقيقة الموضوعية)؟<br>لكن بقدر ما .........................................................................<br>(التخلص)الا ان..........................................................................<br>(سؤال التشكيك): فكيف....................................................................<br>.......................................................................................</td></tr>
+<tr><td>إذا اعتبرنا النماذج هي إبداعات حرة للفكر البشري في صياغات افتراضية فإنّه لا يكون هناك معن<br>لطلب الحقيقة الثابتة طالما انخرط العلم في توظيفات غائية تحولت بها من "المعرفة- موضوع إلى المعرفة - مشروع" كما ينبهنا إلى ذلك <b>لوموانييه</b>.<br>وهو تحوّل يشترط أن تكون النماذج (توضيح باعتماد تبعات وحجج فلسفية )</td></tr>
+<tr><td>.......................................................................................<br>.......................................................................................<br>.......................................................................................<br>.......................................................................................<br>.......................................................................................<br>.......................................................................................<br>.......................................................................................<br>.......................................................................................<br>.......................................................................................<br>.......................................................................................<br>.......................................................................................<br>.......................................................................................<br>.......................................................................................<br>.......................................................................................</td></tr>
+<tr><td><b>III . استخلاص موقف /الخاتمة</b></td><td>.......................................................................................<br>(<u>الراهن</u>)اليوم في واقع معولم يسوده التطور التكنولوجي وتسيطر قيم المصلحة ..............<br>.......................................................................................<br>حيث يكون على النماذج تجاوز مطلب الحقيقة بتثمين القدرات الإبداعية للباحث وقابليتها للتوظيف الإنساني داخل مشاريع تحترم منظومة القيم الكونية.</td></tr>
+</table>
+<!-- PROOFREAD: 2249 part1 p26 — "معن" cut by the frame edge (word not completed) -->
+
+<div class="chtag"><span>المحور</span> القيم: الأخلاق والدولة</div>
+
+<!-- NOTE: page 27 is entirely handwritten (colour pens); transcribed in full, best reading -->
+<p class="subhead t-navy">مهارات التفكير الفلسفي</p>
+<p class="subhead t-red"><span class="t-green"><u>المحور</u> : الدولة : السيادة والمواطنة</span></p>
+<p class="para"><span class="t-red"><u>ما يجب الاحتفاظ به</u></span> :</p>
+<div class="data"><p class="para">الحاجة الى الدولة كجهاز قانوني وبنية موضوعية ضامنة للحقوق واساسا للمواطنة في راهن تعمه التسلط والاستبداد وهيمنة الحكام.</p></div>
+<p class="subhead t-navy"><span class="t-blue">في تلازم السيادة والمواطنة</span></p>
+<p class="para"><span class="t-red">(*) سيادة الدولة هي سيادة الشعب</span><br>بما هي السلطة العليا التي لا تعلوها سلطة ويكون الحاكم <span class="t-green">"مجرد شخص قانوني" "ممثل لإرادة الشعب"</span>.</p>
+<p class="para"><span class="t-red"><u>المواطن</u></span> : <span class="t-blue">شريك في ادارة الشأن العام بما هو حس وعي بالحقوق وبالانتماء والولاء الى دولة ذات سيادة وبما هو ممارسة فاعلة والتزام</span></p>
+<p class="para"><span class="t-red">(*)</span> <span class="t-green"><u>نظام الديمقراطية وآلياتها</u></span></p>
+<p class="para">- <span class="t-blue"><u>فصل السلط واستقلالية القضاء</u></span> <span class="t-green">لضمان العدالة</span> <span class="t-blue">(سبينوزا)</span> <span class="t-red">والحماية الحقوق والحريات عبر قوانين جزائية ونصوص تنظمية على جدلية الحق والواجب</span><br>
+↲ <span class="t-blue">استقلالية الاعلام كمؤسسة رقابية</span> <span class="t-green">لضمان التعددية واستقلالية المجتمع المدني</span> → <span class="t-red">المواطن يفوض ويلتزم بما شرعه بنفسه لنفسه وللجميع بحر</span> <span class="t-blue">= الارادة العامة</span></p>
+<!-- PROOFREAD: 2249 part1 p27 — "بحر" (end of line, maybe "بحرية"); "تنظمية"; "والحماية" -->
+<p class="para"><span class="t-red">(*)</span> <b><u>الغايات</u></b> : <span class="t-red">الحرية</span></p>
+<p class="para">"غاية الدولة في الواقع هي الحرية" <span class="t-red">(سبينوزا)</span> <span class="t-blue">وهي غاية تشترط ارساء</span> <span class="t-red"><u>دولة الحق</u></span> <span class="t-red">دولة القانون والمؤسسات</span> ضمان العدالة كقيمة سياسية</p>
+<p class="subhead t-navy"><span class="t-blue">في التعارض بين السيادة والمواطنة</span></p>
+<p class="para"><span class="t-red">سيادة الدولة هي سيادة الحاكم الاعلى</span> بما الحاكم من <u>قوة</u> يكون بها حسب <span class="t-red"><u>مكيافيلي</u></span> <span class="t-blue">"اسدا وثعلبا" والافراد رعايا لا مواطنون</span></p>
+<p class="para"><span class="t-red"><u>الرعايا</u></span> <span class="t-blue">في غياب الوعي بحقوقهم يتنازلون عن ادارة الشأن العام</span> <span class="t-red">"من تنازل عن حريته تنازل عن انسانيته"</span> <span class="t-green"><u>Rousseau</u></span><br>
+"يذودون أنفسهم بايديهم من الخوف النائم في الجهل"</p>
+<!-- PROOFREAD: 2249 part1 p27 — "يذودون" / "النائم" in this quotation uncertain; "حريته" -->
+<p class="para">نظام الاستبداد وآلياته</p>
+<p class="para">- <span class="t-green">احتكار كل السلط بيد الحاكم بما له من</span> <span class="t-red">كاريزما تدفع الى تقديسه او بما له من عنف يطمس به الحقوق ويتسلط على الرعايا</span><br>
+<span class="t-blue">(ريكور)</span> "صاحب السيادة ينزع دوما الى ابتزاز السيادة"</p>
+<p class="para">- وهم <span class="t-green">الديمقراطية</span> <span class="t-blue">واختزال الحقوق في</span> <span class="t-red">حق الانتخاب.</span><br>
+↲ <span class="t-blue">توظيف الاعلام وتطويعه تماما كالقوانين</span> <span class="t-green">خدمة لاغراض الحاكم وتعتيما على طغيانه.</span></p>
+<p class="para"><span class="t-red">(*)</span> <b><u>الغايات</u></b> : <span class="t-red">الامن</span></p>
+<p class="para">"الدكتاتورية هي حتما نظام عنف" <span class="t-red">(Freund)</span> <span class="t-blue">بالسيطرة على كل المؤسسات والمراقبة المستمرة للرعايا</span> ⊕ <span class="t-green">وعود زائفة</span> الوعد بالسعادة (توظيف الاستفتاء للتحكم)</p>
+<!-- PROOFREAD: 2249 part1 p27 — "الاستفتاء" uncertain (may read "الانتقاء") -->
+<p class="subhead t-red">ما يجب الإحتفاظ به</p>
+<div class="data">
+<p class="subhead t-gold"><b>النظام الديمقراطي</b></p>
+<p class="subhead t-navy"><b>1.شروط الديمقراطية:</b></p>
+<p class="para">سيادة الدولة هي سيادة الشعب + مواطنة فاعلة بالإلتزام الإرادي بواجباته القانونية</p>
+<p class="subhead t-navy"><b>2.أليات الديمقراطية:</b></p>
+<p class="para"><b>فصل السلطة التشريعية عن السلطة القضائية +استقلالية القضاء</b><br>استقلالية الإعلام وضمان العددية + استقلالية مكوّنات المجتمع المدني من أجل مواطنة فاعلة</p>
+<p class="subhead t-navy"><b>3.غايات الديمقراطية:</b></p>
+<p class="para">°الحرية<br>°العدالة كقيمة سياسية ترتبط بالقوانين و لضمان الحقوق</p>
+<!-- PROOFREAD: 2249 part1 p28 — "°الحرية" and "العدالة كقيمة … لضمان الحقوق" partly hidden by light glare -->
+</div>
+<div class="data">
+<p class="subhead t-gold"><b>النظام الإستبدادي</b></p>
+<p class="subhead t-navy"><b>1.شروط الإستبداد:</b></p>
+<p class="para">أن تكون سيادة الدولة هي سيادة</p>
+<p class="subhead t-navy"><b>2.أليات الإستبداد:</b></p>
+<p class="para"><b>احتكار الحاكم كلّ السلط<br>+وهم الديمقراطية<br>+الإغتراب السياسي للرعايا بمغالطات الإعلام</b></p>
+<p class="subhead t-navy"><b>3.غايات الإستبداد :</b></p>
+<p class="para">°الأمن بالسيطرة على كلّ مؤسّسات<br>+ بالمراقبة المستمرة لكلّ الرعايا<br>° <b>بوهم ديمقراطية الرفاه و"الوعد بالسعادة للجميع" بتعبير <span class="t-gold">بودريار</span></b></p>
+</div>
+<table>
+<tr><th colspan="2">العنف هو المبالغة في استعمال القوة وتهديد حقوق الآخرين، ونميّز في العنف 4 أشكال:</th></tr>
+<tr><td><b>1.</b>عنف شرعي ومشروع</td><td>عنف قانوني يمارسه القاضي وفق قانون جزائي من أجل حماية الحقوق</td></tr>
+<tr><td><b>2.</b>عنف شرعي وغير مشروع</td><td>عنف قانوني يمارسه الحاكم المستبد باسم القانون و يهدّد به حقوق المواطنين</td></tr>
+<tr><td><b>3.</b>عنف غير شرعي لكنه مشروع</td><td>عنف المقاومة السلمية أو الثورة من أجل إسترداد الحقوق المسلوبة من المتسبد</td></tr>
+<tr><td><b>4.</b>عنف غير شرعي وغير مشروع</td><td>عنف الإجرام المخالف للقوانين + مهدّد لحقوق المواطنين</td></tr>
+</table>
+<p class="subhead t-navy"><b>الحرية</b></p>
+<table>
+<tr><th>حق طبيعي</th><th>حق مدني</th><th>قيمة كونية</th></tr>
+<tr><td><b>فعل ما نشاء دون قيد أو شرط</b><br><b>حرية مطلقة لا مشروطة، لا يحدها قانون ولا يؤطرها قانون</b><br><b>تؤدي إلى:</b> الفوضى - انعدام الأمن اعتداءات - عنف لا مشروع<br><b>النتيجة:</b> حق القوة</td>
+<td><b>فعل ما يسمح به القانون</b><br><b>تطابق الفعل مع القانون</b><br><b>حرية معقلنة، مقننة ومحدودة</b><br><b>تؤدي إلى:</b> تعايش إنساني - سلم اجتماعي - استقرار وعدالة<br><b>النتيجة:</b> قوة الحق</td>
+<td><b>قيمة كونية ومطلب إنساني منشود</b><br>تجسيد للإرادة الإنسانية والقدرة على التفكير بجدية واستقلالية وفهم<br>تعبير عن الوعي الإنساني والقدرة على خلخلة أزمات الواقع<br>إحترام الاخر و سيادة القيم الكونية ومبدأ المواطنة المحلية والعالمية</td></tr>
+</table>
+<table>
+<tr><th colspan="4">دلالات الحرية و أبعادها</th></tr>
+<tr><th rowspan="2"></th><th rowspan="2">في علاقة بالواقع والطبيعة</th><th colspan="2">في علاقة بالوجود الإنساني</th></tr>
+<tr><th>في بعدها السياسي</th><th>في بعدها الإيتيقي/الأخلاقي</th></tr>
+<tr><td><b>دلالات الحرية</b></td>
+<td><b>حرية الفعل من جهة الميولات الطبيعية و الرغبات الجسدية:</b><ul class="b"><li>فعل ما نشاء دون قيد او شرط .</li><li>و هي فعل وفق رغبات أو ميولات و أهواء تكون غير مبرّرة عقلانيا و لا قانونيا</li></ul></td>
+<td><ul class="b"><li>ممارسة الفعل كما يحدّده القانون (الدستور، الواجب، الحرية وفق القانون)</li><li>هي الحق المشروع للمواطن ... يضمنه القانون</li></ul>
+<span class="t-green">تطابق الفعل مع القانون</span><br>
+- العبيد ( في المجتمعات العبودية )/ و الرعايا في الأنظمة الإستبدادية الإطلاقية ليس لهم أيّ حق في الحرية و هي امتياز للسادة أو الحاكم داخل علاقة عمودية للسلطة
+<ul class="b"><li>قانونيًا في النظام الديمقراطي و داخل علاقة أفقية للسلطة هناك مساواة في الحقوق بين الأغنياء و الفقراء و بين كلّ المواطنين تضمنه القوانين.</li><li>الحرية هي الالتزام الإرادي بقانون سياسي من وضع الشعب</li></ul></td>
+<td><ul class="b"><li>القدرة على التحكّم في الأهواء بالإرادة <span dir="ltr">la gestion des emotions</span></li><li>عقلنة الحاجات في الحياة <span dir="ltr">la gestion des besoins</span> أي التفكير في طبيعتها و التعبير عنها في نص قانوني أو اتفاق أخلاقي/ايتيقي <span dir="ltr">cahier de charge</span></li><li>هي الإرادة الإنسانية و القدرة على التفكير الخاص بتحديد أهداف و قيم تضمن قبول الفعل و الإعتراف به كفعل مشروع</li></ul></td></tr>
+</table>
+<!-- PROOFREAD: 2249 part1 p29 — upper part of the "في بعدها السياسي" cell (first two bullets, the green line, start of "العبيد ( في المجتمعات العبودية )") is washed out under the watermark; best reading only, "..." marks words not readable -->
+<table>
+<tr><td><b>تبعات الحرية</b></td>
+<td><ul class="b"><li>الفوضى المهدّدة لحقوق الأخرين</li><li>العنف اللامشروع و ما يسميه هوبز "حرب الكل ضد الكل"</li><li>إستبداد الحاكم و تهديد حقوق الرعايا و حرياتهم</li></ul></td>
+<td><ul class="b"><li>النظام: نجاح السلطة التنفيذية في إدارة الشأن العام بضمان الحاجات <span dir="ltr">les besoins</span> كحقوق مدنية مشتركة بين المواطنين.</li><li>الأمن: التعايش السلمي</li></ul></td>
+<td><ul class="b"><li>تطور الوعي الإنساني و القدرة على حلّ الإشكالات و السيطرة على الأزمات</li><li>إحترام الأخر و سيادة القيم الكونية و مبدأ المواطنة العالمية(كانط)</li></ul></td></tr>
+</table>
+<!-- CROP: 2249 1 30 0.14 0.27 0.89 0.86 2249_vote -->
+<figure class="fig"><img src="https://wael-philo.b-cdn.net/figs/2249/2249_vote.png" alt=""></figure>
+<p class="subhead t-red"><b>الدولة: السيادة و المواطنة</b></p>
+<p class="subhead t-navy"><b>المعجم الفلسفي</b></p>
+<div class="data">
+<p class="para"><span class="t-red"><b>الدولة:</b></span> فكرة تحيل إلى مجموع المؤسسات المهيكلة بالقانون لعلاقات السلطة</p>
+<p class="para"><span class="t-red"><b>السلطة</b></span> : علاقة بين طرفين يكون أحدهما ذي نفوذ و الثاني ممتثلا لنفوذه</p>
+<p class="para"><span class="t-red"><b>الحاكم:</b></span> <b>"شخص قانوني"</b> و ممثّل الإرادة السياسية للمواطنين + السلطة التنفيذية</p>
+<p class="para"><span class="t-red"><b>الحرية:</b></span> تعبير عن الحقّ+تطابق الفعل مع القانون بما هو التزام إرادي بالواجب</p>
+<p class="para"><span class="t-red"><b>الحق:</b></span> هو ما يطالب به المواطنون+ما لا يمنعه القانون.</p>
+<p class="para"><span class="t-red"><b>السيادة :</b></span> تحيل إلى<b>الإستقلالية و الحرية</b> . + هي السلطة العليا التي لا تخضع إلى سلطة أعلى منها +و هي تامة و لا تجزّا</p>
+<p class="para"><span class="t-red"><b>القانون :</b></span>مبدأ تنظيمي لمؤسّسات الدولة +نصّ وضعي +التعبير عن حقوق كلّ المشاركين في الدولة بوضع واجبات أو إلزامات لحماية المصالح و الحريات</p>
+<p class="para"><span class="t-red"><b>الديمقراطية</b></span>حكم الشعب لذاته بالمشاركة الفاعلة لكلّ المواطنين في إدارة الشأن العام+ فصل السلط + التعديية+ الإنتخاب الحر و اختيار الشعب ممثليه</p>
+<p class="para"><span class="t-red"><b>المواطنة :</b></span> الوعي بالحقوق وبالإنتماء إلى دولة ذات سيادة+ و ممارسة سياسية واعية تقوم على الإلتزام الحر بالقوانين + المشاركة الفاعلة في إدارة الشأن العام(السياسة).</p>
+<p class="para"><span class="t-red"><b>المواطنة العالمية:</b></span> وضعية كونية تستند إلى قيمة الحرية و منظومة حقوق الإنسان .</p>
+<p class="para"><span class="t-red"><b>العدالة :</b></span> اعطاء كلّ ذي حقّ حقّه و هي تتخذ شكلين:<br>1.<b>مساواة</b> كلّ المواطنين أمام قانون من وضعهم(تضمنه السلطة التنفيذية)2.<b>الإنصاف</b> باسترداد الحقوق المسلوبة للمضلومين (تضمنه السلطة القضائية)</p>
+<p class="para"><span class="t-red"><b>الإستبداد :</b></span>ممارسة سياسية يحتكر فيها الحاكم السلطة و يتحكم في الحريات العامة</p>
+<p class="para"><span class="t-red"><b>العنف :</b></span> مقدار أعلى من القوة يكون موظّفا لتهديد حقوق الأخرين أو الحريات</p>
+<p class="para"><span class="t-red"><b>المقاومة :</b></span> قوة الرفض+ العنف المشروع أي المواجهة التي يتخلى فيها المواطن عن الخضوع إلى حاكم مستبد : قد تتخذ شكلا سلميا (مظاهرات)أو مواجهة مادية ثورية</p>
+</div>
+<p class="subhead t-navy"><b>شواهد فلسفية</b></p>
+<p class="para"><span class="t-red"><b>بول ريكور</b></span> : الدولة سلطة معنوية لتحديد الواجب و سلطة مادية للإرغام</p>
+<p class="para"><span class="t-red"><b>منتسكيو:</b></span> الدولة التي تكون فيها السلطة غير مشروطة ليست شرعية</p>
+<p class="para"><span class="t-red"><b>ريكور:</b></span> جُعلت الدولة لتجعل السلطة ممكنة و الإستبداد مستحيلا</p>
+<p class="para"><span class="t-red"><b>هوبس:</b></span>كلّ فرد يتمتّع خارج المجتمع المدني بحرية تامة غير منقوصة و لكنها حرية غير مثمرة</p>
+<p class="para"><span class="t-red"><b>أرسطو</b></span> : لا يكون المرء مواطنا بمحلّ الإقامة وحده .</p>
+<p class="para"><span class="t-red"><b>أرسطو</b></span> : المواطن كما حدّدناه هو على الخصوص مواطن الديمقراطية</p>
+<p class="para"><span class="t-red"><b>سبينوزا</b></span> : الديمقراطية هي اتحاد الناس في جماعة لها حقّ مطلق على كلّ ما في قدرتها</p>
+<p class="para"><span class="t-red"><b>روسو</b></span> : إن السيادة التي ليست سوى ممارسة الإرادة العامة لا يمكن أبدا أن تكون محل تنازل</p>
+<p class="para"><span class="t-red"><b>فكتور كوسان</b></span> : إنّ القوة إن لم ترم الحرية فلن تكون إلاّ شيئا مرعبا</p>
+<p class="para"><span class="t-red"><b>فولتير</b></span> : أن يكون المرء حرّا و أن يكون مساويا للجميع فتلك هي الحياة الحقّ"</p>
+<p class="para"><span class="t-red"><b>ماكس فيبر</b></span> : للدولة حق الإستئثار بممارسة العنف المشروع</p>
+<p class="para"><span class="t-red"><b>جون جاك روسو</b></span> : حالما يوجد سيّد لا وجود بعد لشعب يتصف بالسيادة</p>
+<p class="para"><span class="t-red"><b>روسو</b></span> : الإرادة العامة وحدها تستطيع توجيه قوى الدولة وفق الغاية التي أنشئت من أجلها و هي الخير المشترك</p>
+<p class="para"><span class="t-red"><b>روسو</b></span> : إنّ الشعب الحر يطيع و لا يخضع</p>
+<p class="para"><span class="t-red"><b>روسو</b></span> : القوة لا توجد الحق</p>
+<p class="para"><span class="t-red"><b>روسو</b></span> : ولدت الحرية يوم ولد القانون</p>
+<p class="para"><span class="t-red"><b>...</b></span> : لا ... تحترم فيه الحريات تلقائيا</p>
+<p class="para"><span class="t-red"><b>سبينوزا</b></span> : العدالة هي استعداد دائم للفرد لأن يعطي كل ذي حق ما يستحقه طبقا للقانون</p>
+<p class="para"><span class="t-red"><b>فكتور كوسان</b></span> : القوة إن لم ترم الحرية تكون شيئا مرعبا</p>
+<p class="para"><span class="t-red"><b>ادغار موران</b></span> : تشكّل الديمقراطية نسقا مركّبا بالمعنى الذي يجعلها تحيا بفضل هذه الأشكال من التعدّديات و المنافسات و التناقضات</p>
+<!-- PROOFREAD: 2249 part1 p31 — the quotations from "ماكس فيبر" to "ادغار موران" lie under the watermark and are very faded: names "ماكس فيبر", "جون جاك روسو", "روسو"(x4), "سبينوزا", "فكتور كوسان", "ادغار موران" are best readings; the line "… : لا … تحترم فيه الحريات تلقائيا" — name and second word illegible; "إنّ الشعب الحر يطيع و لا يخضع", "القوة لا توجد الحق", "ولدت الحرية يوم ولد القانون" uncertain -->
+<p class="para"><span class="t-red"><b>روسو</b></span> : من تنازل عن حريته تنازل عن انسانيته</p>
+<p class="para"><span class="t-red"><b>الكواكبي</b></span> :ان الرعايا يذبحون أنفسهم بأيديهم من الخوف</p>
+<p class="para"><span class="t-red"><b>جون لوك</b></span> : الطغيان أو الإستبداد هو " فرض أحكام لم يجوّزها القانون على أبناء الشعب"</p>
+<p class="para"><span class="t-red"><b>ماركوز</b></span> :الإنسان ذو البعد الواحد ما هو إلاّ ذاك الذي استغنى عن الحرية بوهم الحرية و عن الحق خوفا من العنف</p>
+<p class="para"><span class="t-red"><b>ماركوز</b></span> :دولة الرفاه بالرغم من عقلانيتها ليست دولة تسوها الحر</p>
+<p class="para"><span class="t-red"><b>بول ريكور</b></span> : صاحب السيادة إنّما ينزع دوما إلى ابتزاز السيادة.</p>
+<p class="para"><span class="t-red"><b>كانط</b></span> : الإستبداد هو وضع يحتكر فيه الحاكم القوة لتوجيهها إلى قمع الحريات باسم القانون</p>
+<p class="para"><span class="t-red"><b>كانط</b></span> : تتأسّس المواطنة العالمية على الثلاثية: حرية، مساواة، وإخاء</p>
+<p class="para"><span class="t-red"><b>ماركس</b></span> : المقاومة عنف محرّر للشعب من الإغتراب</p>
+<!-- NOTE: p31 decorative clip-art (head sculpture, "definition" magnifier) not cropped -->
+<table>
+<tr><td><b>مراجعة و تدريب منهجي 4</b><br><b>لإمتحان البكالوريا</b></td><td>الإختبار: <b>الفلسفة</b><br>الشعب: <b>العلمية</b><br><b>إختبار : الدولة : السيادة و المواطنة</b></td></tr>
+</table>
+<p class="subhead t-red"><b>القسم الأول</b>: (<b>10 نقاط</b>)</p>
+<p class="consigne"><b>التمرين الأول</b>:(<b>نقطتان</b>) " إنّ القوة لا تصنع الحقّ". حدّد دلالة الحقّ في سياق هذا القول.<b>BAC 2015</b></p>
+<p class="consigne"><b>التمرين الأول</b>:(<b>نقطتان</b>) (مكرّر)</p>
+<p class="consigne">" المواطن يطيع لكنه لا يخضع". اكشف أحد رهانات هذا الإقرار .<b>BAC 2020</b></p>
+<p class="consigne"><b>التمرين الثاني</b>:(<b>نقطتان</b>)</p>
+<p class="consigne">" لا تستقيم الحرية دون نظام و لا قيمة للنظام دون حرية" قدّم حجّة تؤكّد هذا القول.<b>BAC 2017</b></p>
+<p class="consigne"><b>التمرين الثاني</b>:(<b>نقطتان</b>)(مكرّر)</p>
+<p class="consigne">" إن المواطنة العالمية تقويض للسيادة الوطنية" قدّم حجّة تدحض هذا القول.<b>BAC 2019</b></p>
+<p class="consigne"><b>التمرين الثالث</b> :(<b>6 نقاط</b>) <b>النّص: 2014BAC</b></p>
+<p class="para">إنّ سلطة تعسّفية و مطلقة ، وحكما دون قوانين قارة و مستقرّة أمر لا يمكن أن يتوافق مع غايات المجتمع و الحكم . و فعلا، أفَهَلْ يترك البشر حرية حالة الطبيعة ليخضعوا إلى حكم لا يأتمنون فيه على أرواحهم و حرّياتهم و راحتهم و ممتلكاتهم؟ و ليس لنا أن نفترض أنّه كان في نيتهم ، و لا حتى كان من حقّهم أن يهبوا لشخص أو مجموعة أشخاص حكما مطلقا و تعسّفيا يُسلّط على أشخاصهم و ممتلكاتهم ، و أن يسمحوا للحاكم أو الأمير أن يفعل بهم ما يشاء ،بإرادة تعسفية لا يحدّها حدّ. سيكون ذلك بالتأكيد وضعا أسوأ بكثير مما هي عليه حالة الطبيعة ، حتى يتسنّى فيها لكلّ امرئ حرية الدفاع عن حقّه ضدّ اعتداءات الغير و التماسك أمام كلّ عدوان من شخص أو مجموعة أشخاص متّحدين إن كان له قدر من القوة. و بالفعل ، إذا افترضنا أنّنا أخضعنا أنفسنا لسلطة مطلقة و إرادة متعسّفة لمشرّع فإنّنا نكون قد جرّدنا أنفسنا من أسلحتنا و سلّحنا هذا المُشرّع حتى يصبح الخاضعون له فريسته ،فيُعاملون على النّحو الذي يحلو له.</p>
+<p class="para"><b>جون لوك رسالة في الحكم المدني</b></p>
+<!-- PROOFREAD: 2249 part1 p32 — faded under watermark: "ممتلكاتهم" (2nd), "مما هي", "شخص", "متعسّفة لمشرّع", "يحلو له" -->
+<p class="consigne"><b>أنجز المهام التالية انطلاقا من النّص</b></p>
+<p class="consigne">1- حدّد أطروحة الكاتب .(نقطتان)</p>
+<p class="consigne">2- استخرج من النّص حجتين دحض بهما الكاتب الحكم المطلق.(نقطتان)</p>
+<p class="consigne">3- استخلص رهان الكاتب من خلال ما ورد في النّص.(نقطتان)</p>
+<p class="subhead t-red"><b>القسم الثاني</b>: (<b>10 نقاط</b>)</p>
+<p class="consigne"><b>اشتغل على أحد هذين السؤالين حجاجيا في محاولة بمعدّل ثلاثين سطرا .</b></p>
+<p class="consigne"><b>السؤال الأول</b> :هل في الإحتكام إلى سلطة القانون ما يضمن العدالة؟ <b>BAC 2025</b><br>
+<b>السؤال الأول (مكرّر)</b> :هل تضمن دولة القانون حقّ المواطنة؟ <b>BAC 2011</b><br>
+<b>السّؤال الثاني</b> : هل يتعارض الإقرار بالمواطنة العالمية مع سيادة الدّولة؟ <b>BAC 2012</b><br>
+<b>السّؤال الثاني</b> (مكرّر): هل أنّ غياب الدولة أشدّ خطرا على الأفراد من حضورها؟ <b>BAC 2022</b><br>
+<b>السّؤال الثاني</b> (مكرّر): هل تفضي الطاعة ضرورة إلى الحدّ من المواطنة ؟ <b>BAC 2024</b></p>
+<p class="consigne"><b>النّص: المهمة 1: حدّد أطروحة الكاتب .</b>(نقطتان)</p>
+<div class="data">
+<p class="subhead t-navy"><b>نموذج المحاولة :</b></p>
+<p class="para">إنّ.....................................................................................................</p>
+<p class="para">.......................................................................................................</p>
+<p class="para">.......................................................................................................</p>
+</div>
+<p class="consigne"><b>المهمة 2: استخرج من النّص حجتين دحض بهما الكاتب الحكم المطلق.</b>(نقطتان)</p>
+<div class="data">
+<p class="subhead t-navy"><b>نموذج المحاولة :</b></p>
+<p class="para">إذا اعتبرنا أن.........................................................................................</p>
+<p class="para">فإنّ.....................................................................................................</p>
+<p class="para">و هو ما نتصوّر في النص مع(الكاتب) .....................................................................</p>
+<p class="para">.......................................................................................................</p>
+<p class="para">أما الحجة الثانية فيمكن أن نتبيّنها في اعتبار (الكاتب)........................................................</p>
+<p class="para">.............. و هو تصوّر يقوم على (توضيح بالنظر إلى الدرس).................................................</p>
+<p class="para">..............نتبيّنه في قول (الفيلسوف)..........................................................................</p>
+<p class="para">.......................................................................................................</p>
+<p class="para">لذلك يكون الحكم المطلق .................................................................................</p>
+<p class="para">وهو ما يبرّر مقاومته بـ .................................................................................</p>
+</div>
+<p class="consigne"><b>المهمة 3: استخلص رهان الكاتب من خلال ما ورد في النّص.</b>(نقطتان)</p>
+<div class="data">
+<p class="subhead t-navy"><b>نموذج المحاولة :</b></p>
+<p class="para"><b>يراهن الكاتب على / من رهانات الكاتب فيما يتعلّق بـ</b> (مبحث النص ) هو الحاجة إلى ضمان(تقديم الرهان )</p>
+<p class="para">.......................................................................................................</p>
+<p class="para">ذلك أنّ.(بيان أهميته الفلسفية نظريا/ <u>أو</u> عمليا باعتبار منظومة حقوق الإنسان)..........................</p>
+<p class="para">.......................................................................................................</p>
+<p class="para">.......................................................................................................</p>
+<p class="para">و هو ما نرصده في التصور الفلسفي لـ(الفيلسوف)..............................................................</p>
+<p class="para">.......................................................................................................</p>
+<p class="para">و نتبين أهميته في الوجود الإنساني داخل الواقع ...........................................................</p>
+<p class="para">.......................................................................................................</p>
+</div>
+<p class="subhead t-red"><b>القسم الثان☑ي : اشتغل على السؤال التالي في شكل تخطيط مفصّل .</b></p>
+<p class="consigne"><b>اشتغل على السؤال التالي في شكل تخطيط مفصّل .</b></p>
+<p class="consigne">☐ <b>السؤال الأول</b>: <b>هل من تعارض بين الحاجة إلى قوة الدولة ومطلب الحرية؟</b></p>
+<table>
+<tr><th colspan="2">المهمة</th><th>البناء</th></tr>
+<tr><td rowspan="2"><b>I. بناء المشكل</b></td><td><b>دواعي طرح المشكل + مبرّرات التفكير في علاقة القوة بالحرية</b></td><td>المشكل: بتحديد سبب أو مبررات طرح هذا المشكل (وضعية محرجة في الواقع مثلا )<br>.......................................................................................<br>.......................................................................................<br>.......................................................................................</td></tr>
+<tr><td><b>بناء الإشكالية</b></td><td>أي تعريف لـ ....................هل ..............................................<br>أم .....................................................................................<br>و إلى أي مدى يمكن المراهنة على.........................................................؟</td></tr>
+<tr><td rowspan="3"><b>البلورة الجواب حجاجيا</b></td><td><b>I. الاطروحة الأولى المسلّمات: شروط امكان هذه الأطروحة</b></td><td>تحديد المفهوم1(الدولة)...................................................................<br>.......................................................................................<br>تحديد المفهوم2(الحرية)..................................................................<br>.......................................................................................</td></tr>
+<tr><td><b>التبعات: ما يترتّب عن المضمون السابق فإنّ........(تضمن..)</b></td><td>تحديد مسلمة تبنى عليها الأطروحة.........................................................<br>.......................................................................................<br>.......................................................................................<br>.......................................................................................</td></tr>
+<tr><td><b>الحجج</b><br><b><u>بماذا نبرّر</u> أن سلطة القانون تضمن العدالة؟</b><br><b><u>كيف تضمنها و ما هي شروط ذلك؟</u></b><br><b><u>ما هي النتائج المترتبة</u> عن ذلك؟</b></td><td>تحديد الحجة تدعم الأطروحة..............................................................<br>تحديد المرجعية الفلسفية التي تستمد منها ..................................................<br>التحرير: توضيح الموقف و تحديد عناصر وجاهته............................................<br>.......................................................................................<br>.......................................................................................<br>.......................................................................................<br>.......................................................................................<br>.......................................................................................<br>.......................................................................................<br>.......................................................................................<br>بناء الحجة2 (إن وجدت):تحديد المرجعية الفلسفية التي تتسند عليها الفكرة: ............<br>.......................................................................................<br>التحرير ...............................................................................<br>.......................................................................................<br>.......................................................................................<br>.......................................................................................<br>.......................................................................................<br>.......................................................................................</td></tr>
+</table>
+<!-- PROOFREAD: 2249 part1 p34 — vertical side headings: "I. بناء المشكل" and "البلورة الجواب حجاجيا" (faded) -->
+<table>
+<tr><td rowspan="4"></td><td><b>الإستخلاص</b></td><td>الإستنتاج المتعلّق بإثبات الأطروحة1 (تضمن العدالة للجميع): ......................<br>.......................................................................................<br>.......................................................................................<br>سؤال التشكيك فيه:إلى أي مدى يمكن المراهنة على .............................. ......</td></tr>
+<tr><td><b>II. الإعتراض: إن سلطة القانون لا تضمن العدالة بل تهدّدها بالتباس القانون و تعدّد مصادره: ليس الشعب بل فئة حاكمة أو سلطة الأغلبية المهيمنة</b></td><td>لكن إذا اعتبرنا أن (تحديد جديد لأحد المفاهيم: سلطة القانون )...........................<br>.......................................................................................<br>و بما أنّ (مسلمة أو فكرة واضحة انطلاقا مما سبق: العدالة هي غاية سياسية).................<br>.......................................................................................<br>.......................................................................................<br>.......................................................................................<br>.......................................................................................<br>.......................................................................................</td></tr>
+<tr><td><b>بيان تبعاته: تبرير الأطروحة الجديدة سلطة القانون تبرّر الظلم و غياب العدالة</b></td><td>فإنّ من تبعات ذلك (تهديد العدالة بتهديد الحقوق)..........................................<br>.......................................................................................<br>و من جهة ثانية (بيان خطورتها على الحقوق و الحريات السياسية)...........................<br>.......................................................................................<br>.......................................................................................</td></tr>
+<tr><td><b>الحجج</b></td><td>تحديد المرجعية الفلسفية التي تدعم هذه الفكرة ............................................<br>تحديد الحجة التي تبرّر تهديدات العدالة و الحقوق السياسية. ...............................<br>.......................................................................................<br>.......................................................................................<br>.......................................................................................<br>.......................................................................................<br>.......................................................................................<br>.......................................................................................<br>.......................................................................................</td></tr>
+<tr><td rowspan="2"><b>III . استخلاص موقف /الخاتمة</b></td><td><b>تحديد الموقف من المشكل المطروح في المقدمة: علاقة سلطة القانون بالعدالة</b></td><td>.......................................................................................<br>.......................................................................................<br>.......................................................................................</td></tr>
+<tr><td><b>بيان أهميته/ أي مدى وجاهته في حل مشكل في الواقع</b></td><td>(بالنظر إلى الواقع <u>الراهن</u>)..............................................................<br>.......................................................................................<br>(بالنظر إلى <u>الرهان الفلسفي</u> : الوجود الإنساني و الحقوق الكونية\ حقوق الإنسان).......................<br>.......................................................................................<br>.......................................................................................</td></tr>
+</table>
+<!-- NOTE: page 36 is entirely handwritten (colour pens); transcribed in full, best reading. Thin black pen margin annotations written on top of it are left out -->
+<p class="subhead t-navy">مهارات التفكير الفلسفي</p>
+<p class="subhead t-red"><span class="t-green"><u>المحور</u> : الاخلاق : الخير والسعادة</span></p>
+<p class="para"><span class="t-red"><u>ما يجب الاحتفاظ به</u></span> :</p>
+<div class="data"><p class="para"><span class="t-blue">الحاجة الى قيم معيارية واساسا الخير والسعادة كمطالب انسانية منشودة في راهن اهتزت كل قيمه ورهاناته.</span></p></div>
+<p class="subhead t-navy">لتحقيق الخير تجعلنا سعداء</p>
+<p class="para"><span class="t-red">(1*)</span> <span class="t-green"><u>أخلاق الخير الأسمى والسعادة القصوى</u></span></p>
+<p class="para"><span class="t-red">(<u>أفلاطون</u>)</span> الخير الأسمى هو غاية الفعل وهو ما يشكل "<span class="t-red">غاية قصوى لأفعال الناس</span>"</p>
+<p class="para"><span class="t-red"><u>الخير الأسمى</u></span> خير مطلق وهو نشاط مطابق <span class="t-red"><u>للفضيلة</u></span> وسبب <span class="t-red"><u>السعادة القصوى</u></span> <span class="t-green">لا علاقة له بالجسم ولا بالنفع الحسي</span></p>
+<p class="para"><span class="t-red">(2*)</span> <span class="t-green"><u>أخلاق اللذة / الخير والسعادة</u></span></p>
+<p class="para"><span class="t-red">(ابيقور)</span> <span class="t-blue">الحكيم ينال الحياة الخالدة وتجسد وضعية الانسان السعيد بما له من حكمة والتزام بالفضيلة (أي) باعتدال في طلب اللذة الروحية</span> <span class="t-red">(لذة الحكماء والعقلاء)</span></p>
+<p class="para"><span class="t-red">"اللذة هي الخير الأوحد والخير شرط السعادة"</span> (حالة الاتراكسيا/ طمأنينة / تجنب الالم</p>
+<!-- PROOFREAD: 2249 part1 p36 — Epicurus block (blue, faded): "ينال الحياة الخالدة", "وتجسد وضعية", "(أي)", "الاتراكسيا" uncertain -->
+<p class="para"><span class="t-red">(3*)</span> <span class="t-green"><u>أخلاق الخيرات والسعادة الكمية</u></span> <span class="t-red">(بنتام + ميل)</span></p>
+<p class="para"><u>الخير</u> تماما <u>كالسعادة</u> قيم مادية تتحدد وفق معيار <span class="t-red"><u>المنفعة</u></span> وتتعدد <span class="t-blue">بمراكمة الخيرات والمكاسب والمصالح واللذة</span></p>
+<p class="para"><span class="t-red">↓</span> <span class="t-red">كلها قيم كمية تتحدد بمقدار</span> <span class="t-green">ووفق معيار قياس اللذة وتجنب الالم .</span></p>
+<p class="subhead t-navy">علينا أن نختار بين الخير والسعادة /</p>
+<p class="para"><span class="t-red">(1*)</span> <span class="t-green">أخلاق العقل/ أخلاق الواجب/ الانسان</span></p>
+<p class="para"><span class="t-red">(<u>ايمانويل كانط</u>)</span> الاخلاق منظومة المبادئ المعيارية وهي أخلاق <span class="t-red"><u>الانسان</u></span> يشرعها بنفسه لنفسه وللانسانية جمعاء / قاطعة .</p>
+<p class="para"><span class="t-red"><u>العقل مصدر كل القيم</u></span> : <span class="t-blue">في وحدته مع الارادة الخيرة يؤسس</span> <span class="t-red">اخلاق الواجب</span> <span class="t-blue">حيث تنشد</span> <span class="t-red">(الخير)</span> <span class="t-blue">لذاته عبر التزام ارادي</span> <span class="t-red"><u>بالامر القطعي</u></span> <span class="t-blue">الذي يرتقي بمبادئ العقل الى مرتبة القانون الكلي .</span></p>
+<p class="para">↲ <span class="t-red">الخير غاية السلوك الاخلاقي والالتزام الارادي بالواجب هو السبيل لبلوغه</span> <span class="t-green">(اخلاق الالتزام)</span></p>
+<p class="para"><span class="t-green"><u>السعادة</u> ليست غاية الفعل الاخلاقي</span> هي حالة كائن حي يجري كل امور حياته وفق ارادته ومبتغاه → <span class="t-red">لتكون جديرة واستحقاقا للخير</span></p>
+<p class="para"><span class="t-red">(2*)</span> <span class="t-green">الاخلاق الاجتماعية</span> <span class="t-red">(اميل دوركهايم)</span></p>
+<p class="para"><span class="t-blue">"المجتمع هو الذي يرسم للفرد منهاج حياته."</span></p>
+<p class="para"><span class="t-blue">باعتبار الاخلاق ظاهرة اجتماعية المجتمع</span> <span class="t-green"><u>مصدرها</u></span> (بالتربية والتنشئة) <span class="t-blue">والمجتمع</span> <span class="t-green"><u>غايتها</u></span> (وحدة المجتمع وتآزر افراده)</p>
+<p class="para"><span class="t-red"><u>الخير</u> هو الخير العام</span> ← خير المجموعة بأسرها .</p>
+<p class="para"><span class="t-red"><u>السعادة</u></span> نزعة فردية (لكن) لا يجب أن تتعارض مع الخير العام <span class="t-red">(اخلاق الالزام)</span></p>
+<p class="subhead t-red">ما يجب الإحتفاظ به</p>
+<div class="data">
+<p class="para">° <b>أفلاطون</b>: الأخلاق هي معرفة بالفضائل العقلية في عالم المثل كقواعد تمكن النفس من التحكم في لذات الجسم م التدرب على الموت لأجل فعل الخير و تحقيق السعادة القصوى بالخلود في عالم المثل</p>
+<p class="para">°<b>أرسطو</b>: الإخلاق تكون بالحكمة واعتدال النفس في طلب الخير الأسمى فلا إفراط في طلب اللذة و لا تفريط</p>
+<p class="para">°<b>أبيقور</b>: الأخلاق هي الحكمة في طلب اللذة بالإلتزام بالفضيلة والإعتدال بين لذات الجسم لتجنب الرذائل من جهة و مطالب النفس طلبا للسعادة القصوى بالفضيلة</p>
+</div>
+<div class="data">
+<p class="para"><b>إيمانويل كانط</b> : يميّز بين أفعال أخلاقية غايتها <b>الخير</b> تلتزم <b>بالمبادئ</b> دون اهتمام بالنتائج و أخرى غايتها السعادة بالنظر <b>إلى نتائج الفعل و تحقيق المصالح</b></p>
+<p class="para"><b>الواجب الأخلاقي "هو ضرورة أداء الفعل احتراما للقانون"</b> الذي يضعه العقل العملي بما هو <b>"إرادة خيّرة"</b> في شكل<b>"أوامر قطعية"</b>+ يقدّمه كانط <b>بالقانون الأخلاقي</b> و هو قانون يشترط الحرية و <b>الإلتزام الإرادي بالواجب</b></p>
+<p class="para">* <b>الإرادة الخيّرة لا تكون خيّرة إلاّ بإلتزامها الإرادي بالواجب</b></p>
+<p class="para">* <b>السعادة</b> عند <b>كانط</b> مصدرها <b>"الأوامر الشرطية" و ما يتعلّق بها من مصالح</b> و هي الوضعية التي يكون فيها الفرد جديرا بالسعادة حين يحقّق المصلحة لتكون بذلك حالة الرضى بما هي" <b>حالة كائن عاقل تجري كل الأمور طيلة حياته وفقا لمبتغاه"</b></p>
+</div>
+<!-- CROP: 2249 1 37 0.41 0.38 0.63 0.50 2249_akhlaq_diagram -->
+<figure class="fig"><img src="https://wael-philo.b-cdn.net/figs/2249/2249_akhlaq_diagram.png" alt=""></figure>
+<!-- PROOFREAD: 2249 part1 p37 — the small diagram's labels (الأخلاق, السعادة, العقل, الواجب …) are too small to read reliably; kept as a figure -->
+<div class="data">
+<p class="para">° <b>بنتام</b>: المبدأ الأخلاقي الوحيد هو مبدأ المنفعة بمدلولها الاقتصادي حيث يكون الخير هو النفع أو المصلحة أي ما يمكن الحصول عليه من خيرات بما هي ممتلكات تجعلنا سعداء<br>*<b>السعادة تتحدّد بنجاعة الفعل تحديد كمية النفع الذي نحصل عليه حيث يزيد مقدار السعادة بقيس اللذة</b> و مقادير تجنّب <b>الألم</b> الناتج عن فشل في تحقيق المصلحة أو الملكية</p>
+<!-- PROOFREAD: 2249 part1 p37 — Bentham paragraph partly washed out: "المبدأ الأخلاقي", "حيث يكون الخير", "من خيرات", "بنجاعة الفعل", "مقدار السعادة", "الناتج عن فشل" uncertain -->
+<p class="para">° <b>بينا روبز</b>:السعادة عي فرح الفعل و ما يمكن أن ننجح به فيما خططنا للحصول عليه</p>
+</div>
+<div class="data">
+<p class="para">° <b>دوركايم</b>: الأخلاق هي مجموع القواعد الناتجة عن أنماط التنشئة الإجتماعية بما هي قاعدة "<b><u>الضميرا الجمعيي</u></b>"فيقول <b>"حين يتحدّث ضميرنا فإنّ المجتمع هو المتكلّم فينا"</b></p>
+<p class="para">°<b>إن الخير هو خير المجتمع أو "الخيرالعام" كما تحدّده مؤسّسات المجتمع أما السّعادة</b> فهي غاية الأفراد في علاقة مصالحهم الخاصة و اهتمامهم <b>بالنّفع</b></p>
+<p class="para">° <b>فرويد</b>:إن الخير هو غاية "الأنا الأعلى" و سلطة المجتمع أمّا السعادة فهي مطلب "الهو" و ما يميل إليه من لذة و هو ما يبرّر الصراع بينهما و ميل الأنا إلى التفيق بينهما</p>
+<p class="para">° <b>نيتشه</b> إنّ الخير هو غاية "أخلاق العبيد" أما أخلاق السادة فهي متمرّدة على أوهام أخلا قالخير و الفضيلة طلبا للسعادة بطلب النشوة و الدعوة إلى قلب القيم</p>
+</div>
+<p class="subhead t-red"><b>الأخلاق: الخير و السعادة</b></p>
+<p class="subhead t-navy"><b>المعجم الفلسفي</b></p>
+<div class="data">
+<p class="para"><span class="t-red"><b>الأخلاق</b></span> : هي منظومة المبادئ الثابتة و الموجّهة للفعل نحو الخير أو السعادة و ما يرتبط بها من قيم لحكم عليه بأنّه أخلاقي أو لا أخلاقي(فلسفية أو دينيةأو اجتماعية)و هي ملزمة لكلّ فرد أو مجتمع</p>
+<p class="para"><span class="t-red"><b>الإيتيقا</b></span>:مدوّنة سلوك ترتبط بالوضعيات الإنسانية وما تتطلّبه من اتفاق حول قواعد</p>
+<p class="para"><span class="t-red"><b>الخير</b></span>:تحقق الغاية من كلّ فعل +أو هو مع <b>أرسطو</b> الفعل المتناسب مع الفضائل العقلية "<b>نشاط تقوم به النفس طبقا للفضيلة</b> "+ أو هو حسب <b>بنتام</b> النفع أي الثروة التي تسمح بالملكية و تحقيق اللذة (بفيد الممتلكات) +أو حسب <b>كانط</b> غاية كلّ فعل يلتزم إراديا بالواجب الأخلاقي أو القانون العملي و هو نتيجة تطابق الفعل مع القاعدة</p>
+<p class="para"><span class="t-red"><b>الخير الأسمى</b></span>: عند <b>أرسطو</b> هو غاية الفعل وهو ليس سوى تحقيق السعادة القصوى</p>
+<p class="para"><span class="t-red"><b>الخير العام</b></span>، حسب <b>دوركايم</b> ما يمتثل إليه الناس لا بصفته نافعا أو ضارا، وإنما لأنه يضمن تماسك مؤسّسات المجتمع و توافق إرادات أفراده و مصالحهم</p>
+<p class="para"><span class="t-red"><b>الشر</b></span> : الضرر الذي لا يكون متبوعا بنفع مكافئ له أو خير</p>
+<p class="para"><span class="t-red"><b>القيم</b></span> :هي جملة المعايير الأخلاقية التي نحكم بها على الفعل بعد أدائه بالنظر إلى علاقته بالمبادئ الصادر عنها مثل الخير أو الشر أو الصداقة أو غيرها.</p>
+<p class="para"><span class="t-red"><b>المبادئ</b></span>:هي القواعد/القوانين الأخلاقية الموجّهة لسلوك الأفراد نحو الخير أو السعادة</p>
+<p class="para"><span class="t-red"><b>السعادة</b></span>:عند <b>أرسطو "حالة كمال النفس"</b> و الغاية القصوى لكل فعل+ و هي نشاط تقوم به النفس طبقا للفضيلة+وعند <b>أبيقور</b> حالة تتميز بغياب الألم و تحقيق اللذة لتحقيق"<b>الأتراكسيا</b>"<span dir="ltr">ataraxie</span> أي الطمأنينة+وعند <b>كانط:"حالة الرضى التام"</b></p>
+<p class="para"><span class="t-red"><b>اللذة</b></span> : و هي <b>"الخير الأول"</b> الذي يرتبط مع <b>أبيقور</b> بالحكمة العملية و ما فيها من " <b>اعتدال النفس بالفضائل العقلية"</b> + و حسب <b>بنتام</b> هي ما يتحقّق من المنافع المادية التي ترتبط بحساب المصالح و ما يرتبط بها من <b>ملكية خاصة</b> ترتبط مع <b>ماركوز "بحياة الرفاه "</b></p>
+<p class="para"><span class="t-red"><b>الرفاه</b></span> :اللذة و ما ترتبط به من نفع تضمنه المنتجات الإقتصادية في مجتمع الإستهلاك</p>
+<p class="para"><span class="t-red"><b>النفع</b></span>: و هو الخير في معناه الإقتصادي أي الثروة التي تسمح بتحقيق المصالح في الواقع</p>
+<p class="para"><span class="t-red"><b>فرح الفعل</b></span> : حسب <b>بينا رويز</b> شعور نفسي يتعلّق بنجاعة الفعل في الواقع المعيش</p>
+<p class="para"><span class="t-red"><b>الواجب الأخلاقي</b></span>قاعدة/قانون السلوك و"<b>هو ضرورة أداء الفعل احتراما للقانون"</b></p>
+<p class="para"><span class="t-red"><b>الفضيلة</b></span>: و هي معايير السلوك الفاضل كالشجاعة و الصداقة</p>
+</div>
+<p class="subhead t-navy"><b>شواهد فلسفية</b></p>
+<p class="para"><span class="t-red"><b>ليفي برول</b></span> (انتروبولوجي) : الأخلاق هي علم العادات</p>
+<p class="para"><span class="t-red"><b>أرسطو</b></span> : الأخلاق هي الحياة النشيطة المتوافقة مع الفضيلة</p>
+<p class="para"><span class="t-red"><b>كانط</b></span> : إنّ الأخلاق ليست المذهب الذي يعلّمنا كيف ينبغي أن نكون سعداء بل كيف ينبغي أن نكون أهلا للسعادة</p>
+<p class="para"><span class="t-red"><b>فرنسوا جوليان</b></span> في كتابه جدل في الأخلاق :الإنسان المتخلّق هو ذاك الذي يعود إلى ذاته عندما يصطدم بسوء المعاملة لكي يتبيّن أنه لم يكن انسانيا بما فيه الكفاية</p>
+<p class="para"><span class="t-red"><b>أرسطو</b></span> : الفضيلة هي استعداد للفعل بصورة إرادية تتمثّل في حال وسط بالنسبة إلينا ...بين رذيلتين احداهما تقوم على الإفراط و الأخرى على التفريط</p>
+<p class="para"><span class="t-red"><b>أرسطو</b></span> :إذا لم تكن السعادة حقا إلا الفعل المطابق للفضيلة، فمن الطبيعي أن يكون الفعل المطابق للفضيلة التامة، أعني فضيلة الجزء الأعلى من الإنسان</p>
+<p class="para"><span class="t-red"><b>أرسطو</b></span> : إنّ الخيرات الحاصلة عن طريق الصدفة هي عموما خيرات مولّدة للحسد</p>
+<p class="para"><span class="t-red"><b>أبيقور</b></span> : إنّ اللذة هي بداية الحياة السعيدة و غايتها</p>
+<p class="para"><span class="t-red"><b>كانط</b></span> : الإنسان لا يستطيع أن يكون متخلّقا إلاّ إذا كان حرّا</p>
+<p class="para"><span class="t-red"><b>كانط</b></span> : الفضيلة هي قوة العزم التي يظهرها الإنسان أثناء قيامه بواجبه</p>
+<p class="para"><span class="t-red"><b>كانط</b></span> : السعادة هي حالة كائن عاقل تجري الأمور طيلة حياته وفقا لمبتغاه و إرادته</p>
+<p class="para"><span class="t-red"><b>كانط</b></span> : الإرادة الخيّرة ليست سوى العقل العملي ذاته</p>
+<p class="para"><span class="t-red"><b>كانط</b></span> : الواجب هو ضرورة أداء الفعل احتراما للقانون</p>
+<p class="para"><span class="t-red"><b>باسكال</b></span> : لا تقاس فضيلة المرء بالتكلّف و ما يبذله من جهد و إنما بسلوكه العادي</p>
+<p class="para"><span class="t-red"><b>جون ستيوارت ميل</b></span> :نعني بالمنفعة امتلاك أي شيء ننحو بفضله إلى تحقيق مصلحة، مكسب، لذة، خيرا أو سعادة</p>
+<!-- PROOFREAD: 2249 part1 p38 — names of the quotations from "أبيقور" to "جون ستيوارت ميل" are washed out under the watermark (best readings: أبيقور, كانط x5, باسكال, جون ستيوارت ميل); "كائن عاقل", "الإرادة الخيّرة ليست سوى العقل العملي ذاته", "قوة العزم" uncertain -->
+<p class="para"><span class="t-red"><b>هنري بينا رويز</b></span> : السعادة هي فرح الفعل</p>
+<p class="para"><span class="t-red"><b>دوركايم</b></span> : حين يتكلّم ضميرنا فإنّ المجتمع هو المتحدّث فينا</p>
+<p class="para"><span class="t-red"><b>انقلس</b></span> :ان الناس يستمدّون تصوّراتهم الأخلاقية في التحليل الأخير من العلاقات العملية التي يقوم عليها وضعهم الطبقي</p>
+<p class="para"><span class="t-red"><b>برقسن</b></span> :لا مجتمع تغيب فيه الأخلاق</p>
+<p class="para"><span class="t-red"><b>نيتشه</b></span> : إنّ الفضيلة هي أكثر الرذائل غلاء و تكلفة</p>
+<!-- NOTE: p38 handwritten annotations added on top of the printed page (margin and bottom) are left out; decorative clip-art not cropped -->
+<table>
+<tr><td><b>مراجعة و تدريب منهجي 5</b><br><b>لإمتحان البكالوريا</b></td><td>الإختبار: <b>الفلسفة</b><br>الشعب: <b>العلمية</b><br><b>اختبار/ الأخلاق : الخير و السعادة</b></td></tr>
+</table>
+<p class="subhead t-red"><b>القسم الأول</b>: (<b>10 نقاط</b>)</p>
+<p class="consigne"><b>التمرين الأول</b>:(<b>نقطتان</b>)</p>
+<p class="consigne">" إنّ الأخلاق تظلّ واحدة لدى كلّ الناس الذين يعتمدون عقولهم". اكشف عن إحدى تبعات هذا القول.<b>BAC 2012</b></p>
+<p class="consigne"><b>التمرين الأول (مكرر)</b>:(<b>نقطتان</b>) " لا يكون الخيّرُ بالضرورة سعيدا " قدّم حجّة تدعم هذا الإقرار .<b>BAC 2025</b></p>
+<p class="consigne"><b>التمرين الثاني</b>:(<b>نقطتان</b>)" تشترط السعادة انكار الملذّات " اكشف عن مسلّمة ضمنية لهذا القول .<b>BAC 2015</b></p>
+<p class="consigne"><b>التمرين الثاني (مكرر)</b>:(<b>نقطتان</b>)</p>
+<p class="consigne">" كلما كان الفعل عاقلا كان فعلا خيّرا ". اكشف عن إحدى ضمنيات هذا القول.<b>BAC 2016</b></p>
+<p class="consigne"><b>التمرين الثالث</b> :(<b>6 نقاط</b>)</p>
+<p class="consigne"><b>النّص: 2010BAC</b></p>
+<p class="para">لا تصلح المبادئ التجريبية لأن يؤسّس عليها أيّ قانون أخلاقي و بالفعل فإنّ الطابع الكلّي الذي يسمح لهذه القوانين بأن تكون صالحة لجميع الكائنات العاقلة دون تمييز ، و الضرورة العملية اللامشروطة المفروضة عليها بفعل ذلك،ينتفيان بمجرّد تأسيسها على التكوين الخاص بالطبيعة الإنسانية أو على الظروف العرضية التي وضعت فيها.و مع ذلك فإنّ أكثر المبادئ عرضة للإدانة هو مبدأ السعادة الشخصية ، لا لأنّه فاسد فحسب، و أنّ التجربة تناقض الإفتراض القائل بأنّ رغد العيش يتناسب دوما مع حسن السلوك،و لا لأنّه لا يوفّر أساسا للأخلاقية ، إذ أنّ جعل الإنسان سعيدا يختلف كلّ الإختلاف عن جعله طيّبا ،و جعله انسانا حريصا على مصالحه و منتبها لها يختلف أيضا عن جعله فاضلا ، بل خاصة لأنّ مبدأ السعادة الشخصية يقيم الأخلاق على دوافع هي بالأحرى تقوّضها و تقضي على ما فيها من عظمة. و فعلا ، فهي تجمع في صنف واحد الدوافع التي تولّد الفضيلة و الدوافع التي تحرّض على الرّذيلة ، إنّها لا تزيد عن أنّ تعلّم الإنسان كيف يُتقن الحساب ، بينما تقضي قضاء مبرما على الفارق النوعي بين هذين الصنفين من الدّوافع.</p>
+<p class="para"><b>كانط أسس ميتافيزيقا الأخلاق</b></p>
+<!-- NOTE: p39 handwritten slash marks and underlines added over the printed text are left out -->
+<!-- PROOFREAD: 2249 part1 p39 — faded under watermark: "لجميع", "التكوين الخاص", "السعادة الشخصية" (1st), "و لا لأنّه", "مصالحه و منتبها" -->
+<p class="consigne"><b>أنجز المهام التالية انطلاقا من النّص</b></p>
+<p class="consigne">1- صغ الإشكالية التي يعالجها الكاتب في هذا النّص.(نقطتان)</p>
+<p class="consigne">2- اذكر حجّتين من بين الحجج التي يدحض بها الكاتب فكرة تأسيس الأخلاقية على "مبدأ السعادة الشخصية"(نقطتان).</p>
+<p class="consigne">3- صغ تعريفا للفعل الأخلاقي بالإستناد إلى النّص مستحضرا خاصيّتين من خصائصه.(نقطتان)</p>
+<p class="subhead t-red"><b>القسم الثاني</b>: (<b>10 نقاط</b>)</p>
+<p class="consigne"><b>اشتغل على أحد هذين السؤالين حجاجيا في محاولة بمعدّل ثلاثين سطرا .</b></p>
+<p class="consigne"><b>السؤال الأول</b> :هل من الضروري أن نختار بين الإلتزام بالواجب الأخلاقي و طلب السعادة؟<b>BAC 2014</b><br>
+<b>السّؤال الثاني</b> : هل في طلب الرفاه ما ينفي الإلتزام بالفضيلة؟<b>BAC 2017</b><br>
+<b>السّؤال الثالث (مكرّر)</b> : هل السعادة شأن فردي ؟<b>BAC 2018</b>.<br>
+<b>السّؤال الرابع (مكرّر)</b> : هل في مراكمة المنافع استكمال للسعادة؟<b>BAC 2019</b></p>
+<!-- NOTE: p40 — the blanks of the model answers are filled in by hand (blue pen); the handwritten answers are transcribed inside the dotted lines, best reading -->
+<p class="subhead t-red"><b>القسم الأول:</b></p>
+<p class="consigne"><b>التمرين 1:</b> " إنّ الأخلاق تظلّ واحدة لدى كلّ الناس الذين يعتمدون عقولهم ". اكشف عن إحدى تبعات هذا القول <b>BAC 2012</b>..</p>
+<div class="data">
+<p class="subhead t-navy"><b>نموذج المحاولة :</b></p>
+<p class="para"><b>يترتب عن هذا الإقرار/</b> <span class="t-red"><b>من تبعات هذا القول</b></span> أنّ الإقرار بوحدة الأخلاق يسمح بإرساء..أخلاق..كونية صالحة..لكل زمان ومكان...وصالحة..لكل..الناس...بإعتبارها أخلاق يشرعها..الإنسان..بنفسه لنفسه..وللإنسانية قاطبة ما دامت نابعة من وحدة العقل..والإرادة ومن...الإلتزام..بالأمر القطعي.........</p>
+<p class="para">و هو ما نتبيّن أهميته من خلال قول(الفيلسوف)..كانط..إعمل بحيث تكون قاعدة فعلك قانونا كليا</p>
+<p class="para"><span class="t-red"><b>لذلك</b></span> فلا وحدة..إنسانية.......ولا..أخلاق..يشرعها..الإنسان../عملية/..كلية.......الا...بالالتزام الإرادي..بالواجب.....والاحتكام إلى العقل..........</p>
+</div>
+<!-- PROOFREAD: 2249 part1 p40 — Ex.1 handwritten answer: "قاطبة", "نابعة", and the Kant quotation "إعمل بحيث تكون قاعدة فعلك قانونا كليا" (partly over the frame edge) uncertain; "/عملية/" uncertain -->
+<p class="consigne"><b>التمرين2:</b> " لا يكون الخيّرُ بالضرورة سعيدا " قدّم حجّة تدعم هذا الإقرار. <b>BAC 2025</b></p>
+<div class="data">
+<p class="subhead t-navy"><b>نموذج المحاولة :</b></p>
+<p class="para"><b>إذا اعتبرنا أنّ</b> .الخير..يُنشد..لذاته..بآعتباره..مبدأ..أخلاقي..يشرعه..العقل في..وحدته..مع..الإرادة..الخيرة.....والتزاما..إراديا..بالواجب..........</p>
+<p class="para"><b>و إذا كان</b> .السعادة..في...المقابل..قيمة..شرطية..نفعية..تنتج..عن..الفعل.......لا..بما..هي..لا..تمثل..غاية..الإنسان..ومطلبه..الأخلاقي..........</p>
+<p class="para">و هو ما يدعمه قول (الفيلسوف)..كانط..الأخلاق..لا..تعلمنا..كيف..نكون..سعداء..بل..كيف..نكون..جديرين..بالسعادة...........</p>
+<p class="para"><span class="t-red"><b>فلا</b></span>.....خير..ينشد..إلا..لذاته.........ولا...سعادة..تطلب.......</p>
+<p class="para">الا...كجدارة....واستحقاق..للخير...الغاية..في..ذاتها..يطلبها..الإنسان..طلبا</p>
+</div>
+<!-- PROOFREAD: 2249 part1 p40 — Ex.2 handwritten answer: "يُنشد", "شرطية نفعية", "تنتج عن الفعل", "لا بما هي", "تطلب", "يطلبها الإنسان طلبا" uncertain -->
+<p class="consigne"><b>النّص: المهمة 1:</b> حدّد الأطروحة التي يستبعدها الكاتب (نقطتان)</p>
+<div class="data">
+<p class="subhead t-navy"><b>نموذج المحاولة :</b></p>
+<p class="para"><b>تقوم الأطروحة التي يعترض عليها الكاتب على الإقرار بأنّ</b>.................................................</p>
+<p class="para">.......................................................................................................</p>
+<p class="para">.......................................................................................................</p>
+</div>
+<p class="consigne"><b>المهمة 2:</b> حدّد علاقة الثروة بالسعادة حسب الكاتب. (نقطتان).</p>
+<div class="data">
+<p class="subhead t-navy"><b>نموذج المحاولة :</b></p>
+<p class="para"><b>إذا اعتبرنا أنّ السعادة</b>...........................................................................</p>
+<p class="para"><b>هو ما يجعلها تشترط الثروة بما هي</b> .........................................................</p>
+<p class="para"><b>ذلك أنّ</b>.................................................................................................</p>
+<p class="para"><b>و هو ما نتبيّنه في النص مع(الكاتب)</b> .........................................................</p>
+<p class="para">.......................................................................................................</p>
+<p class="para"><b>لذلك يكون مطلب السعادة مطبا لا يتحقّق إلا بطلب الثروة وما يقترن بها من</b> ..........................</p>
+<p class="para">.......................................................................................................</p>
+</div>
+<p class="consigne"><b>المهمة 3:</b> اكشف عن أحد رهانات النص (نقطتان)</p>
+<div class="data">
+<p class="subhead t-navy"><b>نموذج المحاولة :</b></p>
+<p class="para"><b>يراهن الكاتب على</b> .................................................................................</p>
+<p class="para">ذلك أنّ.(بيان أهميته الفلسفية نظريا/ <u>أو</u> عمليا باعتبار منظومة حقوق الإنسان)..........................</p>
+<p class="para">.......................................................................................................</p>
+<p class="para">.......................................................................................................</p>
+<p class="para">وهو ما نرصده في التصور الفلسفي لـ(الفيلسوف)..............................................................</p>
+<p class="para">.......................................................................................................</p>
+<p class="para">ونتبين أهميته في الوجود الإنساني داخل الواقع ...........................................................</p>
+<p class="para">.......................................................................................................</p>
+</div>
+<!-- PROOFREAD: 2249 part1 p41 — faded under watermark: "اكشف" (المهمة 3), "نموذج المحاولة" and "يراهن الكاتب على" (3rd box) -->
+<p class="subhead t-red"><b>القسم الثاني : اشتغل على السؤال التالي في شكل تخطيط مفصّل .</b></p>
+<p class="consigne">☑ <b>السّؤال الأول</b> : هل يؤدي التشكيك في امكانية تحقيق السعادة إلى سلب الإلتزام الأخلاقي قيمته؟<b>2020BAC</b></p>
+<table>
+<tr><th colspan="2">البناء</th></tr>
+<tr><td rowspan="3"><b>I . بناء المشكل</b></td><td><b>التحرير:</b> إن ما نعيشه في الواقع من تنوّع للمنظومات الأخلاقية و ما فيها من تناقض أحيانا ما يدفعنا إلى الإنتباه إلى ما فيها من توتر يعيشه الفرد حين يخضع إلى ضغوطات الواقع و المنظومات الاجتماعية المهدّدة لإحساسه بالطمأنينة و الفرح و تقدير الذات و هو ما يدعو إلى مراجعة التفكير في معاني السعادة من جهة و في علاقاتها بمنظومة القيم الأخلاقية و الإلتزمات التي تستوجبها</td></tr>
+<tr><td>فما قيمة الإلتزام الإخلاقي؟ هل هو إلتزام بـ.......................................................<br>أم هو....................................................................................؟<br>ما دلالة ...........................؟ كيف.......................................؟<br>ثم إلى أيّ مدى........................................................................؟</td></tr>
+<tr><td><b>ربط رهان</b><br>إنّ الإشتغال على بنية هذا المشكل لا يكون إلا بالبحث عن مسلماته الضمنية من خلال تحديد معنى السعادة أولا ثم رصد مضمون الإلتزام الأخلاقي وشروطه للدفاع من ذلك على قيمة الإلتزام الأخلاقي والمراهنة منه على ضمان السعادة وتوافق الفعل الأخلاقي مع منظومة القيم الكونية فما السعادة؟ وما علاقتها بالإلتزام الأخلاقي؟</td></tr>
+<tr><td rowspan="3"><b>II . بلورة الجواب حجاجيا</b></td><td>(<b>تحديد المفهوم1</b>) إذا سلمنا أن السعادة..........................................................<br>.......................................................................................<br>(<b>تحديد المفهوم2</b>) وإذا كان الإلتزام الأخلاقي يحيل إلى ........................................<br>.......................................................................................</td></tr>
+<tr><td>فإنّ قيمة كل فعل يستند إلى إلتزام أخلاقي بقواعد السلوك الخيّر ينتهي ضرورة إلى سلبه قيمته طالما كانت السعادة (...)..........................................................<br>.......................................................................................<br>.......................................................................................<br>.......................................................................................</td></tr>
+<tr><td></td></tr>
+</table>
+<!-- PROOFREAD: 2249 part1 p42 — vertical side label "ربط رهان" (placed here inside its row) and "الضمنية من", "على قيمة", "القيم الكونية" faded under watermark -->
+<table>
+<tr><td rowspan="4"></td><td>توضيح الموقف وتحديد عناصر وجاهته(الحجج) بـ:<br>.......................................................................................<br>.......................................................................................<br>.......................................................................................<br>.......................................................................................<br>.......................................................................................<br>.......................................................................................<br>.......................................................................................<br>.......................................................................................<br>.......................................................................................<br>.......................................................................................<br>.......................................................................................<br>.......................................................................................<br>.......................................................................................</td></tr>
+<tr><td><b>(الإستنتاج المتعلّق بإثبات الأطروحة1 :التشكيك يسلب قيمة الإلتزام الأخلاقي ):</b><br>.......................................................................................<br>.......................................................................................<br>لكن <b>إلى</b> أي مدى.......................................................................<br><b>ألا يمكن</b>..............................................................................</td></tr>
+<tr><td>(<b>تحديد جديد لأحد المفاهيم:) لكن</b> إذا اعتبرنا السعادة قيمة أخلاقية وانفعال أو مشاعر خاصة بالفرد تحيل إلى ما هو شخصي وخاص ..........................................................<br>.......................................................................................<br>(<b>الكشف عن مسلمة ضمنية أو فكرة واضحة انطلاقا مما سبق)</b> و بما أنّ أخلاقية الفعل يمكن اعتبارها نظاما من الأفعال المتوافقة مع القواعد و منظومة القيم المتفق عليها إجتماعيا<br>.......................................................................................<br>.......................................................................................</td></tr>
+<tr><td>فإنّ من تبعات ذلك.......................................................................<br>.......................................................................................</td></tr>
+</table>
+<table>
+<tr><td rowspan="2"></td><td>و من جهة ثانية..........................................................................<br>.......................................................................................<br>.......................................................................................</td></tr>
+<tr><td><b>التحرير</b>: حيث لا معنى بذلك للسعادة تحت ضغط الإلزامات الخارجية لتكون سعادة الفرد بذلك مهدّدة حسب (الفيلسوف) حين يعتبر أن.......................................................<br>.......................................................................................<br>.......................................................................................<br>.......................................................................................<br>لذلك يكون على كلّ فرد في هذه الوضعية تجاوز أزمة السعادة والفشل في تحقيقها بـ.... ..............<br>.......................................................................................<br>.......................................................................................<br>.......................................................................................<br>فإلى أيّ مدى يمكن المراهنة على...........................................................؟</td></tr>
+<tr><td rowspan="2"><b>III . استخلاص موقف /الخاتمة</b></td><td><b>نخلص من ذلك</b> إذن إلى تثمين اعتبار السعادة هي حالة الفرح بما نحققه من فعل و أن التشكيك فيه لا يجب أن يفقد منظومة الأخلاق قيمتها حين يتعلّق الأمر بـ.............................................<br>.......................................................................................</td></tr>
+<tr><td><b>(الراهنية)</b> و هو ما يمكن تثمينه اليوم في واقع يتميّز بتنوع المنظومات الأخلاقية و هيمنة السعادة المطلوبة بالإستهلاك حيث يكون للسعادة معنى حين..<br><b>(الرهان الفلسفي)</b> تكون متوافقة مع الإرادة الإنسانية و منظومة القيم الكونية بما يضمنه لكلّ فرد بالإلتزام الإرادي بالقيم الأخلاقية من حرية.</td></tr>
+</table>
+<!-- PROOFREAD: 2249 part1 p44 — faded under watermark: "حالة الفرح", "يتعلّق الأمر بـ", "بتنوع المنظومات" -->
+<!-- CROP: 2249 1 44 0.15 0.645 0.91 0.86 2249_happy -->
+<figure class="fig"><img src="https://wael-philo.b-cdn.net/figs/2249/2249_happy.png" alt=""></figure>
+
+</section>
+
+</div>
+</body>
+</html>

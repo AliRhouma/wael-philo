@@ -1,0 +1,372 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<title>Wael Academy — Philosophie · الدولة</title>
+<script>
+  window.MathJax = {
+    tex: { inlineMath: [['\\(','\\)']], displayMath: [['\\[','\\]']] },
+    chtml: { fontURL: 'https://cdn.jsdelivr.net/npm/mathjax@3/es5/output/chtml/fonts/woff-v2', matchFontHeight: true },
+    startup: { typeset: true }
+  };
+</script>
+<script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js" async></script>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Sora:wght@400;500;600;700;800&family=Cairo:wght@400;500;600;700;800;900&family=Tajawal:wght@400;500;700;800&family=JetBrains+Mono:wght@400;500;600;700&display=swap');
+:root{
+  /* ===== Wael Academy palette — MAIN ACCENT = green-teal gradient #0FAB8F → #067360 ===== */
+  --bg:#fff; --panel:#f2f8f8; --hair:#e6e6e9; --hair2:#d6d6db;
+  --fg:#0f2a31;        /* body text (and +/− signs) */
+  --fg2:#3f5b62;       /* softer text */
+  --fg3:#7c959b;       /* muted (footer) */
+  --blue:#067360;      /* deep accent — small numbers, borders, watermark, accent equations */
+  --blue-dark:#045260; /* titles & wordmarks (also the balance colour) */
+  --teal:#0fab8f;      /* bright accent end */
+  --loop:#0d9c82;      /* logo-loop helper */
+  --orange:#067360;    /* kicker/category labels (gold retired → deep teal) */
+  --red:#f5322f;       /* EXERCISE CHIPS ONLY — never for emphasis */
+  --cream:#e6f3f4; --blue-soft:#e6f3f4;  /* pale teal — callout fill + table sub-row fill */
+  --blue-line:#cde7e4; /* hairline */
+  --sub-ink:#045260;   /* table sub-row text */
+  --grad:linear-gradient(148deg,#0fab8f 0%,#0d9c82 52%,#067360 100%);
+  --mono:'JetBrains Mono',monospace; --latin:'Sora',sans-serif; --ar:'Cairo',sans-serif; --arb:'Tajawal',sans-serif;
+}
+*{box-sizing:border-box;margin:0;padding:0;}
+body{font-family:var(--latin);color:var(--fg);background:#e4e4e7;padding:28px 0;
+     -webkit-print-color-adjust:exact;print-color-adjust:exact;}
+html[dir="rtl"] body{font-family:var(--arb);}
+
+/* ===== brand watermark: REAL text (crisp), full-bleed, repeats per page ===== */
+.wm{position:fixed;inset:0;z-index:0;pointer-events:none;display:flex;
+    align-items:center;justify-content:center;overflow:hidden;
+    -webkit-print-color-adjust:exact;print-color-adjust:exact;}
+.wm span{font-family:var(--mono);font-weight:800;font-size:76.8pt;letter-spacing:.16em;
+    color:var(--blue);opacity:.06;white-space:nowrap;transform:rotate(-54deg);}  /* single diagonal: bottom-left → top-right */
+.wm.mono span{color:#000;opacity:.05;}
+
+/* ===== continuous flow stream (no page border) ===== */
+.flow{width:210mm;margin:0 auto;background:transparent;color:var(--fg);
+      padding-block:16mm 18mm;padding-inline:23mm 14mm;position:relative;}   /* spiral gutter: inline-start(=spine) 23mm / outer 14mm — dir-aware; print margins set in render_flow.py */
+@media screen{ .flow{background:#fff;box-shadow:0 10px 40px rgba(0,0,0,.16);} }
+.flow>*{position:relative;z-index:1;}
+.flow p,.flow li,.flow .data,.flow .note,.flow .ex{break-inside:auto;}
+.flow .fig,.flow figure,.flow img,.flow svg.figsvg,.flow table,.flow tr,.flow .chapdiv,.flow .exh,.flow .qrcard,.flow .meta{break-inside:avoid;}
+.flow h1,.flow h2,.flow h3,.flow .exh,.flow .subhead,.flow .chapdiv{break-after:avoid;}
+.flow img,.flow svg.figsvg{max-width:100%;height:auto;}
+.flow figcaption,.flow .figcap{display:none;}          /* rule 3: no figure captions */
+
+/* ===== front matter + chapters each start on a fresh page ===== */
+.flow .cover{break-after:page;}        /* cover alone on page 1 */
+.flow .toc{break-after:page;}          /* Sommaire alone on the next page */
+.flow .chapter{break-before:page;}
+.flow .chapter:first-of-type{break-before:auto;}
+
+/* ===== cover ===== */
+.cover{padding:14mm 0 8mm;border-bottom:2px solid var(--blue);margin-bottom:6mm;}
+.cover .badge{font-family:var(--mono);font-size:8.5pt;letter-spacing:.28em;text-transform:uppercase;color:var(--orange);margin-bottom:10px;}
+.cover h1{font-family:var(--latin);font-weight:800;font-size:34pt;line-height:1.03;letter-spacing:-.025em;color:var(--blue-dark);}
+.cover .grule{width:120px;height:5px;border-radius:5px;background:var(--grad);margin:14px 0;}
+.cover .sub{font-family:var(--mono);font-size:10pt;letter-spacing:.14em;text-transform:uppercase;color:var(--teal);}
+.cover .auth{font-size:11pt;color:var(--fg2);margin-top:6px;font-weight:600;}
+
+/* ===== table of contents ===== */
+.toc{margin:2mm 0 4mm;}
+.toc h2{font-family:var(--latin);font-weight:800;font-size:15pt;color:var(--blue-dark);margin-bottom:4mm;}
+.toc .trititle{font-family:var(--mono);font-size:8pt;letter-spacing:.2em;text-transform:uppercase;color:var(--orange);margin:4mm 0 2mm;}
+.toc ol{list-style:none;}
+.toc li{display:flex;align-items:baseline;gap:8px;font-size:10pt;padding:2.2px 0;color:var(--fg);line-height:1.4;}
+.toc li .n{font-family:var(--mono);font-weight:700;font-size:9pt;color:var(--blue);min-width:26px;}
+.toc li .dots{flex:1;border-bottom:1px dotted var(--hair2);transform:translateY(-3px);}
+
+/* ===== chapter divider band ===== */
+.chapdiv{margin:0 0 5mm;padding:6mm 16px 5mm;border-radius:12px;background:var(--grad);
+    -webkit-print-color-adjust:exact;print-color-adjust:exact;}   /* green-filled chapter band */
+.chapdiv .cn{font-family:var(--mono);font-size:8.5pt;font-weight:700;letter-spacing:.24em;text-transform:uppercase;color:rgba(255,255,255,.82);margin-bottom:5px;}
+.chapdiv h2{font-family:var(--latin);font-weight:800;font-size:17pt;line-height:1.1;letter-spacing:-.015em;color:#fff;}
+/* conclusion block — same green-filled look as the chapter band */
+.conclusion{background:var(--grad);border-radius:12px;padding:6mm 16px;margin:5mm 0;color:#fff;break-inside:avoid;
+    -webkit-print-color-adjust:exact;print-color-adjust:exact;}
+.conclusion .ck{font-family:var(--mono);font-size:8.5pt;font-weight:700;letter-spacing:.24em;text-transform:uppercase;color:rgba(255,255,255,.82);margin-bottom:6px;}
+.conclusion h3{font-family:var(--latin);font-weight:800;font-size:13pt;line-height:1.2;color:#fff;margin-bottom:4px;}
+.conclusion p,.conclusion li{font-size:10.4pt;line-height:1.7;color:#fff;}
+.conclusion b,.conclusion strong{color:#fff;font-weight:700;}
+
+/* ===== unit header (lesson/exercise) + QR emplacement ===== */
+.exh{display:flex;align-items:center;gap:11px;margin:6mm 0 3mm;}
+.exh .idx{font-family:var(--mono);font-size:9pt;font-weight:600;color:#fff;background:var(--grad);
+    border-radius:6px;padding:4px 11px;letter-spacing:.08em;text-transform:uppercase;
+    -webkit-print-color-adjust:exact;print-color-adjust:exact;}
+.exh .idx.ex{background:var(--red);}   /* exercise chip = red */
+.exh h2{font-family:var(--latin);font-size:14pt;font-weight:700;letter-spacing:-.01em;color:var(--blue-dark);}
+.exh .qrcard{margin-inline-start:auto;flex:0 0 auto;display:flex;flex-direction:column;align-items:center;gap:3px;width:26mm;}
+.qrcard .qrt{font-family:var(--mono);font-size:6.5pt;letter-spacing:.1em;text-transform:uppercase;color:var(--teal);text-align:center;}
+.qrcard .qrslot{width:24mm;height:24mm;padding:1.5mm;background:#fff;border:1px solid var(--blue-line);border-radius:8px;display:flex;align-items:center;justify-content:center;}
+.qrcard .qrslot img,.qrcard .qrslot svg{width:100%;height:100%;display:block;}
+
+/* sub-exercise label when one file holds several exercices */
+.exsub{font-family:var(--latin);font-weight:800;font-size:11.5pt;color:var(--blue-dark);margin:5mm 0 2.5mm;padding-bottom:3px;border-bottom:2px solid var(--blue-line);}
+
+/* ===== text blocks ===== */
+.lead{font-size:11pt;line-height:1.7;margin:2mm 0 3mm;color:var(--fg);}
+.para{font-size:10.6pt;line-height:1.7;margin:2mm 0 2.5mm;color:var(--fg);}
+.consigne{font-size:10.4pt;line-height:1.6;margin:1mm 0 2mm;color:var(--fg);font-style:italic;}
+.subhead{font-family:var(--latin);font-weight:800;font-size:12pt;letter-spacing:-.01em;color:var(--blue-dark);margin:5mm 0 2.5mm;}
+/* emphasis — green accent = .t-blue/.t-green ; balance = .t-navy ; red = SECONDARY accent (.t-red) on titles + a few words */
+.t-blue{color:var(--blue);font-weight:600;} .t-navy{color:var(--blue-dark);font-weight:700;}
+.t-red{color:var(--red);font-weight:600;} .t-green{color:var(--teal);font-weight:600;} .t-gold{color:var(--orange);font-weight:600;}
+.subhead.t-red{color:var(--red);font-weight:800;}   /* red Roman-numeral section title (I, II, …) — keeps subhead weight */
+/* highlighter marks — a soft colour wash behind a key word (agent picks green or red per what balances the page) */
+.hl-green,.hl-red{border-radius:3px;padding:.02em .24em;font-weight:600;box-decoration-break:clone;-webkit-box-decoration-break:clone;
+    -webkit-print-color-adjust:exact;print-color-adjust:exact;}
+.hl-green{background:rgba(15,171,143,.20);color:var(--blue-dark);}   /* green highlight */
+.hl-red{background:rgba(245,50,47,.13);color:#c0261f;}               /* red highlight  */
+
+.data{background:var(--blue-soft);border:1px solid var(--blue-line);border-inline-start:4px solid var(--blue);
+    border-radius:8px;padding:11px 16px;margin:3mm 0;font-size:10pt;line-height:1.65;color:var(--fg2);}
+.data b{color:var(--fg);font-weight:700;}
+.note{border:1px dashed var(--hair2);border-radius:9px;padding:11px 16px;margin:4mm 0;background:var(--panel);}
+.note .kicker{font-family:var(--mono);font-size:7.5pt;letter-spacing:.18em;color:var(--orange);display:block;margin-bottom:5px;}
+.note .nb{font-size:10pt;line-height:1.7;color:var(--fg2);} .note b{color:var(--fg);}
+.ex:not(.idx){background:var(--blue-soft);border:1px solid var(--blue-line);border-inline-start:3px solid var(--blue);
+    border-radius:7px;padding:7px 11px;font-size:9.6pt;line-height:1.6;color:var(--fg2);margin:2mm 0;}   /* :not(.idx) so it never hits the exercise chip (which is .idx.ex) */
+.ex .extag{display:inline-block;font-family:var(--latin);font-weight:800;font-size:7.6pt;color:var(--blue-dark);background:#fff;
+    border:1px solid var(--blue);border-radius:5px;padding:1px 9px;margin-inline-end:7px;vertical-align:middle;text-transform:uppercase;letter-spacing:.06em;}
+
+/* ===== lists ===== */
+ol.q{list-style:none;counter-reset:q;margin:1mm 0 2mm;}
+ol.q>li{counter-increment:q;position:relative;padding-inline-start:30px;margin-bottom:2.5mm;font-size:10.4pt;line-height:1.6;}
+ol.q>li::before{content:counter(q);position:absolute;inset-inline-start:0;top:1px;width:21px;height:21px;background:var(--grad);color:#fff;
+    border-radius:50%;font-family:var(--mono);font-size:9pt;font-weight:600;display:flex;align-items:center;justify-content:center;
+    -webkit-print-color-adjust:exact;print-color-adjust:exact;}
+ol.sub{list-style:none;counter-reset:s;margin:4px 0 0;padding-inline-start:2px;border-inline-start:1px solid var(--blue-line);}
+ol.sub li{counter-increment:s;position:relative;padding:2.5px 0 2.5px 26px;font-size:10.1pt;line-height:1.55;}
+ol.sub li::before{content:counter(s,lower-alpha)".";position:absolute;inset-inline-start:10px;top:2.5px;font-family:var(--mono);font-size:9pt;font-weight:600;color:var(--teal);}
+ol.qn{list-style:none;counter-reset:qn;margin:1mm 0 2mm;}
+ol.qn>li{counter-increment:qn;position:relative;padding-inline-start:26px;margin-bottom:2.2mm;font-size:10.4pt;line-height:1.55;}
+ol.qn>li::before{content:counter(qn)".";position:absolute;inset-inline-start:0;top:0;font-family:var(--mono);font-size:9.5pt;font-weight:700;color:var(--blue);}
+ul.b{list-style:none;margin:1mm 0 2mm;} ul.b>li{position:relative;padding-inline-start:22px;margin-bottom:2.4mm;font-size:10.4pt;line-height:1.6;}
+ul.b>li::before{content:"";position:absolute;inset-inline-start:3px;top:8px;width:8px;height:8px;border-radius:50%;background:var(--grad);
+    -webkit-print-color-adjust:exact;print-color-adjust:exact;}
+ul.dash{list-style:none;margin:1mm 0 2mm;} ul.dash>li{position:relative;padding-inline-start:20px;margin-bottom:1.8mm;font-size:10.4pt;line-height:1.6;}
+ul.dash>li::before{content:"–";position:absolute;inset-inline-start:2px;top:0;color:var(--fg);font-weight:700;}  /* dash / +/− signs = body colour */
+.flow ul.opts{list-style:none;margin:4px 0 3px;padding-inline-start:16px;}
+.flow ul.opts li{padding:2px 0;font-size:10.2pt;line-height:1.5;color:var(--fg);}
+
+/* ===== figures / tables ===== */
+.fig{margin:3mm 0;} .fig svg.figsvg{display:block;margin:0 auto;background:#fff;max-width:100%;height:auto;}
+.photo{display:block;margin:3mm auto;border-radius:8px;border:1px solid var(--hair);max-width:100%;}
+.figrow{display:flex;flex-wrap:wrap;gap:9px;justify-content:center;margin:3mm auto;max-width:190mm;}
+.flow .figrow img{border-radius:7px;border:1px solid var(--hair);height:46mm;width:auto;max-width:none;object-fit:cover;}
+.schemarow{display:flex;gap:16px;align-items:flex-start;flex-wrap:wrap;margin:2mm 0;}
+.schemarow .col-txt{flex:1 1 90mm;min-width:80mm;} .schemarow .col-fig{flex:0 0 78mm;} .schemarow .col-fig .fig{margin:0;}
+.flow table{border-collapse:collapse;width:100%;margin:3mm 0;font-size:9.8pt;line-height:1.5;}
+.flow table th,.flow table td{border:1px solid var(--blue-line);padding:6px 10px;text-align:start;vertical-align:top;}
+.flow table th{background:var(--grad);color:#fff;font-family:var(--latin);font-weight:700;font-size:9.4pt;
+    -webkit-print-color-adjust:exact;print-color-adjust:exact;}
+.flow table tr:nth-child(even) td{background:var(--blue-soft);color:var(--sub-ink);}   /* sub-row: #E6F3F4 / #045260 */
+
+mjx-container{color:var(--fg) !important;font-weight:400 !important;font-size:1.0em !important;}
+.eq-hi mjx-container,mjx-container.eq-hi{color:var(--blue) !important;}   /* accent (green) equation — highlight a key result; balance with plain math */
+.eq-red mjx-container,mjx-container.eq-red{color:var(--red) !important;}  /* red accent equation / symbol — complements the green .eq-hi */
+
+/* ===== per-file books: credit line, copies list, figures at their size ===== */
+.credit{display:flex;flex-wrap:wrap;align-items:center;gap:5px;margin:-1mm 0 3.5mm;font-size:9.4pt;color:var(--fg2);}
+.credit .who{font-weight:700;color:var(--blue-dark);}
+.credit .tg{font-family:var(--mono);font-size:7.2pt;letter-spacing:.04em;border-radius:5px;padding:1px 7px;line-height:1.6;
+    border:1px solid var(--blue-line);color:var(--blue);background:#fff;-webkit-print-color-adjust:exact;print-color-adjust:exact;}
+.credit .tg.sec{background:var(--blue-dark);border-color:var(--blue-dark);color:#fff;}
+.credit .tg.cor{background:#fff;border-color:var(--red);color:var(--red);}
+.credit a{color:var(--fg3);font-family:var(--mono);font-size:7pt;text-decoration:none;}
+.cover .auth .credit{margin:4mm 0 0;}
+.cover .copies{margin-top:5mm;font-size:8.6pt;color:var(--fg2);}
+.cover .copies ul{list-style:none;margin:2mm 0 0;padding:0;columns:2;}
+.cover .copies a{color:var(--fg3);text-decoration:none;font-size:8pt;}
+.flow figure.fig{text-align:center;}
+.flow figure.fig img{max-height:60mm;width:auto;max-width:70%;display:inline-block;}
+
+/* chapter tag on each part of a multi-chapter book (the book keeps the original order of the file) */
+.chtag{display:inline-block;margin:5mm 0 2mm;padding:1mm 3mm;border-radius:2mm;background:#eef3fb;border:1px solid #c9d6ea;
+  color:#1f3a6b;font-size:9pt;font-weight:700}
+.chtag span{color:#6b7f9e;font-weight:600;margin-inline-end:1.5mm}
+
+@media print{ body{background:#fff;padding:0;} .flow{width:auto;max-width:none;margin:0;padding:0;} }
+@page{size:A4;}   /* margins come from render_flow.py — do NOT set them here */
+</style>
+<meta data-pagefind-filter="type[content]" content="درس">
+<meta data-pagefind-filter="resource[content]" content="المصدر غير مذكور">
+<meta data-pagefind-meta="n[content]" content="1958">
+<meta data-pagefind-meta="title[content]" content="الدولة">
+<meta data-pagefind-filter="chapter[content]" content="القيم: الأخلاق والدولة">
+<meta data-pagefind-filter="section[content]" content="باكالوريا رياضيات"><style>.qrcard{display:none!important}.wa-nav{position:sticky;top:0;z-index:50;background:#045260;padding:10px 18px;font-family:Cairo,sans-serif;direction:rtl}.wa-nav a{color:#fff;text-decoration:none;font-weight:700}@media print{.wa-nav{display:none}}</style>
+</head>
+
+<body dir="rtl" lang="ar"
+      data-brand="Wael Academy" data-handle="@WaelAcademy"
+      data-tagline="في تُرابنا.. مغامرة بمغامرة"
+      data-phone="+216 50 40 40 42" data-site="waeldocuments.com"
+      data-cta="سجل معانا وأقرى عن بعد مع منصة Wael Academy"
+      data-subject="Philosophie · الدولة" data-watermark="Wael Academy" data-pagefind-body><nav class="wa-nav" data-pagefind-ignore><a href="../index.html">→ الرجوع إلى فهرس الفلسفة</a></nav>
+
+<!-- single full-page diagonal watermark, bottom-left → top-right (repeats on every page) -->
+<div class="wm" aria-hidden="true"><span>WAEL&nbsp;ACADEMY</span></div>
+
+<div class="flow colored">
+<div class="cover"><div class="badge">◉ Wael Academy · Philosophie</div><h1>الدولة</h1><div class="grule"></div><div class="sub">القيم: الأخلاق والدولة</div><div class="auth"><div class="credit">المؤلّف / المصدر : <span class="who">المصدر غير مذكور في الوثيقة</span> <span class="tg sec">الفلسفة · باكالوريا رياضيات</span> <a href="https://drive.google.com/file/d/1xTbvQAqG41FC6m8Y9K1waBMuOUpyiuT5/view">↗ الدولة.pdf</a></div></div><div class="copies" data-pagefind-ignore><b>نسخ هذا الملف في الدرايفات (1)</b><ul><li><a href="https://drive.google.com/file/d/1xTbvQAqG41FC6m8Y9K1waBMuOUpyiuT5/view">Amenallah Tliche · Copie de physique math others Math › </a></li></ul></div></div>
+<section class="chapter"><div class="chapdiv"><div class="cn">المحور</div><h2>القيم: الأخلاق والدولة</h2></div>
+<!-- NOTE: 1958 handwritten margin numbers/notes, underlines and highlighter over the printed text are annotations and are left out -->
+<div class="exh"><span class="idx">درس</span><h2>الدولة: السيادة والمواطنة</h2>
+  <div class="qrcard"><div class="qrt">فيديو الدرس</div><div class="qrslot"><img src="qr/1958.svg" alt="QR"></div></div></div>
+<div class="credit">المؤلّف / المصدر : <span class="who">المصدر غير مذكور في الوثيقة</span> <span class="tg sec">الفلسفة · باكالوريا رياضيات</span> <a href="https://drive.google.com/file/d/1xTbvQAqG41FC6m8Y9K1waBMuOUpyiuT5/view">↗ الدولة.pdf</a></div>
+<p class="para"><b><u>التمهيد:</u></b>(راهنية التفكير في الدولة بين السيادة والمواطنة)</p>
+<p class="para"><b>- التفكير في السياسة "شأن عظيم"</b> ليس فقط لأنها ملازمة للوجود الاجتماعي للبشر، إذ ما من مجتمع إلا وشهد وجود سلطة سياسية تهتم بتنظيم "الشأن العام" وإدارة "الفضاء العمومي"؛ وإنما، أيضا، لأنها سبب إما لفساده وخرابه إن انحرفت، أو صلاحه وازدهاره إن استقامت. وهو تفكير يتراوح بين ما هو كائن وما ينبغي أن يكون، بين الموجود والمنشود، بين واقع حياة الإنسان وكيف ينبغي أن يحيا.</p>
+<p class="para"><b>- التفكير في السياسة في زماننا يقترن ضرورة بالتفكير في "الدولة" بما هي الشكل الحديث للسلطة السياسية.</b></p>
+<p class="para"><b>- أن الدولة على حداثتها أبعد عن الوضوح والخلو من الالتباس مفهوميا وواقعيا :</b> فمفهوميا تختلف تعريفاتها بحسب تنوع المنظوريات أو الإيديولوجيات، وواقعيا لها وجهان وجه مشرق يعكس حكم الحقّ تتوافق فيه السيادة مع المواطنة، ووجه عابس يعكس حكم الظلم تتضخم فيه السيادة وتلغى المواطنة. والتباس الدولة واقعيا هو ما نجد صداه في تردّد أحاسيسنا تجاهها وأحكامنا عنها بين تمدّحها واعتبارها شرط وجودنا وأنّها لو زالت لكان مآلنا الفوضى والهلاك، وبين ذمّها واعتبارها مصدر اغترابنا. <b>فحضورها يثير قلقا و خوفا كما يثيره افتراض غيابها.</b></p>
+<p class="para"><b>- أن من أبرز قيم المجتمعات المدنية: المواطنة، ونشهد في واقعنا راهنا انتهاكها في مجتمعاتنا السياسية.</b></p>
+<p class="para"><b>- اهتزاز سيادة الدول في العولمة الراهنة واهتزاز قيمة المواطنة داخلها.</b></p>
+<p class="para"><b>- أنّ عصرنا الكوكبي يقتضي منّا استئناف التفكير في سيادة الدولة، ومنزلة المواطنة على الصعيدين المحلي والعالمي.</b></p>
+<p class="para"><b>- تناول الدولة والعلاقة فيها بين سيادتها والمواطنة يقتضي القطع مع كلّ نظرة انفعالية، واعتماد نظرة عقلانية تحليلية ونقدية ـ تأسيسية لما ينبغي أن يكون في آن،</b> فـ "لا تستحق الدولة المبالغة في المديح الذي يقوم به إزاءها البعض، ولا الذمّ الذي يُدبّرها به الآخرون، وإنّما تقتضي تحليلا باردا كبرودها" كما قدّر"هنري لوفافر".</p>
+<p class="para"><b>الإشكالية:</b> فما الدولة؟ وهل أنه فيها يتحقّق التوافق بين السيادة والمواطنة ضرورة أم من الممكن أن تتضخم فيها السيادة وتتعارض مع المواطنة؟ وإن كان أمرا ممكنا، فهل يشرع ذلك للتخلّص منها أم بجعلها ديمقراطية؟ وإن افترضنا الحاجة لدمقرطتها، فما مستطاع الديمقراطية كنظام للحكم في إقامة التوافق بينهما: أهي قادرة على تحقيق التوافق التام بينهما أم لها حدود تشرّع لإعادة بنائها باستمرار تنظيرا وتطبيقا؟ وإذا كانت المواطنة قيمة القيم السياسية في زماننا، فهل ينبغي أن نكتفي بالسعي لتحقيقها محليا داخل الدولة بحدّ سيادتها بمراقبة المواطنين ذواتهم لها أم أن نسعى أيضا لتحقيقها قيمة كونية، بتحقيق المواطنة العالمية، التي تتجاوز ضيق الانتماء المواطني المحلّي، بحدّ سيادة الدول على مواطنيها بسلطان القيم الكسموبوليتية؟</p>
+<p class="para"><b>الرهانات:</b> +المعرفية: ـ الوعي بمخاطر الدولة الاستبدادية التي تتضخم فيها السيادة وتصادر المواطنة، وفضائل الحكم الديمقراطي وحدوده.</p>
+<p class="para">ـ الوعي بحاجتنا في عصرنا الكوكبي لتحقيق المواطنة العالمية  (الكونية / الأرضية) في نموذجها الجديد.</p>
+<p class="para">+العملية : ـ تحقيق المواطنة المحلية  والعالمية .</p>
+<p class="para">ـ إقامة توافق بين مقتضيات الحياة الاجتماعية (النظام/الأمن/ العيش المشترك...) ومقتضيات الوجود الأخلاقي(الحرية).</p>
+<p class="subhead t-red"><u>I ـ مفهوم الدولة والغاية من اختراعها :</u></p>
+<p class="subhead t-navy"><u>أ ـ تعريفها:</u></p>
+<p class="para">"الدولة هي نوع خاص من المجتمع السياسي المتجانس نسبيا الذي يعيش على رقعة جغرافية لها حدود معيّنة، والمحكوم بسلطة مؤسساتية تمتلك قطب الإرغام المُنظّم". (قوينشار)</p>
+<p class="para">وإن كان تعريف الدولة عماده ثلاثة أركان : الأرض والشعب والسلطة السياسية الممأسسة والقانونية، فإن ما يعيّن ماهيتها ليس الرقعة الجغرافية والشعب بالرغم من أنها تقتضيهما، لأنهما يمكن أن يكونا دون أن تكون؛ وإنّما "مأسسة السلطة السياسية" التي تمارس نفوذها/سيادتها عليهما، وتقنينها؛ وفي هذا المعنى يعرّفها "ماكس فيبر" بأنّها <b>"السلطة القانونية"</b>، ويعرفها "جورج بيردو"بأنّها <b>"السلطة المُمأسَسة"</b> . وهي شكل حديث من أشكال السلطة السياسية وممارسة الحكم، وهي غير طبيعية شأن القبيلة أو الأمّة؛ وإنّما مصطنعة اخترعها الذكاء الإنساني <b>لتجاوز أشكال الحكم الفردي</b> الذي <b>لا شيء يمنع انفعاله بالأهواء وميله نحو الاستبداد</b>، فضلا عن كونه لا يمنح السلطة السياسية التي يمارسها الحاكم، سندا قويا وشرعيا بتأسيسها على "السلطة الكاريزمية" أو "سلطة التقاليد" و"الأمس الأبدي"، ما يمنعها من <b>تحقيق الاستقرار والاستمرارية/الديمومة</b>؛ وذلك عبر عقلنة السلطة السياسية وتدجينها بفصلها عن أشخاص الحكام، وتقييدها وحدّها بالمؤسسات والقوانين التي تجد سندها في خيارات الشعب عبر آليات ارتضاها، هي وحدها مصدر الشرعية.</p>
+<p class="subhead t-navy"><u>ب ـ وضعية الحكام والمحكومين فيها:</u></p>
+<p class="para">مأسسة السلطة السياسية وتقنينها ينعكس على وضعية كلّ من الحكام والمحكومين:</p>
+<p class="para"><b>+<u>على وضعية الحكام:</u></b> يكونون <b>"قادة لا سادة"، "موظفين سامين"، "خدم الدولة"، "أدوات القوانين"، "مفوضين من الشعب"، "وكلاء عن الشعب"، "ممثلين للشعب".</b></p>
+<p class="para">← ليسوا مصدر مشروعية السلطة، ولا هم فوق القوانين، إذ يخضعون لها كما المحكومين.</p>
+<p class="para"><b>+<u>على وضعية المحكومين</u> :</b> يكونون <b>مصدر السيادة وشرعيتها ، و مواطنين، و أحرارا لا عبيدا.</b></p>
+<p class="subhead t-navy"><u>ج ـ دلالة السيادة فيها وسمتها :</u></p>
+<p class="para">ـ تدل السيادة فيها على <b>استقلاليتها وحقها في ممارسة نفوذها وبسط  سلطتها على حدودها الترابية ومحكوميها، وصدّ كل عدوان خارجي أو تهديد داخلي.</b></p>
+<p class="para"><b>ـ توصف سيادتها بالسيادة العليا</b>  لاستئثارها، داخليا، بممارسة العنف الشرعي بما هي، في آن، سلطة معنوية لتحديد الواجب وسلطة مادية للإرغام المادي، ولحقّها في مقاومة كلّ عدوان خارجي يهدّد سيادتها العليا.</p>
+<p class="subhead t-navy"><u>د ـ الغايات من انشائها :</u></p>
+<p class="para">ـ تخليص السلطة السياسية من عدم الاستقرار الذي يقود إليه الحكم الفردي، <b>وضمان استمراريتها وديمومتها</b>، بشرعنتها العقلانية في المؤسسات والقوانين النابعة من إرادة الشعب صاحب السيادة .</p>
+<p class="para"><b>ـ التخلّص من إمكان انحراف السلطة السياسية نحو الاستبداد بسيادة الأهواء</b> الذي يقود إليه الحكم الفردي، بعقلنة السلطة السياسية بربطها بالمؤسسات والقوانين التي تعبّر عن إرادة الشعب، وضمان عقلانيتها.</p>
+<p class="para"><b>ـ التخلص من العبودية</b> : من طاعة الإنسان للإنسان، <b>وتحقيق الحرية</b> : طاعة الإنسان للمؤسسات التي تعبّر عن الإرادة العامة. وفي بيان هذه الغاية من تأسيس الدولة كتب سبينوزا "إن غاية الدولة في الواقع هي الحرية"، وكتب "جورج بيردو": <b>"اخترع الناس الدولة حتى لا يطيعوا الناس"</b>. ففي طاعة الناس عبودية وفي طاعة المؤسسات والقوانين النابعة من الإرادة العامة حرّية .</p>
+<p class="para">فهل تضمن الدولة ـ بما هي <b>عقلنة للسلطة السياسية تروّضها وتدجّنها في المؤسسات والقوانين التي تجد مشروعيتها في إرادة الشعب وسيادته على ذاته، عقلنة تجذّرها في الشأن البشري الخالص الذي يهتدي بالعقل</b> (قطعا مع اعتباطيتها، و مع <b>الثيوقراطية</b>) ـ التخلّص ضرورة من الاستبداد أم يمكن أن تكون <b>سنده القوي</b>؟</p>
+<p class="subhead t-red"><u>II ـ الدولة الكليانية : تغييب سيادة الدولة لقيمة المواطنة :</u></p>
+<p class="para"><b>بالرغم من كون الدولة اختراع حديث لعقلنة السلطة السياسية بهدف التخلّص من الاستبداد وتعسّف الحكام/القادة،</b> بتطهيرها من الأهواء البشرية بفصلها عن أشخاص الحكام أو أي مصدر متعالي عن البشر، وربطها بالمؤسسات والقوانين التي تُعبّر عن المشروع المجتمعي وما ارتضاه المجتمع من خيارات هو غايتها. فلا يعني ذلك ضرورة التمكين من التخلص منه، بل <b>قد تكون واقعيا ظهيرا له، بمنحه سندا أشدّ قوة وبطشا من الاستبداد المُمكِن لحكم الفرد أو الأليغارشية، هو سند الشرعية : شرعية إرادة الجماهير/الشعب، وشرعية حكم المؤسسات والقوانين.</b> فالإرادات البشرية التي تصل إلى الحكم في الدولة (بشتى الأساليب: الانتخاب الحقيقي، توجيه إرادات الناخبين والتلاعب بها، تزييف نتائج الانتخابات، الانقلاب العنيف أو الناعم)، والتي تتحدّث وتفعل باسمها تغدو "إرادات الدولة"، فتغدو الدولة "أداة سلطة الرجال الذين يحكمون باسمها. وبذلك يكون لها "وجه عابس" "تطبعه كلّ الأهواء التي تحرّك الحياة السياسية". فـ<b>"إن الفكر على الرغم من تدجينه للسلطة بتقييدها في الدولة، لم يستطع مع ذلك أن يغيّر غائيتها"</b>، فـ "المؤسسة ليست صيغة سحرية تبعد عن السلطة المساوئ التي تتهدّدها" وفق عبارات "جورج بيردو" في كتابه "الدولة"، بل قد تعمّقها بأن تكون ظهيرة الاستبداد وسنده القوي.</p>
+<p class="subhead t-navy"><u>أ ـ تعريف الاستبداد :</u></p>
+<p class="para">هو نظام <b>حكم يقوم في جوهره على :</b></p>
+<p class="para"><b>• الإكراه والتسلّط المطلقين واتخاذ العنف اللاشرعي مبدأ :</b> وهو عنف معنوي (التخويف، والإرعاب، وإرهاب الأنفس وغسل الأدمغة باعتماد جهاز قمعي إيديولوجي: مؤسسة الإعلام الدعائي التضليلية). وعنف مادي (التعذيب، المحاكمة، السجن، الإعدام، الاغتيال) باعتماد جهاز قمعي مادي باطش (الشرطة، الجيش، وأخطره عوام الناس ومنهم المخبرون خصوصا)(الدولة البوليسية، الدولة الأمنية). وأقصى تحقق للاستبداد شهدناه كان في <b>الدولة الكليانية (التوتاليتارية) "الدولة الوحش" "الدولة المفترسة"</b> لو استعرنا عبارتي "إدغار موران"، التي تجلّت في الدولة الفاشية والدولة النازية والدولة الاشتراكية الستالينية ، <b>دولة القمع المطلق والرعب المعمّم</b> حيث تختزل الدولة في الحزب وإيديولوجيته، والحزب في القائد المُلهم؛ وتُصادر الحرية، ويُلغى التعدد ويُذوَّب الفرد.</p>
+<p class="para"><b>• انعدام التأسّس على الحق : <u>مصدرا</u></b> (حكم غير نابع من إرادة الشعب /الإرادة العامة : اغتصاب السلطة (الانقلاب...)). <b><u>أو تقنينا وممارسة</u></b> (حكم غير متوافق مع حقوق الإنسان تقنينا أو ممارسة، وإن كان نابعا من إرادة المحكومين (هتلر مثلا)).</p>
+<p class="para"><b>• خدمة المصلحة الخاصة أو الفئوية أو الجهوية</b>، وعدم توجيه السلطة لخدمة الشأن العام وتحقيق المصلحة العامة.</p>
+<p class="para"><b>• غياب الضبط الأخلاقي:</b> عدم اعتبار القيم الإتيقية: قيم المساواة والعدالة والحرية والكرامة الإنسانية ...</p>
+<p class="para"><b>• غياب المراقبة و المحاسبة الدستورية و القضائية والشعبية.</b></p>
+<p class="para"><b>← السيادة فيه مطلقة : غير مقيّدة ومراقبة من طرف المحكومين.</b></p>
+<p class="subhead t-navy"><u>ب ـ تأصيله :</u></p>
+<p class="para">كل الذين يشرّعون للاستبداد (عبر التشريع للسلطة المطلقة) يؤصلونه أنتروبولوجيا في <b>الطبيعة العدوانية للإنسان، وفي النظرة السلبية للحرية بما هي ما تفضي إلى العدوان والفوضى والهلاك، وفي تغليب هاجس النظام وحفظ الأمن على كلّ ما يغايرهما،</b> شأن <b>"هوبس"</b> الذي سلّم بأن "الإنسان ذئب للإنسان" وأن السلطة المطلقة هي التي تتلاءم مع طبعه فتضمن الأمن والسلام وبالتالي حقّ البقاء/الحياة، الحقّ الطبيعي المقدس. إذ ذهب "هوبس" إلى أن:</p>
+<p class="para"><b>+ الحالة الطبيعية :</b></p>
+<p class="para">ـ حالة صراع <b>وحرب "الكلّ ضدّ الكلّ"</b>، سببها عدوانية الإنسان.</p>
+<p class="para">ـ حالة فوضى مزرية يستحيل استمرار البقاء فيها، لأن حق الحياة يكون فيها مهدّدا بصورة دائمة. والمسؤولية تقع على الطبيعة الإنسانية.</p>
+<p class="para">←العقل الحسابي يأمر بضرورة الانتقال إلى <b>الحالة المدنية</b> عبر التعاقد.</p>
+<p class="para">+ الغاية من الحالة المدنية: <b>ضمان البقاء (حق الحياة) عبر ضمان النظام والأمن والسلام.</b></p>
+<p class="para">+ شكل السلطة المناسب: <b>السلطة المطلقة، سلطة التنين (اللفياطون) التي تقمع عدوانية الأفراد وتلزمهم باحترام العيش المشترك خشية العقاب.</b> وبذلك تكون الدولة "اللجام الذي يكبح عدوانية هذا الحيوان الضاري الذي نسميه الإنسان". كما عبّر "شوبنهاور".</p>
+<p class="para">(التعاقد الهوبسي هو تعاقد إتحاد وخضوع لسلطة مطلقة عبر تخل كل فرد لها عن حقه الطبيعي الذي يمتد بحسب قوّته، وعن حرّيته)</p>
+<p class="subhead t-navy"><u>ج ـ تبعاته :</u></p>
+<p class="para"><b><u>ـ على المستبد:</u></b> يكون أشقى العباد، في خوف دائم من نقمة المحكومين، ومن مكر وكيد حاشيته من الأقربين وقد قرّب أسافل العباد لا يأمن أن ينقلب مكرهم وكيدهم ضدّه؛ وغالبا ما تختم حياة المستبدين بالجنون أو  النفي أو القتل.</p>
+<p class="para"><b><u>ـ على الإنسان:</u></b> يكون <b>"أداة" و"عبدا"</b>،أي كائنا فاقدا للاستقلالية والحرية، خاضعا لأوامر المستبد، فاقد لسيادته على ذاته.</p>
+<p class="para"><b>← يكون رعيا و فردا من قطيع : ليس له حقوق ، وعليه واجب أوحد : الطاعة العمياء.</b></p>
+<p class="para">← يكون كائنا <b>مغتربا</b> : فاقدا لما تتقوم به إنسانية الإنسان: تحوله إلى <b>"بهيمة متوحشة" أو "آلة  صمّاء"</b> وفق عبارتي "سبينوزا".</p>
+<p class="para"><b>← يكون فاقدا لقيمة المواطنة لامتناع شروط تحققها.</b></p>
+<p class="para"><b><u>ـ على العمران البشري:</u></b> خرابه، فـ"الظلم مؤذن بخراب العمران" ابن خلدون. ← تخلّف شامل اقتصادي وفكري وثقافي إلخ.</p>
+<p class="para"><b><u>ـ على العلاقات بين الدول :</u></b> الرغبة في التوسع، العدوان ، الهيمنة ، الصدام، غياب السلام الدائم،   افتقاد حكمة العيش معا.</p>
+<p class="subhead t-navy"><u>هـ ـ الموقف منه :</u></p>
+<p class="para">بما أن <b>الاستبداد</b> هو <b>مرض/داء السلطة</b>، و <b>أحطّ درجات أنظمة الحكم</b> ، لتناقضه مع طبيعة الإنسان العاقلة والحرّة كما قدّر "سبينوزا"، وطبيعته العاطفية الخيرة والحرّة كما قدّر"روسو" ( بسلبه ما تتقوم به ماهيته العقل والحرية). ومع الغايات من الحياة المدنية، ومن الحكم: الحفاظ على الحياة والحرية والملكية أيضا كما قدّر "جون لوك" بمنزعه الليبرالي (بتهديدها وسلبها)؛ وتحقيق النظام والأمن والسلام (بعيش الخوف والرعب كما بيّن بصواب "روسو" و"سبينوزا" و"جون لوك")؛ وتحقيق ازدهر الإنسان ونمو ملكاته وإبداع العلوم والفنون(بالانحطاط). وتحقيق الفضيلة والقضاء على الرذيلة (بنشر التملّق والتزلف وتمني الشر للحاكم). فما ينبغي إزاءه هو رفضه ومقاومته <b>والعمل على استئصاله/اجتثاثه.</b> ورفض كلّ محاولات شرعنته وتبريره (بالادعاء بعدوانية الإنسان، أولوية حق البقاء/الحياة، أولوية النظام والأمن والسلام )، لتناقضها مع العقل السليم.</p>
+<p class="subhead t-red"><u>III ـ الدولة الديموقراطية : سيادة الدولة المتوافقة مع قيمة المواطنة :</u></p>
+<p class="para">الدولة بمأسسة السلطة وتقنينها ليست بعاصمة من الاستبداد، بل قد تجعله أشد وهو ما شهدناه بجلاء في القرن العشرين مع الدولة الكليانية، وللتخلّص من الاستبداد يرى الكثيرون أنّ الشفاء من دائه لا يتمّ بالقضاء على الدولة (مثلما ذهبت الفوضوية)، أو باضمحلالها (مثلما ذهبت الماركسية)، إذ غيابها لا يفضي إلاّ إلى الفوضى والهلاك، وإنّما بأن تكون ديمقراطية.</p>
+<p class="subhead t-navy"><u>أ ـ تعريفها:</u></p>
+<p class="para">الديموقراطية مثلما يدّل عليها أصلها الاشتقاقي الإغريقي <span dir="ltr">[(Dêmoskratos)</span>  حيث <span dir="ltr">( Kratos)</span> تعنى حكم/سلطة، و <span dir="ltr">( Dêmos)</span>  تعني الشعب] هي <b>حكم الشعب لنفسه بنفسه لأجل نفسه عن طريق القوانين النابعة من إرادته.</b></p>
+<p class="subhead t-navy"><u>ب ـ أساسها :</u></p>
+<p class="para">• التعاقد (العقدُ الاجتماعي) ← وهو ما يعني أنّ السلطة السياسية للدولة شأن بشري خالص ←القطع مع التيوقراطية"نظرية الحق الإلهي".</p>
+<p class="para">• التعاقد يفترض ويقتضي الوعي والحرية والاختيار العقلاني، وغياب كل إكراه وغصب ظاهر أو خفي، وحشي أو ناعم .</p>
+<p class="para">← مصدر الحق/المشروعية التعاقد ، "فالقوة لا تصنع الحق ولا تؤسسه : إذ الحق ينتمي إلى السجل القيمي الأخلاقي أما القوة فتنتمي إلى السجل المادي الفيزيائي، ولا يمكن تأسيس الأخلاقي على المادي الفيزيائي، والحديث عن "حق الأقوى" تناقض.</p>
+<p class="subhead t-navy"><u>ت ـ مصدر السيادة فيه :</u> <b>"الإرادة العامة"</b>، أو إن شئنا قلنا سيادة الشعب على ذاته، وهي <b>سيادة لا تنازل عنها لكونها لا تنقل أصلا.</b></p>
+<p class="subhead t-navy"><u>ج ـ غاياتها:</u></p>
+<p class="para">• تحقيق <b>"الخيرات المدنية المشتركة"</b>: فغاياتها <b>مدنية لا دينية</b>، هي تحقيق <b>الخيرات الدنيوية لا الأخروية</b>. وبذلك فهي <b>"لائكية"</b> بالضرورة.</p>
+<p class="para">• أهمّ هذه " الخيرات المدنية المشتركة " :</p>
+<p class="para">ـ ضمان <b>حقّ الحياة</b> : عبر ضمان النظام والأمن و السلام و الوئام .</p>
+<p class="para">ـ ضمان <b>حسن الحياة</b> عبر تحقيق العيش الكريم لكل مكونات الجسم الاجتماعي ـ السياسي محكومين وحكاما، بتحقيق مجتمعات الوفرة والرفاه، والقضاء على أشكال التعاسات أو الحدّ منها أكبر ما يمكن، وتحقيق السعادة للجميع (بضمان الحقوق الاجتماعية والاقتصادية والتعليمية والصحية والبيئية والنفسية ) .</p>
+<p class="para">ـ ضمان <b>الحرية</b>، كما نظّر بوجاهة  خصوصا كلّ من "روسو" و"سبينوزا"" .</p>
+<p class="para">• إن <b>هذه الغايات مترابطة</b> ولا يمكن تجزئتها فهي كل واحد. وهو ما يعني أنه لا يمكن أن نضحي بغاية من أجل غاية أو غايات أخرى.</p>
+<p class="subhead t-navy"><u>د ـ آلياتها:</u></p>
+<p class="para"><b>• ضبط الحقوق والواجبات عبر القانون</b> المُسوى وفق <b>العقل السليم.</b></p>
+<p class="para"><b>• علوية (سيادة) القانون النابع من الإرادة العامة،</b> انطباقه على الجميع <b>عدلا</b> بينهم حكاما ومحكومين.</p>
+<p class="para"><b>• الفصل بين السلط ومراقبة السلطة بالسلطة ، وحدّها بذاتها ، تحقيقا لتوازن السلطات والقوى منعا للاستبداد.</b></p>
+<p class="para"><b>• رقابة مؤسسات المجتمع المدني، وضمان حرية سلطة الإعلام .</b></p>
+<p class="para"><b>• ضمان حقّ التظلّم وحقّ المقاومة السلمية التي قد تصل إلى حدّ العصيان المدني.</b></p>
+<p class="para"><b>• الاستناد إلى العنف الشرعي (القوة ):</b> إذا كان الحقّ لا يتأسس على العنف أو القوة وهو أمر صائب ، فإن الحق يحتاج لسند العنف الشرعي (القوة) لحمايته بالنظر لوجود من لا يمتثلون طوعا للقوانين وللإرادة العامة، ويغلبون مصالحهم الشخصية على المصلحة العامة، وهو ما قد يدفعهم لخرق القوانين. ومثل هؤلاء على الدولة الشرعية أن تجبرهم على الامتثال للقوانين عبر <b>سلطة إرغامها المادية التي تتمثل في: العنف الجزائي. والعنف الشرعي تحتكر امتلاكه وممارسته الدولة الشرعية وأجهزتها،</b> وكل اقتصاص ذاتي يعاقب عليه القانون، لأن فيه سلب لحق السلطة الشرعية وعودة إلى حالة الطبيعة.</p>
+<p class="para"><b>← الدولة الشرعية هي،  في آن ، القائمة على الحقّ الذي مصدره التعاقد ، والمستندة للعنف الشرعي (القوة) حماية له .</b></p>
+<p class="para"><b>• الاستناد إلى مبدأ الأغلبية/الأكثرية لإدارة الاختلافات والفصل فيها.</b></p>
+<p class="para"><b><u>هـ ـ قيمها :</u></b> المساواة والحرية والإخاء. وهي ذات قيم الجمهورية. فهي في آن آلية/تقنية في الحكم وقيمة أخلاقية وثقافية.</p>
+<p class="subhead t-navy"><u>و ـ تبعاتها :</u></p>
+<p class="para"><b>ـ على القادة :</b> يكونون في أمن وسعادة.</p>
+<p class="para"><b>ـ على الإنسان:</b> يكون الإنسان في إطار الحكم الديمقراطي <b>مواطنا.</b></p>
+<p class="para"><b>والمواطن " شريك" و "عضو" و "جزء لا يتجزأ من  الإرادة العامة" وفق عبارات "روسو"</b>. إنه ذات حرّة في إطار شعبي حرّ له قادة لا سادة. له <b>حقوق يضبطها/يحدّدها القانون</b> (أبرزها: حق حرية المعتقد وحرية التعبير، حق العمل، حق المقاومة  للعنف اللاشرعي. <b>وعليه واجبات</b> (أبرزها: واجب حب الوطن، واجب الامتثال للقوانين، واجب العمل،  واجب الانتخاب، واجب مقاومة العنف اللاشرعي...).</p>
+<p class="para">← <b>المواطنة هي وضع قانوني مدني اصطناعي (غير طبيعي)</b> إذ لا يولد الإنسان مواطنا، و إنّما يصير كذلك في إطار حكم ديمقراطي يكون فيه الشعب سيدا على ذاته. وهذا الوضع يمثل تجاوزا للروابط  الاجتماعية التقليدية روابط  العرق والدم والقبيلة والثقافة والمعتقد وتعاليا عليها برغم كونها أكثر الروابط حميمية ودفئا، انفتاحا على القانوني المدني بقيامه على قيم المساواة والحرية والإخاء.</p>
+<p class="para">← <b>الحرية في الديمقراطية ليست حرية مطلقة، وإنما حرية تتحقق في إطار القوانين</b>، فهي حرية مدنية مشتركة لا تتمثل في أن يفعل المرء ما يحلو له، وإنما في أن يفعل ما تبيحه القوانين، فـ "مصير الحرية يقترن بمصير القوانين تفنى بفنائها، وتسود بسيادتها" "روسو".</p>
+<p class="para">← <b>ليست كل طاعة(امتثال) سالبة للحرية وللإنسانية</b> : فطاعة القوانين النابعة من إرادة الشعب من " الإرادة العامة " هي الحرّية.</p>
+<p class="para">← <b>في الدولة الديمقراطية ثمة توافق بين السيادة والمواطنة</b>، لأن سيادة الدولة نابعة من سيادة المواطنين على أنفسهم.</p>
+<p class="para"><b>ـ على العمران البشري:</b> ازدهاره ونماؤه، ففي الحرية والعدل يزدهر وينمو.</p>
+<p class="para"><b>ـ على العلاقات بين الدول :</b> إدارة الاختلافات/ الصراعات الدولية بعقلانية ، تحقيق السلام العالمي الدائم، ضمان حكمة العيش معا.</p>
+<p class="para"><b><u>ز ـ مقتضاها الفضيلة السياسية للمواطن :</u></b> أنظمة الحكم الديمقراطية الجمهورية الشعبية هي <b>أهش أنظمة الحكم</b>، لأنّها في علاقة عضوية وحيوية، في آن، بالتعدّدية والوحدة، وبالاختلاف والتعايش، وبالوفاق والصراع، وبالامتثال والمقاومة. و لذلك فهي <b>تحتاج للفضيلة السياسية للمواطن</b> والمتمثلة في "حب الوطن وحب القوانين"، أي تقديم المصلحة العامة على المصلحة الخاصة دائما (منتسكيو).</p>
+<p class="para"><b><u>ح ـ سمتها :</u> حلّ عقلاني</b> للحياة الاجتماعية السياسية : الإجابة على سؤال كيفية ضمان التعدّد والحرّية، والتعايش والوحدة. أي كيفية إدارة الاختلافات والصراعات في المجتمع، بطريقة عقلانية سلمية. <b>ولذلك غدت مطلبا للأمم وأملا للشعوب.</b></p>
+<p class="subhead t-red"><u>IV ـ حدود التوافق بين السيادة والمواطنة في الدولة الديمقراطية :</u></p>
+<p class="para">قد تبدو الديمقراطية كاملة ومثالية كما قدّر "روسو" فيها يتحقّق التوافق التام بين سيادة الدولة والمواطنة غير أنّها بما هي حلّ عقلاني بشري للشأن السياسي غير كاملة ومثالية، تنظيرا وتطبيقا، ففيها نقائص وعيوب، نقص وعيوب مبدعها ومطبّقها: الإنسان. فلها حدود:</p>
+<p class="subhead t-navy"><u>1ـ حدود الديموقراطية:</u></p>
+<p class="para">ـ ملازمة ظاهرة الاغتراب السياسي للوجود البشري والمتمثلة <b>في سعي صاحب السيادة دوما لابتزاز السيادة، وفي ميل العنف الشرعي إلى الإفراط في القوة وتجاوز القانون وتحوّله إلى عنف لا شرعي.</b> (بول ريكور).</p>
+<p class="para">ـ <b>مبدأ الأغلبية/الأكثرية</b> ليس إلاّ <b>إقامة لديكتاتورية الأغلبية</b> التي تقمع الأقليات السياسية أو العرقية الثقافية فضلا عن حرّية الأفراد.(نعوم تشومسكي ، إريك فروم ، روجي غارودي ...)</p>
+<p class="para">ـ <b>التفاوت الطبقي</b> (اللامساواة أو اللاعدالة الاجتماعية) يجعل <b>المساواة أمام القوانين صورية ومجرّدة لا واقعية وفعلية</b>، إذ تكون القوانين واقعيا في صالح الإنسان البورجوازي الأناني. (الماركسية)</p>
+<p class="para">← <b>غياب العدالة الاجتماعية يجعل المساواة أمام القانون مساواة شكلية لإخفاء المساواة الغائبة والديمقراطية الزائفة.</b> ويجعل الديمقراطية الحديثة الصورة السياسية للرأسمالية.</p>
+<p class="para">ـ <b>التلاعب بالوعي وتوجيه القرارات وتحديد الخيارات</b>، حتى في أعرق الديمقراطيات. (تشومسكي، بودريار، غي ديبور، دي بريه ...)</p>
+<p class="para">ـ نشهد راهنا <b>إقامة لديكتاتورية الخبراء والتكنوقراط</b> وإقصاء المواطنين من إدارة الشأن العام .<b>(إدغار موران).</b></p>
+<p class="para">ـ تغييب المواطنة بتكريس النزعات الفردانية الأنانية الاستهلاكية اللامبالية بالشأن العام ← "الاستبداد الناعم"(دي توكفيل).</p>
+<p class="para">ـ التدخل في سيادة الدول في العولمة الراهنة الامبريالية وبالتالي انتهاك قيمة المواطنة  داخلها.</p>
+<p class="subhead t-navy"><u>2 ـ النقد الجذري للدولة:</u></p>
+<p class="para">ثمّة حدود بيّنة للتوافق بين السيادة والمواطنة في إطار الدولة الديمقراطية وهو ما كان سببا في <b>نشأة تصورات مضادة للدولة: أبرزها الماركسية والفوضوية،</b> تسلّم بأن <b>جوهر الدولة الاستبداد والقمع وانتهاك الكرامة الإنسانية،</b> وبذلك فـ "الدولة هي أبرد الوحوش المثلجة" وفق عبارة "نيتشه"، والأخطر هي "الدولة" التي تدعى أنها "ديمقراطية" و"دولة الحق"، لأنها تحجب جوهرها القمعي باسم خادع.</p>
+<p class="para">+ <b><u>الماركسية ( ماركس ، إنقلز) :</u></b> تعتبر أنّ "الدولة تنظيم خاصّ للسلطة: إنها تنظيم للعنف القاهر لطبقة ما"(إنقلز)، <b>فهي ظاهرة تاريخية نشأت بفعل ظهور الملكية الفردية لوسائل الإنتاج وانقسام المجتمع إلى طبقة مهيمنة وطبقة مهيمن عليها</b>، والطبقة المهيمنة اقتصاديا هي التي أنشأت جهاز الدولة لاستغلال الطبقة المهيمن عليها واستعبادها، فالغاية التي جعلت من أجلها القهر والقمع الطبقيين. فحيثما تكون الدولة تغيب الحرية <b>وحيثما تكون الحرية لا تكون الدولة.</b></p>
+<p class="para">←<b>الدولة جهاز :</b> قمعي طبقي وشر مطلق، وإنسانية الإنسان لا تتحقق إلا خارج فضاء الدولة أي في <b>مجتمعات اللادولة</b>، وهي <b>تضمحل بالقضاء على الطبقية</b> عبر القضاء على الملكية الفردية لوسائل الإنتاج وتأميم ملكيتها تحقيقا للعدالة الاجتماعية.</p>
+<p class="para">+ <b><u>الفوضوية</u></b> (<u>من أبرز أعلامها: باكونين، برودون، جون غراف ...</u>): تعتبر أنّ <b>"الدولة كلّية مفترسة تعيش على قرابين بشرية". إنّها تسلب الأفراد حيواتهم الطبيعية باسم "خير الجميع المزعوم"، وبذلك تكون "مقبرة شاسعة تدفن فيها جميع تجليات الحياة الفردية"</b> (باكونين). وعليه فهي شر مطلق من الضروري القضاء عليها لتحقيق إنسانية الإنسان التي لا تتحقّق إلا في مجتمعات اللادولة .</p>
+<p class="subhead t-navy"><u>3 ـ دمقرطة الدولة الديموقراطية :</u></p>
+<p class="para"><b>ـ الوعي بميل السيادة في الدولة للاستبداد</b> حتى وهي <b>تعتمد الديمقراطية، لا يشرّع ذلك لمضادة الدولة بصورة جذرية وللتخلص منها.</b> فالدولة <b>جهاز</b>، وكما أن كلّ جهاز ما هو بخير في ذاته أو شر، وإنما بحسب استعمالاته البشرية؛ <b>فما هي بالخير المحض</b> والتحقّق للعقل في التاريخ والحرية والأخلاقية كما ذهب "هيقل"، <b>وما هي بالشر المحض</b> والتجلي للاعقل في التاريخ والاستعباد واللاأخلاقية كما ذهبت معظم التصورات المضادة للدولة؛ وإنّما <b>هي في خدمة مشروع يحدّده البشر ويرتضونه.</b> فعلينا أن نحول دون أن تتحول إلى جهاز قمعي وأداة لتعسّف الحكام أو الطبقة أو الأغلبية أو المجتمع المتماثل المجهول الهوية (المجتمع الاستهلاكي القطيعيّ)، وذلك <b>بدمقرطتها المستمرّة تنظيرا وممارسة.</b> كما أن <b>الوعي بعدم كمال الديمقراطية تنظيرا وتطبيقا، لا يشرّع للزهد فيها نظاما للحكم وقيمة مجتمعية مدنية، فهي</b> على حدودها البنيوية الجوهرية <b>تظلّ أقل أنظمة الحكم سوءا، وأقل أشكال تنظيم المجتمعات فحشا،</b> وإنّما <b>النهوض بمهمّة إصلاحها المستمرّ</b> توقا للمثل الأعلى إرغاما للمستحيل على الإمكان، وذلك بـ :</p>
+<p class="para">ـ <b>تحقيق الديمقراطية التشاركية</b> بعضد مبدأ الأغلبية/ الأكثرية بمبدأ التوافق، والتي تقطع مع منطق الأغلبية والأقلية <b>سعيا لتحقيق أكبر توافق ممكن</b>، فلا تجعل مبدأ الأغلبية يتحول إلى ديكتاتورية الأغلبية <b>بالأخذ بعين الاعتبار الرأي الأقلي قدر الإمكان.</b></p>
+<p class="para">ـ <b>إعطاء مضمون اجتماعي للديمقراطية</b> بعضد المساواة القانونية بتحقيق العدالة الاجتماعية، <b>لا بما هي مساواة، وإنّما بما هي إنصاف</b> (إعطاء كلّ ذي حق حقه بحسب جهده أولا، وبحسب حاجته ثانيا (التمييز الايجابي للأكثر حرمانا أو المناطق الأكثر تهميشا وفقرا))، ولا يتمّ ذلك إلا بتحقيق <b>الديمقراطية الاجتماعية</b> وتجاوز، <b>في آن، الاشتراكية التسلطية والليبرالية المتوحشة.</b></p>
+<p class="para">ـ <b>تحقيق المواطنة الفاعلة: الناهضة بفضيلتي المواطن: الامتثال للقوانين والمقاومة (فـ " المواطنة امتثال ومقاومة" "ألان")</b>، ذلك أن الامتثال هو ما يحول دون أن تتحوّل المقاومة إلى فوضى، والمقاومة هي ما تحول دون أن يتحوّل الامتثال إلى عبودية.</p>
+<p class="para">ـ <b>حضر كل آليات تخدير الوعي وتنويم العقول</b> لا في الدعاية السياسية فقط وإنما في كل المجالات، <b>وجعل الإعلام مواطنيا.</b></p>
+<p class="para">ـ <b>أخلقة السياسة</b> وإجلالها للحق وانحنائها له: القطع مع فصل السياسة عن الأخلاق واعتبارها تقنية لبلوغ السلطة والحفاظ عليها.</p>
+<p class="para">ـ <b>أنسنة العولمة</b>، واستعادة الدول لسيادتها على ذاتها، وتعميم الديمقراطية في الكوكب، ودمقرطة إدارة الشؤون الأممية/العلاقات الدولية.</p>
+<p class="subhead t-red"><u>V ـ المواطنة العالمية وسيادة الدولة :</u></p>
+<p class="para">المواطنة العالمية مفهوم صيغ في الثقافة الإغريقية فقد سؤل سقراط من أي مدينة أنت؟ فأجاب "أنا مواطن في العالم" وقد وقع إحياؤه في عصرنا الحديث خصوصا مع <b>الفلسفة الكانطية الأنوارية الكسموبوليتية</b>. وبدخول البشرية في "العصر الكوكبي" وقع استئناف التنظير للمواطنة العالمية ولنموذج جديد منها والتشوّق لتحقيقها. وفي بيان ذلك يقول "ستيفان كستلاس": "يلزمنا نموذج جديد للمواطنة العالمية".</p>
+<p class="subhead t-navy"><u>أ ـ دلالة المواطنة العالمية:</u></p>
+<p class="para">المواطنة العالمية <b>وضع قانوني في فضاء مدني كوني</b> تخضع فيه كافة الكائنات البشرية لنفس التشريعات السياسية الكونية التي تحدد الحقوق والواجبات، يحدّدها <b>دستور كوني</b> نابع من الإرادة العامة للبشر، دون إلغاء التنوع الثقافي والسياسي أو فرض نموذج واحد في الحكم. إنّها إذن تتمثل في قبول التعدد الثقافي والاعتراف فيه بـ"التنوع العرقي والهويات المتعددة" والحفاظ على الخصوصيات الوطنية والعرقية والثقافية في إطار الانتماء إلى الكوني الإنساني: إلى المشترك. فـ"أن يكون المرء مواطنا عالميا، ليس معناه أن ينتمي إلى جماعة عالمية، إلى إنسانية بلا جنسية... بل معناه إن يتفكر انخراطه الخاص في جماعة على أن يكون ذلك ضمن أفق العالم المشترك" (إتيان تاسين).</p>
+<p class="subhead t-navy"><u>ب ـ دواعي الحاجة الى المواطنة العالمية :</u></p>
+<p class="para">المواطنة العالمية <b>حاجة</b> وما يدعو إليها كونها في آن  <b>ضرورة واقعية ، كما اقتضاء أخلاقي .</b></p>
+<p class="para"><b>+ الحاجة  بما هي ضرورة واقعية :</b></p>
+<p class="para">ـ <b>قصور مفهوم الدولة ـ الأمة</b> (وحدة سياسية وعرقية ـ ثقافية) <b>وقصور مفهوم المواطنة الديمقراطية الذي نشأ ضمنه</b> عن فهم التعدد الواقعي للحياة الاجتماعية والسياسية، وعن تحقيقها في أشكالها السوية، بفعل وجود أقليات عرقية وثقافية في داخل الدولة بسبب الرسم الاعتباطي للحدود والاستعمار والهجرة.</p>
+<p class="para">ـ <b>تحوّل الكون إلى "قرية كوكبية صغيرة"</b> : بفعل تطور وسائل النقل والاتصال تشابكت أجزاء البشرية وتعززت الترابطات والزيارات والإقامات، سواء للدراسة أو العمل أو  السياحة، ما يستوجب ضمان حق الضيافة .</p>
+<p class="para">ـ <b>وحدة المصير البشري:</b> تطور وسائل التدمير الشامل ربط البشر بمصير مشترك : الموت  الجماعي أو النجاة الجماعية.</p>
+<p class="para"><b>+الحاجة بما هي اقتضاء أخلاقي :</b> وجود هوية إنسانية مشتركة من خلال الفروقات الفردية و العرقية و الثقافية تقيم "وحدة الجوهر" برغم "تعدد المظهر".</p>
+<p class="para"><b><u>ج ـ رهانها:</u> حدّ سيادة الدول على مواطنيها</b>، بجعلها تحترم وتجلّ قيمة أعلى منها هي المواطنة العالمية بما هي قيمة كونية، منعا لميلها نحو التسلّط وانتهاك كرامة مواطنيها، والعمل على <b>تحقيق الوحدة الكسموبوليتية المتنوعة</b> سياسيا وثقافيا بين البشر بما هي سبيل "إقامة علاقات سلمية بين البشر تأخذ طابع القوانين العامة للجنس البشري" (كانط)</p>
+<p class="subhead t-navy"><u>هـ ـ شروط إمكان تحققها:</u></p>
+<p class="para">المواطنة العالمية ليست واقعا بعد، و إنّما هي مطلب ورهان، ولأجل ذلك فثمة شروط لتحقيقها وهي شروط مؤسساتية وإيتيقية :</p>
+<p class="para">✓ <b><u>الشروط المؤسساتية :</u></b> (من أهمها)</p>
+<p class="para">• وجوب إصلاح منظمة الأمم المتحدة، بالنظر لتحيزها ولا عدالتها بضمانها "حق الفيتو" لخمس دول، وذلك بدمقرطتها. أو إنشاء مؤسسات أممية جديدة لصياغة دستور كوني نابع من الإرادة العامة للجنس البشري وللأمم والشعوب والدول والسهر على تطبيقه وردع خارقيه.</p>
+<p class="para">• وجوب الضبط القانوني للمؤسسات المالية والاقتصادية العالمية .</p>
+<p class="para">✓ <b><u>الشروط الإيتيقية :</u></b> (من أهمها)</p>
+<p class="para">• <b>التخلص من المركزية الفردية والاجتماعية والثقافية</b> : تضخيم / تقديس الذات ، في مقابل ،احتقار ،/إقصاء الآخر .</p>
+<p class="para">• <b>اعتماد الأنتروبوإيتيقا/إيتيقا النوع الإنساني</b> : التعامل مع الإنسان لا كوسيلة وإنّما كغاية ، احتراما للشخص الإنساني في ذاته مثلما بيّن "كانط" في أحد صيغ الأمر الأخلاقي: " اعمل دائما بحيث تعامل الإنسانية في شخصك و في أشخاص الآخرين كغاية لا كمجرد وسيلة".</p>
+<p class="subhead t-navy"><u>و ـ المحاذير:</u></p>
+<p class="para">✓ يمكن لقيمة المواطنة العالمية كما كلّ القيم النبيلة أن تستعمل بصورة إيديولوجية كقناع لإخفاء المشاريع الهيمنية ، من قبيل :</p>
+<p class="para">• تبرير تدخل الدول العظمى، المُوكلة لنفسها (دون توكيل حقيقي) مهمة تحقيق المواطنة العالمية والديمقراطية والحرية ...إلخ ، في الشؤون الداخلية للدول وتهديد سيادتها ، لابتزازها سياسيا واقتصاديا وثقافيا...الخ .</p>
+<p class="para">• تحطيم قوى المقاومة للمدّ الامبريالي الكوكبي مدّ انتصار "إمبراطورية الفوضى" على "تشاركية النظام"، وقوى الموت على قوى الحياة.</p>
+<p class="para">✓ كون القيم الإنسانية النبيلة قابلة للتوظيف الإيديولوجي، فلا ينقص ذلك من نبلها شيئا، ولا يمثّل حجّة لإنكار مشروعيتها والاحتجاج عليها ورفضها. وما يقتضيه هذا الوعي كشف هذا التوظيف الإيديولوجي لها، وتطهيرها من رجسه، والعمل على تحقيقها بما هي سبيل الأنسنة.</p>
+<p class="para">← إنّ تحقيق المواطنة العالمية كما كلّ القيم الإنسانية رهان ملقى، في عصرنا الكوكبي، على عاتقنا فرادى وجماعات من أجل تحقيق الإنساني في وحدته المتنوعة وتنوعه في الوحدة، فلا تعارض حينئذ انتماءات المرء الوطنية المحلّية والإقليمية والقارية مع انتمائه للأرض ـ الوطن. فيكون في المستوى السياسي الثقافي، في ذات الآن، مواطنا محليا وإقليميا وقاريا وأرضيا وكوكبيا، هويته السياسية ـ الثقافية مركبة.</p>
+
+</section>
+
+</div>
+</body>
+</html>

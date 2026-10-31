@@ -1,0 +1,581 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<title>Wael Academy — Philosophie · السيادة والمواطنة</title>
+<script>
+  window.MathJax = {
+    tex: { inlineMath: [['\\(','\\)']], displayMath: [['\\[','\\]']] },
+    chtml: { fontURL: 'https://cdn.jsdelivr.net/npm/mathjax@3/es5/output/chtml/fonts/woff-v2', matchFontHeight: true },
+    startup: { typeset: true }
+  };
+</script>
+<script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js" async></script>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Sora:wght@400;500;600;700;800&family=Cairo:wght@400;500;600;700;800;900&family=Tajawal:wght@400;500;700;800&family=JetBrains+Mono:wght@400;500;600;700&display=swap');
+:root{
+  /* ===== Wael Academy palette — MAIN ACCENT = green-teal gradient #0FAB8F → #067360 ===== */
+  --bg:#fff; --panel:#f2f8f8; --hair:#e6e6e9; --hair2:#d6d6db;
+  --fg:#0f2a31;        /* body text (and +/− signs) */
+  --fg2:#3f5b62;       /* softer text */
+  --fg3:#7c959b;       /* muted (footer) */
+  --blue:#067360;      /* deep accent — small numbers, borders, watermark, accent equations */
+  --blue-dark:#045260; /* titles & wordmarks (also the balance colour) */
+  --teal:#0fab8f;      /* bright accent end */
+  --loop:#0d9c82;      /* logo-loop helper */
+  --orange:#067360;    /* kicker/category labels (gold retired → deep teal) */
+  --red:#f5322f;       /* EXERCISE CHIPS ONLY — never for emphasis */
+  --cream:#e6f3f4; --blue-soft:#e6f3f4;  /* pale teal — callout fill + table sub-row fill */
+  --blue-line:#cde7e4; /* hairline */
+  --sub-ink:#045260;   /* table sub-row text */
+  --grad:linear-gradient(148deg,#0fab8f 0%,#0d9c82 52%,#067360 100%);
+  --mono:'JetBrains Mono',monospace; --latin:'Sora',sans-serif; --ar:'Cairo',sans-serif; --arb:'Tajawal',sans-serif;
+}
+*{box-sizing:border-box;margin:0;padding:0;}
+body{font-family:var(--latin);color:var(--fg);background:#e4e4e7;padding:28px 0;
+     -webkit-print-color-adjust:exact;print-color-adjust:exact;}
+html[dir="rtl"] body{font-family:var(--arb);}
+
+/* ===== brand watermark: REAL text (crisp), full-bleed, repeats per page ===== */
+.wm{position:fixed;inset:0;z-index:0;pointer-events:none;display:flex;
+    align-items:center;justify-content:center;overflow:hidden;
+    -webkit-print-color-adjust:exact;print-color-adjust:exact;}
+.wm span{font-family:var(--mono);font-weight:800;font-size:76.8pt;letter-spacing:.16em;
+    color:var(--blue);opacity:.06;white-space:nowrap;transform:rotate(-54deg);}  /* single diagonal: bottom-left → top-right */
+.wm.mono span{color:#000;opacity:.05;}
+
+/* ===== continuous flow stream (no page border) ===== */
+.flow{width:210mm;margin:0 auto;background:transparent;color:var(--fg);
+      padding-block:16mm 18mm;padding-inline:23mm 14mm;position:relative;}   /* spiral gutter: inline-start(=spine) 23mm / outer 14mm — dir-aware; print margins set in render_flow.py */
+@media screen{ .flow{background:#fff;box-shadow:0 10px 40px rgba(0,0,0,.16);} }
+.flow>*{position:relative;z-index:1;}
+.flow p,.flow li,.flow .data,.flow .note,.flow .ex{break-inside:auto;}
+.flow .fig,.flow figure,.flow img,.flow svg.figsvg,.flow table,.flow tr,.flow .chapdiv,.flow .exh,.flow .qrcard,.flow .meta{break-inside:avoid;}
+.flow h1,.flow h2,.flow h3,.flow .exh,.flow .subhead,.flow .chapdiv{break-after:avoid;}
+.flow img,.flow svg.figsvg{max-width:100%;height:auto;}
+.flow figcaption,.flow .figcap{display:none;}          /* rule 3: no figure captions */
+
+/* ===== front matter + chapters each start on a fresh page ===== */
+.flow .cover{break-after:page;}        /* cover alone on page 1 */
+.flow .toc{break-after:page;}          /* Sommaire alone on the next page */
+.flow .chapter{break-before:page;}
+.flow .chapter:first-of-type{break-before:auto;}
+
+/* ===== cover ===== */
+.cover{padding:14mm 0 8mm;border-bottom:2px solid var(--blue);margin-bottom:6mm;}
+.cover .badge{font-family:var(--mono);font-size:8.5pt;letter-spacing:.28em;text-transform:uppercase;color:var(--orange);margin-bottom:10px;}
+.cover h1{font-family:var(--latin);font-weight:800;font-size:34pt;line-height:1.03;letter-spacing:-.025em;color:var(--blue-dark);}
+.cover .grule{width:120px;height:5px;border-radius:5px;background:var(--grad);margin:14px 0;}
+.cover .sub{font-family:var(--mono);font-size:10pt;letter-spacing:.14em;text-transform:uppercase;color:var(--teal);}
+.cover .auth{font-size:11pt;color:var(--fg2);margin-top:6px;font-weight:600;}
+
+/* ===== table of contents ===== */
+.toc{margin:2mm 0 4mm;}
+.toc h2{font-family:var(--latin);font-weight:800;font-size:15pt;color:var(--blue-dark);margin-bottom:4mm;}
+.toc .trititle{font-family:var(--mono);font-size:8pt;letter-spacing:.2em;text-transform:uppercase;color:var(--orange);margin:4mm 0 2mm;}
+.toc ol{list-style:none;}
+.toc li{display:flex;align-items:baseline;gap:8px;font-size:10pt;padding:2.2px 0;color:var(--fg);line-height:1.4;}
+.toc li .n{font-family:var(--mono);font-weight:700;font-size:9pt;color:var(--blue);min-width:26px;}
+.toc li .dots{flex:1;border-bottom:1px dotted var(--hair2);transform:translateY(-3px);}
+
+/* ===== chapter divider band ===== */
+.chapdiv{margin:0 0 5mm;padding:6mm 16px 5mm;border-radius:12px;background:var(--grad);
+    -webkit-print-color-adjust:exact;print-color-adjust:exact;}   /* green-filled chapter band */
+.chapdiv .cn{font-family:var(--mono);font-size:8.5pt;font-weight:700;letter-spacing:.24em;text-transform:uppercase;color:rgba(255,255,255,.82);margin-bottom:5px;}
+.chapdiv h2{font-family:var(--latin);font-weight:800;font-size:17pt;line-height:1.1;letter-spacing:-.015em;color:#fff;}
+/* conclusion block — same green-filled look as the chapter band */
+.conclusion{background:var(--grad);border-radius:12px;padding:6mm 16px;margin:5mm 0;color:#fff;break-inside:avoid;
+    -webkit-print-color-adjust:exact;print-color-adjust:exact;}
+.conclusion .ck{font-family:var(--mono);font-size:8.5pt;font-weight:700;letter-spacing:.24em;text-transform:uppercase;color:rgba(255,255,255,.82);margin-bottom:6px;}
+.conclusion h3{font-family:var(--latin);font-weight:800;font-size:13pt;line-height:1.2;color:#fff;margin-bottom:4px;}
+.conclusion p,.conclusion li{font-size:10.4pt;line-height:1.7;color:#fff;}
+.conclusion b,.conclusion strong{color:#fff;font-weight:700;}
+
+/* ===== unit header (lesson/exercise) + QR emplacement ===== */
+.exh{display:flex;align-items:center;gap:11px;margin:6mm 0 3mm;}
+.exh .idx{font-family:var(--mono);font-size:9pt;font-weight:600;color:#fff;background:var(--grad);
+    border-radius:6px;padding:4px 11px;letter-spacing:.08em;text-transform:uppercase;
+    -webkit-print-color-adjust:exact;print-color-adjust:exact;}
+.exh .idx.ex{background:var(--red);}   /* exercise chip = red */
+.exh h2{font-family:var(--latin);font-size:14pt;font-weight:700;letter-spacing:-.01em;color:var(--blue-dark);}
+.exh .qrcard{margin-inline-start:auto;flex:0 0 auto;display:flex;flex-direction:column;align-items:center;gap:3px;width:26mm;}
+.qrcard .qrt{font-family:var(--mono);font-size:6.5pt;letter-spacing:.1em;text-transform:uppercase;color:var(--teal);text-align:center;}
+.qrcard .qrslot{width:24mm;height:24mm;padding:1.5mm;background:#fff;border:1px solid var(--blue-line);border-radius:8px;display:flex;align-items:center;justify-content:center;}
+.qrcard .qrslot img,.qrcard .qrslot svg{width:100%;height:100%;display:block;}
+
+/* sub-exercise label when one file holds several exercices */
+.exsub{font-family:var(--latin);font-weight:800;font-size:11.5pt;color:var(--blue-dark);margin:5mm 0 2.5mm;padding-bottom:3px;border-bottom:2px solid var(--blue-line);}
+
+/* ===== text blocks ===== */
+.lead{font-size:11pt;line-height:1.7;margin:2mm 0 3mm;color:var(--fg);}
+.para{font-size:10.6pt;line-height:1.7;margin:2mm 0 2.5mm;color:var(--fg);}
+.consigne{font-size:10.4pt;line-height:1.6;margin:1mm 0 2mm;color:var(--fg);font-style:italic;}
+.subhead{font-family:var(--latin);font-weight:800;font-size:12pt;letter-spacing:-.01em;color:var(--blue-dark);margin:5mm 0 2.5mm;}
+/* emphasis — green accent = .t-blue/.t-green ; balance = .t-navy ; red = SECONDARY accent (.t-red) on titles + a few words */
+.t-blue{color:var(--blue);font-weight:600;} .t-navy{color:var(--blue-dark);font-weight:700;}
+.t-red{color:var(--red);font-weight:600;} .t-green{color:var(--teal);font-weight:600;} .t-gold{color:var(--orange);font-weight:600;}
+.subhead.t-red{color:var(--red);font-weight:800;}   /* red Roman-numeral section title (I, II, …) — keeps subhead weight */
+/* highlighter marks — a soft colour wash behind a key word (agent picks green or red per what balances the page) */
+.hl-green,.hl-red{border-radius:3px;padding:.02em .24em;font-weight:600;box-decoration-break:clone;-webkit-box-decoration-break:clone;
+    -webkit-print-color-adjust:exact;print-color-adjust:exact;}
+.hl-green{background:rgba(15,171,143,.20);color:var(--blue-dark);}   /* green highlight */
+.hl-red{background:rgba(245,50,47,.13);color:#c0261f;}               /* red highlight  */
+
+.data{background:var(--blue-soft);border:1px solid var(--blue-line);border-inline-start:4px solid var(--blue);
+    border-radius:8px;padding:11px 16px;margin:3mm 0;font-size:10pt;line-height:1.65;color:var(--fg2);}
+.data b{color:var(--fg);font-weight:700;}
+.note{border:1px dashed var(--hair2);border-radius:9px;padding:11px 16px;margin:4mm 0;background:var(--panel);}
+.note .kicker{font-family:var(--mono);font-size:7.5pt;letter-spacing:.18em;color:var(--orange);display:block;margin-bottom:5px;}
+.note .nb{font-size:10pt;line-height:1.7;color:var(--fg2);} .note b{color:var(--fg);}
+.ex:not(.idx){background:var(--blue-soft);border:1px solid var(--blue-line);border-inline-start:3px solid var(--blue);
+    border-radius:7px;padding:7px 11px;font-size:9.6pt;line-height:1.6;color:var(--fg2);margin:2mm 0;}   /* :not(.idx) so it never hits the exercise chip (which is .idx.ex) */
+.ex .extag{display:inline-block;font-family:var(--latin);font-weight:800;font-size:7.6pt;color:var(--blue-dark);background:#fff;
+    border:1px solid var(--blue);border-radius:5px;padding:1px 9px;margin-inline-end:7px;vertical-align:middle;text-transform:uppercase;letter-spacing:.06em;}
+
+/* ===== lists ===== */
+ol.q{list-style:none;counter-reset:q;margin:1mm 0 2mm;}
+ol.q>li{counter-increment:q;position:relative;padding-inline-start:30px;margin-bottom:2.5mm;font-size:10.4pt;line-height:1.6;}
+ol.q>li::before{content:counter(q);position:absolute;inset-inline-start:0;top:1px;width:21px;height:21px;background:var(--grad);color:#fff;
+    border-radius:50%;font-family:var(--mono);font-size:9pt;font-weight:600;display:flex;align-items:center;justify-content:center;
+    -webkit-print-color-adjust:exact;print-color-adjust:exact;}
+ol.sub{list-style:none;counter-reset:s;margin:4px 0 0;padding-inline-start:2px;border-inline-start:1px solid var(--blue-line);}
+ol.sub li{counter-increment:s;position:relative;padding:2.5px 0 2.5px 26px;font-size:10.1pt;line-height:1.55;}
+ol.sub li::before{content:counter(s,lower-alpha)".";position:absolute;inset-inline-start:10px;top:2.5px;font-family:var(--mono);font-size:9pt;font-weight:600;color:var(--teal);}
+ol.qn{list-style:none;counter-reset:qn;margin:1mm 0 2mm;}
+ol.qn>li{counter-increment:qn;position:relative;padding-inline-start:26px;margin-bottom:2.2mm;font-size:10.4pt;line-height:1.55;}
+ol.qn>li::before{content:counter(qn)".";position:absolute;inset-inline-start:0;top:0;font-family:var(--mono);font-size:9.5pt;font-weight:700;color:var(--blue);}
+ul.b{list-style:none;margin:1mm 0 2mm;} ul.b>li{position:relative;padding-inline-start:22px;margin-bottom:2.4mm;font-size:10.4pt;line-height:1.6;}
+ul.b>li::before{content:"";position:absolute;inset-inline-start:3px;top:8px;width:8px;height:8px;border-radius:50%;background:var(--grad);
+    -webkit-print-color-adjust:exact;print-color-adjust:exact;}
+ul.dash{list-style:none;margin:1mm 0 2mm;} ul.dash>li{position:relative;padding-inline-start:20px;margin-bottom:1.8mm;font-size:10.4pt;line-height:1.6;}
+ul.dash>li::before{content:"–";position:absolute;inset-inline-start:2px;top:0;color:var(--fg);font-weight:700;}  /* dash / +/− signs = body colour */
+.flow ul.opts{list-style:none;margin:4px 0 3px;padding-inline-start:16px;}
+.flow ul.opts li{padding:2px 0;font-size:10.2pt;line-height:1.5;color:var(--fg);}
+
+/* ===== figures / tables ===== */
+.fig{margin:3mm 0;} .fig svg.figsvg{display:block;margin:0 auto;background:#fff;max-width:100%;height:auto;}
+.photo{display:block;margin:3mm auto;border-radius:8px;border:1px solid var(--hair);max-width:100%;}
+.figrow{display:flex;flex-wrap:wrap;gap:9px;justify-content:center;margin:3mm auto;max-width:190mm;}
+.flow .figrow img{border-radius:7px;border:1px solid var(--hair);height:46mm;width:auto;max-width:none;object-fit:cover;}
+.schemarow{display:flex;gap:16px;align-items:flex-start;flex-wrap:wrap;margin:2mm 0;}
+.schemarow .col-txt{flex:1 1 90mm;min-width:80mm;} .schemarow .col-fig{flex:0 0 78mm;} .schemarow .col-fig .fig{margin:0;}
+.flow table{border-collapse:collapse;width:100%;margin:3mm 0;font-size:9.8pt;line-height:1.5;}
+.flow table th,.flow table td{border:1px solid var(--blue-line);padding:6px 10px;text-align:start;vertical-align:top;}
+.flow table th{background:var(--grad);color:#fff;font-family:var(--latin);font-weight:700;font-size:9.4pt;
+    -webkit-print-color-adjust:exact;print-color-adjust:exact;}
+.flow table tr:nth-child(even) td{background:var(--blue-soft);color:var(--sub-ink);}   /* sub-row: #E6F3F4 / #045260 */
+
+mjx-container{color:var(--fg) !important;font-weight:400 !important;font-size:1.0em !important;}
+.eq-hi mjx-container,mjx-container.eq-hi{color:var(--blue) !important;}   /* accent (green) equation — highlight a key result; balance with plain math */
+.eq-red mjx-container,mjx-container.eq-red{color:var(--red) !important;}  /* red accent equation / symbol — complements the green .eq-hi */
+
+/* ===== per-file books: credit line, copies list, figures at their size ===== */
+.credit{display:flex;flex-wrap:wrap;align-items:center;gap:5px;margin:-1mm 0 3.5mm;font-size:9.4pt;color:var(--fg2);}
+.credit .who{font-weight:700;color:var(--blue-dark);}
+.credit .tg{font-family:var(--mono);font-size:7.2pt;letter-spacing:.04em;border-radius:5px;padding:1px 7px;line-height:1.6;
+    border:1px solid var(--blue-line);color:var(--blue);background:#fff;-webkit-print-color-adjust:exact;print-color-adjust:exact;}
+.credit .tg.sec{background:var(--blue-dark);border-color:var(--blue-dark);color:#fff;}
+.credit .tg.cor{background:#fff;border-color:var(--red);color:var(--red);}
+.credit a{color:var(--fg3);font-family:var(--mono);font-size:7pt;text-decoration:none;}
+.cover .auth .credit{margin:4mm 0 0;}
+.cover .copies{margin-top:5mm;font-size:8.6pt;color:var(--fg2);}
+.cover .copies ul{list-style:none;margin:2mm 0 0;padding:0;columns:2;}
+.cover .copies a{color:var(--fg3);text-decoration:none;font-size:8pt;}
+.flow figure.fig{text-align:center;}
+.flow figure.fig img{max-height:60mm;width:auto;max-width:70%;display:inline-block;}
+
+/* chapter tag on each part of a multi-chapter book (the book keeps the original order of the file) */
+.chtag{display:inline-block;margin:5mm 0 2mm;padding:1mm 3mm;border-radius:2mm;background:#eef3fb;border:1px solid #c9d6ea;
+  color:#1f3a6b;font-size:9pt;font-weight:700}
+.chtag span{color:#6b7f9e;font-weight:600;margin-inline-end:1.5mm}
+
+@media print{ body{background:#fff;padding:0;} .flow{width:auto;max-width:none;margin:0;padding:0;} }
+@page{size:A4;}   /* margins come from render_flow.py — do NOT set them here */
+</style>
+<meta data-pagefind-filter="type[content]" content="درس">
+<meta data-pagefind-filter="resource[content]" content="PHILOFOU">
+<meta data-pagefind-meta="n[content]" content="1975">
+<meta data-pagefind-meta="title[content]" content="السيادة والمواطنة">
+<meta data-pagefind-filter="chapter[content]" content="القيم: الأخلاق والدولة">
+<meta data-pagefind-filter="section[content]" content="باكالوريا رياضيات"><style>.qrcard{display:none!important}.wa-nav{position:sticky;top:0;z-index:50;background:#045260;padding:10px 18px;font-family:Cairo,sans-serif;direction:rtl}.wa-nav a{color:#fff;text-decoration:none;font-weight:700}@media print{.wa-nav{display:none}}</style>
+</head>
+
+<body dir="rtl" lang="ar"
+      data-brand="Wael Academy" data-handle="@WaelAcademy"
+      data-tagline="في تُرابنا.. مغامرة بمغامرة"
+      data-phone="+216 50 40 40 42" data-site="waeldocuments.com"
+      data-cta="سجل معانا وأقرى عن بعد مع منصة Wael Academy"
+      data-subject="Philosophie · السيادة والمواطنة" data-watermark="Wael Academy" data-pagefind-body><nav class="wa-nav" data-pagefind-ignore><a href="../index.html">→ الرجوع إلى فهرس الفلسفة</a></nav>
+
+<!-- single full-page diagonal watermark, bottom-left → top-right (repeats on every page) -->
+<div class="wm" aria-hidden="true"><span>WAEL&nbsp;ACADEMY</span></div>
+
+<div class="flow colored">
+<div class="cover"><div class="badge">◉ Wael Academy · Philosophie</div><h1>السيادة والمواطنة</h1><div class="grule"></div><div class="sub">القيم: الأخلاق والدولة</div><div class="auth"><div class="credit">المؤلّف / المصدر : <span class="who">المعهد النموذجي [ أريانة] – مسألة الدولة : السيادة و المواطنة · الصحبي بوقرّة [ في 10-2- 2008] · philofoubouguerra@yahoo.fr · PHILOFOU</span> <span class="tg sec">الفلسفة · باكالوريا رياضيات</span> <a href="https://drive.google.com/file/d/1A-xCVPD9ByeL2NWsnorEsMgEKO2T6Mmr/view">↗ السيادة والمواطنة.pdf</a></div></div><div class="copies" data-pagefind-ignore><b>نسخ هذا الملف في الدرايفات (1)</b><ul><li><a href="https://drive.google.com/file/d/1A-xCVPD9ByeL2NWsnorEsMgEKO2T6Mmr/view">Mohamed Ahmed Zahi · Bac Math Zahi 2024/2025 › Philo / القيم بين النسبي والمطلق / الدولة السيادة والمواطنة / autres documents</a></li></ul></div></div>
+<section class="chapter"><div class="chapdiv"><div class="cn">المحور</div><h2>القيم: الأخلاق والدولة</h2></div>
+<!-- SOURCE: المعهد النموذجي [ أريانة] – مسألة الدولة : السيادة و المواطنة · الصحبي بوقرّة [ في 10-2- 2008] · philofoubouguerra@yahoo.fr · PHILOFOU -->
+<div class="exh"><span class="idx">درس</span><h2>الدولة : السيادة و المواطنة</h2>
+  <div class="qrcard"><div class="qrt">فيديو الدرس</div><div class="qrslot"><img src="qr/1975.svg" alt="QR"></div></div></div>
+<div class="credit">المؤلّف / المصدر : <span class="who">المعهد النموذجي [ أريانة] – مسألة الدولة : السيادة و المواطنة · الصحبي بوقرّة [ في 10-2- 2008] · philofoubouguerra@yahoo.fr · PHILOFOU</span> <span class="tg sec">الفلسفة · باكالوريا رياضيات</span> <a href="https://drive.google.com/file/d/1A-xCVPD9ByeL2NWsnorEsMgEKO2T6Mmr/view">↗ السيادة والمواطنة.pdf</a></div>
+<!-- NOTE: 1975 part1 p01 — decorative vertical lettering in the left margin left out -->
+<p class="subhead t-red">المسألة الأولى</p>
+<!-- CROP: 1975 1 1 0.152 0.337 0.820 0.748 1975_leviathan -->
+<figure class="fig"><img src="https://wael-philo.b-cdn.net/figs/1975/1975_leviathan.png" alt=""></figure>
+<div class="note"><div class="nb">فيختة: <b>"المواطنة هى ما به تتميز الإنسانية و ما به تسمو نحو الاخلاقية و الحرية المطلقة ، ولكن هذا يشترط فقط مرور الإنسان عبر الدولة"</b></div></div>
+<p class="subhead t-red">مدخل إلى التفكير فى المسألة</p>
+<p class="subhead t-navy">1 دواعى الاهتمام</p>
+<p class="para">داخل منطق البداهة  تبدو علاقة الشأن الفلسفى بالسجل السياسى علاقة تعارض أو تناقض، أو علاقة توتر أو صراع، و هذا التناقض مردّه الاعتقاد بأن الفلسفى هو الذى يرتبط بالنظر و الحكمة، فى حين يحيل السياسى على الفعل و الممارسة؛ أما الصراع فمردّه الطابع النقدى للخطاب الفلسفى الذى  كان منذ سقراط "يبحث على الإزعاج" ، فالسؤال الفلسفى الحقيقى سلاح يخترق المؤسسات و القيم، وهو باختراقه هذا يلقى الفيلسوف هناك فى عزلة المجنون أو الغريب أو المارق ، هكذا تنطق البداهة بمنطق الفصل و التمييز. و لكن توتر العلاقة لا يبرّر نفى التداخل ، حتى و إن كان فى الالتقاء تورطاً يحرج الفيلسوف و يزعج السياسى. و قد سأل أحدهم الفيلسوف الفرنسى جون جاك روسو : " هل أنت أمير لتكتب فى السياسة ؟ " فأجاب قائلا :- "لا ، ولهذا السبب أنا أكتب عن الساسة أو فيها ، لأنه لو كنت أميرا أو مشرّعا ، لما أضعت وقتى فى قول ما يجب فعله ؛ وإنما لفعلته أو أحجمت عن الكلام"<sup>1</sup> .</p>
+<!-- CROP: 1975 1 2 0.125 0.454 0.244 0.528 1975_rousseau -->
+<figure class="fig"><img src="https://wael-philo.b-cdn.net/figs/1975/1975_rousseau.png" alt=""></figure>
+<div class="note"><div class="nb"><span dir="ltr"><b>Rousseau</b> "On me demandera si je suis prince ou législateur pour écrire sur la Politique? Je réponds que non, et que c'est pour cela que j'écris sur la Politique. Si j'étais prince ou législateur, je ne perdrais pas mon temps à dire ce qu'il faut faire; je le ferais, où je me tairais". <b>(<u>Du contrat social</u>, I, Préambule).</b></span></div></div>
+<p class="para">يكشف لنا هذا الموقف ضرورة تورط خطاب الفلسفة فى الشأن السياسى وهو تورطٌ الغرض منه قول ما يجب فعله ، لأن هذا الخطاب هو الوحيد القادر على اختراق الممارسة السياسية ، لكشف واقع العلاقة بين السيادة و المواطنة.</p>
+<p class="para">ولعلّ عودة لأفلاطون<sup>2</sup>كافية لكشف هذا التورّط الأصيل الحاصل بين الشأن السياسى <span dir="ltr">le Politique</span> و الخطاب الفلسفى<span dir="ltr">le Philosophique.</span> و قد أفرز  هذا  التورط خطابا تأسيسيا يعاين واقع السيادة و يفاضل بين الأشكال المختلفة للنظم السياسية.</p>
+<p class="para">كما أنه من المفيد ان نقرّ اليوم أنه فى وضع مستعصٍ كهذا حيث قسوة الأزمنة المعاصرة وحشيتها، و حيث الغنى الفاحش و الفقر الكافر، و حيث للبعض حظ الغلبة و للبقية ولع الخضوع و التبعية، لا يمكن أن لا نتورط فى التفكير  من جديد فى الوجود السياسى للإنسان بحيث نجد داخل هذا الوجود بين مفهومى السيادة والمواطنة وشائج علاقات جدلية فريدة من نوعها ، إنهما مفهومان متجاذبان متقاطبان متكاملان فى آن الواحد. وفى دائرة هذا التجاذب والتقاطب، يأخذ مفهوم المواطنة على الغالب دور الطريدة بينما يأخذ مفهوم السيادة دور الصياد. و فى ظروف العجز والوهن السائدين فى الواقع العربى يظهر السؤال عن السيادة والمواطنة و كأنه اعتراف بهشاشة السيادة و ضعفها ، حيث تعيش السلطة هاجس الأمن و يعيش المواطن هاجس الخوف.</p>
+<p class="para"><sup>1</sup> -ج.ج.روسو : <u>فى العقد الاجتماعي / ج1</u><br>
+<sup>2</sup>-كشف أفلاطون –في <u>الجمهوريّة</u> و  <u>النواميس</u> وكتاب <u>السياسي</u> و خاصة في <u>الرسالة السابعة</u> ، أنه لن يتحققَ رخاء أمّة وازدهارها إلاّ إذا أصبح الملك فيلسوفا أو الفيلسوف ملكا.</p>
+<p class="subhead t-navy">2 احراجات المسالة</p>
+<p class="para">•إذا كان لكل مجال معاييره القيمية ألا تقتضى مقاربة المجال السياسى التساؤل عن المعايير التى تحكمه ؟ فهل يمكن النظر إلى معيارى العداء  و الصداقة على أنه معيارى المجال السياسى ؟ هل يمكن لهذه المعايير أن تمثلّ مبادئ أو قيم مطلقة أو تحكم كلّ فعل أو كل ممارسة سياسية ؟ هل يمكن الحديث عن عداوة دائمة و صداقة دائمة ؟ هل ثمة قيم تحدد العدوّ والصديق ؟ ألا يمكن أن يستحيل الصديق عدوا و العدوّ صديقا لتستحيل هذه القيم من مبادئ مطلقة إلى أحكام نسبية ؟ أليس القول المأثور فى السياسة أنه لا وجود لصداقة دائمة و إنما لمصلحة دائمة بحيث تكون المصلحة معيار ضبط الصداقة والعداء؟</p>
+<p class="para">•الحديث عن المجال السياسى يقتضى استحضار مفهوم الدولة الذى يستدعى بدوره مفهوم السيادة، فكيف نفهم العلاقة بين الدولة و السيادة ؟ أو بأى معنى تمثل السيادة قيمة مطلقة أو مبدأ أساسيا يعبر عن الشأن السياسى؟</p>
+<p class="para">• ما هى مقوّمات السيادة ؟ ألا يكشف الحفر وراء هذا المفهوم   ووراء مقوماته عن نسبية السيادة بحيث تختلف السيادة باختلاف النظام السياسى ذاته ؟</p>
+<p class="para">•هل تعنى السيادة السلطة ؟ وهل تفيد السلطة ضرورة معاينة النفوذ و الهيمنة و الاخضاع و الاستبداد ؟ هل يقتضى الحديث عن السيادة التمييز بين سيد و عبد ؟ و هل يحيل معنى السيادة على نموذج المجتمع العبودى حيث القسمة النهائية بين السيادة والخضوع ؟ ألا يمكن أن يستحيل العبد سيدا و السيد عبدا ؟ بل ألا يمكننا الحديث عن السيادة دون استحضار مفهوم العبودية أو الخضوع ؟ الا يمكن ان نتحدث عن طاعة دون ان تكون الطاعة خضوعا او دون أن يكون المطيع عبدا أو رعيّا ؟ أليس من الخلف اختزال السيادة فى الاستبداد ؟ أفلا يمكن للسيادة أن تفلت من منطق الراعى و الرعيّة ؟ أليس من المشروع مقاربة السيادة خارج النظم الاستبدادية ؟ و لكن هل من الممكن الحديث عن السيادة فى ظلّ النظم الديمقراطيّة دون يفيد هذا القول مفارقة ؟ ألا تستحيل بهذا المعنى السيادة إلى قيمة نسبية لا تقوم على معيار القوّة و إنما تفيد معيار الحق؟</p>
+<p class="para">• و لكن ما الحق ؟ ما طبيعته ؟ هل ينظر إلى الحق بما هو حق طبيعى ام حق وضعى أو مدنى ؟ و ما هو معيار هذا الحق ؟ .</p>
+<p class="para">يحيل الحق على المجال القانونى و نميّز فيه بين حقّ من يمارس السيادة و من تمارس عليه السيادة، و إذا كان الذى يمارس السيادة هو إما شخصية قانونية أو شخصية معنوية فإن من تمارس عليه السيادة يسمى مواطنا.</p>
+<p class="para">•فما المواطن؟ و ما المواطنة ؟ و ما علاقة المواطن بصاحب السيادة ؟ و ما هى معايير المواطنة؟ و بأى معنى نميّز بين الراعى والعبد و الطفل والمواطن؟</p>
+<p class="subhead t-navy">3 رهانات المسالة</p>
+<p class="para">•الوعى بقيمة الوجود السياسى فى اكتمال الإنسان.<br>
+•بيان منزلة الحق فى التفكير فى أسس الدولة.<br>
+•التمييز بين حق القوة و قوة الحق ينتهى بنا إلى القول بضرورة المفاضلة بين النظام الاستبدادى و النظام الديمقراطى.<br>
+•الاعتراف بأن النقد لا يوجه للواقع السياسى فحسب و إنما لمفهوم الحق ذاته.<br>
+•ادراك أن علاقة المواطن بالدولة تراوح بين واجب الطاعة و تأمين العدل.<br>
+•الوعى بقيمة المواطنة فى تحديد منزلة الإنسان السياسية.<br>
+•الوعى بالطابع المركب للمواطنة بحيث تتجاوز طابعها المحلى لتكون عالمية.</p>
+<p class="subhead t-navy">4 التخطيط المفصل</p>
+<p class="para">الدرس الأول: السيادة نفى للمواطنة<br>
+السند1: الراعى و الرعيّة – الكواكبى ص293<br>
+الدرس الثانى: السيادة فضاء المواطنة<br>
+السند2: الحقّ و القانون – سبينوزا ص299<br>
+الدرس الثالث: فى نقد السيادة و المواطنة<br>
+السند3: المواطن العالمى – ابيكتات ص314</p>
+<div class="exsub">الدرس الأول: السيادة نفى للمواطنة</div>
+<p class="para">•السياسة (المشتقة من فعل ساس) تعنى، فى جملة ما تعنى، "قيام المرء على دابّته ورياضتها وتأديبها"! فيغدو الحاكم فى حالنا هو "السائس" لـ"قطيع" ناسه الذين تحولوا عمليًّا، كتحصيل حاصل، إلى ما يشبه الدواب.</p>
+<p class="para">ولذلك لم يكن الاستبداد السياسى مرذولاً فى تاريخنا السياسى ، بل على العكس من ذلك ، كانت فكرة " المستبد العادل " جزءاً رئيسياً من ثقافتنا السياسية . لذلك لا تجد تيارات سياسية عديدة أى حرج اليوم فى الوقوف بشكل مباشر أو غير مباشر مع الاستبداد فى اللحظات التى تتعرض فيها " السيادة الوطنية " أو بالأحرى " الجغرافيا الوطنية " للتهديد الخارجى . يؤكد ذلك أيضا الحماسة التى تبديها شعوبنا فى مقاومة المحتل، فى حين تتقاعس إزاء إبداء أى حالة احتجاج ضد ظاهرة الاستبداد.</p>
+<p class="para">-  نظراً إلى ما للسلطة السياسيّة فى الدولة من صفات ذاتيّة خاصّة فقد أطلق عليها الفقه الفرنسى اسم  "السيادة"، و صفة السيادة مقتضاها أنّ سلطة الدولة سلطة عليا لا يسود عليها شئ، و لا تخضع لأحد، و لكن تسمو فوق الجميع، و تفرض نفسها على الجميع.</p>
+<p class="para">ولكلمة الدولة فى السياق العربى معنيان: الغلبة والتداول، وتتناول ميدانى الحرب والمال. فالغلبة فى الحرب تؤدى إلى الاستيلاء على المال والاحتفاظ به، وهذا يعنى القهر والاستئثار ولكن لفترة أو أعمار أو أجيال- كما يقول ابن خلدون- ثم يحدث التداول لجماعة أخرى وهو أيضاً يتم بالقوة والقهر والغلبة والتسلط. تضئ كتابات ابن خلدون بعض أسباب وجذور الاستبداد فى الدولة العربية، الأول التداول بالقوة والثانى دينية الدولة فقد استغل الحكام وظيفتهم الدينية فى إضفاء قداسة على دورهم كخلفاء وأنهم يحكمون باسم الله أو ظل الله على الأرض- كما سمى بعضهم.</p>
+<p class="para">• مصطلح الاستبداد (<span dir="ltr">Despotism</span>) مشتق من كلمة يونانية (<span dir="ltr">Despotes</span>) وتعنى رب الأسرة أو سيد المنزل أو السيد على عبيده، واستخدمت فى سياق سياسى لوصف الحكم المطلق الذى تكون فيه سلطة الحاكم على رعاياه مماثلة لسلطة الأب على أبنائه فى الأسرة. والحاكم يبرر كل تصرفاته بأبوته للمواطنين بما فيها كل أنواع العقاب. ويختلط مفهوم الاستبداد بعدد من المفاهيم التى تبدو مترادفات رغم الفروق الدقيقة، ويستعمل البعض مصطلح الاستبدادية لوصف درجة تسلط الحاكم، فإذا كان الحاكم لا يلتزم بقانون، وإنما قوله وفعله هما بمثابة القانون فهو نظام حكم استبدادى. أما إذا كان هناك قانون يلتزم به الحاكم ولكنه يحتكر سلطة التعديل والتغيير فى القانون فهو أذن حكم مطلق.</p>
+<p class="para">•كان ماكيافيلى أول من اعتبر أن السلطة السياسية قوة يتم امتلاكها لأجل إقامة الدولة، بل إنه قد فكّر فى الدولة كقوة تقوم على الضرورة والتدخل فى الواقع لأجل التحكم فيه والمبدأ الذى حكم السياسة وفقاً لأمير ماكيافيلى كان قائماً على السيكيولوجيا الخاصة بالطبيعة البشرية، إذ على الأمير ألا يبنى سلطته على الأخلاق ومبدأ الفضيلة، بل على فساد الطبيعة البشرية وتناقضاتها الداخلية، لذلك، ينصح ماكيافلى الأمير بضرورة إقامة سياسته على القوة والترهيب أكثر من الرأفة واللين. فالحق الوحيد الذى تقوم عليه سلطة الأمير هو حق القوة، وسيادة الأمير تقوم على خوف الرعايا.</p>
+<!-- CROP: 1975 1 6 0.116 0.225 0.236 0.305 1975_machiavel -->
+<figure class="fig"><img src="https://wael-philo.b-cdn.net/figs/1975/1975_machiavel.png" alt=""></figure>
+<div class="note"><div class="nb">ماكيافلي: <b>«فلا يتردد الناس فى الإساءة إلى ذلك الذى يجعل نفسه محبوباً بقدر ترددهم فى الإساءة إلى من يخافونه، إذ إن الحب يرتبط بسلسلة من الالتزام التى قد تتحطم بالنظر إلى أنانية الناس عندما يخدم تحطيمها مصالحهم، بينما يرتكز الخوف على الخشية من العقاب، وهى خشية قلما تمنى بالفشل»</b> – كتاب الأمير</div></div>
+<p class="para">وعلى ضوء ذلك، يمكن اعتبار كتاب عبدالرحمن الكواكبى «طبائع الاستبداد ومصارع الاستعباد» كمرآة معاكسة ونقيضة لما كتبه ماكيافيلى، ذلك أن الكواكبى كان همه لدى كتابة الكتاب تحذير الناس من أن «أصل الداء» ألاوهو الاستبداد السياسى.</p>
+<p class="para">و اعتبر جان بودان من جهته السيطرة المطلقة نمطاً من أنماط تضخم السيادة لدى السلطة، لكنها لا بد تنزع تدريجاً باتجاه إعادة دور المجتمع ضمن الدولة ذاتها، وعلى ذلك تكون السلطة المطلقة مرحلة تاريخية لا تلبث الدولة ذاتها أن تراجع نفسها لإعادة تحديد وتعريف دورها. هنا الأمر مختلف كلياً لدى الكواكبى الذى ينظر إلى الاستبداد كداءٍ لا بد من التخلص منه بأى ثمن ومهما كان الثمن، من دون أن يحاول النظر فى العلاقة بين الارث التاريخى للاستبداد وبين مأسسة هذا الاستبداد عبر تقعيد أطر بناء الدولة الحديثة. ذلك أن احتكار ممارسة السلطة عبر سيادة الدولة حوّل الوظائف السياسية للدولة إلى نمط من ممارسة سلطة الحكم التى اختُزلت فى الحاكم الذى اعتبر صلاحياته المطلقة مرتبطة بالالتزام بفكرة السيادة.</p>
+<div class="data"><p class="para"><b>السيادة</b></p>
+<ul class="dash"><li><b>بمقتضى الحكمة</b> ← <b>السياسة</b></li><li><b>بمقتضى الهوى</b> ← <b>الاستبداد</b></li></ul></div>
+<!-- CROP: 1975 1 6 0.708 0.708 0.866 0.838 1975_kawakibi -->
+<figure class="fig"><img src="https://wael-philo.b-cdn.net/figs/1975/1975_kawakibi.png" alt=""></figure>
+<div class="note"><div class="nb">الكواكبي:" <b>الاستبداد فى اللغة بمعنى اكتفاء الشخص برأيه فى موضوع يحتاج إلى الشورى، لكن هذه اللفظة عند ذكرها بالصيغة المطلقة تفهم باستبداد الحكام. أما فى اصطلاح أهل السياسة فهى تعنى تصرف فرد أو جماعة بحقوق شعب دون الخوف من المؤاخذة والاستجواب[..] و الاستبداد من صفات الحاكم المنفرد والمطلق العنان، الذى يتصرف فى أمور رعيته بإرادته دون خوف من المحاسبة أو العقاب</b>"<br>
+– طبائع الاستبداد ص 23</div></div>
+<div class="note"><div class="nb">الكواكبي:" <b>الاستبداد لو كان رجلا وأراد ان يحتسب وينتسب لقال : أنا الشر وأبى الظلم وأمى الإساءة ، وأخى الغدر ، وأختى المسكنة ، وعمى الضر ، وخالى الذل ، وابنى الفقر ، وابنتى البطالة ، وعشيرتى الجهالة ، ووطنى الخراب ، أما دينى وشرفى وحياتى فالمال المال المال .</b> " – طبائع الاستبداد ص 69</div></div>
+<div class="note"><div class="nb">الكواكبي:" <b>انى أرى قصر المستبد فى كل زمان ومكان هو الخوف عينه ،فالملك الجبار هو المعبود ، وأعوانه هم الكهنة ، ومكتبته هى المذبح المقدس ، والأقلام هى السكاكين ، وعبارات التعظيم هى الصلوات ، والناس هم الأسرى الذين يقدمون قرابين الخوف</b>" – طبائع الاستبداد ص 69</div></div>
+<div class="note"><div class="nb">الكواكبي:" <b>فى خدمة الاستبداد وسيلتين عظيمتين ، هما جهالة الأمة والجنود المنظمة ، وهما اكبر مصائب الأمم وأهم مصائب الإنسانية ، وقد تخلصت الأمم المتمدنة نوعا ما من الجهالة ، ولكن بُليت بشدة الجبرية العمومية ، الجندية تفسد أخلاق الأمة ، حيث تعلمها الشراسة والطاعة العمياء والاتكال ، وتميت النشاط وفكرة الاستقلال و وتكلف الأمة الإنفاق الذى لا يطاق ، وكل ذلك منصرف لتأييد الاستبداد المشئوم ، استبداد الحكومات القائدة لتلك القوة من جهة و واستبداد الأمم بعضها على بعض من جهة أخرى</b>"<br>
+– طبائع الاستبداد ص22</div></div>
+<div class="note"><div class="nb">أفلاطون:" <b>المستبد يستولى على السلطة بالقوة ويمارسها بالعنف، بعد ذلك يسعى أولا إلى التخلص من أخطر خصومه، ويكثر من الوعود، ويبدأ بتقسيم الأراضى مما يجعله شعبيا ومحبوبا، وهو ما ينفك يفتعل حروبا ليظل الشعب بحاجة دائمة إلى قائد. وهذه الحروب تنهك كاهل المواطنين من خلال ما يدفعونه من ضرائب باهظة، فيضطرون إلى زيادة ساعات العمل مما لا يبقى لديهم وقتا للتآمر على المستبد. والحرب تساعده على التخلص من معارضى سياسته، حيث يقدمهم إلى الصفوف الأولى فى المعركة. إن ذلك كله يدعو إلى استياء الجماهير، حتى أعوانه الذين دفعوه إلى السلطة، وهنا لا يجد أمامه إلا القضاء على المعارضة بما يملكه من وسائل العنف والقوة، فيزيد من تسلحه، ومن حرسه الخاص من المرتزقة، مما يتطلب نفقات طائلة، فيلجأ المستبد إلى مزيد من نهب خزائن الشعب الذى يدرك بعد فوات الأوان أنه وضع فى حالة استعباد مسيس. فحكم القوة والإجرام وضيق الحظيرة وقلة الصبر عن الآراء المخالفة طبيعة ملازمة للحكومة المستبدة، ولا تلبث أن تنتشر هذه الطبائع فى الدولة كلها وتعم العلاقات الاستبدادية المجتمع بهيئاته جميعها</b> "</div></div>
+<p class="para">• تلتهم السيادة المطلقة أو السلطة الاستبدادية والشمولية الدولة فى جوفها، و السيادة التى تلتهم الدولة تفترس المجتمع.</p>
+<div class="data"><p class="para"><b>السيادة</b></p>
+<ul class="dash"><li><b>التسلطية (<span dir="ltr">Autoritaire</span>)</b></li><li><b>الكليانيّة (<span dir="ltr">Totalitaire</span>)</b></li></ul></div>
+<p class="para">وقد قدم الكواكبى فى كتابه  طبائع الاستبداد ثلاث قواعد لتشخيص الاستبداد و لمواجهته:<br>
+<u>أولا</u>: أن الأ مة ّالتى لا يشعر كّلها، أو أكثرها، بآلام الاستبداد لا تستحق الحرية.<br>
+<u>ثانيا</u>: أن الاستبداد لا يقاوم بالشدة، وإنما يقاوم بالّلين والّتدريج.<br>
+<u>ثالثا</u>:أنه يجب قبل مقاومة الاستبداد تهيئة ماذا يستبدل به الاستبداد.</p>
+<div class="note"><div class="nb">الكواكبي:" <b>ما أشبه المستبد فى نسبته إلى رعيته بالوصى الخائن على أيتام يتصرف بأموالهم كما يهوى ما داموا قاصرين، فكما انه ليس من صالح الوصى أن يبلغ الأيتام رشدهم كذلك ليس من مصلحة المستبد أن تتنور الرعية بالعلم</b> " – طبائع الاستبداد ص 25</div></div>
+<div class="exsub">الدرس الثانى: السيادة فضاء المواطنة</div>
+<div class="note"><div class="nb"><span dir="ltr">Jean-Jacques Rousseau, "Nous commencerons à devenir homme qu'après avoir été citoyens"<br>
+Du Contrat social, 1o version, p. 287</span></div></div>
+<p class="para"> لا يمكن الحديث عن المواطن خارج الدولة رغم أن الحقوق التى يتمتع بها المواطن داخل الدولة سابقة على وجودها، إنها حقوق طبيعية تخص الإنسان بوصفه إنسانا و هى حقوق مقدسة لا يمكن التنازل عنها لأنها ترتبط بجوهرية الإنسان. حتى أنه وقع الربط بين حقوق الإنسان و المواطن ذلك أن احترام حقوق الإنسان ضرورى لممارسة حقوق المواطن. و عندما نلاحظ المادة الثانية لإعلان حقوق الإنسان "إن هدف كل تجمع سياسى المحافظة على حقوق الإنسان الطبيعية الدائمة... " إن ما تبلغه هذه المادة أن الإنسان لم يوجد من أجل الدولة كما أعتقد هيجل بل جعلت الدولة لخدمة الإنسان. و يمكن أن نتبين علاقة الدولة بالمواطن بوضوح عند روسو فى الفصل السادس من كتاب العقد الاجتماعى متحدثا عن الدولة التى ستتأسس وفق ما يسمى "بالعقد الاجتماعى" قائلا: "وهذه الشخصية العامة، التى تتكون هكذا من اتحاد الشخصيات الأخرى كانت تحمل قديما اسم "المدينة" أو الحاضرة وتحمل الآن اسم "الجمهورية" أو "الهيئة السياسية" وهى التى يسميها أعضائها "دولة" إذا كانت سلبية غير عاملة و"هيئة السيادة" إذا كانت عاملة... وأما الشركاء فيتسمون فى وجه جماعى مشترك باسم "الشعب" ويطلق على الأفراد اسم "مواطنين" على أنهم مشتركون فى سلطة السيادة، و"رعايا" بصفة كونهم خاضعين لقوانين الدولة. "</p>
+<!-- CROP: 1975 1 8 0.786 0.538 0.900 0.605 1975_rousseau2 -->
+<figure class="fig"><img src="https://wael-philo.b-cdn.net/figs/1975/1975_rousseau2.png" alt=""></figure>
+<div class="note"><div class="nb"><span dir="ltr">Jean-Jacques Rousseau "Il n'y aura jamais de bonne et solide constitution que celle où la loi règnera sur les coeurs des citoyens. Tant que la force législative n'ira pas jusque là, les lois seront toujours éludées." Considérations sur le gouvernement de Pologne, p. 955</span></div></div>
+<p class="para">فالمواطن من هذا المنطلق هو فرد يندرج ضمن الدولة و هو مثلما له حقوق له واجبات و هو مثلما يكون حرا وسيدا يكون فى نفس الوقت مطيعا للقوانين و خاضعا لها دون أن يكون عبدا.  غير أن خضوع المواطن للقانون لا يعنى أن المواطن قد سلب حريته لأن مفهوم الحرية عند روسو يقترن بالقانون "فولدت الحرية يوم ولد القانون" و بالتالى خضوع المواطن للقانون لا يعنى أنه فقد خاصية الإنسانية الحقيقية فهو:"إذا منح كل واحد نفسه للمجموعة كلها فإنه لم يمنح نفسه لأحد. " لأنه فى نهاية المطاف لا يخضع لسلطان أحد و هو بهذا يحافظ على حريته. وهذا يعنى فى النهاية أن الحديث عن سيادة الدولة اقترن بالحديث عن الحقوق الطبيعية للإنسان التى تحولت إلى حقوق مدنية للمواطن و لعل هذا ما جعل سبينوزا يقرن نشأة الدولة بضرورة المحافظة على حقوق الانسان وخاصة الحرية، فالسيادة بهذا المعنى ليست نفيا للحق، بل هى ما يضمنه.</p>
+<div class="data"><p class="para">مكونات<br><b>المواطنة</b></p>
+<table><tr><th>الانتماء</th><th>الحق</th><th>الواجب</th></tr>
+<tr><td>من مقتضيات الانتماء أن يفتخر الفرد بوطنه و أن يدافع عنه و يحرص على سلامته.</td><td>ضمان الحريات الشخصية [التملك] [العمل] [ الاعتقاد] ضمان العدل و المساواة والكرامة و الصحة والتعليم</td><td>الالزام و الطاعة واحترام حقوق الآخرين و الدفاع عن الوطن والإنتخاب.</td></tr></table></div>
+<!-- PROOFREAD: 1975 part1 p09 — small text inside the diagram boxes (الإلزام/الالزام) -->
+<div class="note"><div class="nb"><b>"أن يكون المرء أسير لذّته فلا يستطيع أن يرى أو أن يفعل ما هو حقا مفيد له فتلك أبشع درجات العبوديّة. و الحريّة لا تكون إلا لمن اختار بمحض إرادته  أن يعيش مهتديا بالعقل وحده.أما الفعل الذى نقوم به تلبية لأمر، أعنى الطاعة، فلئن كان يجرّد من الحريّة بوجه من الوجوه، فإنه لا يحوّل صاحبه مباشرة إلى عبد، بل الدافع المحددّ للفعل  هو الذى يحوّله إلى ذلك.فإذا كانت غاية الفعل نفع الآمر به لا نفع القائم به، كان هذا القائم به عبدا لا خير فيه لنفسه، و على العكس من ذلك، فإن الذى يطيع صاحب السيادة طاعة كليّة، فى ظلّ دولة أو نظام يجعلان القانون الأسمى هو خلاص الشعب بأسره، لا مصلحة الآمر وحده، لا يجب أن يعتبر عبدا، لا خير فيه لنفسه، بل هو مرؤوس؛ و هكذا تكون هذه الدولة أكثر الدول حريّة لما إعتمدته قوانينها من العقل القويم، لأن كل فرد فى هذه الدولة يستطيع متى أراد أن يكون حرّا أى أن يعيش بمحض إرادته مهتديا بالعقل. "</b> سبينوزا- رسالة في اللاهوت و السياسة-</div></div>
+<ul class="b">
+<li>إذا كانت السيادة بالنسبة لهوبز تفهم على أنها خروج من حالة الطبيعة فهى بالنسبة لسبينوزا ما به تستمرّ حالة الطبيعة، و إن كان ظاهر هذا الاختلاف لا يثير مشكلا حقيقيا فإن لهذا الاختلاف استتباعات مضادة، تنتهى إلى قلب المقاربة رأسا على عقب، أى من منطق النفى إلى منطق التضمنّ. فالطبيعة لا تعرف بالنسبة لسبينوزا إلا حدود القوة أو المقدرة <span dir="ltr">la puissance</span> ، و هى فى ذلك تجهل فكرة الواجب و فكرة القانون، و لأن الطبيعة هى الجوهر الوحيد فمن المستحيل الخروج عنها أو على الأقل من الأفضل عدم الخروج،</li>
+<li>المواطن لا يطيع السيادة إلا إنطلاقا من حساب المصلحة لا إنطلاقا من منطق الاكراه.و لتقديم مثال على ذلك كثيرا ما اعتبر هوبز أنه من الواجب أن نحافظ على عهودنا أو وعودنا و لكن حسب سبينوزا ليس على المواطن أن يحافظ على الإلزام المصاحب للوعد، لأنه هنالك فرق بين لحظة الوعد و اللحظة الراهنة فالوضعية يمكن أن تختلف، فالظروف يمكن أن تغير من رأى المواطن و ليس هنالك ما يلزمه على الوفاء بالوعد  إلا الاكراه، و هنا يظهر الإختلاف بين سيادة تستمد قدرتها من تقنية الاكراه و بين سيادة تحافظ على مصلحة المواطن. فالسيادة عند سبينوزا لا تفقد الفرد قدرته و يمكنه أن يختار بالنظر إلى مصلحته توظيف القدرة لخدمة المجموعة. بلغة أخرى يمكن للمواطن أن يدمج قدرته مع قدرة الآخرين أو أن يوظفها ضدهم، فالدافع يمكن أن تحركه المصلحة كما تحركه الخشية.</li>
+</ul>
+<div class="data"><p class="para">دوافع الفعل</p>
+<p class="para">الرجاء <span dir="ltr">l'espérance</span> ⟷ الخشية <span dir="ltr">la crainte</span></p></div>
+<p class="para">و إذا كانت المدينة هى فضاء المنافع المختلفة فإن السيادة يجب أن تكون فن المحافظة على وحدة المنافع، و لذلك فالسيادة التى تحافظ على ما ينتفع به المواطن أفضل و ابقى من السيادة التى يهاب سلطتها المواطن. و لهذا يعتبر سبينوزا ان الدولة التى تكون دوافع فعل مواطنيها الرغبة اكثر قدرة من الدولة التى تكون دوافع فعل مواطنيها الخوف. و هو بهذا يكون من أوائل المفكرين الذين بينوا أن السيادة لا تقاس بدرجة الخوف و إنما بدرجة الثقة التى توحى بها باعتبارها فضاء تحقيق المنافع، و لعل هذا ما يفسر مطلب سبينوزا بأن تتسامح الدولة بخصوص الأشياء التى لا تقدر على منعها، و هذه القاعدة تطال حرية التعبير، و لذلك من المفترض ان تتسامح الدولة فيما من المفترض لا يمكن نفيه. فليس من مشمولات السيادة منع الأفراد من التفكير و من قول ما يفكرون فيه. بل أكثر من ذلك تكون لا تكون السيادة التى تنفى الحرية أكثر قوة بل أكثر ضعفا و لذلك هى تسود بفرض الخوف أى بفرض أسوء أشكال السيادة. موقف سبينوزا هذا يذكرنا بما قاله سنيك" لم يحافظ أحد على سلطة العنف <sup>3</sup>" و هذا يعنى أن السياسة الحديثة لا تتأسس ضد المواطن بل مع المواطن كما بيّن ذلك لاحقا ميشال فوكو. هذا ما راهن عليه الفكر السياسى فى عصر الأنوار وهذه الفكرة التى رسمتها الفلسفة السياسية للمواطن والدولة، مواطن إنسان يتمتع بكل حقوقه السياسية و المدنية والاجتماعية والاقتصادية و دولة تتبنى على أساس المشروعية و الارادة العامة وإستمراريتها مشروطة بمدى استجابتها للإرادة العامة مستندة فى ذلك إلى سلطة القانون و قوته. رغم ما يثيره الجمع بين القانون و القوة من مشكل فى الدولة ذلك أن الدولة بهذا المعنى تحتاج لتطبيق القانون إلى نوع من القوة و هذه القوة هى ما يسمى بالعنف المشروع وقد اعتبر ريكور فى كتابه <u>التاريخ و الحقيقة</u> أنه "ظهر مع الدولة ضرب من العنف له سمات شرعية وهذا الجمع بين القانون و الدولة يمثل مشكلا. " و قد كشفنا فى حديثنا عن الاستبداد شكلا من أشكال هذا المشكل.  و ليس هنالك من حلّ لتذليل مشكل العلاقة بين القانون و القوة داخل سيادة الدولة إلا بتحويل السيادة ذاتها فضاء للمواطنة وليست نفيا لها أى فضاء للحق و العدالة .</p>
+<p class="para"><sup>3</sup>-<span dir="ltr">Sénèque « nul n'a conservé longtemps un pouvoir de violence »</span></p>
+<!-- CROP: 1975 1 11 0.180 0.235 0.321 0.290 1975_abd -->
+<figure class="fig"><img src="https://wael-philo.b-cdn.net/figs/1975/1975_abd.png" alt=""></figure>
+<div class="data"><p class="para"><b>العبد:</b> هو ذاك الذى يكون نفع فعله من امره به[السيد] لا خير فيه لنفسه،</p></div>
+<!-- CROP: 1975 1 11 0.180 0.311 0.321 0.365 1975_tifl -->
+<figure class="fig"><img src="https://wael-philo.b-cdn.net/figs/1975/1975_tifl.png" alt=""></figure>
+<div class="data"><p class="para"><b>الطفل:</b> هو ذاك الذى يكون نفع فعله مصلحته الخاصة [الإبن] بحيث يكون من امره[الوالد] بالفعل وصيا و مسؤولا على مصلحته.</p></div>
+<!-- CROP: 1975 1 11 0.180 0.385 0.321 0.439 1975_raai -->
+<figure class="fig"><img src="https://wael-philo.b-cdn.net/figs/1975/1975_raai.png" alt=""></figure>
+<div class="data"><p class="para"><b>الرعىّ:</b> هو ذاك الذى عليه أن يمتثل لقوانين المدينة و لمؤسساتها،</p></div>
+<!-- CROP: 1975 1 11 0.180 0.457 0.321 0.513 1975_mouwatin -->
+<figure class="fig"><img src="https://wael-philo.b-cdn.net/figs/1975/1975_mouwatin.png" alt=""></figure>
+<div class="data"><p class="para"><b>المواطن:</b> هو ذاك الذى يتمتعّ بكامل مزايا المدينة وفقا للحق المدنى،</p></div>
+<ul class="b"><li>انطلاقا من هذا التصنيف التفاضلى يمكن أن نستنتج مع سبينوزا:</li></ul>
+<p class="para">أولا: أن الطفل بالرغم من قصوره و قلة وعيه يحقق فى فى طاعته مصلحته الخاصة و هو فى ذلك أفضل من العبد الذى لا يعدّ ذاتا.<br>
+ثانيا:أنه لا يمعنى للحديث عن التمتع بالحق فى غياب القيام بالواجب، بحيث لا نستحق المواطنة إلا لأننا رعايا.<br>
+ثالثا: أن ما يميز الرعىّ عن العبد هو أن الأول طاعته واجبة و العبد طاعته خضوع.<br>
+رابعا: أن مايميز المواطن عن الطفل هو ان الأول فى تحقيقه للمصلحة العامة يحقق مصلحته الشخصية فى حين لا يحقق الطفل وفق منطق الأنانية إلا مصلحته خاصة.<br>
+خامسا: أن العدالة هى تجسيد للحق وتحقيق له، فلا يوجد حق خارج عدالة قوانين الدولة. فالعدل يتمثل فى إعطاء  كل ذى حق حقه طبقا للقانون المدنى، وأما الظلم فهو سلب شخص ما حقه بمخالفة هذا القانون.</p>
+<p class="para">•الناس جميعا يخضعون بطبعهم لقانون كلّى شامل هو قانون الكوناتوس، إذ هذا القانون هو المحدد لنظرية الحق لدى سبينوزا، فالحق الطبيعى لا يستنبط من العقل بقدر ما يعبر عن قوة الرغبة فى الوجود و البقاء. يقول سبينوزا فى ذلك "أن الحق الطبيعى لكل إنسان يتحدّ حسب الرغبة لا حسب العقل السليم<sup>4</sup>".و هذا يعنى أن حق الطبيعة لا يعدو أن يكون إلا قانون الطبيعة.</p>
+<p class="para">•و هذا يعنى أيضا أن القيم لا توجد خارج ما وضعه الإنسان فلا توجد من وراء معانى العدل و الظلم أية مرجعية مطلقة سابقة على المرجعية الموضوعة من قبل الإنسان، لأن الإنسان وحده هو مصدر التشريع فى هذا العالم، أما فى المطلق فالخطأ و الاثم و الظلم وما إلى ذلك ألفاظ خالية من كل معنى؛ و لذلك يقول سبينوزا :"لا يوجد فى حال الطبيعة ما يمكن أن يقال عادلا أو ظالما، بينما نجد ذلك فى حال التمدن<sup>5</sup>".</p>
+<p class="para">• ليس الإنسان ذئبا للإنسان و إنما لا يستفيد الإنسان إلا من الإنسان فالإنسان إله للإنسان على حد عبارة سبينوزا<sup>6</sup>. و المجتمع السياسى استمرار للحالة الطبيعية و مواصلة لها، إذ لا توجد أية قطيعة بين الحالة الطبيعية و الحالة المدنية، و ان مهمة العقل، بوصفه جزءا لا يتجزأ من الطبيعة ليست مساعدة المرء على تجاوزها؛و إذا كان العقل هو ما نحتكم إليه لساد النظام داخل المجموعة و لكن لأننا نعتقد أن لنا من الحق بقدر ما لنا من القدرة فغننا بهذا المعنى نختزل الحق فيما يمكن أن يتحقق و ليس فيما يجب أن يكونن و لعلّ هذا هو مشكل حالة الطبيعة.  و لكن كيف يمكن لأشخاص يرزحون تحت الانفعالات و يتصرفون بصورة فردية بما ينافى الصواب والعقل أن يقرروا بصورة جماعية إطاعة العقل و الاهتداء به؟</p>
+<p class="para">- السبيل الوحيد هو أن يتعهد الجميع أمام الجميع بأن يتصرفوا فى جميع الأمور على مقتضى العقل، إلا أنهم  حال افتراقهم سرعان ما يقعون من جديد تحت نير الأهواء. فلا يترددون فى نكث عهودهم، طمعا فى تحقيق بعض المصالح الشخصية. و هكذا فإن العهد يبقى مهددا فى كلّ لحظة بالزوال، إذ لا يمكنه المكوث طويلا أمام الانفعالات القوية الجارفة، و الإنفعال لا يزال على حد عبارة سبينوزا إلا بانفعال مناقض له و أقوى منه. و بالتالى الوفاء بالوعد لا يتحقق إلا إذا كان المتعاقدون  أنفسهنم يرغبون فى ذلك جميعا.</p>
+<div class="note"><div class="nb"><b>سبينوزا:"إن صحة أى عقد رهن بمنفعته، فإذا بطلت المنفعة، انحلّ العقد فى الحال و لم يعد ساريا"</b></div></div>
+<p class="para">و لذلك كان من اللازم خلق علاقة قوى جديدة بين المتعاهدين تكون بديلا لعلاقة القوى الطبيعية، و بالفعل فلا أحد يترك ما يرى أنه خير إلا أملا فى خير أعظم، أو خوفا من ضرر أكبر، و لا  أحد يقبل الشرّ إلا تجنبا لشرّ منه أعظم أو أملا فى خير<sup>7</sup>. و على هذا الأساس يكون كلّ فرد مطالب لمصلحته -إما تجنبا لشر أو تحقيقا لخير أفضل-أن يفوضّ إلى السلطة العليا كلّ ما له من قدرة بحيث يكون لهذه السلطةالحق الطبيعى المطلق على كل شئ، أى السلطة المطلقة فى إعطاء الأوامر التى يتعين على كل فرد أن يطيعها إما بمحض اختياره و إما خوفا من العقاب الشديد، والمقصود بالسلطة العليا هنا هو المجتمع.</p>
+<p class="para"><sup>4</sup>- رسالة في اللاهوت و السياسة، الفصل 16 ص379<br>
+<sup>5</sup>- علم الأخلاق – ج4/ القضية37<br>
+<sup>6</sup>-علم الأخلاق - ج4/ القضية35 يقول سبينوزا  -  ( <span dir="ltr">hominem homini Deum esse</span><br>
+<sup>7</sup>- لقد تحدث سبينوزا عن ما يسميه القانون الشامل للطبيعة و ذلك في كتابه <u>رسالة في اللاهوت و السياسة</u> –الفصل16ص380 وهو مبدأ يمكن صياغته بهذا الشكل بين  أكثر من شرنختار الادنى و بين أكثر من  خيرنختار الأعظم.</p>
+<p class="para">•و حتى لا يبدو غريبا ما يقوله سبينوزا أو حتى لا نخلط بينه و بين السلطة المطلقة التى يقترحها هوبس يجب أن نؤكد أنه مع سبينوزا لا يفقد الأفراد إذ يفوّضون إلى المجتمع كلّ ما لديهم من حقوق طبيعية، غير حرية وهميّة، ذلك أنهم يوجدون فى طور الطبيعة، فى حالة من التبعيّة المتبادلة أساسها الخشية و الأمل ، و الفرق الوحيد بين الحالة الطبيعية و الحالة المدنية هو أن دواعى الخشية و الأمل فى الحالة الأولى تختلف من شخص إلى آخر، بينما تبقى هذه الدواعى، فى الحالة الثانية واحدة و مشتركة بين الجميع.</p>
+<p class="para">•• لا يمكن إذا أن نصف الإنتقال من الطبيعة إلى التمدن انتقالا من التبعية إلى الحرية و إنما انتقال من شكل من التبعية إلى شكل آخر، أى انتقال من تبعية طارئة و متقلبة إلى تبعية مطلوبة و ثابتة.</p>
+<p class="para">•••إن ما يحفظ العقد من جهة و يحفظ المجتمع السياسى من الوقوع فى الاستبداد و الظلم من جهة ثانية هو تصورّ علاقة ديناميكية بين كوناتوس الراعى و كوناتوس الرعيّة، و السيادة بوصفها تعبر عن كوناتوس الراعى و الرعية فى أن تعبر عن واقع حىّ شانها شان المواطنين المؤلفين لها، وهكذا تتحول السيادة فضاء المواطنة و تتحول المواطنة فضاء للسيادة، وانطلاقا من هذا الفهم يظهر الاختلاف جليا بين هوبس و سبينوزا، فالأول يظهر العلاقة علاقة غالب  بمغلوب أو سيد و عبد، أما فى رأى سبينوزا فإن طاعة الحرّ لشرائع الدولة واحترامه لسيادتها هو فى الحقيقة احترام لذاته  و لذلك تختلف هذه الطاعة عن طاعة العبد لسيّده، فالعبد تحركه الخشية و قلما يحركه الأمل، و المواطن يسلك بموجب الأمل اكثر مما يسلك بموجب الخشية.</p>
+<p class="para">•••لا يمكن أن نفهم علاقة التضمن بين السيادة و المواطنة إلا بالنظر إلى نظام ديمقراطى تكون فيه السيادة للشعب، ولذلك نتحدثّ مع سبينوزا عن الديمقراطية باعتبارها عقل الدولة و عن الاستبداد باعتباره جنونها.</p>
+<p class="para">•••لو كان من الواجب أن تكون السيادة لمن كان مهابا أكثر من غيره لكانت للمواطنين بالضرورة لأن المستبد إنما يهاب شعبه ويخشاه إلى أقصى حد، إذ يظل تهديد المواطنين للدولة بعد سلب حقوقهم أشد من تهديد الأعداء لها.</p>
+<div class="note"><div class="nb"><b>سبينوزا:"إن الغاية القصوى من تأسيس الدولة ليس السيادة، أو ارهاب الناس... بل هى تحرير الفرد من الخوف...فالحرية هى الغاية الحقيقية من قيام الدولة"</b></div></div>
+<p class="para">•••إذا كانت الديمقراطية هى النظام الأنسب للسيادة العاقلة فإن اللائكية هى ما به يحافظ هذا العقل على اتزانه و ثباته بحيث تتحررّ السيادة من قوى الانفعال التى عادة ما توظفّ للقمع و الاستبداد أو للاستكانة و الصبر. و قد حاول سبينوزا فى مؤلفاته رفع اللثام عن:<br>
+-العبد: الذى تحركه قوى الانفعال و يخضع للانفعالات الحزينة<br>
+-الكاهن: الذى تحزنه انفعالات العبد الحزينة.<br>
+-الطاغية: الذى يستغلّ هذا الوضع فيستخدم الانفعالات الحزينة لتدعيم نفوذه و سلطانه.</p>
+<p class="para">••• فى النهاية يصحّ القول بأن بقاء السيادة يتوقف على رغبة مواطنيها، فما أن تضعف هذه الرغبة أو تنقطع حتى يصبح وجود الدولة مهددًا بالزوال؛ و يصح القول أيضا، فى مقابل ذلك بأن الرعايا يملكون صفة المواطنة طالما أن الدولة ترغب فى ذلك، فما أن تنقطع رغبتها أو تضعف حتى يحل عهد الجور و الاستبداد، و بالتالى لا حلّ للمواطنة إلا برغبة السيادة و كوناتوسها و لا حلّ للسيادة إلا برغبة المواطنة و كوناتوسها.</p>
+<ul class="b"><li><u>مشكل العدالة كأساس للحق:</u></li></ul>
+<p class="para">يمكن أن نقدم هنا تصور اسبينوزا الذى يعتبر أن العدالة هى تجسيد للحق وتحقيق له، فلا يوجد حق خارج عدالة قوانين الدولة. فالعدل يتمثل فى إعطاء  كل ذى حق حقه طبقا للقانون المدنى، وأما الظلم فهو سلب شخص ما حقه بمخالفة هذا القانون.</p>
+<p class="para">لكن ألا يمكن أن نعتبر أن الحق يسمو على قوانين العدالة وتشريعاتها القضائية، وأن هذه الأخيرة قد تكون جائرة وهاضمة للحقوق المشروعة للأفراد؟ معنى ذلك أنه يجب البحث عن أساس آخر للحق غير العدالة وقوانينها؟</p>
+<p class="para">هنا يمكن استدعاء أطروحة شيشرون التى يرى صاحبها أن المؤسسات والقوانين لا يمكن أن تكون أساسا للحق، وانه يجب البحث عن هذا الأساس فى الطبيعة الخيرة للإنسان التى تتمثل فى الميل إلى حب الناس الذى هو أساس الحق. هكذا يرى ششيرون أنه  "طالما لم يقم الحق على الطبيعة فإن جميع الفضائل ستتلاشى".  لكن المشكل الذى تطرحه نظرية شيشرون هو طابعها المثالى؛ إذ أن الناس فى الواقع لا تصدر عنهم دائما سلوكات خيرة إما بسبب نزوعاتهم العدوانية  كما يرى البعض، أو بسبب الصراع حول المصالح  كما يرى البعض الآخر. وإذا كان الناس متفاوتين فى الواقع بسبب الاختلافات الموجودة بينهم فى المؤهلات والمزايا والمراتب الاجتماعية وغير ذلك، فهل ينبغى تطبيق العدالة بينهم بالتساوى، بحيث يكون الناس أمامها سواسية، أم يجب إنصاف كل واحد منهم بحسب تميزه عن الآخرين؟ وبتعبير آخر: إذا كانت العدالة تهدف إلى خلق المساواة فى المجتمع، فهل بإمكانها إنصاف جميع أفراده؟</p>
+<ul class="b"><li><u>مشكل العدالة بين المساواة والإنصاف:</u></li></ul>
+<p class="para">لمقاربة هذا الإشكال، يمكن تقديم أطروحتين متباينتين: الأولى لألان (<span dir="ltr">Alain</span>) [ إميل شارتيى] الذى يرى أنه لا يمكن الحديث عن الحق إلا فى إطار المساواة بين الناس. فالقوانين العادلة هى التى يكون الجميع أمامها سواسية. وفى هذا الإطار يقول ألان: "يسود الحق فقط حين يتساوى طفل صغير يحمل نقوده ناظرا إلى المعروضات بعيون متلهفة، مع الخادمة الأكثر شطارة ".  أما الأطروحة الثانية فيقدمها ماكس شيلر، الذى يذهب إلى القول بأن العدالة لا تتمثل فى المطالبة بالمساواة؛ لأنها مساواة جائرة ما دامت لا تراعى الفروق بين الأفراد فيما يخص الطبائع والمؤهلات التى يتوفرون عليها. فالعدالة المنصفة هى التى تراعى اختلاف الناس وتمايز طبائعهم ومؤهلاتهم. ومن الظلم أن نطالب بالمساواة المطلقة بين جميع الناس.</p>
+<p class="subhead t-navy">فلاسفة العقد الإجتماعى</p>
+<!-- CROP: 1975 1 15 0.120 0.195 0.925 0.298 1975_contrat_portraits -->
+<figure class="fig"><img src="https://wael-philo.b-cdn.net/figs/1975/1975_contrat_portraits.png" alt=""></figure>
+<table>
+<tr><th>سيادة التنين</th><th>سيادة الحق</th><th>سيادة الوفاق</th><th>سيادة المواطنة</th></tr>
+<tr><td>*الخوف من الموت العنيف<br>*التنازل عن كل الحقوق الطبيعية لصاحب السيادة.<br>*حفظ الحياة وضمان الأمن.<br>*نظام استبدادى أو كليانى<br>*سلطة القوة.<br><span dir="ltr">ÉTAT-LEVIATHAN</span></td>
+<td>*الخوف من فقدان الحرية<br>*التنازل عن الحرية الطبيعية المحدودة أو المعدومة.<br>*القانون ضامن للحرية.<br>*نظام ديمقراطى[الحق]<br>*سلطة الإرادة العامة<br><span dir="ltr">ETAT DE DROIT</span></td>
+<td>*غياب السلطة المشتركة.<br>*لا تنازل و إنما تفويض.<br>*تأمين الخير و الملكية الخاصة.<br>*نظام ليبرالى<br>*سلطة الخير و المنفعة.<br><span dir="ltr">TRUST</span></td>
+<td>*هيمنة قانون الغاب .<br>*تنظيم الحياة وفق مقتضيات العقل و العقد تأمين للحق.<br>*سيادة القانون والحرية.<br>*نظام ديمقراطى[الحرية]<br>*سلطة العقل<br><span dir="ltr">ETAT DE LIBERTÉ</span></td></tr>
+</table>
+<!-- CROP: 1975 1 15 0.123 0.505 0.284 0.590 1975_hobbes -->
+<figure class="fig"><img src="https://wael-philo.b-cdn.net/figs/1975/1975_hobbes.png" alt=""></figure>
+<div class="note"><div class="nb">هوبز: " <b>العهود بدون سيف ليست سوى كلمات لا قدرة لها بتاتا على المحافظة على حياة الإنسان، والكلمات أضعف من أن تستطيع ردع طموح الأفراد أو طمعهم أو غضبهم أو انفعالاتهم إلا إذا اقترنت بقوة تؤيّدها أو سلطة تبث الخوف فى نفوسهم</b>".</div></div>
+<!-- CROP: 1975 1 15 0.752 0.598 0.912 0.685 1975_rousseau3 -->
+<figure class="fig"><img src="https://wael-philo.b-cdn.net/figs/1975/1975_rousseau3.png" alt=""></figure>
+<div class="note"><div class="nb">ج.روسو :"<b>ليس الأقوى بقوى دائما قوة تجعله يسود أبدا إذا لم يحوّل قوته حقاّ والطاعة واجبا</b>".</div></div>
+<div class="note"><div class="nb">ج.روسو :"<b>لنتفقّ إذا على أن القوّة لا توجد الحقّ، وعلى أن ليس للمرء إلا أن يطيع ذوى السلطان الشرعى</b>. "</div></div>
+<!-- CROP: 1975 1 15 0.123 0.690 0.284 0.775 1975_locke -->
+<figure class="fig"><img src="https://wael-philo.b-cdn.net/figs/1975/1975_locke.png" alt=""></figure>
+<div class="note"><div class="nb">ج.لوك:"<b>بما أن البشر يولدون متساوين فى الحرية التامة، و فى حق التمتع بكلّ الحقوق والامتيازات التى تخولها لهم قوانين الطبيعة، فى أمن دون صراع، فإن كل واحد له بحكم الطبيعة، القدرة ليس فحسب على المحافظة على ممتلكاته الخاصة أى حياته وحريّته وثرواته[...] بل أيضا أن يحاكم كل من ينتهك قوانين الطبيعة و يعاقبه</b>"</div></div>
+<!-- CROP: 1975 1 15 0.752 0.785 0.912 0.870 1975_spinoza -->
+<figure class="fig"><img src="https://wael-philo.b-cdn.net/figs/1975/1975_spinoza.png" alt=""></figure>
+<div class="note"><div class="nb">سبينوزا:"<b>إذا كانت غاية الفعل نفع الآمر به لا نفع القائم به، كان هذا القائم به عبدا لا خير فيه لنفسه، و على العكس من ذلك فإن الذى يطيع صاحب السيادة طاعة كليّة، فى ظلّ دولة أو نظام يجعلان القانون الأسمى هو خلاص الشعب بأسره، لا مصلحة الآمر وحده، لا يجب أن يعتبر عبدا، لا خير فيه لنفسه، بل هو مرؤوس</b>."</div></div>
+<div class="exsub">الدرس الثالث: فى نقد السيادة و المواطنة</div>
+<p class="subhead t-navy">1-  <u>فى نقد السيادة:</u></p>
+<p class="para">إذا كان هيقل يعتمد على التاريخ ليثبت تعالى الدولة ، فإن تاريخ ميلاد الدولة أو تاريخ تطوّر المجتمعات البدائية يكشف بدوره مبرّرات نشأة الدولة و يتبين فى ذات الحين علاقة الدولة بالمجتمع ، إذ لم تكن هناك فى المجتمعات القديمة دولة رغم وجود الناس ، ورغم وجود أناس أقوياء فقد " مرّ عهد لم يكن فيه للدولة وجود و كانت فيه العلاقات العامة تستند على المجتمع نفسه و النظام و تنظيم العمل على قوة العادات و التقاليد و على النّفوذ والاحترام الذّى يتمتع به شيوخ السلالة " هكذا تحدثّ لينين ، و لكن هذا الوضع لم يدم إذ بلغ التطور الاقتصادى درجة فرضت انقسام المجتمع إلى مالكين و عبيد ،و لكى يضمن الإقطاعيون الاستقرار الضرورى للإنتاج كان لا بدّ من إقناع العبيد بعدالة النظام فوضعت القوانين و نشأت السلطة ، و هذا يكشف أن التاريخ لا يثبت تعالى الدولة كما يقول هيقل، بل يكشف تورّط الدولة مع الطبقة الصاعدة اقتصاديّا ، وفى هذا تجاوز للطرح الهيقلى إذ ليست الدولة  "سلطة فرضت من الخارج على المجتمع وليست هى حقيقة الفكرة الأخلاقية أو صورة حقيقة العقل كما يدّعى هيقل بل هى ثمرة المجتمع فى مرحلة معيّنة من نموه وهى الدّليل على أن المجتمع يتخبط فى تناقض مع نفسه يستعصى على الحلّ <sup>8</sup> "و يختصر لينين هذا المعنى بالقول : " الدولة هى ثمرة التناقضات الطبقية المتناحرة و مظهرها ".</p>
+<p class="para">ظهور الدولة مرتبط بظهور الملكيّة الخاصة لوسائل الانتاج و أدوات الإنتاج ، فالمجتمعات التى لم تكن فيها ملكية لوسائل الإنتاج لم تعرف الدولة ، لأنها لم تكن فى حاجة إليها،لذلك تظهر الدولة و كأنّها جهاز فوق المجتمع فى حين أنها تعبير عن طبقة من طبقات هذا المجتمع ،الدولة أداة قمع أو هى كما يقول لينين " آلة لصيانة سيادة طبقة على أخرى "</p>
+<div class="data"><p class="para"><span dir="ltr"><b>Marx</b> :<b>" L'Etat est la forme par laquelle les individus d'une classe dominante font valoir leurs intérêts communs. "</b> <b><u>Idéologie allemande</u></b></span></p></div>
+<p class="para">•لذلك لا تمثل الدولة ضرورة أبدية بل إنها قابلة للزوال بزوال شروط تشكّلها، ونحن لا نحتاج فى رفضنا للدولة إلى إلغائها بل إلى إزالة شروط تحققّها و عندها تضمحل.<sup>9</sup></p>
+<div class="data"><p class="para"><span dir="ltr"><b>Engels :</b> <b>" La société, qui réorganisera la production sur la base d'une association libre et égalitaire des producteurs, reléguera toute la machine de l'Etat la ou sera dorénavant sa place: au musée des antiquités. "</b></span></p></div>
+<p class="para"><sup>8</sup> <span dir="ltr"><b>Engles : " l'origine de la famille, de la propriété privée et de l'Etat" p155</b></span><br>
+<sup>9</sup> لينين : الدولة لا تلغى إنها تضمحلّ "</p>
+<p class="para">• "اصطنع البشر باستمرار، حتى الوقت الحاضر، تصورات خاطئة عن أنفسهم وعن ماهيتهم وعما يجب أن يكونوه. ولقد نظموا علاقاتهم وفقاً لأفكارهم عن الله والإنسان العادى إلخ؛ ولقد كبرت منتجات عقولهم هذه حتى هيمنت عليهم، فإذا هم الخالقون ينحنون أمام مخلوقاتهم. ألا فلنحررهم إذن من الأوهام والأفكار والعقائد والكائنات الخيالية التى يرزحون تحت نيرها <sup>10</sup> "</p>
+<p class="para">• الدولة من صنع الإنسان و لكن ليس لخدمة الإنسان بل لاستعباده و السيطرة عليه ، هذا المعنى هو الذّى جعل نيتشة يعتبر فى كتابه "<u>جينيالوجيا الأخلاق</u>" أن الإنسان هو المذنب فى حقّ ذاته ، و أن برودة الدولة أو وحشية تعاملها مع الإنسان سببها الإنسان ذاته ، باعتبار انتصر للعدميّة و النفى فى الفلسفة السقراطية و الدين و الدولة.</p>
+<p class="subhead t-navy">2- <u>فى نقد المواطنة:</u></p>
+<p class="para">• إختبار صورة المواطن على ضوء ملامح حضارة التصنيع و ما تميزت به من تركيز على المنفعة والمردودية والحسابية التقنية فى مقابل استبعاد القيم مثل الحرية أدى إلى تشظى صورة الإنسان و من خلفها صورة المواطن و بدأت أعراض الحضارة بما تحمله من أمراض تنتقل إلى المواطن.  فما هى ملامح حضارة التصنيع و كيف ساهمت هذه الأعراض فى تفتت فكرة المواطن و أين تظهر ملامح هذا التفتت؟</p>
+<p class="subhead t-navy">أ- ملامح حضارة التصنيع و تشظى المواطن:</p>
+<p class="para">تتميز حضارة التصنيع  كما أبرزها ماركوز فى  كتابه <u>الإنسان ذو البعد الواحد</u>، بأنها حضارة يغلب عليها مبدأ المردودية، وأن علاقة الإنسان بالإنسان هى علاقات نفعية عقلانية مجردة تعاقدية نفعية براغماتية شرسة و تهيمن فى ظل هذا التصور رؤية للإنسان بأنه ذو بعد واحد، إنسان طبيعى مادى يختزل إلى قوانين الطبيعة و يخضع إلى حتمياتها ويصبح جزء لا يتجزأ منها. و تظهر الرؤية النفعية للإنسان من خلال العملية الاستهلاكية التى تقوم بتغيير وجه العالم و الحياة الاجتماعية و تحول كل شئ إلى سلعة بحيث يصبح لكل شئ مقابل أو خاضعا للتبادل النفعى. و قد تحدثنا عن هذا الجانب المتشئ والمغترب للإنسان فى معرض نقدنا للكلّى الايديولوجى او لكلّى العولمة أو النظام الواحد،  فكل شئ فى هذا المجتمع خاضع للنظام غير أن النظام بهذا المعنى هو عنصر إفساد. فهل يمكن أن نتحدث عن مواطن فى ظل هذا النظام؟</p>
+<p class="para">لو تتبعنا السياق السياسى الذى من المفروض أن تتحقق فيه المواطنة لوجدنا أنه ملغم بالعديد من الانتهاكات فإذا كان شرط تحقق المواطن هو تمتع المواطن بأهم حقوقه مثل الحرية و الديمقراطية واحترام إنسانية الإنسان فإن خاصية المجتمع الصناعى و سياسة البعد الواحد "يلقى تحبيذا من صناع السياسة" فتقنيات التصنيع هى تقنيات سياسية و من هنا فإنها تدين سلفا أهداف العقل والحرية".</p>
+<p class="para"><sup>10</sup> - كارل ماركس وفريدريك إنغلز، الأيديولوجية الألمانية، ترجمة فؤاد أيوب، دار دمشق، ص 19</p>
+<p class="para">فما تعمل عليه القوة السياسية داخل المجتمع ليس حماية الحرية الإنسانية بل تسعى إلى إلغائها عبر ممارستها لأنواع من الرقابة والإخضاع للنظام فالحكومة كما يقول ماركوز لها دور قوة "الرقابة"</p>
+<p class="para">إذا كان المطلوب هو التعددية داخل المجتمع السياسى الديمقراطى فإن البعد الواحد قد ألغى فكرة التعددية السياسية بقضائها على برامج المعارضة. و هو ما حول: "برامج الأحزاب الكبيرة التى بلغت درجة متماثلة من الرياء. "</p>
+<p class="para">بحيث لا يستطيع المواطنون التميز بين الأحزاب لقوة اتحادهم و تماثلهم مما يعسر إمكانية التغيير الاجتماعى و الابقاء على نفس النظام القائم و يحصل اندماجا سياسيا. وإذا كان من حق المواطن حرية التفكير و التعبير فإن المجتمع السياسى الصناعى من خلال العقلانية التكنولوجية يطمح إلى تصفية العناصر المعارضة والمتعالية فى "الثقافة الرفيعة" بما يحجب عنها القدرة على إبراز مظاهر التناحر والاختلال فى الواقع الاجتماعى لأن هذه الثقافة آخذة فى التلاشى لتحل محلها ثقافة استهلاكية تنتج بكثرة وتستهلك بكثرة سواء كانت موسيقى أو أدب "لأن أدب المجتمع الصناعى ليس مهمته نفى النظام القائم بل توليده. " وحتى كلمات الحرية التى يلفظها الزعماء والسياسيون فى حملاتهم على الشاشات مجرد كلمات دعائية لا معنى لها. " وحتى اللغة أصبحت مجرد لغة آمرة ومنظمة "وهى التى تحث الناس على العمل و الشراء والقبول. "</p>
+<p class="para">إن كل هذا لا يمكن أن يعكس إلا صورة لإنسان خاضع مسلوب التفكير و الارادة والكلام إنهم مجرد سوائم وليس مواطنون لأن المواطن من حقه أن يعبر بحرية و يفكر و يقبل و يرفض و يتصرف بحرية غير أن المجتمع الأحادى يسلبه كل هذه الحريات بمختلف أنواعها و لن يبقى لديه من حق سوى حق القبول و الامتثال. فأين هو المواطن أمام هذا الزخم من الإملاءات والتجاوزات؟ و إذا كان شرط المواطن هو تمتعه بالديمقراطية فإن ديمقراطية النظام الصناعى: "هى التى تلغى بنفسها وبكل دعة واطمئنان مبادئ الديمقراطية. "</p>
+<p class="para">إن المواطن قد تكيف و تضاءلت أبعاده و تقلصت حرية تفكيره و تحول عقله من عقل ناقد إلى عقل إيجابى متكيف مع الواقع القائم. إن ما يمكن الخلوص إليه أن حضارة التصنيع تتميز باللاعقلانية غير أن هذه اللاعقلانية أصبحت تتمتع بحق المواطنة و أن هذه الحضارة توجد فى مأزق كبير لأنها تغافلت عما يصير به الإنسان إنسانا و هو كرامته التى ضاعت قداستها. فهذه الحضارة اتسمت بوأد القيم الإنسانية تحت ركام اقتصاد المزاحمات مقابل انتصار قيم التنافس و المردودية والنفعية والاحتكار و هو ما ساهم فى نماء التدرج الخلقى و تعارض المصالح و انعدام روح المواطنة والتعاون و أمسى المجتمع ذو بعد واحد مجتمع الإنتاج من أجل الإستهلاك والتجارة من اجل إنماء الدخل لتتحول التجارة من تبادل لإرضاء الحاجات الحياتية إلى صراعات تقتضى العنف و التحايل والخداع و التركيز على القوة العسكرية التى تطورت من أداة للدفاع عن النفس والأوطان إلى أداة لسيطرة و التهديد و فرض الرأى والبضاعة والفكر والإيديولوجية. فكيف انعكس التقدم التقنى على صورة المواطن؟</p>
+<p class="para">تميزت ملامح المواطن داخل المجتمع ذو البعد الواحد بتسارع خطواتها نحو هاوية اللاعقل والتشيؤ والاغتراب عن طريق عقلها الأداتى، هذا العقل الذى استفرد بحياة الإنسان الاجتماعية من خلال طبيعته السلطوية العنيفة الآمرة و حولها إلى مجرد نسق انبطاحى و أمام خواء قيمى مقابل تزايد مفرط أمام نزعة استهلاكية زائفة و حاجات زائفة و صناعة اللذة والتسلية. أمام كل هذا تشظت فكرة المواطن و أصبحت تئن تحت تأثير وسائل الدعاية و أشكال التسويق و أنماط السلوك المرتبطة بنظام إنتاج صناعى و رأسمالى.</p>
+<p class="para">حصرت علاقات الناس ببعضهم عن طريق عقل حسابى نفعى. فإذا كان من أبعاد المواطنة التضامنية هو تنازل المواطنون عن أنانيتهم ووضع المصلحة العامة قبل أى اعتبار حفاظا على الوطن، فإنه لم يعد ممكنا الحديث عن المواطن. إذ كيف لمجتمع يربى أفراده على حبهم لذواتهم و منافعهم و مصالحهم الخاصة و تحقيق سعادتهم على حساب شقاء الآخرين أن يصنع منهم مواطنين أحرار؟</p>
+<p class="para">يبدو أن فكرة المواطن فى المجتمع الصناعى آخذة فى التلاشى و لن يبقى من المواطن سوى الأسير. لكن هل من أمل فى تحرير هذا الأسير و إرجاعه لحالة المواطن؟</p>
+<p class="para">يبدو أن الكثير من المسائل اليوم تدعو إلى التشاؤم لاسيما وأن "المواطن الأسير" يحمل ثقافة الجلاد، مثقل بأصفاده، إذ أصبح الأجراء و العمال يتدثرون بقيم و حاجيات زائفة فهم مجرد أدوات خاضعة للنظام و عقولهم المستسلمة لم تعد تقدر على التغيير والثورة لأنها انخرطت فى هذا النظام و حصل تزييف فى وعيها بواسطة التماثل "فإذا كان العامل و رب العمل يشاهدان نفس البرنامج التلفزيونى و إذا كانوا جميعا يقرؤون نفس الصحيفة فإن هذا لا يدل على زوال الطبقات و إنما يشير على العكس إلى مدى مساهمة الطبقات السائدة فى تحديد الحاجيات... " فإذا كان هؤلاء مشغولون بالاختيار بين تشكيلة هائلة من البضائع و الخدمات فإنها تظل مجرد حرية وهمية زائفة "إذ أن قدرة المرء على اختيار سادته بحرية لا تلغى السادة و لا العبيد. "</p>
+<p class="para">و بالتالى لا سبيل إلى تحرر هذه الطبقة بعد أن تماثلت و خضعت فى دولة الرفاهة التى لم تنجز سوى افتقاد الحرية فى إطار ديمقراطى. إن الحرية الوحيدة المتبقية "للمواطن الأسير" هى رضاءه التخلى عن حريته بكل ديمقراطية. فإذا كانت بداية المجتمع الصناعى قد تأسست على الحقوق و الحريات فإن مرحلة متقدمة تصبح ما به قام المجتمع لا قيمة له أمام تصاعد وتيرة الإنتاج والإستهلاك. فهل من مخرج لمواطن فقد مواطنته؟</p>
+<p class="para">إذا كان ماركوز قد فقد ثقته فى الطبقة العاملة باعتبار اندماجها فى النظام القائم فإنه يجعل باب الأمل مفتوحا أمام المعطلين والمهمشين فى المجتمع الصناعى لإحداث تغيير؟ فهل معنى ذلك أن المواطن الحقيقى هو الإنسان المهمش باعتباره لزال قادرا على الرفض و التمرد و الثورة و قول "لا" أمام السلطة الاستبدادية؟</p>
+<p class="para">و لكن الوعى بالأخطار و بحجم الاغتراب هو الذى يمكن أن يدفع باتجاه التعبير عن المأزق و تكوين رأى عام يتوق للتحرر من الإستيلاب و بالتالى هو يجعل باب الأمل مفتوحا أمام المواطنة الحقيقية. حتى يتمكن المواطن من استعادة مكانته الحقيقية باعتباره إنسانا له واجبات داخل الدولة يجب احترامها و هو حقه فى التعبير و النقد و التفكير وحقوقه المتعلقة بحياة كريمة و لا يتم له ذلك إلا بوضع برنامج تحريرى يقطع مع صورة الإنسان ذو البعد الواحد، وذلك بالقطع مع ما هو كائن وفضح الفوضى الفكرية و الأخلاقية والسياسية والاقتصادية التى تقصى القيم ؛ إذ من المفروض أن حضارة التصنيع جاءت من أجل تيسير حياة الناس و لكى تعمم الرفاء و تنشر الحرية و الديمقراطية لا أن تجوع المواطن و تستعبده و تسلبه حقوقه و تحوله من إنسان حرّ إلى مواطن مغترب.</p>
+<p class="para">و أسوء ما فى الأمر حلول الانغلاق فى المجتمع من خلال تعميق الهوة بين أقلية فى يدها الحل و العقد و اتخاذ القرار و خضوع وسائل الاتصال الجماهيرى من ثقافة و فن و إعلام تحت سلطة هؤلاء. لقد فات الأوان، إذ انفلتت التقنية من قبضة الإنسان و عوضا أن يصارع بها إنه يصارعها.</p>
+<p class="para">لقد بدأت اللاعقلانية تتمتع بحق المواطنة. فحضارة التصنيع بما هى راهنة تعانى أزمات خانقة و مآسى خطيرة لأنها تغافلت عما يصير به الإنسان إنسانا عندما نظرت إليه كوسيلة لا كغاية وذلك من خلال الإمعان فى إرباك هذا الإنسان والتجرؤ عليه بطريقة الترصد والإصرار على اغتيال ماهو إنسانى فيه .</p>
+<p class="para">- وهاهى التقنية تحول الإنسان من وضع السيادة والسيطرة والعمل إلى وضع البطالة والتهميش وتوسد قارعة الوجود. إن إنسان العولمة غارق فى عزلة بلا انتماء و لا أفق، حاقد على المجتمع و الحضارة الصناعية لأنها نفته فى فردانية خانقة بلا حضور لا فى الحضارة الإنسانية و ا الثقافة القومية ولا داخل ذاته لا سعادة و لا اطمئنان و لا مسالمة حضارة بلاأنسنة ولا إنسان.</p>
+<p class="subhead t-red">للتذكّر</p>
+<p class="subhead t-navy">الدولة : السيادة و المواطنة</p>
+<!-- CROP: 1975 1 21 0.757 0.193 0.878 0.250 1975_foucault -->
+<figure class="fig"><img src="https://wael-philo.b-cdn.net/figs/1975/1975_foucault.png" alt=""></figure>
+<div class="data"><p class="para"><b>فوكو:" ينبغى أن نستغنى عن شخص الأمير فى فهم السلطة لنستقصى تكنولوجيات السلطة انطلاقا من استراتيجية محايثة لعلاقات القوة."</b></p></div>
+<!-- CROP: 1975 1 21 0.757 0.259 0.878 0.320 1975_aristote -->
+<figure class="fig"><img src="https://wael-philo.b-cdn.net/figs/1975/1975_aristote.png" alt=""></figure>
+<div class="data"><p class="para"><b>أرسطو: " من الطبيعى أن يأتلف الآمر والمأمور رغبة فى البقاء، فمن يمكنه ذكاؤه من الاحتياط للأمور هو بالطبع رئيس، ومن يمكّنه جسمه من القيام بما يتطلّب ذلك الاحتياط، فهو مرؤوس"</b></p></div>
+<!-- CROP: 1975 1 21 0.757 0.329 0.878 0.384 1975_ricoeur -->
+<figure class="fig"><img src="https://wael-philo.b-cdn.net/figs/1975/1975_ricoeur.png" alt=""></figure>
+<div class="data"><p class="para"><b>ريكور:" إن الوجود السياسى للإنسان وجود يحميه العنف ويوجهه، هو عنف الدولة وهومشروع متسم بسمات العنف الشرعى"</b></p></div>
+<!-- CROP: 1975 1 21 0.757 0.394 0.878 0.444 1975_gandhi -->
+<figure class="fig"><img src="https://wael-philo.b-cdn.net/figs/1975/1975_gandhi.png" alt=""></figure>
+<div class="data"><p class="para"><b>غاندى:<br>
+" يجب أن تضمن الديمقراطية للضعفاء ما تضمنه للأقوياء"</b></p></div>
+<!-- CROP: 1975 1 21 0.757 0.454 0.878 0.504 1975_rousseau4 -->
+<figure class="fig"><img src="https://wael-philo.b-cdn.net/figs/1975/1975_rousseau4.png" alt=""></figure>
+<div class="data"><p class="para"><b>روسو:" إذا وجد شعب من الآلهة، فإنه سيحكم نفسه ديمقراطيا، فحكم على هذا القدر من الكمال لا يناسب البشر"</b></p></div>
+<!-- CROP: 1975 1 21 0.757 0.517 0.878 0.569 1975_sartre -->
+<figure class="fig"><img src="https://wael-philo.b-cdn.net/figs/1975/1975_sartre.png" alt=""></figure>
+<div class="data"><p class="para">سارتر" إّننى مسؤول أمام نفسى وتجاه الآخرين، وأنا أبدع صورة خاصة للإنسان أعتبرها لنفسى، وإذ أختارلنفسى، فإّننى أختار الإنسان"</p></div>
+<!-- CROP: 1975 1 21 0.757 0.584 0.878 0.639 1975_smith -->
+<figure class="fig"><img src="https://wael-philo.b-cdn.net/figs/1975/1975_smith.png" alt=""></figure>
+<div class="data"><p class="para"><b>جورج سميث :"إن السلطة هى القدرة على الفعل فى الأشخاص والتأثير فيها باللجوء إلى مجموعة من الوسائل تتراوح بين الإقناع والقهر"</b></p></div>
+<!-- CROP: 1975 1 21 0.757 0.649 0.878 0.715 1975_platon -->
+<figure class="fig"><img src="https://wael-philo.b-cdn.net/figs/1975/1975_platon.png" alt=""></figure>
+<div class="data"><p class="para"><b>أفلاطون" إن الشرور لن تنتهى إذن بالنسبة إلى البشرقبل أن يصل إلى الحكم جنس الفلاسفة الحقيقيين الخلّص أو قبل أن ينكب حكام هذه المدن بُقدرةِ قادر على التّفلسف فعليا."</b> الرسالة السابعة</p></div>
+<!-- CROP: 1975 1 21 0.757 0.727 0.878 0.783 1975_rousseau5 -->
+<figure class="fig"><img src="https://wael-philo.b-cdn.net/figs/1975/1975_rousseau5.png" alt=""></figure>
+<div class="data"><p class="para"><b>ج-ج روسو : حالما يوجد سيد لا وجود بعد لشعب يتصف بالسيادة، ومن ثم ينذثر الجسد السياسى."</b> فى العقد الإجتماعى ص34</p></div>
+<!-- CROP: 1975 1 21 0.757 0.792 0.878 0.840 1975_engels -->
+<figure class="fig"><img src="https://wael-philo.b-cdn.net/figs/1975/1975_engels.png" alt=""></figure>
+<div class="data"><p class="para"><b>أنجلز" إن الدولة هى وليدة المجتمع ولكنها تغدو تدريجيا غريبة عنه"</b></p></div>
+<!-- CROP: 1975 1 22 0.790 0.171 0.900 0.240 1975_burdeau -->
+<figure class="fig"><img src="https://wael-philo.b-cdn.net/figs/1975/1975_burdeau.png" alt=""></figure>
+<div class="data"><p class="para"><b>ج.بيردو:" إذا كان للدولة الحديثة غالبا وجه بشع، فذلك عائد بقسط كبير منه إلى أن المجتمعات التى تعبر الدولة عن جهودها للتجمع تفتقد إلى العظمة والعزة"</b></p></div>
+<!-- CROP: 1975 1 22 0.785 0.251 0.897 0.302 1975_schopenhauer -->
+<figure class="fig"><img src="https://wael-philo.b-cdn.net/figs/1975/1975_schopenhauer.png" alt=""></figure>
+<div class="data"><p class="para"><b>شوبنهاور:  "ليست الدولة إلاّ لجاما لكبح ذلك الحيوان اللاّحم الذّى هو الإنسان وجعله يظهر بمظهر حيوان مسالم"</b></p></div>
+<!-- CROP: 1975 1 22 0.785 0.308 0.897 0.370 1975_ricoeur2 -->
+<figure class="fig"><img src="https://wael-philo.b-cdn.net/figs/1975/1975_ricoeur2.png" alt=""></figure>
+<div class="data"><p class="para"><b>ريكور :" ينزع صاحب السيادة دوما إلى ابتزاز السيادة، ذاك هو الداء السياسى الجوهرى"</b></p></div>
+<!-- CROP: 1975 1 22 0.786 0.379 0.908 0.552 1975_morin -->
+<figure class="fig"><img src="https://wael-philo.b-cdn.net/figs/1975/1975_morin.png" alt=""></figure>
+<div class="data"><p class="para"><b>موران" ينتج المواطنون الديمقراطية وتعمل هى الأخرى على إنتاجهم"</b></p></div>
+<div class="data"><p class="para"><b>موران:"تشكل الديموقراطية إذن نسقا سياسيا مركبا، بالمعنى الذى يجعلها تحيابفضل هذه الأشكال من التعدديات، والمنافسات، والتناقضات، مع الحفاظ على وحدة الجماع ة .هكذا فالديموقراطية عبارة عن وحدة توحد داخلها بين الوحدة والانشقاق، إّنها تقبل وتتغ ّذى كثيرا، وأحيانا بشكل هيجانى، من الصراعات التى تضفى عليها تلك الحيوية التى تتميز به ... يجب على الديموقراطية أن تحافظ على هذه التعددية لكى تحافظ على ذاتها. "</b></p></div>
+<!-- CROP: 1975 1 22 0.786 0.568 0.908 0.654 1975_nietzsche -->
+<figure class="fig"><img src="https://wael-philo.b-cdn.net/figs/1975/1975_nietzsche.png" alt=""></figure>
+<div class="data"><p class="para"><span dir="ltr"><b><i>" L'Etat, c'est le plus froid de tous les monstres froids.</i></b> " Humain trop humain<br>
+<b>" Pour moi elle sent mauvais leur idole, le monstre froid; pour moi ils sentent mauvais, tous tant qu'ils sont, ces idolâtres! / Dans les exhalaisons de leur gueule et leurs désirs, mes frères, voulez-vous donc étouffer? Plutôt faites sauter les vitres et sautez à l'air libre! / [...] / Pour de grandes âmes libre est encore la Terre. Vides encore sont maintes contrées pour solitaire et solitaire à deux, où le parfum des calmes mers encore flotte. "</b> (<u><b>Zarathoustra</b></u>, <b><i>" De la nouvelle idole "</i></b>).</span></p></div>
+<!-- CROP: 1975 1 22 0.780 0.660 0.915 0.700 1975_burdeau2 -->
+<figure class="fig"><img src="https://wael-philo.b-cdn.net/figs/1975/1975_burdeau2.png" alt=""></figure>
+<div class="data"><p class="para"><span dir="ltr"><b>Georges Burdeau: «Les hommes ont inventé l'Etat pour ne pas obéir aux hommes»</b> (<u>L'Etat,</u> 1970)</span></p></div>
+<!-- CROP: 1975 1 22 0.780 0.707 0.915 0.748 1975_dahrendorf -->
+<figure class="fig"><img src="https://wael-philo.b-cdn.net/figs/1975/1975_dahrendorf.png" alt=""></figure>
+<div class="data"><p class="para"><span dir="ltr"><b>Ralf Dahrendorf : " Il faut six mois pour organiser des élections, dix ans pour installer une économie de marché, mais une génération pour créer une société civile. Or, sans société civile, il n'y a pas de démocratie "</b></span></p></div>
+<!-- CROP: 1975 1 22 0.780 0.757 0.917 0.807 1975_marx -->
+<figure class="fig"><img src="https://wael-philo.b-cdn.net/figs/1975/1975_marx.png" alt=""></figure>
+<div class="data"><p class="para"><span dir="ltr"><b>Marx :Les " droits de l'homme ", distincts des " droits du citoyen " ne sont rien d'autre que les droits du membre de la société bourgeoise, c'est-à-dire de l'homme égoïste, de l'homme séparé de l'homme et de la communauté.</b> <u><b>La question juive</b></u> <b>(1843), 10-18, pp. 37</b></span></p></div>
+<p class="subhead t-red">المفهوم و الشاهد</p>
+<table>
+<tr><th>المفهوم</th><th><span class="t-red">التعريف</span> <span dir="ltr" class="t-red">DÉFINITION</span></th></tr>
+<tr><td>الدولة <span dir="ltr">ETAT</span></td><td>الدولة فى اللّغة : الغلبة والاستيلاء ، وِدال الدهر انتقل من حال إلى حال، و هى اصطلاحا سلطة تحكم جمعا من الناس داخل الإقليم الواحد ، وهى بهذا المعنى الجسم السياسى والحقوقى الذّى ينظّم حياة المجموعة .<br>
+- الفرق بين الدولة و الأمة هو أن الدولة هى الأمة المنظمة فى حين تكون الأمة مجموعة من الناس تجمعهم صفات واحدة و أهداف مشتركة.<br>
+•ماكس فيبر: " يجب أن نتصوّر الدولة المعاصرة على أنّها مجموعة بشريّة تطالب بنجاح، فى حدود رقعة أرضيّة معيّنة ، ولحسابها الخاص ، بالاستئثار بالعنف الجسدى المشروع. " <u><span dir="ltr">Le savant et le politique</span></u></td></tr>
+<tr><td>الحكم/ الحكومة <span dir="ltr">GOUVERNEMENT</span></td><td>•الحكومة هى نظام الحكم أو مجموع مؤسساته الحاكمة، و تنقسم من حيث خضوعها للقانون إلى استبدادية [للحاكم السلطة المطلقة] أو قانونية [يتصرف الحاكم فيها وفقا للقانون]؛ و تنقسم الحكومة القانونية بدورها إلى حكومة مطلقة [ جميع الصلاحيات القانونية بيد الحاكم] و حكومة مقيدة [ يوزّع فيها الدستور الصلاحيات على مؤسسات الدولة]. والحكم و الحكومة فى اصطلاح الفلاسفة الإدارة و التدبير و التوجيه و هو بهذا المعنى فنّ وعقل وحكمة. و الحكم موضوع السياسة، إذ السياسة علم حكم الدول أو " فنّ الحكم ". و الحكم بعامة معناه القيادة والسلطان و ممارسته تعنى ممارسة التسيير و القيادة، ومن شروطه الكفاءة أو القدرة على القيادة.<br>
+•هنرى لوفيفر: "لا بدّ من إزالة ما شاع بين النّاس من خلط بين الدولة و الحكم. فقد نشأ الحكم منذ أقدم العصور ، بل منذ فجر التاريخ الذّى ساهم هو فى تشكيله. "</td></tr>
+<tr><td>السلطة <span dir="ltr">AUTORITÉ</span></td><td>مفهوم علائقى يدلّ على إمكانيّة متاحة لأحدنا للحصول من الآخر على سلوك ماكان ليأتيه طواعية ، وبالتالى كلّما توفّرت هذه الإمكانيّة كلّما كان الأمر متعلّقا بالسلطة. و هذا دليل إطلاقية السلطة وشمولها إلى درجة يمكن أن نقول معها أن الأشياء قد تمارس علينا سلطة.<br>
+•أ.ريفارول: "هناك حقيقتان لا ينبغى الفصل بينهما أبدا هما:<br>
+أولا  -أنّ السلطة تكمن فى الشعب.<br>
+ثانيا -أنّه لا يجب على الشعب أن يمارسها أبدا. ".</td></tr>
+</table>
+<table>
+<tr><th>المفهوم</th><th><span class="t-red">التعريف</span> <span dir="ltr" class="t-red">DÉFINITION</span></th></tr>
+<tr><td>حقوق الأنسان <span dir="ltr">DROITS DE L'HOMME</span></td><td>• الحقوق: هى مجموع المعايير / القواعد التى تحدد إنسانية الإنسان؛ هى معايير ثابتة، طبيعيّة شاملة و مجرّدة [ الثورة الفرنسية1789/ وثيقة حقوق الإنسان 1948 ]<br>
+•لأنها " إعلان " فهى حقوق جعلت لكى تعرف من الجميع، وهى حقوق سابقة للإعلان ولكنها الآن: إما <u>مجهولة</u> / أو <u>منسية</u> / أو <u>مهمّشة</u><br>
+•وهى حقوق طبيعية [ لا تصنعها الدولة ] جوهرية [ لا تنازل عنها ] مقدسة [فلها قيمة شرفيّة خاصة بالإنسان ]وواضحة وبسيطة [يمكن للفرد أن يطالب بها]</td></tr>
+<tr><td>العقد الإجتماعي <span dir="ltr"><b>PACTE /CONTRAT SOCIAL</b></span></td><td>• العقد هو الإيجاب و القبول مع الارتباط، و العقد الاجتماعى  نظرية فى نشوء الدولة والقانون تردّ الاجتماع إلى اتفاق بين الأفراد، يدخلونه بمحض إرادتهم، و يتنازلون بمقتضاه عن بعض حرياتهم، و يتعهدون فيه باحترام حقوق وحريات و ملكية الآخرين. العقد الاجتماعى هو إذا  اتفاق بين أفراد المجتمع يوجب على كلّ فرد فى حالة الطبيعة أن يعهد فى شخصه وفى كلّ ما لديه من القدرات إمّا لرجل أو مجلس [هوبز]، أو لإرادة عامة تضمن إخضاع الكّل[روسو].<br>
+•هوبز: " إتحاد حقيقى تذوب فيه مجموع الأفراد فى ذات شخص واحد ، إنه اتحاد ناشئ من ميثاق عقده كلّ فرد مع سائر الأفراد".</td></tr>
+<tr><td>الحريّة <span dir="ltr">LIBERTÉ</span></td><td>• الحرية لغة هى الخلوص و يقابلها الرقّ أو العبودية، و هى بالأساس مفهوم خلقى اجتماعى، قد يعنى الاختيار بين البدائل المتاحة،و إتيان الأفعال المتعدّدة المسئولة، والقيام بالمبادرات، و هذه هى الحرية الموجبة[ حرية التفكير+التعبير+العبادة+التملّك...] وقد يعنى التحرر من الضغوط و أنواع القسر و المعوقات و هذه هى الحرية السلبية [التحرّ من الحاجة+الفقر+الخوف...] و تقوم الديمقراطية على الحرية بمعنييها، فإذا كانت الغلبة للمعنى الإيجابى أحالت الحرية على المعنى الرأسمالى، و إذا كانت الغلبة للمعنى السلبى أحالت على الحرية فى مفهومها الاشتراكى.<br>
+- ذهب هوبز إلى اعتبار أن الحرية هى انعدام القسر؛ و قال لايبنيتس أن الإنسان يكون حرّا كلما كان فعله صادرا عن العقل، فإذا صدر عن الانفعال قلّت حريته؛ و عند لوك الحرية هى أن نفعل أو لا نفعل بحسب ما نختار أو نريد.<br>
+• سبينوزا: إن الإنسان الحر الذى يهتدى بالعقل فى دولة يعيش فيها فى ظلّ القانون العام يكون أكثر حرية منه فى العزلة حيث لا يصدع إلا بأمر نفسه.  <span dir="ltr"><u>Ethique</u> -5-prop.73</span><br>
+• روسو: أيتها الشعوب الحرّة، إليك هذه الحكمة: قد يفوز المرء بالحرية، لكنه متى فقدها لن يسترجعها أبدا. <u>العقد الاجتماعى</u> - الكتاب 1ف8</td></tr>
+</table>
+<table>
+<tr><th>المفهوم</th><th><span class="t-red">التعريف</span> <span dir="ltr" class="t-red">DÉFINITION</span></th></tr>
+<tr><td>العنف <span dir="ltr">VIOLENCE</span></td><td>• العنف مضاد للرفق، و مرادف للشدة و القسوة، و كلّ فعل شديد يخالف طبيعة الشئ، ويكون مفروضا عليه من خارج فهو، بمعنى ما، فعل عنيف.و العنف بعامة هو استخدام القوة استخداما غير مشروع، أو غير مطابق للقانون.<br>
+•ماكيافيل: "إنّ العنف الذّى يجب أن ندينه هو العنف الذّى يخرّب ، ليس العنف الذّى يصلح"<br>
+•بول ريكور: "لا يمكن تعريف الدولة فى مفهومها الحديث إلاّ بالاستناد إلى الأداة التّى هى من أخصّ خصائصها و نقصد بها العنف المادّى المشروع. " •لينين: "الدولة تنظيم خاص للسلطة: إنّها تنظيم للعنف القاهر لطبقة ما. "<br>
+<span dir="ltr"><b>*Action contre une personne (éventuellement  soi-même) au mépris de sa vie et de sa dignité, refusant de la considérer comme un être conscient, raisonnable, volontaire. Quel qu'en soit les moyens, la violence est toujours la voie de la force : force physique, de l'argent, du langage, des armes, abus de faiblesse etc.. En cela elle s'oppose au droit qui est toujours une voie de raison. Ce concept est essentiellement éthique ; éviter soigneusement de le confondre avec agressivité.</b></span></td></tr>
+<tr><td>حالة الطبيعة <span dir="ltr"><b>ÉTAT DE</b></span></td><td>•  حالة الطبيعة هى الصفة التى يكون عليها الناس فى مقام البداوة، و يطلق غروسيوس و هوبس اصطلاح الحالة الطبيعية على حال الإنسان قبل التنظيم الاجتماعى.  و الجميع يقرّ –باستثناء لوك- أنها حالة افتراضية تأسس بفضلها الفكر التعاقدى.</td></tr>
+<tr><td>الإرادة العامة <span dir="ltr"><b>VOLONTÉ GÉNÉRALE</b></span></td><td>• الإرادة العامة هى صفة رجل يدرك ، عند تجرّده من الأهواء، ما يستطيع أن يطلبه من أبناء جنسه ، وما يحقّ لأبناء جنسه أن يطلبوه منه، و الإرادة العامة هى الأساس الشرعى لكلّ سيادة ؛ ومع روسو نميّز بين الإرادة العامة وإرادة الجميع ، إذ تهتمّ الأولى بالمصلحة المشتركة ، والثانية بالمصلحة الخاصة..<br>
+•ج.ج.روسو: "أن نبحث عن شكل للتّجمع يحمى شخص كلّ واحد وممتلكاته بمجموع القوّة المشتركة، و يظلّ بواسطته كلّ واحد، و إن اتحد مع الجميع ، لا يطيع سوى نفسه ، فيبقى حرّا بنفس الدرجة التّى كان عليها فى السّابق: ذلك هو المشكل الأساسى الذّى يتكفّل العقد الاجتماعى بتقديم حلّ له. " <span dir="ltr"><u>Du Contrat social</u>.liv 1/ch6</span><br>
+•ج.ج.روسو: "إذا منح الإنسان نفسه للمجموعة فإنّه لم يمنح نفسه لأحد. "</td></tr>
+<tr><td>الإرادة الخاصة <span dir="ltr"><b>VOLONTÉ</b></span></td><td>• تعبرّ عن المصلحة الفردية الذاتية الخاصة، و سميت خاصة لأنها تفكر فى الجزء لا فى الكل و هى لأجل ذلك لا تعبرّ بالنسبة لجون جاك روسو عن المواطنة و إنما عن الأنانية.<br>
+<span dir="ltr">•Elle tend par sa nature, aux préférences individuelles, au bien intéressé et égoïste. Elle est le fait d'une minorité.</span></td></tr>
+</table>
+<!-- PROOFREAD: 1975 part1 p25 — French concept labels cut by the cell edge: "ÉTAT DE" (rest cut) and "VOLONTÉ" (second word cut); only visible letters typed -->
+<table>
+<tr><th>المفهوم</th><th><span class="t-red">التعريف</span> <span dir="ltr" class="t-red">DÉFINITION</span></th></tr>
+<tr><td>السيادة <span dir="ltr"><b>SOUVERAINETÉ</b></span></td><td>• يطلق السيد فى علم السياسة على الفرد أو الجماعة من جهة التمتع بشئ من السلطة فى الدولة، و تعتبر سلطة هذا الشخص أو الجماعة منبع جميع السلطات الأخرى.<br>
+- و يطلق لفظ السيادة على الدولة التى تمتلك استقلالا تاما،  و يرجع إعلان حقوق الإنسان السيادة للشعب، فإذا كانت سيادة الدولة مستمدة من الشعب كانت ديمقراطية وإذا كانت غير مستمدة منه كانت الدولة ديكتاتورية.<br>
+<span dir="ltr">•Force universelle et compulsive que possède l'Etat pour mouvoir et disposer chaque partie (de son tout) de la manière la plus convenable au tout (Contrat social, II, 4).</span></td></tr>
+<tr><td>المجتمع المدنى <span dir="ltr">SOCIETE CIVILE</span></td><td>• هو المجتمع كما تحكمه القوانين المدنية،  و تظهر نوعية المجتمعات مما يحكمها من تشريعات تنظم الملكية، وعلاقات الإنتاج، و توزيع الثروة فى المجتمع، والعائد الاجتماعى، والأسرة كوحدة اجتماعية، والحياة اليومية للناس ونشاطاتهم. و يروّج هذا المصطلح فى البلاد الرأسمالية بالنظر إلى غموض مفهومه؛ وفى الماركسية يفضلون عليه مفهوم البناء الاقتصادى للمجتمع أو الأساس التشريعى فيه، و أسلوب الإنتاج و التوزيع و هكذا. و فى تعريف ماركس فإن المجتمع المدنى هو شكل الأسرة فى المجتمع، وتنظيمها، ونظام الطبقات التى يتألف منها المجتمع.</td></tr>
+<tr><td>القانون <span dir="ltr">LOIS</span></td><td><span class="t-red">القانون</span>:هو النظام و النّاموس، ومعناه مجموع القواعد العامة الملزمة و المفروضة على الإنسان. والقانونى هو الشرعى <span dir="ltr">Légal</span> أى المطابق للقانون .<br>
+•سبينوزا: " القوانين هى روح الدولة".  <u><span dir="ltr">Traité politique</span></u></td></tr>
+<tr><td>العدالة</td><td>يدل لفظ العدالة فى تداوله العام على احترام حقوق الغير والدفاع عنها، كما يدل على الخضوع والامتثال للقوانين. و تدل العدالة فى معجم لالاند على صفة لما هو عادل، ويستعمل هذا اللفظ فى سياق خاص عند الحديث عن الإنصاف (<b><span dir="ltr">Equité</span></b> ) أو الشرعية (<b><span dir="ltr">légalité</span></b> ). كما يدل لفظ العدالة تارة على الفضيلة الأخلاقية، وتارة على فعل أو قرار مطابق للتشريعات القضائية. كما يدل اللفظ فلسفيا على ملكة فى النفس تمنع الإنسان عن الرذائل، ويقال بأنها التوسط بين الإفراط والتفريط. هكذا يمكن الحديث عن مستويين فى العدالة:<br>
+- مستوى يرتبط بالمؤسسات القانونية والقضائية التى تنظم العلاقات بين الناس فى الواقع.<br>
+- و مستوى يرتبط بالعدالة كدلالة أخلاقية، وكمثال أخلاقى كونى يتطلع الجميع لاستلهامه.</td></tr>
+</table>
+<table>
+<tr><th>المفهوم</th><th><span class="t-red">التعريف</span> <span dir="ltr" class="t-red">DÉFINITION</span></th></tr>
+<tr><td>المواطنة</td><td>بالعودة إلى المفهوم الاشتقاقى لكلمة مواطن فإن هذه الكلمة فى اللغة الفرنسية يمكن تعريفها من خلال اشتقاقها اللغوى "<span dir="ltr">Civitas</span>" اللاتينية المعادلة لكلمة « <span dir="ltr">Polis</span> » اليونانية ومعناها المدينة كوحدة سياسية مستقلة فالمواطن ليس فقط ساكن المدينة ففى روما و أثينا لا يتمتع كل السكان بصفة المواطنين. غير أن ما يجب الانتباه إليه أن مفهوم المواطن يرتبط ضرورة بمفهوم الدولة. إذ لا يمكن الحديث عن المواطن خارج الدولة رغم أن الحقوق التى يتمتع بها المواطن داخل الدولة سابقة على وجودها، إنها حقوق طبيعية تخص الإنسان بوصفه إنسانا و هى حقوق مقدسة لا يمكن التنازل عنها لأنها ترتبط بجوهرية الإنسان. حتى أنه وقع الربط بين حقوق الإنسان و المواطن ذلك أن احترام حقوق الإنسان ضرورى لممارسة حقوق المواطن. إن المواطن هو <u>مواطن</u> من جهة كونه يشترك فى سلطة السيادة أو ما يطلق عليه بالحقوق، أما المقصود بالرعايا فإنها تعنى الحالة التى يكون فيها المواطن خاضعا لقوانين الدولة و هو ما يعبر عنه بمسألة الواجبات.</td></tr>
+<tr><td>الحق <span dir="ltr">DROIT</span></td><td><span class="t-red">الحقّ</span>: يمكن القول بأن لمفهوم الحق دلالتين رئيسيتين:<br>
+- دلالة فى المجال النظرى والمنطقى؛ حيث يعنى اليقين والصدق والاستدلال السليم.<br>
+- ودلالة فى المجال العملى؛ باعتباره قيمة تؤسس للحياة الاجتماعية والممارسة العملية  للإنسان.<br>
+و هذه الدلالة الثانية هى التى تجعله يتقاطع مع مفهوم العدالة. ويتخذ مفهوما الحق والعدالة أبعادا متعددة؛ طبيعية وأخلاقية وقانونية وسياسية، كما يرتبطا بمجموعة من المفاهيم الأخرى؛ كالطبيعة والثقافة والإنصاف والمساواة.<br>
+نميّز فى الفكر السياسى بين الحقّ الطبيعى ، الذّى هو مجموع الحقوق اللاّزمة عن طبيعة الإنسان من حيث هو إنسان ، وبين الحق الوضعى الذّى هو مجموع الحقوق المنصوصة فى القوانين المكتوبة و العادات الثابتة.<br>
+•ب.فالرى: "الحقّ فاصل ترفيهى بين قوّة وأخرى".</td></tr>
+<tr><td>القوة <span dir="ltr">FORCE</span></td><td>• <span class="t-red">القوّة</span>: القدرة والشّدة والطاقة و ضدّها الضعف، والقوّة مقابلة للحقّ لأنّها ليست حقّا، وإنّما هى وسيلة للدّفاع عن الحقّ، أو لمنع صاحب الحقّ من التمتّع بحقّه.<br>
+•ج.ج.روسو: "ليس الأقوى بقوىّ دائما قوّة تجعله يسود أبدا ، إلاّ إذا حوّل قوّته حقّا و الطاعة واجبة. " <u><span dir="ltr">du contrat social</span></u></td></tr>
+</table>
+<p class="subhead t-red">هل اخترع الناس الدولة كى لا يطيعوا الناس؟</p>
+<p class="para"><u>لحظة البناء</u>:  - الانطلاق من الرأى القائل إن الدولة ظاهرة ميزت المجتمعات الحديثة...<br>
+-الانطلاق من تفشى ظاهرة الهيمنة فى أشكال الحكم السياسى...</p>
+<ul class="b"><li>الاشكالية: كيف يمكن للدولة التى تقتضى طاعة المحكومين أن تكون شرطا لتحريرهم من استعباد الإنسان للإنسان؟ألا تحيل الطاعة فى كلّ وجوهها على الهيمنة و الاستعباد؟أليس من الخلف إذا أن يحرر الناس من هيمنة الناس بهيمنة الدولة على الناس؟ ألا يعنى ذلك أن مطلب الحرية فى الحياة المدنية مجرّد وهم؟</li></ul>
+<p class="para"><u>لحظة البلورة</u> :<br>
+1-  الدولة اختراع: اختراع الدولة هو أساس تحرير الإنسان من الإنسان:<br>
+-     تحديد دلالة الدولة فى سياق الموضوع بما هى مؤسسة حقوقية قانونية...<br>
+←  الوقوف عند دلالة الاختراع التى تحيل إلى أن أصل الدولة اصطناعى [ نقد الأساس الطبيعى+اللاهوتى].<br>
+-     بيان متى يكون الاختراع محررا [ الكشف عن الأساس التعاقدى للاختراع]<br>
+2-  طاعة الناس: الوضع الإنسانى خارج مدار الدولة:<br>
+-     التمييز بين دلالتين للطاعة.<br>
+- طاعة الناس بما هى خضوع عبودية: القوة البدنية+السلطة الكاريزمية+سلطة النفوذ الأبدى.<br>
+- هذه الأشكال برغم اختلافها تتقاطع  فى فكرة استعباد المحكومين.<br>
+3-  طاعة الدولة: التمييز بين السيادة التى تكون نفيا للمواطنة= نكون فى طاعتنا عبيد [ دولة التنين]<br>
++   و بين سيادة التى تكون فضاء للمواطنين=نكون فى طاعتنا مواطنين[دولة الحق]<br>
+محاورة هذا الموقف: إذ قد تتحول الدولة الديمقراطية جهاز قمع لأنه لا مجال للحديث عن حرية دون مساواة اجتماعية.</p>
+<p class="para"><u>لحظة الاستخلاص</u>:<br>
+← استخلاص استبدال النفوذ الشخصى بسيادة القوانين على أنها محصّلة وعى الإنسان بقيمة الحرية و سعيه إلى جعلها أسا س الممارسة السياسية. [الحرية السياسية تكتسب و لا توهب. ]<br>
+←  حل التناقض بين حاجة الإنسان إلى الحرية و حاجته إلى الاجتماع المنظم.<br>
+←تجاوز الوجود الإنسانى المحكوم بالنزوات و الأهواء نحو وجود ينظمه العقل[ بيان أهمية هذا الاختراع]</p>
+<div class="data"><p class="para"><span dir="ltr"><b>ROUSSEAU : « Si nous avons un prince, … , c'est afin qu'il nous préserve d'avoir un maître. »</b></span></p></div>
+<div class="data"><p class="para"><span dir="ltr"><b>Georges Burdeau: «Les hommes ont inventé l'Etat pour ne pas obéir aux hommes»</b>    (<u><b>L'Etat,</b></u> <b>1970)</b></span></p></div>
+<p class="subhead t-red">إذا كان الحق لا يتأسس على القوّة كيف يكون فى حاجة إليها ؟</p>
+<p class="para"><u>لحظة البناء</u>:  - الانطلاق من كشف التناقض بين اعتراف عام بقيم الحرية و العدالة و ما تتعرض إليه هذه القيم من انتهاكات، هذا التناقض هو الذى يطرح على الفلسفة مهمة تأسيس الحق...</p>
+<ul class="b"><li>الاشكالية: ما هى طبيعة العلاقة بين الحق و القوة و هل القوة أساس الحق أم هى مجرد وسيلة لضمان تجسيمه واستمراره؟ ألا يكون حضور القوة عنفا يهدد مسعى الإنسان للتحرر؟</li></ul>
+<p class="para"><u>لحظة البلورة</u> :<br>
+1-  فى التمييز بين الحق و القوة: الاعتراض على القائل أن الحق يتأسس على القوة:<br>
+•[حق القوة]:تحديد دلالة الحق على أنه الحق الطبيعى الذى يستند إلى القوة بما هى جملة القدرات الذهنية والمادية [القدرة الجسدية+الدهاء...] التى يتمتع بها الفرد= الاستتباع: للإنسان من الحق بقدر ما يملك من القوة .<br>
+←  الاعتماد على مرجعيات فلسفية[ هوبز]+أمثلة من التاريخ [النازية/الفاشية...]= <u>الحق  لا يتأسس على القوة</u><br>
+2-  القانون أساس الحق: الحق يتأسس على القانون:<br>
+• الحق بما هو الحق الوضعى الذى هو تعبير عن الإرادة العامة بما هى إرادة غير مشخصة، غايتها حفظ حق الجميع.<br>
+• القانون تجسيد للإرادة العامة +تجاوز للميولات المتعارضة+ضمان الحرية/المساواة/الأمن و السلام...[ روسو+سبينوزا]<br>
+3- فى الحاجة إلى القوّة: الحق الوضعى لا يقصى القوة فى المطلق:<br>
+•تحديد مفهوم القوة باعتبارها تتجسد فى مؤسسات الدولة+ الامتثال إلى القانون يقتضى الاستعمال المشروع للقوة.<br>
+محاورة هذا الموقف: احتمال تحول القانون عنف مقنع حين تغيب المشروعية.<br>
++ الحق الذى يقنن القوة قد يكون فى خدمة مصالح اجتماعية متناقضة.<br>
+←  ماكس فيبر: العنف هو الأداة المميزة للدولة<br>
+←ريكور: إن الوجود السياسى للإنسان يحميه و يوجهه عنف هو عنف الدولة وهو متسم بسمات العنف الشرعى.<br>
+←القوة فى هذا السياق مجرد وسيلة لضمان الحق و تجسيده.</p>
+<p class="para"><u>لحظة الاستخلاص</u>:<br>
+• استخلاص أن الإنسان لا يسلك وفق الحق و العقل و هذا ما يبررّ الحاجة إلى القوة لردعه.<br>
+•إن تحرير الإنسان من الاغتراب السياسى ليس رهين الحلول السياسية وحدها و ما اقتضته من استعمال للقوة لضمان العيش بل يتجاوز ذلك إلى جعل الحياة أكثر أخلاقية ليتحقق فيها حسن العيش.</p>
+<div class="data"><p class="para"><b>ج.ج.روسو:" ليس الأقوى بقوى دائما قوة تجعله يسود أبدا إذا لم يحوّل قوّته حقّا والطاعة واجبا...لنتفقّ إذا على أن القوّة لا توجد الحقّ، وعلى أن ليس للمرء إلا أن يطيع ذوى السلطان الشرعى. "</b></p></div>
+
+</section>
+
+</div>
+</body>
+</html>

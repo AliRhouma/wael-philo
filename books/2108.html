@@ -1,0 +1,390 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<title>Wael Academy — Philosophie · منهجية فلسفة</title>
+<script>
+  window.MathJax = {
+    tex: { inlineMath: [['\\(','\\)']], displayMath: [['\\[','\\]']] },
+    chtml: { fontURL: 'https://cdn.jsdelivr.net/npm/mathjax@3/es5/output/chtml/fonts/woff-v2', matchFontHeight: true },
+    startup: { typeset: true }
+  };
+</script>
+<script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js" async></script>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Sora:wght@400;500;600;700;800&family=Cairo:wght@400;500;600;700;800;900&family=Tajawal:wght@400;500;700;800&family=JetBrains+Mono:wght@400;500;600;700&display=swap');
+:root{
+  /* ===== Wael Academy palette — MAIN ACCENT = green-teal gradient #0FAB8F → #067360 ===== */
+  --bg:#fff; --panel:#f2f8f8; --hair:#e6e6e9; --hair2:#d6d6db;
+  --fg:#0f2a31;        /* body text (and +/− signs) */
+  --fg2:#3f5b62;       /* softer text */
+  --fg3:#7c959b;       /* muted (footer) */
+  --blue:#067360;      /* deep accent — small numbers, borders, watermark, accent equations */
+  --blue-dark:#045260; /* titles & wordmarks (also the balance colour) */
+  --teal:#0fab8f;      /* bright accent end */
+  --loop:#0d9c82;      /* logo-loop helper */
+  --orange:#067360;    /* kicker/category labels (gold retired → deep teal) */
+  --red:#f5322f;       /* EXERCISE CHIPS ONLY — never for emphasis */
+  --cream:#e6f3f4; --blue-soft:#e6f3f4;  /* pale teal — callout fill + table sub-row fill */
+  --blue-line:#cde7e4; /* hairline */
+  --sub-ink:#045260;   /* table sub-row text */
+  --grad:linear-gradient(148deg,#0fab8f 0%,#0d9c82 52%,#067360 100%);
+  --mono:'JetBrains Mono',monospace; --latin:'Sora',sans-serif; --ar:'Cairo',sans-serif; --arb:'Tajawal',sans-serif;
+}
+*{box-sizing:border-box;margin:0;padding:0;}
+body{font-family:var(--latin);color:var(--fg);background:#e4e4e7;padding:28px 0;
+     -webkit-print-color-adjust:exact;print-color-adjust:exact;}
+html[dir="rtl"] body{font-family:var(--arb);}
+
+/* ===== brand watermark: REAL text (crisp), full-bleed, repeats per page ===== */
+.wm{position:fixed;inset:0;z-index:0;pointer-events:none;display:flex;
+    align-items:center;justify-content:center;overflow:hidden;
+    -webkit-print-color-adjust:exact;print-color-adjust:exact;}
+.wm span{font-family:var(--mono);font-weight:800;font-size:76.8pt;letter-spacing:.16em;
+    color:var(--blue);opacity:.06;white-space:nowrap;transform:rotate(-54deg);}  /* single diagonal: bottom-left → top-right */
+.wm.mono span{color:#000;opacity:.05;}
+
+/* ===== continuous flow stream (no page border) ===== */
+.flow{width:210mm;margin:0 auto;background:transparent;color:var(--fg);
+      padding-block:16mm 18mm;padding-inline:23mm 14mm;position:relative;}   /* spiral gutter: inline-start(=spine) 23mm / outer 14mm — dir-aware; print margins set in render_flow.py */
+@media screen{ .flow{background:#fff;box-shadow:0 10px 40px rgba(0,0,0,.16);} }
+.flow>*{position:relative;z-index:1;}
+.flow p,.flow li,.flow .data,.flow .note,.flow .ex{break-inside:auto;}
+.flow .fig,.flow figure,.flow img,.flow svg.figsvg,.flow table,.flow tr,.flow .chapdiv,.flow .exh,.flow .qrcard,.flow .meta{break-inside:avoid;}
+.flow h1,.flow h2,.flow h3,.flow .exh,.flow .subhead,.flow .chapdiv{break-after:avoid;}
+.flow img,.flow svg.figsvg{max-width:100%;height:auto;}
+.flow figcaption,.flow .figcap{display:none;}          /* rule 3: no figure captions */
+
+/* ===== front matter + chapters each start on a fresh page ===== */
+.flow .cover{break-after:page;}        /* cover alone on page 1 */
+.flow .toc{break-after:page;}          /* Sommaire alone on the next page */
+.flow .chapter{break-before:page;}
+.flow .chapter:first-of-type{break-before:auto;}
+
+/* ===== cover ===== */
+.cover{padding:14mm 0 8mm;border-bottom:2px solid var(--blue);margin-bottom:6mm;}
+.cover .badge{font-family:var(--mono);font-size:8.5pt;letter-spacing:.28em;text-transform:uppercase;color:var(--orange);margin-bottom:10px;}
+.cover h1{font-family:var(--latin);font-weight:800;font-size:34pt;line-height:1.03;letter-spacing:-.025em;color:var(--blue-dark);}
+.cover .grule{width:120px;height:5px;border-radius:5px;background:var(--grad);margin:14px 0;}
+.cover .sub{font-family:var(--mono);font-size:10pt;letter-spacing:.14em;text-transform:uppercase;color:var(--teal);}
+.cover .auth{font-size:11pt;color:var(--fg2);margin-top:6px;font-weight:600;}
+
+/* ===== table of contents ===== */
+.toc{margin:2mm 0 4mm;}
+.toc h2{font-family:var(--latin);font-weight:800;font-size:15pt;color:var(--blue-dark);margin-bottom:4mm;}
+.toc .trititle{font-family:var(--mono);font-size:8pt;letter-spacing:.2em;text-transform:uppercase;color:var(--orange);margin:4mm 0 2mm;}
+.toc ol{list-style:none;}
+.toc li{display:flex;align-items:baseline;gap:8px;font-size:10pt;padding:2.2px 0;color:var(--fg);line-height:1.4;}
+.toc li .n{font-family:var(--mono);font-weight:700;font-size:9pt;color:var(--blue);min-width:26px;}
+.toc li .dots{flex:1;border-bottom:1px dotted var(--hair2);transform:translateY(-3px);}
+
+/* ===== chapter divider band ===== */
+.chapdiv{margin:0 0 5mm;padding:6mm 16px 5mm;border-radius:12px;background:var(--grad);
+    -webkit-print-color-adjust:exact;print-color-adjust:exact;}   /* green-filled chapter band */
+.chapdiv .cn{font-family:var(--mono);font-size:8.5pt;font-weight:700;letter-spacing:.24em;text-transform:uppercase;color:rgba(255,255,255,.82);margin-bottom:5px;}
+.chapdiv h2{font-family:var(--latin);font-weight:800;font-size:17pt;line-height:1.1;letter-spacing:-.015em;color:#fff;}
+/* conclusion block — same green-filled look as the chapter band */
+.conclusion{background:var(--grad);border-radius:12px;padding:6mm 16px;margin:5mm 0;color:#fff;break-inside:avoid;
+    -webkit-print-color-adjust:exact;print-color-adjust:exact;}
+.conclusion .ck{font-family:var(--mono);font-size:8.5pt;font-weight:700;letter-spacing:.24em;text-transform:uppercase;color:rgba(255,255,255,.82);margin-bottom:6px;}
+.conclusion h3{font-family:var(--latin);font-weight:800;font-size:13pt;line-height:1.2;color:#fff;margin-bottom:4px;}
+.conclusion p,.conclusion li{font-size:10.4pt;line-height:1.7;color:#fff;}
+.conclusion b,.conclusion strong{color:#fff;font-weight:700;}
+
+/* ===== unit header (lesson/exercise) + QR emplacement ===== */
+.exh{display:flex;align-items:center;gap:11px;margin:6mm 0 3mm;}
+.exh .idx{font-family:var(--mono);font-size:9pt;font-weight:600;color:#fff;background:var(--grad);
+    border-radius:6px;padding:4px 11px;letter-spacing:.08em;text-transform:uppercase;
+    -webkit-print-color-adjust:exact;print-color-adjust:exact;}
+.exh .idx.ex{background:var(--red);}   /* exercise chip = red */
+.exh h2{font-family:var(--latin);font-size:14pt;font-weight:700;letter-spacing:-.01em;color:var(--blue-dark);}
+.exh .qrcard{margin-inline-start:auto;flex:0 0 auto;display:flex;flex-direction:column;align-items:center;gap:3px;width:26mm;}
+.qrcard .qrt{font-family:var(--mono);font-size:6.5pt;letter-spacing:.1em;text-transform:uppercase;color:var(--teal);text-align:center;}
+.qrcard .qrslot{width:24mm;height:24mm;padding:1.5mm;background:#fff;border:1px solid var(--blue-line);border-radius:8px;display:flex;align-items:center;justify-content:center;}
+.qrcard .qrslot img,.qrcard .qrslot svg{width:100%;height:100%;display:block;}
+
+/* sub-exercise label when one file holds several exercices */
+.exsub{font-family:var(--latin);font-weight:800;font-size:11.5pt;color:var(--blue-dark);margin:5mm 0 2.5mm;padding-bottom:3px;border-bottom:2px solid var(--blue-line);}
+
+/* ===== text blocks ===== */
+.lead{font-size:11pt;line-height:1.7;margin:2mm 0 3mm;color:var(--fg);}
+.para{font-size:10.6pt;line-height:1.7;margin:2mm 0 2.5mm;color:var(--fg);}
+.consigne{font-size:10.4pt;line-height:1.6;margin:1mm 0 2mm;color:var(--fg);font-style:italic;}
+.subhead{font-family:var(--latin);font-weight:800;font-size:12pt;letter-spacing:-.01em;color:var(--blue-dark);margin:5mm 0 2.5mm;}
+/* emphasis — green accent = .t-blue/.t-green ; balance = .t-navy ; red = SECONDARY accent (.t-red) on titles + a few words */
+.t-blue{color:var(--blue);font-weight:600;} .t-navy{color:var(--blue-dark);font-weight:700;}
+.t-red{color:var(--red);font-weight:600;} .t-green{color:var(--teal);font-weight:600;} .t-gold{color:var(--orange);font-weight:600;}
+.subhead.t-red{color:var(--red);font-weight:800;}   /* red Roman-numeral section title (I, II, …) — keeps subhead weight */
+/* highlighter marks — a soft colour wash behind a key word (agent picks green or red per what balances the page) */
+.hl-green,.hl-red{border-radius:3px;padding:.02em .24em;font-weight:600;box-decoration-break:clone;-webkit-box-decoration-break:clone;
+    -webkit-print-color-adjust:exact;print-color-adjust:exact;}
+.hl-green{background:rgba(15,171,143,.20);color:var(--blue-dark);}   /* green highlight */
+.hl-red{background:rgba(245,50,47,.13);color:#c0261f;}               /* red highlight  */
+
+.data{background:var(--blue-soft);border:1px solid var(--blue-line);border-inline-start:4px solid var(--blue);
+    border-radius:8px;padding:11px 16px;margin:3mm 0;font-size:10pt;line-height:1.65;color:var(--fg2);}
+.data b{color:var(--fg);font-weight:700;}
+.note{border:1px dashed var(--hair2);border-radius:9px;padding:11px 16px;margin:4mm 0;background:var(--panel);}
+.note .kicker{font-family:var(--mono);font-size:7.5pt;letter-spacing:.18em;color:var(--orange);display:block;margin-bottom:5px;}
+.note .nb{font-size:10pt;line-height:1.7;color:var(--fg2);} .note b{color:var(--fg);}
+.ex:not(.idx){background:var(--blue-soft);border:1px solid var(--blue-line);border-inline-start:3px solid var(--blue);
+    border-radius:7px;padding:7px 11px;font-size:9.6pt;line-height:1.6;color:var(--fg2);margin:2mm 0;}   /* :not(.idx) so it never hits the exercise chip (which is .idx.ex) */
+.ex .extag{display:inline-block;font-family:var(--latin);font-weight:800;font-size:7.6pt;color:var(--blue-dark);background:#fff;
+    border:1px solid var(--blue);border-radius:5px;padding:1px 9px;margin-inline-end:7px;vertical-align:middle;text-transform:uppercase;letter-spacing:.06em;}
+
+/* ===== lists ===== */
+ol.q{list-style:none;counter-reset:q;margin:1mm 0 2mm;}
+ol.q>li{counter-increment:q;position:relative;padding-inline-start:30px;margin-bottom:2.5mm;font-size:10.4pt;line-height:1.6;}
+ol.q>li::before{content:counter(q);position:absolute;inset-inline-start:0;top:1px;width:21px;height:21px;background:var(--grad);color:#fff;
+    border-radius:50%;font-family:var(--mono);font-size:9pt;font-weight:600;display:flex;align-items:center;justify-content:center;
+    -webkit-print-color-adjust:exact;print-color-adjust:exact;}
+ol.sub{list-style:none;counter-reset:s;margin:4px 0 0;padding-inline-start:2px;border-inline-start:1px solid var(--blue-line);}
+ol.sub li{counter-increment:s;position:relative;padding:2.5px 0 2.5px 26px;font-size:10.1pt;line-height:1.55;}
+ol.sub li::before{content:counter(s,lower-alpha)".";position:absolute;inset-inline-start:10px;top:2.5px;font-family:var(--mono);font-size:9pt;font-weight:600;color:var(--teal);}
+ol.qn{list-style:none;counter-reset:qn;margin:1mm 0 2mm;}
+ol.qn>li{counter-increment:qn;position:relative;padding-inline-start:26px;margin-bottom:2.2mm;font-size:10.4pt;line-height:1.55;}
+ol.qn>li::before{content:counter(qn)".";position:absolute;inset-inline-start:0;top:0;font-family:var(--mono);font-size:9.5pt;font-weight:700;color:var(--blue);}
+ul.b{list-style:none;margin:1mm 0 2mm;} ul.b>li{position:relative;padding-inline-start:22px;margin-bottom:2.4mm;font-size:10.4pt;line-height:1.6;}
+ul.b>li::before{content:"";position:absolute;inset-inline-start:3px;top:8px;width:8px;height:8px;border-radius:50%;background:var(--grad);
+    -webkit-print-color-adjust:exact;print-color-adjust:exact;}
+ul.dash{list-style:none;margin:1mm 0 2mm;} ul.dash>li{position:relative;padding-inline-start:20px;margin-bottom:1.8mm;font-size:10.4pt;line-height:1.6;}
+ul.dash>li::before{content:"–";position:absolute;inset-inline-start:2px;top:0;color:var(--fg);font-weight:700;}  /* dash / +/− signs = body colour */
+.flow ul.opts{list-style:none;margin:4px 0 3px;padding-inline-start:16px;}
+.flow ul.opts li{padding:2px 0;font-size:10.2pt;line-height:1.5;color:var(--fg);}
+
+/* ===== figures / tables ===== */
+.fig{margin:3mm 0;} .fig svg.figsvg{display:block;margin:0 auto;background:#fff;max-width:100%;height:auto;}
+.photo{display:block;margin:3mm auto;border-radius:8px;border:1px solid var(--hair);max-width:100%;}
+.figrow{display:flex;flex-wrap:wrap;gap:9px;justify-content:center;margin:3mm auto;max-width:190mm;}
+.flow .figrow img{border-radius:7px;border:1px solid var(--hair);height:46mm;width:auto;max-width:none;object-fit:cover;}
+.schemarow{display:flex;gap:16px;align-items:flex-start;flex-wrap:wrap;margin:2mm 0;}
+.schemarow .col-txt{flex:1 1 90mm;min-width:80mm;} .schemarow .col-fig{flex:0 0 78mm;} .schemarow .col-fig .fig{margin:0;}
+.flow table{border-collapse:collapse;width:100%;margin:3mm 0;font-size:9.8pt;line-height:1.5;}
+.flow table th,.flow table td{border:1px solid var(--blue-line);padding:6px 10px;text-align:start;vertical-align:top;}
+.flow table th{background:var(--grad);color:#fff;font-family:var(--latin);font-weight:700;font-size:9.4pt;
+    -webkit-print-color-adjust:exact;print-color-adjust:exact;}
+.flow table tr:nth-child(even) td{background:var(--blue-soft);color:var(--sub-ink);}   /* sub-row: #E6F3F4 / #045260 */
+
+mjx-container{color:var(--fg) !important;font-weight:400 !important;font-size:1.0em !important;}
+.eq-hi mjx-container,mjx-container.eq-hi{color:var(--blue) !important;}   /* accent (green) equation — highlight a key result; balance with plain math */
+.eq-red mjx-container,mjx-container.eq-red{color:var(--red) !important;}  /* red accent equation / symbol — complements the green .eq-hi */
+
+/* ===== per-file books: credit line, copies list, figures at their size ===== */
+.credit{display:flex;flex-wrap:wrap;align-items:center;gap:5px;margin:-1mm 0 3.5mm;font-size:9.4pt;color:var(--fg2);}
+.credit .who{font-weight:700;color:var(--blue-dark);}
+.credit .tg{font-family:var(--mono);font-size:7.2pt;letter-spacing:.04em;border-radius:5px;padding:1px 7px;line-height:1.6;
+    border:1px solid var(--blue-line);color:var(--blue);background:#fff;-webkit-print-color-adjust:exact;print-color-adjust:exact;}
+.credit .tg.sec{background:var(--blue-dark);border-color:var(--blue-dark);color:#fff;}
+.credit .tg.cor{background:#fff;border-color:var(--red);color:var(--red);}
+.credit a{color:var(--fg3);font-family:var(--mono);font-size:7pt;text-decoration:none;}
+.cover .auth .credit{margin:4mm 0 0;}
+.cover .copies{margin-top:5mm;font-size:8.6pt;color:var(--fg2);}
+.cover .copies ul{list-style:none;margin:2mm 0 0;padding:0;columns:2;}
+.cover .copies a{color:var(--fg3);text-decoration:none;font-size:8pt;}
+.flow figure.fig{text-align:center;}
+.flow figure.fig img{max-height:60mm;width:auto;max-width:70%;display:inline-block;}
+
+/* chapter tag on each part of a multi-chapter book (the book keeps the original order of the file) */
+.chtag{display:inline-block;margin:5mm 0 2mm;padding:1mm 3mm;border-radius:2mm;background:#eef3fb;border:1px solid #c9d6ea;
+  color:#1f3a6b;font-size:9pt;font-weight:700}
+.chtag span{color:#6b7f9e;font-weight:600;margin-inline-end:1.5mm}
+
+@media print{ body{background:#fff;padding:0;} .flow{width:auto;max-width:none;margin:0;padding:0;} }
+@page{size:A4;}   /* margins come from render_flow.py — do NOT set them here */
+</style>
+<meta data-pagefind-filter="type[content]" content="منهجية">
+<meta data-pagefind-filter="resource[content]" content="المصدر غير مذكور">
+<meta data-pagefind-meta="n[content]" content="2108">
+<meta data-pagefind-meta="title[content]" content="منهجية فلسفة">
+<meta data-pagefind-filter="chapter[content]" content="المنهجية">
+<meta data-pagefind-filter="section[content]" content="باكالوريا رياضيات"><style>.qrcard{display:none!important}.wa-nav{position:sticky;top:0;z-index:50;background:#045260;padding:10px 18px;font-family:Cairo,sans-serif;direction:rtl}.wa-nav a{color:#fff;text-decoration:none;font-weight:700}@media print{.wa-nav{display:none}}</style>
+</head>
+
+<body dir="rtl" lang="ar"
+      data-brand="Wael Academy" data-handle="@WaelAcademy"
+      data-tagline="في تُرابنا.. مغامرة بمغامرة"
+      data-phone="+216 50 40 40 42" data-site="waeldocuments.com"
+      data-cta="سجل معانا وأقرى عن بعد مع منصة Wael Academy"
+      data-subject="Philosophie · منهجية فلسفة" data-watermark="Wael Academy" data-pagefind-body><nav class="wa-nav" data-pagefind-ignore><a href="../index.html">→ الرجوع إلى فهرس الفلسفة</a></nav>
+
+<!-- single full-page diagonal watermark, bottom-left → top-right (repeats on every page) -->
+<div class="wm" aria-hidden="true"><span>WAEL&nbsp;ACADEMY</span></div>
+
+<div class="flow colored">
+<div class="cover"><div class="badge">◉ Wael Academy · Philosophie</div><h1>منهجية فلسفة</h1><div class="grule"></div><div class="sub">المنهجية</div><div class="auth"><div class="credit">المؤلّف / المصدر : <span class="who">المصدر غير مذكور في الوثيقة</span> <span class="tg">منهجية</span><span class="tg sec">الفلسفة · باكالوريا رياضيات</span> <a href="https://drive.google.com/file/d/1bous2ANolUQVJ_bGQKCl8VvgFlYvTAs3/view">↗ منهجية فلسفة.pdf</a></div></div><div class="copies" data-pagefind-ignore><b>نسخ هذا الملف في الدرايفات (1)</b><ul><li><a href="https://drive.google.com/file/d/1bous2ANolUQVJ_bGQKCl8VvgFlYvTAs3/view">Mohamed Mehdi Mareghni · BAC MATHS › الفلسفة / Manhajia</a></li></ul></div></div>
+<section class="chapter"><div class="chapdiv"><div class="cn">المحور</div><h2>المنهجية</h2></div>
+<div class="exh"><span class="idx">منهجية</span><h2>المهارات الفلسفيّة</h2>
+  <div class="qrcard"><div class="qrt">فيديو الدرس</div><div class="qrslot"><img src="qr/2108.svg" alt="QR"></div></div></div>
+<div class="credit">المؤلّف / المصدر : <span class="who">المصدر غير مذكور في الوثيقة</span> <span class="tg">منهجية</span><span class="tg sec">الفلسفة · باكالوريا رياضيات</span> <a href="https://drive.google.com/file/d/1bous2ANolUQVJ_bGQKCl8VvgFlYvTAs3/view">↗ منهجية فلسفة.pdf</a></div>
+<!-- NOTE: text bleeding through from the reverse side of the sheet is left out -->
+<ul class="b">
+<li><b>تحديد مفهوم : تقتضي هذه المهارة</b>
+<p class="para"><b>- استبعاد دلالة سابقة (سائدة مثلا)</b></p>
+<p class="para"><b>-اختيار مرجعية فلسفيّة أو علميّة لاعتمادها</b></p>
+<p class="para"><b>- إبراز الطابع الإجرائي للمفهوم على اعتبار ان دلالته تسمح بحل مشكل ما</b></p></li>
+<li><b>تحديد مفهوم سياقيا : تقتضي هذه المهارة</b>
+<p class="para"><b>الانتباه إلى معنى «المفهوم» داخل الجملة لأن المقصود بالسياق تحديد الدلالة المقصودة من «المفهوم» في جملته، «فالمفهوم» لا معنى له خارج السياق الذي ورد فيه، فالسياق هو المكان الطبيعي لبيان المعاني الوظيفية للمفهوم.</b></p>
+<p class="para"><b>(لكل مقام مقال).</b></p></li>
+<li><b>الأطروحة المثبتة : هي الموقف الذي يعلنه الكاتب ويصرح به ويدافع عنه ويسعى إلى إقامة حجاج على وجاهته باعتباره حلا لمشكل فلسفي مستبعدا بذلك أطروحات أخرى وتكون في صيغة تقريرية.</b></li>
+<li><b>الأطروحة المستبعدة : هي الموقف الذي يعارضه الكاتب ويستبعده صراحة أو تلميحا.</b></li>
+<li><b>الإشكالية : أحوّل الموضوع إلى مشكل فلسفي وأصوغ الإشكالية.</b>
+<p class="para"><b>الإشكالية هي زاوية نظر التي بمقتضاها يقوم الفيلسوف بالتفكير في المشكل الفلسفي وبنائه تساؤليا عبر توليد احراجاته ومعضلاته .من خلال عدة أسئلة مركبة منها التحليلي والنقدي والتقييمي</b></p>
+<p class="para"><b>- صياغة في شكل مجموعة من الأسئلة المترابطة والمبوّبة</b></p>
+<p class="para"><b>- صياغة إمية مركزة على موطن إحراج أساسي (هل أنّ...أم....؟)</b></p>
+<p class="para"><b>-صياغة مفارقيه من قبل :إذا كان....فكيف؟</b></p>
+<p class="para"><b>-صياغة تعاقبية تناوبية من قبل :هل...أو.</b></p></li>
+<li><b>المسلمة الضمنية : هي ما يكون مفترضا في ملفوظ ما أو مسلم به حتى يكون ذلك الملفوظ ممكنا أو هو الإقرار الضمني (غير المصرح به) الذي يستمد منه حكم ما وجوده. والضمنية تؤسس وجاهة الموقف. يحتاج الفكر النقدي إلى الكشف عنها للتأكد من صدقها لأنه بإثبات وهنها ينهار الموقف ذاته.</b></li>
+<li><b>التبعات : تبعات نظرية / تبعات عملية / تبعات إيجابية / تبعات سلبية</b>
+<p class="para"><b>التبعة هي إقرار أو تصور حاضر منطقيا في ملفوظ ما دون أن يكون مصاغا على نحو صريح، أو ما يترتب نظريا أو عمليا من نتائج حكم ما.</b></p></li>
+<li><b>الاعتراض على موقف ببيان استتباعاته.</b></li>
+</ul>
+<p class="para"><b>الاستتباع :هو كل ما يمكن أن يترتّب على موقف، والاعتراض بالاستتباع معناه بيان أن ما يترتب:</b></p>
+<p class="para"><b>- خارق ولا يقبله العقل.</b></p>
+<p class="para"><b>-يفضي إلى تناقض مع المنطلق</b></p>
+<p class="para"><b>-يتعارض مع نظرية علميّة</b></p>
+<p class="para"><b>-يتناقض مع الواقع</b></p>
+<p class="para"><b>- يكتسي خطورة على الوجود الإنساني</b></p>
+<ul class="b">
+<li><b>الرهان :كشف عن الرهان النظري والعملي للتفكير في المشكل</b>
+<p class="para"><b>الرهان هو الخطورة والأهمية التي يكتسيها التفكير في المشكل ما، وما للموقف الذي ستتخذه منه من طابع حاسم ومصيري سواء على مستوى نظري أو عملي. يتعلق بالنظرية والعملية التي يمكن أن يؤول اليها التفكير في هذا المشكل وانعكاساته المحتملة والمصرية سياسيا وأخلاقيا على مجرى الحياة الواقعية.</b></p></li>
+</ul>
+<p class="subhead t-red">القسم النظري :أنجز مقالا فلسفيا</p>
+<ul class="b">
+<li><b>1- إذا كانت الإنيّة تتعالى دائما على الغيرية فهل في ذلك ما يهدد الإنساني؟</b></li>
+<li><b>2- هل يؤدي الإقرار بتنوع الهويات بالضرورة إلى التشكيك في الإنساني ؟</b></li>
+<li><b>3- هل مثلت الهوية حصنا وسجنا للإنسان في الآن نفسه؟</b></li>
+<li><b>4-هل حوّلت النمذجة العلم بما هو مشروع الحكمة إلى وسيلة التحكم؟</b></li>
+<li><b>5- قيل : نحتاج لمواجهة هيمنة فكرة المقدّس حتى تستعيد الإنسانية وحدتها.</b>
+<p class="para"><b>حلل هذا الإقرار وناقشه مبرزا تبعات هيمنة المقدّس على الهوية الإنسانية.؟</b></p></li>
+<li><b>6- هل من تعارض بين الواجب الأخلاقي ومطلب السعادة؟</b></li>
+<li><b>7- قيل أن العمل أساس المواطنة. ما وجاهة هذا القول؟</b></li>
+<li><b>8- هل التجربة الفنية منغلقة على الذاتية أم هي تجربة منفتحة على الكونية؟</b></li>
+<li><b>9- تحليل نص لنيتشه :الوعي نتاج التواصل (كتاب الفلسفة علوم س4 ص 36)</b></li>
+</ul>
+<p class="para"><b>ملاحظة 1: الموضوع 3 و7 و8 و9 في مجال شعبة الآداب.</b></p>
+<p class="para"><b>ملاحظة2 : قد تتغير المواضيع من ناحية التراكيب والمفاهيم وكذلك الصيغ التي طرحت بها، لذلك المطلوب الانتباه إلى هذه الخاصيات خاصة الصيغة التساؤلية أو الصيغة التقريرية .</b></p>
+<!-- NOTE: handwritten margin notes, highlighter and pen additions on the printed pages that follow are left out -->
+<p class="subhead t-red">منهجية فرض الفلسفة</p>
+<p class="subhead t-navy">❖ القسم الأول: 10 نقاط</p>
+<p class="para">أنواع الأسئلة في هذا الجزء و كيفية الاجابة عنها.</p>
+<ul class="b">
+<li>حوّل السؤال التالي الى اشكالية: ما منزلة الآخر في تحديد انيتي؟
+<p class="para">1) الأطروحة: الآخر اثراء للإنية و اكتشاف لخفاياها <b>( هل أن الآخر مهدد للانية وسلب لتميزها</b></p>
+<p class="para">2) نقيض الأطروحة: الآخر مهدد للانية و سلب لتميزها <b>( أم أنه عامل اكتشاف لخفاياها واثراء لها؟</b></p>
+<p class="para">تحديد مسلمة ضمنية: المقصود من القول ما أراد قوله و لم يعلن عنه مباشرة.</p>
+<p class="para">يكشف الاوعي جهلنا بانيتنا و يوسع معرفتنا بها في آن</p>
+<p class="para">يسلم هذا الموقف ضمنيا اقرار بعمق الرجة التي احدثها اكتشاف الاوعي،اعلان عن موت الذات الواعية وعن هدم حصن الكوجيتو.الوعي بوهم الأنا في ذلك دحض لمواقف فلسفية كثيرًا مّا إدّعت أن كل ما هو نفسي.إلا ان ذلك لا يتضمن نفيا تاما للوعي او انكارا للإنساني في الانسان بقدر ما هو إعادة نظر في دلالته حيث يستوعب الوعي نقيضه لندرك أن الذات الانسانية على جدال بين الوعي والاوعي يجعل الإنية مسرح للصراع والسيرورة لا السكون و الثبات</p></li>
+<li><b>ابرز عدم وجاهة الموقف التالي: " الاعتراض على موقف من خلال استتباعه"</b>
+<p class="para">مراحل الاجابة : شرح الموقف / بيان نتائجه</p>
+<p class="para">بيان عدم وجاهتها لأنها غير منطقية / غير واقعية / تمثل خطورة</p>
+<p class="para">مثال : تتحدد الهوية بإرثنا الثقافي وحده : يشير هذا الموقف إلى محددات الهوية و هي التراث الثقافي في التاريخ الماضي فحسب و هو ما يترتب عنه حصر الهوية في الانتماء إلى الماضي و نسيان اهمية الحاضر فيها الا ان هذا الموقف يفقد للوجاهة لأنّه أولا غير منطقي أن نحصر هويتنا في الماضي و نبقى سجناء مجد قد ولى عهده فنؤسس لهوية بسيطة ثابتة متحجرة و هو كذلك موقف حامل لخطورة على الانسانية لسيادة منطق التعصب و الإنغلاق و ما يشرع له من عنف و الغاء للاخر فيتحول الواقع إلى مسرح للتقاتل لا للتواصل.</p></li>
+<li><b>قدم حجة تدعم موقف</b> : تبرير صحة الموقف
+<p class="para">مثال :" الحكومة الشرعية تفرض احترام الحق بالقوة لا تبني الحق على القوة"</p>
+<p class="para">شرعية الحكومة متأتية من الدور الذي تقوم به و أوكل إليها و هو جعل القانون محترما من قبل الجميع و لكي تفعل ذلك عليها أن تستعمل القوة كوسيلة لا كغاية لتجعل الأفراد يحترمون الحق الصادر عنهم كشعب و يهابونه و بالتالي يكون القانون أساس الحق لا القوة فتقف حدودها عند ضمان الحق.وان تجاوزت ذلك تجاوزت هذه القوة شرعيتها.</p></li>
+<li><b>قدم حجة مضادة للموقف</b> : طرح الحجة المضادة ثمّ البرهنة عليها
+<p class="para">رد النمذجة الى عملية تخيلية افتراظية يجعل منها ترفا فكريا و ملهاة للعقل</p>
+<p class="para">من الخطأ الاعتقاد ان النمذجة مجرد عملية افتراضية تعبّر عن المبالغة في التفكير او لهوا باطلا بل هي على خلاف ذلك تتحدد قيمتها لا في مرحلة التصور بل اساسا في مرحلة الفاعلية إذ أن البعد التداولي هو البعد الحاسم فيها و يمنح النمذجة طبيعة تيلولوجية عبر اهمية الهدف فيها إذ الفشل في تحقيقه يفقد النمذجة كل قيمتها باعتبار ان النموذج هو تصور فاعل و أن النمذجة هي مسار انتاج النموذج من مرحلة التصور إلى مرحلة الفعل وإثبات الفاعلية.فنمذجة دون هدف لا قيمة لها ونموذج دون غاية لا معنى له.</p></li>
+<li><b>حدد قيمة هذا القول :</b>
+<p class="para">"ان المجتمع هو الذي يرسم للفرد منهاج حياته".</p>
+<p class="para">تبرز قيمة هذا الموقف في التأكيد على أهمية العيش المشترك و الشعور بالانتماء إلى المجتمع في تحقيق الفرد لوجوده وعيا و فعلا ما يعني أن الفرد يستمد قيمته و أساليب حياته ضمن مرجعية احتماعية إذ لا وجود لوعي فردي مستقلا أو متعاليا على الوعي الجماعي فالوعي نتاج اجتماعي إلا أن الاقتصار على البعد الاجتماعي قد يفضي إلى تكريس التنميط و التبعية و الاغتراب بالتالي ضياع ذاتية الانسان بل يجعل من سلوكه إلزام و خضوع لا التزام او قد يفضي الامر الى الانغلاق و التعصب و تهميش مطلب الكلي اذ يكتفي كل مجتمع بقيمه في حين ان التنوع و التعدد يخترق الوجود الانساني.</p></li>
+</ul>
+<!-- PROOFREAD: 2108 part1 p03 — "تيلولوجية" / "احتماعية" / "افتراظية" read as printed; check -->
+<ul class="b">
+<li><b>تحديد دلالة مفهوم بشكل عام</b> : مراحل الاجابة : نفي معنى عام سائد و خاطئ / صحيح و جزئي تأكيد المعنى الصحيح / تدعيم بمرجعية
+<p class="para">مثال : حدد دلالة الديمقراطية : ليست الديمقراطية مجرد تحقيق للمساواة او تمتع بحق الانتخاب رغم أنه خطوة اساسية أولى في اتجاه تحققها لأنه لا ينبغي أن تكتفي بمجرد أنك قد أخترت باعتبار إمكانية ظلم المنتخب فيما بعد أو تزوير الانتخابات فهي اذن حرية التفكير مع حق الشعب في وضع القانون الذي يعبر عن ارادته مع حق مراقبة الدولة باعتبارها سلطة بيد الشعب يثبت بها فاعليته و سيادته و هو ما عبر عنه روسو في قوله : " الديمقراطية هي حكم الشعب نفسه بنفسه".</p></li>
+<li><b>تحديد دلالة مفهوم في السياق</b> : الاشارة الى الموقف / تحديد الدلالة المستبعدة / تحديد الدلالة حسب السياق.
+<p class="para">مثال :إن ما نسميه التاريخ الانساني ليس إلا انبثاق الانسان عن طريق عمله الانساني</p>
+<p class="para">يشير الموقف الى دلالة التاريخ مبرزا أنه انبثاق العمل الإنساني فما نعرفه عن التاريخ انه ليس مجرد ماضي انتهى دوره و ولى مجده بل هو كل ما يحدث في ماضي الانسانية من وقائع بشرية كالحروب الثورات و التطورات العلمية التقنية، يتواصل تاثيرها في الحاضر و ترسم ملامح المستقبل.</p>
+<p class="para">فالتاريخ اذن هو كامل الوجود الانساني لذلك كل فعل أو ممارسة يقوم بها الانسان في وجوده تتحول الى حدث تاريخي و بالتالي كل مرحلة فكرية تعتبر مرحلة تاريخية جديدة تُبنى على انقاض المرحلة السابقة فالتاريخ يصنعه الانسان و هو بصمته الثقافية الابداعية فهو الذاكرة و هوية الشعوب رمز ثقافتها و تحضرها.</p></li>
+</ul>
+<p class="para"><b>تحديد إستتباع : ما ينتج عن الموقف / ما يترتب عنه.</b></p>
+<p class="para">مثال: "فعل الخير يقاوم المصالح": يترتب عن هذا الموقف اقرار بان الفعل الخير لا ينبغي ان يكون فعلا شرطيا تقوم به بدافع غاية او شرطا ما يبرر امكانية التخلي عنه بانعدام ذلك الشرط ما يعني أن المصلحة لا تكون اساسا اخلاقيا وهو ما ينتج عنه اعتبار ان الخير يتحدد وفق منطق العقل لتكون الذات العاقلة على اقتناع به طالما أنها اختارت أن تتصرف وفق الواجب فيأخذ صيغة المبدأ الذي تتمسك به الذات وإن تعارض مع مصالحها أو أهوائها ما يجعل من الخير قيمة كونية تتعالى عما هو نفعي</p>
+<ul class="b">
+<li><b>تحديد رهان موقف، الهدف الذي يريد تحقيقه / بلوغ الموقف</b>
+<p class="para">مثال : ان اتسامح مع الاخر لا يعني ان اتنصل من هويتي</p>
+<p class="para">يراهن هذا الموقف على ضرورة الحفاظ على الهوية بما هي أصل للذات و مرجعا و مرشدا لها في سلوكها و علاقتها بالاخرين و بالتالي التلاقي مع الاخر و التواصل معه ينبغي أن يقوم على هذه الأرضية اي أرضية الإعتراف بحقي في الاختلاف معه و حقه في الحفاظ على ما يميزه عني و في ذلك مراهنة على معنى إنيتي للتسامح بما هو اعتراف بالاخر دون تقزيم أو مفاصلة عرقية أو ثقافية بل ينبغي أن يقوم التسامح على فكرة النسبية الثقافية أي على أهمية النظر الى كل الخصوصيات كأصل للكونية بدونها لا تكتمل.</p></li>
+<li><b>تحديد راهنية موقف</b>: ابراز ان الموقف يؤكده الواقع الراهن / ما يحدث في الواقع يؤكد الموقف
+<p class="para">مثال اننا لا نفكر الا على اساس النماذج:يمكن النظر لهذا الموقف كموقف راهن حيث نلاحظ في واقعنا المعاصر ان العلم قد تحول فعلا من مجرد علم نظري صوري يهدف الى الكشف عن الحقائق و تفسير الظواهر الى علم يراهن على التقنية حتى انه يتساوى معها و بالتالي أصبحت المعرفة العلمية المعاصرة اجرائية عملية تداولية و هو ما جعل الدول المعاصرة تراهن اكثر على النمذجة كاساس لقوتها الاقتصادية فالسياسة و ترسيخ لمقياس البراغماتية.</p></li>
+</ul>
+<p class="para">✓ النص: الاطروحة : الانتباه الى الجملة الاولى او الاخيرة من النصّ مع محاولة صياغة مستثمرا المفاهيم الاساسية في النص.</p>
+<p class="para">✓ الاشكالية : هل ( نقيض الاطروحة ) ام ( الاطروحة ) ؟</p>
+<p class="para">تحديد دلالة مفهوم في النصّ + تحديد دلالته انطلاقا من النصّ استبعادا / تاكيدا حسب النصّ</p>
+<ul class="b">
+<li>حدد حجة تدعم موقف الكاتب يتم كتابة الحجة ثم الانشغال عليها : الكاتب يؤكد على ضرورة تحقيق الدولة للحرية و لكي يبرهن على ذلك استعمل حجة اولى ....... و حجة ثانية ......</li>
+</ul>
+<!-- PROOFREAD: 2108 part1 p04 — words under heavy highlighter: "صيغة المبدأ", "تقزيم", "مفاصلة", "صياغة" (last ✓ line); check -->
+<!-- NOTE: pages p05–p07 are entirely handwritten; transcribed as best reading -->
+<p class="subhead t-red"><span class="t-red">الاشتغال على المهارات المنهجية</span></p>
+<p class="para">1 - تحديد دلالة مفهوم :</p>
+<p class="para">نعني بدلالة المفهوم تحديد معنى المفهوم حسب سياق القول و تقتضي هذه المهارة 3 مراحل :</p>
+<p class="para">1 - تحديد الموقف المستبعد</p>
+<p class="para">2 - اختيار مرجعية لإعتمادها في التحليل ( الموقف المثبت )</p>
+<p class="para">3 - إستنتاج</p>
+<p class="para">ليس ① بل ② و من هنا نستنتج ③</p>
+<p class="para">مثال ① "ليس لي جسد بل أنا جسدي" ميرلوبونتي</p>
+<p class="para">حدد دلالة الجسد من خلال هذا القول.</p>
+<p class="para">2 - الجسد أساس و عماد الوجود وهو ممر عبور لإدراك العالم وهو مكون رئيسي لتحديد ماهية الإنسان . ( المثبت )</p>
+<p class="para">1 - الجسد مجرد غيرية أو ملكية أو موضوع أو مقبرة لا يتدخل في تحديد ماهية الإنسان ( المستبعد )</p>
+<p class="para">3 - حقيقة الإنسان تتحدد في إطار الذات حيث يكون الجسد مكون رئيسي للإنية</p>
+<p class="para">ليس ① بل ② و من هنا نستنتج ③</p>
+<p class="para">مثال ② : "لا يتحدد النموذج بما ينتقي بل يتحدد بما يهمل".</p>
+<p class="para">(sélection)</p>
+<p class="para">ليس النموذج أداة لانتقاء ما هو مهم في الواقع بغاية فهمه بل هو والتحكم فيه بل هو أداة لاهمال الجزئيات التي تكون مهمة في فهم النسق المدروس ليكون اداة تبعدنا عن الواقع أكثر مما تقربنا منه و منا هنا نستنتج أن النموذج أداة للمغالطة و أداة فشل للعلم.</p>
+<p class="para">مثال ③ : إنّ القوة لا تصنع الحق</p>
+<!-- PROOFREAD: 2108 part1 p05 — handwriting: "مقبرة", "إطار الذات", "بغاية فهمه بل هو والتحكم فيه" (a word struck/overwritten after "بل"), "و منا هنا" -->
+<p class="para">2 - تحديد مسلمة ضمنية :</p>
+<p class="para">نعني بالمسلمة الضمنية اللامعلن و اللامصرح به في القول وهو ما بين السطور أو المخفي .</p>
+<p class="para">يحتاج الفكر النقدي إلى بيانه لتأكيد قيمة القول</p>
+<p class="para">مثال ① "ليس هنالك نماذج خاطئة"</p>
+<p class="para">الكشف عن ضمنية من ضمنيات هذا القول .</p>
+<p class="para">إنّ هذا القول : "..." يخفي مسلمة ضمنية مفادها : النماذج لا تقاس بالصواب أو بالخطأ</p>
+<p class="para">- النماذج تقاس بالنجاعة والملائمة و الجمالية</p>
+<p class="para">- النماذج هي تمثلات ذاتية مبسطة للواقع فهي لا تبحث عن التماثل معه</p>
+<p class="para">مثال ② : "تشترط السعادة إنكار الملذات".</p>
+<p class="para">إنّ ... تكون السعادة هي سعادة عقلية تكون من خلال التحرر من الرغبات و الملذات يعني أنّ السعادة تكون من خلال الفضيلة</p>
+<p class="para">- التسليم بكون الملذات هي مصدر مؤكد للشقاء</p>
+<p class="para">3 - تحديد استتباع / تبعات : Conséquence</p>
+<p class="para">هي ما ينجر في صورة تبني ذلك الموقف</p>
+<p class="para">مثال ① : "أنا أفكر إذن أنا موجود"</p>
+<p class="para">حدد إحدى تبعات هذا القول و يمكن ان تكون إيجابية كما يمكن ان تكون سلبية .</p>
+<p class="para">إيجابيا : التأكيد على استقلالية الذات و ثباتها</p>
+<p class="para">سلبيا : السقوط في التعالي و الوثوقية</p>
+<p class="para">مثال ② : "ليس هنالك نماذج خاطئة"</p>
+<p class="para">إيجابيا : نتحرر من الحقيقة الدغمائية و الإلزامية لتصبح الحقيقة من إبداع و إنشاء الإنسان</p>
+<p class="para">سلبيا : الفوضى في العلم و غياب الثقة فيه</p>
+<!-- PROOFREAD: 2108 part1 p06 — handwriting: "السقوط في التعالي" (could be "التعصب"), "الدغمائية", "غياب الثقة" -->
+<p class="para">4 - الإشتغال على تحديد رهان :</p>
+<p class="para">نعني بالرهان الهدف الذي ننشده من خلال القول</p>
+<p class="para">مثال ①، قيل : "عندما يحكم الحاكم على هواه يقترف أبشع الجرائم".</p>
+<p class="para">يراهن هذا الإقرار على ضرورة ارتكاز الحكم على القانون الضامن للحقوق والحريات و بالتالي فضح الأنظمة الإستبدادية التي تحكم بالأهواء و الإنفعالات .</p>
+<p class="para">مثال ②، قيل : "الهمجي هو من يعتقد في وجود الهمجية".</p>
+<p class="para">يراهن هذا الإقرار على قبول الإختلاف و الإيمان بالكونية و تكريس التعايش بين الثقافات المختلفة .</p>
+<p class="para">5 - تقديم حجة لتدعيم موقف :</p>
+<p class="para">مثال ① : "التعصب لا الاختلاف هو الذي يعوق التواصل".</p>
+<p class="para">قدم حجة تثبت بها وجاهة هذا الموقف .</p>
+<p class="para">إنّ التعصب بما هو احتماء بالذات و إنغلاق عليها وهو بالتالي معطل للتواصل في حين أنّ الإختلاف القائم على الإعتراف و التسامح هو شرط التواصل.</p>
+<p class="para">6 - تقديم حجة لدحض موقف :</p>
+<p class="para">مثال ② "لا تستقيم الحرية دون نظام و لا قيمة للنظام دون حرية"</p>
+<p class="para">الحرية في غياب النظام تؤدي إلى الفوضى و النظام في غياب الحرية يؤدي إلى الاستبداد .</p>
+<p class="para">مثال ① : "التسامح علامة ضعف"</p>
+<p class="para">التسامح علامة قوة بدليل أنّ الشخص المتسامح هو شخص يتجاوز الإنفعالات والأهواء و يقوم بتصرف عقلاني يقبل فيه الإختلاف و يكرس الوجود البينذاتي التواصلي.</p>
+<!-- PROOFREAD: 2108 part1 p07 — a handwritten arrow with the word "دعم" links the "مثال ②" of item 6 to "مثال ①"; not typed as body text. Readings to check: "البينذاتي", "الضامن" -->
+<table>
+<tr><th colspan="2">المراحل</th><th>المطلوب</th></tr>
+<tr><td>مرحلة بناء المشكل</td><td>المقدمة</td><td>تمهيد يتلاءم مع خصوصية الموضوع<br>- (الانطلاق من تصور شائع)<br>- تجنّب الاستباق والأحكام المسبقة والتمهيد الجاهز<br>- صياغة الإشكالية على نحو دقيق<br>(-التفطن إلى المشكل و إثارة الإحراج والتوتر)</td></tr>
+<tr><td rowspan="6">مرحلة بلورة الجواب</td><td>الجوهر<br>التحليل (لحظة أولى)<br>1 - الاشتغال على المفهمة</td><td>الانطلاق من الأطروحة (مسايرة الأطروحة موقف 1)<br>-تحديد دلالة المفاهيم<br>-تكوين شبكة من العلاقات بين المفاهيم<br>-الانتباه إلى الروابط المنطقية</td></tr>
+<tr><td>2 - الضمنيات</td><td>-الكشف عن المسلّمات الضمنية<br>-حسن الربط بين الضمنيات والأفكار الصريحة</td></tr>
+<tr><td>3 - الحجاج</td><td>البرهنة على موقف ما بوضوح<br>استعمال حجج متنوعة<br><br>-تجنب السقوط في تناقض</td></tr>
+<tr><td>4 - التبعات والاستنتاج</td><td>التطرق إلى التبعات ثم التوصل إلى موقف واضح من المشكل<br>والانطلاق منه من أجل الحد من إطلاقية الأطروحة الأولى<br>واقتراح موقف بديل وهي الأطروحة الثانية</td></tr>
+<tr><td>5 ـ المرجعيات الفلسفيّة</td><td>حسن اختيار المرجعيات.<br>توظيف المرجعيات توظيفا مناسبا للسياق<br>-تجنّب استخدام المرجعيات بكيفية سردية</td></tr>
+<tr><td>النقاش (لحظة ثانية)</td><td>استدعاء الأطروحة الثانية / المستبعدة مثلا (موقف 2)<br>تحديد العلاقات بين المفاهيم (وفق تمشي اللحظة الأولى)<br>استدعاء مرجعية فلسفيّة</td></tr>
+<tr><td rowspan="2">لحظة الاستخلاص</td><td>التقييم ( لحظة ثالثة)<br>الرهانات الراهنية</td><td>مرحلة إيجاد حل :(موقف3)<br>الوعي بضرورة النظر في الموقفين ( الموقف 1 + الموقف 2)<br>إما لرفع التناقض أو التأليف بينهما<br>الكشف عن الأبعاد النظرية والعملية<br>-النظر في فكرة الموضوع من جهة الراهنية</td></tr>
+<tr><td>الخاتمة</td><td>-حوصلة لمختلف الأجوبة التي اهتدينا إليها.<br>-تقديم حل ممكن أو الانفتاح على مسالة أخرى ذات صلة بالموضوع<br>(الموقف التأسيسي وفتح أفاق<br>ملاحظة :تجنب طرح سؤال</td></tr>
+</table>
+<p class="para"><b>ملاحظة :</b> يمكن الانطلاق من الموقف 1أو الموقف 2 لكن مع مراعاة التدرج المنطقي في التحليل</p>
+
+</section>
+
+</div>
+</body>
+</html>

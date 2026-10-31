@@ -1,0 +1,348 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<title>Wael Academy — Philosophie · جذاذة لمراجعة الخصوصية والكونية - المعهد النموذجي بسوسة</title>
+<script>
+  window.MathJax = {
+    tex: { inlineMath: [['\\(','\\)']], displayMath: [['\\[','\\]']] },
+    chtml: { fontURL: 'https://cdn.jsdelivr.net/npm/mathjax@3/es5/output/chtml/fonts/woff-v2', matchFontHeight: true },
+    startup: { typeset: true }
+  };
+</script>
+<script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js" async></script>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Sora:wght@400;500;600;700;800&family=Cairo:wght@400;500;600;700;800;900&family=Tajawal:wght@400;500;700;800&family=JetBrains+Mono:wght@400;500;600;700&display=swap');
+:root{
+  /* ===== Wael Academy palette — MAIN ACCENT = green-teal gradient #0FAB8F → #067360 ===== */
+  --bg:#fff; --panel:#f2f8f8; --hair:#e6e6e9; --hair2:#d6d6db;
+  --fg:#0f2a31;        /* body text (and +/− signs) */
+  --fg2:#3f5b62;       /* softer text */
+  --fg3:#7c959b;       /* muted (footer) */
+  --blue:#067360;      /* deep accent — small numbers, borders, watermark, accent equations */
+  --blue-dark:#045260; /* titles & wordmarks (also the balance colour) */
+  --teal:#0fab8f;      /* bright accent end */
+  --loop:#0d9c82;      /* logo-loop helper */
+  --orange:#067360;    /* kicker/category labels (gold retired → deep teal) */
+  --red:#f5322f;       /* EXERCISE CHIPS ONLY — never for emphasis */
+  --cream:#e6f3f4; --blue-soft:#e6f3f4;  /* pale teal — callout fill + table sub-row fill */
+  --blue-line:#cde7e4; /* hairline */
+  --sub-ink:#045260;   /* table sub-row text */
+  --grad:linear-gradient(148deg,#0fab8f 0%,#0d9c82 52%,#067360 100%);
+  --mono:'JetBrains Mono',monospace; --latin:'Sora',sans-serif; --ar:'Cairo',sans-serif; --arb:'Tajawal',sans-serif;
+}
+*{box-sizing:border-box;margin:0;padding:0;}
+body{font-family:var(--latin);color:var(--fg);background:#e4e4e7;padding:28px 0;
+     -webkit-print-color-adjust:exact;print-color-adjust:exact;}
+html[dir="rtl"] body{font-family:var(--arb);}
+
+/* ===== brand watermark: REAL text (crisp), full-bleed, repeats per page ===== */
+.wm{position:fixed;inset:0;z-index:0;pointer-events:none;display:flex;
+    align-items:center;justify-content:center;overflow:hidden;
+    -webkit-print-color-adjust:exact;print-color-adjust:exact;}
+.wm span{font-family:var(--mono);font-weight:800;font-size:76.8pt;letter-spacing:.16em;
+    color:var(--blue);opacity:.06;white-space:nowrap;transform:rotate(-54deg);}  /* single diagonal: bottom-left → top-right */
+.wm.mono span{color:#000;opacity:.05;}
+
+/* ===== continuous flow stream (no page border) ===== */
+.flow{width:210mm;margin:0 auto;background:transparent;color:var(--fg);
+      padding-block:16mm 18mm;padding-inline:23mm 14mm;position:relative;}   /* spiral gutter: inline-start(=spine) 23mm / outer 14mm — dir-aware; print margins set in render_flow.py */
+@media screen{ .flow{background:#fff;box-shadow:0 10px 40px rgba(0,0,0,.16);} }
+.flow>*{position:relative;z-index:1;}
+.flow p,.flow li,.flow .data,.flow .note,.flow .ex{break-inside:auto;}
+.flow .fig,.flow figure,.flow img,.flow svg.figsvg,.flow table,.flow tr,.flow .chapdiv,.flow .exh,.flow .qrcard,.flow .meta{break-inside:avoid;}
+.flow h1,.flow h2,.flow h3,.flow .exh,.flow .subhead,.flow .chapdiv{break-after:avoid;}
+.flow img,.flow svg.figsvg{max-width:100%;height:auto;}
+.flow figcaption,.flow .figcap{display:none;}          /* rule 3: no figure captions */
+
+/* ===== front matter + chapters each start on a fresh page ===== */
+.flow .cover{break-after:page;}        /* cover alone on page 1 */
+.flow .toc{break-after:page;}          /* Sommaire alone on the next page */
+.flow .chapter{break-before:page;}
+.flow .chapter:first-of-type{break-before:auto;}
+
+/* ===== cover ===== */
+.cover{padding:14mm 0 8mm;border-bottom:2px solid var(--blue);margin-bottom:6mm;}
+.cover .badge{font-family:var(--mono);font-size:8.5pt;letter-spacing:.28em;text-transform:uppercase;color:var(--orange);margin-bottom:10px;}
+.cover h1{font-family:var(--latin);font-weight:800;font-size:34pt;line-height:1.03;letter-spacing:-.025em;color:var(--blue-dark);}
+.cover .grule{width:120px;height:5px;border-radius:5px;background:var(--grad);margin:14px 0;}
+.cover .sub{font-family:var(--mono);font-size:10pt;letter-spacing:.14em;text-transform:uppercase;color:var(--teal);}
+.cover .auth{font-size:11pt;color:var(--fg2);margin-top:6px;font-weight:600;}
+
+/* ===== table of contents ===== */
+.toc{margin:2mm 0 4mm;}
+.toc h2{font-family:var(--latin);font-weight:800;font-size:15pt;color:var(--blue-dark);margin-bottom:4mm;}
+.toc .trititle{font-family:var(--mono);font-size:8pt;letter-spacing:.2em;text-transform:uppercase;color:var(--orange);margin:4mm 0 2mm;}
+.toc ol{list-style:none;}
+.toc li{display:flex;align-items:baseline;gap:8px;font-size:10pt;padding:2.2px 0;color:var(--fg);line-height:1.4;}
+.toc li .n{font-family:var(--mono);font-weight:700;font-size:9pt;color:var(--blue);min-width:26px;}
+.toc li .dots{flex:1;border-bottom:1px dotted var(--hair2);transform:translateY(-3px);}
+
+/* ===== chapter divider band ===== */
+.chapdiv{margin:0 0 5mm;padding:6mm 16px 5mm;border-radius:12px;background:var(--grad);
+    -webkit-print-color-adjust:exact;print-color-adjust:exact;}   /* green-filled chapter band */
+.chapdiv .cn{font-family:var(--mono);font-size:8.5pt;font-weight:700;letter-spacing:.24em;text-transform:uppercase;color:rgba(255,255,255,.82);margin-bottom:5px;}
+.chapdiv h2{font-family:var(--latin);font-weight:800;font-size:17pt;line-height:1.1;letter-spacing:-.015em;color:#fff;}
+/* conclusion block — same green-filled look as the chapter band */
+.conclusion{background:var(--grad);border-radius:12px;padding:6mm 16px;margin:5mm 0;color:#fff;break-inside:avoid;
+    -webkit-print-color-adjust:exact;print-color-adjust:exact;}
+.conclusion .ck{font-family:var(--mono);font-size:8.5pt;font-weight:700;letter-spacing:.24em;text-transform:uppercase;color:rgba(255,255,255,.82);margin-bottom:6px;}
+.conclusion h3{font-family:var(--latin);font-weight:800;font-size:13pt;line-height:1.2;color:#fff;margin-bottom:4px;}
+.conclusion p,.conclusion li{font-size:10.4pt;line-height:1.7;color:#fff;}
+.conclusion b,.conclusion strong{color:#fff;font-weight:700;}
+
+/* ===== unit header (lesson/exercise) + QR emplacement ===== */
+.exh{display:flex;align-items:center;gap:11px;margin:6mm 0 3mm;}
+.exh .idx{font-family:var(--mono);font-size:9pt;font-weight:600;color:#fff;background:var(--grad);
+    border-radius:6px;padding:4px 11px;letter-spacing:.08em;text-transform:uppercase;
+    -webkit-print-color-adjust:exact;print-color-adjust:exact;}
+.exh .idx.ex{background:var(--red);}   /* exercise chip = red */
+.exh h2{font-family:var(--latin);font-size:14pt;font-weight:700;letter-spacing:-.01em;color:var(--blue-dark);}
+.exh .qrcard{margin-inline-start:auto;flex:0 0 auto;display:flex;flex-direction:column;align-items:center;gap:3px;width:26mm;}
+.qrcard .qrt{font-family:var(--mono);font-size:6.5pt;letter-spacing:.1em;text-transform:uppercase;color:var(--teal);text-align:center;}
+.qrcard .qrslot{width:24mm;height:24mm;padding:1.5mm;background:#fff;border:1px solid var(--blue-line);border-radius:8px;display:flex;align-items:center;justify-content:center;}
+.qrcard .qrslot img,.qrcard .qrslot svg{width:100%;height:100%;display:block;}
+
+/* sub-exercise label when one file holds several exercices */
+.exsub{font-family:var(--latin);font-weight:800;font-size:11.5pt;color:var(--blue-dark);margin:5mm 0 2.5mm;padding-bottom:3px;border-bottom:2px solid var(--blue-line);}
+
+/* ===== text blocks ===== */
+.lead{font-size:11pt;line-height:1.7;margin:2mm 0 3mm;color:var(--fg);}
+.para{font-size:10.6pt;line-height:1.7;margin:2mm 0 2.5mm;color:var(--fg);}
+.consigne{font-size:10.4pt;line-height:1.6;margin:1mm 0 2mm;color:var(--fg);font-style:italic;}
+.subhead{font-family:var(--latin);font-weight:800;font-size:12pt;letter-spacing:-.01em;color:var(--blue-dark);margin:5mm 0 2.5mm;}
+/* emphasis — green accent = .t-blue/.t-green ; balance = .t-navy ; red = SECONDARY accent (.t-red) on titles + a few words */
+.t-blue{color:var(--blue);font-weight:600;} .t-navy{color:var(--blue-dark);font-weight:700;}
+.t-red{color:var(--red);font-weight:600;} .t-green{color:var(--teal);font-weight:600;} .t-gold{color:var(--orange);font-weight:600;}
+.subhead.t-red{color:var(--red);font-weight:800;}   /* red Roman-numeral section title (I, II, …) — keeps subhead weight */
+/* highlighter marks — a soft colour wash behind a key word (agent picks green or red per what balances the page) */
+.hl-green,.hl-red{border-radius:3px;padding:.02em .24em;font-weight:600;box-decoration-break:clone;-webkit-box-decoration-break:clone;
+    -webkit-print-color-adjust:exact;print-color-adjust:exact;}
+.hl-green{background:rgba(15,171,143,.20);color:var(--blue-dark);}   /* green highlight */
+.hl-red{background:rgba(245,50,47,.13);color:#c0261f;}               /* red highlight  */
+
+.data{background:var(--blue-soft);border:1px solid var(--blue-line);border-inline-start:4px solid var(--blue);
+    border-radius:8px;padding:11px 16px;margin:3mm 0;font-size:10pt;line-height:1.65;color:var(--fg2);}
+.data b{color:var(--fg);font-weight:700;}
+.note{border:1px dashed var(--hair2);border-radius:9px;padding:11px 16px;margin:4mm 0;background:var(--panel);}
+.note .kicker{font-family:var(--mono);font-size:7.5pt;letter-spacing:.18em;color:var(--orange);display:block;margin-bottom:5px;}
+.note .nb{font-size:10pt;line-height:1.7;color:var(--fg2);} .note b{color:var(--fg);}
+.ex:not(.idx){background:var(--blue-soft);border:1px solid var(--blue-line);border-inline-start:3px solid var(--blue);
+    border-radius:7px;padding:7px 11px;font-size:9.6pt;line-height:1.6;color:var(--fg2);margin:2mm 0;}   /* :not(.idx) so it never hits the exercise chip (which is .idx.ex) */
+.ex .extag{display:inline-block;font-family:var(--latin);font-weight:800;font-size:7.6pt;color:var(--blue-dark);background:#fff;
+    border:1px solid var(--blue);border-radius:5px;padding:1px 9px;margin-inline-end:7px;vertical-align:middle;text-transform:uppercase;letter-spacing:.06em;}
+
+/* ===== lists ===== */
+ol.q{list-style:none;counter-reset:q;margin:1mm 0 2mm;}
+ol.q>li{counter-increment:q;position:relative;padding-inline-start:30px;margin-bottom:2.5mm;font-size:10.4pt;line-height:1.6;}
+ol.q>li::before{content:counter(q);position:absolute;inset-inline-start:0;top:1px;width:21px;height:21px;background:var(--grad);color:#fff;
+    border-radius:50%;font-family:var(--mono);font-size:9pt;font-weight:600;display:flex;align-items:center;justify-content:center;
+    -webkit-print-color-adjust:exact;print-color-adjust:exact;}
+ol.sub{list-style:none;counter-reset:s;margin:4px 0 0;padding-inline-start:2px;border-inline-start:1px solid var(--blue-line);}
+ol.sub li{counter-increment:s;position:relative;padding:2.5px 0 2.5px 26px;font-size:10.1pt;line-height:1.55;}
+ol.sub li::before{content:counter(s,lower-alpha)".";position:absolute;inset-inline-start:10px;top:2.5px;font-family:var(--mono);font-size:9pt;font-weight:600;color:var(--teal);}
+ol.qn{list-style:none;counter-reset:qn;margin:1mm 0 2mm;}
+ol.qn>li{counter-increment:qn;position:relative;padding-inline-start:26px;margin-bottom:2.2mm;font-size:10.4pt;line-height:1.55;}
+ol.qn>li::before{content:counter(qn)".";position:absolute;inset-inline-start:0;top:0;font-family:var(--mono);font-size:9.5pt;font-weight:700;color:var(--blue);}
+ul.b{list-style:none;margin:1mm 0 2mm;} ul.b>li{position:relative;padding-inline-start:22px;margin-bottom:2.4mm;font-size:10.4pt;line-height:1.6;}
+ul.b>li::before{content:"";position:absolute;inset-inline-start:3px;top:8px;width:8px;height:8px;border-radius:50%;background:var(--grad);
+    -webkit-print-color-adjust:exact;print-color-adjust:exact;}
+ul.dash{list-style:none;margin:1mm 0 2mm;} ul.dash>li{position:relative;padding-inline-start:20px;margin-bottom:1.8mm;font-size:10.4pt;line-height:1.6;}
+ul.dash>li::before{content:"–";position:absolute;inset-inline-start:2px;top:0;color:var(--fg);font-weight:700;}  /* dash / +/− signs = body colour */
+.flow ul.opts{list-style:none;margin:4px 0 3px;padding-inline-start:16px;}
+.flow ul.opts li{padding:2px 0;font-size:10.2pt;line-height:1.5;color:var(--fg);}
+
+/* ===== figures / tables ===== */
+.fig{margin:3mm 0;} .fig svg.figsvg{display:block;margin:0 auto;background:#fff;max-width:100%;height:auto;}
+.photo{display:block;margin:3mm auto;border-radius:8px;border:1px solid var(--hair);max-width:100%;}
+.figrow{display:flex;flex-wrap:wrap;gap:9px;justify-content:center;margin:3mm auto;max-width:190mm;}
+.flow .figrow img{border-radius:7px;border:1px solid var(--hair);height:46mm;width:auto;max-width:none;object-fit:cover;}
+.schemarow{display:flex;gap:16px;align-items:flex-start;flex-wrap:wrap;margin:2mm 0;}
+.schemarow .col-txt{flex:1 1 90mm;min-width:80mm;} .schemarow .col-fig{flex:0 0 78mm;} .schemarow .col-fig .fig{margin:0;}
+.flow table{border-collapse:collapse;width:100%;margin:3mm 0;font-size:9.8pt;line-height:1.5;}
+.flow table th,.flow table td{border:1px solid var(--blue-line);padding:6px 10px;text-align:start;vertical-align:top;}
+.flow table th{background:var(--grad);color:#fff;font-family:var(--latin);font-weight:700;font-size:9.4pt;
+    -webkit-print-color-adjust:exact;print-color-adjust:exact;}
+.flow table tr:nth-child(even) td{background:var(--blue-soft);color:var(--sub-ink);}   /* sub-row: #E6F3F4 / #045260 */
+
+mjx-container{color:var(--fg) !important;font-weight:400 !important;font-size:1.0em !important;}
+.eq-hi mjx-container,mjx-container.eq-hi{color:var(--blue) !important;}   /* accent (green) equation — highlight a key result; balance with plain math */
+.eq-red mjx-container,mjx-container.eq-red{color:var(--red) !important;}  /* red accent equation / symbol — complements the green .eq-hi */
+
+/* ===== per-file books: credit line, copies list, figures at their size ===== */
+.credit{display:flex;flex-wrap:wrap;align-items:center;gap:5px;margin:-1mm 0 3.5mm;font-size:9.4pt;color:var(--fg2);}
+.credit .who{font-weight:700;color:var(--blue-dark);}
+.credit .tg{font-family:var(--mono);font-size:7.2pt;letter-spacing:.04em;border-radius:5px;padding:1px 7px;line-height:1.6;
+    border:1px solid var(--blue-line);color:var(--blue);background:#fff;-webkit-print-color-adjust:exact;print-color-adjust:exact;}
+.credit .tg.sec{background:var(--blue-dark);border-color:var(--blue-dark);color:#fff;}
+.credit .tg.cor{background:#fff;border-color:var(--red);color:var(--red);}
+.credit a{color:var(--fg3);font-family:var(--mono);font-size:7pt;text-decoration:none;}
+.cover .auth .credit{margin:4mm 0 0;}
+.cover .copies{margin-top:5mm;font-size:8.6pt;color:var(--fg2);}
+.cover .copies ul{list-style:none;margin:2mm 0 0;padding:0;columns:2;}
+.cover .copies a{color:var(--fg3);text-decoration:none;font-size:8pt;}
+.flow figure.fig{text-align:center;}
+.flow figure.fig img{max-height:60mm;width:auto;max-width:70%;display:inline-block;}
+
+/* chapter tag on each part of a multi-chapter book (the book keeps the original order of the file) */
+.chtag{display:inline-block;margin:5mm 0 2mm;padding:1mm 3mm;border-radius:2mm;background:#eef3fb;border:1px solid #c9d6ea;
+  color:#1f3a6b;font-size:9pt;font-weight:700}
+.chtag span{color:#6b7f9e;font-weight:600;margin-inline-end:1.5mm}
+
+@media print{ body{background:#fff;padding:0;} .flow{width:auto;max-width:none;margin:0;padding:0;} }
+@page{size:A4;}   /* margins come from render_flow.py — do NOT set them here */
+</style>
+<meta data-pagefind-filter="type[content]" content="جذاذة مراجعة">
+<meta data-pagefind-filter="resource[content]" content="المعهد النموذجي بسوسة">
+<meta data-pagefind-meta="n[content]" content="377">
+<meta data-pagefind-meta="title[content]" content="جذاذة لمراجعة الخصوصية والكونية - المعهد النموذجي بسوسة">
+<meta data-pagefind-filter="chapter[content]" content="الخصوصية والكونية">
+<meta data-pagefind-filter="section[content]" content="باكالوريا رياضيات"><style>.qrcard{display:none!important}.wa-nav{position:sticky;top:0;z-index:50;background:#045260;padding:10px 18px;font-family:Cairo,sans-serif;direction:rtl}.wa-nav a{color:#fff;text-decoration:none;font-weight:700}@media print{.wa-nav{display:none}}</style>
+</head>
+
+<body dir="rtl" lang="ar"
+      data-brand="Wael Academy" data-handle="@WaelAcademy"
+      data-tagline="في تُرابنا.. مغامرة بمغامرة"
+      data-phone="+216 50 40 40 42" data-site="waeldocuments.com"
+      data-cta="سجل معانا وأقرى عن بعد مع منصة Wael Academy"
+      data-subject="Philosophie · جذاذة لمراجعة الخصوصية والكونية - المعهد النموذجي بسوسة" data-watermark="Wael Academy" data-pagefind-body><nav class="wa-nav" data-pagefind-ignore><a href="../index.html">→ الرجوع إلى فهرس الفلسفة</a></nav>
+
+<!-- single full-page diagonal watermark, bottom-left → top-right (repeats on every page) -->
+<div class="wm" aria-hidden="true"><span>WAEL&nbsp;ACADEMY</span></div>
+
+<div class="flow colored">
+<div class="cover"><div class="badge">◉ Wael Academy · Philosophie</div><h1>جذاذة لمراجعة الخصوصية والكونية - المعهد النموذجي بسوسة</h1><div class="grule"></div><div class="sub">الخصوصية والكونية</div><div class="auth"><div class="credit">المؤلّف / المصدر : <span class="who">المعهد النموذجي بسوسة (جذاذة لمراجعة الخصوصية والكونية)</span> <span class="tg">مراجعة</span><span class="tg sec">الفلسفة · باكالوريا رياضيات</span> <a href="https://drive.google.com/file/d/1lV2o0cT2r4xiLCG1Pbq-b53qzyUuP1D1/view">↗ جذاذة لمراجعة الخصوصية والكونية - المعهد النموذجي بسوسة.pdf</a></div></div><div class="copies" data-pagefind-ignore><b>نسخ هذا الملف في الدرايفات (6)</b><ul><li><a href="https://drive.google.com/file/d/1lV2o0cT2r4xiLCG1Pbq-b53qzyUuP1D1/view">Mohamed Mehdi Mareghni · BAC MATHS › الفلسفة / Pilote Sousse / الخصوصية و الكونية</a></li><li><a href="https://drive.google.com/file/d/1qsMWAxs4T6jAzRLbIo8YF_IIzooZKrf4/view">Iyed Hasnaoui · bac 2024 › Nouveau dossier / Philosphie / الخصوصية والكونية</a></li><li><a href="https://drive.google.com/file/d/1JLzb-hxACcuX4LRrQYLhBPBvxHZCD1GA/view">Emna bac maths 2025 · Drive de Emna (Bac maths) › Philosphie / الخصوصية والكونية</a></li><li><a href="https://drive.google.com/file/d/1Pr_sxbptgIdYdEPop5TrhvGeqRFVLjbF/view">Mohamed aziz saideni lycee Farhat Hached bizertebac 2026 · BAC MATH 2026 MOHAMED AZIZ SAIDENI › TOUT 2026 / Philosphie / الخصوصية والكونية</a></li><li><a href="https://drive.google.com/file/d/1SuXID86xbIIDB5ZYiIaPcjKKbGqwJM9a/view">chahredine thamri · Chahredine thamri › Chahredine Thamri / mes documents / philosophie / Philosphie / الخصوصية والكونية</a></li><li><a href="https://drive.google.com/file/d/1b9JVbn48t30xqQigv_GnSD57BVK8X30h/view">Mohamed Ahmed Zahi · Bac Math Zahi 2024/2025 › Philo / الإنساني بين الكثرة والوحدة / الخصوصية والكونية / + favoris pour moi</a></li></ul></div></div>
+<section class="chapter"><div class="chapdiv"><div class="cn">المحور</div><h2>الخصوصية والكونية</h2></div>
+<!-- SOURCE: المعهد النموذجي بسوسة (جذاذة لمراجعة الخصوصية والكونية) -->
+<div class="exh"><span class="idx">جذاذة مراجعة</span><h2>الخصوصيّة والكونيّة</h2>
+  <div class="qrcard"><div class="qrt">فيديو الدرس</div>
+    <div class="qrslot"><img src="qr/377.svg" alt="QR"></div></div></div>
+<div class="credit">المؤلّف / المصدر : <span class="who">المعهد النموذجي بسوسة (جذاذة لمراجعة الخصوصية والكونية)</span> <span class="tg">مراجعة</span><span class="tg sec">الفلسفة · باكالوريا رياضيات</span> <a href="https://drive.google.com/file/d/1lV2o0cT2r4xiLCG1Pbq-b53qzyUuP1D1/view">↗ جذاذة لمراجعة الخصوصية والكونية - المعهد النموذجي بسوسة.pdf</a></div>
+
+<!-- CROP: c2u2 1 0.84 0.15 0.93 0.24 c2u2_ricoeur -->
+<figure class="fig"><img src="https://wael-philo.b-cdn.net/figs/377/377_ricoeur.png" alt=""></figure>
+<div class="note"><div class="nb">" إنّ الإنسانَ غريبٌ بالنسبة إلى الإنسان، ولكنه شبيهه على الدواد " — <b>بول ريكور</b></div></div>
+<!-- PROOFREAD: c2u2 p1 — "على الدواد" : printed so (Ricoeur quotation normally reads "على الدوام") -->
+
+<p class="para">التفلسفُ هو حيرة تجاه وجودنا الإنسانيّ في العالم ، تدعونا إلى التفكير في صفة الإنسانيّة المشتركة بيننا وبين الآخرين بطرح سؤال : من نحن ؟ ويواجه <b>هذا البحث</b> عن وحدة الإنسانيّ الكونيّة في كلّ البشر كثرة المجتمعات التي ينتمون إليها وما تعبر عنه من <b>اختلافات</b> ثقافيّة جزئيّة :</p>
+<p class="para"><u>فهل تعبر إنسانيتنا المشتركة عن وحدة كونية تكشف عما يوجد بينهم من تشابه أم أنها لا تعبر إلا عن كثرة الاختلافات الجزئيّة بحيث تتعدّد إنسانيتنا بحسب الثقافات الخصوصيّة التي ينتمي إليها الناس وينشؤون في نطاقها ؟</u></p>
+<p class="para">ويتضمّنُ هذا السؤال <b>إشكاليّة أولى</b> تتعلق <b>بمفهوم الهويّة الثقافيّة</b> بما هي <b>هويّة جماعيّة</b> يكتسبها أفراد مجموعة إنسانيّة معيّنة بفعل نشأتهم في نطاقها ووعيهم <b>بالانتماء إليها.</b></p>
+
+<p class="subhead t-red">I - الهويّة الثقافيّة بين التمركز على الذات والانفتاح على الآخر</p>
+<!-- CROP: c2u2 1 0.55 0.38 0.62 0.48 c2u2_tylor -->
+<figure class="fig"><img src="https://wael-philo.b-cdn.net/figs/377/377_tylor.png" alt=""></figure>
+<ul class="b">
+<li>الثقافة، كما عرّفها الباحث الانتروبولوجيّ البريطانيّ <span class="t-blue">ادوارد تيلور</span> <span dir="ltr">Edward B Tylor</span> ( 1832 – 1917 ) هي <u>نسقٌ مركّبٌ يشملُ المعارفَ والعقائدَ والفنون والأخلاق والقوانين والأعراف وكلّ القدرات والعادات الأخرى التي يكتسبها الإنسان من حيث هو عضو في مجتمع</u>.</li>
+</ul>
+<!-- CROP: c2u2 1 0.885 0.495 0.952 0.628 c2u2_balibar -->
+<figure class="fig"><img src="https://wael-philo.b-cdn.net/figs/377/377_balibar.png" alt=""></figure>
+<ul class="b">
+<li>تقترنُ نشأة الفرد في إطار مجتمع معيّن باكتساب <b>موروثات</b> ثقافيّة بواسطة التعلّم مثل اللغة والعقائد الدينيّة والقيم الأخلاقيّة والجماليّة والقواعد المنظّمة لعلاقات القرابة وللزواج واللّباس ... وتمثّل تلك <b>الموروثات الثقافيّة رؤية جماعيّة</b> للعالم يشترك فيها الفرد مع الآخرين في نطاق مجتمعه ، جاعلين منها مرجعهم في تحديد أنماط تفكيرهم وإحساسهم وسلوكهم عند التعامل مع وضعيات حاضرهم والتطلّع نحو مستقبلهم ، ممّا يمكّنهم من الوعي بخصوصيّتهم مقارنة بمجموعات إنسانيّة مختلفة عنهم . يكتبُ الفيلسوف الفرنسيّ المعاصر <span class="t-blue">اتيان باليبار</span> ( <span dir="ltr">Etienne Balibar</span> 1942 ) <u>الهويّة الثقافيّة هي التعبيرُ عن خصوصيّة المجموعات والشعوب والمجتمعات، مانعة بذلك الخلط بينهم في ضرب من التوحيد التعسفي أو الفسخ التام للحدود الفاصلة بينهم</u>.</li>
+</ul>
+<!-- PROOFREAD: c2u2 p1 — "مانعة بذلك الخلط بينهم في ضرب من التوحيد التعسفي أو الفسخ التام" : faint underlined line, best reading -->
+<!-- CROP: c2u2 1 0.542 0.668 0.62 0.8 c2u2_fichte -->
+<figure class="fig"><img src="https://wael-philo.b-cdn.net/figs/377/377_fichte.png" alt=""></figure>
+<ul class="b">
+<li>تُفهمُ الهويّة الثقافيّة ، للوهلة الأولى ، على أنّها ماهية الشعب <b>الذي أبدعها وحافظ عليها عبر تاريخه</b> . فهي تعبّر عن طبيعته الخصوصيّة المطلقة التي جعلته مختلفًا عن غيره من الشعوب والتي جسّمها الأسلاف بإبداعات فريدة تجلّت من خلال كلّ مظاهر ثقافتهم : اللغة، الدين، الأدب، الشعر، الموسيقى، الطعام، اللّباس، الذاكرة الجماعيّة... وواجبُ <b>المعاصرين</b> لن يتجاوز الحفاظ على تلك <b>الهويّة الموروثة</b> بحمايتها من كلّ تشويه قد يطرأ عليها مفسدًا تلك الماهية ومهددًا صفاءها جاعلاً منها هجينة. إن هذا ما عبر عنه عدد من الفلاسفة الألمان في مفهومهم القومي للثقافة الألمانيّة حيث يكتبُ <span class="t-blue">يوهان فيشته</span> ( 1762 – 1814 ) <u>إنّ الألمانيّ الحقيقيّ لا يقدرُ على الحياة إلا من أجل أن يبقى ألمانيًا وينقلَ إلى أبنائه نفسَ هذه الرغبة</u></li>
+</ul>
+<!-- PROOFREAD: c2u2 p1 — "تشويه ... مفسدًا تلك الماهية ومهددًا صفاءها" : scan shows roughly "تسويه ... ممسدا ... ومعددا"; best reading -->
+<!-- CROP: c2u2 1 0.875 0.828 0.95 0.948 c2u2_charaudeau -->
+<figure class="fig"><img src="https://wael-philo.b-cdn.net/figs/377/377_charaudeau.png" alt=""></figure>
+<ul class="b">
+<li>لا يتحقّقُ <b>الوعيُ بالهويّة الثقافيّة</b> في إطار <b>التماثل والانطواء</b> بل في <b>سياقات اللّقاء</b> بآخرين ينتمون إلى ثقافات مختلفة وإدراك اختلافهم. ففي سياق سفر أو مشاهدة شريط وثائقي عن أسلوب حياة شعب آخر، و تعلّم لغة أجنبيّة، أو التعرض لإهانة تستهدف أحد مقوّمات هويتنا...يتم <b>الوعيُ بخصوصيّة الانتماء إلى الهويّة</b> وبمدى <b>الاختلاف عن الآخرين</b> المنتمين إلى ثقافات مغايرة. لهذا كتبَ <span class="t-blue">باتريك شارودو</span> <span dir="ltr">Patrick Charaudeau</span> ( 1939 ) <u>لا يُمكنُ للوعي بالهويّة أن ينشأ إلا بإدراك الآخر باعتباره مختلفًا</u> " ولكنّ المفارقة التي <b>تلازمُ هذا الوعي بالهويّة الثقافيّة</b> تتمثّل في أنّ <b>إدراك اختلاف الآخر الثقافي شرطٌ ضروريّ لوعي كلّ شعبٍ بهويّته الثقـافيّة</b> الخصوصيّة ولكنّ <b>الشعوب</b> اتجهت عبر التاريخ إلى <b>رفض ذلك الاختلاف</b> وإسقاط مختلف <b>الأحكام المسبقة السلبية</b> في شأنه التي تنتهي إلى <b>إخراجه من دائرة الإنسانيّ</b> وإقصائه نحو الهمجيّة والتوحّش والبدائية من أجل <b>إعلاء الثقافة الخصوصيّة</b> لكلّ شعب باعتبارها وحدها <b>الجديرة بصفة الإنسانيّة واعتلاء مرتبة المرجعيّة الكونيّة بالنسبة إلى كلّ الآخرين</b> . إن هذه النزعة هي التي تم الاصطلاح عليها <b>بالمركزيّة الاثنيّة</b> والتي ذهب <b>بعض المفكرين</b> إلى تبريرها وإضفاء <b>المشروعيّة عليها مثل</b> <span class="t-blue">سموئيل هانتنغتون</span> <span dir="ltr">Samuel Huntington</span> ( 1927 – 2008 ) الذي كتب <u>إننا نحتاط من الذين يختلفون عنا ونعتبرهم تهديدا لنا .</u>"</li>
+</ul>
+<!-- PROOFREAD: c2u2 p1 — "إننا نحتاط" : scan looks like "نختاط"; read as نحتاط -->
+<!-- CROP: c2u2 1 0.105 0.112 0.176 0.235 c2u2_huntington -->
+<figure class="fig"><img src="https://wael-philo.b-cdn.net/figs/377/377_huntington.png" alt=""></figure>
+<!-- CROP: c2u2 1 0.427 0.266 0.5 0.385 c2u2_portrait2 -->
+<figure class="fig"><img src="https://wael-philo.b-cdn.net/figs/377/377_portrait2.png" alt=""></figure>
+<ul class="b">
+<li>إنّ هذا الفهمَ <b>للهويّة الثقافيّة وللعلاقة بالآخر الثقافيّ</b> في عمليّة الوعي بها هو ما تم دحضه في سياق <b>الفكر الفلسفي المعاصر</b>. فمن جهة <b>ليست الهويّة الثقافيّة ماهيةً</b> تعبّر عن <b>طبيعة الشعب الثابتة والمنفردة</b> بشكل <b>مطلق</b> بحيث تمّ <b>إبداعها</b> من قبل <b>الأسلاف في عزلة عن الشعوب الأخرى</b> مخصصة بذلك <b>وحدة متجانسة</b> من <b>المقوّمات الثقافيّة</b> التي تمنح للمنتمين إليها وعيهم بخصوصيّتهم. إنّ <b>الهويّة الثقافيّة</b>، على <b>العكس من ذلك</b>، هي <b>بناء تاريخيّ</b> أبدعه <b>شعب ما عبر تاريخه</b> في إطار أشكال تفاعله مع الثقافات الأخرى ( هجرات، تبادل تجاري، أسفار، تجاور جغرافي، نزاعات...)، مما يجعل من ذلك <b>البناء تعدّديًا يتضمّن الاختلاف</b> . فهو بناء شاركت في إبداعه <b>تأثيرات ثقافيّة مختلفة، ومجموعات بشريّة مختلفة</b> . ويظلّ هذا <b>البناء متحركًا في الزمن</b> من دون <b>حدود نهائيّة</b> يمكنها أن <b>تحدّده</b> في <b>إطار أبديّ وثابت</b>. لهذا كتب <span class="t-blue">باتريك شارودو</span> <u>" لا يمكن للهويّة أن تكون إلا هويّة تقاسم. (... ) إنه تقاسمٌ تشارك فيه تأثيرات متعدّدة. وإنه لمن الوهم الاعتقاد في أنّ هويتنا تقومُ على كيان واحد ومتجانس، على ماهية تمثّل قوام وجودنا.</u>" <b>إنّ الاختلاف إذن كامنٌ في الهويّة الثقافيّة نفسها</b> ، والآخرُ مشاركٌ بشكلٍ فعليٍ في بنائها وإبداعها سواءٌ عن خلال <b>التأثيرات أو الاقتباسات أو الهجرات</b> التي <b>صهرت مجموعات إنسانيّة وافدة</b> لتصبح بموروثاتها جزءًا لا يتجزأ من الثقافة الأصليّة . ومن <b>هذا المنظور</b> تصبح <b>المركزيّة الاثنيّة</b> فاقدة لكلّ مشروعيّة. فالنّاس والثقافات جميعًا متساوون في القيمة ، ولا بديل عن القبول بالآخر واحترامه والتسامح مع اختلافه الثقافي باعتباره أحد مصادر إثراء الذات وحفزها على الإبداع . ولهذا يصبح الحذرُ من الآخر الثقافيّ أو رفضه وتبرير مصارعته وإقصائه إلى خارج الإنسانيّة نحو الهمجيّة مواقف لا إنسانيّة يحق وصمها بالهمجيّة. يكتب <span class="t-blue">كلود ليفي ستروس</span> ( 1908 – 2009 ) <span dir="ltr">Claude Lévi-Strauss</span> في إدانة المركزية الاثنيّة <u>إنّ الهمجيّ هو، قبل كلّ شيء، الإنسان الذي يعتقد في وجود الهمجيّة.</u></li>
+</ul>
+<!-- PROOFREAD: c2u2 p1 — "مخصصة بذلك وحدة متجانسة" : first word very blurred -->
+<!-- PROOFREAD: c2u2 p1 — "تعدّديًا يتضمّن الاختلاف" : blurred, best reading -->
+<!-- PROOFREAD: c2u2 p1 — "سواءٌ عن خلال" : scan seems to show "عن" (maybe "من خلال") -->
+<!-- CROP: c2u2 1 0.1 0.464 0.172 0.593 c2u2_levistrauss -->
+<figure class="fig"><img src="https://wael-philo.b-cdn.net/figs/377/377_levistrauss.png" alt=""></figure>
+
+<p class="subhead t-red">II - اختلاف الثقافات بين وحدة الكونيّ وكثرة الجزئيّ</p>
+<p class="para">إنّ لبّ الإحراج الذي يواجهه التساؤل عن الإنسانيّ <b>بين وحدة الكونيّ وكثرة الثقافات الجزئيّة</b> يكمن في مدى <b>مشروعيّة الدفاع</b> عن <b>كونيّة الإنسانيّ</b> في ضوء <b>ما يوجد بين تلك الثقافات من اختلافات</b> عميقة جدًا : شعوبٌ تأكلُ لحوم البشر، وشعوب تقرّ بالأخوة بين كلّ الأحياء فتمنع أكل لحوم الحيوانات، شعوبٌ تفاضل بين البشر وشعوب تؤمن بالمساواة في القيمة بين كلّ البشر ، شعوب تساوي بين الجنسين، وشعوب تمارس الميز ضدّ المرأة وتضطهدها...</p>
+<p class="para"><u>فهل بالإمكان الحديث عن وحدة إنسانيّة كونيّة تلتقي عندها هذه الاختلافات الجزئيّة أم أنه لا مناص من نفي وحدة الكونيّ للاعتراف بأنّ إنسانيتنا متعدّدة قوامها كثرة الجزئيّ ؟</u></p>
+<!-- CROP: c2u2 1 0.39 0.826 0.5 0.928 c2u2_descartes -->
+<figure class="fig"><img src="https://wael-philo.b-cdn.net/figs/377/377_descartes.png" alt=""></figure>
+<ul class="b">
+<li>أسّسَ <b>الفكرُ الفلسفيّ الحديثُ</b> لنزعة كونيّة <span dir="ltr"><b>L'universalisme</b></span> صادرت على <b>وحدة الإنسانيّ</b> بين جميع البشر مهمّشة <b>ما يوجدُ بينهم من اختلافات جزئيّة</b> باعتبارها عرضيّة وثانوية بلا قيمة في <b>تحديد إنسانيتهم</b>. ذلك أنّ <b>لكلّ البشر</b> انطولوجيا ، <b>ماهيةً واحدةً وثابتة</b> تحدّد وجودهم تتمثل في <b>العقل</b> بما هو ملكة ذهنيّة <b>متساوية لديهم جميعًا</b> تخوّلهم <b>القدرة على الحكم بأنفسهم للتمييز بين الصدق والخطأ والخير والشر</b>. وتقودهم <b>وحدة العقل</b> هذه نحو حقائق <b>معرفيّة وقيم أخـــلاقيّة كونيّة يجتمعون حولها بعيدًا عن الاختلاف أو الصراع</b>، كما <b>تؤسّس لكرامة إنسانيّة تساوي بين جميع</b></li>
+</ul>
+<!-- PROOFREAD: c2u2 p1 — "تحدّد وجودهم" : scan looks like "وجوهم" -->
+<!-- CROP: c2u2 2 0.545 0.125 0.641 0.219 c2u2_malebranche -->
+<figure class="fig"><img src="https://wael-philo.b-cdn.net/figs/377/377_malebranche.png" alt=""></figure>
+<p class="para"><b>البشر في القيمة</b> مشرّعةً <b>بذلك لحقوق كونيّة مُشتركة</b> بغضّ النظر عمّ يوجد بينهم من <b>اختلافات العرق والجنس والوطن والثقافة</b> . يكتبُ في هذا الصدد <span class="t-blue">روني ديكارت</span> ( 1596 – 1650 ) <u>إنّ القدرةَ على الحكم بشكل جيّد، وعلى التمييز بين الصدق والخطأ، التي نسمّيها حقًا الحسّ السليمَ أو العقل، هي قدرةٌ متساوية طبيعيًا بين كلّ النّاس .</u>" ويضيف <span class="t-blue">نيكولا مالبرونش</span> ( 1638 – 1715 ) <u>إنّه من الضروريّ أن نقرّ بوجود عقل كونيّ يُنيرني ويُنيرُ كلّ العقول الموجودة .</u>"</p>
+<!-- CROP: c2u2 2 0.835 0.24 0.933 0.338 c2u2_demaistre -->
+<figure class="fig"><img src="https://wael-philo.b-cdn.net/figs/377/377_demaistre.png" alt=""></figure>
+<ul class="b">
+<li>تختزلُ <b>النزعةُ الكونيّة</b> الإنسانيّ في <b>الوحدة</b> مهمّشةً <b>كثرة الجزئيّ</b> بما يتضمّنه من <b>تنوّع</b>، ويؤدي ذلك إلى <b>تجريد يفرغُ وجود النّاس الواقعيين من أصالته وثرائه</b> مؤديًا إلى <b>مقولات مصطنعة</b> لا تعبّر عن <b>حقيقة الواقع</b>. ذلك أنّه <b>لا معنى للإنسانيّ</b> بعيدًا <b>الثقافة الخصوصيّة</b> بما تتضمّنه من <b>لغة ودين وقيم وأعراف وعادات...</b> التّي <b>ينشأ فيها الفردُ ومنها يستمدّ رؤيته للعالم ومقوّمات هويّته الشخصيّة.</b> لهذا اعترضَ الفيلسوف الفرنسيّ <span class="t-blue">جوزيف دي ميتر</span> ( 1753 - 1821 ) منذ القرن <b>الثامن عشر</b> على <b>هذه النزعة الكونيّة</b> في <b>فهم الإنسانيّ</b> معلنًا <u>" لا أثر للإنسان في العالَم . فقد التقيتُ في حياتي بفرنسيين وبايطاليين وبروس .. أما فيما يتعلّق بالإنسان فإنني أعلنُ أنني لم لتقه قطّ في حياتي. وإذا كان موجودًا، فلا علمَ لي بذلك . "</u></li>
+</ul>
+<!-- CROP: c2u2 2 0.873 0.427 0.932 0.543 c2u2_mead -->
+<figure class="fig"><img src="https://wael-philo.b-cdn.net/figs/377/377_mead.png" alt=""></figure>
+<ul class="b">
+<li>قادَ <b>هذا النقد</b> الموجّه إلى <b>النزعة الكونيّة</b> نحو <b>التأسيس لنزعة جزئيّة</b> <span dir="ltr"><b>le particularisme</b></span> في <b>فهم الإنسانيّ</b> حيث ترى أنّ <b>ما هو مشترك بين جميع البشر</b> هو <b>التعدّد</b> المعبّر عن <b>تنوّع الاختلافات الجزئيّة</b> الموجودة بينهم، نافيةً بذلك <b>وحدة الكونيّ</b> باعتبارها <b>وهمًا زائفًا وتجريدًا أجوفَ بلا وجود فعليّ في الواقع.</b> وقد عبرت عن ذلك <b>النزعة النسبويّة</b> في إطار <b>علم الانتربولوجيا الثقافيّة</b> ( علم إنساني يدرسُ الثقافات الإنسانيّة بالتركيز على المجتمعات اللاكتابيّة الصغرى المنتشرة في أنحاء العالَم ). فبالنسبة إلى المدافعين عن <b>النسبويّة الثقافيّة</b> <span dir="ltr"><b>le relativisme culturel</b></span> مثل <b>رالف لينتون ومرغريت ميد ومالفيل هيرسكوفيتس</b> ... <b>لا وجود لطبيعة إنسانيّة كونيّة</b> بل <b>لاستعدادات طبيعيّة متشابهة</b> تكون <b>مرنة جدًا</b> بحيث <b>تشكّلها كلّ ثقافةٍ بحسب أنماطها الخصوصيّة</b> ، ممّا يقود إلى <b>كثرة</b> من <b>الخصائص وأنماط التفكير والإحساس السلوك الجزئيّة</b> التّي <b>لا مكان فيها لوحدة الكونيّ</b> . تكتبُ <span class="t-blue">مرغريت ميد</span> ( 1901 – 1978 ) <u>" إنّ الطبيعةَ الإنسانيّة مرنةٌ بامتياز، وتخضع بدقة لتوجيهات المجتمع .</u>" . كما أنّ <b>كلّ ثقافة هي خصوصيّة باطلاق</b> لا يُمكن <b>فهمها والحكم على قيمتها</b> إلاّ من داخل <b>نسقها الخصوصيّ</b>، وكلّ إخلال بذلك لا يُمكنه إلاّ أن يعبّر عن <b>مركزيّة اثنيّة غير مشروعة</b>. ومن شأن الالتزام بهذا التمشي أن يؤسّس <b>للتسامح فيما بين الثقافات المختلفة والتعايش السلميّ بينها</b> بعيدًا عن <b>المركزيّات الزائفة والصراعات العنيفة</b>. يكتب <span class="t-blue">مالفيل هرسكوفيتس</span> ( 1895 – 1963 ) <u>" إنّ النسبويّة الثقافيّة، من خلال اعترافها بالقيم التي أقامتها كلّ ثقافةٍ من أجل توجيه حياتها الخاصة، هي بالفعل فلسفةٌ تشدّد على القيمة الداخليّة الملازمة لكلّ نسق من الأعراف وعلى ضرورة التسامح مع مواضعات الثقافات الأخرى حتى وإن كانت مختلفة عن ثقافتنا</u> ".</li>
+</ul>
+<!-- PROOFREAD: c2u2 p2 — "الإحساس السلوك" : source seems to omit "و" before السلوك; transcribed as seen -->
+<!-- CROP: c2u2 2 0.56 0.6 0.626 0.735 c2u2_herskovits -->
+<figure class="fig"><img src="https://wael-philo.b-cdn.net/figs/377/377_herskovits.png" alt=""></figure>
+<!-- CROP: c2u2 2 0.862 0.762 0.952 0.887 c2u2_morin -->
+<figure class="fig"><img src="https://wael-philo.b-cdn.net/figs/377/377_morin.png" alt=""></figure>
+<ul class="b">
+<li>إنّ <b>هذين الأسلوبين في مقاربة الإنسانيّ</b> : بين <b>نزعة كونيّة</b> تختزله في <b>وحدة خالية من التنوّع</b> ، وبين <b>نزعة جزئيّة</b> تختزل الإنسانيّ في <b>تنوع بلا وحدة يندرجُ ضمنها</b> ، رغمِ ما يوجد بينهما من <b>اختلافٍ عميق</b>، هما ناتجان عن <b>نفس البنية الفكريّة المختلّة</b> التّي أطّرتهم ، حسب الفيلسوف المعاصر <span class="t-blue">ادغار موران</span> ( ولد سنة 1921 ). إنّه <b>براديغم التبسيط</b> الذي وجّه <b>الفكر الغربيّ منذ الحداثة</b>، في <b>فهم الإنسانيّ</b> بالفصل بين <b>وحدة الكونيّ وتنوّع الجزئيّ</b> ، خالقًا هذه <b>الإميّة الزائفة : إمّا الوحدة وإمّا التنوّع</b>. ذلك أنّ <b>الخللَ</b> في <b>النزعة الكونيّة</b> تمثّل في <b>تجاهل</b> أنّ <b>وحدة الإنسانيّ الكونيّة</b> هي <b>منتجةٌ لتنوّع الجزئيّ</b> ، أمّا <b>الخللُ في النزعة الجزئيّة</b> فيكمن في <b>تجاهل</b> أنّ <b>تنوّع الجزئيّ</b> هو <b>ناتج عن وحدة الكونيّ ومصدرُ إثراء لها</b> . ولا تجاوز لهذا المأزق إلاّ باعتماد <b>براديغم بديل</b> هو <b>براديغم التركيب</b> الذي <b>يفهم الإنسانيّ</b> بما هو <b>مركّب</b> تكون فيه <b>الوحدة متنوعة</b> بحيث <b>تنتجُ وحدة الكونيّ تنوّع الجزئيّ، ويعيدُ تنـــوّع</b></li>
+</ul>
+<p class="para"><b>الجزئيّ إنتاج وحدة الكونيّ ويثريها.</b> يكتب موران <u>" إنّ الوحدةَ المركّبة لهي هذا بالضبط. إنها وحدةٌ في التنوّع والتنوّع في الوحدة، الوحدة التي تنتج التنوّع والتنوّع الذي يُعيد إنتاج الوحدة . إنها وحدة مركّبةٌ خلاّقة .</u>" فعند النظر في <b>تنوّع الثقافات الجزئيّة</b> بما تتضمّنه من <b>ألسن أو عقائد أو قيم أخلاقيّة أو فنون أو أنظمة قرابة أو قواعد الزواج</b> ...يمكن معاينة أنّ <b>ذلك التنوّع</b> هو نتاج <b>وحدة إنسانيّة كونيّة</b> تتمثّل في <b>نفس الاستعدادات والحاجات والمقتضيات</b> : <b>فميزة اللّغة الكونيّة</b> أنتجت <b>تنوّع الألسن الجزئيّة</b> ، ووحدة <b>الحاجة الوجوديّة الكونيّة للإجابة عن لغز الأصل والمصير</b> هو الذي أنتج <b>تنوّع الأساطير والأديان الجزئيّة</b> ، ووحدة <b>الرغبة الجنسيّة الكونيّة والحاجة إلى تنظيمها اجتماعيًا</b> هو الذي أنتج <b>تنوّع القواعد الجزئيّة المنظّمة لمؤسّسة الزواج...</b> <u>" هناك وحدةٌ داخل التنوّع الإنسانيّ</u> " وعند النظر في <b>الوحدة الإنسانيّة الكونيّة الجامعة بين كلّ النّاس</b> يُمكن ملاحظة أنّه <b>لا يُمكن فهمها بمعزل عن تنوّع التعابير الجزئيّة</b> التي <b>أبدعتها كلّ ثقافةٍ</b> مانحةً إيّاها صيغًا <b>خصوصيّة وفريدة</b> تجعلها <b>مختلفة</b> عن بقيّة <b>الثقافات الأخرى</b> <u>" ثمّة تنوّع داخلَ الوحدة الإنسانيّة</u> " . ويخلُصُ ما سبق إلى أنّه <b>لا وجود لتلك الإميّة في فهم الإنسانيّ</b> : فإمّا فهمه من خلال <b>وحدة الكونيّ</b> وإمّا فهمه من خلال <b>تنوّع الجزئيّ</b>، لأنه، في الحقيقة، <b>وحدةٌ مركّبة، إنّها وحدة متنوّعة ، وحدة كونيّة تنتج تنوّع الجزئيّ ، وتنوّع الجزئيّ الذي يُعيدُ إنتاج وحدة الكونيّ ويثريها</b></p>
+
+<p class="subhead t-red">III - لقاء الثقافات في عصر العولمة بين الهيمنة والتواصل</p>
+<p class="para">ليسَ من الممكن <b>التفكير فيما يُثيرُه الإنسانيّ من إشكاليّات</b> ، اليومَ، خارج <b>المسار التاريخيّ</b> الذي أصبح <b>يحكمُ عصرنا الراهن</b> منذ <b>ثمانينات القرن العشرين</b> وتمّ الاصطلاح عليه <b>بالعولمة</b>. فقد شهد العالم بحكم <b>التطورات السياسيّة والاقتصاديّة والتقنيّة</b> واقعا جديدًا جعلَ الدول والشعوب في <b>علاقة ترابط فيما بينها وانفتاح بعضها علي بعض</b> ، ممّا أدّى إلى <b>تراجع الحدود التقليديّة</b> التّي كانت تفصلُ بينهم : فبعد <b>انهيار القطب الاشتراكي</b> وتعميم <b>اقتصاد السوق على نطاق العالَم</b> الذي أتاح <b>للأموال والبضائع الانتقالُ بحريّة عبر الحدود</b>، وبعد <b>الثورات التقنيّة المتلاحقة</b> التّي <b>أدخلت العالم إلى العصر الرقميّ</b> جاعلةً منه <b>مترابطا بواسطة الأقمار الصناعيّة وشبكة المعلومات ووسائل النقل السريعة</b> تحوّل <b>الكوكب</b> إلى <b>قرية صغيرة يُشاهدُ فيها الجميعُ بعضهم بعضًا</b>. ومن شأن هذه التطوّرات أن تدعو إلى <b>استئناف التفكير في علاقة وحدة الإنسانيّ بكثرة الثقافات الجزئيّة</b> في إطار <b>العولمة</b> :</p>
+<p class="para"><u>فهل يُمكن القولُ أنّ العولمة بما حققته من تحوّلات أنها تجسيمٌ للكونيّة وأنها قد خلقت ظروفًا ملائمة لتحقيق التواصل بين الثقافات المتنوّعة ؟</u></p>
+<!-- CROP: c2u2 2 0.375 0.571 0.509 0.681 c2u2_norberg -->
+<figure class="fig"><img src="https://wael-philo.b-cdn.net/figs/377/377_norberg.png" alt=""></figure>
+<ul class="b">
+<li>ذهبَ عددٌ من <b>الفلاسفة والمفكّرين وعلماء الاقتصاد والاجتماع</b> إلى <b>تثمين العولمة وإبراز مزاياه المتعدّدة</b> على مُختلف الصُعد . ومن بين هؤلاء يُمكن ذكرُ الباحث السويدي <span class="t-blue">يوهان نوربيرغ</span> ( ولد سنة 1973 ) في مؤلفه " <b>دفاعًا عن العولمة الرأسمالية</b> ". فهو يعتبرُ أنّ <b>العولمة</b> هي تعبيرٌ عن <b>تفوّق الليبيراليّة اقتصاديًا واجتماعيًا وسياسيًا</b>، وهو ما يفسر <b>انتصارها على الاشتراكيّة</b>. فهي قد <b>خلقت الثروة وعممت الرخاء ودعمت الديمقراطيّة واحترام حقوق الإنسان</b> . وهي تثبت مجددًا <b>اليومَ بانتشارها العالميّ</b> تلك <b>النجاعة</b> بما حققته من <b>مؤشّرات إيجابيّة</b> : <b>فبانتقال الأموال و الشركات والبضائع دون حواجز عالميًا</b> تمكّنت <b>بلدان الجنوب الفقيرة</b> من <b>رفع مستوى الدخل الفرديّ والحدّ من الفقر وسوء التغذية ووفيات الأطفال</b> وحسّنت من مستوى التعليم والصحّة والرفاه الاجتماعي ، كما أنجزت <b>إصلاحات سياسيّة</b> على طريق <b>الانتقال الديمقراطيّ واحترام حقوق الإنسان</b> . يكتبُ نوربيرغ <u>" لقد انتشرت الأفكار والاتصالات والتقنيات في العالَم بأسره، وتقدّمت الديمقراطيّة والحريّة في القارات الخمس، هذه هي العولمة .</u>" . أمّا على صعيد <b>التواصل بين الثقافات</b> ، <b>فبفضل عولمة الاتصالات وشبكة المعلومات</b> تمكّنت <b>الثقافات</b> من <b>الانفتاح على بعضها البعض والتعرّف على الاختلافات الموجودة بينها وفهمها بشكل أفضل</b> ، ممّا خلق <b>واقعًا جديداً</b> سمته <b>التعدّديّة</b>. يكتب نوربيرغ <u>" إنّ ما هو مطروحٌ في العولمة ليس التوحيد النمطيّ للعالم وزوال الاختلافات، بل انتشارَ التعدّديّة .</u>"</li>
+<li>إنّ <b>مواجهة هذه النظرة</b> بما <b>تحقّق فعليًا</b> في ظلّ <b>العولمة</b> يُثبتُ مدى <b>قصور ها في فهم حقيقتها.</b> فهي <b>نظرةٌ محكومةٌ بخلفيّة ايديولوجيّة</b> تتمثّل في <b>الدفاع عن الليبيراليّة</b>. فالعولمة ليست <b>نتيجةً منطقيّة لنجاعة نظام اقتصاديّ واجتماعيّ وسياسيّ، فرض نفسها بنجاحه،</b> بل هو <b>تعبيرٌ عن هيمنة ذلك النظام</b> بما لديه من <b>قوّة المال والتقنية والجيوش ليتوسّع على نطاق كوكبيّ فارضًا شروطَه على بلدان الجنوب ليُحكمَ استغلالَ كفاءاتها البشريّة وثرواتها الطبيعيّة ومواقعها الجغرافيّة</b>من أجل تحقيق <b>مزيد من الربـــح.</b></li>
+</ul>
+<!-- CROP: c2u2 3 0.553 0.128 0.643 0.304 c2u2_debenoist -->
+<figure class="fig"><img src="https://wael-philo.b-cdn.net/figs/377/377_debenoist.png" alt=""></figure>
+<p class="para">ولا أملَ لتنميةٍ حقيقيّة ترقى <b>بدول الجنوب المفقرة</b> وتقلّص من <b>الفجوة الفاصلة بينها وبين بلدان الشمال الغنيّة</b>. لهذا كتبَ الفيلسوف الفرنسي المعاصر <span class="t-blue">آلان دي بونوا</span> ( ولد سنة 1943 ) في مقاله " في مواجهة العولمة " <u>لا تمثّل العولمة كما تجري تحت أنظارنا إلا امبرياليّة غربيّة تجاريّة وقد تضخّمت بنفسها</u>. أمّا على صعيد <b>العلاقة بين الثقافات</b> ، يكشف الواقع عن أنّ <b>العولمة بجانبها الاقتصاديّ والتقنيّ والسياسيّ</b> قد فرضت <b>توحيدًا نمطيًّا عالميًّا</b> أدمج الشعوب في <b>أسلوب الحياة الاستهلاكيّ الغربيّ</b> ممّا أدّى إلى <b>اقتلاعها من جذورها الثقافيّة</b> مهددًا هويّاتها الخصوصيّة بالزوال التدريجيّ ولا يعني ذلك سوى تهديد للتنوّع الثقافيّ والتواصل. فلا تواصل في ظلّ غياب التنوّع الثقافيّ والحفاظ على تعدّد الهويّات الثقافيّة المختلفة وسيادة النمطيّة على نطاق عالمي . يكتب دي بونوا " <u>العولمة هي محاكاة الحشود الغفيرة لسلوكات اقتصاديّة غربيّة</u> ."</p>
+<!-- PROOFREAD: c2u2 p3 — "إلا امبرياليّة غربيّة تجاريّة وقد تضخّمت بنفسها" : very faint underlined quotation, best reading -->
+<!-- PROOFREAD: c2u2 p3 — "المختلفة وسيادة النمطيّة" : faint, best reading -->
+<p class="para">ومن شأن <b>هذا الوضع</b> أن <b>يهدّد التسامح والتعايش السلميّ</b> بين الشعوب، لأنه يولّد لدى الشعوب <b>إحساسًا بالاغتراب الثقافيّ</b> يدفع نحو <b>الانطواء ورفض الآخر</b>، ممّا <b>يمهّد للصراع</b>. يكتب دي بونوا " <u>يشعرُ الناسُ أنهم منبتّون بسبب العولمة بلا قدرة على الأشياء فيندفعون نحو تشييد الجدران حتى وإن كانت هشّة وبلا طائل</u> "</p>
+<!-- CROP: c2u2 3 0.806 0.38 0.95 0.493 c2u2_wolton -->
+<figure class="fig"><img src="https://wael-philo.b-cdn.net/figs/377/377_wolton.png" alt=""></figure>
+<ul class="b">
+<li>أمام <b>هذا المأزق الاقتصاديّ والاجتماعيّ والسياسيّ والثقافيّ</b> الذي قادت إليه <b>العولمة</b> لا يكون من <b>الواقعيّة رفض العولمة</b> أو <b>تبرير الصراع بين الحضارات</b> . فالعولمة <b>مسارٌ تاريخيّ</b> نتج عن <b>تراكماتٍ متنوعة</b> خلال <b>فترة طويلة من الزمن</b> ولا يمكن <b>التراجعُ عنه</b>. كما أنّ <b>تبرير الصراع بين الثقافات</b> سيكون <b>مدمّرًا للجميع</b>. ولهذا لا بديلَ، مثلما بيّن ذلك عالم الاجتماع الفرنسيّ المعاصر <span class="t-blue">دومينيك فولتون</span> ( 1947 ) عن التفكير في سبل تجعل <b>العولمة</b> في صالح <b>كلّ الشعوب</b> بحيث تمكّنها من تحقيق توقها إلى توزيع أكثرَ عدالة للثروة ، وحقها في أن <b>تحافظ على هويّاتها الثقافيّة الخصوصيّة</b> . وكلّ ذلك يمرّ عبر تواصلٍ قوامه <b>التسامح</b>. فعلى <b>الثقافات</b> جميعًا أن تعي أنّ <b>المحافظة على الهويّات الثقافيّة الخصوصيّة</b> يقتضي الانفتاح على الآخر وفهمَ اختلافه في خصوصيّته والقبول به والاقتباس منه والتعايش معه سلميًا . يكتب فولتون <u>" يشترطُ إثبات الهويّة الاعتراف بالغيريّة والتعايش الضروريّ مع مَن لا يشبهنا "</u> وحتّى تحيا جميعُ <b>الثقافات</b> في ظلّ <b>هذا التسامح</b> ضمن <b>عالم مشترك</b> فلا بدّ أن <b>تتوافق على قيم كونيّة</b> تنظّم عيشها المشترك تكون بمثابة <b>القاسم المشترك الأخلاقيّ والحقوقيّ</b> الذي يؤطّر العلاقات فيما بين الشعوب بعيدًا عن <b>الهيمنة أو المركزيّات أو الصراع</b>. يكتبُ <b>دومينيك فولتون</b> <u>" ينبغي إذن أن نحافظ على الهويّات الثقافيّة التي هي شرطُ التنوّع الثقافيّ، وأن نفكّر في نفس الوقت في العلاقة بالمجتمع الدوليّ، أي في كلّ ما يتعالى على الاختلافات ويجعلنا نتعايش مع بعضنا البعض</u> "</li>
+</ul>
+
+<p class="subhead t-red">IV - الأنظمة الرمزيّة وإمكانيّة التواصل بين الثقافات / المقدّس مثالاً</p>
+<p class="para">خلصَ كلّ ما سبقَ إلى أنّ <b>الهويّة الثقافيّة</b> لا تُبنى ولا يتمّ الوعي بها وإثراؤها وتطويرها إلاّ في إطار <b>الاعتراف بالآخر الثقافيّ والتواصل معه</b>، وإلى أنّ <b>الثقافات الجزئيّة</b> مهما كان <b>اختلاف</b> بعضها عن بعض هي جميعًا <b>تعابير متنوّعة لوحدة إنسانيّة كونيّة</b> ، وإلى أنّ <b>مصير الإنسانيّة</b> يتوقف على مدى نجاح هذه <b>الثقافات في تحقيق التواصل فيما بينها</b> في ظلّ <b>التوافق على قيم كونيّة</b> . ولكن كلّ <b>هذه الإقرارات</b> تصطدم <b>بواقع الصراع بين الثقافات</b> التي كثيرًا ما تتخذ <b>مبرّرات دينيّة</b> : <b>الصراع بين الهندوس والمسلمين في الهند</b>، والصراع بين <b>الهندوس والبوذيين</b> في <b>سريلانكا</b>، <b>والصراع</b> بين <b>البوذيين والمسلمين في ميانمار</b>، والصراع بين <b>الصرب الارثودوكس والمسلمين الكوسوفيين</b> ... ومن شأن ذلك أن يدعو إلى طرح <b>السؤال التالي</b> :</p>
+<p class="para"><u>هل يعدّ المقدّس الدينيّ العائق بامتياز أمام تحقيق التواصل بين الثقافات بسبب اقترانه بالتعصّب وما يؤدي إليه ذلك من صراع عنيف أم أنّ التعصّب والصراع يناقضان روح الدين الذي إن فُهِمَ بشكل ملائم لا يُمكنه إلاّ أن ينشر التسامح فيما بين جميع الأديان ويدعّم التواصل فيما الثقافات المختلفة والتعايش السلميّ فيما بينها حول نفس القيم الروحيّة الكونيّة ؟</u></p>
+<!-- PROOFREAD: c2u2 p3 — "التواصل فيما الثقافات" : source appears to omit "بين"; transcribed as seen -->
+<ul class="b">
+<li>تقومُ <b>كلّ رؤية دينيّة للعالم</b> على مفاضلة معياريّة بين <b>المقدّس <span dir="ltr">Le sacré</span></b> <b>والمدنّس</b> <span dir="ltr"><b>Le profane</b></span> في <b>فهم كلّ أبعاد الوجود</b>. ويُعدّ <b>المقدّس المجال الأسمى</b> لكونه <b>في علاقة بقوّة لامرئيّة</b> تمثّل <b>مصدر المعنى والنجاعة</b>، فهو <b>مصدر الحقيقة</b> التي توضح الأصل والمصير وتشرّع <b>القيم التي يجب أن توجّه السلوك والنجاعة التي ينتظر منها الإنسان تحقيق النجاح في كلّ أهدافه المرجوّة</b> وبسبب كلّ <b>هذه المميّزات</b> تقترن العلاقة بالمقدّس <b>بالثقة والإجلال وبالقلق والخشية</b>. وفي مقابل ذلك يمثّل المدنّس كلّ ما يخرج عن القداسة لترتبط <b>بالشؤون العاديّة والمبتذلة والنفعيّة</b> التي هي بلا تأثير في مصير <b>الإنسان الروحيّ</b> وتحقيق النجاح في السعي نحو <b>إنجاز أهدافه المرجوّة</b> ، فيتعامل معها الإنسان بلامبالاة وحريّة. يكتب <span class="t-blue">إميل دوركايم</span> <u>" إنّ تقسيم العالم إلى مجالين يشملُ الأوّل كلّ ما هو مقدّس ويشملُ الآخر كلّ ما هو مدنّس، ذاك هو الخطّ المميّز للفكر الدينيّ</u> "</li>
+</ul>
+<!-- PROOFREAD: c2u2 p3 — "ذاك هو الخطّ المميّز للفكر الدينيّ" : end of the Durkheim quotation is barely legible -->
+<!-- PROOFREAD: c2u2 p3 — "لترتبط بالشؤون العاديّة والمبتذلة والنفعيّة" : faint, best reading -->
+<!-- CROP: c2u2 3 0.428 0.279 0.502 0.416 c2u2_reboul -->
+<figure class="fig"><img src="https://wael-philo.b-cdn.net/figs/377/377_reboul.png" alt=""></figure>
+<ul class="b">
+<li>يدافع <b>عددٌ من الفلاسفة</b> في تحليلهم لبنية <b>المقدّس الدينيّ</b> أنّ <b>التعصّب والعنفَ ملازمين له بصورة جوهريّة</b>. فالفيلسوف المعاصر <span class="t-blue">سيلفان روبول</span> <span dir="ltr"><b>Sylvain Reboul</b></span> يعتبر أنّ <b>الرؤية الدينيّة للعالَم</b> تتصف <b>بخاصيتين</b> وهما <b>الاعتقاد في امتلاك الحقيقة الواحدة والمطلقة والعجز عن الإقناع بها بواسطة براهين العقل</b> نظرًا لطبيعتها الماورائيّة. فعقائد <b>كلّ دين</b> من حيث <b>مصدرها المطلق والمقدّس</b> هي مطلقة ومقدّسة يجب الإيمان بها من حيث هي الحقيقة المطلقة والوحيدة واعتبار كلّ ما يختلف عنها باطلاً وكفرا وهرطقةً والحادًا...ولا يعني ذلك سوى التعصّب. يكتب روبول <b>" يقدّم الدّين نفسه دائمًا، أيًّا كان هذا الدين، كحقيقة أوحاها إله مطلق القدرة إلى النّاس ويعبّر عن نفسه من خلال نصوص تأسيسيّة مقدّسة لا يقبل مضمونها النقاش."</b> كما أنّ <b>تلك العقائد</b> التي يُنظرُ إليها على أنّها <b>الحقيقة الوحيدة والمطلقة</b> هي <b>ماورائيّة يجبُ التسليمُ بها</b> ، لذلك لا يمكن <b>الإقناع بها</b> من خلال <b>براهين العقل</b> ، ولا يمكن جعلها <b>موضوع نقاش والردّ على الاعتراضات عليها والشكوك فيها بواسطة براهين العقل أيضًا</b> ، فلا يبقى من بديل سوى <b>اللجوء إلى العنف</b>. يكتب روبول <u>" الدين غير قادر على الإقناع بحقيقة تتجاوز العقل بواسطة النقاش العقليّ وحده</u> " . ولأنّ المقدّس الدينيّ منتج للتعصّب ومبرّر للعنف ، يكون <b>السبيل الأمثل لنشر التسامح في علاقة النّاس بعضهم ببعض</b> هو <b>تحييده</b> عن <b>الحياة الاجتماعيّة والسياسيّة وفي العلاقات المتبادلة بين الثقافات المختلفة</b> . لهذا كتبَ المتخصّص في تاريخ الأديان <span class="t-blue">ميرسيا إلياد</span> <span dir="ltr">Mercia Eliade</span> <u>" لن يصلَ الإنسانُ إلى خلق نفسه تمامًا إلا بمقدار ما يتجرّد من القداسة ويجرّد العالم منها</u> "</li>
+</ul>
+<!-- PROOFREAD: c2u2 p3 — Reboul paragraph is very faded; "سيلفان روبول", "ماورائيّة", "هرطقةً والحادًا" are best readings -->
+<!-- CROP: c2u2 3 0.102 0.415 0.172 0.564 c2u2_eliade -->
+<figure class="fig"><img src="https://wael-philo.b-cdn.net/figs/377/377_eliade.png" alt=""></figure>
+<!-- CROP: c2u2 3 0.417 0.609 0.493 0.757 c2u2_gandhi -->
+<figure class="fig"><img src="https://wael-philo.b-cdn.net/figs/377/377_gandhi.png" alt=""></figure>
+<ul class="b">
+<li>إنّ <b>هذه القراءة للدّين</b> قد تعرّضت للنقد لكونها تقومُ على خلط بين <b>الدّين والمؤسّسات الدينيّة</b> في <b>المجتمعات الإنسانيّة</b> التي <b>احتكرت</b> الحديث باسمه على لسان <b>رجال الدّين</b>، مختزلة إيّاه في <b>عقائد وطقوس ومعابد</b> دون التركيز على <b>جوهر الإيمان الدّينيّ</b>. ومن هؤلاء يمكن ذكرُ المفكّر الهنديّ <span class="t-blue">غاندي</span> ( 1869 - 1948 ) الذي اعتبر أنّ الدين يكمن في <b>الإيمان بقوّة مطلقة</b> هي التي <b>خلقت كلّ ما في الكون</b> ومنحته نظامه <b>وغايته</b> معبّرة بذلك عن <b>الكمال</b>. وواجب المؤمن <b>أن يحاكي</b> ذلك الكمال بأن يقاوم العنف <b>في ذاته</b> ويحبّ كلّ الآخرين ويكون <b>في خدمتهم</b> . يكتب غاندي <u>" إنّ الوسيلة الوحيدة للقاء الله هي ملاقاته في خلقه والاتحاد بهم</u> " ومن هذا المنظور لا يمكن لمن <b>يفهم الدين بهذا المعنى الروحانيّ والأخلاقيّ</b> إلاّ أن يدرك <b>وحدة كلّ الأديان والتقاءها حول نفس القيم</b> ، بعيدًا عن الاعتقاد في <b>الانفراد بامتلاك الحقيقة الواحدة ورفض كلّ ما يختلف عنها وتبرير العنف في محاربته</b>. ذلك أنّ <b>جميعَ الأديان</b> مهما كان <b>اختلاف عقائدها وطقوسها</b> تلتقي جميعًا حول <b>الإيمان</b> بكائن كامل هو الذي أبدع الوجود، وأنّ على المؤمن أن <b>يقاوم الأنانيّة في ذاته وأن يحبّ للآخرين ما يحبّه لنفسه</b>. يكتب غاندي <u>" إذا بلغ الإنسان إلى قلب دينه الخاص، فإنه سيجد نفسه بحكم ذلك في قلب الأديان الأخرى</u> " وبناءً على ما سبق <b>لا يمكن للتعصّب والعنف أن يكونا ملازمين لبنية المقدّس الدينيّ</b> ، <b>بل الدين في جوهره تسامحٌ ومحبّة وسلامٌ</b>. وعليه لا يمكن للدّين أن يكون <b>العائق الأكبر أمام التواصل بين التقافات ذات الأديان المختلفة</b>، بل <b>المساعد الأكبر</b> على <b>إرساء التسامح والتواصل والتعايش السلميّ فيما بينها</b> . يكتب غاندي <u>" تمثّل الأديانُ طرقًا مختلفة تتقاطع عند نقطةٍ واحدة</u> ."</li>
+</ul>
+
+</section>
+
+</div>
+</body>
+</html>

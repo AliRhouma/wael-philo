@@ -1,0 +1,664 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<title>Wael Academy — Philosophie · Rappel Cours خصوصية</title>
+<script>
+  window.MathJax = {
+    tex: { inlineMath: [['\\(','\\)']], displayMath: [['\\[','\\]']] },
+    chtml: { fontURL: 'https://cdn.jsdelivr.net/npm/mathjax@3/es5/output/chtml/fonts/woff-v2', matchFontHeight: true },
+    startup: { typeset: true }
+  };
+</script>
+<script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js" async></script>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Sora:wght@400;500;600;700;800&family=Cairo:wght@400;500;600;700;800;900&family=Tajawal:wght@400;500;700;800&family=JetBrains+Mono:wght@400;500;600;700&display=swap');
+:root{
+  /* ===== Wael Academy palette — MAIN ACCENT = green-teal gradient #0FAB8F → #067360 ===== */
+  --bg:#fff; --panel:#f2f8f8; --hair:#e6e6e9; --hair2:#d6d6db;
+  --fg:#0f2a31;        /* body text (and +/− signs) */
+  --fg2:#3f5b62;       /* softer text */
+  --fg3:#7c959b;       /* muted (footer) */
+  --blue:#067360;      /* deep accent — small numbers, borders, watermark, accent equations */
+  --blue-dark:#045260; /* titles & wordmarks (also the balance colour) */
+  --teal:#0fab8f;      /* bright accent end */
+  --loop:#0d9c82;      /* logo-loop helper */
+  --orange:#067360;    /* kicker/category labels (gold retired → deep teal) */
+  --red:#f5322f;       /* EXERCISE CHIPS ONLY — never for emphasis */
+  --cream:#e6f3f4; --blue-soft:#e6f3f4;  /* pale teal — callout fill + table sub-row fill */
+  --blue-line:#cde7e4; /* hairline */
+  --sub-ink:#045260;   /* table sub-row text */
+  --grad:linear-gradient(148deg,#0fab8f 0%,#0d9c82 52%,#067360 100%);
+  --mono:'JetBrains Mono',monospace; --latin:'Sora',sans-serif; --ar:'Cairo',sans-serif; --arb:'Tajawal',sans-serif;
+}
+*{box-sizing:border-box;margin:0;padding:0;}
+body{font-family:var(--latin);color:var(--fg);background:#e4e4e7;padding:28px 0;
+     -webkit-print-color-adjust:exact;print-color-adjust:exact;}
+html[dir="rtl"] body{font-family:var(--arb);}
+
+/* ===== brand watermark: REAL text (crisp), full-bleed, repeats per page ===== */
+.wm{position:fixed;inset:0;z-index:0;pointer-events:none;display:flex;
+    align-items:center;justify-content:center;overflow:hidden;
+    -webkit-print-color-adjust:exact;print-color-adjust:exact;}
+.wm span{font-family:var(--mono);font-weight:800;font-size:76.8pt;letter-spacing:.16em;
+    color:var(--blue);opacity:.06;white-space:nowrap;transform:rotate(-54deg);}  /* single diagonal: bottom-left → top-right */
+.wm.mono span{color:#000;opacity:.05;}
+
+/* ===== continuous flow stream (no page border) ===== */
+.flow{width:210mm;margin:0 auto;background:transparent;color:var(--fg);
+      padding-block:16mm 18mm;padding-inline:23mm 14mm;position:relative;}   /* spiral gutter: inline-start(=spine) 23mm / outer 14mm — dir-aware; print margins set in render_flow.py */
+@media screen{ .flow{background:#fff;box-shadow:0 10px 40px rgba(0,0,0,.16);} }
+.flow>*{position:relative;z-index:1;}
+.flow p,.flow li,.flow .data,.flow .note,.flow .ex{break-inside:auto;}
+.flow .fig,.flow figure,.flow img,.flow svg.figsvg,.flow table,.flow tr,.flow .chapdiv,.flow .exh,.flow .qrcard,.flow .meta{break-inside:avoid;}
+.flow h1,.flow h2,.flow h3,.flow .exh,.flow .subhead,.flow .chapdiv{break-after:avoid;}
+.flow img,.flow svg.figsvg{max-width:100%;height:auto;}
+.flow figcaption,.flow .figcap{display:none;}          /* rule 3: no figure captions */
+
+/* ===== front matter + chapters each start on a fresh page ===== */
+.flow .cover{break-after:page;}        /* cover alone on page 1 */
+.flow .toc{break-after:page;}          /* Sommaire alone on the next page */
+.flow .chapter{break-before:page;}
+.flow .chapter:first-of-type{break-before:auto;}
+
+/* ===== cover ===== */
+.cover{padding:14mm 0 8mm;border-bottom:2px solid var(--blue);margin-bottom:6mm;}
+.cover .badge{font-family:var(--mono);font-size:8.5pt;letter-spacing:.28em;text-transform:uppercase;color:var(--orange);margin-bottom:10px;}
+.cover h1{font-family:var(--latin);font-weight:800;font-size:34pt;line-height:1.03;letter-spacing:-.025em;color:var(--blue-dark);}
+.cover .grule{width:120px;height:5px;border-radius:5px;background:var(--grad);margin:14px 0;}
+.cover .sub{font-family:var(--mono);font-size:10pt;letter-spacing:.14em;text-transform:uppercase;color:var(--teal);}
+.cover .auth{font-size:11pt;color:var(--fg2);margin-top:6px;font-weight:600;}
+
+/* ===== table of contents ===== */
+.toc{margin:2mm 0 4mm;}
+.toc h2{font-family:var(--latin);font-weight:800;font-size:15pt;color:var(--blue-dark);margin-bottom:4mm;}
+.toc .trititle{font-family:var(--mono);font-size:8pt;letter-spacing:.2em;text-transform:uppercase;color:var(--orange);margin:4mm 0 2mm;}
+.toc ol{list-style:none;}
+.toc li{display:flex;align-items:baseline;gap:8px;font-size:10pt;padding:2.2px 0;color:var(--fg);line-height:1.4;}
+.toc li .n{font-family:var(--mono);font-weight:700;font-size:9pt;color:var(--blue);min-width:26px;}
+.toc li .dots{flex:1;border-bottom:1px dotted var(--hair2);transform:translateY(-3px);}
+
+/* ===== chapter divider band ===== */
+.chapdiv{margin:0 0 5mm;padding:6mm 16px 5mm;border-radius:12px;background:var(--grad);
+    -webkit-print-color-adjust:exact;print-color-adjust:exact;}   /* green-filled chapter band */
+.chapdiv .cn{font-family:var(--mono);font-size:8.5pt;font-weight:700;letter-spacing:.24em;text-transform:uppercase;color:rgba(255,255,255,.82);margin-bottom:5px;}
+.chapdiv h2{font-family:var(--latin);font-weight:800;font-size:17pt;line-height:1.1;letter-spacing:-.015em;color:#fff;}
+/* conclusion block — same green-filled look as the chapter band */
+.conclusion{background:var(--grad);border-radius:12px;padding:6mm 16px;margin:5mm 0;color:#fff;break-inside:avoid;
+    -webkit-print-color-adjust:exact;print-color-adjust:exact;}
+.conclusion .ck{font-family:var(--mono);font-size:8.5pt;font-weight:700;letter-spacing:.24em;text-transform:uppercase;color:rgba(255,255,255,.82);margin-bottom:6px;}
+.conclusion h3{font-family:var(--latin);font-weight:800;font-size:13pt;line-height:1.2;color:#fff;margin-bottom:4px;}
+.conclusion p,.conclusion li{font-size:10.4pt;line-height:1.7;color:#fff;}
+.conclusion b,.conclusion strong{color:#fff;font-weight:700;}
+
+/* ===== unit header (lesson/exercise) + QR emplacement ===== */
+.exh{display:flex;align-items:center;gap:11px;margin:6mm 0 3mm;}
+.exh .idx{font-family:var(--mono);font-size:9pt;font-weight:600;color:#fff;background:var(--grad);
+    border-radius:6px;padding:4px 11px;letter-spacing:.08em;text-transform:uppercase;
+    -webkit-print-color-adjust:exact;print-color-adjust:exact;}
+.exh .idx.ex{background:var(--red);}   /* exercise chip = red */
+.exh h2{font-family:var(--latin);font-size:14pt;font-weight:700;letter-spacing:-.01em;color:var(--blue-dark);}
+.exh .qrcard{margin-inline-start:auto;flex:0 0 auto;display:flex;flex-direction:column;align-items:center;gap:3px;width:26mm;}
+.qrcard .qrt{font-family:var(--mono);font-size:6.5pt;letter-spacing:.1em;text-transform:uppercase;color:var(--teal);text-align:center;}
+.qrcard .qrslot{width:24mm;height:24mm;padding:1.5mm;background:#fff;border:1px solid var(--blue-line);border-radius:8px;display:flex;align-items:center;justify-content:center;}
+.qrcard .qrslot img,.qrcard .qrslot svg{width:100%;height:100%;display:block;}
+
+/* sub-exercise label when one file holds several exercices */
+.exsub{font-family:var(--latin);font-weight:800;font-size:11.5pt;color:var(--blue-dark);margin:5mm 0 2.5mm;padding-bottom:3px;border-bottom:2px solid var(--blue-line);}
+
+/* ===== text blocks ===== */
+.lead{font-size:11pt;line-height:1.7;margin:2mm 0 3mm;color:var(--fg);}
+.para{font-size:10.6pt;line-height:1.7;margin:2mm 0 2.5mm;color:var(--fg);}
+.consigne{font-size:10.4pt;line-height:1.6;margin:1mm 0 2mm;color:var(--fg);font-style:italic;}
+.subhead{font-family:var(--latin);font-weight:800;font-size:12pt;letter-spacing:-.01em;color:var(--blue-dark);margin:5mm 0 2.5mm;}
+/* emphasis — green accent = .t-blue/.t-green ; balance = .t-navy ; red = SECONDARY accent (.t-red) on titles + a few words */
+.t-blue{color:var(--blue);font-weight:600;} .t-navy{color:var(--blue-dark);font-weight:700;}
+.t-red{color:var(--red);font-weight:600;} .t-green{color:var(--teal);font-weight:600;} .t-gold{color:var(--orange);font-weight:600;}
+.subhead.t-red{color:var(--red);font-weight:800;}   /* red Roman-numeral section title (I, II, …) — keeps subhead weight */
+/* highlighter marks — a soft colour wash behind a key word (agent picks green or red per what balances the page) */
+.hl-green,.hl-red{border-radius:3px;padding:.02em .24em;font-weight:600;box-decoration-break:clone;-webkit-box-decoration-break:clone;
+    -webkit-print-color-adjust:exact;print-color-adjust:exact;}
+.hl-green{background:rgba(15,171,143,.20);color:var(--blue-dark);}   /* green highlight */
+.hl-red{background:rgba(245,50,47,.13);color:#c0261f;}               /* red highlight  */
+
+.data{background:var(--blue-soft);border:1px solid var(--blue-line);border-inline-start:4px solid var(--blue);
+    border-radius:8px;padding:11px 16px;margin:3mm 0;font-size:10pt;line-height:1.65;color:var(--fg2);}
+.data b{color:var(--fg);font-weight:700;}
+.note{border:1px dashed var(--hair2);border-radius:9px;padding:11px 16px;margin:4mm 0;background:var(--panel);}
+.note .kicker{font-family:var(--mono);font-size:7.5pt;letter-spacing:.18em;color:var(--orange);display:block;margin-bottom:5px;}
+.note .nb{font-size:10pt;line-height:1.7;color:var(--fg2);} .note b{color:var(--fg);}
+.ex:not(.idx){background:var(--blue-soft);border:1px solid var(--blue-line);border-inline-start:3px solid var(--blue);
+    border-radius:7px;padding:7px 11px;font-size:9.6pt;line-height:1.6;color:var(--fg2);margin:2mm 0;}   /* :not(.idx) so it never hits the exercise chip (which is .idx.ex) */
+.ex .extag{display:inline-block;font-family:var(--latin);font-weight:800;font-size:7.6pt;color:var(--blue-dark);background:#fff;
+    border:1px solid var(--blue);border-radius:5px;padding:1px 9px;margin-inline-end:7px;vertical-align:middle;text-transform:uppercase;letter-spacing:.06em;}
+
+/* ===== lists ===== */
+ol.q{list-style:none;counter-reset:q;margin:1mm 0 2mm;}
+ol.q>li{counter-increment:q;position:relative;padding-inline-start:30px;margin-bottom:2.5mm;font-size:10.4pt;line-height:1.6;}
+ol.q>li::before{content:counter(q);position:absolute;inset-inline-start:0;top:1px;width:21px;height:21px;background:var(--grad);color:#fff;
+    border-radius:50%;font-family:var(--mono);font-size:9pt;font-weight:600;display:flex;align-items:center;justify-content:center;
+    -webkit-print-color-adjust:exact;print-color-adjust:exact;}
+ol.sub{list-style:none;counter-reset:s;margin:4px 0 0;padding-inline-start:2px;border-inline-start:1px solid var(--blue-line);}
+ol.sub li{counter-increment:s;position:relative;padding:2.5px 0 2.5px 26px;font-size:10.1pt;line-height:1.55;}
+ol.sub li::before{content:counter(s,lower-alpha)".";position:absolute;inset-inline-start:10px;top:2.5px;font-family:var(--mono);font-size:9pt;font-weight:600;color:var(--teal);}
+ol.qn{list-style:none;counter-reset:qn;margin:1mm 0 2mm;}
+ol.qn>li{counter-increment:qn;position:relative;padding-inline-start:26px;margin-bottom:2.2mm;font-size:10.4pt;line-height:1.55;}
+ol.qn>li::before{content:counter(qn)".";position:absolute;inset-inline-start:0;top:0;font-family:var(--mono);font-size:9.5pt;font-weight:700;color:var(--blue);}
+ul.b{list-style:none;margin:1mm 0 2mm;} ul.b>li{position:relative;padding-inline-start:22px;margin-bottom:2.4mm;font-size:10.4pt;line-height:1.6;}
+ul.b>li::before{content:"";position:absolute;inset-inline-start:3px;top:8px;width:8px;height:8px;border-radius:50%;background:var(--grad);
+    -webkit-print-color-adjust:exact;print-color-adjust:exact;}
+ul.dash{list-style:none;margin:1mm 0 2mm;} ul.dash>li{position:relative;padding-inline-start:20px;margin-bottom:1.8mm;font-size:10.4pt;line-height:1.6;}
+ul.dash>li::before{content:"–";position:absolute;inset-inline-start:2px;top:0;color:var(--fg);font-weight:700;}  /* dash / +/− signs = body colour */
+.flow ul.opts{list-style:none;margin:4px 0 3px;padding-inline-start:16px;}
+.flow ul.opts li{padding:2px 0;font-size:10.2pt;line-height:1.5;color:var(--fg);}
+
+/* ===== figures / tables ===== */
+.fig{margin:3mm 0;} .fig svg.figsvg{display:block;margin:0 auto;background:#fff;max-width:100%;height:auto;}
+.photo{display:block;margin:3mm auto;border-radius:8px;border:1px solid var(--hair);max-width:100%;}
+.figrow{display:flex;flex-wrap:wrap;gap:9px;justify-content:center;margin:3mm auto;max-width:190mm;}
+.flow .figrow img{border-radius:7px;border:1px solid var(--hair);height:46mm;width:auto;max-width:none;object-fit:cover;}
+.schemarow{display:flex;gap:16px;align-items:flex-start;flex-wrap:wrap;margin:2mm 0;}
+.schemarow .col-txt{flex:1 1 90mm;min-width:80mm;} .schemarow .col-fig{flex:0 0 78mm;} .schemarow .col-fig .fig{margin:0;}
+.flow table{border-collapse:collapse;width:100%;margin:3mm 0;font-size:9.8pt;line-height:1.5;}
+.flow table th,.flow table td{border:1px solid var(--blue-line);padding:6px 10px;text-align:start;vertical-align:top;}
+.flow table th{background:var(--grad);color:#fff;font-family:var(--latin);font-weight:700;font-size:9.4pt;
+    -webkit-print-color-adjust:exact;print-color-adjust:exact;}
+.flow table tr:nth-child(even) td{background:var(--blue-soft);color:var(--sub-ink);}   /* sub-row: #E6F3F4 / #045260 */
+
+mjx-container{color:var(--fg) !important;font-weight:400 !important;font-size:1.0em !important;}
+.eq-hi mjx-container,mjx-container.eq-hi{color:var(--blue) !important;}   /* accent (green) equation — highlight a key result; balance with plain math */
+.eq-red mjx-container,mjx-container.eq-red{color:var(--red) !important;}  /* red accent equation / symbol — complements the green .eq-hi */
+
+/* ===== per-file books: credit line, copies list, figures at their size ===== */
+.credit{display:flex;flex-wrap:wrap;align-items:center;gap:5px;margin:-1mm 0 3.5mm;font-size:9.4pt;color:var(--fg2);}
+.credit .who{font-weight:700;color:var(--blue-dark);}
+.credit .tg{font-family:var(--mono);font-size:7.2pt;letter-spacing:.04em;border-radius:5px;padding:1px 7px;line-height:1.6;
+    border:1px solid var(--blue-line);color:var(--blue);background:#fff;-webkit-print-color-adjust:exact;print-color-adjust:exact;}
+.credit .tg.sec{background:var(--blue-dark);border-color:var(--blue-dark);color:#fff;}
+.credit .tg.cor{background:#fff;border-color:var(--red);color:var(--red);}
+.credit a{color:var(--fg3);font-family:var(--mono);font-size:7pt;text-decoration:none;}
+.cover .auth .credit{margin:4mm 0 0;}
+.cover .copies{margin-top:5mm;font-size:8.6pt;color:var(--fg2);}
+.cover .copies ul{list-style:none;margin:2mm 0 0;padding:0;columns:2;}
+.cover .copies a{color:var(--fg3);text-decoration:none;font-size:8pt;}
+.flow figure.fig{text-align:center;}
+.flow figure.fig img{max-height:60mm;width:auto;max-width:70%;display:inline-block;}
+
+/* chapter tag on each part of a multi-chapter book (the book keeps the original order of the file) */
+.chtag{display:inline-block;margin:5mm 0 2mm;padding:1mm 3mm;border-radius:2mm;background:#eef3fb;border:1px solid #c9d6ea;
+  color:#1f3a6b;font-size:9pt;font-weight:700}
+.chtag span{color:#6b7f9e;font-weight:600;margin-inline-end:1.5mm}
+
+@media print{ body{background:#fff;padding:0;} .flow{width:auto;max-width:none;margin:0;padding:0;} }
+@page{size:A4;}   /* margins come from render_flow.py — do NOT set them here */
+</style>
+<meta data-pagefind-filter="type[content]" content="درس">
+<meta data-pagefind-filter="resource[content]" content="COGITO NEWS">
+<meta data-pagefind-meta="n[content]" content="2353">
+<meta data-pagefind-meta="title[content]" content="Rappel Cours خصوصية">
+<meta data-pagefind-filter="chapter[content]" content="محور غير محدّد">
+<meta data-pagefind-filter="chapter[content]" content="الخصوصية والكونية">
+<meta data-pagefind-filter="section[content]" content="باكالوريا رياضيات"><style>.qrcard{display:none!important}.wa-nav{position:sticky;top:0;z-index:50;background:#045260;padding:10px 18px;font-family:Cairo,sans-serif;direction:rtl}.wa-nav a{color:#fff;text-decoration:none;font-weight:700}@media print{.wa-nav{display:none}}</style>
+</head>
+
+<body dir="rtl" lang="ar"
+      data-brand="Wael Academy" data-handle="@WaelAcademy"
+      data-tagline="في تُرابنا.. مغامرة بمغامرة"
+      data-phone="+216 50 40 40 42" data-site="waeldocuments.com"
+      data-cta="سجل معانا وأقرى عن بعد مع منصة Wael Academy"
+      data-subject="Philosophie · Rappel Cours خصوصية" data-watermark="Wael Academy" data-pagefind-body><nav class="wa-nav" data-pagefind-ignore><a href="../index.html">→ الرجوع إلى فهرس الفلسفة</a></nav>
+
+<!-- single full-page diagonal watermark, bottom-left → top-right (repeats on every page) -->
+<div class="wm" aria-hidden="true"><span>WAEL&nbsp;ACADEMY</span></div>
+
+<div class="flow colored">
+<div class="cover"><div class="badge">◉ Wael Academy · Philosophie</div><h1>Rappel Cours خصوصية</h1><div class="grule"></div><div class="sub">محور غير محدّد</div><div class="auth"><div class="credit">المؤلّف / المصدر : <span class="who">COGITO NEWS — By Rouis Rim ; ريم السالمي رويس/ المعهد النموذجي المنزه8</span> <span class="tg">درس</span><span class="tg sec">الفلسفة · باكالوريا رياضيات</span> <a href="https://drive.google.com/file/d/1Zp7P6Hwigwn6HgakIo5SQrnrqBuZwDw_/view">↗ Rappel Cours خصوصية.pdf</a></div></div><div class="copies" data-pagefind-ignore><b>نسخ هذا الملف في الدرايفات (1)</b><ul><li><a href="https://drive.google.com/file/d/1Zp7P6Hwigwn6HgakIo5SQrnrqBuZwDw_/view">Karim Fourati · Bac 2KF25 › Philo / Mme Rouiss / خصوصية</a></li></ul></div></div>
+<section class="chapter">
+<div class="chtag"><span>المحور</span> محور غير محدّد</div>
+<!-- SOURCE: COGITO NEWS — By Rouis Rim ; ريم السالمي رويس/ المعهد النموذجي المنزه8 -->
+<div class="exh"><span class="idx">درس</span><h2>الخصوصية و الكونية</h2>
+  <div class="qrcard"><div class="qrt">فيديو الدرس</div><div class="qrslot"><img src="qr/2353.svg" alt="QR"></div></div></div>
+<div class="credit">المؤلّف / المصدر : <span class="who">COGITO NEWS — By Rouis Rim ; ريم السالمي رويس/ المعهد النموذجي المنزه8</span> <span class="tg">درس</span><span class="tg sec">الفلسفة · باكالوريا رياضيات</span> <a href="https://drive.google.com/file/d/1Zp7P6Hwigwn6HgakIo5SQrnrqBuZwDw_/view">↗ Rappel Cours خصوصية.pdf</a></div>
+
+<div class="chtag"><span>المحور</span> الخصوصية والكونية</div>
+
+<p class="subhead t-red"><span dir="ltr">COGITO NEWS</span></p>
+<p class="para"><span dir="ltr">By Rouis Rim</span></p>
+<p class="subhead t-navy">الخصوصية و الكونية</p>
+<p class="para">دروس و تمارين</p>
+<p class="para">2024-2025</p>
+<!-- NOTE: from p02 on, the course is entirely handwritten; highlighter marks are left out. -->
+<p class="subhead t-red">الباب الاول <span class="t-blue">الإنساني بين الكثرة والـــوحدة</span></p>
+<p class="subhead t-red">- المحور ٢ - الخصوصية والكونية</p>
+<p class="para">من البحث عن الكينونة (مع سؤال من انا)<br>
+الى مساءلة كينونتنا الجماعية (مع سؤال من نحن)</p>
+<p class="subhead t-red"><u>مدخل اشكالي</u></p>
+<p class="para">اذا كان الانساني قد تجلى في مستوى نظري علاقة الانا بالآخر بالنظر الى شكلي العلاقة وما تفترضه من احراجات فان الانية كمشروع يتجسد في العالم عبر الانفتاح على الآخر في حركة حيوية توشّح الانا معرفة بذاتها وانخراطها في الواقع ، واقع يسوده الاختلاف وبعبارة التنوع<!-- PROOFREAD: 2353 part1 p02 — "نظري" / "تفترضه" / "توشّح" / "وبعبارة التنوع" partly unclear --></p>
+<p class="para">(← كثرة في الخصوصيات والسمات لكل ثقافة)</p>
+<p class="para">هذا التنوع تراوح بين اعتباره موحدا للانسانية ضامنا لتعايش أفرادها تحت راية القيم الكونية وبين اعتباره مبررا للصدام ، دافعا للصراع والتناحر والعنف خاصة امام ما نشهده اليوم من :</p>
+<ul class="dash">
+<li><span class="t-blue">تباين في الثقافات</span> : <span class="t-red">فما الهوية والخصوصية هل هي ثابتة ام متحولة</span></li>
+<li><span class="t-blue">اختلاف بين المجتمعات</span> : <span class="t-red">هل يبرر الاختلاف الصراع ؟<br>
+وهل الصراع حتميا لا مناص منه ام التفاعل والتواصل هو المطلب والغاية ؟</span></li>
+</ul>
+<p class="para">ان ما نشهده اليوم في واقعنا الراهن من عنف هووي ومن تناحر يؤكد لنا بلا ريب أن صدام الحضارات واقع لا مهرب منه اذ يبدو في مظاهر وتحت مسميات عدة :</p>
+<p class="para t-blue">← دفاعا عن حقوق الانسان والحريات<br>
+← مواجهة لكل مظاهر التطرف<br>
+← رفض الاختلاف واعتباره دافع للعنف والصدام</p>
+<p class="subhead t-red">كلها احراجات تدفعنا الى التساؤل :</p>
+<ul class="dash t-blue">
+<li>ما علاقة الانا بالآخر الثقافي المختلف ؟</li>
+<li>ما الهوية وما الخصوصية وما مظاهر أزمتها ؟</li>
+<li>وفق أي شروط يكون التفاعل والتواصل ممكنا ؟</li>
+<li>أي معنى للخصوصية في زمن العولمة ؟</li>
+<li>كيف يكون الكوني مطلبا والانسان في رهانا ؟</li>
+<li>واذا كان الانساني مطمعا في ظل الاختلاف هل يمكن المراهنة عليه في ظل واقع عصفت العولمة بقيمه ورجت كل ثوابته ؟</li>
+</ul>
+<!-- PROOFREAD: 2353 part1 p03 — "والانسان في رهانا" / "مطمعا" unclear -->
+<p class="subhead"><u>المعاني الاساسية :</u></p>
+<p class="para"><span class="t-red">- الخصوصية/</span><!-- NOTE: a crossed-out word follows on the page --><br>
+ثابتة أم متغيرة / <!-- crossed out --> ؟</p>
+<p class="para"><span class="t-red">- الاختلاف</span><br>
+عامل اثراء أم مبرر للصدام ؟</p>
+<p class="para"><span class="t-red">الآخر :</span><br>
+شبيه أم مختلف عن تجربتنا ؟</p>
+<p class="para"><span class="t-red">التواصل :</span><br>
+ضرورة أم استحالة ؟</p>
+<p class="para"><span class="t-red">الصراع :</span><br>
+حتمي أم قاتل ؟</p>
+<p class="para"><span class="t-red">العولمة :</span><br>
+حل أم مشكل ؟</p>
+<p class="para"><span class="t-red">الكوني :</span><br>
+حق أم معولم ؟</p>
+<!-- PROOFREAD: 2353 part1 p03 — "حتمي أم قاتل" / "حق أم معولم" unclear -->
+<p class="subhead"><u>توزيعية المحور :</u></p>
+<ol class="qn t-red">
+<li>في دلالة الهوية<br><span class="t-blue">تايلور - موران - فروم</span></li>
+<li>شروط التفاعل الثقافي<br><span class="t-blue">دولوز - شتراوس</span></li>
+<li>مظاهر ازمة الهوية<br><span class="t-blue">فولتير</span></li>
+<li>العولمة والكوني .<br><span class="t-blue">. بودريار</span></li>
+</ol>
+<p class="para">(+) ومع ما يعم الوجود من تعصب وعنف هووي <span class="t-red">← أمام ما نشهده من نزعات التطرف / العنيف<br>
+العنصرية / التسوق<br>
+الدونية / الا ضطلا<br>
+الانول / الاجتياح</span></p>
+<!-- PROOFREAD: 2353 part1 p03 — words cut at left page edge: "العنيف" / "التسوق" / "الا ضطلا" / "الانول" uncertain -->
+<div class="data"><p class="t-blue">هل يمكن أن نؤسس انساني كوني في ظل التنوع والاختلاف ؟<br>
+دون أن تكون اختلافاتنا مبررا للصدام والعنف ؟</p></div>
+<p class="subhead">الباب 1 : الانساني بين <u class="t-red">الكثرة</u> و<u class="t-red">الوحدة</u></p>
+<p class="para"><span dir="ltr">L'humain</span></p>
+<p class="para">ما به يكون الانسان انسانا وماهو وماهنه تتميز انسانيته .</p>
+<ul class="b">
+<li><b>العقل الكوني</b> <span dir="ltr">Raison Universelle</span><br>
+مالبرانش<br>
+"العقل أعدل الاشياء قسمة بين الناس"<br>
+<span class="t-red"><span dir="ltr">René Descartes</span></span></li>
+<li><b>القيم الكونية</b><br>
+العدالة / الحرية / الخير<br>
+المساواة / الحب<br>
+الصداقة / الفضيلة<br>
+<u>دور القيم :</u> ← <span class="t-red">عقلنة الفضاء الانساني</span> وضمان التعايش</li>
+</ul>
+<p class="para"><u class="t-red">الكثرة</u> ← <span class="t-green">وتنوع في الخصوصيات</span> <span class="t-red">باعتبارها السمات والعلامات المميزة لكل ثقافة</span></p>
+<p class="para"><u class="t-red">الوحدة</u> ← <span class="t-green">تماثل في القيم الكونية<br>
+⊕ وحدة المصير الكوني الانساني المشترك .<br>
+↓<br>
+وحدة انسانية صمّاء</span></p>
+<p class="para">تحت راية القيم الكونية و... <!-- PROOFREAD: 2353 part1 p04 — bottom-left text faded/erased, only "تحت راية القيم الكونية" readable; "ما به / وماهو وماهنه" in the definition line uncertain; "صمّاء" uncertain --></p>
+<p class="para"><u class="t-red">الكوني</u> : المشترك الانساني أي جملة القيم والاحكام المعيارية لتوجيه السلوك، الحكم على مدى تطابقه مع <u class="t-red">القانون</u> <span class="t-red">(انساني كوني / اخلاقي)</span><br>
+<span class="t-red" dir="ltr">L'universel</span></p>
+<p class="subhead t-red">القيم الكونية <u>دورها</u></p>
+<ul class="dash">
+<li><span class="t-red">تنظيم</span> العلاقات الانسانية</li>
+<li><span class="t-red">تأطير</span> فضاء الممارسة .</li>
+<li>هيكلة <span class="t-green">الوجود الانساني</span></li>
+<li><span class="t-red">تقنين الممارسات</span></li>
+<li><span class="t-red">عقلنة العلاقات باخضاعها لمنطق</span> <span class="t-green">العقل</span> <span class="t-red">لا لفوضى الغرائز سيادة الهوى</span></li>
+</ul>
+<p class="para">← الرهان المنشود المطلب الانساني الاسمى</p>
+<p class="subhead t-green">المحور ② <u>الخصوصية والكونية</u></p>
+<p class="para">اذا كنا نحيا داخل فضاء علائقي تتقاطع فيه الهويات وتتباين ثقافاتنا بما يجعل هذا اللقاء فرصة للتفاعل والتثاقف والتلاقح الا أن ما يحف بهذا اللقاء من <span class="t-red">مخاطر</span> تجعله كما آلدوران <span class="t-red">مغامرة رهيبة وغير مأمونة العواقب</span> = اذ يتهدد اللقاء بالآخر الثقافي خطر <u>ازمة الهوية</u> وما يفترضه بها من <span class="t-red">طمس للخصوصيات واستفراغ الثقافة من مقوماتها الهووية .</span></p>
+<!-- PROOFREAD: 2353 part1 p06 — "كما آلدوران" (author name, probably آلان تورين / دوران?) unclear; "يفترضه بها" uncertain -->
+<p class="para t-green"><u>فما الهوية وما علاقتها بالكونية ؟</u></p>
+<p class="para">⊕ المباينة = الاختلاف ≠ التماثل = التطابق .<br>
+التباين</p>
+<table>
+<tr><th>نعم</th><th>لا</th></tr>
+<tr><td><u>للتماثل في</u> <span class="t-green">القيم الكوني</span></td>
+<td><u>للتماثل</u> <span class="t-red">في الخصوصيات</span></td></tr>
+<tr><td><u>للاختلاف</u> <span class="t-red">في الخصوصي</span></td>
+<td><u>للاختلاف</u> <span class="t-red">في القيم الكونية</span></td></tr>
+</table>
+<p class="subhead"><u class="t-red">الاشكال</u> ما الهوية وعلاقتها بالكونية ؟</p>
+<p class="para t-red">هل<br>
+. على الثقافات متباينة الخصوصيات أن تتفاعل وتتثاقف في ظل اختلافها وتباينها ؟</p>
+<p class="para t-red">(أم) أن قدر الهويات أن تتصارع وتتناحر في ظل زمن تحكمه العولمة ؟</p>
+<p class="para t-red">والى <u>أي مدى</u> يمكن المراهنة على وحدة إنسانية صمّاء في ظل واقع اهتزت قيمه ورجت ثوابته بنايير العولمة ؟</p>
+<!-- PROOFREAD: 2353 part1 p08 — "على الثقافات" / "صمّاء" (faded) / "بنايير العولمة" uncertain -->
+<p class="subhead"><b>الخصوصية</b> والكونية</p>
+<p class="para"><b>الخصوصية</b> ← علامة - ميزة - سمة مميزة لا يشترك فيها فرد أو مجموعة مع أحد .<br>
+<span class="t-red">تحيل الى <u>الهوية</u> بما هي جملة / مجموع الخصوصيات والسمات النوعية المميزة لفرد أو لمجموعة وهي ثابتة ومتحولة في آن .</span></p>
+<p class="para">والكونية <span class="t-red">←</span> المشترك الانساني ومجموع القيم الكلية والموحدة .</p>
+<p class="para">ما الهوية وما علاقتها بالكونية ؟</p>
+<!-- PROOFREAD: 2353 part1 p09 — "لفرد" / "الكلية" uncertain -->
+<p class="subhead t-navy">1- <u>دلالة الهوية</u></p>
+<p class="para"><u>الخصوصيات</u> : جملة السمات والعلامات المميزة لفرد او لمجموعة</p>
+<p class="para">الخصوصية تحيلنا الى <b>الهوية</b> ← باعتبارها مجموع الخصوصيات الثابتة والمتحولة في آن .</p>
+<p class="para">↓<br>
+مفهوم ملتبس / غامض<br>
+لكنه مركب في آن<br>
+اذ تتراوح الهوية بين<br>
+تتراوح بين</p>
+<ul class="b">
+<li><span class="t-red">هوية شخصية</span> ← لكل فرد هوية مدنية تحيل الى الاسم والنسب : ثابتة / جاهزة / معطاة / مفروضة</li>
+<li><span class="t-red">هوية ثقافية</span> ← عادات - تقاليد لغة - رموز اخلاقيات ← <span class="t-red">تتجلى في مظاهر متنوعة ، متعددة وديناميكية تتراوح بين الثبات والتطور / بين الاصالة والحداثة</span></li>
+<li><span class="t-red">هوية انسانية</span> ← <span class="t-red">(وحدة انسانية صمّاء منشود - غاية - مطلب ومسعى ورهان)</span></li>
+</ul>
+<!-- PROOFREAD: 2353 part1 p10 — "صمّاء" / "تتجلى في مظاهر" (faded) uncertain -->
+<p class="subhead t-red"><u>تايلور <span dir="ltr">Taylor</span></u></p>
+<p class="para t-green">تتحدد هويتي داخل اطار او أفق احتل فيه موقعا اتخذ فيه موقفا<br>
+↓</p>
+<p class="para">ترتهن الهوية بالاطار او الافق وبالتزامات الذات وخياراتها لتكون <span class="t-green"><b>مرجعا ارشاديا لهم</b></span> . (لافرادها)</p>
+<p class="para t-gold">← الهوية أفق ارشادي ومرجع لافرادها منه يستمدون التزاماتهم وموقفهم واحكامهم وبه تتحدد انتماءاتهم</p>
+<p class="para">← <u>الهوية المركبة</u> (موران)<br>
+<span class="t-red">هوية متكثرة ، متعددة المنابع يتداخل فيها عناصرها ديني / لغة / فنون / عادات / تقاليد .....<br>
+↓<br>
+تستمد منها الافراد أحكامهم والتزاماتهم وبفضلها تتحدد انتماءاتهم كانتماء واعي ومسؤول</span><br>
+مسؤول عن الحفظ</p>
+<p class="para">≠ <u>الماهية</u> ← الحقيقة الثابتة والمطلقة والكلية . ← سؤال عن الانا / الذات الفردية .<br>
+<u>الهوية الشخصية الفردية</u></p>
+<p class="para">↓<br>
+<span class="t-red">هوية ديناميكية "هوية حية"</span> - تاريخية متجددة ومتغيرة عبر الزمن<br>
+<u>تتراوح بين الاصالة + الحداثة</u> (<span dir="ltr">Eric Fromm</span>)</p>
+<!-- PROOFREAD: 2353 part1 p11 — "مسؤول عن الحفظ" (vertical side note), "موقفهم" / "وبه" uncertain; highlighter left out -->
+<p class="para"><span class="t-green">اذا كان لقاء الانسان بالانسان فرصة متجددة للتفاعل والتواصل والتثاقف فان ما يعترض هذا اللقاء من تحديات يؤكد احتمالا تجنب مزالقه خاصة مع ما ذكره <u>موران</u> في قوله "لقاء الثقافات مغامرة رهيبة وغير مأمونة العواقب" .</span></p>
+<ul class="dash">
+<li>فوفق أي شروط يمكن <u>للهويات</u> <span class="t-red">متباينة الخصوصيات المختلفة باختلاف خصوصياتها</span> أن تتثاقف وتتجنب الصدام وأزمة الهوية ؟</li>
+<li>ما الذي يحول دون أن يتحول الفضاء الانساني الى <span class="t-green">حلبة صراع وصدام</span> وعنف هووي ؟</li>
+<li>كيف يمكن للهويات <span class="t-red">متباينة الخصوصيات</span> أن تتثاقف دون أن تكون اختلافاتها مبررا للصراع والهيمنة ؟</li>
+<li>كيف يمكن لهذا اللقاء أن يكون مناسبة متجددة لتبادل طقوس الاعتراف والتفاعل تحت راية كوني حق ؟ <span class="t-green">(كوني معولم - زائف عولمي ؟)</span></li>
+</ul>
+<p class="para">والى أي مدى يمكن <span class="t-red">المراهنة على وحدة انسانية صمّاء في ظل واقع معولم ؟</span></p>
+<!-- PROOFREAD: 2353 part1 p12 — "يؤكد احتمالا تجنب" / "كوني حق" (faded) / "صمّاء" (faded) uncertain -->
+<p class="subhead t-red">الخصوصية والكونية</p>
+<p class="subhead t-red">الدرس 1 - <u>في تعريف الهوية وشروط التفاعل الثقافي</u></p>
+<p class="subhead t-red">التمهيد :</p>
+<p class="para"><span class="t-blue">ان ما نشهده من توتر في علاقات الشعوب والثقافات تحيلنا ضرورة على معنى <u>الهوية</u> وما يتعلق <u>بالخصوصية</u> من اشكالات تخفي بين طياتها رفض العيش المشترك نتيجة سيادة نزعات التطرف والسيطرة والتعنيف الرمزي والتهديد للوجود الانساني مما يكرس الصراع والصدام بديلا عن الانفتاح والتواصل</span> وهو ما يدفعنا الى تعريف الهوية والخصوصية والوقوف على شروط التفاعل البينثقافي .</p>
+<p class="subhead t-red">الاشكال :</p>
+<p class="para t-red">فما الهوية وما علاقتها بالخصوصية هل هي الافق الذي في مضمونه تتجسد خيارات الذات والتزاماتها وعبرها تتأكد انتماءاتها ام هي قيمة ستاتيكية ثابتة ومعطى تاريخي محسوب ؟</p>
+<p class="para">اذا كان لقاء الانسان بالانسان فرصة متجددة للتفاعل والتواصل فان ما يطرحه هذا اللقاء من تحديات يؤكد حاجتنا الى الانفتاح على الآخر وهو ما يستوجب (قبل) تعريف الهوية للوقوف على ما يؤمن تفاعلها وتواصل الهويات في ظل اختلافاتها .</p>
+<p class="para">تختلف <u>الهوية</u> عن <u>الماهية</u> اذ تتحدد بعناصر متنوعة لغة كانت أو دينا وعادات وتقاليد ، فالهوية هي "ما يكون به الشيء هو" <span class="t-blue">أي كل تحمل عناصر متنوعة ، متحركة وديناميكية لا تبرز دفعة واحدة بل عبر مراحل</span> لتكون الهوية بذلك مجموع الخصوصيات والسمات والعلامات المميزة لشخص او لمجموعة ولا يشاركه فيها آخر وهي ماهو <span class="t-blue">ثابت وأصيل وماهو مختلف</span> في آن وهو ما يدعمه قول <span class="t-green">تايلور</span> : <span class="t-red">"تتحدد هويتي داخل أفق أو إطار أحتل فيه موقعا وأتخذ فيه موقفا ."</span></p>
+<!-- PROOFREAD: 2353 part1 p13 — "تتأكد انتماءاتها" / "تاريخي محسوب" / "أي كل تحمل" / "تايلور" (cut at left edge) uncertain -->
+<p class="para">اذ في مقابل الهوية الفردية التي تفتقر الى الاطار المحدد لها كمرجع وكأفق تكون الهوية الثقافية "<span class="t-red">هوية مركبة</span>" بتعبير <span class="t-green">ادغار موران</span> يتداخل فيها الاجتماعي مع الثقافي مع السياسي والديني ووفق <span class="t-green">تايلور</span> <span class="t-blue">هوية حية</span> . تتشكل داخل اطارها الخاص الذي في مضمونه تتشكل اختيارات الافراد وتتحدد انتماءاتهم لا كانتماء جاهز ، موروث بل كانتماء <span class="t-red">واع ومسؤول</span> لمجموعة تشاركها نفس الخصوصيات وتحكمها طبائع اجتماعي واخلاقي</p>
+<p class="para">فالهوية <span class="t-red">التزام</span> بقواعد المؤسسة أي التزام بتجارب المعيش<br>
+<span class="t-blue" dir="ltr">Taylor</span> : <span class="t-green">"أن اعرف من اكون هو أن أعرف الموقع الذي أحتله"</span></p>
+<p class="para">وهي هوية <span class="t-blue">تاريخية</span> ومتطورة منها تستمد الذات التزاماتها وعبرها تتحدد قيمها وقناعاتها واختياراتها : <span class="t-red">انها مشروع وجود وسيرورة تثاقف</span> لتكون في آن هوية <span class="t-red">مركبة وحية</span> وهي تتراوح بين الاصالة والحداثة ، بين الماضي والحاضر ، تنهل من بيئتها وتاريخها وتستمر وتتجدد عبر الزمن لما لها قوة انجازها ، متأصلة وخلاقة مبدعة ومنفتحة في آن بقدر اختلافاتها .</p>
+<p class="para">← ان الهوية اذن مفهوم مرن يمتد من <u>الهوية الشخصية</u> أي تلك الهوية المدنية البسيطة التي تختزل في بعض المعطيات الثابتة والموروثة لتكون هوية <span class="t-red">ستاتيكية ثابتة</span> لا تتغير ولا تتطور عبر الزمن الى <u>الهوية الثقافية</u> كهوية <span class="t-red">ديناميكية متطورة</span> نحو الهوية الانسانية كهوية موحدة للانسانية قاطبة تحت راية الكوني الحق .</p>
+<!-- PROOFREAD: 2353 part1 p14 — "طبائع اجتماعي واخلاقي" / "قواعد المؤسسة" / "لما لها قوة انجازها" uncertain -->
+<p class="para">(؟)<br>
+<u>فما</u> واقع الهويات <u>وما</u> مصيرها في ظل اختلافات خصوصياتها ؟<br>
+<u>ووفق أي شروط</u> يمكن للثقافات أن تتفاعل وتتثاقف ؟<br>
+<u>هل تمثل</u> اختلافاتها مبررا للصدام <u>ام</u> ضامنا للتواصل ؟<br>
+<u>وما</u> مظاهر أزمة الهوية <u>وما</u> آثارها ؟<br>
+<u>وما</u> واقع الكوني في ظل العولمة ؟</p>
+<p class="subhead t-red"><u>الشرط الاول</u> : التفاعل الثقافي</p>
+<p class="subhead">الهوية / الثقافة الحية</p>
+<ul class="b">
+<li><span class="t-red">وفاء للاصول تتشبث بالمنابت تتجذر فيها</span><br>↓<br><span class="t-red">لتحمل عبء اللقاء بالآخر</span></li>
+<li>منفتحة - متقبلة على الآخر قابلة لاختلافاته<br>↓<br>لتضمن فعل التثاقف والاثراء الاخر</li>
+<li>مجددة<br>مبدعة<br><span class="t-blue">مبتكرة لها فاعليتها وفيه انها تكمل للافكار والاضافة<br>↓<br>ليجد لديها الآخر حلولا لأزمته</span></li>
+</ul>
+<p class="para"><span class="t-blue">② الشروط (تمهيد)</span> ← حتى تتحمل الهوية عبء اللقاء بالآخر المختلف باحترام خصوصياته فانه يشترط في الهوية أن تكون "هوية حية" ≠ (هوية هشة) تقدر ما تتأصل في منابتها وتكون وفية لأصولها بقدر ما تكون اشعاعها وفاعليتها ضامنا لانفتاحها واقبالها على الآخر المباين ثقافيا ليجد لديها حلولا لأزماته ، يؤكد التثاقف والتفاعل الهووي في ظل الاختلاف</p>
+<!-- PROOFREAD: 2353 part1 p15 — "وفيه انها تكمل للافكار والاضافة" / "تكون اشعاعها" / "يؤكد" uncertain; highlighter left out -->
+<p class="subhead"><u>الشرط الثاني</u> : التماثل في الكوني والندية</p>
+<p class="para">← <span class="t-red">لا مفاضلة</span><br>
+<span class="t-red">لا</span> استعلاء<br>
+<span class="t-red">بل</span> علاقة افقية قوامها الندية والتكافؤ بين كل متساكني هذه الارض</p>
+<p class="para"><u>الاشتراك في القيم لا تفرقة</u> الحق <span class="t-red">(لا المعولمة)</span><br>
+↓<br>
+ضمان وحدة انسانية في ظل الاختلاف</p>
+<p class="para"><span class="t-red">وهو ما يتجلى في</span> <span class="t-blue">الكسموبوليتية / المواطنة العالمية</span><br>
+امتياز منح لكل متساكني الارض بغض النظر عن انتماءاتهم أعراقهم أجناسهم لغاتهم ... ←<br>
+<span class="t-red">ضمان في دولة الانسان<br>
+وفي ظل دستور كوني</span><br>
+<span class="t-red">ويمنح للجميع ↙ حق الاقامة . ↖ حق الضيافة</span> (كانط) <span class="t-red">- "الارض ملك الجميع"</span></p>
+<!-- PROOFREAD: 2353 part1 p16 — "لا تفرقة" / last items of the circled list (faded "لغاتهم ..." ) uncertain -->
+<p class="subhead"><u>الشرط الثالث</u> : <span class="t-red">الاعتراف بالحق في الاختلاف + التسامح + نبذ التعصب</span></p>
+<p class="para"><b>الاختلاف</b> ← <span dir="ltr">Def</span> : تباين في الخصوصيات (تقابل) وتنوع الفضاء الثقافي واللغة والنظم الرمزية .</p>
+<p class="para"><b>التسامح</b> :<br>
+- قيمة اخلاقية ذات بعد كوني <span class="t-blue">قبول بالآخر وقبول اختلافاته .</span><br>
+- عفو / صفح عند المقدرة<br>
+⇓<br>
+علاقة اقتدار وقوة ارادة</p>
+<p class="para"><b>التعصب</b> : <span class="t-green">تمسك الهوية بالتميز المفرط في خصوصياتها</span> ≠ نبذ الآخر<br>
+<span class="t-green">+ ادانة كل آخر ثقافي مختلف واعتباره "بربري" "همجي ، متوحش"</span><br>
+⇐ <span class="t-red">سبنغلر</span> <span dir="ltr">Spengler</span> : <span class="t-green">صراع حضارات</span> ← صراع افقي بين الهويات ، صادم على الابداع / منع الاخر</p>
+<p class="para">دولوز <span dir="ltr">Deleuze</span> "الاختلاف لا يهددني بل يثريني"</p>
+<p class="para">ضرورة <span class="t-red">تقريض</span> الاختلاف واستحسانه ≠ استهجانه<br>
+⇓<br>
+واعتبار الاختلاف الثقافي عامل اثراء واغناء للهويات المتباينة الخصوصيات .<br>
+<span class="t-red">→ مدح استحسان</span></p>
+<p class="para t-red">"انها فروقات ولودة مبدعة من خلالها يتم احراز التقدم" <span dir="ltr">Strauss</span></p>
+<p class="para"><span class="t-red">تقويض : هدم / اطاحة -</span> / تفويض / <span dir="ltr">Delequer</span> / منح الصلاحية</p>
+<!-- PROOFREAD: 2353 part1 p17 — "تمسك الهوية بالتميز المفرط" / "صادم على الابداع / منع الاخر" / "Delequer" / "منح الصلاحية" uncertain -->
+<p class="para"><b>التعصب</b> ← <u>داء لا دواء له الا بالتفلسف .</u></p>
+<p class="para"><u><span dir="ltr">Voltaire</span></u> : <u class="t-red">"التعصب سم تعج الانفس المتعفنة" .</u></p>
+<p class="para t-green">"المتعصبون عمي لا يرون شيئا لا يفقهون انهم واثقون من دخول الجنة بذلك"</p>
+<p class="para">التعصب ← رفض للآخر ← مصادرة حقه في الاختلاف ← مفاضلة<br>
+=<br>
+التعصب تصلب للهوية بالثقة المفرطة في خصوصياتها وادانة كل آخر ثقافي مختلف .</p>
+<p class="para"><span class="t-red">ضرورة إدانة التعصب ، هذا الطاعون الذي يربك لقاء الهويات ويزعزع تفاعلها باعتبار ما يكرسه من</span> عنف تجاه الآخر <span class="t-red">ومن</span> رفض تقريض الاختلاف ← مرادف <span class="t-red">اللاتسامح</span></p>
+<!-- PROOFREAD: 2353 part1 p18 — "سم تعج" / "شيئا" uncertain -->
+<p class="subhead"><u>الشرط الرابع</u> : اعتماد انظمة رمزية فنية أو أدبية</p>
+<p class="para"><span class="t-red">اذا كنا نؤمن بوحدة <u>المصير الانساني المشترك</u> فلا بد من تفعيل وسائط رمزية : لغوية - فنية - دينية او غيرها من شأنها أن تقرب المسافات وتؤمن فعل التواصل والتثاقف مع الآخر المختلف</span> باختلاف خصوصياته .</p>
+<p class="para">فاللغة برموزها وعلاماتها تمثل قادرة على ضمان هذا الفعل وفي غنى بها يمكن للدين أو غيره من الوسائط كالفن أن يؤمن هذه العلاقة والتفاعل</p>
+<p class="para"><span dir="ltr">Paul Klee</span> <span class="t-green">الفن لغة تخاطب الروح وان كانت خرساء .</span></p>
+<p class="para t-blue">نيتشه : "لنا الفن حتى لا تميتنا الحقيقة"</p>
+<!-- PROOFREAD: 2353 part1 p19 — "تمثل قادرة" / "وفي غنى بها" uncertain -->
+<p class="para t-blue"><span dir="ltr">Rédaction</span></p>
+<p class="subhead"><span class="t-blue">(موطأة)</span> <u class="t-red">لشروط التفاعل الثقافي</u> :</p>
+<p class="para">كيف يمكن أن نؤسس لفضاء انساني كوني في ظل تنوع الخصوصيات ؟</p>
+<p class="subhead t-red"><u>تمهيد</u></p>
+<p class="para">أمام ما نشهده اليوم من نزعات التطرف والهمجية ومن مظاهر العنصرية والتفوق وما يسود الفضاء الانساني من حروب دموية وإبادة جماعية تجد نفسي مطالبة بمراجعة معاني الوجود الانساني والتفكير جديا فيما يحول دون الخروج من هذه الأزمة الحادة التي تهدم كل تفاعل انساني ممكن وتقضي على القيم الكونية وتعزز حاجتنا إلى الكوني الحق أكثر من أي وقت مضى لعقلنة العلاقات وتنظيمها حتى نراهن على الانسان والانساني فيه لعيش الانسان مع الانسان .</p>
+<p class="para">لذلك كان لا بد من الوقوف على جملة الشروط التي من شأنها أن تؤمن هذا التفاعل وتجعل لقاء الانسان بالانسان فرصة متجددة لتبادل طقوس الاعتراف والتثاقف في غياب كل تعصب أو استعلاء . وهو ما يستوجب <u>أولا</u> أن تكون كل ثقافة وفية لأصولها متجذرة في منابتها ومنفتحة على الآخر الثقافي في آن ، <span class="t-red">هذه الثقافة الحية هي ثقافة ديناميكية</span> تنهل من ماضيها وتستمر عبر الزمن لتتجدد وتطور خصوصياتها ويكون الاختلاف خصوصياتها عامل اغناء لها وهو ما تؤكده قولة جيل دولوز : <span class="t-red">"الاختلاف لا يهددني بل يثريني"</span> فالاختلاف بما هو تباين في الخصوصيات وتنوع الفضاء الثقافي واللغة والنظم الرمزية بقدر ما يشكل عنصر تمايز للهوية فهو ما منه تستمد تنوعها وقدرتها على النهل من ثقافة الآخر في الآن نفسه الذي تجد فيه الآخر مصدرا للتلاقح والاثراء .</p>
+<!-- PROOFREAD: 2353 part1 p20 — "(موطأة)" / "تجد نفسي مطالبة بمراجعة" / "يحول دون الخروج" (partly faded) uncertain; highlighter left out -->
+<p class="subhead">(تلخيص لما سبق) <span class="t-red" dir="ltr">Récapitulation</span></p>
+<p class="para">II) اذا كان اللقاء بالآخر <span class="t-red">مغامرة رهيبة محفوفة بالمخاطر وغير مأمونة العواقب</span> فلا بد <span class="t-red">لكل هوية حتى تؤمن</span> تطورها وتجددها وابداعها أن <span class="t-red">تتوحد مع الآخر</span> <u class="t-red">اساسيات اللقاء / التثاقف</u> باعتبارهم (+) الايمان بوحدة <span class="t-red">المصير الكوني المشترك</span> (+) التعددية والاختلاف كعامل وجب <span class="t-red">تقريظه</span> .</p>
+<p class="para">وهو ما يرتهن باستيفاء <u>شروط التفاعل الثقافي</u></p>
+<ol class="qn">
+<li><b>كل هوية هوية حية</b> ← <span class="t-red">متجذرة في منابتها ووفية لأصولها</span> + <span class="t-red">منفتحة تقبل الآخر باختلافاته</span> + مبدعة ، مجددة خلاقة .</li>
+<li><span class="t-red">التماثل في الكوني والندية</span> ← التفاعل تحت راية الكوني في غياب كل مفاضلة أو استعلاء<br>⇓<br><span class="t-red">الكسموبوليتية (الاشتراك في ملكية الارض)</span></li>
+<li>تقريظ الاختلاف + نبذ التعصب ← <span class="t-red">اعتبار الاختلاف والجدل الثقافي عامل اغناء واثراء للهويات</span> + ادانة التعصب الذي يهدم فاعلية الثقافية بما يكرس الاستعلاء ، الهيمنة</li>
+<li><span class="t-red">اعتماد انظمة رمزية</span> ← <span class="t-green">ضرورة اعتماد وسائط كاللغة والفن والمقدس من اجل التواصل مع الآخر المختلف</span></li>
+</ol>
+<!-- PROOFREAD: 2353 part1 p21 — "باعتبارهم" / "والجدل الثقافي" / "الهيمنة" (cut) / faded left-margin note not transcribed (illegible) uncertain -->
+<p class="subhead t-blue">الجزء (٢) من الدرس : <u>أزمة الهوية وآثار العولمة على الكوني</u> .</p>
+<p class="para"><span class="t-red">II</span> <u class="t-red">أزمة الهوية</u> : فقدان اليقين + ضياع الهوية بضياع مرجعياتها ← خصوصياتها .</p>
+<p class="para">← اغتراب الهوية استلابها) <span class="t-red">بفقدان العناصر المشكلة لهويتها كهوية حية .</span></p>
+<ul class="b">
+<li><span class="t-red"><u>بتعصب الهوية وجمودها</u></span> ← <span class="t-red">انغلاقها داخل الخصوصية</span> خوفا من تهديد الآخر<br>⇓<br>موت بطيء انعدام التجديد والتطور والابداع</li>
+<li><u>ذوبان الهوية</u> في الآخر وانصهارها فيه ← <span class="t-red">انتحار ثقافي</span> + فقدان الخصوصيات وطمسها<br>⇓<br>موت عنيف بتجردها من كل مقوماتها الثقافية .</li>
+<li><u class="t-red">مركزية الثقافة</u> ← تدمج كل مختلف وتعمل على <span class="t-red">صهره صهرا عنيفا</span><br>⇓<br>تعميم خصوصيات الثقافة يؤدي الى موتها موتا عنيفا .</li>
+</ul>
+<p class="para">كل ثقافة تتعمم تفقد خصوصيتها وتموت . (بودريار)</p>
+<!-- PROOFREAD: 2353 part1 p22 — "تعميم خصوصيات الثقافة يؤدي الى" partly faded -->
+<p class="para">← <span class="t-red">الراهن</span> <span dir="ltr">L'actuel</span> : نحن نحيا داخل فضاء انساني <span class="t-red">معولم</span><br>
+↓<br>
+<span class="t-red">العولمة</span> مسار اقتصادي تفتح الحدود أمام تنقل البضائع ثم الاشخاص ثم الرموز والثقافات .</p>
+<ul class="b">
+<li><span class="t-red">(+)</span><br>
+- قربت العولمة المسافات بين الشعوب والثقافات =<br>
+- وحدت العولمة كل الثقافات وحولت العالم الى قرية صغيرة .</li>
+<li><span class="t-red">(-)</span><br>
+<span class="t-red">تخفي العولمة بين طياتها</span> <span class="t-green">مشروع سلطوي ، استعماري</span><br>
+- <span class="t-red">هيمنة نموذج ثقافي أوحد</span> ، الثقافة المركز أو الثقافة الغازية<br>
+<span class="t-green">وهي ثقافة لها النرجسية الثقافية للمركزية الاثنية</span> <span class="t-red" dir="ltr">Egocentrisme Ethnique + Narcissisme Culturel</span><br>
+← <span class="t-red"><u>فرض الوصاية</u></span> أو الاستعمار المقنع "العنف الناعم" ← <span class="t-red">امبريالية - تسلط - عنف</span></li>
+</ul>
+<p class="para"><span class="t-red">عنف العولمة</span> ← <span class="t-red">عملية دمج اكراهي عنيف للبشر</span><br>
+↓<br>
+- يعدم التنوع والاختلاف<br>
+- يطمس الخصوصيات<br>
+- ويؤسس <span class="t-red">لتماثل في الخصوصيات</span><br>
+↓<br>
+تعدم فاعلية الثقافة<br>
+تعدم حيوية التجربة الانسانية كتجربة بيثقافية لا تتحقق ولا تجني ثمارها الا في ظل الاختلاف</p>
+<p class="para">قناع الكوني <span class="t-blue">لا منقذ من عنف العولمة الا بالتشبث بالكوني وبالعقل الكوني ←<br>
+العالمي - الكوني والعالمي<br>
+العولمي / العولمي - الراهن - الساطع - الوهم</span><br>
+<span class="t-red">+ العقل الكوني = وحدة القيم</span></p>
+<!-- PROOFREAD: 2353 part1 p24 — blue diagonal annotations largely unclear ("لا منقذ من عنف العولمة..." , "الساطع - الوهم"); "بيثقافية" / "الا في ظل الاختلاف" (faded) uncertain -->
+<p class="para">← اذا كان مشروع الثقافة المركز هو <span class="t-red"><u>أمركة العالم</u></span> : عبر مسار سلطوي <span class="t-red">استعماري / امبريالي</span> يرغب في فرض <span class="t-red">الهيمنة والوصاية على العالم</span> فان <span class="t-red"><u>العولمة</u></span> هي المطية التي أمنت فرض هذه الثقافة المركز</p>
+<p class="para">↓<br>
+مسار ليبرالي تفتح الحدود أمام تنقل البضائع ثم الاشخاص ثم الثقافات والرموز .</p>
+<ul class="b">
+<li><span class="t-red">(+)</span> الوجه الظاهر<br>
+<span class="t-red">- تقريب المسافات بين الشعوب والثقافات</span><br>
+- توحيد العالم وتحويله الى قرية صغيرة تزعم انها قرية كونية .</li>
+<li><span class="t-red">(-)</span> الوجه الباطن<br>
+مشروع سلطوي - استعماري - امبريالي ورغبة في فرض الهيمنة <u class="t-red">والوطاية</u> على كل الثقافات الهشة بطمس خصوصياتها وتكريس التماثل مع الخصوصيات الغربية .<br>
+<span class="t-red">← دمج وصهر كل مختلف</span><br>
+<span class="t-red">(استعمار ناعم</span> : متنوع / غير معلن !!</li>
+</ul>
+<!-- PROOFREAD: 2353 part1 p25 — "والوطاية" (as written?) / "متنوع" uncertain -->
+<table>
+<tr><th>لا <span dir="ltr">No</span></th><th>نعم <span dir="ltr">Yes</span></th></tr>
+<tr><td class="t-red"><ul class="dash">
+<li>للتماثل في الخصوصي</li>
+<li>للاختلاف في الكوني</li>
+<li>للتعصب ونبذ الآخر</li>
+<li>للانصهار والذوبان في الآخر</li>
+<li>للصدام والعنف الهووي</li>
+<li>لطمس الهويات</li>
+<li>للدمج العنيف والقسري والاكراهي</li>
+</ul></td>
+<td class="t-red"><ul class="dash">
+<li>للتماثل في القيم الكونية</li>
+<li>للاختلاف في الخصوصيات .</li>
+<li>للاختلاف وتقريظه ولاقبال على الآخر</li>
+<li>للانفتاح والتثاقف</li>
+<li>للتسامح والتلاقح وتقبل الآخر</li>
+<li>لنبذ التعصب وادانته .</li>
+<li>للعلاقة الافقية وللندية في الوجود والايمان بوحدة المصير الكوني المشترك .</li>
+</ul></td></tr>
+</table>
+<!-- PROOFREAD: 2353 part1 p26 — last "نعم" item partly faded -->
+<p class="subhead t-red"><u>الدرس 3</u> العولمة وأزمة الهوية - وآثارها على الكوني .</p>
+<p class="subhead">تمهيد</p>
+<p class="para"><span class="t-blue">في ظل راهن اهتزت ثوابته وارتجت أسسه حاصرنا العنف من كل حدب وصوب ليوجع ذلك انعدام الشعور بالأمان نتيجة ما يهدد الانسان من أزمات غدت حتمية في راهن تغذيه العولمة بنزعاتها المتطرفة وأهدافها السلطوية ليتحول معها لقاء الانسان بالانسان أي لقاء الهويات متباينة الخصوصيات</span> <span class="t-red">"مغامرة رهيبة وغير مأمونة العواقب . بل محفوفة بالمخاطر"</span> وهو ما يدفعنا وبالحاح الى مساءلة الهوية واثارة اشكال العولمة وما يقترن <span class="t-blue">بها من غايات ومآرب تهدد العيش الانساني المشترك وتزعزع الكوني الحق .</span></p>
+<p class="subhead t-red">اشكال</p>
+<p class="para">فما العولمة وما آثارها ؟<br>
+هل هي علامة خلاص الانسان وضامن لتفاعل الهويات أم هي "سوء الطالع الأخيرة" وما تقترن به من أزمة الهوية وتهديد للكوني ؟<br>
+أي واقع للكوني في ظل العولمة ؟<br>
+هل بتعميم المباني وفق نظام قيم معولمة ارتقاء الى الكونية أم انحدار وتدحرج الى الدرجة الصفر لتكون ممارسة خطيرة تودي بالكوني وتعلن عن موته قبل الأوان ؟<br>
+والى أي مدى يمكن المراهنة اليوم على الوحدة الانسانية الصماء في راهن عصفت العولمة بكل قيمه ليتحول الكوني قناعا ولينتصر الفكر الوحيد على الفكر الكوني ؟</p>
+<!-- PROOFREAD: 2353 part1 p27 — "ليوجع ذلك" / "سوء الطالع الأخيرة" / "بتعميم المباني" uncertain -->
+<p class="para">اذا كان التفاعل المنشود حركة ديناميكية ، جدلية بين هويات متباينة الخصوصيات تستثمر اختلافاتها ايجابيا بشكل يؤمن تثاقفها من جهة ووحدة الانسانية في آن فان ذلك يحيل حتما الى حيوية التجربة الانسانية وكثافتها في ظل وفرة وتنوع وتباين الهويات المختلفة باختلاف خصوصياتها .</p>
+<p class="para"><u>بالمقابل</u> ما نشهده اليوم في ظل الافراط في الاتصال من تصدع في العلاقات وتراجع بعض الهويات بل أفولها في مقابل هيمنة <span class="t-red">ثقافي أوحد</span> لا يبدو اعتباطيا او وليد الصدفة بل تحركه أياد خفية وتوجهه <span class="t-red">استراتيجيات</span> من اجل تكريس <u class="t-red">التماثل</u> كبديل عن <u class="t-red">الاختلاف</u> ، لذلك وجب اماطة اللثام وازاحة القناع عما يتخفى وراء المعلن لبيان زيف ما تروجه العولمة من قيم زائفة ومصطنعة باسم الكوني .</p>
+<p class="para t-blue">فما العولمة وما علاقتها بالكوني ؟<br>
+وهل يمكن الحديث بعد ذلك عن الكوني الحقيقي ككوني حق في فضاء تحكمه العولمة بل تسيطر عليه ؟</p>
+<table>
+<tr><th>العولمة</th><th>الكوني</th></tr>
+<tr><td>مسار يرد الى ما هو اقتصادي واستهلاكي<br>
+عولمة السوق والتقنيات والسياسة والاعلام<br>
+ⓘ تسعى باتساع رقعة الانتشار نحو انشاء "<u>قرية كونية</u>"<br>
+<span class="t-red">ممارسة ليبرالية تزعم تسويق قيم داخل قرية ينصهر فيها الجميع عبر دمج اكراهي عنيف</span><br>
+<span class="t-blue">ديانة توحيدية : ديانة السوق</span></td>
+<td>جملة قيم معيارية ومسار يرد الى ما هو انساني وموحد للانسانية من قيم كلية سامية<br>
+قيم كلية موجهة للانسانية قاطبة وهي صالحة لكل الافراد ولكل زمان ومكان .<br>
+<span class="t-red">مجموعة معايير لما هو انساني فكريا وجماليا وسياسيا وعلميا</span><br>
+<span class="t-blue">فكرة جميلة تعانق كل خصوصي .</span></td></tr>
+</table>
+<!-- PROOFREAD: 2353 part1 p28 — "تصدع" (partly faded) / "ⓘ" marker / "هيمنة" uncertain -->
+<p class="para">← تحت تأثير العولمة <span class="t-red">ينحرف الكوني عن مساره الحقيقي لينفقد صفته الانسانية ليصبح تبريرا للهيمنة والغطرسة والدمج / الصهر العنيف</span> خدمة لمشروع العولمة <span class="t-red" dir="ltr">Uniformisation</span></p>
+<p class="para t-red"><span dir="ltr">Boudrillard</span></p>
+<p class="para t-blue">"السيادة وهبت للعولمة على حساب الكوني"<br>
+"الكوني يهلك بالعولمة وعولمة التبادلات تضع نهاية لكونية القيم ."</p>
+<p class="para">تفرض العولمة اذن تحديا نهائيا حيث تتحول الثقافة من <span class="t-blue">وعاء يحمل كيفية النظر الى الحياة واسلوب العيش</span> <span class="t-blue">الى</span><br>
+<span class="t-red">ثقافة العولمة والعنف الناعم الذي يكره الآخر ويغتصب خصوصياته .</span></p>
+<p class="para">"انها انتصار الفكر الوحيد على الفكر الكوني" (بودريار)<br>
+انها سيادة لثقافة الغالب وهي فرض قسري واستدراج للآخر الى <span class="t-red">ساحات معقدة</span> من التفاعل وهو ما نسميه اليوم بأزمة العنف العالمي باسم الكونية<br>
+وهو ميلاد لثقافة الاستهلاك كبديل عن ثقافة الهوية والانتماء .</p>
+<p class="para">هذا الوضع المربك يعلن نتاج <span class="t-red">الدمج الاكراهي العنيف</span> + تدمير الثقافات بالقوة باكراهها على تبني ثقافة <span class="t-red">النموذج الاوحد أو الثقافة المركز</span> تلك التي تدعي التفوق بأمركة العالم وهو ما يعلن بتعبير <span class="t-blue">فوكوياما</span> اعلان عن <span class="t-blue">نهاية التاريخ</span> وارساء لسبورنوغرافيا القيم .</p>
+<!-- PROOFREAD: 2353 part1 p29 — "لينفقد" / "ساحات معقدة من التفاعل" (cut at edge) / "يعلن نتاج" / "لسبورنوغرافيا" uncertain -->
+<p class="subhead">المواطنة العالمية <span class="t-blue">أو الكسموبوليتية</span><br>
+<u>كحل لأزمة الكوني -</u></p>
+<p class="para">في ظل راهن ألغيت فيه الحدود والمسافات بين الشعوب والثقافات وتوحدت فيه أنماط العيش وحتى القيم نجد انا امام اشكال تأملته الذات :</p>
+<p class="para t-red">هل يضع هذا الانفتاح امامنا آفاقا رحبة تتجاوز الحدود الجغرا سياسية نحو فضاء <u>الكونية</u> أم هو تهديد للخصوصيات وتكريس التماثل وبالتالي تهديد سيادة الدول ؟</p>
+<p class="para">اذا كان الميثاق العالمي لحقوق الانسان (10 - 12 - 1948) في فصله الاول / المادة الاولى "يولد جميع الناس أحرارا متساوون في الكرامة والحقوق وقد وهبوا عقلا وضميرا وعليهم ان يعامل بعضهم بعضا بروح الاخاء ."</p>
+<p class="para">← ليشرع لمواطنة تتجاوز البعد <span class="t-red">المحلي</span> لهذه المجموعة أو تلك نحو التأسيس "<span class="t-red">لمواطنة عالمية</span>" أو "<span class="t-red">مواطنة كونية</span>"<br>
+هذا التأسيس تقتضي استحداث معايير غير كلاسيكية ووعي جمعي <span class="t-red">بحتمية المصير الكوني الانساني المشترك</span> من اجل الارتقاء بانسانية الانسان الى درجات مميزة تقتضي تستند في قيامها الى معاني</p>
+<p class="para">← للمواطنة<br>
+← المجتمع المدني<br>
+← الحضارة<br>
+} انه تحول من المواطنة في معناها الضيق الذي نختزلها في الانتماء الى دولة ذات سيادة</p>
+<p class="para">الى الانتماء الى مجتمع أرحب يتجاوز الحدود الوطنية والجغرافية نحو حدود عالمية أو دولية .</p>
+<!-- PROOFREAD: 2353 part1 p30 — left margin of the red question faded/cut ("تتجاوز" / "تهديد للخصوصيات" / "سيادة الدول") ; "تأملته الذات" / "تقتضي تستند" uncertain; highlighter left out -->
+<p class="para">← ان المواطن العالمي هو ذاك الذي<br>
+← يراهن على مصلحة البشرية جمعاء (لا) على مصالحه الفردية<br>
+← يسعى عبر الفكر الساعد الى بناء عالم يتسم بالعدل والمساواة<br>
+← ذاك الذي يتشبع بالقيم المدنية والتحضر والدفاع عنها لتشييد <span class="t-red">مشروع حضاري</span> يكون فيه التعايش بين الافراد ممكنا رغم التباين في الخصوصيات ووحدتهم ممكنة رغم تباين العادات والمصالح .</p>
+<p class="para t-red">← وفي مقابل ما أصاب المواطنة من زعزعة واضعاف لقيمتها السياسية والاقتصادية فان انصهار الافراد اليوم في شراكة فاعلة ولعقبة تخص النظر عن معتقداتهم ، ومعتقداتهم واصولهم العرقية يؤسس "لسلام أبدي" كما صاغه (كانط) داعيا الى "حق الضيافة" وحق الاقامة" بما <u>يؤسس لقانون عالمي</u> / دستور كوني للمواطنين في دولة الانسان" .</p>
+<p class="para">المواطنة العالمية اذن هي "<u class="t-red">انتماء الى الانسانية قاطبة</u>" انتماء<br>
+- يحفظ حقوق كل الافراد ويحضنها<br>
+- يرسخ التنوع ويحافظ على خصوصيات كل مجموعة ثقافية<br>
+- يحرر الانسانية من كل أشكال المفاضلة للاعتراف بأن الآخر <span class="t-red">"هو في انسانيته انسان"</span> : كما أكد بول ريكور .</p>
+<p class="para"><b>لكن</b> <span class="t-red">قد يكون مطية وذريعة للحط من سيادة الدول وتهديدها عبر التدخل في شؤونها الداخلية مما يجعل من المواطنة العالمية</span> تهديد للسيادة الوطنية .</p>
+<!-- PROOFREAD: 2353 part1 p31 — "الفكر الساعد" / "ولعقبة تخص النظر عن" / "معتقداتهم ، ومعتقداتهم" uncertain -->
+<!-- NOTE: p32 onwards is printed; a diagonal "ROUIS" watermark is left out. -->
+<p class="subhead t-red">التواصل</p>
+<!-- CROP: 2353 1 32 0.725 0.097 0.892 0.185 2353_tawasol -->
+<figure class="fig"><img src="https://wael-philo.b-cdn.net/figs/2353/2353_tawasol.png" alt=""></figure>
+<p class="para"><b>التواصل</b> هو عملية تفاعل بين طرفين أفرادا أو ثقافات يكون أحدهما باث و الثاني متلقي .<br>
+<b>التواصل</b> هو علاقة تفاعل تسمح لكلّ ثقافة بالإستفادة من اختلاف الثقافات الأخرى بنقل المعارف و التقنيات باعتماد وسائط رمزية، لغوية أو غير لغوية كالرموز الدينية أو الصّور تكون الغاية منها تحقيق التفاهم بين طرفي التواصل.</p>
+<p class="para"><b>الوسائط الرمزية</b> هي رموز تعبّر عن وضعية أو موقف أو فكرة أو عاطفة و تسمح بالتأثير في المتلقي و تعديل عناصر هوية الآخر أو بتعبير <b>ادغار موران</b> <b>"تنمية هويته متعدّدة المنابع"</b> لتحقّق تطوّرها و تتمكّن من تجاوز أزماتها دون الإنصهار في ثقافة الآخر و هو ما يشترط على أعضاء كلّ ثقافة حسب <b>ليفي ستروس</b> <b>"التمسك بيقين أصالتهم و بتفوقهم على الآخرين</b> ...</p>
+<!-- PROOFREAD: 2353 part1 p32 — end of the "الوسائط الرمزية" paragraph faded at the left edge ("عناصر" / "في ثقافة" / text after "الآخرين") -->
+<p class="para">تعمل كلّ الأنظمة الرمزية (اللغوية أو الدينية أو الأسطورية أو الصور) على:</p>
+<ol class="qn">
+<li><b>التعبير</b> عن وضعية أو واقع أو مقدّس كالإله أو القوى الأسطورية تقوم بتأويله في فكرة.</li>
+<li><b>تمثّل الموضوع</b> المعبّر عنه في الذهن بتأويل يعكس رؤية ثقافية خاصة بكلّ هوية و تشكّل أساس اختلافها.</li>
+<li><b>استعمال إشارات رمزية تكون</b> أصواتا (في اللغة) أو مادة (في النحت و العمارة) أو حركة (في الطقوس الدينية أو الصلاة) أو أشكال و إضاءة( في الصورة و المشهد).</li>
+<li><b>توظيف قواعد</b> سيميولوجية (علم الدلالات و المعاني)تسمح بتنظيم الإشارات و انتاج معنى قابل للفهم من قبل الآخرين .</li>
+</ol>
+<table>
+<tr><th>اللغة</th><th>المقدس</th><th>الصّورة</th></tr>
+<tr><td><!-- CROP: 2353 1 32 0.678 0.475 0.784 0.520 2353_lugha -->
+<figure class="fig"><img src="https://wael-philo.b-cdn.net/figs/2353/2353_lugha.png" alt=""></figure>
+<b>*هي حسب "بنفنيست"</b> نسق من العلامات اللسانية المنطوقة أو الرّموز التي نستعملها لتسمية الأشياء و التعبير عنها للآخرين<br><br>
+<b>*و هي تتكوّن من :</b><br>
+<b>1- دال</b> أي صورة صوتية<br>
+<b>2- مدلول</b> أي تصوّر ذهني<br><br>
+*تحدّد اللغة حسب <b>"بنفنيست"</b> طريقة تفكير هوية ما في بيئتها و تسمية عاداتها و نظام معتقداتها و معارفها أو علومها التي تميّزها عن الهويات الأخرى و تشكّل عناصر اختلافها لذلك يقول <b>"ادغار موران" "نحن مشتركون في اللغة و مختلفون في الألسن"</b><br><br>
+*تسمح الترجمة حسب <b>"بول ريكور"</b> بالتثاقف أي بالتفاعل الثقافي بما هو معرفة هوية ما لخصوصيات هوية الآخر و عناصره الثقافية لتستفيد منها في حلّ أزماتها .</td>
+<td><!-- CROP: 2353 1 32 0.400 0.474 0.499 0.520 2353_moqaddas -->
+<figure class="fig"><img src="https://wael-philo.b-cdn.net/figs/2353/2353_moqaddas.png" alt=""></figure>
+<b>*المقدّس</b> هو كائن أعلى ذي قوة خارقة يتحكم بها في العالم و في مصير الإنسان و هو بذلك كما يعرّفه <b>بول ريكور "آخر كلّي"</b> باعتباره كائنا لا ماديا يتجلى من خلال أحداث تكشف قدرته و تسمح حسب <b>كاسيرير</b> بتفسير الواقع المادي<br>
+<b>*المقدّس (ديني أو أسطوري)</b> هو فكرة تعكس رؤية كلّ مجتمع لواقعه و غايته منه، و هو ما يعبّر عنه شخص أو مجتمع بما هو باث إلى متلقي عبر رسائل روحية باعتماد رموز مادية (منحوتات)أو لغوية (تسمية/صلاة/ نصوص مقدّسة) لذلك يعتبر <b>ميرسيا الياد "أنّ الإنسان الديني يؤمن دائما بأنّ حقيقة مطلقة موجودة دائما و أعني بها المقدّس الذي يخترق هذا العالم و يتجلّى فيه في آن"</b><br><br>
+<b>*الرمز</b> هو تمثيل حسّي لمعنى ذهني باعتماد علاقة <b>إيحاء</b> يكون وسيطا بين الإنسان و العالم تختلف من خلاله كل هوية و بين الإنسان و الإنسان بالتواصل ... بين الإنسان و المقدّس بالدعاء</td>
+<td><!-- CROP: 2353 1 32 0.127 0.487 0.232 0.535 2353_soura -->
+<figure class="fig"><img src="https://wael-philo.b-cdn.net/figs/2353/2353_soura.png" alt=""></figure>
+* هي كما يعرّفها <b>رولان بارط</b> تركيب لجملة من الأشكال الحسية و الألوان و الأبعاد التي تعبّر عن شيء خاص أو واقعة موضوعية بفضل جملة من القواعد السيميولوجية<br><br>
+* تحمل الصورة حسب <b>رولان بارط</b> رسائل بصرية بين باث يقوم بتأويل الواقع و التعبير عنه تقنيا و متلقّي يقوم بتحليل الرسالة البصرية بفك شفرتها و الإستجابة إليها بردود فعل<br><br>
+*الصورة حسب <b><u>ريجيس دي براي " غالبا ما تكون أكثر قابلية للتصديق"</u></b> و قد أضحت في مجتمع الفرجة أو المشهد قادرة على تقليص المسافات و تجاوز الاختلافات الثقافية<br>
+*الصورة هي الوسيط الرمزي الأكثر يسر و نجاعة في التعبير عن خصوصيات و نمط عيش مجتمع ما الى أعضاء الثقافات الأخرى</td></tr>
+</table>
+<!-- PROOFREAD: 2353 part1 p32 — last line of the المقدس box cut at the bottom ("... بين الإنسان و المقدّس بالدعاء") -->
+<p class="subhead">← <u>حل لعنف العولمة ؟</u></p>
+<p class="para">اذا كان عنف العولمة هو تلك المحاولة الاكراهية والدمج العنيف لكل مختلف بطمس الخصوصيات وتكريس التماثل بديلا عنه .<br>
+↓<br>
+<span class="t-red">اعدام كل فاعلية انسانية وطمس لكل القيم واستفراغ <u>الفضاء</u> الانساني والتجربة الانسانية من حيويتها وكثافتها وتنوع عناصرها .</span></p>
+<p class="subhead t-red">الحل</p>
+<p class="para"><span class="t-red">لا منقذ من عنف العولمة الا <u>بنقد فلسفي</u></span> يفضح أوهامها وينقذ <span class="t-blue">الانسان من الانسان / رهانا على الانسان والانساني فيه</span><br>
+<span class="t-red">هذا النقد الفلسفي يضع خطوط تماس بين</span> <span class="t-green">الكوني الحق الانساني الحقيقي ≠ الكوني الزائف المصطنع المادي</span></p>
+<div class="exsub">تمرين</div>
+<p class="para t-green">التعصب لا <u>الاختلاف</u> هو الذي يعوق التواصل <span class="t-gold">(دلالة الاختلاف سياقيا)</span></p>
+<p class="para">ليس الاختلاف تباينا في <u>الخصوصيات</u> يؤجج الصراع وليولد التناحر بين الهويات ولا هو مبرر لرفض الآخر ، نبذه والاستعلاء عليه <b>بل</b> <u>الاختلاف</u> تنوع في الخصوصيات وتباين الفضاء الثقافي واللغة والنظم الرمزية وهو الضامن للتفاعل والتثاقف لذلك وجب تقريظه واستحسانه لا استهجانه بما هو "فروقات ولودة مبدعة من خلالها يتم إحراز التقدم" (موران) وهو الضامن للوحدة الانسانية في ظل جدلية الكثرة والوحدة .</p>
+<p class="para t-green">فلا تواصل بين الهويات ولا تثاقف الا بتقريظ الاختلاف ونبذ التعصب</p>
+<!-- PROOFREAD: 2353 part1 p34 — "الهويات" / "والاستعلاء" partly faded; "(موران)" as written -->
+
+
+</section>
+
+</div>
+</body>
+</html>

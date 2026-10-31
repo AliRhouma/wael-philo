@@ -1,0 +1,318 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<title>Wael Academy — Philosophie · الدولة السيادة و المواطنة</title>
+<script>
+  window.MathJax = {
+    tex: { inlineMath: [['\\(','\\)']], displayMath: [['\\[','\\]']] },
+    chtml: { fontURL: 'https://cdn.jsdelivr.net/npm/mathjax@3/es5/output/chtml/fonts/woff-v2', matchFontHeight: true },
+    startup: { typeset: true }
+  };
+</script>
+<script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js" async></script>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Sora:wght@400;500;600;700;800&family=Cairo:wght@400;500;600;700;800;900&family=Tajawal:wght@400;500;700;800&family=JetBrains+Mono:wght@400;500;600;700&display=swap');
+:root{
+  /* ===== Wael Academy palette — MAIN ACCENT = green-teal gradient #0FAB8F → #067360 ===== */
+  --bg:#fff; --panel:#f2f8f8; --hair:#e6e6e9; --hair2:#d6d6db;
+  --fg:#0f2a31;        /* body text (and +/− signs) */
+  --fg2:#3f5b62;       /* softer text */
+  --fg3:#7c959b;       /* muted (footer) */
+  --blue:#067360;      /* deep accent — small numbers, borders, watermark, accent equations */
+  --blue-dark:#045260; /* titles & wordmarks (also the balance colour) */
+  --teal:#0fab8f;      /* bright accent end */
+  --loop:#0d9c82;      /* logo-loop helper */
+  --orange:#067360;    /* kicker/category labels (gold retired → deep teal) */
+  --red:#f5322f;       /* EXERCISE CHIPS ONLY — never for emphasis */
+  --cream:#e6f3f4; --blue-soft:#e6f3f4;  /* pale teal — callout fill + table sub-row fill */
+  --blue-line:#cde7e4; /* hairline */
+  --sub-ink:#045260;   /* table sub-row text */
+  --grad:linear-gradient(148deg,#0fab8f 0%,#0d9c82 52%,#067360 100%);
+  --mono:'JetBrains Mono',monospace; --latin:'Sora',sans-serif; --ar:'Cairo',sans-serif; --arb:'Tajawal',sans-serif;
+}
+*{box-sizing:border-box;margin:0;padding:0;}
+body{font-family:var(--latin);color:var(--fg);background:#e4e4e7;padding:28px 0;
+     -webkit-print-color-adjust:exact;print-color-adjust:exact;}
+html[dir="rtl"] body{font-family:var(--arb);}
+
+/* ===== brand watermark: REAL text (crisp), full-bleed, repeats per page ===== */
+.wm{position:fixed;inset:0;z-index:0;pointer-events:none;display:flex;
+    align-items:center;justify-content:center;overflow:hidden;
+    -webkit-print-color-adjust:exact;print-color-adjust:exact;}
+.wm span{font-family:var(--mono);font-weight:800;font-size:76.8pt;letter-spacing:.16em;
+    color:var(--blue);opacity:.06;white-space:nowrap;transform:rotate(-54deg);}  /* single diagonal: bottom-left → top-right */
+.wm.mono span{color:#000;opacity:.05;}
+
+/* ===== continuous flow stream (no page border) ===== */
+.flow{width:210mm;margin:0 auto;background:transparent;color:var(--fg);
+      padding-block:16mm 18mm;padding-inline:23mm 14mm;position:relative;}   /* spiral gutter: inline-start(=spine) 23mm / outer 14mm — dir-aware; print margins set in render_flow.py */
+@media screen{ .flow{background:#fff;box-shadow:0 10px 40px rgba(0,0,0,.16);} }
+.flow>*{position:relative;z-index:1;}
+.flow p,.flow li,.flow .data,.flow .note,.flow .ex{break-inside:auto;}
+.flow .fig,.flow figure,.flow img,.flow svg.figsvg,.flow table,.flow tr,.flow .chapdiv,.flow .exh,.flow .qrcard,.flow .meta{break-inside:avoid;}
+.flow h1,.flow h2,.flow h3,.flow .exh,.flow .subhead,.flow .chapdiv{break-after:avoid;}
+.flow img,.flow svg.figsvg{max-width:100%;height:auto;}
+.flow figcaption,.flow .figcap{display:none;}          /* rule 3: no figure captions */
+
+/* ===== front matter + chapters each start on a fresh page ===== */
+.flow .cover{break-after:page;}        /* cover alone on page 1 */
+.flow .toc{break-after:page;}          /* Sommaire alone on the next page */
+.flow .chapter{break-before:page;}
+.flow .chapter:first-of-type{break-before:auto;}
+
+/* ===== cover ===== */
+.cover{padding:14mm 0 8mm;border-bottom:2px solid var(--blue);margin-bottom:6mm;}
+.cover .badge{font-family:var(--mono);font-size:8.5pt;letter-spacing:.28em;text-transform:uppercase;color:var(--orange);margin-bottom:10px;}
+.cover h1{font-family:var(--latin);font-weight:800;font-size:34pt;line-height:1.03;letter-spacing:-.025em;color:var(--blue-dark);}
+.cover .grule{width:120px;height:5px;border-radius:5px;background:var(--grad);margin:14px 0;}
+.cover .sub{font-family:var(--mono);font-size:10pt;letter-spacing:.14em;text-transform:uppercase;color:var(--teal);}
+.cover .auth{font-size:11pt;color:var(--fg2);margin-top:6px;font-weight:600;}
+
+/* ===== table of contents ===== */
+.toc{margin:2mm 0 4mm;}
+.toc h2{font-family:var(--latin);font-weight:800;font-size:15pt;color:var(--blue-dark);margin-bottom:4mm;}
+.toc .trititle{font-family:var(--mono);font-size:8pt;letter-spacing:.2em;text-transform:uppercase;color:var(--orange);margin:4mm 0 2mm;}
+.toc ol{list-style:none;}
+.toc li{display:flex;align-items:baseline;gap:8px;font-size:10pt;padding:2.2px 0;color:var(--fg);line-height:1.4;}
+.toc li .n{font-family:var(--mono);font-weight:700;font-size:9pt;color:var(--blue);min-width:26px;}
+.toc li .dots{flex:1;border-bottom:1px dotted var(--hair2);transform:translateY(-3px);}
+
+/* ===== chapter divider band ===== */
+.chapdiv{margin:0 0 5mm;padding:6mm 16px 5mm;border-radius:12px;background:var(--grad);
+    -webkit-print-color-adjust:exact;print-color-adjust:exact;}   /* green-filled chapter band */
+.chapdiv .cn{font-family:var(--mono);font-size:8.5pt;font-weight:700;letter-spacing:.24em;text-transform:uppercase;color:rgba(255,255,255,.82);margin-bottom:5px;}
+.chapdiv h2{font-family:var(--latin);font-weight:800;font-size:17pt;line-height:1.1;letter-spacing:-.015em;color:#fff;}
+/* conclusion block — same green-filled look as the chapter band */
+.conclusion{background:var(--grad);border-radius:12px;padding:6mm 16px;margin:5mm 0;color:#fff;break-inside:avoid;
+    -webkit-print-color-adjust:exact;print-color-adjust:exact;}
+.conclusion .ck{font-family:var(--mono);font-size:8.5pt;font-weight:700;letter-spacing:.24em;text-transform:uppercase;color:rgba(255,255,255,.82);margin-bottom:6px;}
+.conclusion h3{font-family:var(--latin);font-weight:800;font-size:13pt;line-height:1.2;color:#fff;margin-bottom:4px;}
+.conclusion p,.conclusion li{font-size:10.4pt;line-height:1.7;color:#fff;}
+.conclusion b,.conclusion strong{color:#fff;font-weight:700;}
+
+/* ===== unit header (lesson/exercise) + QR emplacement ===== */
+.exh{display:flex;align-items:center;gap:11px;margin:6mm 0 3mm;}
+.exh .idx{font-family:var(--mono);font-size:9pt;font-weight:600;color:#fff;background:var(--grad);
+    border-radius:6px;padding:4px 11px;letter-spacing:.08em;text-transform:uppercase;
+    -webkit-print-color-adjust:exact;print-color-adjust:exact;}
+.exh .idx.ex{background:var(--red);}   /* exercise chip = red */
+.exh h2{font-family:var(--latin);font-size:14pt;font-weight:700;letter-spacing:-.01em;color:var(--blue-dark);}
+.exh .qrcard{margin-inline-start:auto;flex:0 0 auto;display:flex;flex-direction:column;align-items:center;gap:3px;width:26mm;}
+.qrcard .qrt{font-family:var(--mono);font-size:6.5pt;letter-spacing:.1em;text-transform:uppercase;color:var(--teal);text-align:center;}
+.qrcard .qrslot{width:24mm;height:24mm;padding:1.5mm;background:#fff;border:1px solid var(--blue-line);border-radius:8px;display:flex;align-items:center;justify-content:center;}
+.qrcard .qrslot img,.qrcard .qrslot svg{width:100%;height:100%;display:block;}
+
+/* sub-exercise label when one file holds several exercices */
+.exsub{font-family:var(--latin);font-weight:800;font-size:11.5pt;color:var(--blue-dark);margin:5mm 0 2.5mm;padding-bottom:3px;border-bottom:2px solid var(--blue-line);}
+
+/* ===== text blocks ===== */
+.lead{font-size:11pt;line-height:1.7;margin:2mm 0 3mm;color:var(--fg);}
+.para{font-size:10.6pt;line-height:1.7;margin:2mm 0 2.5mm;color:var(--fg);}
+.consigne{font-size:10.4pt;line-height:1.6;margin:1mm 0 2mm;color:var(--fg);font-style:italic;}
+.subhead{font-family:var(--latin);font-weight:800;font-size:12pt;letter-spacing:-.01em;color:var(--blue-dark);margin:5mm 0 2.5mm;}
+/* emphasis — green accent = .t-blue/.t-green ; balance = .t-navy ; red = SECONDARY accent (.t-red) on titles + a few words */
+.t-blue{color:var(--blue);font-weight:600;} .t-navy{color:var(--blue-dark);font-weight:700;}
+.t-red{color:var(--red);font-weight:600;} .t-green{color:var(--teal);font-weight:600;} .t-gold{color:var(--orange);font-weight:600;}
+.subhead.t-red{color:var(--red);font-weight:800;}   /* red Roman-numeral section title (I, II, …) — keeps subhead weight */
+/* highlighter marks — a soft colour wash behind a key word (agent picks green or red per what balances the page) */
+.hl-green,.hl-red{border-radius:3px;padding:.02em .24em;font-weight:600;box-decoration-break:clone;-webkit-box-decoration-break:clone;
+    -webkit-print-color-adjust:exact;print-color-adjust:exact;}
+.hl-green{background:rgba(15,171,143,.20);color:var(--blue-dark);}   /* green highlight */
+.hl-red{background:rgba(245,50,47,.13);color:#c0261f;}               /* red highlight  */
+
+.data{background:var(--blue-soft);border:1px solid var(--blue-line);border-inline-start:4px solid var(--blue);
+    border-radius:8px;padding:11px 16px;margin:3mm 0;font-size:10pt;line-height:1.65;color:var(--fg2);}
+.data b{color:var(--fg);font-weight:700;}
+.note{border:1px dashed var(--hair2);border-radius:9px;padding:11px 16px;margin:4mm 0;background:var(--panel);}
+.note .kicker{font-family:var(--mono);font-size:7.5pt;letter-spacing:.18em;color:var(--orange);display:block;margin-bottom:5px;}
+.note .nb{font-size:10pt;line-height:1.7;color:var(--fg2);} .note b{color:var(--fg);}
+.ex:not(.idx){background:var(--blue-soft);border:1px solid var(--blue-line);border-inline-start:3px solid var(--blue);
+    border-radius:7px;padding:7px 11px;font-size:9.6pt;line-height:1.6;color:var(--fg2);margin:2mm 0;}   /* :not(.idx) so it never hits the exercise chip (which is .idx.ex) */
+.ex .extag{display:inline-block;font-family:var(--latin);font-weight:800;font-size:7.6pt;color:var(--blue-dark);background:#fff;
+    border:1px solid var(--blue);border-radius:5px;padding:1px 9px;margin-inline-end:7px;vertical-align:middle;text-transform:uppercase;letter-spacing:.06em;}
+
+/* ===== lists ===== */
+ol.q{list-style:none;counter-reset:q;margin:1mm 0 2mm;}
+ol.q>li{counter-increment:q;position:relative;padding-inline-start:30px;margin-bottom:2.5mm;font-size:10.4pt;line-height:1.6;}
+ol.q>li::before{content:counter(q);position:absolute;inset-inline-start:0;top:1px;width:21px;height:21px;background:var(--grad);color:#fff;
+    border-radius:50%;font-family:var(--mono);font-size:9pt;font-weight:600;display:flex;align-items:center;justify-content:center;
+    -webkit-print-color-adjust:exact;print-color-adjust:exact;}
+ol.sub{list-style:none;counter-reset:s;margin:4px 0 0;padding-inline-start:2px;border-inline-start:1px solid var(--blue-line);}
+ol.sub li{counter-increment:s;position:relative;padding:2.5px 0 2.5px 26px;font-size:10.1pt;line-height:1.55;}
+ol.sub li::before{content:counter(s,lower-alpha)".";position:absolute;inset-inline-start:10px;top:2.5px;font-family:var(--mono);font-size:9pt;font-weight:600;color:var(--teal);}
+ol.qn{list-style:none;counter-reset:qn;margin:1mm 0 2mm;}
+ol.qn>li{counter-increment:qn;position:relative;padding-inline-start:26px;margin-bottom:2.2mm;font-size:10.4pt;line-height:1.55;}
+ol.qn>li::before{content:counter(qn)".";position:absolute;inset-inline-start:0;top:0;font-family:var(--mono);font-size:9.5pt;font-weight:700;color:var(--blue);}
+ul.b{list-style:none;margin:1mm 0 2mm;} ul.b>li{position:relative;padding-inline-start:22px;margin-bottom:2.4mm;font-size:10.4pt;line-height:1.6;}
+ul.b>li::before{content:"";position:absolute;inset-inline-start:3px;top:8px;width:8px;height:8px;border-radius:50%;background:var(--grad);
+    -webkit-print-color-adjust:exact;print-color-adjust:exact;}
+ul.dash{list-style:none;margin:1mm 0 2mm;} ul.dash>li{position:relative;padding-inline-start:20px;margin-bottom:1.8mm;font-size:10.4pt;line-height:1.6;}
+ul.dash>li::before{content:"–";position:absolute;inset-inline-start:2px;top:0;color:var(--fg);font-weight:700;}  /* dash / +/− signs = body colour */
+.flow ul.opts{list-style:none;margin:4px 0 3px;padding-inline-start:16px;}
+.flow ul.opts li{padding:2px 0;font-size:10.2pt;line-height:1.5;color:var(--fg);}
+
+/* ===== figures / tables ===== */
+.fig{margin:3mm 0;} .fig svg.figsvg{display:block;margin:0 auto;background:#fff;max-width:100%;height:auto;}
+.photo{display:block;margin:3mm auto;border-radius:8px;border:1px solid var(--hair);max-width:100%;}
+.figrow{display:flex;flex-wrap:wrap;gap:9px;justify-content:center;margin:3mm auto;max-width:190mm;}
+.flow .figrow img{border-radius:7px;border:1px solid var(--hair);height:46mm;width:auto;max-width:none;object-fit:cover;}
+.schemarow{display:flex;gap:16px;align-items:flex-start;flex-wrap:wrap;margin:2mm 0;}
+.schemarow .col-txt{flex:1 1 90mm;min-width:80mm;} .schemarow .col-fig{flex:0 0 78mm;} .schemarow .col-fig .fig{margin:0;}
+.flow table{border-collapse:collapse;width:100%;margin:3mm 0;font-size:9.8pt;line-height:1.5;}
+.flow table th,.flow table td{border:1px solid var(--blue-line);padding:6px 10px;text-align:start;vertical-align:top;}
+.flow table th{background:var(--grad);color:#fff;font-family:var(--latin);font-weight:700;font-size:9.4pt;
+    -webkit-print-color-adjust:exact;print-color-adjust:exact;}
+.flow table tr:nth-child(even) td{background:var(--blue-soft);color:var(--sub-ink);}   /* sub-row: #E6F3F4 / #045260 */
+
+mjx-container{color:var(--fg) !important;font-weight:400 !important;font-size:1.0em !important;}
+.eq-hi mjx-container,mjx-container.eq-hi{color:var(--blue) !important;}   /* accent (green) equation — highlight a key result; balance with plain math */
+.eq-red mjx-container,mjx-container.eq-red{color:var(--red) !important;}  /* red accent equation / symbol — complements the green .eq-hi */
+
+/* ===== per-file books: credit line, copies list, figures at their size ===== */
+.credit{display:flex;flex-wrap:wrap;align-items:center;gap:5px;margin:-1mm 0 3.5mm;font-size:9.4pt;color:var(--fg2);}
+.credit .who{font-weight:700;color:var(--blue-dark);}
+.credit .tg{font-family:var(--mono);font-size:7.2pt;letter-spacing:.04em;border-radius:5px;padding:1px 7px;line-height:1.6;
+    border:1px solid var(--blue-line);color:var(--blue);background:#fff;-webkit-print-color-adjust:exact;print-color-adjust:exact;}
+.credit .tg.sec{background:var(--blue-dark);border-color:var(--blue-dark);color:#fff;}
+.credit .tg.cor{background:#fff;border-color:var(--red);color:var(--red);}
+.credit a{color:var(--fg3);font-family:var(--mono);font-size:7pt;text-decoration:none;}
+.cover .auth .credit{margin:4mm 0 0;}
+.cover .copies{margin-top:5mm;font-size:8.6pt;color:var(--fg2);}
+.cover .copies ul{list-style:none;margin:2mm 0 0;padding:0;columns:2;}
+.cover .copies a{color:var(--fg3);text-decoration:none;font-size:8pt;}
+.flow figure.fig{text-align:center;}
+.flow figure.fig img{max-height:60mm;width:auto;max-width:70%;display:inline-block;}
+
+/* chapter tag on each part of a multi-chapter book (the book keeps the original order of the file) */
+.chtag{display:inline-block;margin:5mm 0 2mm;padding:1mm 3mm;border-radius:2mm;background:#eef3fb;border:1px solid #c9d6ea;
+  color:#1f3a6b;font-size:9pt;font-weight:700}
+.chtag span{color:#6b7f9e;font-weight:600;margin-inline-end:1.5mm}
+
+@media print{ body{background:#fff;padding:0;} .flow{width:auto;max-width:none;margin:0;padding:0;} }
+@page{size:A4;}   /* margins come from render_flow.py — do NOT set them here */
+</style>
+<meta data-pagefind-filter="type[content]" content="درس">
+<meta data-pagefind-filter="resource[content]" content="المصدر غير مذكور">
+<meta data-pagefind-meta="n[content]" content="1963">
+<meta data-pagefind-meta="title[content]" content="الدولة السيادة و المواطنة">
+<meta data-pagefind-filter="chapter[content]" content="القيم: الأخلاق والدولة">
+<meta data-pagefind-filter="section[content]" content="باكالوريا رياضيات"><style>.qrcard{display:none!important}.wa-nav{position:sticky;top:0;z-index:50;background:#045260;padding:10px 18px;font-family:Cairo,sans-serif;direction:rtl}.wa-nav a{color:#fff;text-decoration:none;font-weight:700}@media print{.wa-nav{display:none}}</style>
+</head>
+
+<body dir="rtl" lang="ar"
+      data-brand="Wael Academy" data-handle="@WaelAcademy"
+      data-tagline="في تُرابنا.. مغامرة بمغامرة"
+      data-phone="+216 50 40 40 42" data-site="waeldocuments.com"
+      data-cta="سجل معانا وأقرى عن بعد مع منصة Wael Academy"
+      data-subject="Philosophie · الدولة السيادة و المواطنة" data-watermark="Wael Academy" data-pagefind-body><nav class="wa-nav" data-pagefind-ignore><a href="../index.html">→ الرجوع إلى فهرس الفلسفة</a></nav>
+
+<!-- single full-page diagonal watermark, bottom-left → top-right (repeats on every page) -->
+<div class="wm" aria-hidden="true"><span>WAEL&nbsp;ACADEMY</span></div>
+
+<div class="flow colored">
+<div class="cover"><div class="badge">◉ Wael Academy · Philosophie</div><h1>الدولة السيادة و المواطنة</h1><div class="grule"></div><div class="sub">القيم: الأخلاق والدولة</div><div class="auth"><div class="credit">المؤلّف / المصدر : <span class="who">المصدر غير مذكور في الوثيقة</span> <span class="tg">درس</span><span class="tg sec">الفلسفة · باكالوريا رياضيات</span> <a href="https://drive.google.com/file/d/1D6-sp_mHj0EDCwGot5U9UH5AMkE_owLL/view">↗ الدولة السيادة و المواطنة.pdf</a></div></div><div class="copies" data-pagefind-ignore><b>نسخ هذا الملف في الدرايفات (2)</b><ul><li><a href="https://drive.google.com/file/d/1D6-sp_mHj0EDCwGot5U9UH5AMkE_owLL/view">Anas Saïd · IDEAL BAC MATH(Anas Saïd) › Philo / Mr Chebbi / الدروس</a></li><li><a href="https://drive.google.com/file/d/1HUKqRN2LrWlWidT9LJJJFxUkvLUeEUEG/view">Mohamed Ahmed Zahi · Bac Math Zahi 2024/2025 › Philo / القيم بين النسبي والمطلق / الدولة السيادة والمواطنة / autres documents</a></li></ul></div></div>
+<section class="chapter"><div class="chapdiv"><div class="cn">المحور</div><h2>القيم: الأخلاق والدولة</h2></div>
+<div class="exh"><span class="idx">درس</span><h2>الدّولة : السّيادة والمواطنة</h2>
+  <div class="qrcard"><div class="qrt">فيديو الدرس</div><div class="qrslot"><img src="qr/1963.svg" alt="QR"></div></div></div>
+<div class="credit">المؤلّف / المصدر : <span class="who">المصدر غير مذكور في الوثيقة</span> <span class="tg">درس</span><span class="tg sec">الفلسفة · باكالوريا رياضيات</span> <a href="https://drive.google.com/file/d/1D6-sp_mHj0EDCwGot5U9UH5AMkE_owLL/view">↗ الدولة السيادة و المواطنة.pdf</a></div>
+<!-- NOTE: highlighter over headings in the handwritten notebook is not reproduced as emphasis -->
+<p class="para"><u>التّفكير في الدّولة</u> : التّفكير في الإنسان باعتباره كائنا سياسيّا</p>
+<p class="para">⇐ ما يجعل الوجود الإنسانيّ وجودًا سياسيّا هو أنّه "وجود مع الآخرين"</p>
+<p class="para">⇐ السّياسة تتحدّد إذن كمحاولة لتنظيم وعقلنة الوجود الإنسانيّ باعتباره وجودًا مع الآخرين ، لذلك اعتبر "أرسطو" أنّ " الإله فوق مرتبة السّياسيّ بما أنّ كماله لا يجعله في حاجة إلى سلطة وقوانين تنظّم وجوده ، والحيوان دون مرتبة السّياسيّ بما أنّ وجوده محكوم بقوانين طبيعيّة لا بقوانين مدنيّة سياسية "</p>
+<p class="para">⇐ ما يجعل الإنسان كائنا سياسيّا هو سعيه من ناحية إلى تجاوز المنزلة الحيوانيّة دون أن يكون له مرتبة الكمال الإلاهي</p>
+<p class="para"><u>ماهو إشكاليّ في الوجود السّياسيّ</u> : الوجود السّياسيّ يتضمّن مفارقة :</p>
+<p class="para">• <u>السّياسيّ يبدو من جهة شرط تحقّق الإنسانيّ</u> : بما أنّه يمكّننا من عقلنة وجودنا ومن تجاوز المنزلة الحيوانيّة التّي تحتكم إلى قوانين الطّبيعة وإلى دوافع الغريزة</p>
+<p class="para">• <u>السّياسيّ يمكن من ناحية أخرى أن يتحوّل إلى مصدر اغتراب وسلب إنسانيّة الإنسان</u> : فعندما يجسّد السّياسيّ الاستبداد والدّكتاتوريّة ، يسلب البشر انسانيّتهم بسلبهم حرّيّتهم</p>
+<p class="para">⇐ ما يُراهن عليه التّفكير الفلسفيّ في الدّولة وفي المسألة السّياسيّة بشكل عامّ هو حلّ التّعارض بين السّيادة والمواطنة ، أي بين سلطة الدّولة وضرورة تحكّمها في كلّ ما يتعلّق بتسيير الشّكل العامّ ، وضرورة احترام الحرّيّات والحقوق التّي يتضمّنها مفهوم المواطنة</p>
+<p class="subhead t-red"><u>الدّولة و السّلطة</u> :</p>
+<p class="para">يتضمّن مفهوم الدّولة مفهوم السّلطة ، فالدّولة تتحدّد على أنّها سلطة سياسيّة تُمارس على مجموعة من البشر داخل حدود معيّنة</p>
+<p class="para">⇐ إذا كانت كلّ دولة هي بالضّرورة سلطة ، فهل يجوز أن نعتبر أنّ كلّ سلطة هي بالضّرورة دولة؟</p>
+<p class="para"><span class="t-red"><u>مفهوم السّلطة لا يختزل في الحقّ السّياسيّ المرتبط بمفهوم الدّولة</u> :</span></p>
+<p class="para">يقول " ميشال فوكو " : " أينما ولّي وجوهنا ثمّة سلطة " : يعني هذا الإقرار أنّ السّلطة في معناها العام تتّصف بخاصيّتين :</p>
+<p class="para">• <u>الشّموليّة</u> : السّلطة لا تنحصر في أجهزة الدّولة ومؤسّساتها بل توجد في كلّ مجالات الوجود الإنسانيّ وفي كلّ أنماط العلاقات الإنسانيّة . لذلك يمكن أن نعرّف السّلطة في معناها العام على أنّها كلّ علاقة بين موازين قوى متفاوتة تحدّدها استراتيجيّة السّيطرة والتّحكّم . فالسّلطة كما يحدّدها " ميشال فوكو " ترتبط بكلّ الآليّات التّي تهدف إلى التّحكّم في عقول البشر وفي أجسادهم</p>
+<p class="para">• <u>الطّابع الميكروفيزيائيّ</u> : رغم أنّ السّلطة حاضرة في كلّ مجالات الوجود الإنسانيّ فإنّها عادة ما تكون لامرئيّة بما أنّها تتخفّى وراء أقنعة مختلفة (الدّين ، الأخلاق ، التّربية ، الانضباط ...) . لذلك أقرّ " ميشال فوكو " مفهوم ميكروفيزياء السّلطة للتّأكيد على طابعها اللاّمرئي التّي تجعلنا نخضع لها دون أن نعي ذلك</p>
+<p class="subhead t-red"><u>الدّولة بما هي محاولة لعقلنة السّلطة</u> :</p>
+<p class="para">تمثّل الدّولة الحديثة تجاوزا للأشكال التّقليديّة لممارسة السّلطة . لذلك اعتبر " ماكس فيبر " أنّ الدّولة الحديثة تجسّد انتقالا من السّلطة الكريزماتيّة إلى السّلطة القانونيّة ، أي أنّها تمثّل انتقالا من السّلطة القائمة على القوى وعلى النّفوذ الشّخصيّ إلى السّلطة القانونيّة . فما يحكمنا في إطار الدّولة ليس نزوات الأشخاص أو          بل القوانين التّي تحاول عقلنة العلاقات البشريّة ، لذلك أقرّ " بيردو " : " اخترع الإنسان الدّولة كي لا يُطيع الإنسان الإنسان "</p>
+<p class="para">الدّولة بهذا المعنى تتضمّن محاولة لتجاوز شخصنة السّلطة عبر ربطها بمفهوم القانون الّتي يتأسّس على فكرة الحقّ لا على فكرة القوّة</p>
+<p class="subhead t-navy"><u>الدّولة والحقّ والعدالة والعنف</u> :</p>
+<p class="subhead t-red"><u>الدّولة والحقّ</u> :</p>
+<p class="para">• <u>الحقّ</u> : • <u>الحقّ في فعل شيئٍ ما</u> : الحقّ بهذا المعنى يُحيل إلى فكرة المشروعيّة . فالفعل المناقض للحقّ هو الفعل اللاّمشروع . فالسّرقة فعل موجود في الواقع ، إلاّ أنّها فعل لامشروع أي مناقض للحقّ</p>
+<p class="para">• <u>الحقّ في شيئٍ ما</u> : عبارة الحقّ بهذا المعنى تُحيل إلى ما يجب أن تضمنه الدّولة من حقوق لمواطنها ( الحقّ في الصّحّة والتّعليم والتّنقل ... )</p>
+<p class="para">• <u>علاقة مفهوم الدّولة بمفهوم الحقّ</u> : تتضمّن إشكاليّتين :</p>
+<p class="para">- <u>إشكاليّة مشروعيّة سلطة الدّولة</u> : من أين تستمدّ الدّولة حقّ ممارسة سلطتها؟ وهل تكفي ممارسة السّلطة حتّى ترتقي إلى مستوى الحقّ؟</p>
+<p class="para">تقتضي معالجة الإشكاليّة : <u>إرجاع مشروعيّة سلطة الدّولة إلى أساسها وغايتها</u> :</p>
+<p class="para">• <u>الأساس الطّبيعي للسّلطة السّياسيّة</u> : يعتبر أرسطو أنّ الوجود المدنيّ السّياسيّ يجسّد ميلا طبيعيّا للوجود مع الآخرين . لذلك أقرّ أرسطو " يبدو أنّ المدينة أمر من أمور الطّبيعة وأنّ الإنسان مدنيّ بطبعه "</p>
+<p class="para">⇐ تستمدّ السّلطة السّياسيّة إذن مشروعيّتها من حاجات الإنسان الطّبيعيّة ومن ميله الطّبيعيّ إلى الوجود مع الآخرين</p>
+<p class="para">• <u>الأساس اللاّهوتي للسّلطة</u> : يحيل هذا الأساس إلى نظريّة الحقّ الإلاهيّ : الحاكم يُمارس سلطة بموجب نوع من التّفويض الإلاهيّ . لذلك يستمدّ مشروعيّة سلطته من المشروعية المطلقة للسّلطة الإلاهيّة</p>
+<p class="para">• <u>الأساس التّعاقديّ للدّولة</u> : يحيل هذا الأساس إلى فلسفات العقد الاجتماعي : الدّولة لا تنشئ عن ميولاتنا الطّبيعيّة ولا تجسّد سلطة متعالية على الإنسان ، بل هي نوع من المواضعة الانسانيّة ، أي أنّها تجسّد قرارا عقليّا ينخرط من خلاله الجميع في عقد اجتماعيّ ينقلنا بموجبه من "حالة الطّبيعة" إلى " الحالة المدنيّة " . فالعقد الاجتماعيّ إذن يجسّد عقلا حسابيّا يقوم على ثنائيّة " التّنازل والمقابل . فـ " توماس هوبز " يعتبر أنّ البشر ، بمقتضى العقد الاجتماعي ، يتنازلون عن حرّيّتهم الطّبيعيّة ويخضعون لسلطة سياسيّة تضمن لهم الأمن مقابل التّنازل عن الحرّيّة</p>
+<p class="para">• <u>إرجاع مشروعيّة سلطة الدّولة إلى آليّات وشروط ممارستها</u> :</p>
+<p class="para">يقرّ " تورين " : " ليس أصل السّلطة ولا غايتها ما يكسبها المشروعيّة بل الطّريقة الّتي تمارس بها "</p>
+<p class="para">لا يكفي أن يكون أساس الدّولة عقلانيّا وغايتها نبيلة حتّى تكون مشروعة . فالمقاصد النّبيلة يمكن أن يستعملها الحكّام في إخفاء أطماعهم وسعيهم إلى التّحكّم في البشر . انطلاقا من ذلك اعتبر " تورين " أنّ مشروعيّة سلطة الدّولة تحدّدها الآليّات الّتي تضمن عدم تحوّلها إلى استبداد ، لذلك استند إلى ما قاله " مونتسكيو " : " كلّ سلطة لاحدود لها هي سلطة لامشروعة "</p>
+<p class="para">⇐ مشروعيّة السّلطة إذن ترتبط بإنشاء وجود سياسيّ يضمن رسم حدود للسّلطة ويضمن إخضاعها لآليّات المراقبة والمحاسبة ، لذلك تبدو الدّيمقراطيّة أكثر الأنظمة السّياسيّة قدرة على رسم حدود للسّلطة وإكسابها نوعا من المشروعيّة عبر تحصينها من كلّ ما يمكن أن ينحرف بها نحو التّسلّط والاستبداد</p>
+<p class="para">- <u>إشكاليّة معيار الحقّ</u> : إذا كانت للدّولة سلطة تشريعيّة تحدّد ما هو حقّ وما هو مناقض للحقّ ، فاستنادا إلى أيّ معيار يتحدّد هذا التّمييز أو هذا الفصل؟</p>
+<p class="para">يمكن إرجاع أصل الحقّ إلى مصدرين :</p>
+<p class="para">• <u>الحقوق الوضعيّة</u> : هي الحقوق الّتي تُوضع في مجتمع ما وفي مرحلة تاريخيّة معيّنة ، لذلك يتّصف الحقّ الوضعيّ بصفتين :</p>
+<p class="para">- <u>النّسبيّة</u> : هذه الحقوق تتغيّر بتغيّر المرجعيّات الثّقافيّة والمراحل التّاريخيّة ، فالاستعباد</p>
+<p class="para">كان يُعتبر حقّا من حقوق الأسياد في العصور القديمة . هذه الممارسة أصبحت في العصور الحديثة مدانة ومناقضة للحقّ</p>
+<p class="para">- <u>لا تستوفي شرط العقلانيّة</u> : الحقوق الوضعيّة يمكن أن تكون مجرّد تبرير أو قناع يخفي مصالح الأقوياء وإرادة هيمنتهم على المستضعفين ، لذلك يدعونا هذا التّصوّر للحقّ أن نميّز بين :</p>
+<p class="para">• <u>القانونيّة</u> <span dir="ltr">(legalité)</span> : تعني التّطابق مع القانون . عندما يكون القانون متعارضا مع ما هو عقلانيّ لا يكون بالضّرورة مشروعا .</p>
+<p class="para">• <u>المشروعيّة</u> <span dir="ltr">(légitimité)</span> : التّوافق مع مبادئ العقل ومع مقتضيات الأخلاقيّة . فالمشروعيّة تعني مدى توافق القانون مع المنطق ، ومع القيم الأخلاقيّة الكونيّة</p>
+<p class="para">⇐ الحقّ الوضعيّ لا يمكن إذن أن نعتمده كأساس أو كمعيار لتحديد حقوق كونيّة تستوفي شرط المشروعيّة . يجب البحث إذن عن معيار عقلانيّ لتحديد الحقّ . هذا المعيار يمكن أن نعثر عليه في ما يسمّى :</p>
+<p class="para"><u>الحقّ الطّبيعيّ</u> : هو الحقّ الّذي يُستمدّ من طبيعة الانسان باعتبارها كونيّة ومشتركة بين جميع البشر ، فعندما نقرّ مثلا " يُولد البشر أحرارًا ومتساوين " ، فإنّنا نعتبر أنّ الحرّيّة والمساواة حقّين طبيعيّين مشتركين بين جميع البشر</p>
+<p class="para">⇐ يجب إذن أن يستمدّ الحقّ من مجموع الخصائص الأساسيّة الّتي تحدّد انسانيّة الإنسان والّتي يعدّ انتهاكها انتهاكا للإنسانيّة ، فيبدو الحقّ من هذا المعنى هو أيّ قاعدة أو مبدأ تحترم انسانيّة الإنسان</p>
+<p class="para">⇐ ما يجعل إذن العبوديّة مناقضة للحقّ هو انتهاكها لانسانيّة الانسان ، وتناقضها مع حقّين طبيعيّين : الحرّيّة والمساواة</p>
+<p class="para">⇐ لكي تكون الدّولة عادلة يجب إذن أن نستمدّ معيار الحقّ من أساس عقلانيّ كونيّ يُحيل إلى مفهوم الحقّ الطّبيعيّ الّذي يحرّرنا من نسبيّة ولاعقلانيّة بعض الحقوق الوضعيّة</p>
+<p class="subhead t-red"><u>الحقّ والعدالة</u> :</p>
+<p class="para">يعتبر " ابن خلدون " أنّ استمراريّة الدّولة واستقرارها يرتبطان بمدى قدرتها على تحقيق مطلب العدالة ، فعندما يقرّ " العدل أساس العمران " ، فإنّه يعني بذلك أنّ ظلم الحكّام واستبدادهم هو إعلان عن خراب الدّولة وانهيارها . ماذا نعني إذن بالعدالة وما علاقتها بمفهوم الحقّ؟ وهل أنّ كلّ ضمان للحقوق يضمن تحقيق العدالة؟</p>
+<p class="para">- يرتبط مفهوم العدالة بمفهوم الحقّ ، فغياب الحقّ يجعل العلاقات الانسانيّة قائمة على</p>
+<p class="para">القوى والعنف ممّا يجعلها تجسّد الظّلم للعدالة ، إلاّ أنّ وجود الحقّ لا يعني دوما تحقيق العدالة ، فالحقوق عندما تكون لاعقلانيّة وقناعا يخفي مصالح الأقوياء لا تضمن دوما تحقيق مطلب العدالة .</p>
+<p class="para">• <u>العدالة</u> : • <u>العدالة الجزائيّة</u> : ترتبط هذه العدالة بالمجال القضائي الّتي يوكل إليه حلّ النّزاعات بين البشر ومعاقبة الاختراقات الممكنة للقانون وإرجاع الحقوق المنتهكة إلى مستحقّيها</p>
+<p class="para">• <u>العدالة التّوزيعيّة</u> : ترتبط بالتّوزيع العادل للثّروات داخل المجتمع . فالفلسفة الماركسيّة تعتبر أنّ الفوارق والتّناقضات الطّبقيّة تجسّد إخلالا بمطلب التّوزيع العادل للثّروات</p>
+<p class="para">⇐ تشترط العدالة إذن من ناحية عقلانيّة الحقّ ومن ناحية أخرى تأسيس العلاقات الإنسانيّة على مبدأ المساواة ، إلاّ أنّ علاقة مفهوم العدالة بمفهوم المساواة لا تخلو من طابع إشكاليّ ، إذ يوجد جدل بين مقاربتين لعلاقة مفهوم العدالة بمفهوم المساواة</p>
+<p class="para">• <u>المقاربة اللّيبراليّة</u> : مبدأ المساواة ينحصر في تساوي جميع البشر في الحقوق وأمام القانون ، أمّا على المستوى الاجتماعي والاقتصادي ، فإنّ التّفاوت إذا كان بطرق مشروعة لا يكون مناقضا للعدالة ، فاختلاف الكفاءات والجهود يولّد بالضّرورة فوارق اجتماعيّة لا تكون بالضّرورة مناقضة للعدالة</p>
+<p class="para">• <u>المقاربة الاشتراكيّة</u> : المساواة أمام القانون يمكن أن تكون مساواة زائفة أو شكليّة تستعملها الأنظمة الرّأسماليّة كقناع لإخفاء اللاّتساوي الاجتماعي ، لذلك تعتبر الفلسفة الماركسيّة أنّ التّساوي أمام القانون لا يكفي لتحقيق مطلب العدالة ، فالعدالة تقتضي نظاما اجتماعيّا يلغي الفوارق الطّبقيّة عبر إلغاء الملكيّة الخاصّة لوسائل الإنتاج</p>
+<p class="subhead t-red"><u>العدالة بين الحقّ والعنف</u> :</p>
+<p class="para">يبدو أنّ مفهوم العدالة مناقض لمفهوم العنف ، فرهان العدالة هو تجاوز العلاقات القائمة على العنف والثّأر والانتقام واستبدالها بعلاقات قانونيّة ، لذلك تبدو العدالة من حيث مبدإها وغايتها مناقضة للعنف ، إلاّ أنّ المشكل الّذي يبقى مطروحا هو هل أنّ ارتباط العدالة بالحقّ يجعلها لا تحتاج إلى القوّة والعنف؟</p>
+<p class="para">- يجيب " باسكال " عن هذا التّساؤل بقوله " العدالة دون قوّة عاجزة والقوّة دون عدالة مستبدّة " يتضمّن هذا الإقرار تمييزا بين شكلين من العنف</p>
+<p class="para">• <u>العنف اللاّمشروع</u> : هو العنف الّذي يُمارس خارج إطار القانون ، فعنف الأفراد فيما بينهم وعنف الدّولة الاستبداديّة يعدّ عنفا لامشروعا</p>
+<p class="para">• <u>العنف المشروع</u> : وهو العنف الّذي تمارسه الدّولة في إطار القانون وفي إطار المراهنة على تحقيق مطلبي العدالة والأمن</p>
+<p class="para">⇐ تقوم كلّ دولة إذن على ثنائيّة القانون والقوى ، لذلك يصبح العنف ملازما للدّولة ، وهو ضروريّ ولا يمكن تجاوزه إلاّ عندما يتحقّق نوع من النّضج الأخلاقيّ يجعل البشر المواطنين إراديّا ودون الحاجة إلى قوّة . فالدّولة إذن تسحب من الأفراد حقّ ممارسة العنف لكي تحتكره لنفسها ، لذلك اعتبر " ماركس " أنّ " الدّولة هي جهاز لاحتكار العنف المشروع "</p>
+<p class="subhead t-navy"><u>السّيادة والمواطنة</u> :</p>
+<p class="para">• <u>السّيادة</u> : • تعني سيادة الدّولة وضرورة تحكّمها في كلّ ما يتعلّق بتسيير الشّأن العام</p>
+<p class="para">• تعني استقلاليّة الدّولة ولامشروعيّة أيّ تدخّل خارجي في شؤونها وفي قراراتها</p>
+<p class="para">• <u>المواطنة</u> : يميّز " سبينوزا " بين العبد والمواطن</p>
+<p class="para">• <u>العبد</u> : عندما يخضع العبد إلى قوّة سيّده ، يفقد حرّيّته وحقوقه</p>
+<p class="para">• <u>المواطن</u> : عندما يمتثل المواطن لسيادة الدّولة لا يفقد حقوقه بل يضمن تحقّقها</p>
+<p class="para">⇐ يتضمّن مفهوم المواطنة إذن ثنائيّة الواجب والحقّ ، فانتماء المواطن إلى الدّولة يُلزمه بواجب الامتثال لسلطاتها وقوانينها مقابل ما تضمنه الدّولة من حرّيّات وحقوق ، لذلك يمكن أن نعتبر أنّ مفهوم المواطنة يتضمّن حلاّ للتّوتّر بين مفهوم السّلطة من ناحية ومفهومي الحقّ والحرّيّة من ناحية أخرى</p>
+<p class="subhead t-red"><u>السّيادة بما هي نفي للمواطنة</u> :</p>
+<p class="para">عندما تتّخذ السّيادة شكل السّلطة الاستبداديّة ، فإنّها تحوّل البشر إلى عبيد أو رعايا لا إلى مواطنين . فالدّولة الّتي تسلب الأفراد حرّيّاتهم تسلبهم في نفس الوقت صبغة المواطنة . فلسفة " توماس هوبز " السّياسيّة تجسّد هذا التّصوّر الّذي يُقيم تعارضا بين السّيادة والمواطنة : يعتبر " هوبز " أنّ " الانسان شرّير بالطّبع " وأنّ " الانسان شرّير بالطّبع " ، لذلك يعتبر حالة الطّبيعة هي حالة حرب الكلّ ضدّ الكلّ . هذه الحالة الّتي تهدّد استمراريّة الحياة تجعل البشر يُبرمون عقدا اجتماعيّا يتنازلون من خلاله عن حرّيّاتهم لحاكم ذو سلطة مطلقة يحقّق الأمن مقابل التّنازل عن الحرّيّة . إنّ هذا التّصوّر للسّلطة السّياسيّة يجعل السّيادة مطلقة ، لذلك يجعلها نفيا للحرّيّة ، وتبعا لذلك نفيا للمواطنة</p>
+<p class="subhead t-red"><u>السّيادة بما هي فضاء تحقّق المواطنة</u> :</p>
+<p class="para">لكي تكون السّيادة غير مناقضة للمواطنة ، يجب أن لا تتحدّد كسلطة مطلقة ، لذلك لا يمكن حلّ التّعارض بين السّيادة والمواطنة إلاّ في إطار الدّيمقراطيّة ، فالدّولة ، كما يؤكّد " روسو " وُجدت لضمان الحرّيّات والحقوق لا لنفيها : " لقد أوجد البشر لأنفسهم حكّاما لضمان حرّيّاتهم لا لسلبهم إيّاها " . فالدّولة وُجدت لتحرير البشر من الخوف لا لتحكّمهم عن طريق الخوف</p>
+<p class="para">• <u>الدّيمقراطيّة</u> : يحدّدها " سبينوزا " على أنّها نظام حكم عقلانيّ</p>
+<p class="para">• <u>عقلنة السّيادة</u> : وتعني بذلك ربطها بالقانون وجعلها نابعة من الإرادة العامّة ورسم حدودها</p>
+<p class="para">• <u>عقلنة الحرّيّة</u> : وذلك عبر ربط مفهوم الحرّيّة بمفهوم القانون . فالحرّيّة لكي لا تتحوّل إلى فوضى يجب أن ينظّمها القانون . لذلك اعتبر " روسو " أنّه لا وجود لحرّيّة خارج القانون : " ولدت الحرّيّة يوم ولد القانون " " الامتثال للقوانين الّتي وضعناها لأنفسنا حرّيّة "</p>
+<p class="para">⇐ تراهن الدّيمقراطيّة إذن ، عبر عقلنة السّيادة ، على تجاوز الدّيكتاتوريّة ، وتُراهن عبر عقلنة الحرّيّة على تجاوز الفوضى</p>
+<p class="subhead t-red"><u>حدود حلّ التّعارض بين السّيادة والمواطنة</u> :</p>
+<p class="subhead t-navy"><u>حدود الدّيمقراطيّة</u> :</p>
+<p class="para">عندما يعتبر " ميشال فوكو " أنّ السّلطة لا تنحصر في أجهزة الدّولة ومؤسّساتها وأنّها ذات طبيعة ميكروفيزيائيّة و تُوجد أينما نولّي وجوهنا فإنّه يعني ضمنيّا أنّ الانتقال من الدّيكتاتوريّة إلى الدّيمقراطيّة لا يكفي لتحقيق تحرّر فعلي ، ففي أكثر الدّول ديمقراطيّة ، يعيش المواطن ، الّذي يعتقد أنّه حرّ ، أشكالا لامرئيّة من الاستعباد : تنبني الدّيمقراطيّة على الاعتقاد في أنّ رأي الأغلبيّة أصوب من رأي الأقلّيّة ، لذلك يمكن أن تجسّد شكلا جديدا من الدّكتاتوريّة : ديكتاتوريّة الأغلبيّة على حساب الأقلّيّات</p>
+<p class="subhead t-navy"><u>حدود كونيّة وعقلانيّة حقوق الإنسان</u> :</p>
+<p class="para">يعتبر " ماركس " أنّ حقوق الإنسان في ظاهرها كونيّة وعقلانيّة ، إلاّ أنّها يمكن أن تكون قناعا يخدم من خلال فكرة الحقّ مصالح الطّبقة المهيمنة اقتصاديّا ، لذلك اعتبر " ماركس " أنّ " إنسان حقوق الإنسان ليس الإنسان في معناه الكونيّ بل هو المواطن البورجوازيّ "</p>
+<p class="para"><span class="t-red">مثال</span> : الحقّ في الملكيّة يبدو حقّا طبيعيّا مجسّدا للحرّيّة والمساواة ، إلاّ أنّه حقّ يمكن أن ينتج علاقات هيمنة واستغلال ، أي علاقات مجسّدة لتناقضات طبقيّة تتعارض مع الحرّيّة والمساواة</p>
+<p class="para">انطلاقا من ذلك ، اعتبر " ماركس " أنّ الدّولة جهاز طبقيّ وُجد لخدمة مصالح الطّبقة المهيمنة اقتصاديّا . بهذا المعنى تصبح الدّيمقراطيّة السّياسيّة مجرّد قناع تستعمله الأنظمة الرّأسماليّة لإخفاء علاقات الهيمنة والاستغلال الاقتصادي</p>
+<p class="subhead t-navy"><u>المواطنة بين الخصوصيّة والكونيّة</u> :</p>
+<p class="para">رغم أنّ مفهوم المواطنة يتأسّس على مبادئ وقيم كونيّة (الحرّيّة ، المساواة ...) ، إلاّ أنّ المواطنة عندما تختزل في الانتماء إلى دولة معيّنة ، يمكن أن تهدّد الكونيّة أي أن تهدّد مطلب وحدة الإنسانيّة . فالمواطنة عندما تنحصر في حدود دولة معيّنة يمكن أن تتحوّل إلى تعصّب لهويّة سياسيّة معيّنة وهو ما يمكن أن يولّد علاقات صداميّة إقصائيّة مع هويّات سياسيّة مغايرة</p>
+<p class="para">⇐ تجاوز هذه المفارقة أدّى إلى ظهور فكرة المواطنة العالميّة : فالانتماء إلى دولة معيّنة لا ينفي ضرورة ترسيخ وعي كونيّ يعتبر أنّ جميع البشر مواطنوا عالم واحد وأنّ الأرض وطن موسّع يُوحّد جميع البشر</p>
+<p class="para"><u>حدود السّيادة</u> : يمكن إظهار حدود السّيادة من زاويتين</p>
+<p class="para">• <u>فكرة المواطنة العالميّة</u> : لا تقوّض سيادة الدّولة بقدر ما ترسم لها حدودًا . فسلطة الدّولة لا يجب أن تكون مطلقة ويجب أن تحتكم السّيادة إلى مبادئ كونيّة تجعلها تحترم الحقوق والقيم الكونيّة الّتي يتضمّنها مفهوم المواطنة العالميّة</p>
+<p class="para">• <u>واقع العولمة يهدّد في نفس الوقت السّيادة والمواطنة</u> : فهو يهدّد السّيادة عندما يجعل سلطة الدّول خاضعة لسيادة الدّول المهيمنة سياسيّا واقتصاديّا . فالعولمة بما هي تجسيد لهيمنة الدّول العظمى على كلّ دول العالم تهدّد سيادة الدّول بما أنّها تهدّد استقلاليّتها في اتّخاذ القرارات والسّياسات الخاصّة بها . إنّ هذا الواقع المجسّد لهيمنة الأقوى يهدّد في نفس الوقت فكرة المواطنة العالميّة بما أنّه يهدّد قيم الحرّيّة والمساواة والعدالة الّتي يتضمّنها مفهوم المواطنة</p>
+<!-- PROOFREAD: 1963 part1 p06 — "يجعل البشر المواطنين إراديّا" (a verb seems missing on the page) ; the two Hobbes quotes both read "الانسان شرّير بالطّبع" — check the first one -->
+<!-- PROOFREAD: 1963 part1 p02 — blank gap left in the line "ليس نزوات الأشخاص أو … بل القوانين" -->
+
+<!-- PROOFREAD: 1963 part1 p01 — "الشّكل العامّ" (الشّأن?) ; "أينما ولّي وجوهنا" -->
+
+</section>
+
+</div>
+</body>
+</html>

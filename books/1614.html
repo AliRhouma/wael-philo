@@ -1,0 +1,367 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<title>Wael Academy — Philosophie · الفن : الجمال و الحقيقة</title>
+<script>
+  window.MathJax = {
+    tex: { inlineMath: [['\\(','\\)']], displayMath: [['\\[','\\]']] },
+    chtml: { fontURL: 'https://cdn.jsdelivr.net/npm/mathjax@3/es5/output/chtml/fonts/woff-v2', matchFontHeight: true },
+    startup: { typeset: true }
+  };
+</script>
+<script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js" async></script>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Sora:wght@400;500;600;700;800&family=Cairo:wght@400;500;600;700;800;900&family=Tajawal:wght@400;500;700;800&family=JetBrains+Mono:wght@400;500;600;700&display=swap');
+:root{
+  /* ===== Wael Academy palette — MAIN ACCENT = green-teal gradient #0FAB8F → #067360 ===== */
+  --bg:#fff; --panel:#f2f8f8; --hair:#e6e6e9; --hair2:#d6d6db;
+  --fg:#0f2a31;        /* body text (and +/− signs) */
+  --fg2:#3f5b62;       /* softer text */
+  --fg3:#7c959b;       /* muted (footer) */
+  --blue:#067360;      /* deep accent — small numbers, borders, watermark, accent equations */
+  --blue-dark:#045260; /* titles & wordmarks (also the balance colour) */
+  --teal:#0fab8f;      /* bright accent end */
+  --loop:#0d9c82;      /* logo-loop helper */
+  --orange:#067360;    /* kicker/category labels (gold retired → deep teal) */
+  --red:#f5322f;       /* EXERCISE CHIPS ONLY — never for emphasis */
+  --cream:#e6f3f4; --blue-soft:#e6f3f4;  /* pale teal — callout fill + table sub-row fill */
+  --blue-line:#cde7e4; /* hairline */
+  --sub-ink:#045260;   /* table sub-row text */
+  --grad:linear-gradient(148deg,#0fab8f 0%,#0d9c82 52%,#067360 100%);
+  --mono:'JetBrains Mono',monospace; --latin:'Sora',sans-serif; --ar:'Cairo',sans-serif; --arb:'Tajawal',sans-serif;
+}
+*{box-sizing:border-box;margin:0;padding:0;}
+body{font-family:var(--latin);color:var(--fg);background:#e4e4e7;padding:28px 0;
+     -webkit-print-color-adjust:exact;print-color-adjust:exact;}
+html[dir="rtl"] body{font-family:var(--arb);}
+
+/* ===== brand watermark: REAL text (crisp), full-bleed, repeats per page ===== */
+.wm{position:fixed;inset:0;z-index:0;pointer-events:none;display:flex;
+    align-items:center;justify-content:center;overflow:hidden;
+    -webkit-print-color-adjust:exact;print-color-adjust:exact;}
+.wm span{font-family:var(--mono);font-weight:800;font-size:76.8pt;letter-spacing:.16em;
+    color:var(--blue);opacity:.06;white-space:nowrap;transform:rotate(-54deg);}  /* single diagonal: bottom-left → top-right */
+.wm.mono span{color:#000;opacity:.05;}
+
+/* ===== continuous flow stream (no page border) ===== */
+.flow{width:210mm;margin:0 auto;background:transparent;color:var(--fg);
+      padding-block:16mm 18mm;padding-inline:23mm 14mm;position:relative;}   /* spiral gutter: inline-start(=spine) 23mm / outer 14mm — dir-aware; print margins set in render_flow.py */
+@media screen{ .flow{background:#fff;box-shadow:0 10px 40px rgba(0,0,0,.16);} }
+.flow>*{position:relative;z-index:1;}
+.flow p,.flow li,.flow .data,.flow .note,.flow .ex{break-inside:auto;}
+.flow .fig,.flow figure,.flow img,.flow svg.figsvg,.flow table,.flow tr,.flow .chapdiv,.flow .exh,.flow .qrcard,.flow .meta{break-inside:avoid;}
+.flow h1,.flow h2,.flow h3,.flow .exh,.flow .subhead,.flow .chapdiv{break-after:avoid;}
+.flow img,.flow svg.figsvg{max-width:100%;height:auto;}
+.flow figcaption,.flow .figcap{display:none;}          /* rule 3: no figure captions */
+
+/* ===== front matter + chapters each start on a fresh page ===== */
+.flow .cover{break-after:page;}        /* cover alone on page 1 */
+.flow .toc{break-after:page;}          /* Sommaire alone on the next page */
+.flow .chapter{break-before:page;}
+.flow .chapter:first-of-type{break-before:auto;}
+
+/* ===== cover ===== */
+.cover{padding:14mm 0 8mm;border-bottom:2px solid var(--blue);margin-bottom:6mm;}
+.cover .badge{font-family:var(--mono);font-size:8.5pt;letter-spacing:.28em;text-transform:uppercase;color:var(--orange);margin-bottom:10px;}
+.cover h1{font-family:var(--latin);font-weight:800;font-size:34pt;line-height:1.03;letter-spacing:-.025em;color:var(--blue-dark);}
+.cover .grule{width:120px;height:5px;border-radius:5px;background:var(--grad);margin:14px 0;}
+.cover .sub{font-family:var(--mono);font-size:10pt;letter-spacing:.14em;text-transform:uppercase;color:var(--teal);}
+.cover .auth{font-size:11pt;color:var(--fg2);margin-top:6px;font-weight:600;}
+
+/* ===== table of contents ===== */
+.toc{margin:2mm 0 4mm;}
+.toc h2{font-family:var(--latin);font-weight:800;font-size:15pt;color:var(--blue-dark);margin-bottom:4mm;}
+.toc .trititle{font-family:var(--mono);font-size:8pt;letter-spacing:.2em;text-transform:uppercase;color:var(--orange);margin:4mm 0 2mm;}
+.toc ol{list-style:none;}
+.toc li{display:flex;align-items:baseline;gap:8px;font-size:10pt;padding:2.2px 0;color:var(--fg);line-height:1.4;}
+.toc li .n{font-family:var(--mono);font-weight:700;font-size:9pt;color:var(--blue);min-width:26px;}
+.toc li .dots{flex:1;border-bottom:1px dotted var(--hair2);transform:translateY(-3px);}
+
+/* ===== chapter divider band ===== */
+.chapdiv{margin:0 0 5mm;padding:6mm 16px 5mm;border-radius:12px;background:var(--grad);
+    -webkit-print-color-adjust:exact;print-color-adjust:exact;}   /* green-filled chapter band */
+.chapdiv .cn{font-family:var(--mono);font-size:8.5pt;font-weight:700;letter-spacing:.24em;text-transform:uppercase;color:rgba(255,255,255,.82);margin-bottom:5px;}
+.chapdiv h2{font-family:var(--latin);font-weight:800;font-size:17pt;line-height:1.1;letter-spacing:-.015em;color:#fff;}
+/* conclusion block — same green-filled look as the chapter band */
+.conclusion{background:var(--grad);border-radius:12px;padding:6mm 16px;margin:5mm 0;color:#fff;break-inside:avoid;
+    -webkit-print-color-adjust:exact;print-color-adjust:exact;}
+.conclusion .ck{font-family:var(--mono);font-size:8.5pt;font-weight:700;letter-spacing:.24em;text-transform:uppercase;color:rgba(255,255,255,.82);margin-bottom:6px;}
+.conclusion h3{font-family:var(--latin);font-weight:800;font-size:13pt;line-height:1.2;color:#fff;margin-bottom:4px;}
+.conclusion p,.conclusion li{font-size:10.4pt;line-height:1.7;color:#fff;}
+.conclusion b,.conclusion strong{color:#fff;font-weight:700;}
+
+/* ===== unit header (lesson/exercise) + QR emplacement ===== */
+.exh{display:flex;align-items:center;gap:11px;margin:6mm 0 3mm;}
+.exh .idx{font-family:var(--mono);font-size:9pt;font-weight:600;color:#fff;background:var(--grad);
+    border-radius:6px;padding:4px 11px;letter-spacing:.08em;text-transform:uppercase;
+    -webkit-print-color-adjust:exact;print-color-adjust:exact;}
+.exh .idx.ex{background:var(--red);}   /* exercise chip = red */
+.exh h2{font-family:var(--latin);font-size:14pt;font-weight:700;letter-spacing:-.01em;color:var(--blue-dark);}
+.exh .qrcard{margin-inline-start:auto;flex:0 0 auto;display:flex;flex-direction:column;align-items:center;gap:3px;width:26mm;}
+.qrcard .qrt{font-family:var(--mono);font-size:6.5pt;letter-spacing:.1em;text-transform:uppercase;color:var(--teal);text-align:center;}
+.qrcard .qrslot{width:24mm;height:24mm;padding:1.5mm;background:#fff;border:1px solid var(--blue-line);border-radius:8px;display:flex;align-items:center;justify-content:center;}
+.qrcard .qrslot img,.qrcard .qrslot svg{width:100%;height:100%;display:block;}
+
+/* sub-exercise label when one file holds several exercices */
+.exsub{font-family:var(--latin);font-weight:800;font-size:11.5pt;color:var(--blue-dark);margin:5mm 0 2.5mm;padding-bottom:3px;border-bottom:2px solid var(--blue-line);}
+
+/* ===== text blocks ===== */
+.lead{font-size:11pt;line-height:1.7;margin:2mm 0 3mm;color:var(--fg);}
+.para{font-size:10.6pt;line-height:1.7;margin:2mm 0 2.5mm;color:var(--fg);}
+.consigne{font-size:10.4pt;line-height:1.6;margin:1mm 0 2mm;color:var(--fg);font-style:italic;}
+.subhead{font-family:var(--latin);font-weight:800;font-size:12pt;letter-spacing:-.01em;color:var(--blue-dark);margin:5mm 0 2.5mm;}
+/* emphasis — green accent = .t-blue/.t-green ; balance = .t-navy ; red = SECONDARY accent (.t-red) on titles + a few words */
+.t-blue{color:var(--blue);font-weight:600;} .t-navy{color:var(--blue-dark);font-weight:700;}
+.t-red{color:var(--red);font-weight:600;} .t-green{color:var(--teal);font-weight:600;} .t-gold{color:var(--orange);font-weight:600;}
+.subhead.t-red{color:var(--red);font-weight:800;}   /* red Roman-numeral section title (I, II, …) — keeps subhead weight */
+/* highlighter marks — a soft colour wash behind a key word (agent picks green or red per what balances the page) */
+.hl-green,.hl-red{border-radius:3px;padding:.02em .24em;font-weight:600;box-decoration-break:clone;-webkit-box-decoration-break:clone;
+    -webkit-print-color-adjust:exact;print-color-adjust:exact;}
+.hl-green{background:rgba(15,171,143,.20);color:var(--blue-dark);}   /* green highlight */
+.hl-red{background:rgba(245,50,47,.13);color:#c0261f;}               /* red highlight  */
+
+.data{background:var(--blue-soft);border:1px solid var(--blue-line);border-inline-start:4px solid var(--blue);
+    border-radius:8px;padding:11px 16px;margin:3mm 0;font-size:10pt;line-height:1.65;color:var(--fg2);}
+.data b{color:var(--fg);font-weight:700;}
+.note{border:1px dashed var(--hair2);border-radius:9px;padding:11px 16px;margin:4mm 0;background:var(--panel);}
+.note .kicker{font-family:var(--mono);font-size:7.5pt;letter-spacing:.18em;color:var(--orange);display:block;margin-bottom:5px;}
+.note .nb{font-size:10pt;line-height:1.7;color:var(--fg2);} .note b{color:var(--fg);}
+.ex:not(.idx){background:var(--blue-soft);border:1px solid var(--blue-line);border-inline-start:3px solid var(--blue);
+    border-radius:7px;padding:7px 11px;font-size:9.6pt;line-height:1.6;color:var(--fg2);margin:2mm 0;}   /* :not(.idx) so it never hits the exercise chip (which is .idx.ex) */
+.ex .extag{display:inline-block;font-family:var(--latin);font-weight:800;font-size:7.6pt;color:var(--blue-dark);background:#fff;
+    border:1px solid var(--blue);border-radius:5px;padding:1px 9px;margin-inline-end:7px;vertical-align:middle;text-transform:uppercase;letter-spacing:.06em;}
+
+/* ===== lists ===== */
+ol.q{list-style:none;counter-reset:q;margin:1mm 0 2mm;}
+ol.q>li{counter-increment:q;position:relative;padding-inline-start:30px;margin-bottom:2.5mm;font-size:10.4pt;line-height:1.6;}
+ol.q>li::before{content:counter(q);position:absolute;inset-inline-start:0;top:1px;width:21px;height:21px;background:var(--grad);color:#fff;
+    border-radius:50%;font-family:var(--mono);font-size:9pt;font-weight:600;display:flex;align-items:center;justify-content:center;
+    -webkit-print-color-adjust:exact;print-color-adjust:exact;}
+ol.sub{list-style:none;counter-reset:s;margin:4px 0 0;padding-inline-start:2px;border-inline-start:1px solid var(--blue-line);}
+ol.sub li{counter-increment:s;position:relative;padding:2.5px 0 2.5px 26px;font-size:10.1pt;line-height:1.55;}
+ol.sub li::before{content:counter(s,lower-alpha)".";position:absolute;inset-inline-start:10px;top:2.5px;font-family:var(--mono);font-size:9pt;font-weight:600;color:var(--teal);}
+ol.qn{list-style:none;counter-reset:qn;margin:1mm 0 2mm;}
+ol.qn>li{counter-increment:qn;position:relative;padding-inline-start:26px;margin-bottom:2.2mm;font-size:10.4pt;line-height:1.55;}
+ol.qn>li::before{content:counter(qn)".";position:absolute;inset-inline-start:0;top:0;font-family:var(--mono);font-size:9.5pt;font-weight:700;color:var(--blue);}
+ul.b{list-style:none;margin:1mm 0 2mm;} ul.b>li{position:relative;padding-inline-start:22px;margin-bottom:2.4mm;font-size:10.4pt;line-height:1.6;}
+ul.b>li::before{content:"";position:absolute;inset-inline-start:3px;top:8px;width:8px;height:8px;border-radius:50%;background:var(--grad);
+    -webkit-print-color-adjust:exact;print-color-adjust:exact;}
+ul.dash{list-style:none;margin:1mm 0 2mm;} ul.dash>li{position:relative;padding-inline-start:20px;margin-bottom:1.8mm;font-size:10.4pt;line-height:1.6;}
+ul.dash>li::before{content:"–";position:absolute;inset-inline-start:2px;top:0;color:var(--fg);font-weight:700;}  /* dash / +/− signs = body colour */
+.flow ul.opts{list-style:none;margin:4px 0 3px;padding-inline-start:16px;}
+.flow ul.opts li{padding:2px 0;font-size:10.2pt;line-height:1.5;color:var(--fg);}
+
+/* ===== figures / tables ===== */
+.fig{margin:3mm 0;} .fig svg.figsvg{display:block;margin:0 auto;background:#fff;max-width:100%;height:auto;}
+.photo{display:block;margin:3mm auto;border-radius:8px;border:1px solid var(--hair);max-width:100%;}
+.figrow{display:flex;flex-wrap:wrap;gap:9px;justify-content:center;margin:3mm auto;max-width:190mm;}
+.flow .figrow img{border-radius:7px;border:1px solid var(--hair);height:46mm;width:auto;max-width:none;object-fit:cover;}
+.schemarow{display:flex;gap:16px;align-items:flex-start;flex-wrap:wrap;margin:2mm 0;}
+.schemarow .col-txt{flex:1 1 90mm;min-width:80mm;} .schemarow .col-fig{flex:0 0 78mm;} .schemarow .col-fig .fig{margin:0;}
+.flow table{border-collapse:collapse;width:100%;margin:3mm 0;font-size:9.8pt;line-height:1.5;}
+.flow table th,.flow table td{border:1px solid var(--blue-line);padding:6px 10px;text-align:start;vertical-align:top;}
+.flow table th{background:var(--grad);color:#fff;font-family:var(--latin);font-weight:700;font-size:9.4pt;
+    -webkit-print-color-adjust:exact;print-color-adjust:exact;}
+.flow table tr:nth-child(even) td{background:var(--blue-soft);color:var(--sub-ink);}   /* sub-row: #E6F3F4 / #045260 */
+
+mjx-container{color:var(--fg) !important;font-weight:400 !important;font-size:1.0em !important;}
+.eq-hi mjx-container,mjx-container.eq-hi{color:var(--blue) !important;}   /* accent (green) equation — highlight a key result; balance with plain math */
+.eq-red mjx-container,mjx-container.eq-red{color:var(--red) !important;}  /* red accent equation / symbol — complements the green .eq-hi */
+
+/* ===== per-file books: credit line, copies list, figures at their size ===== */
+.credit{display:flex;flex-wrap:wrap;align-items:center;gap:5px;margin:-1mm 0 3.5mm;font-size:9.4pt;color:var(--fg2);}
+.credit .who{font-weight:700;color:var(--blue-dark);}
+.credit .tg{font-family:var(--mono);font-size:7.2pt;letter-spacing:.04em;border-radius:5px;padding:1px 7px;line-height:1.6;
+    border:1px solid var(--blue-line);color:var(--blue);background:#fff;-webkit-print-color-adjust:exact;print-color-adjust:exact;}
+.credit .tg.sec{background:var(--blue-dark);border-color:var(--blue-dark);color:#fff;}
+.credit .tg.cor{background:#fff;border-color:var(--red);color:var(--red);}
+.credit a{color:var(--fg3);font-family:var(--mono);font-size:7pt;text-decoration:none;}
+.cover .auth .credit{margin:4mm 0 0;}
+.cover .copies{margin-top:5mm;font-size:8.6pt;color:var(--fg2);}
+.cover .copies ul{list-style:none;margin:2mm 0 0;padding:0;columns:2;}
+.cover .copies a{color:var(--fg3);text-decoration:none;font-size:8pt;}
+.flow figure.fig{text-align:center;}
+.flow figure.fig img{max-height:60mm;width:auto;max-width:70%;display:inline-block;}
+
+/* chapter tag on each part of a multi-chapter book (the book keeps the original order of the file) */
+.chtag{display:inline-block;margin:5mm 0 2mm;padding:1mm 3mm;border-radius:2mm;background:#eef3fb;border:1px solid #c9d6ea;
+  color:#1f3a6b;font-size:9pt;font-weight:700}
+.chtag span{color:#6b7f9e;font-weight:600;margin-inline-end:1.5mm}
+
+@media print{ body{background:#fff;padding:0;} .flow{width:auto;max-width:none;margin:0;padding:0;} }
+@page{size:A4;}   /* margins come from render_flow.py — do NOT set them here */
+</style>
+<meta data-pagefind-filter="type[content]" content="درس">
+<meta data-pagefind-filter="resource[content]" content="المصدر غير مذكور">
+<meta data-pagefind-meta="n[content]" content="1614">
+<meta data-pagefind-meta="title[content]" content="الفن : الجمال و الحقيقة">
+<meta data-pagefind-filter="chapter[content]" content="العلم بين الحقيقة والنمذجة">
+<meta data-pagefind-filter="chapter[content]" content="الفن والدين">
+<meta data-pagefind-filter="section[content]" content="باكالوريا آداب"><style>.qrcard{display:none!important}.wa-nav{position:sticky;top:0;z-index:50;background:#045260;padding:10px 18px;font-family:Cairo,sans-serif;direction:rtl}.wa-nav a{color:#fff;text-decoration:none;font-weight:700}@media print{.wa-nav{display:none}}</style>
+</head>
+
+<body dir="rtl" lang="ar"
+      data-brand="Wael Academy" data-handle="@WaelAcademy"
+      data-tagline="في تُرابنا.. مغامرة بمغامرة"
+      data-phone="+216 50 40 40 42" data-site="waeldocuments.com"
+      data-cta="سجل معانا وأقرى عن بعد مع منصة Wael Academy"
+      data-subject="Philosophie · الفن : الجمال و الحقيقة" data-watermark="Wael Academy" data-pagefind-body><nav class="wa-nav" data-pagefind-ignore><a href="../index.html">→ الرجوع إلى فهرس الفلسفة</a></nav>
+
+<!-- single full-page diagonal watermark, bottom-left → top-right (repeats on every page) -->
+<div class="wm" aria-hidden="true"><span>WAEL&nbsp;ACADEMY</span></div>
+
+<div class="flow colored">
+<div class="cover"><div class="badge">◉ Wael Academy · Philosophie</div><h1>الفن : الجمال و الحقيقة</h1><div class="grule"></div><div class="sub">العلم بين الحقيقة والنمذجة</div><div class="auth"><div class="credit">المؤلّف / المصدر : <span class="who">المصدر غير مذكور في الوثيقة</span> <span class="tg cor">إصلاح</span><span class="tg sec">الفلسفة · باكالوريا آداب</span> <a href="https://drive.google.com/file/d/1FTj3OVvH4G-1uS8hc4Ga0-ySuVvwhVQa/view">↗ IMG_1208.JPG</a> <a href="https://drive.google.com/file/d/1HxTQk-nUAwF-Z5EjcaIhDGY1MTdcWOhW/view">↗ IMG_1209.JPG</a> <a href="https://drive.google.com/file/d/1yBGflizvYfcfJFUTm169PuYV5J0fX5pp/view">↗ IMG_1210.JPG</a> <a href="https://drive.google.com/file/d/1-5OHJhrATP3v4483gr9zcXNVpTKnNpao/view">↗ IMG_1211.JPG</a> <a href="https://drive.google.com/file/d/1zamV2XvyhQhpZJ9GsKIG8xNm-AfvUV9T/view">↗ IMG_1212.JPG</a> <a href="https://drive.google.com/file/d/1qJC7aZM9flwk7xSePrX7j5c9yAVuu-ma/view">↗ IMG_1213.JPG</a> <a href="https://drive.google.com/file/d/1Ud1OSEStfYv7wndclze7ACXnkRS219TM/view">↗ IMG_1214.JPG</a></div></div><div class="copies" data-pagefind-ignore><b>نسخ هذا الملف في الدرايفات (7)</b><ul><li><a href="https://drive.google.com/file/d/1FTj3OVvH4G-1uS8hc4Ga0-ySuVvwhVQa/view">Mohamed Ali Ben Abdallah · Bac lettres › الفلسفة / القيم بين النسبي و المطلق / الفن : الجمال و الحقيقة</a></li><li><a href="https://drive.google.com/file/d/1HxTQk-nUAwF-Z5EjcaIhDGY1MTdcWOhW/view">Mohamed Ali Ben Abdallah · Bac lettres › الفلسفة / القيم بين النسبي و المطلق / الفن : الجمال و الحقيقة</a></li><li><a href="https://drive.google.com/file/d/1yBGflizvYfcfJFUTm169PuYV5J0fX5pp/view">Mohamed Ali Ben Abdallah · Bac lettres › الفلسفة / القيم بين النسبي و المطلق / الفن : الجمال و الحقيقة</a></li><li><a href="https://drive.google.com/file/d/1-5OHJhrATP3v4483gr9zcXNVpTKnNpao/view">Mohamed Ali Ben Abdallah · Bac lettres › الفلسفة / القيم بين النسبي و المطلق / الفن : الجمال و الحقيقة</a></li><li><a href="https://drive.google.com/file/d/1zamV2XvyhQhpZJ9GsKIG8xNm-AfvUV9T/view">Mohamed Ali Ben Abdallah · Bac lettres › الفلسفة / القيم بين النسبي و المطلق / الفن : الجمال و الحقيقة</a></li><li><a href="https://drive.google.com/file/d/1qJC7aZM9flwk7xSePrX7j5c9yAVuu-ma/view">Mohamed Ali Ben Abdallah · Bac lettres › الفلسفة / القيم بين النسبي و المطلق / الفن : الجمال و الحقيقة</a></li><li><a href="https://drive.google.com/file/d/1Ud1OSEStfYv7wndclze7ACXnkRS219TM/view">Mohamed Ali Ben Abdallah · Bac lettres › الفلسفة / القيم بين النسبي و المطلق / الفن : الجمال و الحقيقة</a></li></ul></div></div>
+<section class="chapter">
+<div class="chtag"><span>المحور</span> العلم بين الحقيقة والنمذجة</div>
+<!-- NOTE: one book for 7 files of the Drive folder "الفلسفة / القيم بين النسبي و المطلق / الفن : الجمال و الحقيقة" (photo), in file order -->
+<div class="exh"><span class="idx">درس</span><h2>الفن : الجمال و الحقيقة</h2>
+  <div class="qrcard"><div class="qrt">فيديو الدرس</div><div class="qrslot"><img src="qr/1614.svg" alt="QR"></div></div></div>
+<div class="credit">المؤلّف / المصدر : <span class="who">المصدر غير مذكور في الوثيقة</span> <span class="tg cor">إصلاح</span><span class="tg sec">الفلسفة · باكالوريا آداب</span> <a href="https://drive.google.com/file/d/1FTj3OVvH4G-1uS8hc4Ga0-ySuVvwhVQa/view">↗ IMG_1208.JPG</a> <a href="https://drive.google.com/file/d/1HxTQk-nUAwF-Z5EjcaIhDGY1MTdcWOhW/view">↗ IMG_1209.JPG</a> <a href="https://drive.google.com/file/d/1yBGflizvYfcfJFUTm169PuYV5J0fX5pp/view">↗ IMG_1210.JPG</a> <a href="https://drive.google.com/file/d/1-5OHJhrATP3v4483gr9zcXNVpTKnNpao/view">↗ IMG_1211.JPG</a> <a href="https://drive.google.com/file/d/1zamV2XvyhQhpZJ9GsKIG8xNm-AfvUV9T/view">↗ IMG_1212.JPG</a> <a href="https://drive.google.com/file/d/1qJC7aZM9flwk7xSePrX7j5c9yAVuu-ma/view">↗ IMG_1213.JPG</a> <a href="https://drive.google.com/file/d/1Ud1OSEStfYv7wndclze7ACXnkRS219TM/view">↗ IMG_1214.JPG</a></div>
+
+<!-- file: IMG_1208 -->
+
+<!-- PROOFREAD: 1614 part1 p01 — entirely handwritten course (small multi-colour handwriting, photographed); best reading throughout, many words uncertain — full proofreading needed -->
+
+<div class="chtag"><span>المحور</span> الفن والدين</div>
+
+<p class="subhead t-navy">في دلالة الفن</p>
+<p class="para">إشتقاقا الفن كلمة في أصول اللفظ اللاتيني "Ars" أي الصناعة والمهارة والإتقان أي المهارة والإتقان في إنتاج شيء ما ، فالفن ممارسة غائية لها هدف ما.</p>
+<p class="para">- إن الفن فعل إنساني صرف ، فلا يمكن الحديث عن الفن الذي تنتجه الآلة أو الألوان الصادرة عن الطبيعة أو الأكواخ والأعشاش التي يبنيها الحيوان مثلا . "لا ينبغي أن تكون هناك فن إلا ما يمكن أن ننعته بالفن".</p>
+<p class="para">والفن ينشأ عن العقل ويكون العقل أساس العمل الفني ولهذا "لكن النوع الميكانيكي اللاواعي الذي يقوم به حصان آلي لا فن به ، لا يمكن أن يعترف فنا".</p>
+<!-- PROOFREAD: 1614 part1 p01 — right column, paragraphs 2–3: quotations largely illegible, best guess only -->
+<p class="para">- إن الفن هو "صانع من الحرية" أي بصفة اختيارية تجعل العقل أساسا لفعاليته. بمعنى كانط : إن الفن يرتبط أساسا بالحرية التي تخلق العقل. عندما يشير عدم اعتبار نشاط بعض الحيوانات رغم أنها مفيدة إبداعا فنا. يعطينا كانط مثال النحل الذي يبني خلايا الشمع بطريقة شديدة الدقة ، إلا أن ذلك لا يصدر عن العقل بل عن " مجبول طبيعتها أي من الغريزة". إن الفن</p>
+<!-- PROOFREAD: 1614 part1 p01 — right column last paragraph: "صانع من الحرية", "بمعنى كانط", "مجبول" uncertain; the column ends mid-sentence ("إن الفن") -->
+<p class="subhead t-navy">الفن بين الحقيقة والجمال</p>
+<p class="subhead t-red">1- الفن محاكاة : تشويه الجمال وضياع الحقيقة</p>
+<p class="para">* الفلسفة الأفلاطونية : إن الغاية من الفلسفة والفن هو إدراك الحقيقة الثابتة والمطلقة والسرمدية التي تنتمي لعالم المعقولات (عالم المثل والحقائق الثابتة) لا عالم المحسوسات (عالم الأوهام والزيف والتغير).</p>
+<p class="para">وبما أن الفن هو حسب أفلاطون محاكاة لشيء أو موضوع ما ، فإنه لن ينتمي لعالم المعقولات بل إنه محاكاة أي نسخة الطبيعة التي هي نسخة. فالأشياء المحسوسة هي نسخ المثل ، والفن هو محاكاة للشيء المحسوس ، فالفن نسخة النسخة. يعطينا أفلاطون مثال السرير والمصنعة ، فالنجار ينطلق من الصانع الأعلى هو الله الذي خلق المثل الأول للسرير كامل الصفات ليأتي النجار ويقلده ثم يأتي الرسام ويرسم السرير. فيكون الفن "محاكاة لشيء ظاهري" ، فالفن القائم على المحاكاة بعيد كل البعد عن الحقيقة : لذا إن الفن مسخ أو ظل يقدمه الفنانون "ينتمي إلى المرتبة الثالثة بالنسبة إلى الحقيقة" ، فالفنانون لا يخلقون إلا أوهاما". وهو يخاطب في الإنسان حواسه لا عقله ، رغبته لا فكره . من أجل هذا يطرد أفلاطون الفنانين وخاصة منهم الشعراء من جمهوريته لأنهم يثيرون الانفعالات والأهواء ويفسدون الأخلاق ويروون أخلاقية وموضوعية.</p>
+<p class="para">=&gt; إن المحاكاة تمس كل الذات المبدعة الخالقة والمثل الجميل "كل شيء جميل يستمد ذاته". "أفلاطون".</p>
+<p class="para">* الفلسفة الأرسطية : رغم ما ذهب إليه أفلاطون حول المحاكاة ، إلا أن أرسطو يتناولها بطريقة مغايرة كونه يعتبر المحاكاة " نزعة في الإنسان نلاحظها منذ الطفولة" إضافة إلى كون التعلم لذيذا ، فالفن الذي يحاكي موضوعا ما لا يجب كونه محاكاة بل "لإتقان صناعتها أو ألوانها أو ما شاكل ذلك".</p>
+<p class="para">* النقد الهيجلي : "إن الفن بتطلعه إلى منافسة الطبيعة بمحاكاتها سيبقى أبدا دون مستوى الطبيعة" يرفض هيجل عملية المحاكاة بما "استنساخ بارع للأشياء كما هي موجودة في الطبيعة". إن هذا الفن عديم الذوق لا طائل منه فهو يخاطب حاسة واحدة ... زوكسيس (عنقود العنب) و بارهاسيوس (ستارة اللوحة).</p>
+<!-- PROOFREAD: 1614 part1 p01 — left column: "والمصنعة", "ويروون أخلاقية وموضوعية", "تمس كل الذات", "يستمد ذاته", "لا يجب كونه", last line partly illegible ("..."); last word of a line at the left page edge cut -->
+<!-- file: IMG_1209 -->
+
+<div class="chtag"><span>المحور</span> العلم بين الحقيقة والنمذجة</div>
+<!-- PROOFREAD: 1615 part1 p01 — entirely handwritten course (small multi-colour handwriting, photographed; right column first); best reading throughout, many words uncertain — full proofreading needed -->
+
+<div class="chtag"><span>المحور</span> الفن والدين</div>
+
+<p class="para">العقل في الممارسة الفنية هو الذي "يكسب الموضوع شكله".</p>
+<p class="para">- إن تساؤل أي سؤال عن تميز الممارسة الفنية كفعل إنساني عن بقية أفعال الإنسان الصادرة عن العقل ، إن هذا ما يفسره لنا أرسطو بقوله "هناك أنشطة تكون غايتها الأنشطة ذاتها وهناك أنشطة أخرى تكون غايتها في الآثار الناتجة عن تلك الأنشطة".</p>
+<p class="para">لفهم الفارق أكثر ، يجلي المفارقة بين الفن والعمل كفعل إنساني هام في الإنسان على بقية الكائنات .</p>
+<p class="para">- إن أرسطو لا يقيم المفارقة بينهما باعتبار أن "كل فن هو استعداد مقترن بالعقل وموجه نحو الإنتاج" وكذلك العمل ، ما يفسر اعتبار الهندسة المعمارية فنا أو مختلف الصناعات الحرفية من نجارة وحدادة .</p>
+<p class="para">- إلا أن كانط يحدث الفارق باعتبار أن الفن "يعرف بأنه حر ، أما المهنة فإنها أداة ارتزاق".</p>
+<p class="para">ما يجعل من الفن غائيا دون غاية ، فنحن لا نعلق لوحة فنية ولا نضع منحوتة رخامية بهدف استعمالها ، بل بهدف الاستمتاع بها . إن الفن ليس ارتزاق ، بل هو إحساس بالجمال.</p>
+<p class="para">إضافة لذلك ، إن الممارسة العملية آمنة نتعلمها وإتقانها يأتي من طول الممارسة لا التعود ،</p>
+<!-- PROOFREAD: 1615 part1 p01 — right column: "إن تساؤل أي سؤال", "يجلي", "هام في الإنسان", "آمنة نتعلمها", "لا التعود" uncertain -->
+<p class="subhead t-navy">نحو ارتباط الفن بالجمال</p>
+<p class="para">أكد كانط في نقد ملكة الحكم على ارتباط هذه الممارسة بإثارة الإحساس بالجمال والمتعة ومنه عدم قبول فكرة محاكاة الفن للطبيعة "إن أسطع فكرة نعبر بها الفنان أعظم بكثير مما تنتجه الطبيعة". وأسس فكرة أن الجمال ينبع من الطبع الفني لأنه هو الإنسان ، يرتبط الجمال بالمفاهيم الكانطية الأخلاقية فيكون الجميل "هو ما يعجبنا دون مفهوم" الذي يحيل إلى الذات الحاسة والمتذوقة أي بالعودة إلى الحكم الجمالي ، فالإنسان لا يخاطب العقل فقط بل يخاطب الإحساس ، فهو يتأمل عملا فنيا ويحكم عليه جماليا باعتبار أنه لا بد من ذوق حتى نحكم في شأن شيء بأنه جميل لكن لا بد من عبقرية لإبداع شيء جميل.</p>
+<p class="para">فما معيار الحكم بين ما هو جميل وما هو قبيح؟</p>
+<p class="para">"عندما نحكم على الموضوعات بواسطة المفاهيم نفقد كل تصور عن الجمال" منه أمكن استخلاص مفهوم كانط للمعيارية الجمالية ، إذ أن الجميل لا يفضي فقط تفكيرنا بالجمال والمعيارية الجمالية تقوم الإحساس لا التفكير.</p>
+<p class="para">ومن هنا يبرز الإنسان المفارقة بين ما هو مستحب (الاستلطاف بالرغبة الحسية + المنفعة = يقيس الحسن) والجميل (خالص بعيد عن المنفعة والمصلحة = نزيه). "إن رضا الذوق بالجمال هو وحده الرضا النزيه والحر ، إذ لا تحمل أي مصلحة أية مصلحة سواء مصلحة الحس أو مصلحة العقل".</p>
+<p class="para">=&gt; الجميل حكم مطلق وبعيد عن المنفعة الحسية المستقلة عن كل منفعة "كل مصلحة تفترض حاجة ، لا تترك الحكم على شيء أن يكون حرا". =&gt; إن الفن يحرر الإنسان من المنفعة الخاصة لتأمل العمل الفني ، لأنه يشكل فاعلية بحتة لكنها لا يكون نفعيا بل يكون باعثا لتحرر الإنسان من المنفعة.</p>
+<p class="para">لم هذا الفكر لم تتبنه من قبل مدرسة "الفن من أجل الفن" مع أوسكار وايلد ليدعي الفن من الأحكام القيمية والأخلاقية من ذلك أشعار بودلير وقصص غوتييه</p>
+<p class="subhead t-navy">نحو ارتباط الفن بالحقيقة :</p>
+<p class="para">أمكن تفسير مراحل تطور الفن إلى 3 مراحل رئيسية :</p>
+<p class="para">* مرحلة الفن الرمزي : أين يغلب الشكل على المضمون كفن الأهرامات والمنحوتات .</p>
+<!-- PROOFREAD: 1615 part1 p01 — left column: "أسطع فكرة نعبر بها", "الطبع الفني", "الأخلاقية", "لا يفضي فقط تفكيرنا", "يقيس الحسن", "فاعلية بحتة", "لم هذا الفكر لم تتبنه", "ليدعي", "غوتييه" uncertain; the question line "فما معيار …" is highlighted/struck on the page -->
+<!-- file: IMG_1210 -->
+
+<div class="chtag"><span>المحور</span> العلم بين الحقيقة والنمذجة</div>
+<!-- PROOFREAD: 1616 part1 p01 — entirely handwritten course (small multi-colour handwriting, photographed; right column first); best reading throughout, many words uncertain — full proofreading needed -->
+<!-- NOTE: 1616 part1 p01 — yellow highlighter over the last right-column paragraph is an annotation, left out -->
+
+<div class="chtag"><span>المحور</span> الفن والدين</div>
+
+<p class="para">إذ أن الفن "هو العمل الوحيد الذي لا نملك مهارة صنعه حتى ولو كانت معرفتنا به معرفة تامة".</p>
+<p class="para">إذا ، فالفن موهبة وعبقرية .</p>
+<p class="para">إن الممارسة الفنية باعتبارها ممارسة إنسانية جعل منها تتأرجح بين مطلبين : هما إبداع الجميل وكشف الحقيقة مقابل كونه محاكاة وتغييب للحقيقة.</p>
+<p class="para">* مرحلة الفن الكلاسيكي : تعادل بين الفن والمضمون ويمثل لحظة تجلي الروح في الأعمال الفنية .</p>
+<p class="para">* مرحلة الفن الرومانسي : ارتقاء الفكر على الشكل ، يحجب العقل بحجة والأحاسيس الوهمية في حجة تامة .</p>
+<p class="para">- لم يعد الفن تقليدا شكلا ومضمونا إذ أن الممارسة الفنية أصبحت تعبر عن هموم مجموعة بشرية وأفكارها وتوجهاتها السياسية وآمالها وقيمها الأخلاقية . لذلك وجب تجاوز الفهم الإختزالي للفن المتمثل في حجج الانقسام بالشكل دون المضمون .</p>
+<p class="para">- المقاربة الماركسية : "الحياة هي التي تحدد الوعي وليس الوعي هو الذي يحدد الحياة".</p>
+<p class="para">إن الفن بالنسبة لماركس هو من أهداف المنظومة الإيديولوجية ، إنه يعبر عن واقع الناس وظروفهم الواقعية كمختلف الإنتاجات البشرية من فنون وأدب وعلم . يقدم لنا ماركس مثال معجزات الحضارة الإغريقية كميثولوجيا تمثل مرحلة الطفل الشعبي ، لا يمكن أن نتطلق في الحضارة المعرفية الحالية أن نكون "الطبيعة" والبشر الذي أنشأ الفن الإغريقي".</p>
+<p class="para">- المقاربة الفينومينولوجية لهايدغر</p>
+<p class="para">يتساءل هايدغر " ما يجعل الأثر الفني فنا ؟ " هل هو استقصاء بالمضمون أو أن هناك هي الحقيقة؟</p>
+<p class="para">يقيم هايدغر علاقة بين الفن والحقيقة عكس المدارس السابقة وخاصة النظرية الجمالية الكانطية ، فيجعل الإبداع الفني تعبيرا عن حقيقة الوجود ، فالفن والحقيقة في علاقة ضرورية . إن الأنطولوجيا الهايدغرية تبحث في ماوراء الفن ، في الحقيقة كونه تعالى وبحقيقة الماهوية للفن لا تختزل معينة باعتباره ظاهرة معاشة.</p>
+<p class="para">فاليف يعرف الفن هي الحقيقة : "جوهر الفن هو وضع حقيقة الموجود نفسها في العمل الفني" . أي أن الفن يكون ماثلا في العمل الفني نفسه وما تجلي حقيقة الموجود ، نظام الوجود ، وتتجلى لنا في الأثر الفني فمثلا أن يستخدم الفنان الأدوات أو الأدوات الفنية تختفي المادة ولا يبقى سوى أثرها واستعمالها.</p>
+<p class="para">إذا فالعمل الفني يكشف لنا الحقيقة والوجود ، مثال ذلك المعبد الإغريقي "إن المبنى كمعبد من معابد اليونان لا يصور لنا شيئا ولكن "بواسطة معنى المعبد يكون الإله حاضرا في المعبد" . أي أنه عبر المعبد ينزل الله من السماء إلى الأرض فنتأمله في صورة أي يتجلى في حقيقته كما يكون ، ومن هنا أمكن تفهم أن الأعمال المعمارية العظيمة تكشف شكلا من أشكال الإيمان والعقيدة الإنسانية كرغبة الإنسان بالإله ومثال ذلك الفن الإسلامي كما يعتبر لنا الصورة في كل بار.</p>
+<!-- PROOFREAD: 1616 part1 p01 — "يحجب العقل بحجة … في حجة تامة", "حجج الانقسام", "من أهداف المنظومة", "مرحلة الطفل الشعبي", "لا يمكن أن نتطلق … أن نكون "الطبيعة"", "استقصاء بالمضمون", "كونه تعالى", "لا تختزل معينة", "فاليف يعرف", "ما تجلي", "في كل بار" — uncertain readings -->
+<!-- file: IMG_1211 -->
+
+<div class="chtag"><span>المحور</span> العلم بين الحقيقة والنمذجة</div>
+<!-- PROOFREAD: 1617 part1 p01 — entirely handwritten course (small multi-colour handwriting, photographed; right column first); best reading throughout, many words uncertain — full proofreading needed -->
+
+<div class="chtag"><span>المحور</span> الفن والدين</div>
+
+<p class="para">حيث يقول "إن الشيء المبدع ليس غاية في ذاته بل يعود إلى تعبير هام نلاحظه بحسه" . مثال ذلك علاقة الفن المعمار الإسلامي ويوحي المسلم "إن المؤمن يتعبد لله مكان ... مسجد على طريق ... من نهات".</p>
+<!-- PROOFREAD: 1617 part1 p01 — first right-column paragraph largely illegible ("..." = unread words) -->
+<p class="para">=&gt; إن الفن صيرورة وإبداعات للحقيقة .</p>
+<p class="para">=&gt; إن الجمال أحد أساليب كشف الحقيقة .</p>
+<p class="para">=&gt; إن الفن يلم بكل معرفة العالم مما يجعله كونيا ، إنه العناية بالعالم والإنصات لنداء الوجود.</p>
+<p class="para">- المقاربة الفينومينولوجية : الفن يكشف عن الحقيقة لا الذاتية أو الموضوعية ، بل الحقيقة الفينومينولوجية أي علاقة الإنسان بالعالم ككائن معيش داخله ، فالفن المرئي واللامرئي ... حسب "لا نفهم أبدا من الفن ... وما الذي يرى" "لن رؤية الرسام والانطلاق في الرسم هي لحظة ولادة حيث نرى ما لم نكن نراه .</p>
+<p class="subhead t-navy">- الفن قوة تجاوز الاغتراب</p>
+<p class="para">"وجب الفن كي يوقظ فينا شعور الجمال" هذا ما أعلنه كانط ، فناسة جمالية الفن وتأويلها ، إلا أن اشكالية الفن بالمفهوم الكانطي لم يعد له معناه ، يحاور الفن في قطيعة مع مضمونه ما يجعل لا قبيحا بل تافها وتافها لا ينتمي يسامى إلى استلاب الإنسان وخضوعه للعقل الأداتي .</p>
+<p class="para">هذا هو الموقف الذي تبنته المدرسة في فرانكفورت "لا يجب أن الفنان ابن زمانه ، والويل له إن كان هذا يعني خضوعه للكمالية" .</p>
+<p class="para">إن على الفن تجنب الاستجابة إلى الخضوع والتمسك بوظيفته النقدية التي تكشف عن مدى بؤس الإنسان لا طبقة معينة كما يدعو ماركس "إن الفن يوجه منظوره نحو كوني معنى ، نحو الإنسانية من المضطهدة لا إلى طبقة خاصة . ولا من فكر البرجوازي ، طبقة ماركس الكونية" هربرت ماركوز</p>
+<p class="para">فعلى الفن إذ افضح العقل الأداتي الذي أوقع الإنسان في وحل الإستلاب والاستهلاك دون هوادة ، إلا أن على العقل التواصلي كما عبر هابرماس عن ... ذلك .</p>
+<p class="para">ويكون ذلك عبر "الأطروحة الابداعية المناقضة المجتمع" أي خلق العالم البديل والقول "يجب على الأشياء أن تتغير" . ومن النقول الجذري الإيديولوجيا الرأسمالية السائدة الحاصلة في الثقافة بسورها أداة لها السلبية والربح كما الفن "يصبح العمل الفني شيئا معروضا في السوق فلا يكون له عندئذ عالم ولا وطن".</p>
+<p class="para">لذا "فليس الهدف من الفن إلا استبعاد كل ما يحجب عنا الحقيقة والواقع" وإن لزم ذلك أن يكون الفن شنيعا ولا معنى حتى يبقى تلك الروح الصوفية فيما يجعله غير قابل للتوظيف في إيديولوجيا العقل الأداتي</p>
+<p class="para">=&gt; إن الفن دعوة للتمرد على السائد لخلق عالم بديل متحرر من البؤس والاغتراب .</p>
+<p class="para">=&gt; إن الفن كلي وكوني بامتياز فكل متلقي يجد فيه ذاته ويتفاعل معه .</p>
+<p class="para">=&gt; إن الفن يكشف الواقع ولكنه ليس حبيس هذه الغاية "إنه يعبر عن حاجة الإنسان لأن يكون أكثر مما هو" .</p>
+<!-- PROOFREAD: 1617 part1 p01 — "فناسة", "يحاور الفن", "تافها وتافها لا ينتمي يسامى", "للكمالية", "نحو كوني معنى", "طبقة ماركس الكونية", "إلا أن على العقل التواصلي … عن ... ذلك", "ومن النقول الجذري", "بسورها", "شنيعا ولا معنى", "الصوفية" — uncertain readings -->
+<!-- file: IMG_1212 -->
+
+
+<!-- NOTE: the names of the artists are highlighted in pink on the page (highlighter, not kept) -->
+<p class="subhead t-red">المدارس الفنية</p><!-- PROOFREAD: 1618 part1 p01 — decorated title "المدارس الفنية" -->
+<p class="subhead t-navy">في الرسم / الأدب:</p>
+<p class="para">الجمال التشكيلي: ما يعجب عين المشاهد من خلال الألوان والأشكال في لوحة ما.</p>
+<p class="para">← الرومانطيقية: <span dir="ltr">Le romantisme</span></p>
+<p class="para">أحدث هذا الفن ثورة فنية واجتماعية وسياسية وجهت أساسا ضد حكم الكنيسة والنظام الملكي المستبد. ترتبت هذه المدرسة بنزعة إنسانية قامت على: الإيمان بطبيعة الإنسان في كالثقة الطبيعية، الطبيعة نموذج الجمال، الاهتمام بالعاطفة والإحساس، الثورة على الأوضاع السياسية والاجتماعية. (القرن 18 - 19).<!-- PROOFREAD: 1618 part1 p01 — "ترتبت" / "بطبيعة الإنسان في كالثقة الطبيعية" --></p>
+<p class="para">من أهم أعلامها: ← تيودور جيريكو: رسام فرنسي، ولوحة "مسطحة ميدوسا" أو سفينة.<!-- PROOFREAD: 1618 part1 p01 — "تيودور جيريكو" / "مسطحة ميدوسا" أو سفينة --></p>
+<p class="para">← جان جاك روسو: نقد الاتجاه العقلي والاعتقاد في القلب والعاطفة، منبع الإلهام ومسكن الضمير.</p>
+<p class="para">⇐ نشدان الجمال والاستجابة العاطفية التي تكتنه الجمال كله.<!-- PROOFREAD: 1618 part1 p01 — "نشدان" / "تكتنه" --></p>
+<p class="para">← جبران خليل جبران: في كتاباته الشعرية والنثرية، الاهتمام بالطبيعة كإسقاط عن حالة الذات، مثال الصور الموشحة في أدبه، قصيدة أعطني الناي وغني: "أعطني الناي وغني فالغناء سر الوجود / وأنين الناي يبقى بعد أن يفنى الوجود / هل تخذت الغاب مثلي منزلا دون القصور"<!-- PROOFREAD: 1618 part1 p01 — "الموشحة" / "هل تخذت" --></p>
+<p class="para"><span class="t-red">← التكعيبية:</span> (القرن 20) اتجاه فني ظهر في فرنسا، يتخذ من الأشكال الهندسية أساسا لبناء العمل الفني، أو "الهندسة أصول الأجسام" وفق مبدأ دمج أطراف بألوانها أولا لعملية تلوين هذا الفن ما أتى بالأوضاع الأوروبية السابقة، ثم مرحلة التكعيبية التحليلية في إعادة بناء الأشكال في الطبيعة بناء احسيا أي ثم إستعمال آليات فنية مختلفة كالقصاصات والأرقام. وأخيرا التكعيبية التركيبية.<!-- PROOFREAD: 1618 part1 p01 — "وفق مبدأ دمج أطراف بألوانها أولا لعملية تلوين" / "ما أتى بالأوضاع" / "بناء احسيا أي ثم إستعمال آليات فنية مختلفة كالقصاصات والأرقام" --></p>
+<p class="para">اتجهت هذه المدرسة إلى بلورة رؤية العالم والإنسان من خلال إبداع أسلوب فني جديد وإن وصف العديد بالبشاعة، فهو تطور فني لعالم جديد ينبع من وجدان الفنان.<!-- PROOFREAD: 1618 part1 p01 — "وإن وصف العديد" / "لعالم جديد" --></p>
+<p class="para">← بابلو بيكاسو: لوحة غرنيكا تعبيرا عن قصف مدينة غرنيكا الإسبانية من قبل الطائرات الألمانية والإيطالية خلال الحرب الأهلية الإسبانية.</p>
+<p class="para">← جورج براك: لوحاته الفنية مثلا الحيرة (أحاديث الألوان الصامتة).<!-- PROOFREAD: 1618 part1 p01 — "لوحاته الفنية مثلا الحيرة" --></p>
+<!-- file: IMG_1213 -->
+
+
+<!-- NOTE: some names are highlighted on the page (highlighter, not kept) -->
+<p class="para">← السريالية: أو الفوق واقعية ظهرت في عشرينات القرن 19 وهي حركة فنية في علاقة بالأخلاق والسياسة، في محاولة التعبير عن العقل الباطن بعيدا عن قيود النظام والمنطق أي التعبير عن عالم اللاوعي والأحلام والكوابيس. هي تجاوز لكل الإملاءات الجمالية أو الأخلاقية فهي فوق كل الحركات الثورية.<!-- PROOFREAD: 1619 part1 p01 — "في علاقة بالأخلاق" --></p>
+<p class="para">تقوم هذه المدرسة على المفاجأة والصدفة والغرابة كتقنيات فنية إضافة إلى الاهتمام بالرموز الجنسية كعنصر تعبير الفكر والثورة على الواقع.</p>
+<p class="para">← بروتون: شاعر وأديب فرنسي، مناهض الفاشية، شارك في بيان سريالي ينقد الحرب ويعبر عن تحمسه لها حتى من خلال مساهمته بالمشاركة في الحركة السويسرية دادا.<!-- PROOFREAD: 1619 part1 p01 — "شارك في بيان سريالي ينقد الحرب ويعبر عن تحمسه لها حتى من خلال مساهمته" --></p>
+<p class="para">← سلفادور دالي: رسام إسباني، تميزت أعماله بصدم المشاهد بموضوعاتها وغرابة تشكلها، اعتبر أن واقع اللاوعي هو عالم أعظم أساسا من عالم الوعي فاستلهم أعماله من الأحلام والكوابيس والخيال وهذا إن التناقضات في حياتنا ومن أهم أعماله "إصرار الذاكرة" والتي تعبر عن موقفه من الزمن.<!-- PROOFREAD: 1619 part1 p01 — "وهذا إن التناقضات" --></p>
+<p class="para">← الواقعية: ظهرت في النصف الثاني من القرن 19 في فرنسا ردا على الرومنطيقية تقوم بتصوير الأشياء بصورة واضحة كما هي عليه في العالم الواقعي، فهي تركز مجهودات هذه المدرسة على الموضوعي لا الذاتي. فالفنان الواقعي يرسم الواقع بصدق وأمانة دون تدخل ذاته فيه. تزامنت هذه الحركة الفنية مع ثورة علمية أطلقت مبدأ الفن بالبرهانية والحقيقة الثابتة والتجربة من خلال الملاحظة. أنها رسالة إنسانية تثبت فنون الفن في ماهو موجود وجودا فعليا وواقعيا حقا.<!-- PROOFREAD: 1619 part1 p01 — "ردا على الرومنطيقية تقوم" / "مبدأ الفن بالبرهانية" / "تثبت فنون الفن" --></p>
+<p class="para">← غوستاف كوربيه: لوحة "كسارو الحجارة" تمثيلا لمعاناة العامل.</p>
+<p class="para"><span class="t-red">← حركة الفن من أجل الفن:</span> حركة فنية تنشد الجمال ذاته، فالشعر والأدب واللوحة في موقف أنصارها أن يكون واجبها حمل رسالة معنوية أو أخلاقية.<!-- PROOFREAD: 1619 part1 p01 — "في موقف أنصارها أن يكون" --></p>
+<p class="para">- الرسام جيمس ماكنيل ولوحة سمفونية باللون الأبيض.<!-- PROOFREAD: 1619 part1 p01 — "جيمس ماكنيل" --></p>
+<p class="para">• الشاعر عن ناجي الذي قال في ديوانه "الفضاءات الأولى": إن كان ثمة هدف من هذا الكتاب يحاول تحقيقه، فهو أن يكون عملا جميلا.<!-- PROOFREAD: 1619 part1 p01 — "الشاعر عن ناجي" / "الفضاءات الأولى" / "ثمة هدف" --></p>
+<p class="para">← شعر وطني: محمود درويش: "سلام لأرض خلقت للسلام وما رأت يوما سلاما"</p>
+<p class="para">+ فكرة الحب تنعكس في شعر محمود درويش: حنيني إلى الخبز والتراب والهلاك منفى<!-- PROOFREAD: 1619 part1 p01 — "حنيني إلى الخبز والتراب والهلاك منفى" --></p>
+<p class="para">لا بأس من أن يكون ماضينا أفضل من حاضرنا. ولكن الشقاء الكامل أن يكون حاضرنا أفضل من غدنا. يا لهاويتنا كم هي واسعة. +</p>
+<!-- file: IMG_1214 -->
+
+
+<p class="para">+ الأدب: حنا مينه، أعماله متعلقة بعالم موج البحر الغاضب:<!-- PROOFREAD: 1620 part1 p01 — "متعلقة بعالم موج البحر الغاضب" --></p>
+<p class="para">← المصابيح الزرق:</p>
+<p class="para">← المستنقع:</p>
+<p class="para">← عاري ونصف موجود:<!-- PROOFREAD: 1620 part1 p01 — "عاري ونصف موجود" --></p>
+<p class="para">(في الرواية: المرأة، البحر، وظلم الريفي)<!-- PROOFREAD: 1620 part1 p01 — "وظلم الريفي" --></p>
+<p class="para">+ أبو القاسم الشابي:</p>
+<p class="para">+ أملي نقل لا تطامع ولو صنوه الذهب<br>
+أني صحن أفقا سينكي ثم أنبت يجوب مكانهما.<br>
+هل في ؟ في أشياء لا تشتهي.<!-- PROOFREAD: 1620 part1 p01 — the three verse lines under "أبو القاسم الشابي" are largely uncertain --></p>
+<p class="para"><span class="t-red">← الفن مع نيتشه:</span> هو الدافع الكبير للحياة، هو النشوة اللامحدودة، ينبوعين ديونيزوس (في الموسيقى والشعر) وأبولون (الرسم) هو المجال الواسع والخصب الذي يحررنا من وهم الميتافيزيقا وأزمة الحداثة، إنه المطرقة النيتشاوية تحطم الأوثان وقلب المفاهيم ونقد الحقائق الموروثة والميتافيزيقا البالية. إنها استنطاق لجسد الذي تم كبته من قبل المسيحية والأفلاطونية "الفن هو أكبر منشط الرغبة في الحياة، فكيف يمكن أن نعتبره مجردا من الهدف، مجردا من الغاية، مجرد فن للفن؟" (حب نيتشه للرقص) "إنني لن أؤمن إلا بإله واحد يكون قادرا على أن يرقص".<!-- PROOFREAD: 1620 part1 p01 — "ينبوعين" / "وأزمة الحداثة" / "استنطاق لجسد الذي تم كبته" / "منشط الرغبة" --></p>
+
+</section>
+
+</div>
+</body>
+</html>

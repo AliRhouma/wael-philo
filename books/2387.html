@@ -1,0 +1,316 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<title>Wael Academy — Philosophie · في أنواع السيادة (1)</title>
+<script>
+  window.MathJax = {
+    tex: { inlineMath: [['\\(','\\)']], displayMath: [['\\[','\\]']] },
+    chtml: { fontURL: 'https://cdn.jsdelivr.net/npm/mathjax@3/es5/output/chtml/fonts/woff-v2', matchFontHeight: true },
+    startup: { typeset: true }
+  };
+</script>
+<script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js" async></script>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Sora:wght@400;500;600;700;800&family=Cairo:wght@400;500;600;700;800;900&family=Tajawal:wght@400;500;700;800&family=JetBrains+Mono:wght@400;500;600;700&display=swap');
+:root{
+  /* ===== Wael Academy palette — MAIN ACCENT = green-teal gradient #0FAB8F → #067360 ===== */
+  --bg:#fff; --panel:#f2f8f8; --hair:#e6e6e9; --hair2:#d6d6db;
+  --fg:#0f2a31;        /* body text (and +/− signs) */
+  --fg2:#3f5b62;       /* softer text */
+  --fg3:#7c959b;       /* muted (footer) */
+  --blue:#067360;      /* deep accent — small numbers, borders, watermark, accent equations */
+  --blue-dark:#045260; /* titles & wordmarks (also the balance colour) */
+  --teal:#0fab8f;      /* bright accent end */
+  --loop:#0d9c82;      /* logo-loop helper */
+  --orange:#067360;    /* kicker/category labels (gold retired → deep teal) */
+  --red:#f5322f;       /* EXERCISE CHIPS ONLY — never for emphasis */
+  --cream:#e6f3f4; --blue-soft:#e6f3f4;  /* pale teal — callout fill + table sub-row fill */
+  --blue-line:#cde7e4; /* hairline */
+  --sub-ink:#045260;   /* table sub-row text */
+  --grad:linear-gradient(148deg,#0fab8f 0%,#0d9c82 52%,#067360 100%);
+  --mono:'JetBrains Mono',monospace; --latin:'Sora',sans-serif; --ar:'Cairo',sans-serif; --arb:'Tajawal',sans-serif;
+}
+*{box-sizing:border-box;margin:0;padding:0;}
+body{font-family:var(--latin);color:var(--fg);background:#e4e4e7;padding:28px 0;
+     -webkit-print-color-adjust:exact;print-color-adjust:exact;}
+html[dir="rtl"] body{font-family:var(--arb);}
+
+/* ===== brand watermark: REAL text (crisp), full-bleed, repeats per page ===== */
+.wm{position:fixed;inset:0;z-index:0;pointer-events:none;display:flex;
+    align-items:center;justify-content:center;overflow:hidden;
+    -webkit-print-color-adjust:exact;print-color-adjust:exact;}
+.wm span{font-family:var(--mono);font-weight:800;font-size:76.8pt;letter-spacing:.16em;
+    color:var(--blue);opacity:.06;white-space:nowrap;transform:rotate(-54deg);}  /* single diagonal: bottom-left → top-right */
+.wm.mono span{color:#000;opacity:.05;}
+
+/* ===== continuous flow stream (no page border) ===== */
+.flow{width:210mm;margin:0 auto;background:transparent;color:var(--fg);
+      padding-block:16mm 18mm;padding-inline:23mm 14mm;position:relative;}   /* spiral gutter: inline-start(=spine) 23mm / outer 14mm — dir-aware; print margins set in render_flow.py */
+@media screen{ .flow{background:#fff;box-shadow:0 10px 40px rgba(0,0,0,.16);} }
+.flow>*{position:relative;z-index:1;}
+.flow p,.flow li,.flow .data,.flow .note,.flow .ex{break-inside:auto;}
+.flow .fig,.flow figure,.flow img,.flow svg.figsvg,.flow table,.flow tr,.flow .chapdiv,.flow .exh,.flow .qrcard,.flow .meta{break-inside:avoid;}
+.flow h1,.flow h2,.flow h3,.flow .exh,.flow .subhead,.flow .chapdiv{break-after:avoid;}
+.flow img,.flow svg.figsvg{max-width:100%;height:auto;}
+.flow figcaption,.flow .figcap{display:none;}          /* rule 3: no figure captions */
+
+/* ===== front matter + chapters each start on a fresh page ===== */
+.flow .cover{break-after:page;}        /* cover alone on page 1 */
+.flow .toc{break-after:page;}          /* Sommaire alone on the next page */
+.flow .chapter{break-before:page;}
+.flow .chapter:first-of-type{break-before:auto;}
+
+/* ===== cover ===== */
+.cover{padding:14mm 0 8mm;border-bottom:2px solid var(--blue);margin-bottom:6mm;}
+.cover .badge{font-family:var(--mono);font-size:8.5pt;letter-spacing:.28em;text-transform:uppercase;color:var(--orange);margin-bottom:10px;}
+.cover h1{font-family:var(--latin);font-weight:800;font-size:34pt;line-height:1.03;letter-spacing:-.025em;color:var(--blue-dark);}
+.cover .grule{width:120px;height:5px;border-radius:5px;background:var(--grad);margin:14px 0;}
+.cover .sub{font-family:var(--mono);font-size:10pt;letter-spacing:.14em;text-transform:uppercase;color:var(--teal);}
+.cover .auth{font-size:11pt;color:var(--fg2);margin-top:6px;font-weight:600;}
+
+/* ===== table of contents ===== */
+.toc{margin:2mm 0 4mm;}
+.toc h2{font-family:var(--latin);font-weight:800;font-size:15pt;color:var(--blue-dark);margin-bottom:4mm;}
+.toc .trititle{font-family:var(--mono);font-size:8pt;letter-spacing:.2em;text-transform:uppercase;color:var(--orange);margin:4mm 0 2mm;}
+.toc ol{list-style:none;}
+.toc li{display:flex;align-items:baseline;gap:8px;font-size:10pt;padding:2.2px 0;color:var(--fg);line-height:1.4;}
+.toc li .n{font-family:var(--mono);font-weight:700;font-size:9pt;color:var(--blue);min-width:26px;}
+.toc li .dots{flex:1;border-bottom:1px dotted var(--hair2);transform:translateY(-3px);}
+
+/* ===== chapter divider band ===== */
+.chapdiv{margin:0 0 5mm;padding:6mm 16px 5mm;border-radius:12px;background:var(--grad);
+    -webkit-print-color-adjust:exact;print-color-adjust:exact;}   /* green-filled chapter band */
+.chapdiv .cn{font-family:var(--mono);font-size:8.5pt;font-weight:700;letter-spacing:.24em;text-transform:uppercase;color:rgba(255,255,255,.82);margin-bottom:5px;}
+.chapdiv h2{font-family:var(--latin);font-weight:800;font-size:17pt;line-height:1.1;letter-spacing:-.015em;color:#fff;}
+/* conclusion block — same green-filled look as the chapter band */
+.conclusion{background:var(--grad);border-radius:12px;padding:6mm 16px;margin:5mm 0;color:#fff;break-inside:avoid;
+    -webkit-print-color-adjust:exact;print-color-adjust:exact;}
+.conclusion .ck{font-family:var(--mono);font-size:8.5pt;font-weight:700;letter-spacing:.24em;text-transform:uppercase;color:rgba(255,255,255,.82);margin-bottom:6px;}
+.conclusion h3{font-family:var(--latin);font-weight:800;font-size:13pt;line-height:1.2;color:#fff;margin-bottom:4px;}
+.conclusion p,.conclusion li{font-size:10.4pt;line-height:1.7;color:#fff;}
+.conclusion b,.conclusion strong{color:#fff;font-weight:700;}
+
+/* ===== unit header (lesson/exercise) + QR emplacement ===== */
+.exh{display:flex;align-items:center;gap:11px;margin:6mm 0 3mm;}
+.exh .idx{font-family:var(--mono);font-size:9pt;font-weight:600;color:#fff;background:var(--grad);
+    border-radius:6px;padding:4px 11px;letter-spacing:.08em;text-transform:uppercase;
+    -webkit-print-color-adjust:exact;print-color-adjust:exact;}
+.exh .idx.ex{background:var(--red);}   /* exercise chip = red */
+.exh h2{font-family:var(--latin);font-size:14pt;font-weight:700;letter-spacing:-.01em;color:var(--blue-dark);}
+.exh .qrcard{margin-inline-start:auto;flex:0 0 auto;display:flex;flex-direction:column;align-items:center;gap:3px;width:26mm;}
+.qrcard .qrt{font-family:var(--mono);font-size:6.5pt;letter-spacing:.1em;text-transform:uppercase;color:var(--teal);text-align:center;}
+.qrcard .qrslot{width:24mm;height:24mm;padding:1.5mm;background:#fff;border:1px solid var(--blue-line);border-radius:8px;display:flex;align-items:center;justify-content:center;}
+.qrcard .qrslot img,.qrcard .qrslot svg{width:100%;height:100%;display:block;}
+
+/* sub-exercise label when one file holds several exercices */
+.exsub{font-family:var(--latin);font-weight:800;font-size:11.5pt;color:var(--blue-dark);margin:5mm 0 2.5mm;padding-bottom:3px;border-bottom:2px solid var(--blue-line);}
+
+/* ===== text blocks ===== */
+.lead{font-size:11pt;line-height:1.7;margin:2mm 0 3mm;color:var(--fg);}
+.para{font-size:10.6pt;line-height:1.7;margin:2mm 0 2.5mm;color:var(--fg);}
+.consigne{font-size:10.4pt;line-height:1.6;margin:1mm 0 2mm;color:var(--fg);font-style:italic;}
+.subhead{font-family:var(--latin);font-weight:800;font-size:12pt;letter-spacing:-.01em;color:var(--blue-dark);margin:5mm 0 2.5mm;}
+/* emphasis — green accent = .t-blue/.t-green ; balance = .t-navy ; red = SECONDARY accent (.t-red) on titles + a few words */
+.t-blue{color:var(--blue);font-weight:600;} .t-navy{color:var(--blue-dark);font-weight:700;}
+.t-red{color:var(--red);font-weight:600;} .t-green{color:var(--teal);font-weight:600;} .t-gold{color:var(--orange);font-weight:600;}
+.subhead.t-red{color:var(--red);font-weight:800;}   /* red Roman-numeral section title (I, II, …) — keeps subhead weight */
+/* highlighter marks — a soft colour wash behind a key word (agent picks green or red per what balances the page) */
+.hl-green,.hl-red{border-radius:3px;padding:.02em .24em;font-weight:600;box-decoration-break:clone;-webkit-box-decoration-break:clone;
+    -webkit-print-color-adjust:exact;print-color-adjust:exact;}
+.hl-green{background:rgba(15,171,143,.20);color:var(--blue-dark);}   /* green highlight */
+.hl-red{background:rgba(245,50,47,.13);color:#c0261f;}               /* red highlight  */
+
+.data{background:var(--blue-soft);border:1px solid var(--blue-line);border-inline-start:4px solid var(--blue);
+    border-radius:8px;padding:11px 16px;margin:3mm 0;font-size:10pt;line-height:1.65;color:var(--fg2);}
+.data b{color:var(--fg);font-weight:700;}
+.note{border:1px dashed var(--hair2);border-radius:9px;padding:11px 16px;margin:4mm 0;background:var(--panel);}
+.note .kicker{font-family:var(--mono);font-size:7.5pt;letter-spacing:.18em;color:var(--orange);display:block;margin-bottom:5px;}
+.note .nb{font-size:10pt;line-height:1.7;color:var(--fg2);} .note b{color:var(--fg);}
+.ex:not(.idx){background:var(--blue-soft);border:1px solid var(--blue-line);border-inline-start:3px solid var(--blue);
+    border-radius:7px;padding:7px 11px;font-size:9.6pt;line-height:1.6;color:var(--fg2);margin:2mm 0;}   /* :not(.idx) so it never hits the exercise chip (which is .idx.ex) */
+.ex .extag{display:inline-block;font-family:var(--latin);font-weight:800;font-size:7.6pt;color:var(--blue-dark);background:#fff;
+    border:1px solid var(--blue);border-radius:5px;padding:1px 9px;margin-inline-end:7px;vertical-align:middle;text-transform:uppercase;letter-spacing:.06em;}
+
+/* ===== lists ===== */
+ol.q{list-style:none;counter-reset:q;margin:1mm 0 2mm;}
+ol.q>li{counter-increment:q;position:relative;padding-inline-start:30px;margin-bottom:2.5mm;font-size:10.4pt;line-height:1.6;}
+ol.q>li::before{content:counter(q);position:absolute;inset-inline-start:0;top:1px;width:21px;height:21px;background:var(--grad);color:#fff;
+    border-radius:50%;font-family:var(--mono);font-size:9pt;font-weight:600;display:flex;align-items:center;justify-content:center;
+    -webkit-print-color-adjust:exact;print-color-adjust:exact;}
+ol.sub{list-style:none;counter-reset:s;margin:4px 0 0;padding-inline-start:2px;border-inline-start:1px solid var(--blue-line);}
+ol.sub li{counter-increment:s;position:relative;padding:2.5px 0 2.5px 26px;font-size:10.1pt;line-height:1.55;}
+ol.sub li::before{content:counter(s,lower-alpha)".";position:absolute;inset-inline-start:10px;top:2.5px;font-family:var(--mono);font-size:9pt;font-weight:600;color:var(--teal);}
+ol.qn{list-style:none;counter-reset:qn;margin:1mm 0 2mm;}
+ol.qn>li{counter-increment:qn;position:relative;padding-inline-start:26px;margin-bottom:2.2mm;font-size:10.4pt;line-height:1.55;}
+ol.qn>li::before{content:counter(qn)".";position:absolute;inset-inline-start:0;top:0;font-family:var(--mono);font-size:9.5pt;font-weight:700;color:var(--blue);}
+ul.b{list-style:none;margin:1mm 0 2mm;} ul.b>li{position:relative;padding-inline-start:22px;margin-bottom:2.4mm;font-size:10.4pt;line-height:1.6;}
+ul.b>li::before{content:"";position:absolute;inset-inline-start:3px;top:8px;width:8px;height:8px;border-radius:50%;background:var(--grad);
+    -webkit-print-color-adjust:exact;print-color-adjust:exact;}
+ul.dash{list-style:none;margin:1mm 0 2mm;} ul.dash>li{position:relative;padding-inline-start:20px;margin-bottom:1.8mm;font-size:10.4pt;line-height:1.6;}
+ul.dash>li::before{content:"–";position:absolute;inset-inline-start:2px;top:0;color:var(--fg);font-weight:700;}  /* dash / +/− signs = body colour */
+.flow ul.opts{list-style:none;margin:4px 0 3px;padding-inline-start:16px;}
+.flow ul.opts li{padding:2px 0;font-size:10.2pt;line-height:1.5;color:var(--fg);}
+
+/* ===== figures / tables ===== */
+.fig{margin:3mm 0;} .fig svg.figsvg{display:block;margin:0 auto;background:#fff;max-width:100%;height:auto;}
+.photo{display:block;margin:3mm auto;border-radius:8px;border:1px solid var(--hair);max-width:100%;}
+.figrow{display:flex;flex-wrap:wrap;gap:9px;justify-content:center;margin:3mm auto;max-width:190mm;}
+.flow .figrow img{border-radius:7px;border:1px solid var(--hair);height:46mm;width:auto;max-width:none;object-fit:cover;}
+.schemarow{display:flex;gap:16px;align-items:flex-start;flex-wrap:wrap;margin:2mm 0;}
+.schemarow .col-txt{flex:1 1 90mm;min-width:80mm;} .schemarow .col-fig{flex:0 0 78mm;} .schemarow .col-fig .fig{margin:0;}
+.flow table{border-collapse:collapse;width:100%;margin:3mm 0;font-size:9.8pt;line-height:1.5;}
+.flow table th,.flow table td{border:1px solid var(--blue-line);padding:6px 10px;text-align:start;vertical-align:top;}
+.flow table th{background:var(--grad);color:#fff;font-family:var(--latin);font-weight:700;font-size:9.4pt;
+    -webkit-print-color-adjust:exact;print-color-adjust:exact;}
+.flow table tr:nth-child(even) td{background:var(--blue-soft);color:var(--sub-ink);}   /* sub-row: #E6F3F4 / #045260 */
+
+mjx-container{color:var(--fg) !important;font-weight:400 !important;font-size:1.0em !important;}
+.eq-hi mjx-container,mjx-container.eq-hi{color:var(--blue) !important;}   /* accent (green) equation — highlight a key result; balance with plain math */
+.eq-red mjx-container,mjx-container.eq-red{color:var(--red) !important;}  /* red accent equation / symbol — complements the green .eq-hi */
+
+/* ===== per-file books: credit line, copies list, figures at their size ===== */
+.credit{display:flex;flex-wrap:wrap;align-items:center;gap:5px;margin:-1mm 0 3.5mm;font-size:9.4pt;color:var(--fg2);}
+.credit .who{font-weight:700;color:var(--blue-dark);}
+.credit .tg{font-family:var(--mono);font-size:7.2pt;letter-spacing:.04em;border-radius:5px;padding:1px 7px;line-height:1.6;
+    border:1px solid var(--blue-line);color:var(--blue);background:#fff;-webkit-print-color-adjust:exact;print-color-adjust:exact;}
+.credit .tg.sec{background:var(--blue-dark);border-color:var(--blue-dark);color:#fff;}
+.credit .tg.cor{background:#fff;border-color:var(--red);color:var(--red);}
+.credit a{color:var(--fg3);font-family:var(--mono);font-size:7pt;text-decoration:none;}
+.cover .auth .credit{margin:4mm 0 0;}
+.cover .copies{margin-top:5mm;font-size:8.6pt;color:var(--fg2);}
+.cover .copies ul{list-style:none;margin:2mm 0 0;padding:0;columns:2;}
+.cover .copies a{color:var(--fg3);text-decoration:none;font-size:8pt;}
+.flow figure.fig{text-align:center;}
+.flow figure.fig img{max-height:60mm;width:auto;max-width:70%;display:inline-block;}
+
+/* chapter tag on each part of a multi-chapter book (the book keeps the original order of the file) */
+.chtag{display:inline-block;margin:5mm 0 2mm;padding:1mm 3mm;border-radius:2mm;background:#eef3fb;border:1px solid #c9d6ea;
+  color:#1f3a6b;font-size:9pt;font-weight:700}
+.chtag span{color:#6b7f9e;font-weight:600;margin-inline-end:1.5mm}
+
+@media print{ body{background:#fff;padding:0;} .flow{width:auto;max-width:none;margin:0;padding:0;} }
+@page{size:A4;}   /* margins come from render_flow.py — do NOT set them here */
+</style>
+<meta data-pagefind-filter="type[content]" content="درس">
+<meta data-pagefind-filter="resource[content]" content="Taki Academy">
+<meta data-pagefind-meta="n[content]" content="2387">
+<meta data-pagefind-meta="title[content]" content="في أنواع السيادة (1)">
+<meta data-pagefind-filter="chapter[content]" content="محور غير محدّد">
+<meta data-pagefind-filter="section[content]" content="باكالوريا رياضيات"><style>.qrcard{display:none!important}.wa-nav{position:sticky;top:0;z-index:50;background:#045260;padding:10px 18px;font-family:Cairo,sans-serif;direction:rtl}.wa-nav a{color:#fff;text-decoration:none;font-weight:700}@media print{.wa-nav{display:none}}</style>
+</head>
+
+<body dir="rtl" lang="ar"
+      data-brand="Wael Academy" data-handle="@WaelAcademy"
+      data-tagline="في تُرابنا.. مغامرة بمغامرة"
+      data-phone="+216 50 40 40 42" data-site="waeldocuments.com"
+      data-cta="سجل معانا وأقرى عن بعد مع منصة Wael Academy"
+      data-subject="Philosophie · في أنواع السيادة (1)" data-watermark="Wael Academy" data-pagefind-body><nav class="wa-nav" data-pagefind-ignore><a href="../index.html">→ الرجوع إلى فهرس الفلسفة</a></nav>
+
+<!-- single full-page diagonal watermark, bottom-left → top-right (repeats on every page) -->
+<div class="wm" aria-hidden="true"><span>WAEL&nbsp;ACADEMY</span></div>
+
+<div class="flow colored">
+<div class="cover"><div class="badge">◉ Wael Academy · Philosophie</div><h1>في أنواع السيادة (1)</h1><div class="grule"></div><div class="sub">محور غير محدّد</div><div class="auth"><div class="credit">المؤلّف / المصدر : <span class="who">Taki Academy — www.takiacademy.com — 73.832.000 — اسم الأستاذ : سفيان سعدالله — متّول للآخر</span> <span class="tg sec">الفلسفة · باكالوريا رياضيات</span> <a href="https://drive.google.com/file/d/1Jt6rnYzovROaEp6rLlW59NPEjU1ZXd47/view">↗ في أنواع السيادة (1).pdf</a></div></div><div class="copies" data-pagefind-ignore><b>نسخ هذا الملف في الدرايفات (1)</b><ul><li><a href="https://drive.google.com/file/d/1Jt6rnYzovROaEp6rLlW59NPEjU1ZXd47/view">Mohamed Amine Hammami · Bac 2025 › Philo</a></li></ul></div></div>
+<section class="chapter"><div class="chapdiv"><div class="cn">المحور</div><h2>محور غير محدّد</h2></div>
+<!-- SOURCE: Taki Academy — www.takiacademy.com — 73.832.000 — اسم الأستاذ : سفيان سعدالله — متّول للآخر -->
+<div class="exh"><span class="idx">درس</span><h2>في أنواع السيادة</h2>
+  <div class="qrcard"><div class="qrt">فيديو الدرس</div><div class="qrslot"><img src="qr/2387.svg" alt="QR"></div></div></div>
+<div class="credit">المؤلّف / المصدر : <span class="who">Taki Academy — www.takiacademy.com — 73.832.000 — اسم الأستاذ : سفيان سعدالله — متّول للآخر</span> <span class="tg sec">الفلسفة · باكالوريا رياضيات</span> <a href="https://drive.google.com/file/d/1Jt6rnYzovROaEp6rLlW59NPEjU1ZXd47/view">↗ في أنواع السيادة (1).pdf</a></div>
+<p class="para">فلسفة</p>
+<p class="para"><b>القسم :</b> السنوات الرابعة شعب علمية</p>
+<p class="para"><b>الدرس:</b> <span class="t-gold">في أنواع السيادة</span></p>
+<p class="para"><b>اسم الأستاذ :</b> سفيان سعدالله</p>
+<p class="subhead t-red">في أنواع السيادة</p>
+<p class="subhead t-navy"><b>الأنظمة السياسية:</b></p>
+<p class="para">هل يمكن أن نتحدّث عن شكل حكم مثالي؟ ما هي متطلّبات ضمان هذا الحكم و إلى أيّ مدى يتأتّى له أن يستجيب إلى تطلّعات الإنسان كمواطن؟</p>
+<p class="para">1. <b>الحكم الاستبدادي:</b> هو شكل من أشكال الحكم تكون فيه السلطة مطلقة في يد فرد دون التقيد بدستور، أو قوانين أو أي اعتبار سياسي أو اجتماعي داخل الدولة التي يحكمها. إنّ المستبدّ يسلب الشعب حقّه في المشاركة في العمل السياسي والاسهام في تنظيم الحياة السياسية، فهو يستأثر بالقرارات التي تكون ملزمة للكلّ. ولعلّ ما يجعل من الحكم الاستبدادي تعسّفيا ومتعارضا مع حقّ المواطن في الدولة هو كونه لا حدود له وليس هناك ضوابط تقلّص من استفحاله على النحو الذي ذكره ديدرو بقوله:" ليس الاستبداد ممارسة السلطة بل الاستمرار في الحكم." ولعلّ ذلك ما يتعارض مع قاعدة الحكم الديمقراطي المبني على التداول في الحكم والسلطة. إنّ من أهم نتائج الاستبداد على المواطن : - سلب الحرية مقابل الرضا بالاستعباد.</p>
+<p class="para">2. <b>الديمقراطية:</b> بأي معني يكون الخضوع للقوانين في ظل نظام ديمقراطي تحقيقا لقيم المواطنة والحرية؟.</p>
+<p class="para">تفيد الديمقراطية تولّي الشعب سلطة التشريع للقوانين. وعلى سبيل المثال الديمقراطية النيابية حيث تكون السلطة السياسية للحكومة مقيدة بدستور يحمى بدوره حقوق و حريات الأفراد و الأقليات (و تسمى كذلك الليبرالية الدستورية). و هي شكل من أشكال الحكم السياسي القائمُ بالإجمال علَى التداول السلمي للسلطة. وأن الغرض من إقامة نظام سياسي ديمقراطي ليس السيادة أو القهر بل التحرر يقول سبينوزا"إ نّ الغاية من تأسيس  الدولة ليست تحويل الموجودات العاقلة إلى حيوانات أو آلات صماء،.... فالحرية إذن هي الغاية الحقيقية من قيام الدولة ". ولأن السلطة السياسية تنشأ من رغبة الجماعة في الحفاظ على ذاتها ومصلحتها الشخصية في تناسق تام مع مصلحة العامة فإن من واجب الأفراد طاعة هذه السلطة، طالما أنها تستمد شرعيتها من المجتمع وطالما أنها تمثله وتدير شؤون مصالحه في ضوء الخير العام ويرى سبينوزا أن الفرد في خضوعه لأوامر السلطة لا يكون عبداً لها، لأن العبودية هي أن يتبع المرء أهواءه وشهواته، أما الخضوع للسلطة الشرعية ولما تمثله من مصلحة عامة فليس عبودية بل هو طاعة للعقل وأوامره العقلانية. ويكون الفرد الملتزم بقوانين مجتمعه مواطناً حرا. وان المواطنين يطيعون القوانين التزاما بالعقد الاجتماعي لأنهم جميعاً قد اتفقوا على هذه القوانين بالتراضي, وباختيار حر لا خوفاً من العقاب، وان السلطة هي مجموع إرادات الأفراد وليست مستقلة عنهم وفي النظام الديمقراطي يكون الجميع على نفس القدر من المساواة، وان القانون هو شرط تحقيق العدالة.</p>
+<div class="exsub">تدريب منهجي</div>
+<p class="consigne"><b>التمرين:</b> المواطن يَمتثل ولا يخدم أحدا، له قادة وليس له أسيادا، يَمتثل للقوانين ولا يَمتثل للقادة إلا بقوة القوانين. اكشف عن أحد رهانات هذا الاقرار</p>
+<p class="para">من رهانات هذا القول نظريا تأكيد دور المواطن التي يتمثّل في الالتزام بالقانون الذي ساهم في وضعه بدل من الخضوع المطلق للأسياد فيكون الفرد مجرد خادم طيّع يحقق غايات سيده. وتستمد القوانين شرعيتها وقوتها بقدر ما يعمل المواطن على تشريعها لاسيما وأنها تضمن حقوقه واهمها الحرية ولا معنى للمواطنة دون حرية. أما على الصعيد العملي فمن معاني المواطنة مواجهة دولة الأسياد ومصارعة الاستبداد بغاية القضاء على العنف والقوة وتأسيس دولة القانون والحريات.</p>
+<p class="subhead t-red"><b>في المواطنة العالمية والسيادة الوطنية</b></p>
+<table>
+<tr><td><b>تحديد مفهوم المواطنة العالمية:</b> قيمة مدنية كونية تتخطى المحلي ولا ترتبط بعرق وجنس ولغة ودين وباختصار ثقافة قدر ارتباطها بالمساواة والحرية والعدالة. فالمواطنة العالمية أفق مشترك وما يوحد الشعوب وفق منظومة حقوقية.</td><td><b>تحديد مفهوم السيادة الوطنية:</b> الدولة ذات سيادة بمعنى لها سلطة عليا لا تخضع لأية قوة في الداخل او الخارج وتتميز السيادة الوطنية بالاستقلالية والحرية في تقرير المصير</td></tr>
+<tr><td><b>المواطنة العالمية ودعم السيادة الوطنية</b></td><td><b>المواطنة العالمية وتهديد السيادة الوطنية</b></td></tr>
+</table>
+<table>
+<tr><td>1.<u>من جهة العلاقة بنظام الحكم</u>: المواطنة العالمية تكريس لمنظومة حقوقية كونية تجسمت في الدولة الوطنية الديمقراطية. وتبرز الحاجة الى المواطنة العالمية باعتبارها حلا للحد من هيمنة الدولة المحلية المستبدة<br>
+2.<u>من جهة العلاقة بحقوق الانسان</u>: اللقاء او التكامل بين العالمي والوطني وذلك بالوعي بكونية حقوق الانسان-اعتبار كل البشر متساويين في الحقوق والواجبات بقطع النظر عن خصوصيتهم.<br>
+3.<u>من جهة العلاقة بين الشعوب</u>: المواطنة العالمية هي أفق تنفتح عليه الدولة الوطنية لكي تتجاوز محليتها الضيقة بما يسهم في اغناء ما هو انساني فيها. رفض التعصب القومي والانغلاق الثقافي والعرقي<br>
+4.<u>من جهة العلاقة بمفهوم العالم</u>: الانسان يسكن العالم وكما يقول كانط "الأرض وطن للجميع".وان الانتماء الى وطن هو انتماء الى العالم بما هو وطن للجميع على غرار ما يقول سقراط "انا مواطن عالمي" فالإنسان كائن كوني.<br>
+5 .<u>من جهة وضع دستور كوني</u>: وضع دستور كوني يتجاوز الخصوصي السياسي او المحلي الوطني نحو الكوني او العالمي ويُعبر عن كل القيم المدنية مثل المواطنة العالمية والمساواة والحريات والعدالة ويتطلع نحو السلم في جميع أنحاء العالم ما يُسميه كانط  الحق السياسي الكوني /"الكوسموسياسي" . هذا الدستور العالمي ينتهي الى اعتبار الناس حميعا "مواطنين لمدينة انسانية شاملة" بتعبير كانط.<br>
+6.<u>من جهة العلاقة بالفكر المركب</u>:العالمية لا تعني الوحدة ونفي التنوع وانما الوحدة والكثرة.</td>
+<td>1.<u>التوظيف الأيديولوجي</u> للمواطنة العالمية المهددة لاستقلالية الدول وسيادتها من ذلك استخدام المواطنة العالمية ذريعة للتدخل في شؤون الدول ومثاله الدفاع عن حقوق الانسان والأقليات.<br>
+2. <u>عولمة مفهوم الموطنة العالمية</u> وتوظيفه للهيمنة على الدول الوطنية. خضوع المواطنة العالمية لمنطق عولمي يقضي على الخصوصيات الثقافية ويهدد السيادة الوطنية. فيختفي المحلي والوطني خلف منطق عولمي من أهم تعبيراته المواطنة لعالمية والحريات والحقوق، منطق لا يعترف بالحدود الجغرافية والاستقلالية ولا بالسيادة الوطنية الا  من جهة الانضواء في مشروع العولمة وايديولوجيا الأنظمة السياسية العالمية.(نقد بودريار لعولمة الحقوق والخلط بين العالمي والعولمي)<br>
+3.<u>في ضرورة التمييز بينهما</u>:لا تتحدد السيادة الوطنية الا بالانتماء الى وطن معين وليس الى جماعة عالمية او الى إنسانية- السيادة الوطنية تتحدد وفق عقد بين الافراد  في حدود إقليم معين وليس في ارتباط بسيادة سياسية.<br>
+4.<u>في التعدد</u>: السيادة الوطنية تتأسس على التنوع والتعدد ويجب الالتزام بالحقوق والواجبات المنصوص عليهما في دستور إقليم معين<br>
+5. <u>في العنف السيادي الدولي</u>: المواطنة العالمية تعكس قوة سيادية تحتكر العنف وتهدف الى انتهاك السيادة الوطنية فالعالمي نفي للمحلي (آرنت)</td></tr>
+</table>
+<p class="consigne"><span class="t-blue">التمرين:</span> قيل: " أن يكون المرء مواطنا عالميا هو أن يكون ضمن أفق العالم المشترك"</p>
+<p class="consigne">حدد دلالة المواطنة العالمية بحسب سياق هذا القول</p>
+<p class="para">يَفترض النظر في مفهوم  المواطن العالمي تخطّي النطاق المحلّي لفكرة المواطنة داخل إطار المدينة أو الدولة إلى مجال العالم بصفته وطن الإنسان دون تمييز عرقي وجنسي وديني. فيكون العالم أفقا مشتركا يتّسع لجميع البشر ويرتبط فيه كلّ فرد مع الآخرين على أساس مبادئ كونية حقوقية تستلهم منها البشرية جميع القوانين. ولا يمكن تحقيق دلالة المواطنة العالمية الا بتوفّر الاطار السياسي الملائم، أي شكل النظام السياسي الكفيل بتهيئة الأرضية لتواصل البشر وانسجامهم داخل عالم واحد دون تمييز. ويحمي النظام السياسي محليا وعالميا الحريات ويضمن المساواة بين المواطنين والعدالة أمام القانون.</p>
+<div class="exsub">تدريب منهجي</div>
+<p class="consigne"><b>السؤال:</b> هل تقتضي المواطنة بالضرورة الطاعة؟</p>
+<p class="subhead t-navy"><b>العمل التحضيري:</b></p>
+<p class="para">تحديد المفاهيم:</p>
+<ul class="b"><li>المواطنة: صفة بالدرجة الأولى سياسية يكتسبها الفرد بحُكم الانتماء إلى مجتمع تَحكُمه قوانين.... فيتمتع الفرد بحقوق وعليه واجبات. وتشير المواطنة بما هي قيمة مدنية إلى علاقة حقوقية تربط بين الأفراد وكذلك الدولة.</li></ul>
+<p class="para">وتَتحدد المواطنة وفق مستويات متنوعة: مواطنة مَحلية ومواطنة عالمية لا ترتبط بدين أو عرق أو جنس.. المواطنة أساسها حقوقي ذلك أنه من حق كل إنسان أن يتمتع بالحرية والعدالة أمام القانون.</p>
+<ul class="b"><li>الطاعة: يتضمن المفهوم وجود علاقة بين طرفين أو أكثر. ولما كان الأمر يتعلق بالمجال السياسي -بما هو مجال المواطنة- فإن الطاعة تَعكس علاقة الإنسان بالدولة. ولكن ما يَظلّ مُلتبسا هو معاني الطاعة:</li></ul>
+<p class="para">معنى أوّل يفترض علاقة سلطوية / أمرية، إخضاع وخضوع، إذعان للقهر ...الانصياع والإتباع (سواء لسلطة داخلية أو خارجية). ومن ثمة نتحدث عن طاعة داخلية وطاعة عالمية.</p>
+<p class="para">معنى ثاني يفترض علاقة بين الأفراد والدولة لا تقوم على القوة والإخضاع، بل الالتزام بالقوانين (محلي) والالتزام بالمواثيق /معاهدات دولية (عالمي). وباختصار تكون الطاعة ضربا من الامتثال لقوانين امتثالا حرا فطاعة الدولة ليست طاعة أشخاص وإنما هي طاعة صادرة عن اختيار يضمن الحقوق محليا وعالميا.</p>
+<p class="para">يظهر أن الطاعة في معناها الأوّل أساسها القوة والعنف من جهة الجهاز السياسي والانقياد من جهة الأفراد. أمّا الطاعة في معناها الثاني فأساسها القانون من جهة الجهاز السياسي والالتزام من جهة الأفراد. الأولى طاعة عمياء مدمرة للذات الإنسانية. والثانية طاعة مجسمة للذات الإنسانية وحقوقها وحرياتها سواء محليا أو عالميا.</p>
+<p class="para">الإشكالية: ما أجناس علاقة المواطنة بالطاعة؟</p>
+<p class="para">أو هل تقتضي المواطنة الطاعة أم المشاركة في دواليب الدولة؟</p>
+<p class="subhead t-navy"><span class="t-blue">مقدمة:</span></p>
+<p class="para"><u>تمهيد:</u></p>
+<p class="para">* يشهد الواقع على مستوى محلي وعالمي نزاعا بين الأفراد، وكذلك نزاعا بين الدول تُغذّيه عراقيل اقتصادية وأخرى ثقافية ...وفي الوقت نفسه هناك حرص على احترام حقوق الإنسان والحريات بوجه عام، فهل ..... ( ثم صياغة الإشكالية).</p>
+<p class="para">*توتر بين واقع التسلط والاستئثار بالقوة وإخضاع الأفراد من جهة وإبرام عقود اجتماعية واتفاقيات دولية محورها المواطنة ....... ( ثم صياغة الإشكالية)</p>
+<p class="para">*الفلسفة واهتمامها بمساءلة القيم مثل المواطنة والسيادة باتجاه تحديد منزلة الإنسان وعلاقته بالدولة وهي علاقة مشوبة بالالتباس.... إما علاقة طاعة وانصياع أم التزام وتحرر.... ( ثم صياغة الإشكالية).</p>
+<p class="para">تخطيط المقال</p>
+<p class="subhead t-navy"><span class="t-gold">ا- في بيان أن المواطنة تقتضي بالضرورة الطاعة :</span></p>
+<p class="para">1. <b>الوقوف عند طبيعة علاقة السياسي بالأفراد والعكس بالعكس</b>، بغاية تحديد معنى المواطنة بما هي قيمة مدنية تفترض الحقوق والحرية والعدالة والمساواة...</p>
+<p class="para"><b>2. دواعي القول بأن المواطنة تفترض الطاعة:</b></p>
+<ul class="b"><li>من جهة الدولة:</li></ul>
+<p class="para">-تَتجسم الدولة في رجل واحد له سمات بطولية /كارزماتية تُبرر السيطرة على الأفراد وإخضاعهم والضغط عليهم للطاعة...</p>
+<p class="para">-الدولة أداة عنف الاستئثار بوسائل القمع.</p>
+<p class="para">-الدولة أساسها الإخضاع والخضوع، الأمر والطاعة (المرجعيات التي يمكن توظيفها: هوبز، ماكيافيل، الكواكبي)</p>
+<ul class="b"><li>من جهة الأفراد (مبررات الطاعة):</li></ul>
+<p class="para">-طبيعة الأفراد، الاستحواذ على الأشياء، الهيمنة على الغير، الاستجابة المطلقة للرغبات والحرية الطبيعية..... وتفشي الصراع والعنف ......الخوف من الموت....</p>
+<p class="para">-ضرورة التنازل عن كافة الحقوق والحريات الطبيعية</p>
+<p class="para">-الحماية من الأعداء في الداخل والخارج</p>
+<p class="para">-تقتضي المواطنة الطاعة بمعنى الانقياد لضمان البقاء.</p>
+<p class="para">-ومن مظاهر الطاعة التّخلّي عن حرية التفكير والممارسة.</p>
+<p class="para"><b>3. ما هي تبعات ذلك؟</b></p>
+<p class="para">- استعباد الأفراد والشعوب</p>
+<p class="para">-سلب الحريات. والمقايضة بين الأمن والحرية</p>
+<p class="para">-رفض الاختلاف وزرع أوهام المواطنة...تتحول القوانين إلى تشريع يعامل الأفراد بوصفهم رعايا.</p>
+<p class="subhead t-navy"><span class="t-gold">II- لا تقتضي المواطنة بالضرورة الطاعة:</span></p>
+<p class="para">1. ضرورة التمييز بين طاعة عمياء، طاعة مدمرة لإنسانية الإنسان نحو تشريع دلالة أخرى للطاعة من حيث هي التزام ومشاركة في إدارة دواليب الدولة.</p>
+<ul class="b"><li>من جهة الدولة:</li></ul>
+<p class="para">- فلا وجود لسلطة مطلقة ولا وجود لطاعة لامحدودة من طرف الشعب. يقول روسو"القوة لا تصنع الحق وان الطاعة لا يجب إلا للقوى الشرعية". الدولة هي دولة الحقوق والحريات والقوانين... والطاعة هي الالتزام وليس الانقياد للقوة. ولا تتحقق المواطنة بوصفها قيمة مدنية إلا في ظل دولة لا تقوم على القوة، بل الحق والحرية.</p>
+<p class="para">-تعني الطاعة الالتزام بالقوانين التي يشرعها الأفراد وتعبر عن إرادة الشعب.</p>
+<p class="para">- طاعة الفرد للقوانين هو طاعة الفرد لنفسه.</p>
+<p class="para">- هدف الدولة ليس تحويل الناس من كائنات عاقلة إلى بهائم. وكما يقول سبينوزا هدف الدولة هو الحرية.</p>
+<p class="para">-طاعة أساسها الحق تجلياتها التساوي أمام القانون وغايتها تجسيم الحرية</p>
+<ul class="b"><li>من جهة العلاقة بالفرد -المواطن:</li></ul>
+<p class="para">-اعتبار الإنسان مواطنا فردا يساهم في وضع قوانين المواطن.</p>
+<p class="para">-كائن له حقوق مدنية شان الحرية</p>
+<p class="para">-فهم المواطنة من جهة التلازم بين المصالح الشخصية والعمومية</p>
+<p class="para">نميز بين الطاعة النابعة عن تسلط له مبرراته وبين الطاعة النابعة عن اختيار حر وهو معنى المواطنة الحقيقي.  يقول سبينوزا "عندما تكون إرادة الشعب كله لا إرادة الحاكم هي القانون الأعلى لن يكون المرء عبدا إذا ما أطاع السلطة العليا وإنما يكون مواطنا".</p>
+<p class="para">نلاحظ ان من معاني المواطنة تنظيم الحياة السياسية وفق قوانين تعكس إرادة الشعب لا إرادة الشخص وهواه. وأن الالتزام بالقوانين هو معنى الطاعة.</p>
+<p class="subhead t-navy"><b><u>العنصر النقدي:</u></b></p>
+<p class="para">+ المواطنة صفة مدنية.</p>
+<p class="para">+ والمواطنة مشاركة وليست تمردا وعصيانا.</p>
+<p class="para">+ضرورة التمييز بين الطاعة بما هي خضوع وبين الطاعة بما هي التزام بالقوانين.</p>
+<p class="para">لكن يكشف الواقع محليا وعالميا الصراع وإرادة السيطرة وتنوع أساليبها والتستّر بقيم حقوق الإنسان والمواطنة..</p>
+<p class="para">-تصبح الطاعة أمرا مذموما فالتأكيد على المواطنة لا يشترط الطاعة بل المقاومة.</p>
+<p class="para">-الكشف عن المواطنة المزيفة وأوهام حقوق الإنسان...</p>
+<p class="para">خاتمة: تتنوع دلالات الطاعة من طاعة عمياء في ظل دولة "التنين"/الاستبداد إلى طاعة حرة في ظل الدولة الديمقراطية والعدالة. ولكن قد تتحول الديمقراطية إلى غطاء لقمع حقوق الأفراد وحرياتهم. مما يبرر الحاجة اليوم إلى الفلسفة بوصفها فكرا يُدرّب الأفراد على الوعي بقيمة المواطنة و"مخاطر" الطاعة.</p>
+
+</section>
+
+</div>
+</body>
+</html>

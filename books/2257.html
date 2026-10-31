@@ -1,0 +1,365 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<title>Wael Academy — Philosophie · شواهد و تمهيدات</title>
+<script>
+  window.MathJax = {
+    tex: { inlineMath: [['\\(','\\)']], displayMath: [['\\[','\\]']] },
+    chtml: { fontURL: 'https://cdn.jsdelivr.net/npm/mathjax@3/es5/output/chtml/fonts/woff-v2', matchFontHeight: true },
+    startup: { typeset: true }
+  };
+</script>
+<script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js" async></script>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Sora:wght@400;500;600;700;800&family=Cairo:wght@400;500;600;700;800;900&family=Tajawal:wght@400;500;700;800&family=JetBrains+Mono:wght@400;500;600;700&display=swap');
+:root{
+  /* ===== Wael Academy palette — MAIN ACCENT = green-teal gradient #0FAB8F → #067360 ===== */
+  --bg:#fff; --panel:#f2f8f8; --hair:#e6e6e9; --hair2:#d6d6db;
+  --fg:#0f2a31;        /* body text (and +/− signs) */
+  --fg2:#3f5b62;       /* softer text */
+  --fg3:#7c959b;       /* muted (footer) */
+  --blue:#067360;      /* deep accent — small numbers, borders, watermark, accent equations */
+  --blue-dark:#045260; /* titles & wordmarks (also the balance colour) */
+  --teal:#0fab8f;      /* bright accent end */
+  --loop:#0d9c82;      /* logo-loop helper */
+  --orange:#067360;    /* kicker/category labels (gold retired → deep teal) */
+  --red:#f5322f;       /* EXERCISE CHIPS ONLY — never for emphasis */
+  --cream:#e6f3f4; --blue-soft:#e6f3f4;  /* pale teal — callout fill + table sub-row fill */
+  --blue-line:#cde7e4; /* hairline */
+  --sub-ink:#045260;   /* table sub-row text */
+  --grad:linear-gradient(148deg,#0fab8f 0%,#0d9c82 52%,#067360 100%);
+  --mono:'JetBrains Mono',monospace; --latin:'Sora',sans-serif; --ar:'Cairo',sans-serif; --arb:'Tajawal',sans-serif;
+}
+*{box-sizing:border-box;margin:0;padding:0;}
+body{font-family:var(--latin);color:var(--fg);background:#e4e4e7;padding:28px 0;
+     -webkit-print-color-adjust:exact;print-color-adjust:exact;}
+html[dir="rtl"] body{font-family:var(--arb);}
+
+/* ===== brand watermark: REAL text (crisp), full-bleed, repeats per page ===== */
+.wm{position:fixed;inset:0;z-index:0;pointer-events:none;display:flex;
+    align-items:center;justify-content:center;overflow:hidden;
+    -webkit-print-color-adjust:exact;print-color-adjust:exact;}
+.wm span{font-family:var(--mono);font-weight:800;font-size:76.8pt;letter-spacing:.16em;
+    color:var(--blue);opacity:.06;white-space:nowrap;transform:rotate(-54deg);}  /* single diagonal: bottom-left → top-right */
+.wm.mono span{color:#000;opacity:.05;}
+
+/* ===== continuous flow stream (no page border) ===== */
+.flow{width:210mm;margin:0 auto;background:transparent;color:var(--fg);
+      padding-block:16mm 18mm;padding-inline:23mm 14mm;position:relative;}   /* spiral gutter: inline-start(=spine) 23mm / outer 14mm — dir-aware; print margins set in render_flow.py */
+@media screen{ .flow{background:#fff;box-shadow:0 10px 40px rgba(0,0,0,.16);} }
+.flow>*{position:relative;z-index:1;}
+.flow p,.flow li,.flow .data,.flow .note,.flow .ex{break-inside:auto;}
+.flow .fig,.flow figure,.flow img,.flow svg.figsvg,.flow table,.flow tr,.flow .chapdiv,.flow .exh,.flow .qrcard,.flow .meta{break-inside:avoid;}
+.flow h1,.flow h2,.flow h3,.flow .exh,.flow .subhead,.flow .chapdiv{break-after:avoid;}
+.flow img,.flow svg.figsvg{max-width:100%;height:auto;}
+.flow figcaption,.flow .figcap{display:none;}          /* rule 3: no figure captions */
+
+/* ===== front matter + chapters each start on a fresh page ===== */
+.flow .cover{break-after:page;}        /* cover alone on page 1 */
+.flow .toc{break-after:page;}          /* Sommaire alone on the next page */
+.flow .chapter{break-before:page;}
+.flow .chapter:first-of-type{break-before:auto;}
+
+/* ===== cover ===== */
+.cover{padding:14mm 0 8mm;border-bottom:2px solid var(--blue);margin-bottom:6mm;}
+.cover .badge{font-family:var(--mono);font-size:8.5pt;letter-spacing:.28em;text-transform:uppercase;color:var(--orange);margin-bottom:10px;}
+.cover h1{font-family:var(--latin);font-weight:800;font-size:34pt;line-height:1.03;letter-spacing:-.025em;color:var(--blue-dark);}
+.cover .grule{width:120px;height:5px;border-radius:5px;background:var(--grad);margin:14px 0;}
+.cover .sub{font-family:var(--mono);font-size:10pt;letter-spacing:.14em;text-transform:uppercase;color:var(--teal);}
+.cover .auth{font-size:11pt;color:var(--fg2);margin-top:6px;font-weight:600;}
+
+/* ===== table of contents ===== */
+.toc{margin:2mm 0 4mm;}
+.toc h2{font-family:var(--latin);font-weight:800;font-size:15pt;color:var(--blue-dark);margin-bottom:4mm;}
+.toc .trititle{font-family:var(--mono);font-size:8pt;letter-spacing:.2em;text-transform:uppercase;color:var(--orange);margin:4mm 0 2mm;}
+.toc ol{list-style:none;}
+.toc li{display:flex;align-items:baseline;gap:8px;font-size:10pt;padding:2.2px 0;color:var(--fg);line-height:1.4;}
+.toc li .n{font-family:var(--mono);font-weight:700;font-size:9pt;color:var(--blue);min-width:26px;}
+.toc li .dots{flex:1;border-bottom:1px dotted var(--hair2);transform:translateY(-3px);}
+
+/* ===== chapter divider band ===== */
+.chapdiv{margin:0 0 5mm;padding:6mm 16px 5mm;border-radius:12px;background:var(--grad);
+    -webkit-print-color-adjust:exact;print-color-adjust:exact;}   /* green-filled chapter band */
+.chapdiv .cn{font-family:var(--mono);font-size:8.5pt;font-weight:700;letter-spacing:.24em;text-transform:uppercase;color:rgba(255,255,255,.82);margin-bottom:5px;}
+.chapdiv h2{font-family:var(--latin);font-weight:800;font-size:17pt;line-height:1.1;letter-spacing:-.015em;color:#fff;}
+/* conclusion block — same green-filled look as the chapter band */
+.conclusion{background:var(--grad);border-radius:12px;padding:6mm 16px;margin:5mm 0;color:#fff;break-inside:avoid;
+    -webkit-print-color-adjust:exact;print-color-adjust:exact;}
+.conclusion .ck{font-family:var(--mono);font-size:8.5pt;font-weight:700;letter-spacing:.24em;text-transform:uppercase;color:rgba(255,255,255,.82);margin-bottom:6px;}
+.conclusion h3{font-family:var(--latin);font-weight:800;font-size:13pt;line-height:1.2;color:#fff;margin-bottom:4px;}
+.conclusion p,.conclusion li{font-size:10.4pt;line-height:1.7;color:#fff;}
+.conclusion b,.conclusion strong{color:#fff;font-weight:700;}
+
+/* ===== unit header (lesson/exercise) + QR emplacement ===== */
+.exh{display:flex;align-items:center;gap:11px;margin:6mm 0 3mm;}
+.exh .idx{font-family:var(--mono);font-size:9pt;font-weight:600;color:#fff;background:var(--grad);
+    border-radius:6px;padding:4px 11px;letter-spacing:.08em;text-transform:uppercase;
+    -webkit-print-color-adjust:exact;print-color-adjust:exact;}
+.exh .idx.ex{background:var(--red);}   /* exercise chip = red */
+.exh h2{font-family:var(--latin);font-size:14pt;font-weight:700;letter-spacing:-.01em;color:var(--blue-dark);}
+.exh .qrcard{margin-inline-start:auto;flex:0 0 auto;display:flex;flex-direction:column;align-items:center;gap:3px;width:26mm;}
+.qrcard .qrt{font-family:var(--mono);font-size:6.5pt;letter-spacing:.1em;text-transform:uppercase;color:var(--teal);text-align:center;}
+.qrcard .qrslot{width:24mm;height:24mm;padding:1.5mm;background:#fff;border:1px solid var(--blue-line);border-radius:8px;display:flex;align-items:center;justify-content:center;}
+.qrcard .qrslot img,.qrcard .qrslot svg{width:100%;height:100%;display:block;}
+
+/* sub-exercise label when one file holds several exercices */
+.exsub{font-family:var(--latin);font-weight:800;font-size:11.5pt;color:var(--blue-dark);margin:5mm 0 2.5mm;padding-bottom:3px;border-bottom:2px solid var(--blue-line);}
+
+/* ===== text blocks ===== */
+.lead{font-size:11pt;line-height:1.7;margin:2mm 0 3mm;color:var(--fg);}
+.para{font-size:10.6pt;line-height:1.7;margin:2mm 0 2.5mm;color:var(--fg);}
+.consigne{font-size:10.4pt;line-height:1.6;margin:1mm 0 2mm;color:var(--fg);font-style:italic;}
+.subhead{font-family:var(--latin);font-weight:800;font-size:12pt;letter-spacing:-.01em;color:var(--blue-dark);margin:5mm 0 2.5mm;}
+/* emphasis — green accent = .t-blue/.t-green ; balance = .t-navy ; red = SECONDARY accent (.t-red) on titles + a few words */
+.t-blue{color:var(--blue);font-weight:600;} .t-navy{color:var(--blue-dark);font-weight:700;}
+.t-red{color:var(--red);font-weight:600;} .t-green{color:var(--teal);font-weight:600;} .t-gold{color:var(--orange);font-weight:600;}
+.subhead.t-red{color:var(--red);font-weight:800;}   /* red Roman-numeral section title (I, II, …) — keeps subhead weight */
+/* highlighter marks — a soft colour wash behind a key word (agent picks green or red per what balances the page) */
+.hl-green,.hl-red{border-radius:3px;padding:.02em .24em;font-weight:600;box-decoration-break:clone;-webkit-box-decoration-break:clone;
+    -webkit-print-color-adjust:exact;print-color-adjust:exact;}
+.hl-green{background:rgba(15,171,143,.20);color:var(--blue-dark);}   /* green highlight */
+.hl-red{background:rgba(245,50,47,.13);color:#c0261f;}               /* red highlight  */
+
+.data{background:var(--blue-soft);border:1px solid var(--blue-line);border-inline-start:4px solid var(--blue);
+    border-radius:8px;padding:11px 16px;margin:3mm 0;font-size:10pt;line-height:1.65;color:var(--fg2);}
+.data b{color:var(--fg);font-weight:700;}
+.note{border:1px dashed var(--hair2);border-radius:9px;padding:11px 16px;margin:4mm 0;background:var(--panel);}
+.note .kicker{font-family:var(--mono);font-size:7.5pt;letter-spacing:.18em;color:var(--orange);display:block;margin-bottom:5px;}
+.note .nb{font-size:10pt;line-height:1.7;color:var(--fg2);} .note b{color:var(--fg);}
+.ex:not(.idx){background:var(--blue-soft);border:1px solid var(--blue-line);border-inline-start:3px solid var(--blue);
+    border-radius:7px;padding:7px 11px;font-size:9.6pt;line-height:1.6;color:var(--fg2);margin:2mm 0;}   /* :not(.idx) so it never hits the exercise chip (which is .idx.ex) */
+.ex .extag{display:inline-block;font-family:var(--latin);font-weight:800;font-size:7.6pt;color:var(--blue-dark);background:#fff;
+    border:1px solid var(--blue);border-radius:5px;padding:1px 9px;margin-inline-end:7px;vertical-align:middle;text-transform:uppercase;letter-spacing:.06em;}
+
+/* ===== lists ===== */
+ol.q{list-style:none;counter-reset:q;margin:1mm 0 2mm;}
+ol.q>li{counter-increment:q;position:relative;padding-inline-start:30px;margin-bottom:2.5mm;font-size:10.4pt;line-height:1.6;}
+ol.q>li::before{content:counter(q);position:absolute;inset-inline-start:0;top:1px;width:21px;height:21px;background:var(--grad);color:#fff;
+    border-radius:50%;font-family:var(--mono);font-size:9pt;font-weight:600;display:flex;align-items:center;justify-content:center;
+    -webkit-print-color-adjust:exact;print-color-adjust:exact;}
+ol.sub{list-style:none;counter-reset:s;margin:4px 0 0;padding-inline-start:2px;border-inline-start:1px solid var(--blue-line);}
+ol.sub li{counter-increment:s;position:relative;padding:2.5px 0 2.5px 26px;font-size:10.1pt;line-height:1.55;}
+ol.sub li::before{content:counter(s,lower-alpha)".";position:absolute;inset-inline-start:10px;top:2.5px;font-family:var(--mono);font-size:9pt;font-weight:600;color:var(--teal);}
+ol.qn{list-style:none;counter-reset:qn;margin:1mm 0 2mm;}
+ol.qn>li{counter-increment:qn;position:relative;padding-inline-start:26px;margin-bottom:2.2mm;font-size:10.4pt;line-height:1.55;}
+ol.qn>li::before{content:counter(qn)".";position:absolute;inset-inline-start:0;top:0;font-family:var(--mono);font-size:9.5pt;font-weight:700;color:var(--blue);}
+ul.b{list-style:none;margin:1mm 0 2mm;} ul.b>li{position:relative;padding-inline-start:22px;margin-bottom:2.4mm;font-size:10.4pt;line-height:1.6;}
+ul.b>li::before{content:"";position:absolute;inset-inline-start:3px;top:8px;width:8px;height:8px;border-radius:50%;background:var(--grad);
+    -webkit-print-color-adjust:exact;print-color-adjust:exact;}
+ul.dash{list-style:none;margin:1mm 0 2mm;} ul.dash>li{position:relative;padding-inline-start:20px;margin-bottom:1.8mm;font-size:10.4pt;line-height:1.6;}
+ul.dash>li::before{content:"–";position:absolute;inset-inline-start:2px;top:0;color:var(--fg);font-weight:700;}  /* dash / +/− signs = body colour */
+.flow ul.opts{list-style:none;margin:4px 0 3px;padding-inline-start:16px;}
+.flow ul.opts li{padding:2px 0;font-size:10.2pt;line-height:1.5;color:var(--fg);}
+
+/* ===== figures / tables ===== */
+.fig{margin:3mm 0;} .fig svg.figsvg{display:block;margin:0 auto;background:#fff;max-width:100%;height:auto;}
+.photo{display:block;margin:3mm auto;border-radius:8px;border:1px solid var(--hair);max-width:100%;}
+.figrow{display:flex;flex-wrap:wrap;gap:9px;justify-content:center;margin:3mm auto;max-width:190mm;}
+.flow .figrow img{border-radius:7px;border:1px solid var(--hair);height:46mm;width:auto;max-width:none;object-fit:cover;}
+.schemarow{display:flex;gap:16px;align-items:flex-start;flex-wrap:wrap;margin:2mm 0;}
+.schemarow .col-txt{flex:1 1 90mm;min-width:80mm;} .schemarow .col-fig{flex:0 0 78mm;} .schemarow .col-fig .fig{margin:0;}
+.flow table{border-collapse:collapse;width:100%;margin:3mm 0;font-size:9.8pt;line-height:1.5;}
+.flow table th,.flow table td{border:1px solid var(--blue-line);padding:6px 10px;text-align:start;vertical-align:top;}
+.flow table th{background:var(--grad);color:#fff;font-family:var(--latin);font-weight:700;font-size:9.4pt;
+    -webkit-print-color-adjust:exact;print-color-adjust:exact;}
+.flow table tr:nth-child(even) td{background:var(--blue-soft);color:var(--sub-ink);}   /* sub-row: #E6F3F4 / #045260 */
+
+mjx-container{color:var(--fg) !important;font-weight:400 !important;font-size:1.0em !important;}
+.eq-hi mjx-container,mjx-container.eq-hi{color:var(--blue) !important;}   /* accent (green) equation — highlight a key result; balance with plain math */
+.eq-red mjx-container,mjx-container.eq-red{color:var(--red) !important;}  /* red accent equation / symbol — complements the green .eq-hi */
+
+/* ===== per-file books: credit line, copies list, figures at their size ===== */
+.credit{display:flex;flex-wrap:wrap;align-items:center;gap:5px;margin:-1mm 0 3.5mm;font-size:9.4pt;color:var(--fg2);}
+.credit .who{font-weight:700;color:var(--blue-dark);}
+.credit .tg{font-family:var(--mono);font-size:7.2pt;letter-spacing:.04em;border-radius:5px;padding:1px 7px;line-height:1.6;
+    border:1px solid var(--blue-line);color:var(--blue);background:#fff;-webkit-print-color-adjust:exact;print-color-adjust:exact;}
+.credit .tg.sec{background:var(--blue-dark);border-color:var(--blue-dark);color:#fff;}
+.credit .tg.cor{background:#fff;border-color:var(--red);color:var(--red);}
+.credit a{color:var(--fg3);font-family:var(--mono);font-size:7pt;text-decoration:none;}
+.cover .auth .credit{margin:4mm 0 0;}
+.cover .copies{margin-top:5mm;font-size:8.6pt;color:var(--fg2);}
+.cover .copies ul{list-style:none;margin:2mm 0 0;padding:0;columns:2;}
+.cover .copies a{color:var(--fg3);text-decoration:none;font-size:8pt;}
+.flow figure.fig{text-align:center;}
+.flow figure.fig img{max-height:60mm;width:auto;max-width:70%;display:inline-block;}
+
+/* chapter tag on each part of a multi-chapter book (the book keeps the original order of the file) */
+.chtag{display:inline-block;margin:5mm 0 2mm;padding:1mm 3mm;border-radius:2mm;background:#eef3fb;border:1px solid #c9d6ea;
+  color:#1f3a6b;font-size:9pt;font-weight:700}
+.chtag span{color:#6b7f9e;font-weight:600;margin-inline-end:1.5mm}
+
+@media print{ body{background:#fff;padding:0;} .flow{width:auto;max-width:none;margin:0;padding:0;} }
+@page{size:A4;}   /* margins come from render_flow.py — do NOT set them here */
+</style>
+<meta data-pagefind-filter="type[content]" content="ملخّص">
+<meta data-pagefind-filter="resource[content]" content="المعهد النموذجي بيرم الخامس - المنزه 8">
+<meta data-pagefind-meta="n[content]" content="2257">
+<meta data-pagefind-meta="title[content]" content="شواهد و تمهيدات">
+<meta data-pagefind-filter="chapter[content]" content="مراجعة (عدّة محاور)">
+<meta data-pagefind-filter="chapter[content]" content="العلم بين الحقيقة والنمذجة">
+<meta data-pagefind-filter="chapter[content]" content="الإنية والغيرية">
+<meta data-pagefind-filter="chapter[content]" content="الخصوصية والكونية">
+<meta data-pagefind-filter="chapter[content]" content="القيم: الأخلاق والدولة">
+<meta data-pagefind-filter="section[content]" content="باكالوريا رياضيات"><style>.qrcard{display:none!important}.wa-nav{position:sticky;top:0;z-index:50;background:#045260;padding:10px 18px;font-family:Cairo,sans-serif;direction:rtl}.wa-nav a{color:#fff;text-decoration:none;font-weight:700}@media print{.wa-nav{display:none}}</style>
+</head>
+
+<body dir="rtl" lang="ar"
+      data-brand="Wael Academy" data-handle="@WaelAcademy"
+      data-tagline="في تُرابنا.. مغامرة بمغامرة"
+      data-phone="+216 50 40 40 42" data-site="waeldocuments.com"
+      data-cta="سجل معانا وأقرى عن بعد مع منصة Wael Academy"
+      data-subject="Philosophie · شواهد و تمهيدات" data-watermark="Wael Academy" data-pagefind-body><nav class="wa-nav" data-pagefind-ignore><a href="../index.html">→ الرجوع إلى فهرس الفلسفة</a></nav>
+
+<!-- single full-page diagonal watermark, bottom-left → top-right (repeats on every page) -->
+<div class="wm" aria-hidden="true"><span>WAEL&nbsp;ACADEMY</span></div>
+
+<div class="flow colored">
+<div class="cover"><div class="badge">◉ Wael Academy · Philosophie</div><h1>شواهد و تمهيدات</h1><div class="grule"></div><div class="sub">مراجعة (عدّة محاور)</div><div class="auth"><div class="credit">المؤلّف / المصدر : <span class="who">المعهد النموذجي بيرم الخامس - المنزه 8 — الاستاذة : ريم السالمي ادريس</span> <span class="tg">مراجعة</span><span class="tg sec">الفلسفة · باكالوريا رياضيات</span> <a href="https://drive.google.com/file/d/1dAzdA0DVc8dl4E-C1Nx7Ot-GZDhSnJMG/view">↗ شواهد و تمهيدات.pdf</a></div></div><div class="copies" data-pagefind-ignore><b>نسخ هذا الملف في الدرايفات (1)</b><ul><li><a href="https://drive.google.com/file/d/1dAzdA0DVc8dl4E-C1Nx7Ot-GZDhSnJMG/view">Karim Fourati · Bac 2KF25 › Philo / Mme Rouiss / Révision Fin d&#x27;année</a></li></ul></div></div>
+<section class="chapter">
+<div class="chtag"><span>المحور</span> مراجعة (عدّة محاور)</div>
+<!-- SOURCE: المعهد النموذجي بيرم الخامس - المنزه 8 — الاستاذة : ريم السالمي ادريس -->
+<div class="exh"><span class="idx">ملخّص</span><h2>نمذجة <span dir="ltr">Citations</span></h2>
+  <div class="qrcard"><div class="qrt">فيديو الدرس</div><div class="qrslot"><img src="qr/2257.svg" alt="QR"></div></div></div>
+<div class="credit">المؤلّف / المصدر : <span class="who">المعهد النموذجي بيرم الخامس - المنزه 8 — الاستاذة : ريم السالمي ادريس</span> <span class="tg">مراجعة</span><span class="tg sec">الفلسفة · باكالوريا رياضيات</span> <a href="https://drive.google.com/file/d/1dAzdA0DVc8dl4E-C1Nx7Ot-GZDhSnJMG/view">↗ شواهد و تمهيدات.pdf</a></div>
+<!-- NOTE: entirely handwritten notes -->
+
+<div class="chtag"><span>المحور</span> العلم بين الحقيقة والنمذجة</div>
+
+<p class="para"><span class="t-blue">فالبزار</span> : <span class="t-gold">الطبيعة كنوز نكتشفها</span></p>
+<p class="para"><span class="t-red">فاليري</span> : <span class="t-green">"الطبيعة انشاءات نبنيها لا كنوز نكتشفها".</span></p>
+<p class="para"><span class="t-green"><u>أينشتاين</u></span> : <span class="t-blue">"النماذج انشاءات ذهنية حرة ".</span></p>
+<p class="para"><span class="t-green">فاليري</span> : <span class="t-gold">"اننا لا نفكر الا من خلال النماذج ".</span></p>
+<p class="para"><span class="t-blue"><u>نيكولا بولو</u></span> : <span class="t-blue">"النمذجة أداة لتحقيق المصالح والرهانات "</span></p>
+<p class="para"><span class="t-red"><u>فورستار</u></span> : <span class="t-red">" نتخذ كل قراراتنا انطلاقا من النماذج".</span></p>
+<p class="para"><span class="t-green">"كل نموذج هو نموذج شيء ما من أجل شيء ما ".</span></p>
+<p class="para"><span class="t-blue"><u>توماس كوهن</u></span> : <span class="t-blue">البراديغم هو ما يمتلكه أعضاء مجموعة علمية بشكل مشترك .</span></p>
+<p class="para"><span class="t-red">غاليلي</span> : <span class="t-red">" الطبيعة كتاب مفتوح يقرأ بلغة رياضية "</span></p>
+<p class="para"><span class="t-green"><u>نوفال</u></span> <span class="t-blue"><span dir="ltr">Pascal Novel</span></span> : <span class="t-green">" النمذجة للفهم "</span></p>
+<p class="para"><span class="t-green"><u>باشلار</u></span> : <span class="t-green">"ان النموذج وسيط تفوض له وظيفة المعرفة".</span></p>
+<p class="para"><span class="t-red"><u>جاروسون</u></span> : <span class="t-red">اننا لا نرى الواقع كما هو بل نتمثله ، ان الواقع لا دلالة في ذاته ".</span></p>
+<p class="para"><u>تانودجي</u> : ان النماذج وسائط استكشافية ، انها تصاميم لنظرية لم توجد بعد أو في طور الصياغة .</p>
+<!-- PROOFREAD: 2257 part1 p01 — handwriting: "فالبزار"; "جاروسون"; "Pascal Novel" -->
+<p class="para"><span class="t-red">المعهد النموذجي بيرم الخامس - المنزه 8 .</span><br><span class="t-red">الاستاذة : ريم السالمي ادريس (2020/2021)</span><br>(فرض رياضيات 1)</p>
+<p class="subhead t-red"><u>نموذج اصلاح الفرض</u></p>
+<p class="para"><span class="t-red">- عدد 2 -</span></p>
+<p class="para"><span class="t-red"><u>التمرين عدد 1</u></span> : <span class="t-blue">"النمذجة مشروع لفهم الواقع وعقلنته " ( حجة تدعم )</span></p>
+<p class="para">- اذا كانت النمذجة تمشيا اختزاليا لظواهر الواقع المعقدة يعيد بناءها تركيبيا ويبدعها سيستميا عبر تصميمات من خلقه الخيال العلمي بما يجعلها كما عبر عنها <span class="t-gold">أينشتاين " ابداعات ذهنية حرة "</span> تتمثل نجاعتها وفاعلية انشائها الافتراضية تأويلا للأمرئي الذي استعصى على الفكر البشري وتبسيطا لكثافته وتعقيده بما يؤمن تحكما في الظواهر وفهما فاق النفاذ اليها عبر <span class="t-gold">" استراتيجيا الاهمال" بتعبير باسكال نوفال</span> كآلية بديل عن الاستقراء ، فتكون النمذجة باعتمادها : <span class="t-gold">" أداة لتحقيق المصالح والرهانات "</span>.</p>
+<p class="para"><span class="t-gold">فلا</span> فهما للظواهر شديدة التعقيد<br><span class="t-gold">ولا</span> تبسيطا واختزالا لكثافتها<br><span class="t-gold">الا</span> باعتماد النمذجة السيستمية وبنائها الخيالية وانشاءاتها الاستكشافية .</p>
+<!-- PROOFREAD: 2257 part1 p02 — handwriting: "تتمثل نجاعتها"; "فهما فاق النفاذ اليها"; "كآلية بديل"; year "2020/2021" partly overwritten ("2021/2020") -->
+
+<div class="chtag"><span>المحور</span> الإنية والغيرية</div>
+
+<p class="subhead t-red">- شواهد الإنية والغيرية -</p>
+<p class="para"><span class="t-green"><u>ميرلوبونتي</u> : الجسد بمثابة الشاشة بيننا وبين العالم "</span></p>
+<p class="para"><span class="t-red"><u>سارتر</u> : " الآخر هو الجحيم "</span></p>
+<p class="para"><span class="t-red"><u>سارتر</u> : " حكم على الانسان أن يكون حرّا "</span></p>
+<p class="para"><span class="t-red"><u>سارتر</u> : " إذا فقد الانسان حريته جرّد من صميم إنسانيته "</span></p>
+<p class="para"><span class="t-red"><u>سارتر</u> : " الإنية مشروع وكل مشروع فردي له بعد كوني "</span></p>
+<p class="para"><span class="t-green"><u>دولوز</u> : " الآخر بنية الحقل الادراكي "</span></p>
+<p class="para"><span class="t-green"><u>دولوز</u> : " الاختلاف لا يهددني بل يثريني "</span></p>
+<p class="subhead t-red">- شواهد الإنية و الغيرية -</p>
+<p class="para"><span class="t-blue"><u>كانط</u> : " يكون أنا من يقول أنا "</span></p>
+<p class="para"><span class="t-red"><u>سارتر</u> " الغير هو الأنا الذي ليس أنا "</span></p>
+<p class="para"><span class="t-red"><u>سارتر</u> : " إنه لضروري لوجودي "</span></p>
+<p class="para"><span class="t-green"><u>هيغل</u> : " الآخر مرآتي الارتدادية العاكسة "</span></p>
+<p class="para"><span class="t-green"><u>هيغل</u> : " الوعي بالذات يستوجب الوعي بالآخر "</span></p>
+<p class="para"><span class="t-blue"><u>ديكارت</u> : " إنّي جوهر كل ماهيته تكمن في الفكر ".</span></p>
+<p class="para"><span class="t-blue"><u>ديكارت</u> : الجسد آلة ميكانيكية</span></p>
+<p class="para"><span class="t-blue"><u>ديكارت</u> : أقيم في جسدي على نحو ما يقيم الربّان في سفينته".</span></p>
+<p class="para"><span class="t-gold"><u>أفلاطون</u> : " الجسد قبر للنفس و الفلسفة الحق تدرب على الموت".</span></p>
+<p class="para"><span class="t-gold"><u>ماركس</u> : " الوعي نتاج إجتماعي وسيظل كذلك طالما وجد بشر "</span></p>
+<p class="para"><span class="t-blue"><u>سبينوزا</u> : " النفس و الجسد شيء واحد تارة نتصوره فكرا وطورا إمتداد ."</span></p>
+<p class="para"><span class="t-red"><u>هوسرل</u> : " كل وعي هو وعي بشيء ما "</span></p>
+<p class="para"><span class="t-green"><u>ميرلوبونتي</u> : الجسد " قوام وجود الذات وموطن إدراكها ".</span></p>
+<p class="para"><span class="t-green"><u>ميرلوبونتي</u> : لسنا فكرا و جسدا ، لسنا وعيا قبالة العالم بل نحن فكر متجسد ، كيان في العالم ".</span></p>
+<p class="para"><span class="t-blue"><u>سبينوزا</u> : " لا أحد إلى اليوم ، و الحق يقال ، قد بين ما يستطيع الجسد فعله ".</span></p>
+
+<div class="chtag"><span>المحور</span> الخصوصية والكونية</div>
+
+<p class="subhead t-red"><u>شواهد الخصوصية والكونية</u> :</p>
+<p class="para"><span class="t-green"><u>تايلور</u> : " تتحدد هويتي داخل إطار أو أفق أحتل فيه موقعا وأتخذ فيه موقفا. "</span></p>
+<p class="para"><span class="t-gold"><u>تايلور</u> : " أن أعرف من أكون هو أن أعرف الموقع الذي أحتلّه "</span></p>
+<p class="para"><span class="t-red"><u>دولوز</u> : " الاختلاف لا يهددني بل يثريني "</span></p>
+<p class="para"><span class="t-gold"><u>فولتير</u> : " التعصب داء لا دواء له "</span></p>
+<p class="para"><span class="t-gold"><u>فولتير</u> : " سمّ ينخر النفس المتعفنة "</span></p>
+<p class="para"><span class="t-red"><u>بودريار</u> : " العولمة محرقة الكوني "</span></p>
+<p class="para"><span class="t-blue"><u>بودريار</u> : " كلّ ثقافة تتعمّم تفقد خصوصيتها وتموت ".</span></p>
+<p class="para"><span class="t-blue"><u>غاندي</u> : " أفتح نوافذي على كل رياح العالم شرط أن لا تقتلعني من جذوري ".</span></p>
+<p class="subhead t-red"><u>شواهد الخصوصية والكونية</u> :</p>
+<p class="para"><span class="t-green"><u>تايلور</u> : " تتحدد هويتي داخل إطار أو أفق أحتل فيه موقعا وأتخذ فيه موقفا. "</span></p>
+<p class="para"><span class="t-gold"><u>تايلور</u> : " أن أعرف من أكون هو أن أعرف الموقع الذي أحتلّه "</span></p>
+<p class="para"><span class="t-red"><u>دولوز</u> : " الاختلاف لا يهددني بل يثريني "</span></p>
+<p class="para"><span class="t-gold"><u>فولتير</u> : " التعصب داء لا دواء له "</span></p>
+<p class="para"><span class="t-gold"><u>فولتير</u> : " سمّ ينخر النفس المتعفنة "</span></p>
+<p class="para"><span class="t-red"><u>بودريار</u> : " العولمة محرقة الكوني "</span></p>
+<p class="para"><span class="t-blue"><u>بودريار</u> : " كلّ ثقافة تتعمّم تفقد خصوصيتها وتموت ".</span></p>
+<p class="para"><span class="t-blue"><u>غاندي</u> : " أفتح نوافذي على كل رياح العالم شرط أن لا تقتلعني من جذوري ".</span></p>
+<p class="para"><span class="t-gold"><u>شتراوس</u> : انها فروقات ولودة مبدعة من خلالها فقط يتم احراز التقدم .</span></p>
+<p class="para"><span class="t-green"><u>بودريار</u> : الكوني يهلك بالعولمة وعولمة التبادلات تضع نهاية لكونية القيم / انها انتصار الفكر الوحيد على الفكر الكوني</span></p>
+<p class="para"><span class="t-gold"><u>موران</u> : ثمة وحدة وثمة تنوع ، ثمة وحدة داخل التنوع وتنوع داخل الوحدة .</span></p>
+<p class="para"><span class="t-green"><u>موران</u> : " الهوية المركبة " " الهوية الحية " (فروم)</span></p>
+<!-- PROOFREAD: 2257 part1 p06 — handwriting: "(فروم)" written "(فزوم)"?; "فروقات ولودة"; left edge cut ("نهاية", "الكوني") -->
+
+<div class="chtag"><span>المحور</span> الإنية والغيرية</div>
+
+<p class="para"><span class="t-blue">التمرين عدد 2</span> : يكشف اللاوعي عن جهلنا بالانية<br>(المسلمة الضمنية)</p>
+<p class="para"><span class="t-green">يسلم القول ضمنيا بأهمية اللاوعي وما احدثه ظهوره مع <u>فرويد</u> من ارباك للمشروع الفلسفي عامة ولنمط تمثل الانسان لذاته ولهشاشة الصورة المتباينيقية التي ابدع باعتقادها الانسان "حقيقة واهية لتغاضيه عن آخر الوعي الثاوي داخل الذات والذي يمثل انكاره أو عدم الاعتراف به</span> <span class="t-gold">"حقيقة علمية راسخة " أثبت</span> <span class="t-green">فرويد</span> <span class="t-gold">"لزومها ومشروعيتها"</span> <span class="t-green">"جهلا معلنا بالإنية وعدم الالمام بما يعتمل داخل كيانها النفسي من غرائز ودوافع ليبدو جحل المرء فذلك الجانب الهووي والايروسي الذي يمثل التنكر له اعلانا عن زيف الوعي " أو عن الوعي باعتباره زيفا "، اذ لا تحديد للانية ولا معرفة بها ، الا بتخطي اوهام</span> <span class="t-gold"><u>"الأنانة"</u></span> <span class="t-green">ونرجسيتها والاقرار</span> <span class="t-gold">باللاوعي</span> <span class="t-green">الذي لا مجال مُعتد ذا لانكاره دون الاقرار بأن</span> <span class="t-gold">"الوعي قطرة في بحر اللاوعي"</span></p>
+<p class="para"><span class="t-gold">فلا معرفة بالذات ولا تبينا لها ولانيتها الا بحضور آخر الوعي وعي والاعتراف بها آخر ضروري .</span></p>
+<!-- PROOFREAD: 2257 part1 p07 — handwriting: "المتباينيقية" (الميتافيزيقية?); "باعتقادها"; "ليبدو جحل المرء فذلك"; "مُعتد ذا"; "آخر الوعي وعي" -->
+
+<div class="chtag"><span>المحور</span> القيم: الأخلاق والدولة</div>
+
+<p class="subhead t-red">تمهيد (دولة)</p>
+<p class="para">اذا كانت المواطنة مثل أعلى به ترتقي انسانية الانسان فان تجسيدها واقعا والحرص على ضمانها تقترن لزاما بالدولة كجهاز قانوني ابدعه الانسان فكرة مجردة وكيانا موضوعيا لضمانها .</p>
+<p class="para">لكن ما نشهده اليوم من تسلط وجور للحكام يؤكد بلا ريب . . . .</p>
+<p class="para">فما . . . . وما . . . .</p>
+<p class="para">هل . . . أم . . . والى أي مدى</p>
+
+<div class="chtag"><span>المحور</span> العلم بين الحقيقة والنمذجة</div>
+
+<p class="subhead t-red">تمهيد (نمذجة)</p>
+<p class="para">يبدو أن الفكر البشري لم يعد يفكر بعد اينشتاين كما كان يفكر قبله ، فلقد انتهى أمر البراديغم الوضعي امام مسار أكسيومي معاصر استوجبته طبيعة الواقع الذي كشف عن تعقد ابعاده اللامرئية التي لا تقارب استقرائيا لتكون النمذجة هي البديل الاوحد للمسار الكلاسيكي .</p>
+<p class="para">فما ــــ وكيف ــــ</p>
+<p class="para">هل ــــ أم</p>
+<p class="subhead t-red">تمهيد (نمذجة)</p>
+<p class="para">ان ما يكشف عنه الواقع المعاصر من تعقد وكثافة للواقع يتجاوز قدرات العقل العلمي في صورته الكلاسيكية ليعلن عن أفول المقاربة التحليلية وضرورة ابداع مسار علمي بديل للنفاذ الى ابعاد الواقع الاكثر تعقدا عبر مقاربة افتراضية تعيد تركيب واقع بديل عن الواقع المرئي وهو ما استوجب اللجوء الى النمذجة</p>
+<p class="para">فما ــــ وكيف ــــ</p>
+<p class="para">هل ــــ أم</p>
+
+<div class="chtag"><span>المحور</span> القيم: الأخلاق والدولة</div>
+
+<p class="subhead t-red">تمهيد (دولة)</p>
+<p class="para"><span class="t-blue">اذا كانت الدولة شرطا لامكان الوجود الانساني فان الانسان في حرصه على بلوغ حقوقه وضمان حريته يحتاج هذا الكيان السياسي ليؤمن له ما ينشد لكن ما نشهده اليوم من جور للحكام ومن تسلط يؤكد أن واقع الدولة اليوم أبعد مما رسمه الانسان في فكره لهذه المنظومة القانونية والبنية الموضوعية التي حادت عن مسارها لــ.... فما ... وما ...</span></p>
+<p class="para"><span class="t-blue">فان ـــ هل ـــ أم ـــ والى أي مدى</span></p>
+<!-- PROOFREAD: 2257 part1 p11 — handwriting: "فان ـــ" at start of last line partly cut at right edge -->
+<p class="subhead t-red">تمهيد (دولة)</p>
+<p class="para">لأن واقع الانسان لا يرتقي الى ما ينشد ولأن القيم مرتبطة كانت أخلاقية أو حتى سياسية تظل غاية منشودة يسعى الانسان لنيلها بسبل متنوعة ضمن أفق الاختلاف حيث تمثل الوحدة الانسانية رهانا والتواصل غاية وبقدر ما تمثل الدولة شرط إمكان الوجود الانساني منذ الأزل لتحمل آمال الشعوب ورهانهم على الحرية وضمان حقوقهم ودرء كل الاشكال الأذية وهو ما <span class="t-blue">يدفعنا الى التطرق ... فما ... وما ...</span></p>
+<p class="para">فان . . . هل . . . أم . . . والى أي مدى</p>
+<!-- PROOFREAD: 2257 part1 p12 — handwriting: "القيم مرتبطة" (مرتبة?); "الاشكال الأذية" (left edge cut); "والتواصل غاية" -->
+<p class="subhead t-red"><span class="t-blue">تمهيد (دولة)</span></p>
+<p class="para">اذا كان الرهان على الانسان رهانا على الانساني فيه فان هذا الكائن الاشكالي المركب يحتاج الى ما يهيكل علاقة (السلطوية) وما يعقلنها على قاعدة شرعية ← <b>مشروعية ارادية</b> ليسعم الأفراد (حرية / سعادة) تحت لواء كيان سياسي من وضعهم ما ينشدون لكن . . . .</p>
+<!-- PROOFREAD: 2257 part1 p13 — handwriting: "علاقة (السلطوية)"; "ليسعم" (لينعم?); "(حرية / سعادة)" small words written above each other -->
+<p class="subhead t-red">تمهيد (دولة)</p>
+<p class="para"><span class="t-blue">انّ جنوح الحكام الى احتكار النفوذ داخل الدولة يحول السلطة من الشعب الى الحاكم ويكرس الاستبداد بديلا عن الديمقراطية اذ يُسلب الافراد حقوقهم ويجردون مواطنتهم في ظل خلط رهيب بين السيادة والدولة تحول المواطنون الى رعايا وهو ما يستوجب اعادة النظر في . . . وفي . . .</span></p>
+<p class="para"><span class="t-blue">فأي . . . . وما</span></p>
+<p class="para"><span class="t-blue">هل ـــ أم ـــ والى أي مدى</span></p>
+<p class="subhead t-red"><span class="t-green"><u>شواهد</u></span> الدولة : السيادة والمواطنة</p>
+<p class="para"><span class="t-gold"><u>ريكور</u> : الدولة سلطة معنوية لتحديد الواجب وسلطة مادية للارغام .</span></p>
+<p class="para"><span class="t-green"><u>أرسطو</u> : المواطن هو مواطن الديمقراطية .</span></p>
+<p class="para"><span class="t-gold"><u>روسو</u> : من يهب نفسه للجميع لم يهب نفسه لأحد .</span></p>
+<p class="para"><span class="t-gold"><u>هوبز</u> : الانسان ذئب الانسان .</span></p>
+<p class="para"><span class="t-gold"><u>روسو</u> : ولدت الحرية يوم وُلد القانون</span></p>
+<p class="para"><span class="t-green"><u>لوسي مير</u> : لا مجتمع تحترم فيه الحريات تلقائيا</span></p>
+<p class="para"><span class="t-gold"><u>باكونين</u> : الدولة مقبرة الحريات .</span></p>
+<p class="para"><span class="t-gold"><u>روسو</u> : من تنازل عن حريته تنازل عن انسانيته</span></p>
+<p class="para"><span class="t-green"><u>ماركس</u> : المقاومة عنف محرر للشعوب .</span></p>
+<p class="para"><span class="t-gold"><u>فكتور كوسان</u> : إنّ القوة ان لم ترم الحرية تكون شيئا مُرعبا .</span></p>
+<p class="para"><span class="t-green"><u>الكواكبي</u> : " العوام هم قوت المستبد وقوته " الحوام يذبحون انفسهم بأيديهم من الخوف الناشئ عن الجهل</span></p>
+<!-- PROOFREAD: 2257 part1 p15 — handwriting: "الحوام" (العوام?) as written -->
+
+</section>
+
+</div>
+</body>
+</html>

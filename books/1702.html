@@ -1,0 +1,535 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<title>Wael Academy — Philosophie · مراجعة-شاملة-في-محور-النمذجة-WaelDocume</title>
+<script>
+  window.MathJax = {
+    tex: { inlineMath: [['\\(','\\)']], displayMath: [['\\[','\\]']] },
+    chtml: { fontURL: 'https://cdn.jsdelivr.net/npm/mathjax@3/es5/output/chtml/fonts/woff-v2', matchFontHeight: true },
+    startup: { typeset: true }
+  };
+</script>
+<script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js" async></script>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Sora:wght@400;500;600;700;800&family=Cairo:wght@400;500;600;700;800;900&family=Tajawal:wght@400;500;700;800&family=JetBrains+Mono:wght@400;500;600;700&display=swap');
+:root{
+  /* ===== Wael Academy palette — MAIN ACCENT = green-teal gradient #0FAB8F → #067360 ===== */
+  --bg:#fff; --panel:#f2f8f8; --hair:#e6e6e9; --hair2:#d6d6db;
+  --fg:#0f2a31;        /* body text (and +/− signs) */
+  --fg2:#3f5b62;       /* softer text */
+  --fg3:#7c959b;       /* muted (footer) */
+  --blue:#067360;      /* deep accent — small numbers, borders, watermark, accent equations */
+  --blue-dark:#045260; /* titles & wordmarks (also the balance colour) */
+  --teal:#0fab8f;      /* bright accent end */
+  --loop:#0d9c82;      /* logo-loop helper */
+  --orange:#067360;    /* kicker/category labels (gold retired → deep teal) */
+  --red:#f5322f;       /* EXERCISE CHIPS ONLY — never for emphasis */
+  --cream:#e6f3f4; --blue-soft:#e6f3f4;  /* pale teal — callout fill + table sub-row fill */
+  --blue-line:#cde7e4; /* hairline */
+  --sub-ink:#045260;   /* table sub-row text */
+  --grad:linear-gradient(148deg,#0fab8f 0%,#0d9c82 52%,#067360 100%);
+  --mono:'JetBrains Mono',monospace; --latin:'Sora',sans-serif; --ar:'Cairo',sans-serif; --arb:'Tajawal',sans-serif;
+}
+*{box-sizing:border-box;margin:0;padding:0;}
+body{font-family:var(--latin);color:var(--fg);background:#e4e4e7;padding:28px 0;
+     -webkit-print-color-adjust:exact;print-color-adjust:exact;}
+html[dir="rtl"] body{font-family:var(--arb);}
+
+/* ===== brand watermark: REAL text (crisp), full-bleed, repeats per page ===== */
+.wm{position:fixed;inset:0;z-index:0;pointer-events:none;display:flex;
+    align-items:center;justify-content:center;overflow:hidden;
+    -webkit-print-color-adjust:exact;print-color-adjust:exact;}
+.wm span{font-family:var(--mono);font-weight:800;font-size:76.8pt;letter-spacing:.16em;
+    color:var(--blue);opacity:.06;white-space:nowrap;transform:rotate(-54deg);}  /* single diagonal: bottom-left → top-right */
+.wm.mono span{color:#000;opacity:.05;}
+
+/* ===== continuous flow stream (no page border) ===== */
+.flow{width:210mm;margin:0 auto;background:transparent;color:var(--fg);
+      padding-block:16mm 18mm;padding-inline:23mm 14mm;position:relative;}   /* spiral gutter: inline-start(=spine) 23mm / outer 14mm — dir-aware; print margins set in render_flow.py */
+@media screen{ .flow{background:#fff;box-shadow:0 10px 40px rgba(0,0,0,.16);} }
+.flow>*{position:relative;z-index:1;}
+.flow p,.flow li,.flow .data,.flow .note,.flow .ex{break-inside:auto;}
+.flow .fig,.flow figure,.flow img,.flow svg.figsvg,.flow table,.flow tr,.flow .chapdiv,.flow .exh,.flow .qrcard,.flow .meta{break-inside:avoid;}
+.flow h1,.flow h2,.flow h3,.flow .exh,.flow .subhead,.flow .chapdiv{break-after:avoid;}
+.flow img,.flow svg.figsvg{max-width:100%;height:auto;}
+.flow figcaption,.flow .figcap{display:none;}          /* rule 3: no figure captions */
+
+/* ===== front matter + chapters each start on a fresh page ===== */
+.flow .cover{break-after:page;}        /* cover alone on page 1 */
+.flow .toc{break-after:page;}          /* Sommaire alone on the next page */
+.flow .chapter{break-before:page;}
+.flow .chapter:first-of-type{break-before:auto;}
+
+/* ===== cover ===== */
+.cover{padding:14mm 0 8mm;border-bottom:2px solid var(--blue);margin-bottom:6mm;}
+.cover .badge{font-family:var(--mono);font-size:8.5pt;letter-spacing:.28em;text-transform:uppercase;color:var(--orange);margin-bottom:10px;}
+.cover h1{font-family:var(--latin);font-weight:800;font-size:34pt;line-height:1.03;letter-spacing:-.025em;color:var(--blue-dark);}
+.cover .grule{width:120px;height:5px;border-radius:5px;background:var(--grad);margin:14px 0;}
+.cover .sub{font-family:var(--mono);font-size:10pt;letter-spacing:.14em;text-transform:uppercase;color:var(--teal);}
+.cover .auth{font-size:11pt;color:var(--fg2);margin-top:6px;font-weight:600;}
+
+/* ===== table of contents ===== */
+.toc{margin:2mm 0 4mm;}
+.toc h2{font-family:var(--latin);font-weight:800;font-size:15pt;color:var(--blue-dark);margin-bottom:4mm;}
+.toc .trititle{font-family:var(--mono);font-size:8pt;letter-spacing:.2em;text-transform:uppercase;color:var(--orange);margin:4mm 0 2mm;}
+.toc ol{list-style:none;}
+.toc li{display:flex;align-items:baseline;gap:8px;font-size:10pt;padding:2.2px 0;color:var(--fg);line-height:1.4;}
+.toc li .n{font-family:var(--mono);font-weight:700;font-size:9pt;color:var(--blue);min-width:26px;}
+.toc li .dots{flex:1;border-bottom:1px dotted var(--hair2);transform:translateY(-3px);}
+
+/* ===== chapter divider band ===== */
+.chapdiv{margin:0 0 5mm;padding:6mm 16px 5mm;border-radius:12px;background:var(--grad);
+    -webkit-print-color-adjust:exact;print-color-adjust:exact;}   /* green-filled chapter band */
+.chapdiv .cn{font-family:var(--mono);font-size:8.5pt;font-weight:700;letter-spacing:.24em;text-transform:uppercase;color:rgba(255,255,255,.82);margin-bottom:5px;}
+.chapdiv h2{font-family:var(--latin);font-weight:800;font-size:17pt;line-height:1.1;letter-spacing:-.015em;color:#fff;}
+/* conclusion block — same green-filled look as the chapter band */
+.conclusion{background:var(--grad);border-radius:12px;padding:6mm 16px;margin:5mm 0;color:#fff;break-inside:avoid;
+    -webkit-print-color-adjust:exact;print-color-adjust:exact;}
+.conclusion .ck{font-family:var(--mono);font-size:8.5pt;font-weight:700;letter-spacing:.24em;text-transform:uppercase;color:rgba(255,255,255,.82);margin-bottom:6px;}
+.conclusion h3{font-family:var(--latin);font-weight:800;font-size:13pt;line-height:1.2;color:#fff;margin-bottom:4px;}
+.conclusion p,.conclusion li{font-size:10.4pt;line-height:1.7;color:#fff;}
+.conclusion b,.conclusion strong{color:#fff;font-weight:700;}
+
+/* ===== unit header (lesson/exercise) + QR emplacement ===== */
+.exh{display:flex;align-items:center;gap:11px;margin:6mm 0 3mm;}
+.exh .idx{font-family:var(--mono);font-size:9pt;font-weight:600;color:#fff;background:var(--grad);
+    border-radius:6px;padding:4px 11px;letter-spacing:.08em;text-transform:uppercase;
+    -webkit-print-color-adjust:exact;print-color-adjust:exact;}
+.exh .idx.ex{background:var(--red);}   /* exercise chip = red */
+.exh h2{font-family:var(--latin);font-size:14pt;font-weight:700;letter-spacing:-.01em;color:var(--blue-dark);}
+.exh .qrcard{margin-inline-start:auto;flex:0 0 auto;display:flex;flex-direction:column;align-items:center;gap:3px;width:26mm;}
+.qrcard .qrt{font-family:var(--mono);font-size:6.5pt;letter-spacing:.1em;text-transform:uppercase;color:var(--teal);text-align:center;}
+.qrcard .qrslot{width:24mm;height:24mm;padding:1.5mm;background:#fff;border:1px solid var(--blue-line);border-radius:8px;display:flex;align-items:center;justify-content:center;}
+.qrcard .qrslot img,.qrcard .qrslot svg{width:100%;height:100%;display:block;}
+
+/* sub-exercise label when one file holds several exercices */
+.exsub{font-family:var(--latin);font-weight:800;font-size:11.5pt;color:var(--blue-dark);margin:5mm 0 2.5mm;padding-bottom:3px;border-bottom:2px solid var(--blue-line);}
+
+/* ===== text blocks ===== */
+.lead{font-size:11pt;line-height:1.7;margin:2mm 0 3mm;color:var(--fg);}
+.para{font-size:10.6pt;line-height:1.7;margin:2mm 0 2.5mm;color:var(--fg);}
+.consigne{font-size:10.4pt;line-height:1.6;margin:1mm 0 2mm;color:var(--fg);font-style:italic;}
+.subhead{font-family:var(--latin);font-weight:800;font-size:12pt;letter-spacing:-.01em;color:var(--blue-dark);margin:5mm 0 2.5mm;}
+/* emphasis — green accent = .t-blue/.t-green ; balance = .t-navy ; red = SECONDARY accent (.t-red) on titles + a few words */
+.t-blue{color:var(--blue);font-weight:600;} .t-navy{color:var(--blue-dark);font-weight:700;}
+.t-red{color:var(--red);font-weight:600;} .t-green{color:var(--teal);font-weight:600;} .t-gold{color:var(--orange);font-weight:600;}
+.subhead.t-red{color:var(--red);font-weight:800;}   /* red Roman-numeral section title (I, II, …) — keeps subhead weight */
+/* highlighter marks — a soft colour wash behind a key word (agent picks green or red per what balances the page) */
+.hl-green,.hl-red{border-radius:3px;padding:.02em .24em;font-weight:600;box-decoration-break:clone;-webkit-box-decoration-break:clone;
+    -webkit-print-color-adjust:exact;print-color-adjust:exact;}
+.hl-green{background:rgba(15,171,143,.20);color:var(--blue-dark);}   /* green highlight */
+.hl-red{background:rgba(245,50,47,.13);color:#c0261f;}               /* red highlight  */
+
+.data{background:var(--blue-soft);border:1px solid var(--blue-line);border-inline-start:4px solid var(--blue);
+    border-radius:8px;padding:11px 16px;margin:3mm 0;font-size:10pt;line-height:1.65;color:var(--fg2);}
+.data b{color:var(--fg);font-weight:700;}
+.note{border:1px dashed var(--hair2);border-radius:9px;padding:11px 16px;margin:4mm 0;background:var(--panel);}
+.note .kicker{font-family:var(--mono);font-size:7.5pt;letter-spacing:.18em;color:var(--orange);display:block;margin-bottom:5px;}
+.note .nb{font-size:10pt;line-height:1.7;color:var(--fg2);} .note b{color:var(--fg);}
+.ex:not(.idx){background:var(--blue-soft);border:1px solid var(--blue-line);border-inline-start:3px solid var(--blue);
+    border-radius:7px;padding:7px 11px;font-size:9.6pt;line-height:1.6;color:var(--fg2);margin:2mm 0;}   /* :not(.idx) so it never hits the exercise chip (which is .idx.ex) */
+.ex .extag{display:inline-block;font-family:var(--latin);font-weight:800;font-size:7.6pt;color:var(--blue-dark);background:#fff;
+    border:1px solid var(--blue);border-radius:5px;padding:1px 9px;margin-inline-end:7px;vertical-align:middle;text-transform:uppercase;letter-spacing:.06em;}
+
+/* ===== lists ===== */
+ol.q{list-style:none;counter-reset:q;margin:1mm 0 2mm;}
+ol.q>li{counter-increment:q;position:relative;padding-inline-start:30px;margin-bottom:2.5mm;font-size:10.4pt;line-height:1.6;}
+ol.q>li::before{content:counter(q);position:absolute;inset-inline-start:0;top:1px;width:21px;height:21px;background:var(--grad);color:#fff;
+    border-radius:50%;font-family:var(--mono);font-size:9pt;font-weight:600;display:flex;align-items:center;justify-content:center;
+    -webkit-print-color-adjust:exact;print-color-adjust:exact;}
+ol.sub{list-style:none;counter-reset:s;margin:4px 0 0;padding-inline-start:2px;border-inline-start:1px solid var(--blue-line);}
+ol.sub li{counter-increment:s;position:relative;padding:2.5px 0 2.5px 26px;font-size:10.1pt;line-height:1.55;}
+ol.sub li::before{content:counter(s,lower-alpha)".";position:absolute;inset-inline-start:10px;top:2.5px;font-family:var(--mono);font-size:9pt;font-weight:600;color:var(--teal);}
+ol.qn{list-style:none;counter-reset:qn;margin:1mm 0 2mm;}
+ol.qn>li{counter-increment:qn;position:relative;padding-inline-start:26px;margin-bottom:2.2mm;font-size:10.4pt;line-height:1.55;}
+ol.qn>li::before{content:counter(qn)".";position:absolute;inset-inline-start:0;top:0;font-family:var(--mono);font-size:9.5pt;font-weight:700;color:var(--blue);}
+ul.b{list-style:none;margin:1mm 0 2mm;} ul.b>li{position:relative;padding-inline-start:22px;margin-bottom:2.4mm;font-size:10.4pt;line-height:1.6;}
+ul.b>li::before{content:"";position:absolute;inset-inline-start:3px;top:8px;width:8px;height:8px;border-radius:50%;background:var(--grad);
+    -webkit-print-color-adjust:exact;print-color-adjust:exact;}
+ul.dash{list-style:none;margin:1mm 0 2mm;} ul.dash>li{position:relative;padding-inline-start:20px;margin-bottom:1.8mm;font-size:10.4pt;line-height:1.6;}
+ul.dash>li::before{content:"–";position:absolute;inset-inline-start:2px;top:0;color:var(--fg);font-weight:700;}  /* dash / +/− signs = body colour */
+.flow ul.opts{list-style:none;margin:4px 0 3px;padding-inline-start:16px;}
+.flow ul.opts li{padding:2px 0;font-size:10.2pt;line-height:1.5;color:var(--fg);}
+
+/* ===== figures / tables ===== */
+.fig{margin:3mm 0;} .fig svg.figsvg{display:block;margin:0 auto;background:#fff;max-width:100%;height:auto;}
+.photo{display:block;margin:3mm auto;border-radius:8px;border:1px solid var(--hair);max-width:100%;}
+.figrow{display:flex;flex-wrap:wrap;gap:9px;justify-content:center;margin:3mm auto;max-width:190mm;}
+.flow .figrow img{border-radius:7px;border:1px solid var(--hair);height:46mm;width:auto;max-width:none;object-fit:cover;}
+.schemarow{display:flex;gap:16px;align-items:flex-start;flex-wrap:wrap;margin:2mm 0;}
+.schemarow .col-txt{flex:1 1 90mm;min-width:80mm;} .schemarow .col-fig{flex:0 0 78mm;} .schemarow .col-fig .fig{margin:0;}
+.flow table{border-collapse:collapse;width:100%;margin:3mm 0;font-size:9.8pt;line-height:1.5;}
+.flow table th,.flow table td{border:1px solid var(--blue-line);padding:6px 10px;text-align:start;vertical-align:top;}
+.flow table th{background:var(--grad);color:#fff;font-family:var(--latin);font-weight:700;font-size:9.4pt;
+    -webkit-print-color-adjust:exact;print-color-adjust:exact;}
+.flow table tr:nth-child(even) td{background:var(--blue-soft);color:var(--sub-ink);}   /* sub-row: #E6F3F4 / #045260 */
+
+mjx-container{color:var(--fg) !important;font-weight:400 !important;font-size:1.0em !important;}
+.eq-hi mjx-container,mjx-container.eq-hi{color:var(--blue) !important;}   /* accent (green) equation — highlight a key result; balance with plain math */
+.eq-red mjx-container,mjx-container.eq-red{color:var(--red) !important;}  /* red accent equation / symbol — complements the green .eq-hi */
+
+/* ===== per-file books: credit line, copies list, figures at their size ===== */
+.credit{display:flex;flex-wrap:wrap;align-items:center;gap:5px;margin:-1mm 0 3.5mm;font-size:9.4pt;color:var(--fg2);}
+.credit .who{font-weight:700;color:var(--blue-dark);}
+.credit .tg{font-family:var(--mono);font-size:7.2pt;letter-spacing:.04em;border-radius:5px;padding:1px 7px;line-height:1.6;
+    border:1px solid var(--blue-line);color:var(--blue);background:#fff;-webkit-print-color-adjust:exact;print-color-adjust:exact;}
+.credit .tg.sec{background:var(--blue-dark);border-color:var(--blue-dark);color:#fff;}
+.credit .tg.cor{background:#fff;border-color:var(--red);color:var(--red);}
+.credit a{color:var(--fg3);font-family:var(--mono);font-size:7pt;text-decoration:none;}
+.cover .auth .credit{margin:4mm 0 0;}
+.cover .copies{margin-top:5mm;font-size:8.6pt;color:var(--fg2);}
+.cover .copies ul{list-style:none;margin:2mm 0 0;padding:0;columns:2;}
+.cover .copies a{color:var(--fg3);text-decoration:none;font-size:8pt;}
+.flow figure.fig{text-align:center;}
+.flow figure.fig img{max-height:60mm;width:auto;max-width:70%;display:inline-block;}
+
+/* chapter tag on each part of a multi-chapter book (the book keeps the original order of the file) */
+.chtag{display:inline-block;margin:5mm 0 2mm;padding:1mm 3mm;border-radius:2mm;background:#eef3fb;border:1px solid #c9d6ea;
+  color:#1f3a6b;font-size:9pt;font-weight:700}
+.chtag span{color:#6b7f9e;font-weight:600;margin-inline-end:1.5mm}
+
+@media print{ body{background:#fff;padding:0;} .flow{width:auto;max-width:none;margin:0;padding:0;} }
+@page{size:A4;}   /* margins come from render_flow.py — do NOT set them here */
+</style>
+<meta data-pagefind-filter="type[content]" content="ملخّص">
+<meta data-pagefind-filter="resource[content]" content="الكاتب: وائل بن عرفي">
+<meta data-pagefind-meta="n[content]" content="1702">
+<meta data-pagefind-meta="title[content]" content="مراجعة-شاملة-في-محور-النمذجة-WaelDocume">
+<meta data-pagefind-filter="chapter[content]" content="العلم بين الحقيقة والنمذجة">
+<meta data-pagefind-filter="chapter[content]" content="المنهجية">
+<meta data-pagefind-filter="section[content]" content="باكالوريا علوم الإعلامية"><style>.qrcard{display:none!important}.wa-nav{position:sticky;top:0;z-index:50;background:#045260;padding:10px 18px;font-family:Cairo,sans-serif;direction:rtl}.wa-nav a{color:#fff;text-decoration:none;font-weight:700}@media print{.wa-nav{display:none}}</style>
+</head>
+
+<body dir="rtl" lang="ar"
+      data-brand="Wael Academy" data-handle="@WaelAcademy"
+      data-tagline="في تُرابنا.. مغامرة بمغامرة"
+      data-phone="+216 50 40 40 42" data-site="waeldocuments.com"
+      data-cta="سجل معانا وأقرى عن بعد مع منصة Wael Academy"
+      data-subject="Philosophie · مراجعة-شاملة-في-محور-النمذجة-WaelDocume" data-watermark="Wael Academy" data-pagefind-body><nav class="wa-nav" data-pagefind-ignore><a href="../index.html">→ الرجوع إلى فهرس الفلسفة</a></nav>
+
+<!-- single full-page diagonal watermark, bottom-left → top-right (repeats on every page) -->
+<div class="wm" aria-hidden="true"><span>WAEL&nbsp;ACADEMY</span></div>
+
+<div class="flow colored">
+<div class="cover"><div class="badge">◉ Wael Academy · Philosophie</div><h1>مراجعة-شاملة-في-محور-النمذجة-WaelDocume</h1><div class="grule"></div><div class="sub">العلم بين الحقيقة والنمذجة</div><div class="auth"><div class="credit">المؤلّف / المصدر : <span class="who">الكاتب: وائل بن عرفي — مؤسس موقع و صفحة WaelDocuments.com — Page Facebook: WaelDocuments.com — Page instagram @WaelDocuments — #الكتب_علينا #والنّجاح_عليك</span> <span class="tg">مراجعة</span><span class="tg sec">الفلسفة · باكالوريا علوم الإعلامية</span> <a href="https://drive.google.com/file/d/1TOmZ0uq--d5Ro_SLGbnzhOr7kNMxMI_T/view">↗ مراجعة-شاملة-في-محور-النمذجة-WaelDocume.pdf</a></div></div><div class="copies" data-pagefind-ignore><b>نسخ هذا الملف في الدرايفات (1)</b><ul><li><a href="https://drive.google.com/file/d/1TOmZ0uq--d5Ro_SLGbnzhOr7kNMxMI_T/view">Jihed Rezgani · Bac Info › Philo / العلم بين الحقيقة والنّمذجة</a></li></ul></div></div>
+<section class="chapter">
+<div class="chtag"><span>المحور</span> العلم بين الحقيقة والنمذجة</div>
+<!-- SOURCE: الكاتب: وائل بن عرفي — مؤسس موقع و صفحة WaelDocuments.com — Page Facebook: WaelDocuments.com — Page instagram @WaelDocuments — #الكتب_علينا #والنّجاح_عليك -->
+<div class="exh"><span class="idx">ملخّص</span><h2>مراجعة شاملة في مادة الفلسفة محور النمذجة</h2>
+  <div class="qrcard"><div class="qrt">فيديو الدرس</div><div class="qrslot"><img src="qr/1702.svg" alt="QR"></div></div></div>
+<div class="credit">المؤلّف / المصدر : <span class="who">الكاتب: وائل بن عرفي — مؤسس موقع و صفحة WaelDocuments.com — Page Facebook: WaelDocuments.com — Page instagram @WaelDocuments — #الكتب_علينا #والنّجاح_عليك</span> <span class="tg">مراجعة</span><span class="tg sec">الفلسفة · باكالوريا علوم الإعلامية</span> <a href="https://drive.google.com/file/d/1TOmZ0uq--d5Ro_SLGbnzhOr7kNMxMI_T/view">↗ مراجعة-شاملة-في-محور-النمذجة-WaelDocume.pdf</a></div>
+<p class="subhead t-navy">شعب علمية و اقتصادية :</p>
+<ul class="b">
+<li><span class="t-green">تلخيص مبسّط للنمذجة</span></li>
+<li><span class="t-green">شواهد النمذجة</span></li>
+<li><span class="t-green">تمارين بالإصلاح حول النمذجة</span></li>
+<li><span class="t-green">فروض بالإصلاح حول النمذجة</span></li>
+<li><span class="t-green">منهجية الفقرة الفلسفيّة</span></li>
+</ul>
+<!-- NOTE: running header "تلخيص النمذجة (خاص بصفحة WaelDocuments.com)" and "PAGE N" markers / footer omitted after first occurrence -->
+<p class="subhead t-red">تلخيص النمذجة</p>
+<p class="para">(خاص بصفحة WaelDocuments.com)</p>
+<p class="subhead t-navy"><span class="t-green">النمذجة: تعريفات ومفاهيم</span></p>
+<p class="para">- <u><span class="t-red">العلم:</span></u> هو دراسة <span class="t-blue">موضوع معيّن</span> بالاعتماد على منهج واضح. تنقسم العلوم إلى <span class="t-blue">مجالات</span> من بينها العلوم الانسانية (كعلم النفس...) و العلوم التجريبيّة (كعلم الفلك...) و غيرها.</p>
+<p class="para">- <u><span class="t-red">الابستمولوجيا:</span></u> هي دراسة العلوم  و<span class="t-blue">تحليلها بشكل نقدي</span>. مع التركيز على التّحوّلات التي شهدتها العلوم عبر التاريخ (الثورات العلمية و الثورة الصناعية...)</p>
+<p class="para">- <span class="t-red">االنموذج:</span></p>
+<p class="para">*<u><span class="t-gold">المعنى الخاطئ:</span></u> النموذج <span class="t-green">لا نقصد به</span> القالب أو الشخص المثالي التي نقتدي به (المعهد النموذجي)</p>
+<p class="para">*<u><span class="t-gold">المعنى الصحيح:</span></u> بل النموذج نقصد به <span class="t-blue">التعبير المبسّط</span> لوضعية واقعيّة قصد <span class="t-blue">تحليلها و فهمها</span>. في الغالب يكون النموذج ماديّا (مجسّمات مصغّرة، خرائط، رسومات...)</p>
+<p class="para">- <u><span class="t-red">النمذجة:</span></u> هي الإسم المشتقّ من كلمة نموذج. وهي أن نأخذ وضعيّة معقّدة من الواقع و <span class="t-blue">نبسّطها (أي نصنع لها نموذجا</span>  يعبّر عنها) قصد فهم تلك  الوضعيّة.</p>
+<p class="para"><span class="t-green">مثال:</span> لنَفْهَمَ كيفيّة عمل الحاسوب، نصنع له نموذجا أي رسما يصف مكوّناته و يبسّط علينا كيفيّة استعماله. هذه العمليّة تسمّى "نمذجة الحاسوب". <span dir="ltr"><span class="t-gold">easy right ?</span></span></p>
+<p class="para">(ملاحظة: يمكن أن يكون النموذج نظريا أي تبسيط شيء باستعمال ألفاظ شائعة.)</p>
+<p class="subhead t-navy"><span class="t-green">أبعاد النمذجة</span></p>
+<p class="para"><span class="t-blue">بعد أن تحدّثنا عن العلوم بشكل منفصل و عن النمذجة بشكل منفصل، الآن سنربط بين الإثنين: النمذجة العلميّة  هي تعبير مبسّط عن واقع علمي قصد فهمه بشكل أكبر.</span></p>
+<p class="para">- <u><span class="t-red">البعد التركيبي:</span></u> خلق مجموعة من الرموز تكون <span class="t-gold">موحّدة</span> بين جميع العلماء لتسهيل الفهم و التواصل بينهم (الصَّوْرَنَة).</p>
+<p class="para">- <u><span class="t-red">البعد الدّلالي:</span></u> النمذجة هي <span class="t-gold">تمثيل</span> للواقع في شكل مجسّمات و خرائط ورسوم بيانيّة لتسهيل الفهم أيضا (<span dir="ltr">c'est une <span class="t-gold">représentation</span></span>).</p>
+<p class="para">- <u><span class="t-red">البعد التّداولي:</span></u> يكون النّموذج <span class="t-gold">فاعلاً وناجعًا</span> (<span dir="ltr"><span class="t-gold">efficace</span></span>) <span class="t-gold">وعمليّا</span> (<span dir="ltr"><span class="t-gold">pratique</span></span>)  و يحقّق الأهداف الي صُنِعَ من أجلها.</p>
+<p class="subhead t-navy"><span class="t-green">حدود النّمذجة المعرفيّة</span></p>
+<p class="para">- <u><span class="t-red">النّسبيّة (<span dir="ltr">Tout est relatif</span>):</span></u></p>
+<p class="para"> * في العلم <span class="t-blue">لا يوجد حقيقة واحدة ثابتة</span> بل يجب دائما الشّكّ للوصول إلى الحقيقة. بهذه الطّريقة قد تكوَّن العلم على مرّ السّنين. لكن كثرة الشّكّ جعل الانسان <span class="t-blue">"ريبيّا"</span>، بقيّة التلاخيص تجدونها على صفحتنا على الفايسبوك <span dir="ltr">WaelDocuments.com</span> ، أي يبالغ في الشك إلى درجة الشّكّ في وجوده وبالتالي يتدمّر و يتشتّت.</p>
+<p class="para">- <u><span class="t-red">الواقع الخيالي:</span></u> العلم يتعامل مع واقع خيالي و افتراضي</p>
+<p class="para">مثال:</p>
+<p class="para"><span dir="ltr">{Maths, Géométrie dans l'espace}: l'espace est 3D mais ce n'est pas notre monde réel.</span></p>
+<p class="para">و بالتّالي أصبح الإنسان يعيش في <span class="t-blue">واقع خيالي</span> و لا يستطيع العودة إلى واقعه الحقيقي.</p>
+<p class="para">- <u><span class="t-red">التبسيط و الاختزال:</span></u> أصبح الانسان <span class="t-blue">ضعيف الانسانيّة و مُصْطَنَعًا</span> لأنّ العلم يقوم على إضافة عناصر و حذف عناصر أخرى (التبسيط و الاختزال) أي أصبح واقع الإنسان مُنشَأ ومُصطَنَعًا لا حقيقيّا.</p>
+<p class="para">- <u><span class="t-red">الفهم:</span></u> العلم في إطار النّمذجة يجعل الانسان يفهم الأشياء فهما <span class="t-blue">جزئيّا و نسبيّا فقط</span>، و لا يفسّرها له بشكل <span class="t-blue">قطعي و ثابت</span> <span class="t-gold">(يُفهِمُ و لا يُفَسِّرُ)</span></p>
+<p class="subhead t-navy"><span class="t-green">حدود النّمذجة الأخلاقيّة (الإيتيقيّة)</span></p>
+<p class="para">- العلم أصبح أداة <span class="t-red">سيطرة و تحكّم</span> في الإنسان.</p>
+<p class="para">- العلم <span class="t-red">تدمير للطبيعة</span> (مخاطر التلوث، الأسلحة النوويّة، الانحباس الحراري...)</p>
+<p class="para">- يجب على الانسان الحدّ من مخاطر العلم بتزويده <span class="t-red">بالقيم  والتفكير الفلسفي و الفن  والأدب وغيرها...</span></p>
+<p class="para"><span class="t-green">كان عجبك التلخيص شجّعنا :) بارطاجيه مع أصحابك وأعمل طلّة على الانستغرام و الفايسبوك متاعنا فيهم برشا تلاخيص</span></p>
+<!-- NOTE: contact block (phones (+216) 50 40 40 42 / (+216) 50 45 40 40, waeldocuments.com, waelclasses.com, @waeldocuments), stamp, watermark and the ad box "يمكنكم شراء كتب مراجعة باكالوريا جميع الشعب جميع المواد حصريّا على صفحتنا WaelDocuments.com" omitted as source furniture -->
+<p class="subhead t-red"><span class="t-blue">المحور 3: العلم بين الحقيقة و النمذجة</span></p>
+<p class="subhead t-navy"><span class="t-blue">(شواهد)</span></p>
+<ul class="b">
+<li><b>نوفال</b> (دلالة النّمذجة) — <b>" فالتّبسيط إذن هو نمذجة"</b></li>
+<li><b>بياجي</b> (البعد التّركيبي) — <b>" الصّورنة.. تترجم في معادلات .. رياضية."</b></li>
+<li><b>لوموانيه</b> (البعد الدّلالي) — <b>"النّمذجة.. تنتج عددا ... من الأعمال "</b></li>
+<li><b>توم</b> (البعد التّداولي) — <b>" كلّ نمذجة تمثّل رهانا فثمّة مراهنة وثمّة ربح."</b></li>
+<li><b>دوهام</b> (الحدّ الابستيمولوجي) — <b>" الارتفاع من الواقعة إلى الفكرة ثم بالنّزول من الفكرة إلى الواقعة."</b></li>
+<li><b>بلانشي</b> (الحدّ الايتيقي) — <b>" ننمذج أحيانا حدثا مفزعا."</b></li>
+</ul>
+<!-- NOTE: running header "فلسفة- تمارين النمذجة بالإصلاح" / "Page Fb: WaelDocuments.com" and footer "تابعونا على صفحتنا  في الفايسبوك باش تلقى تلاخيص في جميع المواد" omitted after first occurrence; stamp and watermark omitted -->
+<p class="subhead t-red">فلسفة- تمارين النمذجة بالإصلاح</p>
+<div class="exsub"><u>تمرين 1 :</u></div>
+<p class="consigne"><b>" النمذجة العلمية هي إنشاء لنماذج ينبغي أن تكون ملائمة للواقع و ليست اكتشافا لحقيقة الواقع."</b></p>
+<p class="consigne"><b>اكشف عن طبيعة <u><span class="t-red">التقابل</span></u> بين النمذجة و الحقيقة بالاستناد على هذا القول</b></p>
+<p class="subhead t-navy"><u>الإصلاح:</u></p>
+<ul class="b">
+<li><b>هناك اختلاف جذري بين النمذجة و الحقيقة, ف<u><span class="t-red">النمذجة</span></u> هي تمثل عقلي يتأسس على <u>بناء</u> نتصوره بطريقة نظرية انطلاقا من جملة من الوقائع الجزئية التي يلاحظها الإنسان , بغرض الوصول إلى تطبيق محدد , و عادة ما يتم التعبير عنه برموز رياضية تمكننا من تبسيط الوقائع الجزئية و جعلها قابلة للفهم أو التفسير , كما يمكن أن تقدم لنا توقعات لكيفية اشتغالها و النتائج المنجرة عنها انطلاقا من التجربة التي تكشف عن مدى تلاؤم تلك النماذج المنشأة مع الوقائع , مع بقاء تلك النماذج منفتحة على الممكنات التي تطرأ على متغيرات الوقائع كلما إنضافت معطيات جديدة تمدنا بها الملاحظة و على ضوء ذلك لا يدعي المنمذج انه ببنائه للنموذج قد عبر على الصيغة العلمية المتطابقة مع ما يحدث في الواقع فعليا بل يؤكد على العكس من ذلك على السمة النسبية و التقريبية لها . بينما <u><span class="t-red">الحقيقة</span></u> كما راهن عليها العلماء الكلاسيكيون فهي تسعى للكشف عن قوانين الواقع بشكل يقني و موضوعي بصورة مطلقة أي تسعى نحو اكتشاف الواقع في حد ذاته .</b></li>
+</ul>
+<p class="para">*****</p>
+<div class="exsub"><u>تمرين 2 : ( بكالوريا 2010 )</u></div>
+<p class="consigne"><b>قيل : " لا يمكن لأي نموذج علمي أن يكون نهائيا ."   اكشف إحدى <u><span class="t-red">تبعات</span></u> هذا القول.</b></p>
+<p class="subhead t-navy"><u>الإصلاح:</u></p>
+<ul class="b">
+<li><b>إن المعرفة الحاصلة من النمذجة تبقى مفتوحة على الدوام و تثرى باستمرار و تكون بذلك تاريخية.</b></li>
+<li><b>إن النموذج العلمي هو تمثّل قابل للمراجعة و التعديل.</b></li>
+<li><b>إن القيمة العلمية للنموذج  تتحدد بصلاحيته المرتبطة بالمشاريع المعرفية المختلفة و بمعيار الفعالية و النجاعة.</b></li>
+<li><b>إن النمذجة تقطع مع التصوّر الذي يرى في العلم إنتاجا لحقائق مطلقة و ثابتة.</b></li>
+<li><b>إنّ النمذجة تفضي إلى التفريط في مطلب الحقيقة التي لا تقاس بمدى تطابق الفكر مع الواقع.</b></li>
+</ul>
+<p class="para">*****</p>
+<div class="exsub"><u>تمرين 3:</u></div>
+<p class="consigne"><b>استخرج <u><span class="t-red">قيمة</span></u> النموذج في العلم من خلال القول التالي:" إنّ خصوبة نموذج ما هي مجموع النتائج و التبعات غير المتوقّعة التي تنجم عن استعماله."</b></p>
+<p class="subhead t-navy"><u>الإصلاح:</u></p>
+<ul class="b">
+<li><b>النموذج له قيمة تداولية من خلال قابليته لان ينطبق على مجالات متنوعة معتمدا في ذلك على تقنيات علميّة متجدّدة.</b></li>
+<li><b>النموذج له قيمة معرفية تجعله قادرا على استكشاف إمكانات معرفية غير متوقعة و لم تكن متاحة في السّابق.</b></li>
+</ul>
+<div class="exsub"><u>تمرين 4: ( باكالوريا 2014 )</u></div>
+<p class="consigne"><b>"بقدر ما يتقدّم العلم في نمذجة الواقع يبتعد عنه."     حدّد <u><span class="t-red">دلالة</span></u> النموذج في سياق هذا القول.</b></p>
+<p class="subhead t-navy"><u>الإصلاح:</u></p>
+<ul class="b">
+<li><b>إن دلالة النمذجة (<span dir="ltr">La Modélisation</span>) نفهمها على أنّها نماذج متعدّدة وتصاميم متنوّعة وأشياء مصغرة سهلة الاستعمال يعاد من خلالها وفق شكل مبسّط ومصغّر إنتاج خصائص شيء ذي أبعاد كبرى سواء تعلّق الأمر بمعمار أو بأداة ميكانيكيّة .</b></li>
+<li><b>النموذج آلية لمقاربة الواقع تقوم على استبدال الواقع المعطى بواقع منشأ / اصطناعي قصد تعقّله و التحكّم فيه.</b></li>
+<li><b>النموذج لا يقوم على محاكاة الواقع المعطى و المباشر بل يقوم على إنتاج واقع عقلي بديل</b></li>
+</ul>
+<!-- PROOFREAD: 1702 part1 p10 — "بديل" line end partly covered by an ad box; text may continue behind it -->
+<!-- NOTE: ad box "يمكنكم شراء كتب ورقيّة للإمتحانات السّابقة للباكالوريا من 2009 إلى 2023 بالاصلاح الرّسمي للوزارة في جميع المواد بأسوام طيّارة على صفحتنا WaelDocuments.com" omitted as source furniture -->
+<p class="para">*****</p>
+<div class="exsub"><u>تمرين5:</u></div>
+<p class="consigne"><b>قيل :" إنّ النمذجة ليست هي البراديغم ."    قدم <u><span class="t-red">حجج</span></u> مدعمة للقول .</b></p>
+<p class="subhead t-navy"><u>الإصلاح:</u></p>
+<ul class="b">
+<li><b>البراديغم يفترض القطيعة والانتقال من براديغم إلى آخر على أساس أن البراديغم هو <u>ما يمتلكه أعضاء جماعة علميّة بشكل مشترك</u> , بينما النمذجة تعتبر أنّ العلم علوم وأنّ النماذج تتعدّد وتتعايش ولا توجد قطيعة بين النماذج العلميّة المتعدّدة والمتنوّعة والمختلفة.</b></li>
+<li><b>البراديغم  لا يهتم  بكثرة النماذج في حياتنا الواقعيّة وفي المستوى المعرفي الإنساني و يجعل من الحقيقة العلميّة واحدة تتمثّل في البراديغم القائم. بينما النمذجة تعتبر أنّ العلم علوم وأنّ النماذج تتعدّد وتتعايش ولا توجد قطيعة بين النماذج العلميّة المتعدّدة والمتنوّعة والمختلفة.</b></li>
+</ul>
+<p class="para"><b>إن النمذجة تجعل العلم منفتحا على التعدّد و تعتبر ميزة التفكير العلمي الحديث هو النسبيّة التي جعلت من العلم مجرّد برنامج للبحث عن فروض ، بينما البراديغم يحدثنا عن حقيقة علميّة واحدة .</b></p>
+<p class="para">*****</p>
+<div class="exsub"><u>تمرين6:</u></div>
+<p class="consigne"><b>قيل :" بقدر ما تتقدّم النمذجة يتراجع التأمّل." اكشف عن <u><span class="t-red">مسلّمة</span></u> ضمنيّة لهذا القول .</b></p>
+<p class="subhead t-navy"><u>الإصلاح:</u></p>
+<ul class="b">
+<li><b>أن تقدّم النمذجة يقوم على حساب التأمل الذي يتأخر ويتراجع.</b></li>
+<li><b>أن الحدّ الابستيمولوجي للنمذجة بقدر ما يضعنا أمام أنظمة تقنيّة متعدّدة بقدر ما يجعل من التقنيّة وأنظمتها أداة تعيق التفكير.</b></li>
+<li><b>إن الحقيقة العلميّة أصبحت في ظلّ هيمنة النمذجة أداة نكوص وتراجع لفعل التفكير، وكأنّنا أمام تأخر الفعل الإنساني (التأمل والتفكير كخصوصيّة إنسانية) في مقابل تقدّم وهيمنة الأنظمة التقنيّة التي تقدمها النمذجة.</b></li>
+</ul>
+<p class="subhead t-red"><u>II - قسم النصّ الفلسفي</u></p>
+<div class="exsub"><u>النصّ 1 :</u></div>
+<p class="para"><b>يمثّل  تعريف الحقيقة بما هي التطابق مع الواقع التصوّر الأكثر شيوعا في شأنها. و حسب هذا الفهم, فإنّ ما يجعل من قضيّة ما أو ممن نموذج نظريّ معيّن حقيقيين هي مطابقتهما للأشياء كما هي موجودة في الواقع. (...) و لقد سبق أن رأينا أنّه ينبغي استعمال مصطلح " الواقع" بحذر و أنّه ليس من السهل تعريفه, ... كما أنّه يمكن نمذجة نفس الوضعيّة الواقعيّة بكيفيات لامتناهية, و لنقتصر هنا على ذكر أنّه ليس من الضروري أن نتخيّل عالما موضوعيا ينبغي على النماذج أن تطابقه, إذ يكفي من أجل تبرير إنتاج النماذج النظريّة أن نطالبها بأن تكون تصوّرات تسمح لنا بتنظيم العالم و التأثير فيه.</b></p>
+<p class="para"><b>و هكذا يمكن مقارنة النماذج والنظريّات بالخرائط الجغرافيّة. إنّ الخرائط ليست نسخا للأرض. فهي صيغة لتحديد مواقعنا في الأرض, و بتحديد محتوى الخريطة, وهكذا فإنّ خريطة للطرقات لا تقدّم نفس التوجيهات التي تقدّمها خريطة جيولوجيّة, لأنّ كلّ واحدة منهما تمّ بناؤه بحسب مشروع خاص. ومن أجل قراءة الخريطة بشكل جيّد ينبغي فهم الكيفية التيّ بها تم تحديد رموزها. وبالمثل بالنسبة إلى النموذج العلمي , حيث ينبغي إدراك الكيفيّة التي بها تمّ بناء المفاهيم من أجل فهم النموذج, و بالرغم من ذلك تكون الخريطة موضوعيّة في معنى أنّها تسمح بإبلاغ عدد من المعارف حول الأرض عندما نعرف كيفيّة استعمالها, وبالمثل بالنسبة إلى النماذج العلميّة, ذلك أنّ إمكانيّة استعمالها  داخل جماعة العلماء الذين يعرفون قواعد ذلك الاستعمال هي التيّ تمنح للنماذج " موضوعيّتها."</b></p>
+<p class="para"><b>جيرار فوريز , " بناء العلوم "</b></p>
+<p class="consigne"><b><u>المطلوب</u>: إنجاز المهام التالية انطلاقا من النصّ.</b></p>
+<p class="consigne"><b>1 - حدّد بدقّة إشكالية النصّ.</b></p>
+<p class="consigne"><b>2 - ارصد حجّة يبرّر بها الكاتب دحضه للأطروحة القائلة بأنّ تمثّل العالم موضوعيا يشترط تطابق النماذج معه.</b></p>
+<p class="consigne"><b>3- استخلص رهان الكاتب من خلال ما ورد في النصّ.</b></p>
+<p class="subhead t-navy"><u>الاصلاح</u></p>
+<p class="para"><b>1 - <u>الإشكالية</u> : هل تستمد النماذج العلمية قيمتها مما تقدمه من تمثلات تتطابق ضرورة مع أشياء العالم كما هي موجودة في الواقع و تعبّر بذلك عن حقيقة العالم <span class="t-red">أم</span> تكتسب قيمتها الحقيقة مما تنشئه من تصورات يتم بناؤها استنادا على المشروع الذي يصطنعه المنمذج والذي به يتم تنظيم العالم و التأثير فيه بصورة اصطلاحيّة؟</b></p>
+<p class="para"><b>2 - <u>الحجج الداحضة لأطروحة</u> : يرفض الكاتب اعتبار النماذج العلمية قادرة على إحداث تطابق بينها و بين حقيقة العالم في حدّ ذاته وأن العالم له نظاما موضوعيا مستقلا عن المنمذج و أن هذا الأخير يقتصر دوره على مجرد اكتشافه , ذلك أنّ النمذجة العلميّة في التصوّر المعاصر تكشف عن طبيعة التفاعل الديناميكي بين المنمذج والوقائع التّي يتمّ بناء تمثلات حولها بصورة افتراضيّة , فالمنمذج يبني مشروعه العلمي انطلاقا من ملاحظة وقائع جزئية محدّدة يكوّن حولها جملة من التمثلات العقلية القادرة على حل إشكال فهمها و تبسيطها بصورة إجرائية مما يسمح بتنظيم العالم والتأثير فيه .</b></p>
+<p class="para"><b>3 - <u>رهان الكاتب</u>: النماذج هي بنيات رمزيّة تمكّن من حسن تنظيم العلاقات بصورة ناجعة و قادرة على تحقيق جملة من الأهداف التي يضعها المنمذج ضمن مشروع محدّد, فموضوعيّة النماذج العلميّة لا تتحقّق بمدى مطابقتها مع الواقع بل من مدى اتفاق جماعة من العلماء حول المفاهيم التي  بنية بواسطتها و من قدرتها على تنظيم العالم والتأثير فيه, فرهان المنمذج ليس الحقيقة ( مطلقة )بل الصلاحية والنجاعة ( نسبية) .</b></p>
+<div class="exsub"><u>النصّ 2 :</u></div>
+<p class="para"><b>ما الحقائق التي ننظر إليها؟ و كلف نحكم على أهميتها وخصائصها؟ نحن نحتاج إلى نماذج ضمنية أو صريحة حتى نكون قادرين على (...) توضيح الطريق الذي ينبغي أن نسلكه حتى نحقّق أهدافنا. كلّ نموذج أو خريطة هي تجريد  و تكون ذات فائدة أكبر لبعض الأغراض من غيرها من الأغراض. إنّ خريطة الطريق تبيّن لنا كيف يمكن أن نقود من  أ إلى ب و لكنّها لن تكون ذات فائدة لو كنّا نطير على متن طائرة, و هي حالة نحتاج فيها إلى خريطة ترسم لنا المطارات, و إشارات الراديو, وخطوط الطيران و التضاريس. و بدون خريطة فإنّنا سوف نضيع, و كلّما كانت الخريطة أكثر تفصيلا فإنّها سوف تعكس بقدر كامل الحقيقة, و على أي حال, فإنّ خريطة مستفيضة التفاصيل لن تكون ذات فائدة. إنّنا نحتاج إلى خريطة تكون في أن واحد مصوّرة للحقيقة و مبسّطة لها بطريقة تخدم أغراضها على أفضل وجه.</b></p>
+<p class="para"><b>صموئيل هنتنجون</b><br><b>صدام الحضارات ص 83</b></p>
+<p class="consigne"><b><u>المطلوب</u>: إنجاز المهام التالية انطلاقا من النصّ.</b></p>
+<p class="consigne"><b>1 - حدّد إشكالية مناسبة للنصّ.</b></p>
+<p class="consigne"><b>2- عيّن الفائدة الحاصلة من اعتماد النماذج العلميّة؟</b></p>
+<p class="consigne"><b>3 - قدّم حجّة تبيّن من خلالها أنّ خريطة مستفيضة التفاصيل لن تكون ذات فائدة.</b></p>
+<p class="subhead t-navy"><u>الإصلاح</u></p>
+<p class="para"><b><u>1 - الإشكالية:</u></b></p>
+<ul class="b">
+<li><b>أي قيمة تكون عليها النماذج العلميّة ؟ هل هي نماذج تبسّط الواقع و تقرّبه أم هي تبالغ في اختزال الواقع فتجعله سطحيّا ؟</b></li>
+</ul>
+<p class="para"><b><u>2 - تعيين الفائدة العلمية من النماذج:</u></b></p>
+<ul class="b">
+<li><b>تمثّل النماذج وسائط رمزية تسمح بتوضيح الواقع إذا كان غامضا.</b></li>
+<li><b>تسمح النماذج من تبسيط الواقع إذا كان معقدا.</b></li>
+<li><b>تمكّن النماذج من حسن تمثّل الواقع و فهمه اعتمادا على منهجها الاختزالي القائم على إستراتيجية الإهمال.</b></li>
+</ul>
+<p class="para"><b><u>3- الحجة :</u></b></p>
+<ul class="b">
+<li><b>لا تكون للخريط من فائدة إلا من جهة صلاحيتها أي ان تكون نتائجها متطابقة مع المعطى التجريبي و لا تؤدي إلى تناقضات .</b></li>
+<li><b>قدرة النموذج على الاستكشاف معرفيا و علميا.</b></li>
+<li><b>ضرورة أن يكون النموذج معبرا عن التأثر بالعوامل الأوليّ و لا يتأثر بالعوامل الثانويّة للتغيرات.</b></li>
+</ul>
+<p class="subhead t-red"><u>III - المحاولة الفلسفية</u></p>
+<p class="consigne"><b><u><span class="t-red">السؤال</span></u> : هل يؤدّي الطابع المؤقّت للنماذج إلى اليأس من الحقيقة العلميّة ؟</b></p>
+<p class="subhead t-navy"><u>الإصلاح:</u></p>
+<p class="para"><b><u>مقدّمة</u></b></p>
+<p class="para"><b>لعلّ أكثر السمات التي ميّزت النمذجة العلميّة هو حرصها الدائم على تأكيد توجّهها النفعي كشرط يميّز التجربة العلميّة غير أنّ هذا التوجّه النفعي بقدر ما ساعد العلم أن يكون دائم المراجعة لنفسه لقدر ما جعله يغيّر من النماذج و يستبدلها, فوجد البعض في ذلك نقيصة يشككون من خلالها في قيمة الحقيقة العلميّة التي يصل إليها العلم.</b></p>
+<ul class="b">
+<li><b>فكيف فهم الطّابع المؤقّت للنماذج؟ هل هو نقيصة تدفع إلى التشكيك فيما ينتجه العلم من حقائق إلى حدّ اليأس منها أم هو مسار يدفع لتطوير العلم بمراجعته لكلّ ما ينتجه ؟</b></li>
+</ul>
+<p class="para"><b><u>التحليل</u></b></p>
+<p class="para"><b>الشروع في بلورة الموقف من المشكل المطروح وفق التمشي التالي :</b></p>
+<p class="para"><b><u>1 - دلالة النموذج:</u></b></p>
+<p class="para"><b>إنّ العلم هو مسار نحو النمذجة العلميّة و هو يقطع مع التصوّر الكلاسيكي الذي يرى أنّ ما ينتجه من حقائق يجب أن تكون مطلقة و ثابتة. في حين أنّ الاعتماد على النماذج يتمّ انطلاقا من فكرة ذهنية يتمّ افتراضها و تخيّلها نحو إعادة إنتاجها فيتحقّق النموذج في شكل تصميم مصغّر و مبسّط , و يستند في إنشاءه على قاعدة الاختزال التي تتم بواسطة استراتيجية الإهمال.</b></p>
+<p class="para"><b><u>2 - دواعي استبدال النماذج:</u></b></p>
+<p class="para"><b>لما كان العلم قد اتّخذ من النجاعة و الأداء المعيار في الحكم على النماذج فإنّ كلّ نموذج يتمّ استبداله إذا ما فقد البعض من نجاعته أو أصبح غير متلائم مع الوضعيّة التي يتمّ معالجتها أو تمّ اختراع نموذج أكثر نجاعة منه يتمّ استبداله.</b></p>
+<p class="para"><b>بهذا المعنى تصبح الخاصيّة المميّزة للنماذج هي الطابع المؤقّت لها و المتوافق مع الشرط العلمي الذي  يقرّ بأنّ الاحتفاظ بالنماذج أساسه مقدار حفاظها على نجاعتها و أدائها.</b></p>
+<p class="para"><b><u>3 - التبعات:</u></b></p>
+<p class="para"><b>بيان أثر الطابع المؤقّت للنماذج على الحقيقة العلميّة نحو اليأس منها. مما دفع ببعض الأصوات للتشكيك في الحقيقة العلميّة لأنه يفضي إلى التفريط في مطلب الحقيقة نحو الاكتفاء بحقيقة احتمالية و نسبية و تقريبية زعزعت الثقة في العلم و حوّلت العقلانيّة العلميّة إلى عقلانيّة ريبيّة .</b></p>
+<p class="para"><b><u>4- حدود هذا التصوّر:</u></b></p>
+<p class="para"><b>و لكن مع ذلك لنا أن نرتاب في مثل هذا التصوّر نحو تصحيح مساره و فهم حقيقة غاياته , لأنّه قد أسّس لعقلانية علميّة جديدة مفتوحة و متغيّرة. فالطابع المؤقّت للنماذج يكشف عن المراجعة الدائمة التي يمارسها العلم إزاء كلّ ما ينتجه, و التعديل المستمر للإنتاجات العلميّة يخبر عن عقلانيّة أصبحت أكثر انفتاحا على نفسها و على ما يطوّرها لطلب الاكتمال.</b></p>
+<p class="para"><b><u>الخاتمة</u>: استخلاص الموقف النهائي و بيان قيمته.</b></p>
+<p class="para"><b>ما نلخص إليه إنّ النمذجة العلميّة قد أحدثت تحوّلا في بنية العلم و مفاهيمه و تمشياته و تمثلاته عن نفسه و عن الحقيقة, تحتاج إلى طريقة خاصة من الفهم. فلقد حرّرنا العلم من الحقيقة الواحدة و المطلقة و النهائيّة نحو الإقرار بأنّ كل شيء مقبول ما دام يتلاءم مع المطلوب.</b></p>
+<!-- NOTE: running header "النمذجة - فروض بالإصلاح" / "Page Fb: WaelDocuments.com" and footer omitted -->
+<p class="subhead t-red"><span class="t-blue">فروض بالإصلاح حول النمذجة</span></p>
+<p class="para">الأول : ( عشر نقاط)</p>
+<div class="exsub"><b>التمرين 1 : ( 2 ن)</b></div>
+<p class="consigne"><b>« إن هذه الصورنة هي عمل المنظر، في حين أن البنية تكون مستقلة عنه »</b>  حدّد دلالة الصورنة.</p>
+<div class="data"><p class="para">الصورنة هي ضمان الطابع الشكلاني و المجرد للنموذج  و ضمان تناسقه المنطقي كبنية و كتناغم بين الأوليات و النتائج المتحصل عليها .</p></div>
+<div class="exsub"><b>التمرين 2 :(2 ن)</b></div>
+<p class="consigne"><b>« توجد وحدة إنسانيّة بقدر ما يوجد تنوّع إنساني. »</b> ما هو الموقف الذي يستبعده القول .</p>
+<div class="data"><ul class="b">
+<li>المركزية الثقافيّة .</li>
+<li>النظرة الأحاديّة للخصوصيّة .</li>
+</ul></div>
+<!-- NOTE: stamp "WaelClasses.com" with phone numbers omitted -->
+<div class="exsub"><b>التمرين 3 : ( 6 ن)</b></div>
+<p class="para">يرى كل واحد منـّا الأشياء التي تـُحيط به على نحو ما ، و يستثمرها في أعمال تتفاوت فيها درجات التبصّر . و يستخدم كل واحد منـّا النماذج إستخداما ضمنيا في إكتشافه الدائم ، و أحيانا الآلي لمحيطه . و يتعلـّق الأمر هنا بضرورات حيويّة . فكلّ واحد منـّا يحتاج فعلا إلى منطق و مناهج في علاقاته بالعالم .و كل واحد يُطبّقها تطبيقا واعيا بدرجات مُتفاوتة ... و يكمن المشكل في أنـّه لا وجود لمنطق وحيد يكفي أن نتعلـّمه ، و في أنّ الأشياء ليست في غاية البساطة و اليُسْر، كما قد نعتقد للوهلة الأولى . و ليست النمـاذج ، حتـّى أكثرهـا قدما ، يسيرة الإستعمال و لا خاليـة مـن المخاطر .</p>
+<p class="para">و هكذا لم يوجد في التاريخ منطق واحد ، لأن المنطق رهين جملـة من المعارف التي نمتلكها في لحظة ما ، ووسائل البحث المتاحة لنـا ، و الأهداف التي نسعى إلى تحقيقها ، فالمنطق ليس شيئا ثابتا و ليس وقفا إلى الأبد على الإنسان مطلقا ، أو على بعض الناس المحظوظين ، و إنما هو أداة فكرية إنبثقت مرْحليا لسدّ حاجات متغيّرة ، و من ثمّـة شهدت الأداة تطوّرا كبيرا في شكلها و أسسها و تغيّرت تغيّرا عميقا في بعض اللحظات الحرجة .</p>
+<p class="para"><b>جون ـ ماري لوغاي ـ التجربة و النموذج ـ ص 21/20</b></p>
+<p class="para">تعريب <b>سفيان سعد الله</b> ـ دار محمد علي الحامي ـ صفاقس ـ تونس ـ الطبعة الأولى 2009</p>
+<p class="consigne">المطلوب :</p>
+<p class="consigne">1 ـ حددإشكالية النص .(1 ن)</p>
+<div class="data"><p class="para">كيف تتحدّد النمـاذج ؟ و علاقتهـا بعنلـّة أستكشـاف محيـط الإنسـان ؟ و لمـاذا تمثلت كضرورات حيوية ؟ و هل ترتبط المعرفة بمنطق ثابت ؟</p></div>
+<p class="consigne">2 ـ كيف تتحدّد علاقة النماذج بمحيط الإنسان ؟(2 ن)</p>
+<div class="data"><p class="para">مثلت علاقـة النمـاذج بمحيـط الإنسـان علاقـة توسّـط  وأداة تـُستخدم فـي عمليـات الإكتشاف. سواء ضمنيا أو آليا</p></div>
+<p class="consigne">3 ـ لماذا إعتبر الكاتب النماذج / النمذجة " ضرورات حيويّـة "؟ قدّم حجة على ذلك (3 ن)</p>
+<div class="data"><p class="para">مثلت النماذج / النمذجة " ضرورات حيوية " نظرا لحاجة الإنسان إلى منطق و مناهج في علاقتـه بالعـالم، عـلاوة فـي كـون النمـاذج قد شـهدت تطـورا بوصفهـا الأداة التي يتوسطها الإنسان فـي علاقتـه بمحيطـه أو بالعالم لسد حاجـات متغيرة .. مـن ذلـك مـا شـهدته الفرزيـاء الذريـة مـن تعديلات لنمـوذج بـوهر . أو مـا شـهده علـم الإقتصـاد ... و البيولوجيا ...</p></div>
+<p class="para">القسم الثاني : عشر نقاط</p>
+<p class="consigne">يحرر الممتحن محاولة في شأن السؤال التالي في حدود 30 سطرا</p>
+<p class="consigne"><b>السؤال :</b> هل في إبتكار نماذج نظريّة مُجرّدة إبتعادًا عن الواقع أم مزيدا من السيطرة عليه ؟</p>
+<div class="data">
+<p class="para">- إبتكار نماذج نظرية ⟵ إبتعادًا عن الواقع</p>
+<p class="para">⟵ مزيدا من السيطرة على الواقع</p>
+<p class="para">⟵ النمذجة ليست إبتعادا عن الواقع بقدر ماهي إبتعادا من أجل السيطرة عليه .</p>
+<p class="para">نظرية مجردة  + عملية إبتكار النماذج // عملية بناء النماذج ⟵ البعد التركيبي .</p>
+<p class="para">ـ العلوم المعاصرة هي إبتعاد عن الواقع قصد الإشتغال عليه و السيطرة على ظواهره المعقدة و المركبة  لذلك كانت النمذجة هي مسلكية العلم لدراسة هذه الظواهر التي لا يُمكن التعامل معها بالمنهج العلمي التجريبي الكلاسيكي .</p>
+<p class="para">⟵ يعمل المنمذج على بناء نموذج يخضع لمراحل ثلاث مترابطة فالنظري ليس بمعزل عن البعد التداولي للنموذج .</p>
+<p class="para">⟵ تبيان العلاقة التلازمية بين أبعاد النمذجة .</p>
+<p class="para">⟵ التأكيد على ربط عمليّة إبتكار النماذج بالبعد التداولي البراغماتي</p>
+<p class="para">★ العمل على بلورة موقف يرفع التناقض بين إبتكار نماذج نظرية مجردة و علاقته بالواقع بما هي علاقة سيطرة .</p>
+<p class="para">أو</p>
+<p class="para">★ الإنتهاء إلى رفع التناقض بين إبتكار نماذج نظرية مجردة و علاقته بالواقع</p>
+<p class="para">⟵ التنبيه إلى تبعات السيطرة على الواقع من حالات دمار شامل للطبيعة و للإنسان و من التوظيفات الإيديولوجية للنمذجة .</p>
+<p class="para">⟵ يمكن إعتماد أمثلة من النماذج في الفيزياء المعاصرة و توظيف مرجعيات ...</p>
+<p class="para">⟵ أمثلة من توظيفات و تطبيقات حقيقة العلم المنمذج مثل غزو الفضاء .. صناعة الأسلحة ..</p>
+<p class="para">⟵الكشف عن بعد السبيرنطيقا في العلم المنمدج و إنعكاساته على الإنسان .</p>
+</div>
+<p class="subhead t-red"><span class="t-blue">الفرض الثاني بالإصلاح- حول النمذجة</span></p>
+<div class="exsub"><b>القسم الأول:</b></div>
+<!-- NOTE: small decorative glyph before "__" in التمرين الأول / التمرين الثاني omitted -->
+<p class="consigne"><b><u>التمرين الأول:</u></b>__ هل تعتمد العلوم الاجتماعيّة على النّماذج كما تعتمدها العلوم الطبيعيّة؟</p>
+<p class="consigne"><b><u>التمرين الثاني:</u></b>__ بأيّة لغة تُصاغ النّماذج؟</p>
+<p class="consigne"><b><u>التمرين الثالث:</u></b></p>
+<p class="para"><b>النص:</b> (...) حين يتعيّن علينا أن ندرك الدّلالة الّتي تنطوي عليها ظاهرة ثقافيّة على نحو واضـح وبـأكثر صرامة، فإنّ حاجتنا لاستخدام مفاهيم واضحة بيّنة لا من زاوية واحدة بل من كلّ الزّوايا المخصوصة، تغـدو أشدّ إلحاحا . ومن العبث بداهة أن نعمل على إعطاء تركيبات الفكر التاريخي هذه "تعريفا" حسـب الثّنائيّـة التّالية الجنس القريب والفرق النّوعي وحسبنا أن نجرّب ذلك. إن هذه الطريقة المـذكورة لتحديـد دلالات الألفاظ لا توجد إلاّ في العلوم الوثوقيّة الّتي تستخدم القياس.</p>
+<p class="para">(...) وحين نروم أن نعرّف مضمون مفهوم تعريفا من وجهة نظر تكوينيّة، فإنّنا لا نجد إلاّ صيغة النّموذج المثال</p>
+<p class="para">(...) إن النموذج المثال لائحة من الأفكار,فليس هو الواقع التاريخي، ولا هو على وجه الخصوص الواقع "الصحيح" ولا هو أيضا ترسيمة نستطيع أن نرتّب فيها الواقع بوصفه نموذجا، وإنّما دلالته أنّه مفهوم حدّي، مثاليّ صرف، نقيس إليه الواقع لتوضيح المضمون التجريبيّ لبعض عناصره الهامة ونقارنه بواسطته.</p>
+<p class="para"><b><u>ماكس فيبر</u></b></p>
+<p class="para"><b>بحـوث فـي نـظريّة العلـم</b></p>
+<p class="consigne"><b><u>أجب عن الأسئلة التالية انطلاقا من النص:</u></b></p>
+<p class="consigne">1– ما هي أطروحة الكاتب؟</p>
+<p class="consigne">2– القياس, هل يلغي الحاجة إلى الأنموذج في العلوم الوثوقيّة؟</p>
+<p class="consigne">3– هل يعوّض الأنموذج التّجربة في العلوم الإنسانيّة (التاريخ)؟</p>
+<div class="exsub"><b>القسم الثاني:</b></div>
+<p class="consigne">يختار التلميذ أحد السؤالين ليحرّر في شأنه محاولة في حدود ثلاثين سطرا.</p>
+<p class="consigne"><b><u>السؤال الأول:</u></b> ليست النمذجة إنشاءً نظريًّا محضا, طالما أن التّقنية تزودنا عمليًا بنماذج كثيرة جاهزة. كيف تفهم هذا الرأي ؟</p>
+<p class="consigne"><b><u>السؤال الثاني:</u></b> لماذا يكون العلم في حاجة إلى تبسيط الظواهر؟</p>
+<p class="subhead t-red"><span class="t-blue">إصلاح الفرض الثاني - حول النمذجة</span></p>
+<p class="para"><b>القسم الأول:</b> <b><u>التمرين الأول:</u></b> هل تعتمد العلوم الاجتماعيّة على النماذج كما تعتمد العلوم الطبيعيّة؟</p>
+<p class="para">يمكن الإجابة اعتمادا على رأي كارل بوبر في كتابه "أسطورة الإطار" فهو يتمسّك بكون النماذج ذات مغزى ودلالة في المجالين. ففي مجال العلوم الطبيعية قد تكون النماذج نظريات أو تجسيدا لنظريّات، أما في العلوم الاجتماعيّة فإن النّماذج تبدو – حسب بوبر – أكثر أهميّة. فهي تعمل دائما بمنهج تشييد مواقف أو شروط نمطيّة، أي بمنهج تشييد نماذج. فالنّماذج – كما يرى بوبر – في العلوم الاجتماعيّة هي في جوهرها توصيفات أو إعادة تشييد مواقف اجتماعيّة نمطيّة.</p>
+<p class="para"><b><u>التمرين الثاني:</u></b> بأيّ لغة تصاغ النّماذج؟</p>
+<p class="para">لا ينحصر النّموذج في ما هو نظريّ بل يمتدّ ليشمل ما هو ماديّ، واقعيّ وما هو افتراضيّ.وبذلك فإنّه يصاغ "<b>بلغات عديدة</b>" إمّا أدبيّة أو رمزيّة أو رياضيّة منطقيّة بل إنّ لوموانيو يذهب إلى أنّنا " <b>لا ندرك مشاعرنا ولا نستوعب سلوكاتنا إلاّ بالاستعانة بنماذج رمزيّة سواء تشكّلت بفضل الكتابات الموسيقية أو الإيقاعية أو كتابات الرياضيات والإعلامية والكيمياء</b>".</p>
+<p class="para"><b><u>التمرين الثالث:</u></b></p>
+<p class="para"><b><u>النص :</u></b> ❶ <b>ما هي أطروحة الكاتب:</b> النّموذج المثال هو مفهوم حدّي يمكّننا من فهم الظواهر الثقافيّة والتاريخيّة. فهو السبيل إلى قراءة الواقع وتوضيح مضامينه.</p>
+<p class="para">❷ <b><u>القياس هل يلغي الحاجة إلى الأنموذج في العلوم الوثوقيّة؟</u></b></p>
+<p class="para">يعتقد ماكس فيبر أن العلوم الوثوقيّة (العلوم الصّحيحة) تخضع إلى ثنائيّة الجنس القريب والفرق النّوعيّ، وهو ما يعني أنّنا في كلّ مرّة نريد أن نفهم الظّاهرة,فإنّنا نخضعها إلى قياس فنتبيّن موقعها ونحدّد إيجابا بالجنس القريب الّذي تنتمي إليه الظاهرة ونحدده سلبا بالفارق النّوعيّ بين ظاهرة وأخرى.وذلك ما يسهّل علينا فهم الظّاهرة الطبيعية في العلوم الوثوقيّة. ولعلّ ذلك ما يعني عنده عدم الحاجة إلى النّماذج طالما أنّنا نمضي مباشرة في القيام بعمليّة القياس وهو أمر يناقش بالنّظر إلى موضوع المركّب الّذي أصبح عليه العلم عامّة.</p>
+<p class="para">❸ <b><u>هل يعوّض الأنموذج التجربة في العلوم الانسانية (التاريخ)؟</u></b></p>
+<p class="para">إنّ الأنموذج مثال افتراضيّ نضعه للاشتغال عليه بوصفه مقياسا أو هو منهجا للتّوضيح وللتفسير,فالتجريب الّذي يعني التثبّت من المعطيات على أرض الواقع لا يمكن نفيه فحينها يصبح التاريخ ضربا من التخيّل.أمّا الأنموذج فهو أداة أو منهج للعمل.لكنّ فيبر يشدّد على ضرورة استخدام النماذج المثاليّة فهو يقول:"المؤرّخ الّذي يحاول الابتعاد عن محاولته صياغة نماذج مثاليّة كهذه بحجّة أنها <b>"بناءات نظريّة"</b> أي غير مفيدة أو غامضة بالنسبة إلى الأهداف الملموسة للمعرفة يستنتج بشكل عام إمّا أنّه يطبّق بوعي أو لا وعي بناءات نظريّة مشابهة دون صياغة واضحة أو صياغة منطقيّة، وإمّا أن يبقى غاطسا في دائرة من "<b>الشعور الغامض</b>".</p>
+<p class="para"><b>القسم الثاني:</b> <b><u>السؤال الأول:</u></b> ليست النمذجة إنشاء نظريّا محضا, طالما أنّ التقنية تزوّدنا عمليّا بنماذج كثيرة جاهزة. كيف تفهم هذا الرأي؟</p>
+<p class="para"><b>المقدمة:</b> <b><u>التمهيد:</u></b> قام العلم القديم على تجاهل التقنية ونفيها,وجعلها العلم الحديث رديفا له وتطبيقا لنظريّاته وامتدادا لسلطته.لكنّ العلم المعاصر سيشهد انصهارا تامّا في التقنية ليصبح "<b>تقنية – علم</b>".</p>
+<p class="para"><b><u>طرح الاشكالية:</u></b> بأيّ معنى تتجاوز النمذجة الحدود النظرية للعلم؟ هل في ذلك فعلا توسيع للعلم مفهوما ومضمونا؟ ألا تفرض النمذجة – بما جلبته – إشكاليات ابستومولوجية وأخرى فلسفية  لا بدّ من طرحها؟</p>
+<p class="para"><b>التحليل:</b> ❶ <b><u>النمذجة من الطبيعة إلى الاصطناع:</u></b> لقد انصبّ اهتمام العلماء أوّلا على الطّبيعة يحاولون كشف الآليات الّتي تحرّكها والقوانين الّتي تحكمها.وهم في الواقع إنما يمنذجون أنساقا طالما أنّها "<b>ليست في الطّبيعة بل في عقول البشر</b>، فما من أحد رأى في الطّبيعة نسقا"،كما يقول كلود برنار.وذلك ما يعني أنّ العلماء يُنشئون نماذج ذهنيّة تكون بمثابة الوسيط الكشفيّ والمعرفيّ الّذي يساعد على فهم الظّواهر الطّبيعيّة وإدراك خصائصها.</p>
+<!-- PROOFREAD: 1702 part1 p18 — last line partly cut at bottom edge ("الّتي تحرّكها"); "يمنذجون" as printed? -->
+<p class="para">وهكذا فإنّ العلماء عبر النّظرية (التريض) إنّما هم ينقذون الظّواهر أي يصوغونها صياغة نظريّة تفسيريّة (الصورنة) بلغة الكسندر كويري. ولكنّهم عبر النماذج إنّما يمارسون "<b>استراتيجيا الإهمال</b>" أو الإغفال بلغة باسكال نوفل.ومن الواضح أنّه لابدّ من الصورنة من جهة ولا بدّ من النّمذجة من جهة أخرى، وكأنّما الصّورنة هي شرط إمكان علمنة الظّواهر الطبيعيّة وأنّ النّمذجة هي التّحقق الفعليّ لتلك العمليّة: "أنظروا إلى هذا فقط، وأهملوا كلّ الباقي، انسوا كل الباقي" كما كان يقول نيوتن.</p>
+<p class="para">لكنّ العلم المعاصر سوف لا يبقى في حدود دراسة الظّواهر الطّبيعيّة بل سيتّجه صوب الاصطناع، وهو ما يعني تفعيل فهم الإنسان للطّبيعة أو تضعيفه (مضاعفته). وهنا تحضر النّمذجة بشكل أكبر وأكثف، فعن طريق الرموز الاصطناعية، بما هي نماذج ننشئها ونمارسها، كما يقول لوموانيو، يستطيع العلماء أن يوسّعوا من دائرة العلم وأن يعطوا للمغامرة الإنسانيّة أبعادا لا محدودة.</p>
+<p class="para">وواضح أنّ البعد التقنيّ بما هو اصطناع يعطي لفعل التّمذجة قيمة إضافيّة ويعطي من خلالها للممارسة العلميّة أفقا أوسع وأرحب.</p>
+<p class="para">❷ <b><u>التقنية: مركزية البعد التداولي:</u></b> يمثّل الاصطناعي إضافة تثري الطّبيعيّ، هذه الإضافة تبيّناها في المستوى الأوّل (البعد الدّلالي). ولكنّها إضافة كذلك على مستوى تداوليّ.</p>
+<p class="para">والواقع أنّ الرّبط بين النّظريّة والتّطبيق هو ما جعل العلم يحضر بشكل لافت.في العصر الحديث ويكون الاصطناع تفعيلا للتّطبيق،هذا الاصطناع هو الّذي يوجّهنا إلى فعل التّحكّم في الظّواهر.ويبتعد بنا عن التوجّهات النّظرية البحتة بل إنّ الأمر يصل إلى حدّ عدم اعتبار الصّورنة شرطا للعلميّة، أو هي لا تختزل في الصّورنة (لوموانيو). فالنّمذجة في بعدها الاصطناعيّ هذا توقفنا على تحديد جديد للمعرفة مرتبط بالفعل، بل أنّ "<b>الحقيقة ذاتها لا تعدو أن تكون سوى الفعل عينه</b>".</p>
+<p class="para">ومعلوم أن التقنية تمثّل فضاء ثريّا بالنّماذج تساعد على تمثّل متحرّك ومرن وإيجابيّ للظّواهر,وهو ما يتجلّى مثلا في نموذج الدّارة الكهربائيّة الّتي تساعد على فهم دوران الهواء في منجم أو الدّورة الدّمويّة في أوعيتها، كما يذكر هانز فرودوتال. ولعلّ ذلك ما يمثّل سندا قويّا للعلم النّظريّ من جهة ويساعدنا على توظيف العلم في خدمة مباشرة لمصالح الناس.بل يمكننا القول إنّ هذا البعد الاصطناعيّ التقنيّ سيكون بمثابة البوصلة الموجّهة للعلم فالنموذج التقني لا يكتفي بإثراء المعرفة وتوسيع أفقها بل يوجّهها نحو ما يستجيب لهموم الناس ومشاغلهم الآنيّة أو لنقل الحياتيّة اليوميّة.</p>
+<p class="para">❸ <b><u>النّمذجة: الإشكاليات الابستيمولوجيّة والفلسفة:</u></b> يمكن أن نركّز على التقنية – على الصعيد الابستيمولوجي – فهي الّتي ساعدت على تضعيف العالم عبر جعل الاصطناع امتدادا للطّبيعة. لكنّ هذا المجلوب على أهميته يمكن أن يوقعنا – معرفيا – في ضرب من الاختزال التقني يجعلنا سجناء هذا العالم الجديد الّذي اصطنعناه. صحيح أنّ النّموذج العلميّ إنّما يقوم على "إحلال اللاّمرئيّ البسيط محلّ المرئيّ المعقد"، ولكن صانع النّماذج هذا يظلّ دون الحقائق الكليّة من جهة ودون الوجود الكامل من جهة أخرى. وكأنّما لا بدّ من مقاومة "لحظة الحماسة" الّتي توهمنا بأنّا أصبنا الحقيقة بينما نحن اختزلناها.</p>
+<p class="para">أما على الصّعيد الفلسفيّ، فيمكن أن نشير إلى الجناب الإيتيقي، بما هو مسؤولية إزاء هذا العلم المنمذج تقنيّا بامتياز.وتستمد المسؤوليّة أهميّتها من كون العلم لم يعد على "حياده التقليديّ" حسب عبارة لوموانيو، بل أصبح ينتج استجابة لحاجيات مجموعات ودوائر محدّدة,وأكثر من ذلك فهو ينتج في دوائر لا يمكن الاطمئنان إليها,كمركز للدّفاع العسكريّ أو البحوث الأمنيّة. وفي المقابل فهو يوزّع استجابة لدوائر اقتصاديّة هدفها الرّبح والاحتكار، فربّما كان من اللاّزم "إنقاذ النّمذجة" (فلسفيا) مثلما وقع "إنقاذ الظواهر" علميّا.</p>
+<p class="para"><b>الخاتمة:</b> تبيّنا أن الالتقاء بين الإنشاء النّظريّ والممارسة التّقنيّة جعل من النّمذجة سبيلا إلى إثراء العلم معرفة وموضوعا.ووقفنا على أنّ اللاّزم الانتباه إلى مزالق مثل هذا التوجّه الخاصّة بالاختزال من جهة المعرفة وبالتحكّم من جهة الممارسة.</p>
+<!-- NOTE: a margin arrow mark on p19 omitted -->
+<!-- NOTE: p20 is a full-page WaelDocuments.com book advertisement ("كانك تلوّج باش تشري كتب باكالوريا...") — omitted as source furniture -->
+
+<div class="chtag"><span>المحور</span> المنهجية</div>
+
+<p class="subhead t-red">منهجيّة الفلسفة (1)</p>
+<p class="para">(خاص بصفحة WaelDocuments.com)</p>
+<p class="subhead t-navy"><span class="t-green">مكوّنات اختبار الفلسفة</span></p>
+<p class="para"><span class="t-red">يتكوّن اختبار الفلسفة من قسمين:</span></p>
+<p class="para"><u><span class="t-gold">القسم 1:</span></u> يتكون من <span class="t-blue">3 تمارين</span> ويتضمّن <span class="t-blue">مهارات منهجيّة</span> من بين المهارات التّالية (مفهوم / تبعة / حجّة/ رهان /مسلّمة ضمنيّة/ الأشكلة/ قيمة موقف/ موقف مستبعد ضمني)</p>
+<p class="para"><u><span class="t-gold">القسم 2:</span></u> فقرة فلسفيّة يقوم فيها التلميذ بإدماج كل المهارات المنهجيّة.</p>
+<p class="subhead t-navy"><span class="t-green">1. تحديد تبعة</span></p>
+<p class="para"><span class="t-red">هي ما ينتجُ عن إقرار أو عن أطروحة معيّنة (<span dir="ltr">conséquence</span>).</span></p>
+<p class="para"><u><span class="t-gold">مثال1:</span></u> <span class="t-blue">"إنّني كائن تكمن كلّ ماهيّته في الفكر الواحد"</span>. حدّد إحدى تبعات هذا الإقرار.</p>
+<p class="para"><u><span class="t-gold">الإجابة 1:</span></u> يفضي هذا الإقرار بأنّ ماهيّة الإنسان <span class="t-green">فكر خالص</span> وأنّ كلّ ما ليس بفكر هو  <span class="t-green">مغاير لنا</span> و بالتّالي فهو غير ضروري لاستكمال إنسانيّتنا.</p>
+<p class="para"><u><span class="t-gold">مثال 2:</span></u> <span class="t-blue">"أنّ الأخلاق تظلّ واحدة لدى كلّ النّاس الذين يعتمدون عقولهم"</span>.  اكشف عن احدى تبعات هذا الإقرار.</p>
+<p class="para"><u><span class="t-gold">الإجابة 2:</span></u> من بين تبعات هذا الإقرار هو <span class="t-green">رفض</span> كلّ أخلاق لا تتأسّس على العقل"</p>
+<p class="subhead t-navy"><span class="t-green">2. دلالة مفهوم (I)</span></p>
+<p class="para"><span class="t-red">هو معنى فلسفي في نصّ أو أطروحة معيّنة. يمكن أن يكون بصيغة مباشرة أو سياقيّة.</span></p>
+<p class="para"><u><span class="t-blue">أ) الصيغة المباشرة:</span></u> سؤال مثل حدّد دلالة (الذات، الوعي...)</p>
+<p class="para"><span class="t-gold">المراحل التي يجب اتّباعها:</span></p>
+<p class="para"><span class="t-gold">*</span> استحضار دلالة شائعة.</p>
+<p class="para"><span class="t-gold">*</span> استحضار مرجعيّة ما.</p>
+<p class="para"><span class="t-gold">*</span> بيان قيمة هذاه الدلالة.</p>
+<p class="para"><u><span class="t-gold">مثال:</span></u> حدّد دلالة الذّات.</p>
+<p class="para"><u><span class="t-gold">الإجابة:</span></u> بالمعنى <span class="t-green">الشّائع</span> للمفهوم، تُقال الذّات عن الشّخص  و الأنا و النّفس والرّوح دون تمييز. أمّا بالمعنى <span class="t-green">الفلسفي</span> فالذّات هي كيان ميتافيزيقيّ يُقالُ عن الأنا. ولا نوجدُ كذات إلاّ في اللحظة التي نقول فيها أنا. وبهذا المعنى <span class="t-green">يسمح</span> التّحديد الميتافيزيقي للذّات أن يعرف نفسه دون وساطات (<span dir="ltr">intermédiaires</span>).</p>
+<p class="subhead t-navy"><span class="t-green">2. دلالة مفهوم (II)</span></p>
+<p class="para"><u><span class="t-blue">ب) الصيغة السياقيّة:</span></u> تكون في سياق أطروحة أو نصّ معيّن.</p>
+<p class="para">في هذه الصّيغة التّلميذ غير مطالب باختيار مرجعيّة (لأنّ النّصّ المعطى هو المرجعيّة)</p>
+<p class="para"><u><span class="t-gold">مثال 1:</span></u> <span class="t-blue">"إنّ الذّات بماهي ذات عينيّة لا تنفصل عن هذا الجسد وعن هذا العالم"</span>. على أيّ معنى يجب أن تُفهَمَ الذّاتُ حتّى يستقيم هذا الإقرار ؟</p>
+<p class="para"><u><span class="t-gold">الإجابة 1:</span></u> عرّفنا الذّات في هذا الإقرار على أنّها ذات عينيّة أي <span class="t-green">مُتحقّقة فعليّا</span> وليست جَوهَرًا متعاليًا (منفصلاً). بقية التلاخيص تلقاوها على صفحتنا على الفايسبوك <span dir="ltr">WaelDocuments.com</span> ، بل هي <span class="t-green">متّصلة</span> بالعالم (ذاتٌ مُتَجَسّدة). فالجسد قوام وجودها وموطن تعبيرها.</p>
+<p class="para"><u><span class="t-gold">مثال 2:</span></u> <span class="t-blue">"إنّ الذّاكرة هي صناعة الهويّة و إن فَقدَ المرء ذاكرتَه فَقَدَ هويّتَه."</span> حدّد دلالة الهويّة في سياق هذا القول.</p>
+<p class="para"><u><span class="t-gold">الإجابة 2:</span></u> الهويّة <span class="t-green">نتاج</span> لمسار تاريخي تتفاعل فيه مجموعة من العناصر والتّجارب.</p>
+<p class="subhead t-navy"><span class="t-green">3. استشراف رهان</span></p>
+<p class="para"><span class="t-red">هو الهدف الأسمى و الغاية القصوى التي  نريد الوصول إليها.</span></p>
+<p class="para">ملاحظة: من الأفضل أن نستحضر ما علينا تجاوزه أوّلا ثمّ نذكر ما علينا تحقيقه ثانيًا.</p>
+<p class="para"><u><span class="t-gold">مثال 1:</span></u> <span class="t-blue">"إنّنا لا نرى أنفُسَنَا ولا الجسد، ولكن نرى فقط كائنًا مركَّبًا"</span> استشرف أحد الرهانات لهذا الإقرار.</p>
+<p class="para"><u><span class="t-gold">الإجابة 1:</span></u>  يراهن هذا الإقرار على <span class="t-green">القطع</span> مع كلّ أشكال التّفكير الثّنائي في الإنسان (علمي أو ميتافيزيقي). مؤكّدا على <span class="t-green">ضرورة</span> التّفكير المركّب مثل ترابط النفس و الجسم و ترابط العقل و الغرائز.</p>
+<p class="para"><u><span class="t-gold">مثال 2:</span></u> (نصّ)</p>
+<div class="data">
+<p class="para">إن سلطة تعسفية ومطلقة، وحكما دون قوانين قائمة ومستقرة، أمر لا يمكن أن يتوافق مع غايات المجتمع والحكم.</p>
+<p class="para">وفعلا، أفَهَلْ يترك البشر حرّية حالة الطبيعة ليخضعوا إلى حكم لا يأتمنون فيه على أرواحهم وحرياتهم وراحتهم وممتلكاتهم ؟ وليس لنا أن نفترض أنه كان في نيتهم، ولا حتى كان من حقهم أن يَهَبُوا لشخص أو مجموعة أشخاص حُكْمًا مطلقا وتعسّفيا يسلّط على أشخاصهم وممتلكاتهم، وأن يسمحوا للحاكم أو الأمير أن يفعل ما يشاء، بإرادة تعسّفية لا يحدّها حد. سيكون ذلك بالتأكيد وضعا أسوأ بكثير مما عليه حالة الطبيعة، حيث يتسنى فيها لكل امرئ حرية الدفاع عن حقه ضد اعتداءات الغير والتماسك أمام كل عدوان من شخص أو مجموعة أشخاص متحدين إن كان له قدر من القوة. و بالفعل، إذا افترضنا أننا أخضعنا أنفسنا لسلطة مطلقة وإرادة متعسفة لمشرع، فإننا نكون قد جردنا أنفسنا من أسلحتنا وسلّحنا هذا المشرع حتى يصبح الخاضعون له فريسته، فيعاملون على النحو الذي يحلو له.</p>
+</div>
+<p class="para"><u><span class="t-gold">السؤال 2:</span></u> استخرج رهان الكاتب من خلال ما ورد في النّصّ.</p>
+<p class="para"><u><span class="t-gold">الإجابة 2:</span></u>  يراهن الكاتب على <span class="t-green">ضرورة رسم حدود</span> لممارسة السّلطة وذلك حمايةً لحرّيّة الفرد من غطرسة الحكم المطلق.</p>
+<p class="subhead t-navy"><span class="t-green">4. الكشف عن مسلّمة ضمنيّة</span></p>
+<p class="para"><span class="t-red">هي ما نسلّم بوجوده دون الحاجة إلى إثباته بالدّليل.</span></p>
+<p class="para">إذا أعلنّا عن مسلّمتنا فهي صريحة وإذا أخفيناها فإنّنا حينئذٍ نسمّيها "مسلّمةً ضمنيّةً".</p>
+<p class="para"><u><span class="t-gold">مثال 1:</span></u> <span class="t-blue">"عندما يضعفُ التّواصل أو يفسُد، أضيع أنا بعمق"</span>. اكشف عن احدى المسلّمات الضمنيّة لهذا القول.</p>
+<p class="para"><u><span class="t-gold">الإجابة 1:</span></u> هذا الحكم يسلّم بأنّ الانسان <span class="t-green">كائن التّواصل</span>، و انسانيّته تُصنَعُ من خلال مجموع علاقاته بالآخرين.</p>
+<p class="para"><u><span class="t-gold">مثال 2:</span></u> <span class="t-blue">"ليس هناك نماذج خاطئة"</span>. اكشف ضمنيّة من ضمنيّات هذا القول.</p>
+<p class="para"><u><span class="t-gold">الإجابة 2:</span></u> يسلّم هذا الإقرار بأنّ النّموذج العلمي <span class="t-green">لا يخضع</span> لمعايير الصواب والخطأ.</p>
+<p class="para"><span class="t-green">كان عجبك التلخيص شجّعنا :) بارطاجيه مع أصحابك وأعمل طلّة على الانستغرام و الفايسبوك متاعنا فيهم برشا تلاخيص</span></p>
+<!-- NOTE: p29 is a full-page WaelDocuments.com book advertisement ("تحبّ تشري كتب فيهم المناظرات السابقة للباكالوريا بالإصلاح (2009-2023) ؟") — omitted as source furniture -->
+<!-- PROOFREAD: 1702 part1 p16 — degraded print in the boxed outline ("العلوم المعاصرة"، "يُمكن التعامل"، "فالنظري"، "موقف"، "علاقة سيطرة"); "المنمدج" kept as printed -->
+
+</section>
+
+</div>
+</body>
+</html>

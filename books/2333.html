@@ -1,0 +1,636 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<title>Wael Academy — Philosophie · Introduction philo août-septembre</title>
+<script>
+  window.MathJax = {
+    tex: { inlineMath: [['\\(','\\)']], displayMath: [['\\[','\\]']] },
+    chtml: { fontURL: 'https://cdn.jsdelivr.net/npm/mathjax@3/es5/output/chtml/fonts/woff-v2', matchFontHeight: true },
+    startup: { typeset: true }
+  };
+</script>
+<script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js" async></script>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Sora:wght@400;500;600;700;800&family=Cairo:wght@400;500;600;700;800;900&family=Tajawal:wght@400;500;700;800&family=JetBrains+Mono:wght@400;500;600;700&display=swap');
+:root{
+  /* ===== Wael Academy palette — MAIN ACCENT = green-teal gradient #0FAB8F → #067360 ===== */
+  --bg:#fff; --panel:#f2f8f8; --hair:#e6e6e9; --hair2:#d6d6db;
+  --fg:#0f2a31;        /* body text (and +/− signs) */
+  --fg2:#3f5b62;       /* softer text */
+  --fg3:#7c959b;       /* muted (footer) */
+  --blue:#067360;      /* deep accent — small numbers, borders, watermark, accent equations */
+  --blue-dark:#045260; /* titles & wordmarks (also the balance colour) */
+  --teal:#0fab8f;      /* bright accent end */
+  --loop:#0d9c82;      /* logo-loop helper */
+  --orange:#067360;    /* kicker/category labels (gold retired → deep teal) */
+  --red:#f5322f;       /* EXERCISE CHIPS ONLY — never for emphasis */
+  --cream:#e6f3f4; --blue-soft:#e6f3f4;  /* pale teal — callout fill + table sub-row fill */
+  --blue-line:#cde7e4; /* hairline */
+  --sub-ink:#045260;   /* table sub-row text */
+  --grad:linear-gradient(148deg,#0fab8f 0%,#0d9c82 52%,#067360 100%);
+  --mono:'JetBrains Mono',monospace; --latin:'Sora',sans-serif; --ar:'Cairo',sans-serif; --arb:'Tajawal',sans-serif;
+}
+*{box-sizing:border-box;margin:0;padding:0;}
+body{font-family:var(--latin);color:var(--fg);background:#e4e4e7;padding:28px 0;
+     -webkit-print-color-adjust:exact;print-color-adjust:exact;}
+html[dir="rtl"] body{font-family:var(--arb);}
+
+/* ===== brand watermark: REAL text (crisp), full-bleed, repeats per page ===== */
+.wm{position:fixed;inset:0;z-index:0;pointer-events:none;display:flex;
+    align-items:center;justify-content:center;overflow:hidden;
+    -webkit-print-color-adjust:exact;print-color-adjust:exact;}
+.wm span{font-family:var(--mono);font-weight:800;font-size:76.8pt;letter-spacing:.16em;
+    color:var(--blue);opacity:.06;white-space:nowrap;transform:rotate(-54deg);}  /* single diagonal: bottom-left → top-right */
+.wm.mono span{color:#000;opacity:.05;}
+
+/* ===== continuous flow stream (no page border) ===== */
+.flow{width:210mm;margin:0 auto;background:transparent;color:var(--fg);
+      padding-block:16mm 18mm;padding-inline:23mm 14mm;position:relative;}   /* spiral gutter: inline-start(=spine) 23mm / outer 14mm — dir-aware; print margins set in render_flow.py */
+@media screen{ .flow{background:#fff;box-shadow:0 10px 40px rgba(0,0,0,.16);} }
+.flow>*{position:relative;z-index:1;}
+.flow p,.flow li,.flow .data,.flow .note,.flow .ex{break-inside:auto;}
+.flow .fig,.flow figure,.flow img,.flow svg.figsvg,.flow table,.flow tr,.flow .chapdiv,.flow .exh,.flow .qrcard,.flow .meta{break-inside:avoid;}
+.flow h1,.flow h2,.flow h3,.flow .exh,.flow .subhead,.flow .chapdiv{break-after:avoid;}
+.flow img,.flow svg.figsvg{max-width:100%;height:auto;}
+.flow figcaption,.flow .figcap{display:none;}          /* rule 3: no figure captions */
+
+/* ===== front matter + chapters each start on a fresh page ===== */
+.flow .cover{break-after:page;}        /* cover alone on page 1 */
+.flow .toc{break-after:page;}          /* Sommaire alone on the next page */
+.flow .chapter{break-before:page;}
+.flow .chapter:first-of-type{break-before:auto;}
+
+/* ===== cover ===== */
+.cover{padding:14mm 0 8mm;border-bottom:2px solid var(--blue);margin-bottom:6mm;}
+.cover .badge{font-family:var(--mono);font-size:8.5pt;letter-spacing:.28em;text-transform:uppercase;color:var(--orange);margin-bottom:10px;}
+.cover h1{font-family:var(--latin);font-weight:800;font-size:34pt;line-height:1.03;letter-spacing:-.025em;color:var(--blue-dark);}
+.cover .grule{width:120px;height:5px;border-radius:5px;background:var(--grad);margin:14px 0;}
+.cover .sub{font-family:var(--mono);font-size:10pt;letter-spacing:.14em;text-transform:uppercase;color:var(--teal);}
+.cover .auth{font-size:11pt;color:var(--fg2);margin-top:6px;font-weight:600;}
+
+/* ===== table of contents ===== */
+.toc{margin:2mm 0 4mm;}
+.toc h2{font-family:var(--latin);font-weight:800;font-size:15pt;color:var(--blue-dark);margin-bottom:4mm;}
+.toc .trititle{font-family:var(--mono);font-size:8pt;letter-spacing:.2em;text-transform:uppercase;color:var(--orange);margin:4mm 0 2mm;}
+.toc ol{list-style:none;}
+.toc li{display:flex;align-items:baseline;gap:8px;font-size:10pt;padding:2.2px 0;color:var(--fg);line-height:1.4;}
+.toc li .n{font-family:var(--mono);font-weight:700;font-size:9pt;color:var(--blue);min-width:26px;}
+.toc li .dots{flex:1;border-bottom:1px dotted var(--hair2);transform:translateY(-3px);}
+
+/* ===== chapter divider band ===== */
+.chapdiv{margin:0 0 5mm;padding:6mm 16px 5mm;border-radius:12px;background:var(--grad);
+    -webkit-print-color-adjust:exact;print-color-adjust:exact;}   /* green-filled chapter band */
+.chapdiv .cn{font-family:var(--mono);font-size:8.5pt;font-weight:700;letter-spacing:.24em;text-transform:uppercase;color:rgba(255,255,255,.82);margin-bottom:5px;}
+.chapdiv h2{font-family:var(--latin);font-weight:800;font-size:17pt;line-height:1.1;letter-spacing:-.015em;color:#fff;}
+/* conclusion block — same green-filled look as the chapter band */
+.conclusion{background:var(--grad);border-radius:12px;padding:6mm 16px;margin:5mm 0;color:#fff;break-inside:avoid;
+    -webkit-print-color-adjust:exact;print-color-adjust:exact;}
+.conclusion .ck{font-family:var(--mono);font-size:8.5pt;font-weight:700;letter-spacing:.24em;text-transform:uppercase;color:rgba(255,255,255,.82);margin-bottom:6px;}
+.conclusion h3{font-family:var(--latin);font-weight:800;font-size:13pt;line-height:1.2;color:#fff;margin-bottom:4px;}
+.conclusion p,.conclusion li{font-size:10.4pt;line-height:1.7;color:#fff;}
+.conclusion b,.conclusion strong{color:#fff;font-weight:700;}
+
+/* ===== unit header (lesson/exercise) + QR emplacement ===== */
+.exh{display:flex;align-items:center;gap:11px;margin:6mm 0 3mm;}
+.exh .idx{font-family:var(--mono);font-size:9pt;font-weight:600;color:#fff;background:var(--grad);
+    border-radius:6px;padding:4px 11px;letter-spacing:.08em;text-transform:uppercase;
+    -webkit-print-color-adjust:exact;print-color-adjust:exact;}
+.exh .idx.ex{background:var(--red);}   /* exercise chip = red */
+.exh h2{font-family:var(--latin);font-size:14pt;font-weight:700;letter-spacing:-.01em;color:var(--blue-dark);}
+.exh .qrcard{margin-inline-start:auto;flex:0 0 auto;display:flex;flex-direction:column;align-items:center;gap:3px;width:26mm;}
+.qrcard .qrt{font-family:var(--mono);font-size:6.5pt;letter-spacing:.1em;text-transform:uppercase;color:var(--teal);text-align:center;}
+.qrcard .qrslot{width:24mm;height:24mm;padding:1.5mm;background:#fff;border:1px solid var(--blue-line);border-radius:8px;display:flex;align-items:center;justify-content:center;}
+.qrcard .qrslot img,.qrcard .qrslot svg{width:100%;height:100%;display:block;}
+
+/* sub-exercise label when one file holds several exercices */
+.exsub{font-family:var(--latin);font-weight:800;font-size:11.5pt;color:var(--blue-dark);margin:5mm 0 2.5mm;padding-bottom:3px;border-bottom:2px solid var(--blue-line);}
+
+/* ===== text blocks ===== */
+.lead{font-size:11pt;line-height:1.7;margin:2mm 0 3mm;color:var(--fg);}
+.para{font-size:10.6pt;line-height:1.7;margin:2mm 0 2.5mm;color:var(--fg);}
+.consigne{font-size:10.4pt;line-height:1.6;margin:1mm 0 2mm;color:var(--fg);font-style:italic;}
+.subhead{font-family:var(--latin);font-weight:800;font-size:12pt;letter-spacing:-.01em;color:var(--blue-dark);margin:5mm 0 2.5mm;}
+/* emphasis — green accent = .t-blue/.t-green ; balance = .t-navy ; red = SECONDARY accent (.t-red) on titles + a few words */
+.t-blue{color:var(--blue);font-weight:600;} .t-navy{color:var(--blue-dark);font-weight:700;}
+.t-red{color:var(--red);font-weight:600;} .t-green{color:var(--teal);font-weight:600;} .t-gold{color:var(--orange);font-weight:600;}
+.subhead.t-red{color:var(--red);font-weight:800;}   /* red Roman-numeral section title (I, II, …) — keeps subhead weight */
+/* highlighter marks — a soft colour wash behind a key word (agent picks green or red per what balances the page) */
+.hl-green,.hl-red{border-radius:3px;padding:.02em .24em;font-weight:600;box-decoration-break:clone;-webkit-box-decoration-break:clone;
+    -webkit-print-color-adjust:exact;print-color-adjust:exact;}
+.hl-green{background:rgba(15,171,143,.20);color:var(--blue-dark);}   /* green highlight */
+.hl-red{background:rgba(245,50,47,.13);color:#c0261f;}               /* red highlight  */
+
+.data{background:var(--blue-soft);border:1px solid var(--blue-line);border-inline-start:4px solid var(--blue);
+    border-radius:8px;padding:11px 16px;margin:3mm 0;font-size:10pt;line-height:1.65;color:var(--fg2);}
+.data b{color:var(--fg);font-weight:700;}
+.note{border:1px dashed var(--hair2);border-radius:9px;padding:11px 16px;margin:4mm 0;background:var(--panel);}
+.note .kicker{font-family:var(--mono);font-size:7.5pt;letter-spacing:.18em;color:var(--orange);display:block;margin-bottom:5px;}
+.note .nb{font-size:10pt;line-height:1.7;color:var(--fg2);} .note b{color:var(--fg);}
+.ex:not(.idx){background:var(--blue-soft);border:1px solid var(--blue-line);border-inline-start:3px solid var(--blue);
+    border-radius:7px;padding:7px 11px;font-size:9.6pt;line-height:1.6;color:var(--fg2);margin:2mm 0;}   /* :not(.idx) so it never hits the exercise chip (which is .idx.ex) */
+.ex .extag{display:inline-block;font-family:var(--latin);font-weight:800;font-size:7.6pt;color:var(--blue-dark);background:#fff;
+    border:1px solid var(--blue);border-radius:5px;padding:1px 9px;margin-inline-end:7px;vertical-align:middle;text-transform:uppercase;letter-spacing:.06em;}
+
+/* ===== lists ===== */
+ol.q{list-style:none;counter-reset:q;margin:1mm 0 2mm;}
+ol.q>li{counter-increment:q;position:relative;padding-inline-start:30px;margin-bottom:2.5mm;font-size:10.4pt;line-height:1.6;}
+ol.q>li::before{content:counter(q);position:absolute;inset-inline-start:0;top:1px;width:21px;height:21px;background:var(--grad);color:#fff;
+    border-radius:50%;font-family:var(--mono);font-size:9pt;font-weight:600;display:flex;align-items:center;justify-content:center;
+    -webkit-print-color-adjust:exact;print-color-adjust:exact;}
+ol.sub{list-style:none;counter-reset:s;margin:4px 0 0;padding-inline-start:2px;border-inline-start:1px solid var(--blue-line);}
+ol.sub li{counter-increment:s;position:relative;padding:2.5px 0 2.5px 26px;font-size:10.1pt;line-height:1.55;}
+ol.sub li::before{content:counter(s,lower-alpha)".";position:absolute;inset-inline-start:10px;top:2.5px;font-family:var(--mono);font-size:9pt;font-weight:600;color:var(--teal);}
+ol.qn{list-style:none;counter-reset:qn;margin:1mm 0 2mm;}
+ol.qn>li{counter-increment:qn;position:relative;padding-inline-start:26px;margin-bottom:2.2mm;font-size:10.4pt;line-height:1.55;}
+ol.qn>li::before{content:counter(qn)".";position:absolute;inset-inline-start:0;top:0;font-family:var(--mono);font-size:9.5pt;font-weight:700;color:var(--blue);}
+ul.b{list-style:none;margin:1mm 0 2mm;} ul.b>li{position:relative;padding-inline-start:22px;margin-bottom:2.4mm;font-size:10.4pt;line-height:1.6;}
+ul.b>li::before{content:"";position:absolute;inset-inline-start:3px;top:8px;width:8px;height:8px;border-radius:50%;background:var(--grad);
+    -webkit-print-color-adjust:exact;print-color-adjust:exact;}
+ul.dash{list-style:none;margin:1mm 0 2mm;} ul.dash>li{position:relative;padding-inline-start:20px;margin-bottom:1.8mm;font-size:10.4pt;line-height:1.6;}
+ul.dash>li::before{content:"–";position:absolute;inset-inline-start:2px;top:0;color:var(--fg);font-weight:700;}  /* dash / +/− signs = body colour */
+.flow ul.opts{list-style:none;margin:4px 0 3px;padding-inline-start:16px;}
+.flow ul.opts li{padding:2px 0;font-size:10.2pt;line-height:1.5;color:var(--fg);}
+
+/* ===== figures / tables ===== */
+.fig{margin:3mm 0;} .fig svg.figsvg{display:block;margin:0 auto;background:#fff;max-width:100%;height:auto;}
+.photo{display:block;margin:3mm auto;border-radius:8px;border:1px solid var(--hair);max-width:100%;}
+.figrow{display:flex;flex-wrap:wrap;gap:9px;justify-content:center;margin:3mm auto;max-width:190mm;}
+.flow .figrow img{border-radius:7px;border:1px solid var(--hair);height:46mm;width:auto;max-width:none;object-fit:cover;}
+.schemarow{display:flex;gap:16px;align-items:flex-start;flex-wrap:wrap;margin:2mm 0;}
+.schemarow .col-txt{flex:1 1 90mm;min-width:80mm;} .schemarow .col-fig{flex:0 0 78mm;} .schemarow .col-fig .fig{margin:0;}
+.flow table{border-collapse:collapse;width:100%;margin:3mm 0;font-size:9.8pt;line-height:1.5;}
+.flow table th,.flow table td{border:1px solid var(--blue-line);padding:6px 10px;text-align:start;vertical-align:top;}
+.flow table th{background:var(--grad);color:#fff;font-family:var(--latin);font-weight:700;font-size:9.4pt;
+    -webkit-print-color-adjust:exact;print-color-adjust:exact;}
+.flow table tr:nth-child(even) td{background:var(--blue-soft);color:var(--sub-ink);}   /* sub-row: #E6F3F4 / #045260 */
+
+mjx-container{color:var(--fg) !important;font-weight:400 !important;font-size:1.0em !important;}
+.eq-hi mjx-container,mjx-container.eq-hi{color:var(--blue) !important;}   /* accent (green) equation — highlight a key result; balance with plain math */
+.eq-red mjx-container,mjx-container.eq-red{color:var(--red) !important;}  /* red accent equation / symbol — complements the green .eq-hi */
+
+/* ===== per-file books: credit line, copies list, figures at their size ===== */
+.credit{display:flex;flex-wrap:wrap;align-items:center;gap:5px;margin:-1mm 0 3.5mm;font-size:9.4pt;color:var(--fg2);}
+.credit .who{font-weight:700;color:var(--blue-dark);}
+.credit .tg{font-family:var(--mono);font-size:7.2pt;letter-spacing:.04em;border-radius:5px;padding:1px 7px;line-height:1.6;
+    border:1px solid var(--blue-line);color:var(--blue);background:#fff;-webkit-print-color-adjust:exact;print-color-adjust:exact;}
+.credit .tg.sec{background:var(--blue-dark);border-color:var(--blue-dark);color:#fff;}
+.credit .tg.cor{background:#fff;border-color:var(--red);color:var(--red);}
+.credit a{color:var(--fg3);font-family:var(--mono);font-size:7pt;text-decoration:none;}
+.cover .auth .credit{margin:4mm 0 0;}
+.cover .copies{margin-top:5mm;font-size:8.6pt;color:var(--fg2);}
+.cover .copies ul{list-style:none;margin:2mm 0 0;padding:0;columns:2;}
+.cover .copies a{color:var(--fg3);text-decoration:none;font-size:8pt;}
+.flow figure.fig{text-align:center;}
+.flow figure.fig img{max-height:60mm;width:auto;max-width:70%;display:inline-block;}
+
+/* chapter tag on each part of a multi-chapter book (the book keeps the original order of the file) */
+.chtag{display:inline-block;margin:5mm 0 2mm;padding:1mm 3mm;border-radius:2mm;background:#eef3fb;border:1px solid #c9d6ea;
+  color:#1f3a6b;font-size:9pt;font-weight:700}
+.chtag span{color:#6b7f9e;font-weight:600;margin-inline-end:1.5mm}
+
+@media print{ body{background:#fff;padding:0;} .flow{width:auto;max-width:none;margin:0;padding:0;} }
+@page{size:A4;}   /* margins come from render_flow.py — do NOT set them here */
+</style>
+<meta data-pagefind-filter="type[content]" content="درس">
+<meta data-pagefind-filter="resource[content]" content="COGITO NEWS">
+<meta data-pagefind-meta="n[content]" content="2333">
+<meta data-pagefind-meta="title[content]" content="Introduction philo août-septembre">
+<meta data-pagefind-filter="chapter[content]" content="محور غير محدّد">
+<meta data-pagefind-filter="chapter[content]" content="الإنية والغيرية">
+<meta data-pagefind-filter="chapter[content]" content="الخصوصية والكونية">
+<meta data-pagefind-filter="chapter[content]" content="العلم بين الحقيقة والنمذجة">
+<meta data-pagefind-filter="chapter[content]" content="القيم: الأخلاق والدولة">
+<meta data-pagefind-filter="chapter[content]" content="المنهجية">
+<meta data-pagefind-filter="section[content]" content="باكالوريا رياضيات"><style>.qrcard{display:none!important}.wa-nav{position:sticky;top:0;z-index:50;background:#045260;padding:10px 18px;font-family:Cairo,sans-serif;direction:rtl}.wa-nav a{color:#fff;text-decoration:none;font-weight:700}@media print{.wa-nav{display:none}}</style>
+</head>
+
+<body dir="rtl" lang="ar"
+      data-brand="Wael Academy" data-handle="@WaelAcademy"
+      data-tagline="في تُرابنا.. مغامرة بمغامرة"
+      data-phone="+216 50 40 40 42" data-site="waeldocuments.com"
+      data-cta="سجل معانا وأقرى عن بعد مع منصة Wael Academy"
+      data-subject="Philosophie · Introduction philo août-septembre" data-watermark="Wael Academy" data-pagefind-body><nav class="wa-nav" data-pagefind-ignore><a href="../index.html">→ الرجوع إلى فهرس الفلسفة</a></nav>
+
+<!-- single full-page diagonal watermark, bottom-left → top-right (repeats on every page) -->
+<div class="wm" aria-hidden="true"><span>WAEL&nbsp;ACADEMY</span></div>
+
+<div class="flow colored">
+<div class="cover"><div class="badge">◉ Wael Academy · Philosophie</div><h1>Introduction philo août-septembre</h1><div class="grule"></div><div class="sub">محور غير محدّد</div><div class="auth"><div class="credit">المؤلّف / المصدر : <span class="who">COGITO NEWS — BY ROUIS ; RIM ROUIS — LYCÉE PİLOTE MENZAH 8 — ANNÉE SCOLAİRE 2023-2024 ; دروس و تمارين فلسفية — OPTIMISEZ VOS COMPETENCES D&#x27;INTELLIGENCE — Cogito news (watermark: ROUIS)</span> <span class="tg sec">الفلسفة · باكالوريا رياضيات</span> <a href="https://drive.google.com/file/d/19DXWVjt9uCWfN45ICeD-QklqFjHwGK3C/view">↗ Introduction philo août-septembre.pdf</a></div></div><div class="copies" data-pagefind-ignore><b>نسخ هذا الملف في الدرايفات (1)</b><ul><li><a href="https://drive.google.com/file/d/19DXWVjt9uCWfN45ICeD-QklqFjHwGK3C/view">Karim Fourati · Bac 2KF25 › Philo / Mme Rouiss</a></li></ul></div></div>
+<section class="chapter">
+<div class="chtag"><span>المحور</span> محور غير محدّد</div>
+<!-- SOURCE: COGITO NEWS — BY ROUIS ; RIM ROUIS — LYCÉE PİLOTE MENZAH 8 — ANNÉE SCOLAİRE 2023-2024 ; دروس و تمارين فلسفية — OPTIMISEZ VOS COMPETENCES D'INTELLIGENCE — Cogito news (watermark: ROUIS) -->
+<div class="exh"><span class="idx">درس</span><h2>COGITO NEWS — الاستعداد للبكالوريا</h2>
+  <div class="qrcard"><div class="qrt">فيديو الدرس</div><div class="qrslot"><img src="qr/2333.svg" alt="QR"></div></div></div>
+<div class="credit">المؤلّف / المصدر : <span class="who">COGITO NEWS — BY ROUIS ; RIM ROUIS — LYCÉE PİLOTE MENZAH 8 — ANNÉE SCOLAİRE 2023-2024 ; دروس و تمارين فلسفية — OPTIMISEZ VOS COMPETENCES D&#x27;INTELLIGENCE — Cogito news (watermark: ROUIS)</span> <span class="tg sec">الفلسفة · باكالوريا رياضيات</span> <a href="https://drive.google.com/file/d/19DXWVjt9uCWfN45ICeD-QklqFjHwGK3C/view">↗ Introduction philo août-septembre.pdf</a></div>
+<!-- CROP: 2333 1 1 0.01 0.0 0.98 0.33 2333_cover -->
+<figure class="fig"><img src="https://wael-philo.b-cdn.net/figs/2333/2333_cover.png" alt=""></figure>
+<p class="para">BY ROUIS</p>
+<p class="subhead t-red">COGITO NEWS</p>
+<p class="para">الاستعداد للبكالوريا</p>
+<p class="para">TOME 1</p>
+<p class="para"><span dir="ltr">Le Laureat</span></p>
+<p class="para"><span dir="ltr">Nom: ..........................................................</span></p>
+<p class="para">BAC 2025</p>
+<!-- PROOFREAD: 2333 part1 p02 — handwritten page, best reading -->
+<ul class="b">
+<li>الإنسان هو محور المسألة الفلسفية لذلك تحرص الفلسفة كمسألة نقدية واعية وحب للحكمة على الانشغال به والإحاطة بكل أبعاد وجوده وبالقيم التي من شأنها أن تحدد إنسانيته .</li>
+<li>" العقل هو أعدل الأشياء قسمة بين النّاس ولكن المهم هو أن نحسن استعماله " ديكارت</li>
+<li>الفلسفة حركة فكرية واعية ، مساءلة نقديّة ، مسار (نمط) معرفي سخره الإنسان لبلوغ <u>الحقيقة</u> وإدراك اليقين . ← وجود / الإنسان</li>
+<li>الماهية = الجوهر <span dir="ltr">(l'essence)</span> وعكسها العرض .<br>← ما يكون به الشيء هو عينه ؛ حقيقته الراسخة النهائية التي لا يهزها شيء هو - هو</li>
+<li>الفينومينولوجيا تيار فلسفي ظهر مع ايدموند هوسيرل ويتبناه كل من هيغل و بول ريكور وموريس ميرلوبونتي ، يسعى إلى دراسة الظواهر ويعتمد مبدأ قصديّة الوعي</li>
+</ul>
+<!-- CROP: 2333 1 3 0.07 0.10 0.25 0.19 2333_competences -->
+<figure class="fig"><img src="https://wael-philo.b-cdn.net/figs/2333/2333_competences.png" alt=""></figure>
+<!-- PROOFREAD: 2333 part1 p03 — small labels inside the skills diagram top-left too small to read ("المهارات المنهجية المستهدفة") -->
+<p class="subhead t-red">1. مطلب الكلي - الكوني :</p>
+<p class="subhead t-navy">البحث عما هو إنساني في الإنسان</p>
+<p class="para">إن السؤال عن اليومي هو الذي ولّد فينا حيرة فكرية متعلّقة بطبيعة وجودنا الإنساني ما دام اليومي يعكس خضوعنا لخيارات و مواقف الآخرين في المجتمع و مؤسّسات الدولة و اغتراب وعينا و ضعف شخصيتنا. فاليومي حين يتحكّم في وعينا بالعادات و القرارات و الإعلام يكون كما يصفه آلان "كثوب يقيّدنا" فهو يهدّد انسانيتنا بتهديد حريتنا في اتخاذ المواقف و تنميط سلوكنا بما يتوافق مع سلوك الأخرين.</p>
+<p class="para">إنّ مخاطر اليومي على وعينا و حريتنا و معاني وجودنا الإنساني هو الذي يحتّم أولا اتخاذ مسافة أمان منها تضمنها الفلسفة بنقد الواقع و طرح الأسئلة من أجل تحرير وعينا من سلطة اليومي و اكتشاف انسانيتنا و هو دور التفكير الفلسفي و ما يتضمنه من قدرة على انقاذنا من الوجود الضعيف و المهمش بما يكون من وعي و حرية و قيم انسانية كونية.</p>
+<p class="para">يتعلق الأمر إذن بالبحث في تنوع التّصورات الفلسفية للإنسان و ما يترتب عنها من تنوع في تصوّرنا للوجود ناتج عن اختلاف في أشكال الوعي يعود إلى التطور التاريخي للواقع من جهة و من جهة ثانية إلى تأثير تصوّرنا لأنفسنا حين نقول "أنا" و تصوّرنا للآخرين و الحكم عليهم بما يبدو لنا حقيقيا أو صادقا دون الإنتباه إلى ما قد يحمله من خطر يهدّد التوافق الإنساني و هو ما يبرّر تدخّل الفلسفة دوما لفهم الوجود ، أو تأثير واقعنا و تاريخ ثم البحث من ذلك عن علاقتنا بالآخرين من خلال ما يجمعنا من قيم إنسانية و منظومة حقوق إنسان تشكل ابعادنا الإنسانية الكونية:</p>
+<ul class="b">
+<li>سواء كان شخص فردا يقول "أنا" ويثبت وجوده الخاص باثبات "إنيته" وما يختلف به عن غيره رغم تماثله معه في الوجود الإنساني</li>
+<li>أو "أنا" ينتمي إلى هوية أو خصوصية ثقافية يقول "نحن" بما يميّز كل المنتمين إلى هذه الهوية من خصوصيات وما يولّده ذلك الإختلاف من حاجة إلى التواصل داخل أفق إنساني مشترك.</li>
+<li>أو "أنا" كمصدر للمعرفة والحقائق العلمية أو النماذج وتطبيقاتها التكنولوجية في الواقع.</li>
+<li>أو "أنا" كمواطن فاعل داخل دولة ذات سيادة تكون ضامنة بالقوانين لحقوق المواطنين</li>
+<li>أو "أنا" كعضو في المجتمع وداخل العالم وفرد فاعل يحمل منظومة مبادئ وقواعد أخلاقية تضمن الخير أو السعادة</li>
+</ul>
+<!-- CROP: 2333 1 3 0.29 0.68 0.61 0.93 2333_art_de_vivre -->
+<figure class="fig"><img src="https://wael-philo.b-cdn.net/figs/2333/2333_art_de_vivre.png" alt=""></figure>
+<p class="subhead t-navy"><b>مطلب الكلي/الكوني</b> (الوجود الإنساني)</p>
+<p class="para"><b>فما معنى الكليّ؟</b></p>
+<p class="para">يرتبط الكلّي إذن بما هو انساني و هو يحيلنا على :</p>
+<ul class="b">
+<li><b>تحديد مثالي أو نظري:</b> يتعلّق بتعريف نظري يقوم على تحديد حقيقة الإنسان .</li>
+<li><b>تحديد عملي من داخل الواقع:</b> حيث يفيد الكوني مجموع القيم الإنسانية المشتركة (المتعلقة اليوم بحقوق الإنسان) و ما يجعل الحوار و التسامح أساسا للعلاقات الإنسانية و شرطا للعيش المشترك</li>
+</ul>
+<p class="para"><b>فمطلب الكلي يتعلّق فيه الأمر بغاية فلسفية أو رهان يقوم على التفكير في الواقع المعيش للأفراد و رصد ما فيه من تهديدات لإنسانية الإنسان بتعطيل التفكير و تهديد الحريات و انتهاك حقوق الإنسان من أجل أن تكون الفلسفة ممارسة نقدية قادرة بطرح الأسئلة على انقاذ ما هو انساني فينا و الإقرار مع المفكّر الإيطالي أنطونيو قرامشي بأنّ</b> <span class="t-red"><b>" الشخصية التاريخية للفيلسوف ناتجة عن علاقته الفاعلة بمحيطه الثقافي الذي يريد أن يغيّره"</b></span></p>
+<ol class="qn">
+<li>أن أكون قادرا على الوعي بوجودنا الإنساني و معرفة حقيقة ذواتنا و واقعنا و منظومة قيمنا الإنسانية</li>
+<li>أن أكون حرّا في اتخاذ القرار و تقرير المصير باحترام حقوق الآخرين وفق ما تقتضيه منظومة القيم الإنسانية</li>
+</ol>
+<p class="subhead t-navy"><b>الإنساني في الإنسان</b> :</p>
+<p class="para"><b><u>هو أن يتعرّف كل منّا إلى حقيقته الإنسانية في</u> :</b></p>
+<table>
+<tr><th>الباب الأول: الإنساني بين الكثرة و الوحدة</th><th>الباب الثاني: العلم بين الحقيقة و النمذجة</th><th>الباب الثالث: القيم بين النسبي و المطلق</th></tr>
+<tr><td>داخل ذاته أو إنيته الإنسانية و علاقته بالغيرية أو وجود الآخرين<br>و داخل ثقافته أو هويته وعلاقته بالثقافات الأخرى<br>1.الإنية و الغيرية<br>2.الخصوصية و الكونية</td><td>داخل معارفه العلمية و تطبيقاتها التكنولوجية في الواقع و حاجته إليها في تحقيق المصلحة<br>. العلم بين الحقيقة و النمذجة</td><td>داخل أفعاله في علاقة بالأخرين و بالواقع أي قيمه الموجهة لأفعال الإقتصادية و السياسية و الأخلاقية و الفنية<br>1.الدولة :السيادة و المواطنة<br>2.الأخلاق:الخير و السعادة</td></tr>
+</table>
+<p class="subhead t-red">2. رهانات التفكير الفلسفي: مطلب الكوني</p>
+<ul class="b">
+<li><span class="t-red"><u>مبحث الإنية</u>:</span> هي أن يكتشف الفرد حقيقة وجوده الذي يميّزه عن الآخرين .<br>إثبات أن حضور الآخر في وجودنا ضروريا و التفاعل معه إنسانيا.</li>
+<li><span class="t-red"><u>في مبحث الخصوصية و الكونية</u>:</span> هي أن نتعرّف إلى حقيقة هويتنا و ما يميزها عن الهويات الأخرى بيان الحاجة إلى الإعتراف بوجود الآخر وفق القيم الكونية و التفاعل معه للإثراء من خصوصياته .</li>
+<li><span class="t-red"><u>في مبحث العلم بين الحقيقة و النمذجة</u>:</span> هي أن تكون المعرفة العلمية و تنوّع النماذج النظرية و توظيفاتها التكنولوجية متناسبة مع القيم الكونية و احترام إنسانية الإنسان.</li>
+<li><span class="t-red"><u>في مبحث الدولة:السيادة و المواطنة</u>:</span> هي أن تكون مؤسّسات الدولة ضامنة للسيادة الوطنية و المواطنة الفاعلة.</li>
+<li><span class="t-red"><u>في مبحث الأخلاق:الخير والسعادة</u>:</span> هي أن تكون منظومة المبادئ الأخلاقية ضامنة للخير في كل فعل أو قادرة على جعل الجميع سعداء باحترام منظومة القيم الكونية و أبعادها الإنسانية.</li>
+</ul>
+<!-- SOURCE (p05): المعهد النموذجي المنزه 8 الأستاذة ريم رويس ; ROUIS RİM — LYCEE PİLOTE MENZAH 8 — برنامج الفلسفة | 2025-2024 -->
+<p class="subhead t-navy"><b>مطلب الكلي</b><br><b>أو/ في السؤال عن الإنساني في الإنسان</b></p>
+<table>
+<tr><th>المسألة</th><th>الباب الأول<br>I. الإنساني بين الكثرة و الوحدة</th><th>الباب الثاني<br>II. العلم بين الحقيقة و النمذجة</th><th>الباب الثالث<br>III. القيم بين النسبي والمطلق</th></tr>
+<tr><td></td><td>كيف يكون وجودنا الذاتي و هويتنا الثقافية إنسانية</td><td>كيف تحترم المعرفة والتكنولوجية انسانيتنا</td><td>كيف تكون أفعالنا السياسية و الأخلاقية</td></tr>
+<tr><td></td><td><b>الإنية و الغيرية</b> — <b>الخصوصية و الكونية</b></td><td><b>العلم : الحقيقة و النمذجة</b></td><td><b>الدولة : السيادة و المواطنة</b> — <b>الأخلاق : الخير و السعادة</b></td></tr>
+<tr><td>أبعاد وجودنا في الواقع</td><td><b>أنا</b> الذاتية / الشخص : ما يميز كل منا حين يقول "أنا" من قدرات و مهارات و مواقف + و ما يختلف به عن الآخرين ← يمكن أن تؤدي إلى المنافسة و الصراع مع آخر يهدّدها من أجل إثبات الذات<br><b>نحن</b> هوية المجتمع/الثقافة : ما يميز كلّ هوية أو مجتمع من ثقافة و ابداعات تاريخية +ما تختلف به عن كل الهويات ← يمكن أن تؤدي إلى المنافسة و الصراع مع آخر ثقافي يهدّدها من أجل دفاع الهوية عن خصوصياتها</td><td><b>المعرفة العلمية</b><br>توظيف مهارات التفكير الإنساني في معرفة حقيقة الواقع و صياغتها في نماذج رياضية أو معادلات<br>اكتشاف الحقيقة الموضوعية للظواهر الطبيعية أو الانسانية و بيان تطابقها مع الواقع</td><td><b>الممارسة و القيم</b><br>الوجود السياسي لكلّ مواطن داخل دولة ذات سيادة بما تضمنه القوانين من حقوق مدنية<br>الوجود الأخلاقي لكل فرد داخل مجتمع ذي مبادئ و قيم نسبية بما تضمنه قواعد السلوك من خير أو سعادة</td></tr>
+<tr><td>رهانات الفلسفة أو غاياتها الإنسانية</td><td><b>الكوني الإنساني</b><br>المراهنة على إرساء فضاء انساني منظومة القيم الكونية كشرط لتفاعل كل هوية شخصية(أنا) أو ثقافية (نحن)مع الهويات الأخرى للإثراء من بعضها</td><td>المراهنة على ابداع نماذج علمية أو تكنولوجية لفهم الواقع والتحكم فيه :<br>1. بحسب غايات كل مشروع علمي أو إقتصادي أو سياسي أو غيره<br>2.باحترام أبعاده الإنسانية ومنظومة القيم الكونية و حقوق الإنسان</td><td>المراهنة على الإلتزام بمبادئ الفعل + و ما يناسبها من قيم. من أجل فعل الخير و تحقيق السعادة بما يجعل السلوك الأخلاقي مقبولا أو إنسانيا</td></tr>
+</table>
+<!-- PROOFREAD: 2333 part1 p05 — flowchart transcribed as table; small print in boxes, best reading -->
+<!-- NOTE: 2333 part1 p06 — handwritten annotations over the printed page left out -->
+<!-- SOURCE (p06): المعهد النموذجي المنزه الثامن 2025-2024 — الأستاذة ريم السالمي رويس -->
+<p class="subhead t-navy"><b>مطلب الكلي</b><br><b>أو في السؤال عن الإنساني في الإنسان</b></p>
+<table>
+<tr><td>من الجهل بحقيقة الإنسان بتأثير بداهات اليومي و عنف الواقع</td><td><b>1.ميتافيزيقيا :معرفة الحقيقة المطلقة لكلّ انسان</b> بما هو يحيل إلى ما يكون ثابتا و مطلقا فلا يتغيّر باعتباره حسب <b>أرسطو</b>: الحقيقة الفلسفية المجرّدة التي يسعى إليها الحكيم بالتأمّل العقلي بما أنّ" <b>الحكيم هو ذاك الذي يملك المعرفة بكليتها دون الحصول على علم خاص بكلّ شيء"</b></td><td>إلى التأمل العقلي في حقيقة الإنسان المميّز بالعقل: "حيوان ناطق"</td></tr>
+<tr><td><b>من الكلّي</b> الميتافيزيقي</td><td>1. الكلي هوالحقيقة العقلية و هي تفيد عندهيقل: "الفكرة الشاملة"</td><td></td></tr>
+<tr><td>من الوعي بالوضعيات اللاانسانية الخطيرة المهددة للحقوق و الحريات</td><td><b>2.الفكر المعاصر: تعرّف كل فرد إلى وجوده الخاص و أبعاده الإنسانية</b><br>ليكون حسب <b>هايدقير</b>: ما يضمن لكلّ فرد داخل كلّ وضعية في الواقع كينونتة الإنسانية أي"<b>الحالة التي أصبح فيها الإنسان ذاتا</b>" و هي الحياة التي يكتشفها كلّ منا داخل ذاته</td><td>إلى الوعي بالقيم الإنسانية و معاني الحرية و الإلتزام بها</td></tr>
+<tr><td><b>إلى الكوني</b> الواقعي</td><td>2. و هو ما يشترك فيه كل فرد في الواقع مع الآخرين و هو عند هيقل:"الكلّي الحقيقي"</td><td></td></tr>
+</table>
+<!-- CROP: 2333 1 6 0.69 0.26 0.88 0.46 2333_tunnel -->
+<figure class="fig"><img src="https://wael-philo.b-cdn.net/figs/2333/2333_tunnel.png" alt=""></figure>
+<!-- CROP: 2333 1 6 0.05 0.25 0.24 0.45 2333_penseur -->
+<figure class="fig"><img src="https://wael-philo.b-cdn.net/figs/2333/2333_penseur.png" alt=""></figure>
+<!-- CROP: 2333 1 6 0.69 0.55 0.88 0.72 2333_ruines -->
+<figure class="fig"><img src="https://wael-philo.b-cdn.net/figs/2333/2333_ruines.png" alt=""></figure>
+<!-- CROP: 2333 1 6 0.05 0.54 0.24 0.72 2333_colombe -->
+<figure class="fig"><img src="https://wael-philo.b-cdn.net/figs/2333/2333_colombe.png" alt=""></figure>
+<div class="data">
+<p class="para"><b>من البحث عن تعريف واحد و مثالي للإنسان / أو حقيقة كلية</b> ⇐ <b>إلي معرفة شروط وجودنا الإنساني أو الكوني المشترك داخل الواقع</b></p>
+<p class="para"><b>أي كيف يحقق كلّ منا انسانيته داخل مختلف وضعياته في الواقع (الشخصية+الثقافية + العلمية+ السياسية+ الأخلاقية) فيكون في ذات الوقت:</b></p>
+<p class="para"><span class="t-red">1</span>. <u>مختلفا</u> عن غيره بخصوصياته الشخصية أو الثقافية أو معارفه أو إبداعاته أو مواقفه</p>
+<p class="para"><span class="t-red">2</span>. <u>متماثلا</u> معهم في أبعاده الكونية و قيمه الإنسانية المشتركة و حقوق الإنسان .</p>
+</div>
+<!-- PROOFREAD: 2333 part1 p07 — handwritten page; faint grey margin word ("تاريخي"?) uncertain -->
+<table>
+<tr><th><span class="t-red"><u>ميتافيزيقيا</u></span></th><th>≠</th><th><span class="t-red">فلسفيا / واقعيا</span> ما بعد الحداثة ← المعاصرة</th></tr>
+<tr><td><span class="t-blue">↓ اختزال حقيقة الإنسان في بعد واحد واعتباره قادر على <u>استيفاء</u> حقيقة</span><br>↓ تصور طوباوي / دغمائي <span dir="ltr">utopie</span> مثالي لا واقعي</td><td></td><td><span class="t-blue">عدم اختزال الإنسان في بعد من أبعاده مراعاة لكثافته</span><br><span class="t-red">كوحدة متكثرة وكثرة موحدة</span></td></tr>
+</table>
+<!-- NOTE: 2333 part1 p08 — handwritten annotations over the printed page left out -->
+<p class="subhead t-navy"><b>تاريخ</b><br><b>تطور الفكر الفلسفي</b></p>
+<!-- CROP: 2333 1 8 0.58 0.07 0.71 0.20 2333_frise -->
+<figure class="fig"><img src="https://wael-philo.b-cdn.net/figs/2333/2333_frise.png" alt=""></figure>
+<table>
+<tr><th><b>1.الفكر اليوناني</b> (ما قبل الحداثة-ولادة الفلسفة)</th><th><b>2.الثورة الكوبرنيكية و فكر الحداثة</b> (القرن السابع عشر)</th><th><b>3.الفكر المعاصر</b> (ما بعد الحداثة - القرن العشرين)</th></tr>
+<tr>
+<td><span class="t-red">سؤال الفلسفة</span>: ما حقيقة الكائن؟<br><span class="t-red">طبيعة الفلسفة</span> : محبة الحكمة و معرفة الحقيقة المطلقة <b>حيث يكون <u>الإنسان مميّزا بالعقل</u></b> أو هو في التعريف الأرسطي <b>"حيوان ناطق"</b><br>و هو ما يجعل البحث عن الحقيقة لا يكون في الطبيعة بل داخل العقل الإنساني بالتأمل الفلسفي و بالنظر إلى الحكمة السقراطية القائلة :" <b><u>أيها الإنسان اعرف نفسك بنفسك ، فالحقيقة داخلك لا خارجك</u></b> " لا يكون ادراكها إلاّ بالتّأمل العقلي بما في ذلك حقيقة الإنسان و النفس و الجسد و غيره و تكون مهمة الفلسفة هي تجاوز تنوع أو كثرة الموجودات في الواقع الحسي من أجل معرفة ما يوحدها أي الحقيقة الكلية الثابتة و المطلقة في السماء أي جوهر كل موجود بما أنّه كما يشير أرسطو : <b>"لا علم إلا بما هو كلي"</b> (أي ثابت)</td>
+<td><span class="t-red">سؤال الفلسفة</span>:ما الإنسان؟هوسؤال فكر الأنوار<br><span class="t-red">طبيعة الفلسفة</span> :نقد المعرفة ثم تأسيس اليقين /<br>و هو ما يجعل الإنساني في الإنسان لا يكون بامتلاك العقل فحسب بل يتحدّد بفاعلية الإنسان و قدرته العقلية على تجاوز الوهم من أجل معرفة الحقيقة اليقينية<br><b><u>فالإنسان بذلك ليس مجرد عقل بل هو ذات</u></b> يحسن توظيف العقل بالتفكير السليم<br>حيث يكون <b><u>الوعي</u></b> بذلك نشاط عقلاني بالتفكير و هو خاصية الإنسان أي ما هو إنساني في الإنسان<br>- فهذا الوعي لا يتحقق إلا من خلال تفكير الذات:<br>1- في تجربة <b>الشك</b>(ديكارت)أو <b>النقد</b>(كانط) أي فحص ومراجعة كل ما تحمله الذات من معارف وعدم الوثوق في فكرة و اعتبارها يقينية ما لم نتحقّق من بداهتها<br>2- <b>تأسيس</b> معرفة انسانية يقينية بالإعتماد على أنوار العقل باحترام قواعد المنهج + القدرة على التفكير السليم .</td>
+<td><span class="t-red">سؤال الفلسفة</span>:كيف أكون أنا؟كيف نفكّر بحرية؟<br><span class="t-red">طبيعة الفلسفة</span>:نقد الواقع لإنقاذ إنسانية الإنسان<br><b>فالإنسان هو الأنا أو الذات بما هي وعي بخصوصياتها :</b><br>° <b>فالأنا هي وجود حيوي و رغبة كما يقدمها نيتشه و فرويد</b><br>° و هي وعي اقتصادي - سياسي أو وعي طبقي مميّز بالقدرة على الإنتاج و احترام القيم الكونية في توزيع الثروة كما يقدمها ماركس<br>°<b>وهي وجود جسدي داخل</b> العالم تختلف تجاربه الجسدية عن تجارب الآخرين كما يقدّمه مارلوبونتي<br>° <b>و هي وعي وبالوجود الخاص و ما يناسبها من حرية</b> في اتخاذ القرار كما يقدمها سارتر</td>
+</tr>
+</table>
+<!-- CROP: 2333 1 8 0.66 0.59 0.77 0.73 2333_platon_aristote -->
+<figure class="fig"><img src="https://wael-philo.b-cdn.net/figs/2333/2333_platon_aristote.png" alt=""></figure>
+<!-- CROP: 2333 1 8 0.10 0.64 0.31 0.73 2333_philosophy -->
+<figure class="fig"><img src="https://wael-philo.b-cdn.net/figs/2333/2333_philosophy.png" alt=""></figure>
+<div class="data">
+<p class="para"><b>و هو ما يجعل المحاور الرئيسية للتفكير الفلسفي هي: 1- الوجود + 2- المعرفة + 3- القيم</b></p>
+<p class="para">1- <b><u>مبحث الوجود</u></b> /الانطولوجيا<span dir="ltr">ontologie</span> أي أن نفكر في وجودنا الخاص و كينونتاو هو ما نتبينه في قول هيدغر: <b>التفكير في حقيقة الوجود هو في الوقت نفسه تفكير في ما هو إنساني في الإنسان</b></p>
+<p class="para">2- <b><u>مبحث المعرفة</u></b> : الابستمولوجيا <span dir="ltr">épistémologie</span> نقد المعرفة العلمية وتعديلها باستمرار من أجل تطوير الواقع تكنولوجيا و تحقيق غايات الوجود الإنساني</p>
+<p class="para">3- <b><u>مبحث القيم</u></b> : الاكسيولوجيا <span dir="ltr">axiologie</span> أي التفكير في منظومة القيم الإنسانية الضرورية لتوجيه الفعل الإنساني في مختلف المجالات (اقتصادية و سياسية و غيرها...) من أجل تحقيق الغايات في الواقع</p>
+</div>
+<!-- NOTE: 2333 part1 p09 — handwritten margin note at top left out; handwritten fill-ins under "المرجعيات الفلسفية" kept -->
+<p class="subhead t-red"><span dir="ltr">À RETENIR!</span> <b>ما الذي يجب ان أحتفظ به؟</b></p>
+<table>
+<tr><th><b>1.الفكر اليوناني</b> (ما قبل الحداثة-ولادة الفلسفة)</th><th><b>2.فكر الحداثة</b> (القرن السابع عشر-الثورة الكوبرنيكية)</th><th><b>3.الفكر المعاصر</b> (ما بعد الحداثة - القرن العشرين)</th></tr>
+<tr>
+<td><span class="t-red">سؤال الفلسفة</span>: ما حقيقة الكائن؟<br><b>المرجعيات الفلسفية</b><br>سقراط - أفلاطون - أرسطو (القرن 4 ق.م)<br><b>ما دلالة الفلسفة؟</b><br>........................................<br><b>ما هو الكلّي في الفكر الميتافيزيقي القديم؟</b><br>........................................<br><b>ما معنى الوجود الإنساني؟</b><br>........................................</td>
+<td><span class="t-red">سؤال الفلسفة</span>: ما الإنسان؟<br><b>المرجعيات الفلسفية</b><br>قاليلي - نيوتن - ديكارت (أب الحداثة) - سبينوزا - هيقل - كوبرنيك<br><b>ما دلالة الفلسفة؟ وما هي عناصر التحول في الفكر الحديث؟</b><br>........................................<br><b>ما هو الكلي في الفلسفة الحديثة؟</b><br>........................................<br><b>ما معنى الوجود الإنساني؟</b><br>........................................</td>
+<td><span class="t-red">سؤال الفلسفة</span>:كيف أكون أنا؟كيف نفكّر بحرية؟<br><b>المرجعيات الفلسفية</b><br>ماركس - نيتشه - فرويد - سارتر - دولوز<br><b>ما دلالة الفلسفة المعاصرة؟</b><br>........................................<br><b>ما هو الكوني و ما علاقته بالواقع في الفكر المعاصر؟</b><br>........................................<br><b>ما معنى الوجود الإنساني:</b><br>........................................</td>
+</tr>
+</table>
+<!-- PROOFREAD: 2333 part1 p10 — handwritten page; left-edge words cut ("في وضعية", "الزائف") -->
+<table>
+<tr><th>ما الإنسان ؟</th><th>من هو الإنسان ؟</th></tr>
+<tr>
+<td>↓ <span class="t-red">ماهي ماهية الإنسان</span><br><span class="t-blue">الجوهر الراسخ<br>الحقيقة الثابتة<br>التي لا يهزها شيء</span><br><span class="t-green">البحث الماهوي : اختزال حقيقة الإنسان / الذات / الأنا</span><br><span class="t-red">في بعد واحد = تعريف <span class="t-red">ميتافيزيقي</span><br>← لا يراعي الكثرة والتنوع والتعدد</span><br>سؤال ماهوي ← أحادي</td>
+<td><span class="t-red">من أين يستمد انسانيته ما الذي تجعله انسانا + جديرا بإنسانيته</span><br>⇐ <span class="t-green">ما الإنساني ؟!</span><br>" <span dir="ltr">Être c'est être en <u>situation</u></span> " <span dir="ltr">Paul Ricoeur</span><br>↓ " أن أكون هو حتما أن أكون في وضعية "<br><span class="t-blue">عقلة الكوني</span> <span dir="ltr">Malebranche</span><br><span class="t-red">قيمة الكونية<br>الكوني الإيتيقي<br>الكوني الحق ≠ الكوني الزائف</span></td>
+</tr>
+</table>
+<p class="subhead t-navy"><b>التفلسف</b></p>
+<p class="para">من مطلب تعريف الإنسان نظريا</p>
+<div class="note"><div class="nb">يقول <b>شارل تايلور</b> أن أكون هو أن أكون إنسانا على طريقتي الخاصة، و أن أتحمّل تبعات هويّتي</div></div>
+<p class="para">إلى اثبات ما هو انساني في وجودنا</p>
+<div class="data">
+<p class="para"><b>يتعلّق الأمر إذن داخل هذه المسائل</b></p>
+<p class="para">° <b>بتجاوز البحث عن تعريف مثالي أو ميتافيزيقي للإنسان لا يساعد في اكتشاف حقيقة وجودنا الفعلي</b></p>
+<p class="para">°<b>بإنقاذ انسانية الإنسان من كلّ فعل لا- إنساني داخل مؤسّسات الواقع و ما نعيشه من تهميش و اغتراب بالخضوع لتأثير الآخرين و تهديدهم لوعينا و حرية مواقفنا</b></p>
+<p class="para"><b>و التحوّل :</b></p>
+<p class="para"><b>من الوضع اللا إنساني لوجودنا (واقع الجهل بذواتنا و حقيقة وجودنا)</b> ⇐ <b>إلى إنسانية الإنسان كغاية - رهان فلسفي ( إلى الوعي بذواتنا و بواقعنا وحرية القرار)</b></p>
+</div>
+<!-- PROOFREAD: 2333 part1 p12 — handwritten page; faint pencil words ("المتافيزيقية", "Trio Grec", "الكونية") and words cut at left edge uncertain -->
+<p class="para"><span class="t-blue">اذا اعتبرنا أن <span class="t-red"><u>الفلسفة</u></span> { - حركة فكرية واعية - مساءلة نقدية - نمط معرفي عقلاني - حب للحكمة - سعي نحو المعرفة } تسعى الى <span class="t-red"><u>الحقيقة</u></span> غاية بما هي قيمة ابستيمية ورهانا معرفيا تماما كما تسعى الى بلوغ <span class="t-red"><u>الكوني</u></span></span> <span class="t-red">كمشترك انساني أي منظومة القيم الكلية المعقلنة للعلاقات والمهيكلة لفضاء الممارسة والضامنة للتعايش السلمي تحت رايته وفي ظله</span> . لذا الكوني هو جملة القيم المعيارية المهيكلة للعلاقات والمعقلنة لفضاء الممارسة</p>
+<p class="para"><span class="t-blue">تنظم / تؤطر / تعقلن / تقنن / تهيكل</span></p>
+<p class="para">براغماتي = كل ما هو نفعي</p>
+<p class="para"><span dir="ltr">Hypothèse</span></p>
+
+<div class="chtag"><span>المحور</span> الإنية والغيرية</div>
+
+<table>
+<tr><th><span class="t-red"><u>الآخر</u></span></th><th><span class="t-red"><u>الغير</u></span></th><th><span class="t-red"><u>الغيرية</u></span> :</th></tr>
+<tr><td><span dir="ltr">L'autre</span><br>" كل ما ليس أنا " <span dir="ltr">tt ce qui n'est pas moi</span></td><td><span dir="ltr">Autrui</span><br><span class="t-red">" الأنا الآخر الذي ليس أنا "</span></td><td><span dir="ltr">Altérité</span><br>↓ مجال الاختلاف بكل ما فيه</td></tr>
+</table>
+<p class="para">الغيرية - الآخر - الغير - اللاوعي - حيوان - نبات</p>
+<!-- CROP: 2333 1 12 0.15 0.45 0.35 0.59 2333_cercles_alterite -->
+<figure class="fig"><img src="https://wael-philo.b-cdn.net/figs/2333/2333_cercles_alterite.png" alt=""></figure>
+<p class="para">(الإنسان = الذات = الأنا)</p>
+
+<div class="chtag"><span>المحور</span> محور غير محدّد</div>
+
+<p class="para">عرضي ≠ جوهري ↓ ثانوي زائل — الحقيقي الأساسي</p>
+<p class="para">الكلي مرتبط بالتصورات الميتافيزيقية <span dir="ltr">Trio Grec</span> — الكونية</p>
+<p class="para"><span class="t-red">الكوني</span> <span class="t-blue">هو المشترك الإنساني أي منظومة القيم الإنسانية المجردة من كل بعد مادي /</span> <span class="t-red">براغماتي / مصلحية</span> <span class="t-blue">ومن كل صبغة</span> <span class="t-red">نفعية غائية تيليولوجية</span></p>
+<p class="para"><span class="t-red">الكلي</span> <span class="t-blue">هو ما تنشده الفلسفة ككلي متفارق / متعال / مطلق / لا متعين (لامحسوس) <span dir="ltr">non concret (abstrait)</span> وهو ما يجعله يتنزل في سياق</span> <span class="t-red">ميتافيزيقي (لاواقعي)</span></p>
+<p class="para"><span class="t-red">⇐</span> <span class="t-blue">مثل الإنسان محور انشغال الفكر الفلسفي اذ تضرب الدعوة الى معرفته في جذورها في الإرث السقراطي ليعرف أرسطو الإنسان</span> <span class="t-red">كحيوان ناطق</span> <span class="t-blue">؛ هذا التعريف لا يراعي كثافته اذ يجرده من أبعاده المتنوعة في كثرتها وتداخلها ليتحول الاهتمام به داخل فكر الحداثة الى اهتمام</span> <span class="t-red">بالإنسانية</span></p>
+<p class="subhead t-gold">(1) مطلب الكلي / الكوني</p>
+<p class="para"><span class="t-blue">تراهن الفلسفة على الحقيقة غاية منشودة ومطلبا إنسانيا تسخر لها منهجها</span></p>
+<p class="para">{ غاية مسعى منشود } ← رهان ↓ <b>الحقيقة</b> <span dir="ltr">valeur Epistemique</span> — ابستيميا <span class="t-red">(معرفي)</span> ↓ <span class="t-gold">الانسان + الوجود</span></p>
+<p class="para"><b>القيم</b> — اتيقيا (أخلاقية) <span dir="ltr">ETHIQUE</span> ← <span class="t-gold">(+) تحرك</span></p>
+<table>
+<tr><td><span class="t-green">المطلق</span><br>الكامل<br><span class="t-gold">الجوهري</span><br>الحقيقي<br>العام<br>العميق</td><td>≠</td><td><span class="t-red">الجزئي<br>الناقص<br>العرضي / الحاصلية<br>الزائف<br>السطحي</span></td></tr>
+</table>
+<p class="para"><span class="t-gold">الكوني ← المشترك الانساني = ما يوحد الانسانية ويضمن تفاعلها تناغمها تعايشها</span></p>
+<p class="para">الجوهر <span class="t-red">(الهوهو)</span> <span dir="ltr">L'essence</span> ≠ العرض</p>
+<!-- PROOFREAD: 2333 part1 p13 — circled "1"; "الحاصلية" uncertain -->
+<p class="subhead t-navy"><u>مطلب الكلي / الكوني</u></p>
+<p class="para">3 ابواب</p>
+<table>
+<tr><th>الباب 1<br><span class="t-gold"><u>الانساني بين الكثرة و الوحدة</u></span></th><th>الباب 2<br><span class="t-gold"><u>العلم بين الحقيقة و النمذجة</u></span></th><th>الباب 3<br><span class="t-gold"><u>القيم بين النسبي والمطلق</u></span></th></tr>
+<tr><td><span class="t-red">المحور 1</span> <span class="t-blue">الانية والغيرية</span><br><span class="t-red">المحور 2</span> <span class="t-blue">الخصوصية الكونية</span></td><td>↓ <span class="t-gold"><u>ما العلم وما علاقته بالحقيقة</u></span><br><span class="t-gold">(هل) يدرك العلم الحقيقة (أم) يعتمد النمذجة لإعادة انشائها ؟</span></td><td><span class="t-gold">المحور 3</span> <span class="t-blue">الدولة : السيادة و المواطنة .</span><br><span class="t-gold">المحور 4</span> <span class="t-blue">الأخلاق : الخير والسعادة .</span><br><span class="t-gold">قيمة الخير - قيمة السعادة - بين التحقق ...</span></td></tr>
+</table>
+<!-- PROOFREAD: 2333 part1 p14 — bottom-left orange words cut/faded ("بين التحقق ...") -->
+<p class="subhead t-navy"><span class="t-gold"><u>إشكاليات</u></span> <u>الباب 1</u> <u>الانساني بين الكثرة و الوحدة</u></p>
+<p class="para"><span class="t-gold">أشكلة</span> <span class="t-green"><u><span dir="ltr">Problematisation des themes</span></u></span></p>
+
+<div class="chtag"><span>المحور</span> الإنية والغيرية</div>
+
+<p class="para">المحور 1 <span class="t-green"><u>الانية والغيرية</u></span></p>
+<p class="para"><span class="t-red"><u>ما الانية وما علاقتها بالغيرية</u> ؟</span></p>
+<p class="para"><span class="t-green">كيف تمثل الذات ذاتها وتعي حقيقتها ؟</span></p>
+<p class="para"><span class="t-green">هل في عزلتها وانقطاعها عن كل آخر ؟ (أم) بانفتاحها وتفاعلها مع كل غيرية ؟</span></p>
+
+<div class="chtag"><span>المحور</span> الخصوصية والكونية</div>
+
+<p class="para">المحور 2 <span class="t-green">الخصوصية والكونية</span></p>
+<p class="para"><span class="t-gold">ما الخصوصية وما علاقتها بالكونية كيف يمكن للثقافات أن تتفاعل في ظل العولمة</span></p>
+<p class="para"><span class="t-blue">هل قدرها التثاقف والتفاعل الحوري في ظل قيم موحدة (أم) أن واقع الثقافات وما يؤكده صدام الحضارات لا يعكس الا ازمة هوية ؟</span></p>
+
+<div class="chtag"><span>المحور</span> محور غير محدّد</div>
+<!-- PROOFREAD: 2333 part1 p15 — "الحوري" uncertain -->
+
+<div class="chtag"><span>المحور</span> العلم بين الحقيقة والنمذجة</div>
+
+<p class="subhead t-navy"><span class="t-gold"><u>إشكاليات</u></span> ← الباب 2 <span class="t-blue">العلم بين</span> <span class="t-gold">الحقيقة والنمذجة</span></p>
+<p class="para"><span class="t-blue">العلم ← كجملة انساق معرفية ابدعها الفكر البشري</span> — <span class="t-gold">مراحل تبلغ</span> → <span class="t-gold">الحقيقة ← غاية العلم ومطلبه</span></p>
+<p class="para"><span class="t-gold">النمذجة</span> ↓ <span class="t-blue">ظهور النمذجة كمنهج خيالي / السيوري يعيد بناء الواقع افتراضيا ويبدع خياليا من اجل</span> <span class="t-gold">الفهم + التحكم</span></p>
+<p class="para"><span class="t-red">ما العلم وكيف تقارب الواقع ؟</span></p>
+<p class="para"><span class="t-red">هل يدرك حقائقه تجريبيا (أم) يبدعها انشائيا ...</span></p>
+<!-- PROOFREAD: 2333 part1 p16 — pink text at bottom faded and partly cut ("الكسيرمنا و"? unreadable, "تبنيه افتراضيا" partly cut); "السيوري" uncertain -->
+
+<div class="chtag"><span>المحور</span> القيم: الأخلاق والدولة</div>
+
+<p class="subhead t-navy"><span class="t-gold"><u>إشكاليات</u></span> . الباب الثالث<br>القيم بين النسبي والمطلق</p>
+<table>
+<tr><th>1 <span class="t-gold"><u>الدولة : السيادة والمواطنة</u></span></th><th>2 <span class="t-gold"><u>الاخلاق : الخير والسعادة</u></span></th></tr>
+<tr><td>ما الدولة وما مظاهر سيادتها وما علاقتها بأفرادها ؟<br>هل تضمن لأفرادها ما ينشدون وتضمن مواطنتهم الحق ؟<br>(أم) قد تسلبهم حقوقهم وتجردهم حريتهم لتحولهم الى رعايا ؟</td><td>ما الخير وما السعادة ؟<br>هل يمكننا مناشدتها قيما انسانية قابلة للتحقق ؟<br>أم أن ما يطرأ على الواقع الانساني من تغير يجردها من كل بعد ايتيقي ؟</td></tr>
+</table>
+<!-- CROP: 2333 1 17 0.89 0.76 1.0 0.96 2333_dessin_personnage -->
+<figure class="fig"><img src="https://wael-philo.b-cdn.net/figs/2333/2333_dessin_personnage.png" alt=""></figure>
+
+<div class="chtag"><span>المحور</span> محور غير محدّد</div>
+
+<table>
+<tr><th><span class="t-blue">الانسان ؟</span> <span class="t-gold"><span dir="ltr">L'homme</span></span></th><th><span class="t-blue"><u>الانساني</u></span> <span class="t-gold"><span dir="ltr">L'humain</span></span></th></tr>
+<tr>
+<td>↓ <span class="t-blue">كائن اشكالي <u>الأبعاد</u></span><br><span class="t-gold">بعد فكري - بعد نفسي - بعد عضوي فيزيولوجي - بعد ابستيمي جمالي - بعد سيكولوجي اجتماعي - بعد سياسي - بعد تاريخي ثقافي</span></td>
+<td><span class="t-red">ما به يكون الانسان انسانا</span> (+) <span class="t-red">ما منه يستمد انسانيته + ما يميزه عن غيره من السوائم</span><br>(1) <span class="t-gold">عقلة الكوني</span><br><span class="t-blue">قيمة المجردة والكونية</span> <span class="t-gold">(حرية - عدالة - خير - فضيلة ......)</span><br><span class="t-blue">الانسان كائن كلي</span> ⇓ <span class="t-gold">كائن الكثرة + التنوع و التعدد</span><br>≠ <span class="t-gold">لا يقول احادي &lt;= اقصائي ودغمائي</span> <span class="t-blue">متعصب منغلق</span></td>
+</tr>
+</table>
+<!-- PROOFREAD: 2333 part1 p18 — page bottom cut by binding; "لا يقول احادي" and blue words at bottom-left partly hidden -->
+<!-- NOTE: 2333 part1 p19 — handwritten annotations/underlines over the printed worksheet left out; the blanks are left as printed -->
+<p class="subhead t-red"><b>الدرس:</b> مطلب الكلي ⇐ أو ما هو انساني في الإنسان <span dir="ltr">Mme ROUIS RIM LPM8</span></p>
+<table>
+<tr><th><b>الأهداف:</b></th><th>تمهيد:</th></tr>
+<tr><td>1.الوعي بطبيعة وجودنا اللا إنساني .<br>2.تجاوز الوجود الخصوصي و الظرفي داخل الواقع إلى الوجود الكلي.<br>3.التمييز بين الكلي المثالي من جهة و الكوني الواقعي أو ما هو إنساني فينا .</td><td>الجميع في و اقعنا اليومي يتوهّم معرفة حقيقة ما يوجد حوله ، لكن نتائج التفكير العفوي وعلاقتها بالمشاعر و الإحساس و عادات التفكير تكشف عن تنوّع في التجارب الشخصية و تدفع إلى الخلافات بدل التقارب الإنساني. و هو ما يمكن أن يثير مشكل شروط التفكير المقبول و ما يعكس انسانية الإنسان . فكيف يمكن تمييز التفكير العفوي عن التفكير العقلاني أو الوعي الإنساني؟ ما هي آليات التفكير الفلسفي في الوجود الإنساني؟ كيف يمكن للتفكير الفلسفي أن يتجاوز الوضعيات اللاإنسانية ؟ كيف يمكن تجاوز الوضعيات الخاصة و الظرفية في الحياة اليومية لكلّ فرد بمعرفة ما هو مشترك بينهم؟كيف يمكن للكلي و منظومة القيم الكونية التعبير عن الإنساني فينا؟</td></tr>
+</table>
+<!-- CROP: 2333 1 19 0.64 0.24 0.90 0.32 2333_humanisme -->
+<figure class="fig"><img src="https://wael-philo.b-cdn.net/figs/2333/2333_humanisme.png" alt=""></figure>
+<p class="subhead t-navy"><b>النّص:</b></p>
+<div class="data">
+<p class="para"><b>من لم يسبق له التفكير .لا يستطيع أن يكون متسامحا ولا عادلا ولا مشفقا .ولا يستطيع كذلك أن يكون لا شريرا و لا حقودا . إذن .من لا يشغل فكره .لا يحس إلاّ بنفسه ويعتقد أنه الوحيد في عالم البشر.</b></p>
+<p class="para"><b>(...) فإذا ما أخذنا بعين الإعتبار هذه الوقائع .سندرك سبب همجية البشر في حياتهم الطبيعية . لقد كانوا لا يرون إلاّ الأشياء الموجودة في محيطهم و خاصة تلك التي لم تكن لهم القدرة على معرفتها. بل لم تكن لهم القدرة حتى على معرفة ذواتهم. كانت لديهم فكرة عن الأب و الإبن و الأخ. ولكن بالتأكيد لم تكن لديهم فكرة عن الإنسان. (...)</b></p>
+<p class="para"><b>من هنا تأتي النزاعات المفتعلة التي نراها بين زعماء الأمم. فبقدر ما هي تلقائية فهي لا إنسانية . و بقدر ما تنطوي على سلوكات وحشية . فهي تعبّر عن احساس مرهف وحب تجاه الأقارب. كل مشاعرهم القوية موجهة نحو أقاربهم. أمّا ما تبقى من العالم. فهم أعداء لأنّهم يجهلونهم ويوجدون خارج مجال إدراكهم. (...) فحين يعرفون ذواتهم فإنهم يعرفون بذلك الإنسان الكامن فيهم . فيعرفون بذلك حقيقة وجودهم الكلي.</b></p>
+<p class="para"><b>جون جاك روسو : محاولة في أصل اللغات ص65/64</b></p>
+</div>
+<table>
+<tr><th>مهمة أولى : (في علاقة بالنّص)</th><th>مهمة 2: (في علاقة بالنّص)</th></tr>
+<tr><td>أرصد في النص سبب الوجود اللاانساني<br>1........................................<br>2........................................<br>.ابحث عن علاقة الوجود الكلي بمفهوم التفكير/ المعرفة<br>1........................................<br>2........................................</td><td>.ارصد العلاقة بين هذه المفاهيم : ذوات .الإنسان .الوجود الكلي<br>........................................<br>علّل ذلك:<br>........................................</td></tr>
+</table>
+<div class="data">
+<p class="para">يتعلّق الأمر في الفلسفة بتجاوز البحث عن تعريف مثالي للإنسان(حب الحكمة)إلى اكتشاف معاني وجودنا الإنساني المشترك داخل الواقع الراهن والتحول من تعريف أرسطو للكلي بأنّه حقيقة الوجود في قوله" <b>الحكيم هو ذاك الذي يملك المعرفة بكليتها دون الحصول على علم خاص بكلّ شيء</b>" إلى تعريف هايدقير"<b>التفكير في حقيقة الوجود هو تفكير فيما هو انساني في الإنسان</b> "يبحث كل فرد عن كينونته بما هو ذات متميزة أي كيف يحقق كلّ منا انسانيته داخل الواقع (شخصيته+خصوصيته الثقافية + قدراته العلمية+ مو اقفه السياسية+ الأخلاقية) فيكون في ذات الوقت:</p>
+<p class="para">1. <u>متماثلا</u> معهم/شبيههم في <u>أبعاده الكونية</u> و قيمه الإنسانية الكونية المشتركة و منظومة حقوق الإنسان .</p>
+<p class="para">2. <u>مختلفا</u> عن غيره <u>بخصوصياته</u> الشخصية +أوالثقافية +أومعارفه العلمية +أو مواطنته في الدولة +أو مبادئه و قيمه الأخلاقيه</p>
+</div>
+
+<div class="chtag"><span>المحور</span> الإنية والغيرية</div>
+
+<p class="subhead t-red">المحور 1 : الانيّة و الغيريّة</p>
+<p class="para">[الأنا + "ة" الإثبات] <span class="t-red">إثبات الأنا لذاتها ومعرفة حقيقتها</span></p>
+<table>
+<tr><th>الآخر</th><th>الغير</th></tr>
+<tr><td><span class="t-green"><span dir="ltr">Autrui</span></span><br><span dir="ltr">tout ce qui n'est pas Moi</span><br>" كل ما ليس أنا "</td><td><span class="t-green"><span dir="ltr">Autre</span></span><br><span dir="ltr">un autre <u>Moi</u></span><br>" الأنا الآخر الذي ليس أنا " <span dir="ltr">Sartre</span></td></tr>
+</table>
+<p class="para"><span class="t-blue">إذا كانت كل ذات في حرصها على معرفة ذاتها وتبين حقيقتها تنتهج مسارا من أجل التعرف إلى ماهيتها فإنها غالبا ما تصطدم بالغيرية لتشكل هذه العلاقة إحراجا يدفع إلى التساؤل عن الانية وحاجتها إلى الغيرية .</span></p>
+<p class="para"><span class="t-red">الانية</span> <span class="t-blue">مسار تسلكه الذات من أجل أن تتبين ذاتها وتعي حقيقتها.</span> مسلك / تمشي توناه</p>
+<p class="subhead t-navy"><u>الإشكالية العامة للمحور</u> :</p>
+<p class="para">ما الانيّة وما علاقتها بالغيريّة ؟ أي تعريف للإنيّة وما حضور الآخر في مسارها ؟</p>
+<p class="para"><span class="t-green">(هل)</span> <span class="t-blue">تدرك الذات ذاتها بذاتها دون حاجة إلى الغيريّة ؟</span> <span class="t-green">(هل)</span> <span class="t-blue">تتمثل الذات ذاتها وتكشف حقيقتها في عزلتها وانقطاعها عن كل آخر ؟</span></p>
+<p class="para"><span class="t-green">(أم)</span> <span class="t-blue">أن الانية لا تتشكل إلا في أفق الغيرية وبحضور الآخر</span> <span class="t-green">(أم)</span> <span class="t-blue">أنها تحتاج إلى حضور الآخر في مسارها لتعي حقيقة وجودها ؟</span></p>
+<p class="para"><span class="t-red">(وإلى أي مدى)</span> <span class="t-blue">يضمن الآخر بحضوره للأنا استيفاء لحقيقتها ألا يربك مسارها ويهز يقينها بذاتها ؟</span></p>
+<p class="para"><span class="t-red">ما مدى وجاهة / على أي حد / ما مشروعية</span></p>
+<p class="para">1) الانية المتعالية : الانية بما هي أنانة</p>
+<p class="para">2) الانية والحاجة إلى الآخر : 1) الآخر كجسد ← ميرلوبونتي + سبينوزا<br>2) الآخر كذات ← الآخر كعدو / الآخر كصديق <span dir="ltr">Sartre + Hegel / Morin - Deleuze Levinas</span></p>
+<!-- PROOFREAD: 2333 part1 p20 — "توناه" uncertain; grey pencil lines at bottom faint -->
+
+<div class="chtag"><span>المحور</span> المنهجية</div>
+
+<p class="subhead t-navy"><b>يتوزّع الإختبار الفلسفي إلى قسمين :</b></p>
+<p class="para">نموذج الإختبار الفلسفي</p>
+<!-- CROP: 2333 1 21 0.67 0.15 0.91 0.40 2333_modele_examen -->
+<figure class="fig"><img src="https://wael-philo.b-cdn.net/figs/2333/2333_modele_examen.png" alt=""></figure>
+<!-- PROOFREAD: 2333 part1 p21 — sample exam thumbnail too small to read; kept as figure -->
+<p class="para">1.<b>القسم الأول</b> يخصّص للإختبار في مهارات خصوصية و يتوزّع إلى :</p>
+<p class="para">2 <b>تمارين</b> <span class="t-red">(2 نقاط لكلّ تمرين)</span></p>
+<p class="para">يتعلّق كل تمرين بالإشتغال على قول بالنظر إلى مطلب دقيق يحمل إحدى مهارات التفكير الفلسفي</p>
+<p class="para"><b><u>نص :مصحوب بـ 3 تمارين / في شكل مهام</u></b> <span class="t-red">(6 نقاط: 2 نقاط لكلّ مهمة)</span></p>
+<p class="para">الإشتغال على نصّ يحمل أطروحة فلسفية و يكون مصحوبا بمهام متعلقة بمهارات منهجية جزئية يتم الإشتغال عليها من خلال أفكار النص و معانيه.</p>
+<p class="para">2 .<b>القسم الثاني</b> <span class="t-red">(10 نقاط)</span> و هو قسم تأليفي يتعلّق بالإشتغال الحجاجي على أحد سؤالين في حدود 30 سطرا بتوظيف مختلف المهارات الفلسفية في اتجاه اتخاذ موقف من المشكل المطروح.</p>
+<p class="subhead t-navy"><b>المهارات الفلسفية</b></p>
+<p class="para"><b>النص / القول</b></p>
+<ul class="b">
+<li><b>رصد أطروحة الكاتب</b> : أي موقف الكاتب فيما يتعلق بموضوع أو مبحث</li>
+<li><b>الإعتراض على موقف</b> : أي الموقف المضاد للأطروحة</li>
+<li><b>الإشكالية (في النص/أو في السؤال)</b> : أي المفارقة و نظام الأسئلة التي تعكس التوتر الإشكالي و الحيرة الفلسفية</li>
+<li><b>الرهان/القيمة</b> : أي الغاية القصوى التي يجب علينا تحقيقها من خلال التحليل</li>
+<li><b>المسلمة الضمنية</b> <span dir="ltr">présupposé</span> : أي فكرة واضحة أو بداهة ناتجة عن وهنة سابقة يقع التسليم بها وتكون ضرورية في بناء الموقف دون حاجة إلى التصريح بها</li>
+<li><b>دلالة مفهوم سياقيا</b> : أي المعنى الذي يمكن أن تسمح به شبكة المفاهيم داخل القول أو النص</li>
+<li><b>الإستتباع</b> <span dir="ltr">conséquence</span> : أي ما يترتب منطقيا (نظريا) أو ما ينتج عمليا (في الفعل أو المؤسسة) عن الموقف الوارد في القول أو النص</li>
+<li><b>الحجة</b> <span dir="ltr">argument</span> : أي الفكرة و بناءها المنطقي التي يمكن أن ندعم به الموقف و نجعله وجيها أو مقنعا</li>
+</ul>
+<p class="para"><b>مهارات التحليل بالنسبة إلى السؤال</b></p>
+
+<div class="chtag"><span>المحور</span> محور غير محدّد</div>
+
+<p class="subhead t-red">الباب 1 <u>الانساني بين الكثرة و الوحدة</u></p>
+<p class="para"><span class="t-red">وحدة متكثرة "كثرة" موحدة</span></p>
+<p class="para"><span class="t-blue">الكائن الاشكالي { كائن الدلالة المعنى الرمز }</span> <span class="t-blue">اكثر الاشكالات تعقيدا</span> <span class="t-gold">(بتعبير) بول ريكور <span dir="ltr">Paul Ricoeur</span></span></p>
+<p class="para"><span class="t-green">ما به يكون الانسان انسانا</span> <span class="t-gold">ما منه يستمد الانسان انسانيته وما به يكون فرادة</span> <span class="t-red"><span dir="ltr">unicité</span></span></p>
+<p class="para"><span class="t-gold">قيمة الكونية</span> — <span class="t-gold">عقلة الكوني</span> <span dir="ltr">Malebranche</span> — سعادة خير حب</p>
+<p class="para"><span class="t-green">تنوع تعدد كثافة في الابعاد</span> <span class="t-red">المشكلة للذات الانسانية</span> : <span class="t-green">سياسي - ثقافي - ديني - نفسي - عضوي - تاريخي - فكري</span></p>
+<p class="para"><span class="t-red">وحدة وتميز وفرادة للذات الانسانية</span></p>
+<p class="para"><span class="t-red">كثرة في الوحدة ووحدة في الكثرة</span> = <span class="t-green">وحدة متكثرة</span> =</p>
+<p class="para"><span class="t-red">عقلة الكوني كما كله ما يرد له</span></p>
+<p class="para"><span class="t-gold">اذا اعتبرنا أن الانسان هذا الكائن الاشكالي المركب بل اكثر الاشكالات تعقيدا بتعبير ريكور فان ما منه يستمد انسانيته وما به يكون انسانا هو قيمة الكونية والكلية</span></p>
+<!-- PROOFREAD: 2333 part1 p22 — mind-map; faint yellow text bottom-right illegible; "عقلة الكوني كما كله ما يرد له" uncertain; bottom line cut by page edge -->
+<p class="subhead t-gold"><u>اشكاليات الباب (1)</u> .</p>
+<p class="para"><span class="t-gold">الانساني بين الكثرة والوحدة .</span></p>
+<p class="para">↓ كائن الكثرة الكثافة التنوع الاختلاف ⇓ متعدد الابعاد لا يمكن اختزال كثافته في بعد واحد ⇓ كائن مركب زئبقي</p>
+<p class="para"><span class="t-red">(ما يجعل الانسان انسانا ما منه يستمد إنسانيته)</span> ↓</p>
+<p class="para"><span class="t-green">العقل " كوني " مالبرانش " العقل الكوني "</span></p>
+<p class="para"><span class="t-blue">القيم الكونية - العدالة - الحرية - الخير - الفضيلة</span></p>
+<ul class="dash">
+<li><span class="t-red">في الابعاد المحددة للانسانية</span> ← <span class="t-blue">تشكل وحدة + فرادة .</span></li>
+<li><span class="t-red">في علاقاته وتفاعلاته مع الآخر</span> ← <span class="t-blue">علاقة بينذاتية موجودة</span></li>
+<li><span class="t-red">في تنوع الخصوصيات بتنوع الثقافات</span> ← <span class="t-blue">انسانية وحدة صماء</span></li>
+</ul>
+<p class="para"><span class="t-blue">ما الانسان وما الانساني فيه ؟ ما الذي يضمن وحدته في كثرته ؟</span></p>
+<!-- PROOFREAD: 2333 part1 p23 — "موجودة" uncertain; top line cut by binding not transcribed -->
+
+<div class="chtag"><span>المحور</span> الإنية والغيرية</div>
+
+<p class="subhead t-red">المحور 1 الانية و الغيرية</p>
+<p class="para"><span dir="ltr">Descartes</span> <u>الأنانة</u> . <span class="t-blue"><u>الآنية المتعالية</u> : الأنا المنعزلة عن كل آخر والتي لا تعترف بالغير في مسار الآنية .</span></p>
+<p class="para"><span class="t-gold">تراوح</span> : القبول الانفتاح الصداقة / الرفض الانغلاق العداوة</p>
+<p class="para"><span class="t-green">الانا + ة</span> = <span class="t-green">الشخص <span dir="ltr">la personne physique</span></span> + <span class="t-blue">الاثبات التأكيد</span></p>
+<ul class="dash">
+<li><span class="t-blue">اثبات الذات لذاتها واكتشاف حقيقتها .</span></li>
+<li><span class="t-green">تبين الذات لذاتها ومعرفة انيتها .</span></li>
+</ul>
+<p class="para"><span class="t-gold">مسار تسلكه / تنتهجه الذات من اجل ان تدرك ذاتها وتتبين حقيقتها .</span></p>
+<p class="para"><span dir="ltr">Descartes</span> <span class="t-blue">مسار ضمنذاتي : بين الذات وذاتها ، عزلة انقطاع ، تعال عن الغيرية</span></p>
+<p class="para"><span class="t-blue">الغيرية ↓ مجال الاختلاف</span></p>
+<table>
+<tr><th><span class="t-blue">الآخر</span></th><th><span class="t-blue">الغير</span></th></tr>
+<tr><td><span class="t-gold">كل ما ليس انا</span></td><td><span class="t-gold">الانا الآخر الذي ليس انا</span> <span dir="ltr">J.P. Sartre</span></td></tr>
+</table>
+<p class="subhead t-red">الانية + <span class="t-blue"><u>الغيرية</u></span></p>
+<p class="para"><span class="t-red">↓ مسار لاكتشاف الذات ← ضمنذاتي</span> <span class="t-blue">↓ يتم في عزلة عن كل آخر</span></p>
+<p class="para"><span class="t-red">بحضور الآخر</span> :</p>
+<ul class="dash">
+<li><span class="t-red">الجسد</span> ← <span class="t-blue">الاحتقار / الاعتراف</span></li>
+<li><span class="t-red">الذات</span> ← <span class="t-blue">بينذاتي</span> — مسار : <u>بينذاتي</u> (هيقل) ↓ اقرار الآخر بالذات ← الآخر مرآة ؛ <u>تفاعلي</u> : انخراط في عالم الأشياء + الأغيار (بشر)</li>
+<li><span class="t-red">الواقع</span> <span dir="ltr">Marx</span> <span class="t-red">التاريخ</span></li>
+<li><span class="t-red">اللاوعي</span> <span dir="ltr">Freud</span></li>
+</ul>
+<div class="data">
+<p class="para">اعداد المحاور</p>
+<p class="para">1) <span class="t-red">في الانية المتعالية</span></p>
+<p class="para">2) <span class="t-red">الانية والحاجة الى الآخر</span></p>
+<p class="para">أ) الجسد بين الاحتقار والاعتراف</p>
+<p class="para">ب) الانا الآخر في علاقة الصراع والاعتراف</p>
+<p class="para">ج) اللاوعي والتاريخ كمحددات للانية</p>
+</div>
+<!-- PROOFREAD: 2333 part1 p25 — faint yellow erased text in background not transcribed; "اعداد المحاور" uncertain -->
+<p class="subhead t-blue"><u>الاشكلة</u></p>
+<p class="para"><span class="t-blue">ما الانية وما علاقتها بالغيرية ؟</span></p>
+<p class="para"><span class="t-gold">(هل) تتحقق الانية في عزلة وانقطاع عن كل غيرية ؟ (أم) أن الذات لا تدرك ذاتها ولا تتبين انيتها الا بحضور الآخر ؟</span></p>
+<p class="para"><span class="t-blue">هل تتمثل الذات ذاتها وتكشف حقيقتها بذاتها ودون وسائط (ام) أن الانية لا تتشكل الا في أفق الغيرية وبحضور الآخر .</span></p>
+<p class="para"><span class="t-red">هل تدرك ذاتها بذاتها في عزلة وانقطاع عن كل آخر (أم) تحتاج الأنا الى حضور الآخرين لتستمد منه يقينها ومن اعترافه تدرك حقيقتها ؟</span></p>
+<p class="para"><span class="t-gold">وإلى أي مدى يمكن المراهنة على حقيقة الانسان في ظل تعقده وتعدد ابعاده ؟</span></p>
+
+
+<!-- NOTE: 2333 part1 p27 — handwritten note at top of page (cut) left out -->
+<p class="subhead t-navy"><b>المسألة : الإنية و الغيرية</b></p>
+<p class="subhead t-red">1. المهارات المنهجية:</p>
+<p class="subhead t-red">النص</p>
+<!-- CROP: 2333 1 27 0.77 0.18 0.87 0.26 2333_livre -->
+<figure class="fig"><img src="https://wael-philo.b-cdn.net/figs/2333/2333_livre.png" alt=""></figure>
+<div class="data">
+<p class="para">الإنسان وعي بالذات. إنه وعي بذاته، وعي بحقيقته وبكرامته الإنسانية. وبهذا فهو يختلف جوهريا عن الحيوان، الذي لا يتجاوز مستوى "الإحساس" البسيط بذاته. ولكي يحصل الوعي بالذات فإن على الرغبة أن تتعلق بموضوع غير طبيعي، بشيء يتجاوز الواقع المعطى.</p>
+<p class="para">إن الرغبة الإنسانية المولدة للإنسان والمكونة لفرد حر وتاريخي وواع بفرديته وحريته وتاريخه تختلف إذن عن الرغبة الحيوانية (...). وبعبارة أخرى، الإنسان لا "يثبت" إنسانيته إلا إذا خاطر بحياته الحيوانية في سبيل رغباته الإنسانية ، من خلال هذه المخاطرة وبواسطتها تتأكد حقيقته أي تنكشف وتتبين ويتم اختبارها فتثبت أدلتها بما هي مختلفة جوهريا عن الحقيقة الحيوانية الطبيعية.</p>
+<p class="para"><b>ألكسندر كوجيف/ مقدمة لقراءة هيغل.</b></p>
+</div>
+<ol class="qn">
+<li><b>ابحث داخل النص عن المفاهيم الأساسية التي اشتغل عليها الكاتب:</b><br>[ ] [ وعي بالذات ] [ ] [ ]</li>
+<li><b>ارصد من خلال هذه المفاهيم الأطروحة التي يثبتها الكاتب داخل النص:</b><br>أطروحة النص [+]<br>........................................</li>
+<li><b>اعترض على أطروحة الكاتب بموقف مغاير:</b><br>[-]<br>........................................</li>
+<li><b>حوّل هذين الموقفين إلى سؤال(في شكل مفارقة) يعبّر عن مشكل أو حيرة فكرية متعلقة بموضوع النص .</b><br>ما................هل................<br>أم................؟</li>
+<li><b>دقّق هذا السؤال في أسئلة تفصله و تساعد في بناء حجاج منطقي لحل الإشالية:</b><br>........................................</li>
+</ol>
+<!-- PROOFREAD: 2333 part1 p28 — handwritten page; margin words at left edge partly cut ("وبمنأى", "دون بمعزل") -->
+<ul class="b">
+<li><span class="t-blue">إذا كنا نحيا داخل فضاء علائقي تتقاطع فيه الذوات وتحتاج كل ذات إلى الآخر لتستمد منه يقينها ومن اعترافه تدرك ذاتها وتتبين حقيقتها . (ماهي دواعي طرح المشكل ؟)</span><br><span class="t-green">لكن</span> <span class="t-blue">ما نشهده اليوم في ظل هذا الفضاء من تأزم هذه العلاقات وصدام وتناحر يصل حتى الإبادة يدفعنا إلى التساؤل عن الأنا وحاجتها إلى الآخر وعن أهمية القيم الكونية داخل هذه العلاقة . فمن هو الإنسان ومن أين يستمد إنسانيته ؟</span><br>هل من قدرته على تبين حقيقته بمعزل عن كل آخر وبمنأى عن أي غيرية أم أن لقاء الإنسان بالإنسان لا يمكن إلا أن يكون لقاءا متشنجا في ظل انعدام الكوني ؟</li>
+</ul>
+<p class="para"><span dir="ltr">Objectif du cours :</span></p>
+<p class="para"><span class="t-red">هل تعي الأنا ذاتها كفكر خالص لا يحتاج إلى الآخر ؟ (أم) هي ذات متجسدة متصالحة مع جسدها ومنخرطة في عالمها ؟</span></p>
+
+
+</section>
+
+</div>
+</body>
+</html>

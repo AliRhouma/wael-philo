@@ -1,0 +1,455 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<title>Wael Academy — Philosophie · bac.philo.2024</title>
+<script>
+  window.MathJax = {
+    tex: { inlineMath: [['\\(','\\)']], displayMath: [['\\[','\\]']] },
+    chtml: { fontURL: 'https://cdn.jsdelivr.net/npm/mathjax@3/es5/output/chtml/fonts/woff-v2', matchFontHeight: true },
+    startup: { typeset: true }
+  };
+</script>
+<script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js" async></script>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Sora:wght@400;500;600;700;800&family=Cairo:wght@400;500;600;700;800;900&family=Tajawal:wght@400;500;700;800&family=JetBrains+Mono:wght@400;500;600;700&display=swap');
+:root{
+  /* ===== Wael Academy palette — MAIN ACCENT = green-teal gradient #0FAB8F → #067360 ===== */
+  --bg:#fff; --panel:#f2f8f8; --hair:#e6e6e9; --hair2:#d6d6db;
+  --fg:#0f2a31;        /* body text (and +/− signs) */
+  --fg2:#3f5b62;       /* softer text */
+  --fg3:#7c959b;       /* muted (footer) */
+  --blue:#067360;      /* deep accent — small numbers, borders, watermark, accent equations */
+  --blue-dark:#045260; /* titles & wordmarks (also the balance colour) */
+  --teal:#0fab8f;      /* bright accent end */
+  --loop:#0d9c82;      /* logo-loop helper */
+  --orange:#067360;    /* kicker/category labels (gold retired → deep teal) */
+  --red:#f5322f;       /* EXERCISE CHIPS ONLY — never for emphasis */
+  --cream:#e6f3f4; --blue-soft:#e6f3f4;  /* pale teal — callout fill + table sub-row fill */
+  --blue-line:#cde7e4; /* hairline */
+  --sub-ink:#045260;   /* table sub-row text */
+  --grad:linear-gradient(148deg,#0fab8f 0%,#0d9c82 52%,#067360 100%);
+  --mono:'JetBrains Mono',monospace; --latin:'Sora',sans-serif; --ar:'Cairo',sans-serif; --arb:'Tajawal',sans-serif;
+}
+*{box-sizing:border-box;margin:0;padding:0;}
+body{font-family:var(--latin);color:var(--fg);background:#e4e4e7;padding:28px 0;
+     -webkit-print-color-adjust:exact;print-color-adjust:exact;}
+html[dir="rtl"] body{font-family:var(--arb);}
+
+/* ===== brand watermark: REAL text (crisp), full-bleed, repeats per page ===== */
+.wm{position:fixed;inset:0;z-index:0;pointer-events:none;display:flex;
+    align-items:center;justify-content:center;overflow:hidden;
+    -webkit-print-color-adjust:exact;print-color-adjust:exact;}
+.wm span{font-family:var(--mono);font-weight:800;font-size:76.8pt;letter-spacing:.16em;
+    color:var(--blue);opacity:.06;white-space:nowrap;transform:rotate(-54deg);}  /* single diagonal: bottom-left → top-right */
+.wm.mono span{color:#000;opacity:.05;}
+
+/* ===== continuous flow stream (no page border) ===== */
+.flow{width:210mm;margin:0 auto;background:transparent;color:var(--fg);
+      padding-block:16mm 18mm;padding-inline:23mm 14mm;position:relative;}   /* spiral gutter: inline-start(=spine) 23mm / outer 14mm — dir-aware; print margins set in render_flow.py */
+@media screen{ .flow{background:#fff;box-shadow:0 10px 40px rgba(0,0,0,.16);} }
+.flow>*{position:relative;z-index:1;}
+.flow p,.flow li,.flow .data,.flow .note,.flow .ex{break-inside:auto;}
+.flow .fig,.flow figure,.flow img,.flow svg.figsvg,.flow table,.flow tr,.flow .chapdiv,.flow .exh,.flow .qrcard,.flow .meta{break-inside:avoid;}
+.flow h1,.flow h2,.flow h3,.flow .exh,.flow .subhead,.flow .chapdiv{break-after:avoid;}
+.flow img,.flow svg.figsvg{max-width:100%;height:auto;}
+.flow figcaption,.flow .figcap{display:none;}          /* rule 3: no figure captions */
+
+/* ===== front matter + chapters each start on a fresh page ===== */
+.flow .cover{break-after:page;}        /* cover alone on page 1 */
+.flow .toc{break-after:page;}          /* Sommaire alone on the next page */
+.flow .chapter{break-before:page;}
+.flow .chapter:first-of-type{break-before:auto;}
+
+/* ===== cover ===== */
+.cover{padding:14mm 0 8mm;border-bottom:2px solid var(--blue);margin-bottom:6mm;}
+.cover .badge{font-family:var(--mono);font-size:8.5pt;letter-spacing:.28em;text-transform:uppercase;color:var(--orange);margin-bottom:10px;}
+.cover h1{font-family:var(--latin);font-weight:800;font-size:34pt;line-height:1.03;letter-spacing:-.025em;color:var(--blue-dark);}
+.cover .grule{width:120px;height:5px;border-radius:5px;background:var(--grad);margin:14px 0;}
+.cover .sub{font-family:var(--mono);font-size:10pt;letter-spacing:.14em;text-transform:uppercase;color:var(--teal);}
+.cover .auth{font-size:11pt;color:var(--fg2);margin-top:6px;font-weight:600;}
+
+/* ===== table of contents ===== */
+.toc{margin:2mm 0 4mm;}
+.toc h2{font-family:var(--latin);font-weight:800;font-size:15pt;color:var(--blue-dark);margin-bottom:4mm;}
+.toc .trititle{font-family:var(--mono);font-size:8pt;letter-spacing:.2em;text-transform:uppercase;color:var(--orange);margin:4mm 0 2mm;}
+.toc ol{list-style:none;}
+.toc li{display:flex;align-items:baseline;gap:8px;font-size:10pt;padding:2.2px 0;color:var(--fg);line-height:1.4;}
+.toc li .n{font-family:var(--mono);font-weight:700;font-size:9pt;color:var(--blue);min-width:26px;}
+.toc li .dots{flex:1;border-bottom:1px dotted var(--hair2);transform:translateY(-3px);}
+
+/* ===== chapter divider band ===== */
+.chapdiv{margin:0 0 5mm;padding:6mm 16px 5mm;border-radius:12px;background:var(--grad);
+    -webkit-print-color-adjust:exact;print-color-adjust:exact;}   /* green-filled chapter band */
+.chapdiv .cn{font-family:var(--mono);font-size:8.5pt;font-weight:700;letter-spacing:.24em;text-transform:uppercase;color:rgba(255,255,255,.82);margin-bottom:5px;}
+.chapdiv h2{font-family:var(--latin);font-weight:800;font-size:17pt;line-height:1.1;letter-spacing:-.015em;color:#fff;}
+/* conclusion block — same green-filled look as the chapter band */
+.conclusion{background:var(--grad);border-radius:12px;padding:6mm 16px;margin:5mm 0;color:#fff;break-inside:avoid;
+    -webkit-print-color-adjust:exact;print-color-adjust:exact;}
+.conclusion .ck{font-family:var(--mono);font-size:8.5pt;font-weight:700;letter-spacing:.24em;text-transform:uppercase;color:rgba(255,255,255,.82);margin-bottom:6px;}
+.conclusion h3{font-family:var(--latin);font-weight:800;font-size:13pt;line-height:1.2;color:#fff;margin-bottom:4px;}
+.conclusion p,.conclusion li{font-size:10.4pt;line-height:1.7;color:#fff;}
+.conclusion b,.conclusion strong{color:#fff;font-weight:700;}
+
+/* ===== unit header (lesson/exercise) + QR emplacement ===== */
+.exh{display:flex;align-items:center;gap:11px;margin:6mm 0 3mm;}
+.exh .idx{font-family:var(--mono);font-size:9pt;font-weight:600;color:#fff;background:var(--grad);
+    border-radius:6px;padding:4px 11px;letter-spacing:.08em;text-transform:uppercase;
+    -webkit-print-color-adjust:exact;print-color-adjust:exact;}
+.exh .idx.ex{background:var(--red);}   /* exercise chip = red */
+.exh h2{font-family:var(--latin);font-size:14pt;font-weight:700;letter-spacing:-.01em;color:var(--blue-dark);}
+.exh .qrcard{margin-inline-start:auto;flex:0 0 auto;display:flex;flex-direction:column;align-items:center;gap:3px;width:26mm;}
+.qrcard .qrt{font-family:var(--mono);font-size:6.5pt;letter-spacing:.1em;text-transform:uppercase;color:var(--teal);text-align:center;}
+.qrcard .qrslot{width:24mm;height:24mm;padding:1.5mm;background:#fff;border:1px solid var(--blue-line);border-radius:8px;display:flex;align-items:center;justify-content:center;}
+.qrcard .qrslot img,.qrcard .qrslot svg{width:100%;height:100%;display:block;}
+
+/* sub-exercise label when one file holds several exercices */
+.exsub{font-family:var(--latin);font-weight:800;font-size:11.5pt;color:var(--blue-dark);margin:5mm 0 2.5mm;padding-bottom:3px;border-bottom:2px solid var(--blue-line);}
+
+/* ===== text blocks ===== */
+.lead{font-size:11pt;line-height:1.7;margin:2mm 0 3mm;color:var(--fg);}
+.para{font-size:10.6pt;line-height:1.7;margin:2mm 0 2.5mm;color:var(--fg);}
+.consigne{font-size:10.4pt;line-height:1.6;margin:1mm 0 2mm;color:var(--fg);font-style:italic;}
+.subhead{font-family:var(--latin);font-weight:800;font-size:12pt;letter-spacing:-.01em;color:var(--blue-dark);margin:5mm 0 2.5mm;}
+/* emphasis — green accent = .t-blue/.t-green ; balance = .t-navy ; red = SECONDARY accent (.t-red) on titles + a few words */
+.t-blue{color:var(--blue);font-weight:600;} .t-navy{color:var(--blue-dark);font-weight:700;}
+.t-red{color:var(--red);font-weight:600;} .t-green{color:var(--teal);font-weight:600;} .t-gold{color:var(--orange);font-weight:600;}
+.subhead.t-red{color:var(--red);font-weight:800;}   /* red Roman-numeral section title (I, II, …) — keeps subhead weight */
+/* highlighter marks — a soft colour wash behind a key word (agent picks green or red per what balances the page) */
+.hl-green,.hl-red{border-radius:3px;padding:.02em .24em;font-weight:600;box-decoration-break:clone;-webkit-box-decoration-break:clone;
+    -webkit-print-color-adjust:exact;print-color-adjust:exact;}
+.hl-green{background:rgba(15,171,143,.20);color:var(--blue-dark);}   /* green highlight */
+.hl-red{background:rgba(245,50,47,.13);color:#c0261f;}               /* red highlight  */
+
+.data{background:var(--blue-soft);border:1px solid var(--blue-line);border-inline-start:4px solid var(--blue);
+    border-radius:8px;padding:11px 16px;margin:3mm 0;font-size:10pt;line-height:1.65;color:var(--fg2);}
+.data b{color:var(--fg);font-weight:700;}
+.note{border:1px dashed var(--hair2);border-radius:9px;padding:11px 16px;margin:4mm 0;background:var(--panel);}
+.note .kicker{font-family:var(--mono);font-size:7.5pt;letter-spacing:.18em;color:var(--orange);display:block;margin-bottom:5px;}
+.note .nb{font-size:10pt;line-height:1.7;color:var(--fg2);} .note b{color:var(--fg);}
+.ex:not(.idx){background:var(--blue-soft);border:1px solid var(--blue-line);border-inline-start:3px solid var(--blue);
+    border-radius:7px;padding:7px 11px;font-size:9.6pt;line-height:1.6;color:var(--fg2);margin:2mm 0;}   /* :not(.idx) so it never hits the exercise chip (which is .idx.ex) */
+.ex .extag{display:inline-block;font-family:var(--latin);font-weight:800;font-size:7.6pt;color:var(--blue-dark);background:#fff;
+    border:1px solid var(--blue);border-radius:5px;padding:1px 9px;margin-inline-end:7px;vertical-align:middle;text-transform:uppercase;letter-spacing:.06em;}
+
+/* ===== lists ===== */
+ol.q{list-style:none;counter-reset:q;margin:1mm 0 2mm;}
+ol.q>li{counter-increment:q;position:relative;padding-inline-start:30px;margin-bottom:2.5mm;font-size:10.4pt;line-height:1.6;}
+ol.q>li::before{content:counter(q);position:absolute;inset-inline-start:0;top:1px;width:21px;height:21px;background:var(--grad);color:#fff;
+    border-radius:50%;font-family:var(--mono);font-size:9pt;font-weight:600;display:flex;align-items:center;justify-content:center;
+    -webkit-print-color-adjust:exact;print-color-adjust:exact;}
+ol.sub{list-style:none;counter-reset:s;margin:4px 0 0;padding-inline-start:2px;border-inline-start:1px solid var(--blue-line);}
+ol.sub li{counter-increment:s;position:relative;padding:2.5px 0 2.5px 26px;font-size:10.1pt;line-height:1.55;}
+ol.sub li::before{content:counter(s,lower-alpha)".";position:absolute;inset-inline-start:10px;top:2.5px;font-family:var(--mono);font-size:9pt;font-weight:600;color:var(--teal);}
+ol.qn{list-style:none;counter-reset:qn;margin:1mm 0 2mm;}
+ol.qn>li{counter-increment:qn;position:relative;padding-inline-start:26px;margin-bottom:2.2mm;font-size:10.4pt;line-height:1.55;}
+ol.qn>li::before{content:counter(qn)".";position:absolute;inset-inline-start:0;top:0;font-family:var(--mono);font-size:9.5pt;font-weight:700;color:var(--blue);}
+ul.b{list-style:none;margin:1mm 0 2mm;} ul.b>li{position:relative;padding-inline-start:22px;margin-bottom:2.4mm;font-size:10.4pt;line-height:1.6;}
+ul.b>li::before{content:"";position:absolute;inset-inline-start:3px;top:8px;width:8px;height:8px;border-radius:50%;background:var(--grad);
+    -webkit-print-color-adjust:exact;print-color-adjust:exact;}
+ul.dash{list-style:none;margin:1mm 0 2mm;} ul.dash>li{position:relative;padding-inline-start:20px;margin-bottom:1.8mm;font-size:10.4pt;line-height:1.6;}
+ul.dash>li::before{content:"–";position:absolute;inset-inline-start:2px;top:0;color:var(--fg);font-weight:700;}  /* dash / +/− signs = body colour */
+.flow ul.opts{list-style:none;margin:4px 0 3px;padding-inline-start:16px;}
+.flow ul.opts li{padding:2px 0;font-size:10.2pt;line-height:1.5;color:var(--fg);}
+
+/* ===== figures / tables ===== */
+.fig{margin:3mm 0;} .fig svg.figsvg{display:block;margin:0 auto;background:#fff;max-width:100%;height:auto;}
+.photo{display:block;margin:3mm auto;border-radius:8px;border:1px solid var(--hair);max-width:100%;}
+.figrow{display:flex;flex-wrap:wrap;gap:9px;justify-content:center;margin:3mm auto;max-width:190mm;}
+.flow .figrow img{border-radius:7px;border:1px solid var(--hair);height:46mm;width:auto;max-width:none;object-fit:cover;}
+.schemarow{display:flex;gap:16px;align-items:flex-start;flex-wrap:wrap;margin:2mm 0;}
+.schemarow .col-txt{flex:1 1 90mm;min-width:80mm;} .schemarow .col-fig{flex:0 0 78mm;} .schemarow .col-fig .fig{margin:0;}
+.flow table{border-collapse:collapse;width:100%;margin:3mm 0;font-size:9.8pt;line-height:1.5;}
+.flow table th,.flow table td{border:1px solid var(--blue-line);padding:6px 10px;text-align:start;vertical-align:top;}
+.flow table th{background:var(--grad);color:#fff;font-family:var(--latin);font-weight:700;font-size:9.4pt;
+    -webkit-print-color-adjust:exact;print-color-adjust:exact;}
+.flow table tr:nth-child(even) td{background:var(--blue-soft);color:var(--sub-ink);}   /* sub-row: #E6F3F4 / #045260 */
+
+mjx-container{color:var(--fg) !important;font-weight:400 !important;font-size:1.0em !important;}
+.eq-hi mjx-container,mjx-container.eq-hi{color:var(--blue) !important;}   /* accent (green) equation — highlight a key result; balance with plain math */
+.eq-red mjx-container,mjx-container.eq-red{color:var(--red) !important;}  /* red accent equation / symbol — complements the green .eq-hi */
+
+/* ===== per-file books: credit line, copies list, figures at their size ===== */
+.credit{display:flex;flex-wrap:wrap;align-items:center;gap:5px;margin:-1mm 0 3.5mm;font-size:9.4pt;color:var(--fg2);}
+.credit .who{font-weight:700;color:var(--blue-dark);}
+.credit .tg{font-family:var(--mono);font-size:7.2pt;letter-spacing:.04em;border-radius:5px;padding:1px 7px;line-height:1.6;
+    border:1px solid var(--blue-line);color:var(--blue);background:#fff;-webkit-print-color-adjust:exact;print-color-adjust:exact;}
+.credit .tg.sec{background:var(--blue-dark);border-color:var(--blue-dark);color:#fff;}
+.credit .tg.cor{background:#fff;border-color:var(--red);color:var(--red);}
+.credit a{color:var(--fg3);font-family:var(--mono);font-size:7pt;text-decoration:none;}
+.cover .auth .credit{margin:4mm 0 0;}
+.cover .copies{margin-top:5mm;font-size:8.6pt;color:var(--fg2);}
+.cover .copies ul{list-style:none;margin:2mm 0 0;padding:0;columns:2;}
+.cover .copies a{color:var(--fg3);text-decoration:none;font-size:8pt;}
+.flow figure.fig{text-align:center;}
+.flow figure.fig img{max-height:60mm;width:auto;max-width:70%;display:inline-block;}
+
+/* chapter tag on each part of a multi-chapter book (the book keeps the original order of the file) */
+.chtag{display:inline-block;margin:5mm 0 2mm;padding:1mm 3mm;border-radius:2mm;background:#eef3fb;border:1px solid #c9d6ea;
+  color:#1f3a6b;font-size:9pt;font-weight:700}
+.chtag span{color:#6b7f9e;font-weight:600;margin-inline-end:1.5mm}
+
+@media print{ body{background:#fff;padding:0;} .flow{width:auto;max-width:none;margin:0;padding:0;} }
+@page{size:A4;}   /* margins come from render_flow.py — do NOT set them here */
+</style>
+<meta data-pagefind-filter="type[content]" content="موضوع">
+<meta data-pagefind-filter="resource[content]" content="امتحانات وطنية (وزارة التربية)">
+<meta data-pagefind-meta="n[content]" content="2176">
+<meta data-pagefind-meta="title[content]" content="bac.philo.2024">
+<meta data-pagefind-filter="chapter[content]" content="فروض ومواضيع (عدّة محاور)">
+<meta data-pagefind-filter="chapter[content]" content="الإنية والغيرية">
+<meta data-pagefind-filter="chapter[content]" content="العمل: النجاعة والعدالة">
+<meta data-pagefind-filter="chapter[content]" content="الخصوصية والكونية">
+<meta data-pagefind-filter="chapter[content]" content="القيم: الأخلاق والدولة">
+<meta data-pagefind-filter="chapter[content]" content="العلم بين الحقيقة والنمذجة">
+<meta data-pagefind-filter="section[content]" content="باكالوريا تقنية"><style>.qrcard{display:none!important}.wa-nav{position:sticky;top:0;z-index:50;background:#045260;padding:10px 18px;font-family:Cairo,sans-serif;direction:rtl}.wa-nav a{color:#fff;text-decoration:none;font-weight:700}@media print{.wa-nav{display:none}}</style>
+</head>
+
+<body dir="rtl" lang="ar"
+      data-brand="Wael Academy" data-handle="@WaelAcademy"
+      data-tagline="في تُرابنا.. مغامرة بمغامرة"
+      data-phone="+216 50 40 40 42" data-site="waeldocuments.com"
+      data-cta="سجل معانا وأقرى عن بعد مع منصة Wael Academy"
+      data-subject="Philosophie · bac.philo.2024" data-watermark="Wael Academy" data-pagefind-body><nav class="wa-nav" data-pagefind-ignore><a href="../index.html">→ الرجوع إلى فهرس الفلسفة</a></nav>
+
+<!-- single full-page diagonal watermark, bottom-left → top-right (repeats on every page) -->
+<div class="wm" aria-hidden="true"><span>WAEL&nbsp;ACADEMY</span></div>
+
+<div class="flow colored">
+<div class="cover"><div class="badge">◉ Wael Academy · Philosophie</div><h1>bac.philo.2024</h1><div class="grule"></div><div class="sub">فروض ومواضيع (عدّة محاور)</div><div class="auth"><div class="credit">المؤلّف / المصدر : <span class="who">الجمهورية التونسية — وزارة التربية — امتحان البكالوريا دورة 2024 ; correction: Page Fb: WaelDocuments.com — إصلاح فلسفة- شعب علمية و اقتصادية 2024</span> <span class="tg">موضوع باكالوريا</span><span class="tg cor">إصلاح</span><span class="tg sec">الفلسفة · باكالوريا تقنية</span> <a href="https://drive.google.com/file/d/1TEbyoNzRgp3k7HI8PPVVn_Prq914LUCq/view">↗ bac.philo.2024.pdf</a> <a href="https://drive.google.com/file/d/1nuoZSowTU-kiIZCKSvWeeOWdYEkGxBwF/view">↗ bac.philo.2024.corr.pdf</a></div></div><div class="copies" data-pagefind-ignore><b>نسخ هذا الملف في الدرايفات (2)</b><ul><li><a href="https://drive.google.com/file/d/1TEbyoNzRgp3k7HI8PPVVn_Prq914LUCq/view">Amin Guermazi · Archive Bac 2025 › Philo / الاستاذة اسيا / باكالوريات</a></li><li><a href="https://drive.google.com/file/d/1nuoZSowTU-kiIZCKSvWeeOWdYEkGxBwF/view">Amin Guermazi · Archive Bac 2025 › Philo / الاستاذة اسيا / باكالوريات</a></li></ul></div></div>
+<section class="chapter">
+<div class="chtag"><span>المحور</span> فروض ومواضيع (عدّة محاور)</div>
+<!-- SOURCE: الجمهورية التونسية — وزارة التربية — امتحان البكالوريا دورة 2024 ; correction: Page Fb: WaelDocuments.com — إصلاح فلسفة- شعب علمية و اقتصادية 2024 -->
+<div class="exh"><span class="idx ex">موضوع</span><h2>امتحان البكالوريا دورة 2024 — الاختبار: الفلسفة</h2>
+  <div class="qrcard"><div class="qrt">فيديو الدرس</div><div class="qrslot"><img src="qr/2176.svg" alt="QR"></div></div></div>
+<div class="credit">المؤلّف / المصدر : <span class="who">الجمهورية التونسية — وزارة التربية — امتحان البكالوريا دورة 2024 ; correction: Page Fb: WaelDocuments.com — إصلاح فلسفة- شعب علمية و اقتصادية 2024</span> <span class="tg">موضوع باكالوريا</span><span class="tg cor">إصلاح</span><span class="tg sec">الفلسفة · باكالوريا تقنية</span> <a href="https://drive.google.com/file/d/1TEbyoNzRgp3k7HI8PPVVn_Prq914LUCq/view">↗ bac.philo.2024.pdf</a> <a href="https://drive.google.com/file/d/1nuoZSowTU-kiIZCKSvWeeOWdYEkGxBwF/view">↗ bac.philo.2024.corr.pdf</a></div>
+<table>
+<tr><td>الجمهورية التونسية<br>وزارة التربية</td><td colspan="2"><b>امتحان البكالوريا دورة 2024</b></td></tr>
+<tr><td></td><td>الاختبار: <b>الفلسفة</b></td><td>الشعب: الاقتصاد والتصرف - الرياضيات - العلوم التجريبية - العلوم التقنية - علوم الإعلامية</td></tr>
+<tr><td></td><td>الحصّة: 3 س</td><td>ضارب الاختبار : 1</td></tr>
+</table>
+<p class="para">رقم التسجيل</p>
+<p class="subhead t-red"><b>القسم الأوّل (10 نقاط).</b></p>
+
+<div class="chtag"><span>المحور</span> الإنية والغيرية</div>
+
+<div class="exsub">التمرين الأوّل (نقطتان):</div>
+<p class="consigne">اكشف عن إحدى ضمنيّات هذا الإقرار: "الإنْسَانُ صَنِيعَةُ ذَاتِه".</p>
+
+<div class="chtag"><span>المحور</span> العمل: النجاعة والعدالة</div>
+
+<div class="exsub">التمرين الثاني (نقطتان):</div>
+<p class="consigne">قدّم حُجّة تدْحَض هذا القول: "لا إمْكَانَ للسّعَادَة خَارِجَ ما نُحَصّلُهُ من رَفَاهٍ".</p>
+
+<div class="chtag"><span>المحور</span> الخصوصية والكونية</div>
+
+<div class="exsub">التمرين الثالث: النصّ (ستّ نقاط):</div>
+<p class="para">يُمكن أن يَمتدّ التواصُل ليَشمَل الأرضَ بأسْرهَا، وذلك بقدرِ ما يستَيقِظ في كُلِّ مكان وفي كلّ واحِدٍ من الناس الوَعْيُ بانتِماء الجَميعِ للإنسَانيّة الوحيدَة التي لا يُوجد غَيْرُها.(...). إنَّ الكونيّة هي الاستِعْدَاد لهَذا التّواصُل والقُدرَة علَيْه. عِندَما يُغلِق مجتَمَعٌ أو دَولَةٌ مَا حُدودَهُما في وجهِ إبدَاعَات الآخَرين العِلمِيّة والدينِيّة والفَلسَفِيّة والفَنّية، أو عِندَما يَمْنَعانِها عن الاخرين، فإنّهُما يكُونَان بذَلِك قد أنكَرَا إنسَانِيّتَهُما. عندئِذٍ تَتصدّعُ الإنسَانيّة فتَكُفُّ عن سَماعِ صَوتِها وتَكُفّ عن فَهْمِ ذاتِها. إنّ مَسَار التّواصُل، الذي يتجلّى فيه الاقْتِدَارُ الكَونيّ على تلَقّي تأثِيرٍ روحيّ وعلى مُمَارسَتِه، إنّمَا هو مَسَارٌ يَتضَمّنُ مستَوياتٍ متعدّدَةً، ولا يُرَدُّ البَتّة إلى معنًى واحِد (...).</p>
+<p class="para">أنا لا أُريدُ أن أكُونَ كائنًا مُقيّدًا بحدُودِ خُصوصِيّتي، وإنّما أُريدُ من خلالِ اضطِلاعِي بالمُعطَى التّاريخيّ لِحَيَاتي، وثِقَتي في أسُسِه، أن أكُونَ إنسَاناً بِعُمقٍ جذورِيّ وثَراءٍ جَوْهَرِيّ ؛ لا أريد أن أكتَفي فحَسْب بتَمْييزِ نَفسِي عَمّا هو غَريبٌ عَنّي، وإنّمَا أطمَحُ إلى استِيعَابِه؛ أريد مُعارضَتَه في عمليّة التّواصل والاتّحَاد به في آن، فلا أنا أُريد تقْليد المُختَلِف ولا أنا أُريدُ نَفْيَه، بل أريد أن أبْلُغ مَعَه إلى عُمقِ التّواصُل (...).</p>
+<p class="para">يُمثّل التّواصُل الكونيّ، ضمن هذا المسَار، إسهاماً جوهَرِيّاً وتوسِيعًا لأفُقِ الوَضْعِ الإنْسَانيّ بفعل التملّك المُتَبَادل لبعضنا البعض، على نَحوٍ يَغْتَنِي فيه معا طرَفَا الحِوَار الحيّ. فيَفتَحُ التواصلُ الكونيّ لَهُمَا الطّريقَ إلى أعمَاقِ الوَضْعِ الإنسَانيّ. ويُجذّر في الوقتِ نفْسِه انتِماءَهُما إلى التّاريخ الكَونيّ. إنّ إسهَام الكَائن الإنسَانيّ في التّاريخ الكَونيّ إنّمَا يكُون بتحرير مختلف إمكَانَاتِه- الآنَ وهُنَا- انطلاقا من عُمقِ تاريخيّتِه.</p>
+<p class="para">- <b>كارل ياسبرز- تاريخ الفلسفة بنظرة عالميّة</b></p>
+<p class="consigne">أنجز المهام التّاليّة انطلاقاً من النصّ:</p>
+<ol class="qn">
+<li>حدّد إشكاليّة النصّ. <b>(نقطتان)</b></li>
+<li>اكشف عن إحدى تبعات الخطاب الذي يُقيّدُ الإنسان "بحدود خصوصيّته" ؟ <b>(نقطتان)</b></li>
+<li>اكشف عن أحد رهانات النصّ. <b>(نقطتان)</b></li>
+</ol>
+<p class="subhead t-red"><b>القسم الثاني (10 نقاط).</b></p>
+<p class="consigne">يختار المترشح أحد السؤالين التاليين ليُحرّر في شأنه محاولة في حدود 30 سطرا:</p>
+
+<div class="chtag"><span>المحور</span> القيم: الأخلاق والدولة</div>
+
+<p class="para"><b>السّؤال الأوّل: هل تُفضِي الطّاعَة ضَرورَة إلى الحَدّ مِنَ المُواطَنَة؟</b></p>
+
+<div class="chtag"><span>المحور</span> العلم بين الحقيقة والنمذجة</div>
+<p class="para"><b>السّؤال الثاني: هل يَتعيّنُ عَلَى النّمْذجَة أن تُحرّرَ العِلْمَ مِنَ الاعْتِقَاد في اليَقِين؟</b></p>
+<p class="para">1/1</p>
+<div class="exsub">الإصلاح</div>
+<!-- NOTE: correction pages carry a date stamp "07 JUIN 2024", an official seal and WaelDocuments.com stamps/ads — not transcribed. -->
+<table>
+<tr><td>الجمهورية التونسية<br>وزارة التربية<br>امتحان البكالوريا<br>دورة 2024</td><td colspan="2">دورة 2024</td></tr>
+<tr><td></td><td>الاختبار: الفلسفة</td><td>الشعب: الاقتصاد والتصرف - الرياضيات - العلوم التجريبية - العلوم التقنية - علوم الإعلامية</td></tr>
+<tr><td></td><td>الحصّة: 3 س</td><td>ضارب الاختبار: 1</td></tr>
+</table>
+<p class="subhead t-red"><b>الإصلاح ومقاييس إسناد الأعداد</b></p>
+<table>
+<tr><th>مقاييس الإصلاح</th><th>العدد</th></tr>
+<tr><td colspan="2"><b>القسم الأوّل (10 نقاط)</b></td></tr>
+<tr><td></td></tr></table>
+<div class="chtag"><span>المحور</span> الإنية والغيرية</div>
+
+<b>التّمرين الأوّل:</b><br>
+<b>اكشف عن إحدى ضمنيات هذا الإقرار: " الإنسان صنيعة ذاته".</b>
+<ul class="dash">
+<li>يطالب المترشّح بالكشف عن إحدى الضمنيات كأن يشير إلى أنّ:
+<ul class="dash">
+<li>الوجود الانساني لا يخضع لأية حتمية أو قدر.</li>
+<li>الإنسان مسؤول عن تحديد ماهيته ومصيره.</li>
+<li>أو: حرّيّة الإنسان في اختيار نمط الكيان الذي يريد.</li>
+<li>أو:استقلالية ارادة الانسان وعدم حاجته إلى الاخر.</li>
+<li>أوْ: أنّ الإنية ليست حقيقة معطاة وانما كيانا مركّبا يتحقّق تاريخيا عبر الصراع وإثبات الذات في مستويات وتجارب متنوعة</li>
+<li>أو: أن ماهية الإنسان مهمّة/ مشروع على الإنسان الاضطلاع بها.</li>
+</ul></li>
+</ul></td><td>02</td></tr>
+<tr><td>
+<div class="chtag"><span>المحور</span> العمل: النجاعة والعدالة</div>
+
+<b>التّمرين الثّاني:</b><br>
+<b>قدّم حجّة تدحض هذا القول: "لا إمكان للسعادة خارج ما نحصّله من رفاه".</b>
+<ul class="dash">
+<li>يطالب المترشّح بدحض هذا القول كأن يشير إلى :
+<ul class="dash">
+<li>إذا كانت السعادة حالة من الرضى التام والمستمر فإن الرفاه ذو طابع جزئي ومادي مقتصر على الآني والمباشر والمتغير.</li>
+<li>إن حصر السعادة في الرفاه يقوم على اعتبارها كمّا قابلا للقيس وفق عناصر ماديّة يتعارض مع الطابع النوعي/الكيفي للسعادة بماهي قيمة أخلاقية لا قيمة اقتصادية.</li>
+<li>اختزال مفهوم السعادة في الرفاه بحصرها في نمط حياة تملكي/استهلاكي تقوده المصلحة وهو قد يفضي الى التنازل عن الفضيلة وما تستوجبه من تدبير للحياة السعيدة وفق مقتضيات العقل.</li>
+<li>سعادة الرفاه قد تتحول الى تبرير ايديولوجي لواقع البؤس والاغتراب وتعميق اللامساواة في حين أن السعادة مطلب إنساني كوني يتحدد بقيم الحرية والعدالة.</li>
+<li>يمكن للرفاه أن يكون مصدر ألم وشقاء.</li>
+<li>الرفاه ضروري ولكنه غير كاف لتحصيل السعادة.</li>
+</ul></li>
+</ul></td><td>02</td></tr>
+<tr><td colspan="2">
+<div class="chtag"><span>المحور</span> الخصوصية والكونية</div>
+<b>التّمرين الثّالث: نص كارل ياسبرز[ تاريخ الفلسفة بنظرة عالميّة]</b>
+<tr><td><b>المهمّة الأولى: حدّد إشكاليّة النص.</b>
+<ul class="dash">
+<li>يطالب المترشّح بتحديد إشكاليّة النّص كأن يشير إلى:</li>
+</ul>
+<p class="para">إمكانية أولى: بأي معنى يمثل الانغلاق على الخصوصي وما يترتب عليه من إنكار للآخر/المختلف تعطيلا للإنساني وتفتيتا لوحدته ؟ وضمن أية شروط يتحقق الانساني بوصفه مسارا تواصليا وأفقا كونيا للقاء الانسان بالإنسان؟</p>
+<p class="para">إمكانية ثانية: ما الكونيّة؟ وما شروط تحقّقها؟ هل تتحقق بالتقيد بالخصوصية والاكتفاء بها واعتبارها نموذجا أم بالانفتاح على الآخر ضمن تواصل إنساني تاريخي؟</p>
+<p class="para">إمكانية ثالثة: إذا سلّمنا بأن التّواصل شرط انخراط الخصوصيّ في الكونيّ، فهل ينبغي أن يقوم على مجرّد محاكاة الغير وتقليده أم على أساس حوار معه، يؤكد الانتماء الى المشترك الانساني ويثريه ؟</p>
+<!-- PROOFREAD: 2176 part2 p02 — words under the watermark: "بأي معنى", "وتفتيتا لوحدته", "بالانفتاح على الآخر", "أم على أساس" -->
+</td><td>02</td></tr>
+<tr><td><b>2. المهمّة الثانية: اكشف عن إحدى تبعات الخطاب الذي يقيّد الإنسان "بحدود خصوصيّته" .</b>
+<ul class="dash">
+<li>يطالب المترشّح بالكشف عن إحدى تبعات تقيّد الإنسان بخصوصيّته كأن يشير إلى:
+<ul class="dash">
+<li>انتفاء التواصل لغياب الحوار الضامن لإثراء الذات والوجود والثقافة.</li>
+<li>أو: تصدّع الإنسانيّة بما هو إنكار لإنسانية الإنسان وعدم الاستجابة لندائها.</li>
+<li>أو: تكفّ الإنسانية عن فهم ذاتها.</li>
+<li>أو: المركزية الثقافية وما يترتب عليها من رؤية اختزاليّة ضيّقة وعمياء للكونيّ.</li>
+<li>أو: السّقوط في نظرة استعلائية على الغير والمختلف .</li>
+<li>أو: تفقير الوجود الإنساني وإنكار عمقه التاريخي وتعدّد أبعاده.</li>
+<li>أو: السقوط في الانغلاق والتعصب والاقصاء والعنف.</li>
+</ul></li>
+</ul></td><td>02</td></tr>
+<tr><td><b>3. المهمّة الثالثة: اكشف عن أحد رهانات النصّ.</b>
+<ul class="dash">
+<li>يطالب المترشّح بالكشف عن أحد رهانات النص كأن يشير إلى:
+<ul class="dash">
+<li>المراهنة على كوني إنساني قابل للتحقق بدل كوني مجرّد.</li>
+<li>أو: تحرير الخصوصيّة من كل أشكال الانغلاق وضروب تفقير الإنسانيّة.</li>
+<li>أو: انشاء أفق إنساني تواصلي يقبل الخصوصيّ داخل الكونيّ، والاختلاف والتنوّع داخل الوحدة</li>
+<li>وجادة أن نأمل في صياغة العلاقات بين البشر على السلام الدائم وما يقتضيه العيش المشترك من شروط ايتيقية</li>
+<li>أو المراهنة على الطابع المنفتح للخصوصيات من جهة فرادتها واختلافها وتميّزها ومن جهة ما يجمعها ببقية الثقافات وما يُمثل شراكتها في الكوني الإنساني.</li>
+</ul></li>
+</ul></td><td>02</td></tr>
+
+<table>
+<tr><td>الجمهورية التونسية<br>وزارة التربية<br>امتحان البكالوريا<br>دورة 2024</td><td colspan="2">دورة 2024</td></tr>
+<tr><td></td><td>الاختبار: الفلسفة</td><td>الشعب: الاقتصاد والتصرف - الرياضيات - العلوم التجريبية - العلوم التقنية - علوم الإعلامية</td></tr>
+<tr><td></td><td>الحصّة: 3 س</td><td>ضارب الاختبار: 1</td></tr>
+</table>
+<p class="subhead t-red"><b>الإصلاح ومقاييس إسناد الأعداد</b></p>
+<table>
+<tr><th>مقاييس الإصلاح</th><th>العدد</th></tr>
+<tr><td colspan="2"></td></tr>
+<tr><td colspan="2"><b>(10 نقاط)</b></td></tr>
+</table>
+
+<div class="chtag"><span>المحور</span> القيم: الأخلاق والدولة</div>
+
+<p class="subhead t-navy"><b>السّؤال الأوّل: هل تُفضِي الطاعة ضرورة إلى الحدّ من المواطنة؟</b></p>
+<table>
+<tr><th>مقاييس الإصلاح</th><th>المجال</th></tr>
+<tr><td><ul class="dash">
+<li>انعدام المساءلة الفلسفيّة في كامل التّحرير.</li>
+<li>خروج تام عن موضوع السّؤال كأن يتطرّق المترشح إلى أيّة مسألة أخرى من مسائل البرنامج.</li>
+<li>سرد شتات من الآراء والأمثلة حول "الدّولة: السيادة والمواطنة".</li>
+<li>الاقتصار على سرد معلومات حول الدّولة دون مراعاة خصوصيّة السؤال.</li>
+</ul></td><td>3-0</td></tr>
+<tr><td><ul class="dash">
+<li>الانتباه إلى المشكل الذي يثيره السّؤال دون قدرة على صياغته بوضوح (أنظر المجال 7 -10)</li>
+<li>وجود فكرة ناظمة في محاولة الإجابة عن السّؤال.</li>
+<li>الاقتصار على عرض بعض المواقف من المشكل دون التوصّل إلى رؤية موقف واضح منه.</li>
+<li>مقاربة جزئيّة كأن يكتفي المترشّح بالاشتغال على أنّ الطّاعة تفضي ضرورة إلى الحدّ من المواطنة أو العكس</li>
+<li>توفّر مقاربة ممكنة للمشكل مع ارتباك أو تعثّر في مستوى البناء.</li>
+<li>استخلاص موقف، وإن بتعثّر، دون إبراز قيمته.</li>
+</ul></td><td>6-4</td></tr>
+<tr><td><p class="para"><b><u>اللّحظة الأولى: بناء المشكل:</u></b></p>
+<ul class="b">
+<li><b>التّمهيد</b> : يمكن الانطلاق من الإشارة إلى:</li>
+</ul>
+<p class="para">إمكانيّة أولى: التّناقض الظّاهري بين الحرّيّة الّتي تقوم عليها المواطنة وبين الخضوع الّذي تفرضه الطّاعة.</p>
+<p class="para">إمكانيّة ثانية: التّوتّر بين طاعة تكون ضمانة للمواطنة وبين طاعة تكون تهديدا لها.</p>
+<p class="para">إمكانيّة ثالثة: المفارقة المتمثّلة في أنّ المواطنة لا تتحقّق إلّا بوجود الدّولة ولكنّ وجودها يقتضي طاعة قد تحدّ من المواطنة.</p>
+<ul class="b">
+<li><b>الإشكاليّة</b> :</li>
+</ul>
+<p class="para">أ. صياغة الإشكاليّة بالتّساؤل:</p>
+<p class="para"><u>إمكانيّة أولى:</u> هل أنّ الطّاعة الّتي تفترضها سلطة الدّولة هي بالضّرورة طاعة من أجل المواطنة أم يمكن أن تتحوّل إلى عائق يحول دون تحقّقها؟</p>
+<p class="para"><u>إمكانيّة ثانية:</u> أيّة علاقة بين الطّاعة ومقتضيات المواطنة؟ هل هي علاقة تعارض لا يستقيم فيها طرف إلّا بالتّضحية بالآخر أم هي علاقة تلازم يكون فيها كلّ طرف شرط إمكان الآخر؟</p>
+<p class="para"><u>إمكانية ثالثة:</u> علام تقوم المواطنة؟ وضمن أيّ شروط تتحقق؟ هل تقتضي التخلي عن كلّ ضروب الطّاعة باعتبارها حدا منها أم أنّ المواطنة لا تكون ممكنة إلا بطاعة نابعة من العقل وضامنة للعيش المشترك؟</p>
+<p class="para"><b>في لحظة ثانية: بلورة الموقف من المشكل وفق التّمشّي التّالي.</b></p>
+<p class="para"><b>1. تفضي الطّاعة ضرورة إلى الحدّ من المواطنة:</b></p>
+<p class="para"><b>أ. الطّاعة:</b></p>
+<ul class="dash">
+<li>الطّاعة هي خضوع يتنازل بموجبه الفرد عن كلّ حقوقه لفائدة الدّولة مقابل ضمان حقه في السّلام والأمن.</li>
+<li>الطّاعة ليست اختيارا يُقدم عليه الفرد بل إكراها قسريّا يفرضه صاحب السيادة بالقوّة.</li>
+<li>الطّاعة هي عبوديّة طوعيّة ملغية لمقوّمات المواطنة.</li>
+</ul>
+<p class="para"><b>ب. في معنى الحدّ من المواطنة:</b></p>
+<ul class="dash">
+<li>الحدّ من المواطنة يفهم على معنى التضييق عليها وتقليص مجالها وتهديدها .</li>
+<li>الطّاعة بما هي خضوع قسريّ تلغي الإرادة وتحقّق مصالح الآمر بالفعل لا مصالح القائم به.</li>
+<li>الطّاعة العمياء ليست احترام العقد الاجتماعيّ والقوانين النّابعة منه بل خضوعا للإرادة الأقوى.</li>
+<li>قد تكون طاعة القوانين تشريعا للاستبداد وتبريرا لهيمنة فرد أو فئة أو طبقة وفي ذلك إلغاء للمواطنة.</li>
+<li>قد تكون الطّاعة حرمانا للمواطن من حقّه في المشاركة الفاعلة في الشّأن العامّ.</li>
+<li>في ظلّ انتفاء العدالة تكون كلّ طاعة جائرة ومخلّة بمبدأ المساواة الّذي تقوم عليه المواطنة والدّيمقراطيّة.</li>
+</ul>
+<p class="para">← *ملاحظة: يمكن للمترشّح أن يكتفي بنقطتين من كلّ عنصر.</p>
+<p class="para"><b>2. لا تفضي الطّاعة ضرورة إلى الحدّ من المواطنة:</b></p>
+<p class="para">أ. مراجعة دلالة الطّاعة وذلك بـ:</p>
+<ul class="dash">
+<li>تمييزها عن الخضوع، فهي الامتثال للقوانين النّابعة من الإرادة العامّة أو إرادة الأغلبيّة.</li>
+<li>بيان أن الطّاعة ضرورة للعيش المشترك والعمل على تحقيق التوازن بين المصلحة الفرديّة والمصلحة العامّة.</li>
+<li>الطّاعة تقترن اقترانا ضروريا بفكرة الحقوق الّتي تحكم علاقة المواطن بالدّولة وبالمجتمع.</li>
+<li>بيان أنّ الطّاعة لا تفضي إلى التّضحية بالحرّيّة بل إلى ضمانها بإخضاعها لمقتضيات العقل وتحريرها من الأهواء.</li>
+</ul>
+<p class="para">ب. في الطّاعة تحقّق للمواطنة :</p>
+<ul class="dash">
+<li>المواطنة هي انتماء إلى دولة ذات سيادة يكون فيها الفرد شريكاً في الحكم مُطيعا للقوانين.</li>
+<li>المواطنة هي اقتضاء سياسيّ ومدنيّ وايتيقيّ وهو ما يجعل منها مجالاً لممارسة الحقوق والواجبات (التّمييز بين المواطن والرعيّ أو العبد).</li>
+<li>المواطنة هي عقلنة للحقّ الطبيعيّ بما يكفل التّحقّق الأكمل للإنسان.</li>
+<li>لا مواطنة دون حقوق مدنيّة ومساواة يكفلها الدستور بما هو عقد أصليّ يؤسّس واجب الطّاعة.</li>
+<li>تُقاس مشروعيّة السلطة بما تحقّقه للمواطن من حرّيّة.</li>
+</ul>
+<p class="para">المواطنة هي تحلّ بفضيلتيْ الطّاعة والمقاومة.</p>
+<p class="para">يستخلص المترشّح:</p>
+<ul class="dash">
+<li>أنّ الطّاعة هي التزام الفرد بمقتضيات المواطنة (احترام القوانين، الوعي بالحقوق والواجبات والالتزام بها، الاعتراف بالآخر...).</li>
+</ul>
+<p class="para">← *ملاحظة: يمكن أن يكتفي المترشّح بنقطتين من كلّ عنصر.</p>
+<p class="para">*ملاحظة: يمكن أن يتّبع المترشّح تمشّيا مغايرا بأن ينطلق من اللّحظة الثّانية شرط استخلاص موقف نهائيّ وبيان قيمته.</p>
+<!-- PROOFREAD: 2176 part2 p04 — some words under the watermark/seal: "بالقوّة", "ليست احترام العقد الاجتماعيّ", "تشريعا للاستبداد", "بإخضاعها لمقتضيات العقل", "المواطن والرعيّ أو العبد" -->
+<p class="para"><b>في لحظة ثالثة: استخلاص الموقف النهائيّ وبيان قيمته:</b></p>
+<p class="para">استخلاص موقف:</p>
+<ul class="dash">
+<li>بيان أنّ السلطة قد تنحرف فتتحوّل الطاعة إلى شكل من أشكال حرمان المواطن من حقوقه وهو ما يستدعي ضرورة مراقبة السّلطة وأجهزتها</li>
+<li>أو</li>
+<li>لا يمكن أن تستقيم العلاقة بين المواطن والدّولة ما لم يُضمن حق الدّولة في ممارسة سيادتها القانونيّة على الأفراد وما لم تضمن حقوق المواطنين في المشاركة الفاعلة في إدارة الشّأن العام.</li>
+</ul>
+<p class="para">ينتهي المترشّح إلى بيان قيمة الموقف وذلك بالإشارة إلى:</p>
+<ul class="dash">
+<li>المواطنة الفاعلة هي التي تؤسّس الطّاعة بما هي فعل إراديّ يقوم على طاعة القوانين لا على طاعة الأفراد.</li>
+<li>أو</li>
+</ul>
+<p class="para">السّلطة الدّيموقراطيّة هي السّلطة التي تضمن الطّاعة دون التّضحية بالمواطنة.</p>
+</td><td>10-7</td></tr>
+</table>
+<!-- NOTE: the correction file (5 pages) contains no correction for السّؤال الثاني (النمذجة). -->
+
+</section>
+
+</div>
+</body>
+</html>

@@ -1,0 +1,352 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<title>Wael Academy — Philosophie · حوار الحضارات — camscanner page</title>
+<script>
+  window.MathJax = {
+    tex: { inlineMath: [['\\(','\\)']], displayMath: [['\\[','\\]']] },
+    chtml: { fontURL: 'https://cdn.jsdelivr.net/npm/mathjax@3/es5/output/chtml/fonts/woff-v2', matchFontHeight: true },
+    startup: { typeset: true }
+  };
+</script>
+<script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js" async></script>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Sora:wght@400;500;600;700;800&family=Cairo:wght@400;500;600;700;800;900&family=Tajawal:wght@400;500;700;800&family=JetBrains+Mono:wght@400;500;600;700&display=swap');
+:root{
+  /* ===== Wael Academy palette — MAIN ACCENT = green-teal gradient #0FAB8F → #067360 ===== */
+  --bg:#fff; --panel:#f2f8f8; --hair:#e6e6e9; --hair2:#d6d6db;
+  --fg:#0f2a31;        /* body text (and +/− signs) */
+  --fg2:#3f5b62;       /* softer text */
+  --fg3:#7c959b;       /* muted (footer) */
+  --blue:#067360;      /* deep accent — small numbers, borders, watermark, accent equations */
+  --blue-dark:#045260; /* titles & wordmarks (also the balance colour) */
+  --teal:#0fab8f;      /* bright accent end */
+  --loop:#0d9c82;      /* logo-loop helper */
+  --orange:#067360;    /* kicker/category labels (gold retired → deep teal) */
+  --red:#f5322f;       /* EXERCISE CHIPS ONLY — never for emphasis */
+  --cream:#e6f3f4; --blue-soft:#e6f3f4;  /* pale teal — callout fill + table sub-row fill */
+  --blue-line:#cde7e4; /* hairline */
+  --sub-ink:#045260;   /* table sub-row text */
+  --grad:linear-gradient(148deg,#0fab8f 0%,#0d9c82 52%,#067360 100%);
+  --mono:'JetBrains Mono',monospace; --latin:'Sora',sans-serif; --ar:'Cairo',sans-serif; --arb:'Tajawal',sans-serif;
+}
+*{box-sizing:border-box;margin:0;padding:0;}
+body{font-family:var(--latin);color:var(--fg);background:#e4e4e7;padding:28px 0;
+     -webkit-print-color-adjust:exact;print-color-adjust:exact;}
+html[dir="rtl"] body{font-family:var(--arb);}
+
+/* ===== brand watermark: REAL text (crisp), full-bleed, repeats per page ===== */
+.wm{position:fixed;inset:0;z-index:0;pointer-events:none;display:flex;
+    align-items:center;justify-content:center;overflow:hidden;
+    -webkit-print-color-adjust:exact;print-color-adjust:exact;}
+.wm span{font-family:var(--mono);font-weight:800;font-size:76.8pt;letter-spacing:.16em;
+    color:var(--blue);opacity:.06;white-space:nowrap;transform:rotate(-54deg);}  /* single diagonal: bottom-left → top-right */
+.wm.mono span{color:#000;opacity:.05;}
+
+/* ===== continuous flow stream (no page border) ===== */
+.flow{width:210mm;margin:0 auto;background:transparent;color:var(--fg);
+      padding-block:16mm 18mm;padding-inline:23mm 14mm;position:relative;}   /* spiral gutter: inline-start(=spine) 23mm / outer 14mm — dir-aware; print margins set in render_flow.py */
+@media screen{ .flow{background:#fff;box-shadow:0 10px 40px rgba(0,0,0,.16);} }
+.flow>*{position:relative;z-index:1;}
+.flow p,.flow li,.flow .data,.flow .note,.flow .ex{break-inside:auto;}
+.flow .fig,.flow figure,.flow img,.flow svg.figsvg,.flow table,.flow tr,.flow .chapdiv,.flow .exh,.flow .qrcard,.flow .meta{break-inside:avoid;}
+.flow h1,.flow h2,.flow h3,.flow .exh,.flow .subhead,.flow .chapdiv{break-after:avoid;}
+.flow img,.flow svg.figsvg{max-width:100%;height:auto;}
+.flow figcaption,.flow .figcap{display:none;}          /* rule 3: no figure captions */
+
+/* ===== front matter + chapters each start on a fresh page ===== */
+.flow .cover{break-after:page;}        /* cover alone on page 1 */
+.flow .toc{break-after:page;}          /* Sommaire alone on the next page */
+.flow .chapter{break-before:page;}
+.flow .chapter:first-of-type{break-before:auto;}
+
+/* ===== cover ===== */
+.cover{padding:14mm 0 8mm;border-bottom:2px solid var(--blue);margin-bottom:6mm;}
+.cover .badge{font-family:var(--mono);font-size:8.5pt;letter-spacing:.28em;text-transform:uppercase;color:var(--orange);margin-bottom:10px;}
+.cover h1{font-family:var(--latin);font-weight:800;font-size:34pt;line-height:1.03;letter-spacing:-.025em;color:var(--blue-dark);}
+.cover .grule{width:120px;height:5px;border-radius:5px;background:var(--grad);margin:14px 0;}
+.cover .sub{font-family:var(--mono);font-size:10pt;letter-spacing:.14em;text-transform:uppercase;color:var(--teal);}
+.cover .auth{font-size:11pt;color:var(--fg2);margin-top:6px;font-weight:600;}
+
+/* ===== table of contents ===== */
+.toc{margin:2mm 0 4mm;}
+.toc h2{font-family:var(--latin);font-weight:800;font-size:15pt;color:var(--blue-dark);margin-bottom:4mm;}
+.toc .trititle{font-family:var(--mono);font-size:8pt;letter-spacing:.2em;text-transform:uppercase;color:var(--orange);margin:4mm 0 2mm;}
+.toc ol{list-style:none;}
+.toc li{display:flex;align-items:baseline;gap:8px;font-size:10pt;padding:2.2px 0;color:var(--fg);line-height:1.4;}
+.toc li .n{font-family:var(--mono);font-weight:700;font-size:9pt;color:var(--blue);min-width:26px;}
+.toc li .dots{flex:1;border-bottom:1px dotted var(--hair2);transform:translateY(-3px);}
+
+/* ===== chapter divider band ===== */
+.chapdiv{margin:0 0 5mm;padding:6mm 16px 5mm;border-radius:12px;background:var(--grad);
+    -webkit-print-color-adjust:exact;print-color-adjust:exact;}   /* green-filled chapter band */
+.chapdiv .cn{font-family:var(--mono);font-size:8.5pt;font-weight:700;letter-spacing:.24em;text-transform:uppercase;color:rgba(255,255,255,.82);margin-bottom:5px;}
+.chapdiv h2{font-family:var(--latin);font-weight:800;font-size:17pt;line-height:1.1;letter-spacing:-.015em;color:#fff;}
+/* conclusion block — same green-filled look as the chapter band */
+.conclusion{background:var(--grad);border-radius:12px;padding:6mm 16px;margin:5mm 0;color:#fff;break-inside:avoid;
+    -webkit-print-color-adjust:exact;print-color-adjust:exact;}
+.conclusion .ck{font-family:var(--mono);font-size:8.5pt;font-weight:700;letter-spacing:.24em;text-transform:uppercase;color:rgba(255,255,255,.82);margin-bottom:6px;}
+.conclusion h3{font-family:var(--latin);font-weight:800;font-size:13pt;line-height:1.2;color:#fff;margin-bottom:4px;}
+.conclusion p,.conclusion li{font-size:10.4pt;line-height:1.7;color:#fff;}
+.conclusion b,.conclusion strong{color:#fff;font-weight:700;}
+
+/* ===== unit header (lesson/exercise) + QR emplacement ===== */
+.exh{display:flex;align-items:center;gap:11px;margin:6mm 0 3mm;}
+.exh .idx{font-family:var(--mono);font-size:9pt;font-weight:600;color:#fff;background:var(--grad);
+    border-radius:6px;padding:4px 11px;letter-spacing:.08em;text-transform:uppercase;
+    -webkit-print-color-adjust:exact;print-color-adjust:exact;}
+.exh .idx.ex{background:var(--red);}   /* exercise chip = red */
+.exh h2{font-family:var(--latin);font-size:14pt;font-weight:700;letter-spacing:-.01em;color:var(--blue-dark);}
+.exh .qrcard{margin-inline-start:auto;flex:0 0 auto;display:flex;flex-direction:column;align-items:center;gap:3px;width:26mm;}
+.qrcard .qrt{font-family:var(--mono);font-size:6.5pt;letter-spacing:.1em;text-transform:uppercase;color:var(--teal);text-align:center;}
+.qrcard .qrslot{width:24mm;height:24mm;padding:1.5mm;background:#fff;border:1px solid var(--blue-line);border-radius:8px;display:flex;align-items:center;justify-content:center;}
+.qrcard .qrslot img,.qrcard .qrslot svg{width:100%;height:100%;display:block;}
+
+/* sub-exercise label when one file holds several exercices */
+.exsub{font-family:var(--latin);font-weight:800;font-size:11.5pt;color:var(--blue-dark);margin:5mm 0 2.5mm;padding-bottom:3px;border-bottom:2px solid var(--blue-line);}
+
+/* ===== text blocks ===== */
+.lead{font-size:11pt;line-height:1.7;margin:2mm 0 3mm;color:var(--fg);}
+.para{font-size:10.6pt;line-height:1.7;margin:2mm 0 2.5mm;color:var(--fg);}
+.consigne{font-size:10.4pt;line-height:1.6;margin:1mm 0 2mm;color:var(--fg);font-style:italic;}
+.subhead{font-family:var(--latin);font-weight:800;font-size:12pt;letter-spacing:-.01em;color:var(--blue-dark);margin:5mm 0 2.5mm;}
+/* emphasis — green accent = .t-blue/.t-green ; balance = .t-navy ; red = SECONDARY accent (.t-red) on titles + a few words */
+.t-blue{color:var(--blue);font-weight:600;} .t-navy{color:var(--blue-dark);font-weight:700;}
+.t-red{color:var(--red);font-weight:600;} .t-green{color:var(--teal);font-weight:600;} .t-gold{color:var(--orange);font-weight:600;}
+.subhead.t-red{color:var(--red);font-weight:800;}   /* red Roman-numeral section title (I, II, …) — keeps subhead weight */
+/* highlighter marks — a soft colour wash behind a key word (agent picks green or red per what balances the page) */
+.hl-green,.hl-red{border-radius:3px;padding:.02em .24em;font-weight:600;box-decoration-break:clone;-webkit-box-decoration-break:clone;
+    -webkit-print-color-adjust:exact;print-color-adjust:exact;}
+.hl-green{background:rgba(15,171,143,.20);color:var(--blue-dark);}   /* green highlight */
+.hl-red{background:rgba(245,50,47,.13);color:#c0261f;}               /* red highlight  */
+
+.data{background:var(--blue-soft);border:1px solid var(--blue-line);border-inline-start:4px solid var(--blue);
+    border-radius:8px;padding:11px 16px;margin:3mm 0;font-size:10pt;line-height:1.65;color:var(--fg2);}
+.data b{color:var(--fg);font-weight:700;}
+.note{border:1px dashed var(--hair2);border-radius:9px;padding:11px 16px;margin:4mm 0;background:var(--panel);}
+.note .kicker{font-family:var(--mono);font-size:7.5pt;letter-spacing:.18em;color:var(--orange);display:block;margin-bottom:5px;}
+.note .nb{font-size:10pt;line-height:1.7;color:var(--fg2);} .note b{color:var(--fg);}
+.ex:not(.idx){background:var(--blue-soft);border:1px solid var(--blue-line);border-inline-start:3px solid var(--blue);
+    border-radius:7px;padding:7px 11px;font-size:9.6pt;line-height:1.6;color:var(--fg2);margin:2mm 0;}   /* :not(.idx) so it never hits the exercise chip (which is .idx.ex) */
+.ex .extag{display:inline-block;font-family:var(--latin);font-weight:800;font-size:7.6pt;color:var(--blue-dark);background:#fff;
+    border:1px solid var(--blue);border-radius:5px;padding:1px 9px;margin-inline-end:7px;vertical-align:middle;text-transform:uppercase;letter-spacing:.06em;}
+
+/* ===== lists ===== */
+ol.q{list-style:none;counter-reset:q;margin:1mm 0 2mm;}
+ol.q>li{counter-increment:q;position:relative;padding-inline-start:30px;margin-bottom:2.5mm;font-size:10.4pt;line-height:1.6;}
+ol.q>li::before{content:counter(q);position:absolute;inset-inline-start:0;top:1px;width:21px;height:21px;background:var(--grad);color:#fff;
+    border-radius:50%;font-family:var(--mono);font-size:9pt;font-weight:600;display:flex;align-items:center;justify-content:center;
+    -webkit-print-color-adjust:exact;print-color-adjust:exact;}
+ol.sub{list-style:none;counter-reset:s;margin:4px 0 0;padding-inline-start:2px;border-inline-start:1px solid var(--blue-line);}
+ol.sub li{counter-increment:s;position:relative;padding:2.5px 0 2.5px 26px;font-size:10.1pt;line-height:1.55;}
+ol.sub li::before{content:counter(s,lower-alpha)".";position:absolute;inset-inline-start:10px;top:2.5px;font-family:var(--mono);font-size:9pt;font-weight:600;color:var(--teal);}
+ol.qn{list-style:none;counter-reset:qn;margin:1mm 0 2mm;}
+ol.qn>li{counter-increment:qn;position:relative;padding-inline-start:26px;margin-bottom:2.2mm;font-size:10.4pt;line-height:1.55;}
+ol.qn>li::before{content:counter(qn)".";position:absolute;inset-inline-start:0;top:0;font-family:var(--mono);font-size:9.5pt;font-weight:700;color:var(--blue);}
+ul.b{list-style:none;margin:1mm 0 2mm;} ul.b>li{position:relative;padding-inline-start:22px;margin-bottom:2.4mm;font-size:10.4pt;line-height:1.6;}
+ul.b>li::before{content:"";position:absolute;inset-inline-start:3px;top:8px;width:8px;height:8px;border-radius:50%;background:var(--grad);
+    -webkit-print-color-adjust:exact;print-color-adjust:exact;}
+ul.dash{list-style:none;margin:1mm 0 2mm;} ul.dash>li{position:relative;padding-inline-start:20px;margin-bottom:1.8mm;font-size:10.4pt;line-height:1.6;}
+ul.dash>li::before{content:"–";position:absolute;inset-inline-start:2px;top:0;color:var(--fg);font-weight:700;}  /* dash / +/− signs = body colour */
+.flow ul.opts{list-style:none;margin:4px 0 3px;padding-inline-start:16px;}
+.flow ul.opts li{padding:2px 0;font-size:10.2pt;line-height:1.5;color:var(--fg);}
+
+/* ===== figures / tables ===== */
+.fig{margin:3mm 0;} .fig svg.figsvg{display:block;margin:0 auto;background:#fff;max-width:100%;height:auto;}
+.photo{display:block;margin:3mm auto;border-radius:8px;border:1px solid var(--hair);max-width:100%;}
+.figrow{display:flex;flex-wrap:wrap;gap:9px;justify-content:center;margin:3mm auto;max-width:190mm;}
+.flow .figrow img{border-radius:7px;border:1px solid var(--hair);height:46mm;width:auto;max-width:none;object-fit:cover;}
+.schemarow{display:flex;gap:16px;align-items:flex-start;flex-wrap:wrap;margin:2mm 0;}
+.schemarow .col-txt{flex:1 1 90mm;min-width:80mm;} .schemarow .col-fig{flex:0 0 78mm;} .schemarow .col-fig .fig{margin:0;}
+.flow table{border-collapse:collapse;width:100%;margin:3mm 0;font-size:9.8pt;line-height:1.5;}
+.flow table th,.flow table td{border:1px solid var(--blue-line);padding:6px 10px;text-align:start;vertical-align:top;}
+.flow table th{background:var(--grad);color:#fff;font-family:var(--latin);font-weight:700;font-size:9.4pt;
+    -webkit-print-color-adjust:exact;print-color-adjust:exact;}
+.flow table tr:nth-child(even) td{background:var(--blue-soft);color:var(--sub-ink);}   /* sub-row: #E6F3F4 / #045260 */
+
+mjx-container{color:var(--fg) !important;font-weight:400 !important;font-size:1.0em !important;}
+.eq-hi mjx-container,mjx-container.eq-hi{color:var(--blue) !important;}   /* accent (green) equation — highlight a key result; balance with plain math */
+.eq-red mjx-container,mjx-container.eq-red{color:var(--red) !important;}  /* red accent equation / symbol — complements the green .eq-hi */
+
+/* ===== per-file books: credit line, copies list, figures at their size ===== */
+.credit{display:flex;flex-wrap:wrap;align-items:center;gap:5px;margin:-1mm 0 3.5mm;font-size:9.4pt;color:var(--fg2);}
+.credit .who{font-weight:700;color:var(--blue-dark);}
+.credit .tg{font-family:var(--mono);font-size:7.2pt;letter-spacing:.04em;border-radius:5px;padding:1px 7px;line-height:1.6;
+    border:1px solid var(--blue-line);color:var(--blue);background:#fff;-webkit-print-color-adjust:exact;print-color-adjust:exact;}
+.credit .tg.sec{background:var(--blue-dark);border-color:var(--blue-dark);color:#fff;}
+.credit .tg.cor{background:#fff;border-color:var(--red);color:var(--red);}
+.credit a{color:var(--fg3);font-family:var(--mono);font-size:7pt;text-decoration:none;}
+.cover .auth .credit{margin:4mm 0 0;}
+.cover .copies{margin-top:5mm;font-size:8.6pt;color:var(--fg2);}
+.cover .copies ul{list-style:none;margin:2mm 0 0;padding:0;columns:2;}
+.cover .copies a{color:var(--fg3);text-decoration:none;font-size:8pt;}
+.flow figure.fig{text-align:center;}
+.flow figure.fig img{max-height:60mm;width:auto;max-width:70%;display:inline-block;}
+
+/* chapter tag on each part of a multi-chapter book (the book keeps the original order of the file) */
+.chtag{display:inline-block;margin:5mm 0 2mm;padding:1mm 3mm;border-radius:2mm;background:#eef3fb;border:1px solid #c9d6ea;
+  color:#1f3a6b;font-size:9pt;font-weight:700}
+.chtag span{color:#6b7f9e;font-weight:600;margin-inline-end:1.5mm}
+
+@media print{ body{background:#fff;padding:0;} .flow{width:auto;max-width:none;margin:0;padding:0;} }
+@page{size:A4;}   /* margins come from render_flow.py — do NOT set them here */
+</style>
+<meta data-pagefind-filter="type[content]" content="ملخّص">
+<meta data-pagefind-filter="resource[content]" content="رمزي بن عبد الله">
+<meta data-pagefind-meta="n[content]" content="1262">
+<meta data-pagefind-meta="title[content]" content="حوار الحضارات — camscanner page">
+<meta data-pagefind-filter="chapter[content]" content="الإنية والغيرية">
+<meta data-pagefind-filter="chapter[content]" content="الخصوصية والكونية">
+<meta data-pagefind-filter="chapter[content]" content="اللغة والتواصل">
+<meta data-pagefind-filter="chapter[content]" content="محور غير محدّد">
+<meta data-pagefind-filter="section[content]" content="باكالوريا علوم الإعلامية"><style>.qrcard{display:none!important}.wa-nav{position:sticky;top:0;z-index:50;background:#045260;padding:10px 18px;font-family:Cairo,sans-serif;direction:rtl}.wa-nav a{color:#fff;text-decoration:none;font-weight:700}@media print{.wa-nav{display:none}}</style>
+</head>
+
+<body dir="rtl" lang="ar"
+      data-brand="Wael Academy" data-handle="@WaelAcademy"
+      data-tagline="في تُرابنا.. مغامرة بمغامرة"
+      data-phone="+216 50 40 40 42" data-site="waeldocuments.com"
+      data-cta="سجل معانا وأقرى عن بعد مع منصة Wael Academy"
+      data-subject="Philosophie · حوار الحضارات — camscanner page" data-watermark="Wael Academy" data-pagefind-body><nav class="wa-nav" data-pagefind-ignore><a href="../index.html">→ الرجوع إلى فهرس الفلسفة</a></nav>
+
+<!-- single full-page diagonal watermark, bottom-left → top-right (repeats on every page) -->
+<div class="wm" aria-hidden="true"><span>WAEL&nbsp;ACADEMY</span></div>
+
+<div class="flow colored">
+<div class="cover"><div class="badge">◉ Wael Academy · Philosophie</div><h1>حوار الحضارات — camscanner page</h1><div class="grule"></div><div class="sub">الإنية والغيرية</div><div class="auth"><div class="credit">المؤلّف / المصدر : <span class="who">رمزي بن عبد الله (diagonal watermark)</span> <span class="tg cor">إصلاح</span><span class="tg sec">الفلسفة · باكالوريا علوم الإعلامية</span> <a href="https://drive.google.com/file/d/1f1XfvXEmzT-sXNHbNlaIkganVMes7hey/view">↗ CamScanner 09-06-2020 19.34.57 - Page 12.pdf</a> <a href="https://drive.google.com/file/d/18CSRxZk-v6gK0i03xPG6TGuBgl73mDyc/view">↗ CamScanner 09-06-2020 19.34.57 - Page 10.pdf</a> <a href="https://drive.google.com/file/d/1lBmZZhSvJi8Qj9bSwh7VPPs94_tQRZja/view">↗ CamScanner 09-06-2020 19.34.57 - Page 13.pdf</a></div></div><div class="copies" data-pagefind-ignore><b>نسخ هذا الملف في الدرايفات (3)</b><ul><li><a href="https://drive.google.com/file/d/1f1XfvXEmzT-sXNHbNlaIkganVMes7hey/view">Faez Bahloul · BAC_INFO_2027 › 9- Arbi / حوار الحضارات</a></li><li><a href="https://drive.google.com/file/d/18CSRxZk-v6gK0i03xPG6TGuBgl73mDyc/view">Faez Bahloul · BAC_INFO_2027 › 9- Arbi / حوار الحضارات</a></li><li><a href="https://drive.google.com/file/d/1lBmZZhSvJi8Qj9bSwh7VPPs94_tQRZja/view">Faez Bahloul · BAC_INFO_2027 › 9- Arbi / حوار الحضارات</a></li></ul></div></div>
+<section class="chapter">
+<div class="chtag"><span>المحور</span> الإنية والغيرية</div>
+<!-- SOURCE: رمزي بن عبد الله (diagonal watermark) -->
+<!-- NOTE: one book for 3 files of the Drive folder "9- Arbi / حوار الحضارات" (series), in file order -->
+<div class="exh"><span class="idx">ملخّص</span><h2>حوار الحضارات — camscanner page</h2>
+  <div class="qrcard"><div class="qrt">فيديو الدرس</div><div class="qrslot"><img src="qr/1262.svg" alt="QR"></div></div></div>
+<div class="credit">المؤلّف / المصدر : <span class="who">رمزي بن عبد الله (diagonal watermark)</span> <span class="tg cor">إصلاح</span><span class="tg sec">الفلسفة · باكالوريا علوم الإعلامية</span> <a href="https://drive.google.com/file/d/1f1XfvXEmzT-sXNHbNlaIkganVMes7hey/view">↗ CamScanner 09-06-2020 19.34.57 - Page 12.pdf</a> <a href="https://drive.google.com/file/d/18CSRxZk-v6gK0i03xPG6TGuBgl73mDyc/view">↗ CamScanner 09-06-2020 19.34.57 - Page 10.pdf</a> <a href="https://drive.google.com/file/d/1lBmZZhSvJi8Qj9bSwh7VPPs94_tQRZja/view">↗ CamScanner 09-06-2020 19.34.57 - Page 13.pdf</a></div>
+
+<!-- file: CamScanner 09-06-2020 19.34.57 - Page 12 -->
+
+
+<div class="exsub">CamScanner 09-06-2020 19.34.57 - Page 12</div>
+<!-- NOTE: yellow highlighter marks and a large handwritten diagonal signature (partly legible "...عبد الله") on the page are left out -->
+
+<div class="chtag"><span>المحور</span> الخصوصية والكونية</div>
+
+<p class="subhead t-red">الحلول لتجاوز العراقيل</p>
+<p class="para">*إعادة هيكلة المؤسّسات التّعليميّة في العلم لمجانسة برامجها <span class="t-blue">للقيم الكونيّة كالدّيمقراطيّة وحقوق الإنسان والحريّة</span> لتخريج جيل واع بذلك لا ينتهك حقوق الإنسان ولا يرضى بذلك جيل متشبّع بقيم التّضامن البشريّ واحترام البيئة .<br>
+*نشر <span class="t-blue">ثقافة السّلام</span> .<br>
+*<b>تطبيق نزيه لقواعد القانون الدّوليّ ونبذ العنصريّة</b> .<br>
+*التّحسيس العالميّ بأنّ عمليّة تعزيز الحوار الحضاريّ مسؤوليّة متعدّدة الأطراف .<br>
+*<b>التّعاون بين الجامعات ومراكز البحث في مختلف البلدان في مجالات تبادل الخبرات .</b><br>
+*توسيع التّبادل الثّقافيّ بين الدّول وتطويره .</p>
+<p class="para">← حلول موضوعيّة منطقيّة</p>
+<p class="para">*هناك من يرى أنّ الحلّ يكمن في <span class="t-blue">العولمة</span> ولا يرى فيها صورة قاتمة بل يرى أنّها توفّر لنا فرصة لإعادة بناء مجتمعاتنا حتّى يتحقّق الرّقيّ فيزول الفقر والجوع من العالم فـ<span class="t-blue">العولمة</span> تقرّب بين الشّعوب و<span class="t-blue">توحّد الإنسانيّة</span> حول قيم حداثيّة كالحرّيّة والدّيمقراطيّة والمساواة وحقوق الإنسان والعدالة حيث لا حديث عن الظّلم والقهر والاستبداد فهي عند أنصارها خير عميم تبشّر بالتّقدّم التّكنولوجيّ والاقتصاديّ والسّياسيّ <b>فلابدّ من الاستفادة من العولمة فهي واقع مفروض يجب التّعامل معه بحذر وليست اختيارا يمكن تجاهله</b> .<br>
+*هناك من يرى أنّ الحلّ يكمن في التّخلّص من <span class="t-blue">ثقل الإرث العربيّ</span> وبالتّالي يدعو إلى التّقليد الأعمى للغرب .<br>
+*هناك من يرى أنّ الحلّ يكمن في <span class="t-blue">الانغلاق على النّفس والانكماش والتّقوقع</span> بدعوى الحفاظ على <span class="t-blue">الهويّة والخصوصيّة من الغزو الثّقافيّ الخارجيّ</span> .</p>
+<p class="para">← حلول ذاتيّة أحاديّة</p>
+<p class="subhead t-navy">← الحوار ضرورة حتميّة :</p>
+<p class="para"><b>- لتحقيق الرّقيّ تأسّيا بالعرب القدامى الّذين انفتحوا على الآخر فبلغوا أوج ازدهارهم في العصر العبّاسيّ وكانوا أسياد العالم .<br>
+- لحماية أنفسنا من المركزيّة الثّقافيّة الّتي تسعى الولايات المتّحدة الأمريكيّة إلى نشرها عبر العولمة وبالتّالي السّيطرة على العالم وفرض النّموذج الأمريكيّ ولعلّ تدميرها للعراق بحجّة القضاء على أسلحة الدّمار الشّامل و مخطّطاتها لتقسيم العالم العربي بحجّة القضاء على الإرهاب خير دليل على ذلك .</b></p>
+<!-- file: CamScanner 09-06-2020 19.34.57 - Page 10 -->
+
+<div class="chtag"><span>المحور</span> اللغة والتواصل</div>
+
+<div class="exsub">CamScanner 09-06-2020 19.34.57 - Page 10</div>
+<!-- PROOFREAD: 2020 part1 p01 — watermark name faint/diagonal, first name "رمزي" uncertain -->
+
+<div class="chtag"><span>المحور</span> الخصوصية والكونية</div>
+
+<p class="para"><span class="t-green"><b>الحوار :</b></span> تبادل الأفكار و الخبرات</p>
+<p class="para"><span class="t-green"><b>الحضارة :</b></span> التّاريخ ، الثّقافة ، العادات و التّقاليد ، اللّغة ، القيم ....</p>
+<p class="para"><span class="t-blue">⬅</span> <span class="t-green">حوار الحضارات</span> تفاعل بين حضارتين أو أكثر يؤدّي إلى تمتين العلاقات بين الشّعوب سياسيّا و اقتصاديّا و اجتماعيّا يقابله <span class="t-red">صدام الحضارات</span> أو <span class="t-red">صراع الحضارات</span> . و الحوار من شواغل الإنسان المعاصر المطروحة في الواقع العربيّ يطرح إشكاليّة <span class="t-red">كيف أتفاعل مع الآخر دون ذوبان أو انبتات أو كيف أحافظ على هويّتي دون انكماش أو انزواء يقصياني عن ركب الحضارة ؟</span></p>
+<p class="para"><span class="t-green"><b>أطراف الحوار:</b></span> الأنا / الأخر، الشّمال / الجنوب ، الشّرق / الغرب ، العربيّ / الأوروبيّ .....</p>
+<p class="para"><span class="t-blue">⬅</span> طرفان مختلفان : <span class="t-red">" و جعلناكم شعوبا و قبائل لتعارفوا "</span></p>
+<p class="subhead t-red">مجالات الحوار</p>
+<p class="para">* <span class="t-blue"><u>مجال سياسيّ</u> :</span> - حلّ النّزاعات بين الدّول .<br>- الاستفادة من التّجربة الدّيمقراطيّة .</p>
+<p class="para">* <span class="t-blue"><u>مجال فكريّ</u> :</span> - الاستفادة من التّيّارات الفكريّة و الادبيّة و الفلسفيّة و الفنّيّة الّتي أنتجها الغرب كالمسرح والأقصوصة والرّومنطيقيّة و الواقعيّة و الوجوديّة .</p>
+<p class="para">* <span class="t-blue"><u>مجال تكنولوجيّ</u> :</span> - الاستفادة ممّا بلغه الغرب من تطوّر علميّ وتقنيّ في مجالات المعرفة والصّحة والصّناعة .</p>
+<p class="para">* <span class="t-blue"><u>مجال اقتصاديّ</u> :</span> - يتجلّى من خلال رفع الحدود أمام البضاعة ورؤوس الأموال دعما للاستثمار.</p>
+<p class="para">* <span class="t-blue"><u>مجال إعلاميّ</u> :</span> - بانتشار شبكة الانترنات و الإقبال المتزايد على المواقع الاجتماعيّة .</p>
+<p class="para">* <span class="t-blue"><u>مجال ثقافيّ</u> :</span> - بالاطّلاع على هويّة الآخر وعاداته و تقاليده .</p>
+<p class="subhead t-red">شروط الحوار</p>
+<p class="para">*<span class="t-green"><b>الاعتراف بالآخر:</b></span> أي إيمان كلّ طرف بحقّ الاختلاف في كنف الحرّيّة و المسؤوليّة ممّا يساهم أكثر في الابتكار.</p>
+<p class="para">*<span class="t-green"><b>التّبادل :</b></span> أي الإيمان بجدّيّة الشّراكة و التّبادل المستمرّ للخبرات و القدرات والمعارف لغاية التّقدّم والتّطوّر فالكلّ كفء والكل قادر على الإضافة والإعطاء .</p>
+<p class="para">*<span class="t-green"><b>الإيمان بضرورة مسايرة ثقافة العصر:</b></span> فلا فائدة من <span class="t-red">التّقوقع و الانكماش</span> على الذّات في ظلّ الماضي .</p>
+<p class="para">*<span class="t-green"><b>النّديّة و إقصاء فكرة التّفاضل بين الثّقافات:</b></span> أي التّعامل بمبدإ المساواة في القيمة و المكانة .</p>
+<p class="para">*<span class="t-green"><b>الإيمان بحرّيّة التّعبير و حقّ الاختلاف .</b></span></p>
+<p class="para">*<span class="t-green"><b>احلال التّسامح و نبذ التّعصّب .</b></span></p>
+<p class="para">* <span class="t-green"><b>نبذ النّزاعات .</b></span></p>
+<p class="para">*<span class="t-green"><b>القدرة على التّعبير .</b></span></p>
+<p class="para"><span class="t-blue">⬅</span> يكرّس الحوار إذا غابت شروطه هوّة ( فجوة ) بين الثّقافات لتفاوت الأطراف المتحاورة وعدم تكافئها .</p>
+<p class="subhead t-red">دواعي الحوار ( الأسباب - الحاجة )</p>
+<p class="para">*دخول الإنسان مرحلة <span class="t-blue">العولمة</span> أو <span class="t-blue">الكونيّة الشّاملة</span> جعلته يشعر بالحاجة إلى ثقافة الأخر المختلف عنه وضرورة التعرّف إليه .</p>
+<p class="para">*الحاجة إلى التّبادل الثّقافي الحرّ <span class="t-blue">استئناسا</span> بالأخر والتعرف إلى عاداته وتقاليده وخبراته والاستفادة منها في تطوير حضارته .</p>
+<p class="para">*تلوّع الإنسانيّة من الحروب المدمّرة و ما جلبته من ويلات .</p>
+<p class="para">*صعود تيّارات قويّة في الغرب منادية بالسّلام و الأمن و الحرّيّة و العدالة (المنظّمات الدّوليّة تحت ظلّ الأمم المتّحدة ) .</p>
+<p class="para">*احتداد المنافسة بين الأنظمة السّياسيّة ( ليبيراليّة - رأسماليّة - اشتراكيّة ) من خلال الحرب الباردة .</p>
+<p class="para">*حاجة الدّول المستقلّة حديثا إلى مساعدات غربيّة لبناء مجتمع جديد .</p>
+<p class="para">*حاجة الدّول الغربيّة بعد الحرب العالميّة الثّانية إلى برامج إعمار طويلة تقتضي يد عاملة وخبرات دول العالم الثّالث : مواصلة بسط نفوذها السّياسيّ والثّقافيّ والاقتصاديّ على مستعمراتها القديمة .</p>
+<p class="para">1</p>
+<!-- file: CamScanner 09-06-2020 19.34.57 - Page 13 -->
+
+<div class="chtag"><span>المحور</span> محور غير محدّد</div>
+
+<div class="exsub">CamScanner 09-06-2020 19.34.57 - Page 13</div>
+<!-- PROOFREAD: 2325 part1 p01 — a diagonal handwritten signature/watermark crosses the page (ending reads like "عبد الله"); illegible, so not recorded as SOURCE -->
+<!-- NOTE: this summary (حوار الحضارات / تفاعل الثقافات) looks like an Arabic-subject محور; transcribed because its theme falls under الخصوصية والكونية -->
+
+<div class="chtag"><span>المحور</span> الخصوصية والكونية</div>
+
+<p class="para"><span class="t-green">حوار الحضارات</span> يقابله <span class="t-red">صدام الحضارات</span> أو <span class="t-red">صراع الحضارات</span> <span class="t-green">أطراف الحوار</span>:الأنا / الآخر، الشّرق/الغرب.....</p>
+
+<p class="subhead t-red">مجالات الحوار</p>
+<ul class="b">
+<li>* <u><span class="t-blue">مجال سياسيّ</span></u> : - حلّ النّزاعات بين الدّول - الاستفادة من التّجربة الدّيمقراطيّة .</li>
+<li>* <u><span class="t-blue">مجال فكريّ</span></u> : - الاستفادة من التّيّارات الفكريّة و الادبيّة و الفلسفيّة و الفنّيّة الّتي أنتجها الغرب .</li>
+<li>* <u><span class="t-blue">مجال تكنولوجيّ</span></u> : - الاستفادة ممّا بلغه الغرب من تطوّر علميّ وتقنيّ في مجالات المعرفة والصّحة والصّناعة .</li>
+<li>* <u><span class="t-blue">مجال اقتصاديّ</span></u> : - يتجلّى من خلال رفع الحدود أمام البضاعة  ورؤوس الأموال دعما للاستثمار.</li>
+<li>* <u><span class="t-blue">مجال اعلاميّ</span></u> : - بانتشار شبكة الانترنات و الإقبال المتزايد على المواقع الاجتماعيّة .</li>
+<li>* <u><span class="t-blue">مجال ثقافيّ</span></u> : - بالاطّلاع على هويّة الأخر وعاداته و تقاليده .</li>
+</ul>
+
+<p class="subhead t-red">شروط الحوار</p>
+<p class="para">*<span class="t-green">الاعتراف بالآخر</span>: أي إيمان كلّ طرف بحقّ الاختلاف في كنف الحرّيّة و المسؤوليّة ممّا يساهم أكثر في الابتكار.</p>
+<p class="para">*<span class="t-green">التّبادل</span> : أي الإيمان بجدّيّة الشّراكة و التّبادل المستمرّ للخبرات و القدرات والمعارف لغاية التّقدّم والتّطوّر .</p>
+<p class="para">*<span class="t-green">الإيمان بضرورة مسايرة ثقافة العصر</span>: فلا فائدة من <span class="t-red">التّقوقع</span> و <span class="t-red">الانكماش</span> على الذّات في ظلّ الماضي .</p>
+<p class="para">*<span class="t-green">النّديّة و إقصاء فكرة التّفاضل بين الثّقافات</span>: أي التّعامل بمبدإ المساواة في القيمة و المكانة .</p>
+<p class="para">*<span class="t-green">الإيمان بحريّة التّعبير و حقّ الاختلاف</span> .*<span class="t-green">احلال التّسامح و نبذ النّزاعات و التّعصّب</span> .</p>
+
+<p class="subhead t-red">دواعي الحوار ( الأسباب – الحاجة – الحتميّة – الضّرورة )</p>
+<p class="para">*دخول الإنسان مرحلة <span class="t-blue">العولمة</span> أو <span class="t-blue">الكونيّة الشّاملة</span> جعلته يشعر بالحاجة إلى ثقافة الآخر المختلف عنه .</p>
+<p class="para">*الحاجة إلى التّبادل الثّقافي الحرّ <span class="t-blue">استئناسا</span> بالآخر والتعرف إلى عاداته وتقاليده وخبراته والاستفادة منها .</p>
+<p class="para">*تلوّع الإنسانيّة من الحروب و ما جلبته من ويلات .*احتداد المنافسة بين الأنظمة السّياسيّة ( الحرب الباردة).</p>
+
+<p class="subhead t-red">وسائل تحقيق الحوار</p>
+<p class="para">*<span class="t-blue">التّرجمة</span> : وسيلة قديمة لنقل الخبرات و المعارف و تعميمها بين الأمم . ففكر الشّعوب لم يتطوّر إلاّ بالتّرجمة .</p>
+<p class="para">*<span class="t-blue">الإعلام</span> : ساهمت الوسائل الإعلاميّة الحديثة في سرعة تنقّل خبرات الأمم .</p>
+<p class="para">*<span class="t-blue">الأنترنات</span> : هيمنت الثّقافة الرّقميّة المعاصرة وما صاحبها من إبداعات تكنولوجيّة على العالم فغدا قرية صغيرة .</p>
+<p class="para">*<span class="t-blue">الفنون بأنواعها</span> : السّينما, المسرح , الموسيقى , الشّعر... قرّبت الشّعوب من بعضها بنشر الثّقافة الوطنيّة .</p>
+<p class="para"><span class="t-blue">*دراسة الطّلبة العرب في الجامعات الأوروبيّة *هجرة اليد العاملة العربيّة *تدفّق السّياحة الأوروبيّة</span></p>
+
+<p class="subhead t-red">مقاصد الحوار (الإيجابيّات / الغايات)</p>
+<p class="para">*محاربة النّزاعات الأنانيّة ومعانقة حلم <span class="t-red">التّوحيد</span> بين الشّعوب . *نشر ثقافة <span class="t-red">التّسامح</span> ونبذ مظاهر <span class="t-red">التّعصّب</span>.</p>
+<p class="para">*التّقريب بين الثّقافات مع <span class="t-red">المحافظة على الخصوصيّة</span> *الاستفادة من العلوم و التّقدّم التّكنولوجيّ وتطوير الاقتصاد .</p>
+
+<p class="subhead t-red">عراقيل الحوار (السّلبيّات / الموانع / العوائق / الصّعوبات)</p>
+<p class="para">*نظرة الغرب الدّونيّة لنا وعجزنا عن تقديم ما يفيدهم فكرا و علما . *وجود نظم للتّربية لا تشجّع على ثقافة الحوار</p>
+<p class="para">*الجهل باللّغات .* نزعات التّعصّب العرقيّ و الدّينيّ والجهل المتبادل بين الشّعوب .</p>
+<p class="para">*ضياع الهويّة بالتّقليد الأعمى للغرب و <span class="t-red">الانسلاخ</span> عن الجذور و <span class="t-red">التّبعيّة</span> المطلقة في جلّ المجالات.</p>
+<p class="para">*دعوة البعض إلى <span class="t-red">العزلة الثّقافيّة</span> و <span class="t-red">الانكماش</span> على الذّات وتمجيد الماضي ممّا يزيد من الشّعور بـ<span class="t-red">الغربة</span> و<span class="t-red">التّخلّف</span> .</p>
+<p class="para">*<span class="t-red">العولمة</span> والنّظام العالميّ الجديد والنّزوع إلى <span class="t-red">الهيمنة</span> الاقتصاديّة والسّياسيّة والثّقافيّة .</p>
+<p class="para">*نشر <span class="t-red">ثقافة عدائيّة</span> عبر وسائل الإعلام *<span class="t-red">شبكات الاتّصال الحديث</span> صدّعت علاقة العربيّ بجذوره .</p>
+
+<p class="subhead t-red">الحلول لتجاوز العراقيل</p>
+<p class="para">*إعادة هيكلة المؤسّسات التّعليميّة*نشر <span class="t-blue">ثقافة السّلام</span> . *تطبيق نزيه لقواعد القانون الدّوليّ ونبذ <span class="t-blue">العنصريّة</span> .</p>
+<p class="para">*التّعاون بين الجامعات ومراكز البحث في مختلف البلدان في مجالات تبادل الخبرات .</p>
+<p class="para">*توسيع التّبادل الثّقافيّ بين الدّول وتطويره . <span class="t-green">⟸</span> حلول موضوعيّة منطقيّة</p>
+<p class="para">*هناك من يرى أنّ الحلّ يكمن *في <span class="t-blue">العولمة</span> فهي تقرّب بين الشّعوب <span class="t-blue">وتوحّد الإنسانيّة</span> * في <span class="t-blue">التّقليد الأعمى</span> * في <span class="t-blue">الانغلاق على النّفس والانكماش والتّقوقع</span> بدعوى الحفاظ على <span class="t-blue">الهويّة</span> و<span class="t-blue">الخصوصيّة</span> من <span class="t-blue">الغزو الثّقافيّ</span> الخارجيّ . <span class="t-red">⟸</span> حلول ذاتيّة أحاديّة</p>
+
+</section>
+
+</div>
+</body>
+</html>

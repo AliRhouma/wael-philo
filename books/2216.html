@@ -1,0 +1,513 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<title>Wael Academy — Philosophie · 3eme Trimestre — lycée pilote sousse ds</title>
+<script>
+  window.MathJax = {
+    tex: { inlineMath: [['\\(','\\)']], displayMath: [['\\[','\\]']] },
+    chtml: { fontURL: 'https://cdn.jsdelivr.net/npm/mathjax@3/es5/output/chtml/fonts/woff-v2', matchFontHeight: true },
+    startup: { typeset: true }
+  };
+</script>
+<script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js" async></script>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Sora:wght@400;500;600;700;800&family=Cairo:wght@400;500;600;700;800;900&family=Tajawal:wght@400;500;700;800&family=JetBrains+Mono:wght@400;500;600;700&display=swap');
+:root{
+  /* ===== Wael Academy palette — MAIN ACCENT = green-teal gradient #0FAB8F → #067360 ===== */
+  --bg:#fff; --panel:#f2f8f8; --hair:#e6e6e9; --hair2:#d6d6db;
+  --fg:#0f2a31;        /* body text (and +/− signs) */
+  --fg2:#3f5b62;       /* softer text */
+  --fg3:#7c959b;       /* muted (footer) */
+  --blue:#067360;      /* deep accent — small numbers, borders, watermark, accent equations */
+  --blue-dark:#045260; /* titles & wordmarks (also the balance colour) */
+  --teal:#0fab8f;      /* bright accent end */
+  --loop:#0d9c82;      /* logo-loop helper */
+  --orange:#067360;    /* kicker/category labels (gold retired → deep teal) */
+  --red:#f5322f;       /* EXERCISE CHIPS ONLY — never for emphasis */
+  --cream:#e6f3f4; --blue-soft:#e6f3f4;  /* pale teal — callout fill + table sub-row fill */
+  --blue-line:#cde7e4; /* hairline */
+  --sub-ink:#045260;   /* table sub-row text */
+  --grad:linear-gradient(148deg,#0fab8f 0%,#0d9c82 52%,#067360 100%);
+  --mono:'JetBrains Mono',monospace; --latin:'Sora',sans-serif; --ar:'Cairo',sans-serif; --arb:'Tajawal',sans-serif;
+}
+*{box-sizing:border-box;margin:0;padding:0;}
+body{font-family:var(--latin);color:var(--fg);background:#e4e4e7;padding:28px 0;
+     -webkit-print-color-adjust:exact;print-color-adjust:exact;}
+html[dir="rtl"] body{font-family:var(--arb);}
+
+/* ===== brand watermark: REAL text (crisp), full-bleed, repeats per page ===== */
+.wm{position:fixed;inset:0;z-index:0;pointer-events:none;display:flex;
+    align-items:center;justify-content:center;overflow:hidden;
+    -webkit-print-color-adjust:exact;print-color-adjust:exact;}
+.wm span{font-family:var(--mono);font-weight:800;font-size:76.8pt;letter-spacing:.16em;
+    color:var(--blue);opacity:.06;white-space:nowrap;transform:rotate(-54deg);}  /* single diagonal: bottom-left → top-right */
+.wm.mono span{color:#000;opacity:.05;}
+
+/* ===== continuous flow stream (no page border) ===== */
+.flow{width:210mm;margin:0 auto;background:transparent;color:var(--fg);
+      padding-block:16mm 18mm;padding-inline:23mm 14mm;position:relative;}   /* spiral gutter: inline-start(=spine) 23mm / outer 14mm — dir-aware; print margins set in render_flow.py */
+@media screen{ .flow{background:#fff;box-shadow:0 10px 40px rgba(0,0,0,.16);} }
+.flow>*{position:relative;z-index:1;}
+.flow p,.flow li,.flow .data,.flow .note,.flow .ex{break-inside:auto;}
+.flow .fig,.flow figure,.flow img,.flow svg.figsvg,.flow table,.flow tr,.flow .chapdiv,.flow .exh,.flow .qrcard,.flow .meta{break-inside:avoid;}
+.flow h1,.flow h2,.flow h3,.flow .exh,.flow .subhead,.flow .chapdiv{break-after:avoid;}
+.flow img,.flow svg.figsvg{max-width:100%;height:auto;}
+.flow figcaption,.flow .figcap{display:none;}          /* rule 3: no figure captions */
+
+/* ===== front matter + chapters each start on a fresh page ===== */
+.flow .cover{break-after:page;}        /* cover alone on page 1 */
+.flow .toc{break-after:page;}          /* Sommaire alone on the next page */
+.flow .chapter{break-before:page;}
+.flow .chapter:first-of-type{break-before:auto;}
+
+/* ===== cover ===== */
+.cover{padding:14mm 0 8mm;border-bottom:2px solid var(--blue);margin-bottom:6mm;}
+.cover .badge{font-family:var(--mono);font-size:8.5pt;letter-spacing:.28em;text-transform:uppercase;color:var(--orange);margin-bottom:10px;}
+.cover h1{font-family:var(--latin);font-weight:800;font-size:34pt;line-height:1.03;letter-spacing:-.025em;color:var(--blue-dark);}
+.cover .grule{width:120px;height:5px;border-radius:5px;background:var(--grad);margin:14px 0;}
+.cover .sub{font-family:var(--mono);font-size:10pt;letter-spacing:.14em;text-transform:uppercase;color:var(--teal);}
+.cover .auth{font-size:11pt;color:var(--fg2);margin-top:6px;font-weight:600;}
+
+/* ===== table of contents ===== */
+.toc{margin:2mm 0 4mm;}
+.toc h2{font-family:var(--latin);font-weight:800;font-size:15pt;color:var(--blue-dark);margin-bottom:4mm;}
+.toc .trititle{font-family:var(--mono);font-size:8pt;letter-spacing:.2em;text-transform:uppercase;color:var(--orange);margin:4mm 0 2mm;}
+.toc ol{list-style:none;}
+.toc li{display:flex;align-items:baseline;gap:8px;font-size:10pt;padding:2.2px 0;color:var(--fg);line-height:1.4;}
+.toc li .n{font-family:var(--mono);font-weight:700;font-size:9pt;color:var(--blue);min-width:26px;}
+.toc li .dots{flex:1;border-bottom:1px dotted var(--hair2);transform:translateY(-3px);}
+
+/* ===== chapter divider band ===== */
+.chapdiv{margin:0 0 5mm;padding:6mm 16px 5mm;border-radius:12px;background:var(--grad);
+    -webkit-print-color-adjust:exact;print-color-adjust:exact;}   /* green-filled chapter band */
+.chapdiv .cn{font-family:var(--mono);font-size:8.5pt;font-weight:700;letter-spacing:.24em;text-transform:uppercase;color:rgba(255,255,255,.82);margin-bottom:5px;}
+.chapdiv h2{font-family:var(--latin);font-weight:800;font-size:17pt;line-height:1.1;letter-spacing:-.015em;color:#fff;}
+/* conclusion block — same green-filled look as the chapter band */
+.conclusion{background:var(--grad);border-radius:12px;padding:6mm 16px;margin:5mm 0;color:#fff;break-inside:avoid;
+    -webkit-print-color-adjust:exact;print-color-adjust:exact;}
+.conclusion .ck{font-family:var(--mono);font-size:8.5pt;font-weight:700;letter-spacing:.24em;text-transform:uppercase;color:rgba(255,255,255,.82);margin-bottom:6px;}
+.conclusion h3{font-family:var(--latin);font-weight:800;font-size:13pt;line-height:1.2;color:#fff;margin-bottom:4px;}
+.conclusion p,.conclusion li{font-size:10.4pt;line-height:1.7;color:#fff;}
+.conclusion b,.conclusion strong{color:#fff;font-weight:700;}
+
+/* ===== unit header (lesson/exercise) + QR emplacement ===== */
+.exh{display:flex;align-items:center;gap:11px;margin:6mm 0 3mm;}
+.exh .idx{font-family:var(--mono);font-size:9pt;font-weight:600;color:#fff;background:var(--grad);
+    border-radius:6px;padding:4px 11px;letter-spacing:.08em;text-transform:uppercase;
+    -webkit-print-color-adjust:exact;print-color-adjust:exact;}
+.exh .idx.ex{background:var(--red);}   /* exercise chip = red */
+.exh h2{font-family:var(--latin);font-size:14pt;font-weight:700;letter-spacing:-.01em;color:var(--blue-dark);}
+.exh .qrcard{margin-inline-start:auto;flex:0 0 auto;display:flex;flex-direction:column;align-items:center;gap:3px;width:26mm;}
+.qrcard .qrt{font-family:var(--mono);font-size:6.5pt;letter-spacing:.1em;text-transform:uppercase;color:var(--teal);text-align:center;}
+.qrcard .qrslot{width:24mm;height:24mm;padding:1.5mm;background:#fff;border:1px solid var(--blue-line);border-radius:8px;display:flex;align-items:center;justify-content:center;}
+.qrcard .qrslot img,.qrcard .qrslot svg{width:100%;height:100%;display:block;}
+
+/* sub-exercise label when one file holds several exercices */
+.exsub{font-family:var(--latin);font-weight:800;font-size:11.5pt;color:var(--blue-dark);margin:5mm 0 2.5mm;padding-bottom:3px;border-bottom:2px solid var(--blue-line);}
+
+/* ===== text blocks ===== */
+.lead{font-size:11pt;line-height:1.7;margin:2mm 0 3mm;color:var(--fg);}
+.para{font-size:10.6pt;line-height:1.7;margin:2mm 0 2.5mm;color:var(--fg);}
+.consigne{font-size:10.4pt;line-height:1.6;margin:1mm 0 2mm;color:var(--fg);font-style:italic;}
+.subhead{font-family:var(--latin);font-weight:800;font-size:12pt;letter-spacing:-.01em;color:var(--blue-dark);margin:5mm 0 2.5mm;}
+/* emphasis — green accent = .t-blue/.t-green ; balance = .t-navy ; red = SECONDARY accent (.t-red) on titles + a few words */
+.t-blue{color:var(--blue);font-weight:600;} .t-navy{color:var(--blue-dark);font-weight:700;}
+.t-red{color:var(--red);font-weight:600;} .t-green{color:var(--teal);font-weight:600;} .t-gold{color:var(--orange);font-weight:600;}
+.subhead.t-red{color:var(--red);font-weight:800;}   /* red Roman-numeral section title (I, II, …) — keeps subhead weight */
+/* highlighter marks — a soft colour wash behind a key word (agent picks green or red per what balances the page) */
+.hl-green,.hl-red{border-radius:3px;padding:.02em .24em;font-weight:600;box-decoration-break:clone;-webkit-box-decoration-break:clone;
+    -webkit-print-color-adjust:exact;print-color-adjust:exact;}
+.hl-green{background:rgba(15,171,143,.20);color:var(--blue-dark);}   /* green highlight */
+.hl-red{background:rgba(245,50,47,.13);color:#c0261f;}               /* red highlight  */
+
+.data{background:var(--blue-soft);border:1px solid var(--blue-line);border-inline-start:4px solid var(--blue);
+    border-radius:8px;padding:11px 16px;margin:3mm 0;font-size:10pt;line-height:1.65;color:var(--fg2);}
+.data b{color:var(--fg);font-weight:700;}
+.note{border:1px dashed var(--hair2);border-radius:9px;padding:11px 16px;margin:4mm 0;background:var(--panel);}
+.note .kicker{font-family:var(--mono);font-size:7.5pt;letter-spacing:.18em;color:var(--orange);display:block;margin-bottom:5px;}
+.note .nb{font-size:10pt;line-height:1.7;color:var(--fg2);} .note b{color:var(--fg);}
+.ex:not(.idx){background:var(--blue-soft);border:1px solid var(--blue-line);border-inline-start:3px solid var(--blue);
+    border-radius:7px;padding:7px 11px;font-size:9.6pt;line-height:1.6;color:var(--fg2);margin:2mm 0;}   /* :not(.idx) so it never hits the exercise chip (which is .idx.ex) */
+.ex .extag{display:inline-block;font-family:var(--latin);font-weight:800;font-size:7.6pt;color:var(--blue-dark);background:#fff;
+    border:1px solid var(--blue);border-radius:5px;padding:1px 9px;margin-inline-end:7px;vertical-align:middle;text-transform:uppercase;letter-spacing:.06em;}
+
+/* ===== lists ===== */
+ol.q{list-style:none;counter-reset:q;margin:1mm 0 2mm;}
+ol.q>li{counter-increment:q;position:relative;padding-inline-start:30px;margin-bottom:2.5mm;font-size:10.4pt;line-height:1.6;}
+ol.q>li::before{content:counter(q);position:absolute;inset-inline-start:0;top:1px;width:21px;height:21px;background:var(--grad);color:#fff;
+    border-radius:50%;font-family:var(--mono);font-size:9pt;font-weight:600;display:flex;align-items:center;justify-content:center;
+    -webkit-print-color-adjust:exact;print-color-adjust:exact;}
+ol.sub{list-style:none;counter-reset:s;margin:4px 0 0;padding-inline-start:2px;border-inline-start:1px solid var(--blue-line);}
+ol.sub li{counter-increment:s;position:relative;padding:2.5px 0 2.5px 26px;font-size:10.1pt;line-height:1.55;}
+ol.sub li::before{content:counter(s,lower-alpha)".";position:absolute;inset-inline-start:10px;top:2.5px;font-family:var(--mono);font-size:9pt;font-weight:600;color:var(--teal);}
+ol.qn{list-style:none;counter-reset:qn;margin:1mm 0 2mm;}
+ol.qn>li{counter-increment:qn;position:relative;padding-inline-start:26px;margin-bottom:2.2mm;font-size:10.4pt;line-height:1.55;}
+ol.qn>li::before{content:counter(qn)".";position:absolute;inset-inline-start:0;top:0;font-family:var(--mono);font-size:9.5pt;font-weight:700;color:var(--blue);}
+ul.b{list-style:none;margin:1mm 0 2mm;} ul.b>li{position:relative;padding-inline-start:22px;margin-bottom:2.4mm;font-size:10.4pt;line-height:1.6;}
+ul.b>li::before{content:"";position:absolute;inset-inline-start:3px;top:8px;width:8px;height:8px;border-radius:50%;background:var(--grad);
+    -webkit-print-color-adjust:exact;print-color-adjust:exact;}
+ul.dash{list-style:none;margin:1mm 0 2mm;} ul.dash>li{position:relative;padding-inline-start:20px;margin-bottom:1.8mm;font-size:10.4pt;line-height:1.6;}
+ul.dash>li::before{content:"–";position:absolute;inset-inline-start:2px;top:0;color:var(--fg);font-weight:700;}  /* dash / +/− signs = body colour */
+.flow ul.opts{list-style:none;margin:4px 0 3px;padding-inline-start:16px;}
+.flow ul.opts li{padding:2px 0;font-size:10.2pt;line-height:1.5;color:var(--fg);}
+
+/* ===== figures / tables ===== */
+.fig{margin:3mm 0;} .fig svg.figsvg{display:block;margin:0 auto;background:#fff;max-width:100%;height:auto;}
+.photo{display:block;margin:3mm auto;border-radius:8px;border:1px solid var(--hair);max-width:100%;}
+.figrow{display:flex;flex-wrap:wrap;gap:9px;justify-content:center;margin:3mm auto;max-width:190mm;}
+.flow .figrow img{border-radius:7px;border:1px solid var(--hair);height:46mm;width:auto;max-width:none;object-fit:cover;}
+.schemarow{display:flex;gap:16px;align-items:flex-start;flex-wrap:wrap;margin:2mm 0;}
+.schemarow .col-txt{flex:1 1 90mm;min-width:80mm;} .schemarow .col-fig{flex:0 0 78mm;} .schemarow .col-fig .fig{margin:0;}
+.flow table{border-collapse:collapse;width:100%;margin:3mm 0;font-size:9.8pt;line-height:1.5;}
+.flow table th,.flow table td{border:1px solid var(--blue-line);padding:6px 10px;text-align:start;vertical-align:top;}
+.flow table th{background:var(--grad);color:#fff;font-family:var(--latin);font-weight:700;font-size:9.4pt;
+    -webkit-print-color-adjust:exact;print-color-adjust:exact;}
+.flow table tr:nth-child(even) td{background:var(--blue-soft);color:var(--sub-ink);}   /* sub-row: #E6F3F4 / #045260 */
+
+mjx-container{color:var(--fg) !important;font-weight:400 !important;font-size:1.0em !important;}
+.eq-hi mjx-container,mjx-container.eq-hi{color:var(--blue) !important;}   /* accent (green) equation — highlight a key result; balance with plain math */
+.eq-red mjx-container,mjx-container.eq-red{color:var(--red) !important;}  /* red accent equation / symbol — complements the green .eq-hi */
+
+/* ===== per-file books: credit line, copies list, figures at their size ===== */
+.credit{display:flex;flex-wrap:wrap;align-items:center;gap:5px;margin:-1mm 0 3.5mm;font-size:9.4pt;color:var(--fg2);}
+.credit .who{font-weight:700;color:var(--blue-dark);}
+.credit .tg{font-family:var(--mono);font-size:7.2pt;letter-spacing:.04em;border-radius:5px;padding:1px 7px;line-height:1.6;
+    border:1px solid var(--blue-line);color:var(--blue);background:#fff;-webkit-print-color-adjust:exact;print-color-adjust:exact;}
+.credit .tg.sec{background:var(--blue-dark);border-color:var(--blue-dark);color:#fff;}
+.credit .tg.cor{background:#fff;border-color:var(--red);color:var(--red);}
+.credit a{color:var(--fg3);font-family:var(--mono);font-size:7pt;text-decoration:none;}
+.cover .auth .credit{margin:4mm 0 0;}
+.cover .copies{margin-top:5mm;font-size:8.6pt;color:var(--fg2);}
+.cover .copies ul{list-style:none;margin:2mm 0 0;padding:0;columns:2;}
+.cover .copies a{color:var(--fg3);text-decoration:none;font-size:8pt;}
+.flow figure.fig{text-align:center;}
+.flow figure.fig img{max-height:60mm;width:auto;max-width:70%;display:inline-block;}
+
+/* chapter tag on each part of a multi-chapter book (the book keeps the original order of the file) */
+.chtag{display:inline-block;margin:5mm 0 2mm;padding:1mm 3mm;border-radius:2mm;background:#eef3fb;border:1px solid #c9d6ea;
+  color:#1f3a6b;font-size:9pt;font-weight:700}
+.chtag span{color:#6b7f9e;font-weight:600;margin-inline-end:1.5mm}
+
+@media print{ body{background:#fff;padding:0;} .flow{width:auto;max-width:none;margin:0;padding:0;} }
+@page{size:A4;}   /* margins come from render_flow.py — do NOT set them here */
+</style>
+<meta data-pagefind-filter="type[content]" content="فرض">
+<meta data-pagefind-filter="resource[content]" content="المعهد النموذجي بسوسة">
+<meta data-pagefind-meta="n[content]" content="2216">
+<meta data-pagefind-meta="title[content]" content="3eme Trimestre — lycée pilote sousse ds">
+<meta data-pagefind-filter="chapter[content]" content="فروض ومواضيع (عدّة محاور)">
+<meta data-pagefind-filter="chapter[content]" content="القيم: الأخلاق والدولة">
+<meta data-pagefind-filter="chapter[content]" content="العلم بين الحقيقة والنمذجة">
+<meta data-pagefind-filter="section[content]" content="باكالوريا رياضيات"><style>.qrcard{display:none!important}.wa-nav{position:sticky;top:0;z-index:50;background:#045260;padding:10px 18px;font-family:Cairo,sans-serif;direction:rtl}.wa-nav a{color:#fff;text-decoration:none;font-weight:700}@media print{.wa-nav{display:none}}</style>
+</head>
+
+<body dir="rtl" lang="ar"
+      data-brand="Wael Academy" data-handle="@WaelAcademy"
+      data-tagline="في تُرابنا.. مغامرة بمغامرة"
+      data-phone="+216 50 40 40 42" data-site="waeldocuments.com"
+      data-cta="سجل معانا وأقرى عن بعد مع منصة Wael Academy"
+      data-subject="Philosophie · 3eme Trimestre — lycée pilote sousse ds" data-watermark="Wael Academy" data-pagefind-body><nav class="wa-nav" data-pagefind-ignore><a href="../index.html">→ الرجوع إلى فهرس الفلسفة</a></nav>
+
+<!-- single full-page diagonal watermark, bottom-left → top-right (repeats on every page) -->
+<div class="wm" aria-hidden="true"><span>WAEL&nbsp;ACADEMY</span></div>
+
+<div class="flow colored">
+<div class="cover"><div class="badge">◉ Wael Academy · Philosophie</div><h1>3eme Trimestre — lycée pilote sousse ds</h1><div class="grule"></div><div class="sub">فروض ومواضيع (عدّة محاور)</div><div class="auth"><div class="credit">المؤلّف / المصدر : <span class="who">المعهد النموذجي بسوسة — الأستاذة :نجيبة بن جازية · المعهد النموذجي بسوسة · المعهد النموذجيّ بسوسة — الفرضُ التأليفيّ الثالث في الفلسفة</span> <span class="tg">فرض تأليفي</span><span class="tg cor">إصلاح</span><span class="tg sec">الفلسفة · باكالوريا رياضيات</span> <a href="https://drive.google.com/file/d/1djUaEaWEU9SyC9Ww024x8mkBeIZWU4bj/view">↗ Lycée Pilote Sousse - DS 3 2011 (+Corrigé).pdf</a> <a href="https://drive.google.com/file/d/1XMBIfwWMdNtb-KKA_LmalVDXZ-J_xo_l/view">↗ Lycée Pilote Sousse - DS 3 2013 (+Corrigé).pdf</a> <a href="https://drive.google.com/file/d/18x-qBFSdRnY7rJXlh3OK_5PaOCer-LJx/view">↗ Lycée Pilote Sousse - DS 3 2018 (+Corrigé).pdf</a></div></div><div class="copies" data-pagefind-ignore><b>نسخ هذا الملف في الدرايفات (15)</b><ul><li><a href="https://drive.google.com/file/d/1djUaEaWEU9SyC9Ww024x8mkBeIZWU4bj/view">Iyed Hasnaoui · bac 2024 › Nouveau dossier / Philosphie / Devoirs / 3eme Trimestre</a></li><li><a href="https://drive.google.com/file/d/1y93FJ0O4wkIyC8tLdUvukVnqDBUGlhEq/view">Emna bac maths 2025 · Drive de Emna (Bac maths) › Philosphie / Devoirs / 3eme Trimestre</a></li><li><a href="https://drive.google.com/file/d/1cfsEDmuwuwFaZwPotnPVl9r-mNtLNz10/view">Mohamed aziz saideni lycee Farhat Hached bizertebac 2026 · BAC MATH 2026 MOHAMED AZIZ SAIDENI › TOUT 2026 / Philosphie / Devoirs / 3eme Trimestre</a></li><li><a href="https://drive.google.com/file/d/1_EAHFNsbXg1CBf2X12VYi3WqrOfWx344/view">chahredine thamri · Chahredine thamri › Chahredine Thamri / mes documents / philosophie / Philosphie / Devoirs / 3eme Trimestre</a></li><li><a href="https://drive.google.com/file/d/12YYIO5ZDfGNBmBozsxT-3Z3DUgt4N64R/view">Mohamed Ahmed Zahi · Bac Math Zahi 2024/2025 › Philo / Devoirs / 3ème trimestre / Synthèses</a></li><li><a href="https://drive.google.com/file/d/1XMBIfwWMdNtb-KKA_LmalVDXZ-J_xo_l/view">Iyed Hasnaoui · bac 2024 › Nouveau dossier / Philosphie / Devoirs / 3eme Trimestre</a></li><li><a href="https://drive.google.com/file/d/1cq99qwAOK2XfufF8af2p1TvC-wLEn38k/view">Emna bac maths 2025 · Drive de Emna (Bac maths) › Philosphie / Devoirs / 3eme Trimestre</a></li><li><a href="https://drive.google.com/file/d/1fXLZ21Oa6oRBlNqT3cAZoDm4bI2ff4kn/view">Mohamed aziz saideni lycee Farhat Hached bizertebac 2026 · BAC MATH 2026 MOHAMED AZIZ SAIDENI › TOUT 2026 / Philosphie / Devoirs / 3eme Trimestre</a></li><li><a href="https://drive.google.com/file/d/1BNiN5fFbXLj-LSmDnop-Wsizh5DLB2y_/view">chahredine thamri · Chahredine thamri › Chahredine Thamri / mes documents / philosophie / Philosphie / Devoirs / 3eme Trimestre</a></li><li><a href="https://drive.google.com/file/d/1d4dXz-kaP8RkVq1BT-2g3tm3QiB22Wah/view">Mohamed Ahmed Zahi · Bac Math Zahi 2024/2025 › Philo / Devoirs / 3ème trimestre / Synthèses</a></li><li><a href="https://drive.google.com/file/d/18x-qBFSdRnY7rJXlh3OK_5PaOCer-LJx/view">Iyed Hasnaoui · bac 2024 › Nouveau dossier / Philosphie / Devoirs / 3eme Trimestre</a></li><li><a href="https://drive.google.com/file/d/1Kl4IJEMxF0PMA5HF_8l3NT0FKAblc_c0/view">Emna bac maths 2025 · Drive de Emna (Bac maths) › Philosphie / Devoirs / 3eme Trimestre</a></li><li><a href="https://drive.google.com/file/d/1rQj09YZx8frmBPfOY6ukMEQs4Gv8LZOj/view">Mohamed aziz saideni lycee Farhat Hached bizertebac 2026 · BAC MATH 2026 MOHAMED AZIZ SAIDENI › TOUT 2026 / Philosphie / Devoirs / 3eme Trimestre</a></li><li><a href="https://drive.google.com/file/d/1nngNNPMqINR7uVqO1ij49zdvbOFmmgz6/view">chahredine thamri · Chahredine thamri › Chahredine Thamri / mes documents / philosophie / Philosphie / Devoirs / 3eme Trimestre</a></li><li><a href="https://drive.google.com/file/d/1c6m0qyn_7lTxGxtWosD6iYir35G1q0uI/view">Mohamed Ahmed Zahi · Bac Math Zahi 2024/2025 › Philo / Devoirs / 3ème trimestre / Synthèses</a></li></ul></div></div>
+<section class="chapter">
+<div class="chtag"><span>المحور</span> فروض ومواضيع (عدّة محاور)</div>
+<!-- SOURCE: المعهد النموذجي بسوسة — الأستاذة :نجيبة بن جازية · المعهد النموذجي بسوسة · المعهد النموذجيّ بسوسة — الفرضُ التأليفيّ الثالث في الفلسفة -->
+<!-- NOTE: one book for 3 files of the Drive folder "Nouveau dossier / Philosphie / Devoirs / 3eme Trimestre" (series), in file order -->
+<div class="exh"><span class="idx ex">فرض</span><h2>3eme Trimestre — lycée pilote sousse ds</h2>
+  <div class="qrcard"><div class="qrt">فيديو الدرس</div><div class="qrslot"><img src="qr/2216.svg" alt="QR"></div></div></div>
+<div class="credit">المؤلّف / المصدر : <span class="who">المعهد النموذجي بسوسة — الأستاذة :نجيبة بن جازية · المعهد النموذجي بسوسة · المعهد النموذجيّ بسوسة — الفرضُ التأليفيّ الثالث في الفلسفة</span> <span class="tg">فرض تأليفي</span><span class="tg cor">إصلاح</span><span class="tg sec">الفلسفة · باكالوريا رياضيات</span> <a href="https://drive.google.com/file/d/1djUaEaWEU9SyC9Ww024x8mkBeIZWU4bj/view">↗ Lycée Pilote Sousse - DS 3 2011 (+Corrigé).pdf</a> <a href="https://drive.google.com/file/d/1XMBIfwWMdNtb-KKA_LmalVDXZ-J_xo_l/view">↗ Lycée Pilote Sousse - DS 3 2013 (+Corrigé).pdf</a> <a href="https://drive.google.com/file/d/18x-qBFSdRnY7rJXlh3OK_5PaOCer-LJx/view">↗ Lycée Pilote Sousse - DS 3 2018 (+Corrigé).pdf</a></div>
+
+<!-- file: Lycée Pilote Sousse - DS 3 2011 (+Corrigé) -->
+
+
+<div class="exsub">Lycée Pilote Sousse - DS 3 2011 (+Corrigé)</div>
+<table>
+<tr><td>المعهد النموذجي بسوسة<br>القسم: الرابعة تقنية<br>علوم تجريبية<br>3+2+1</td><td>السنة الدراسية :2010-2011<br>الفرض التأليفي الثالث<br>في الفلسفة</td><td>الأستاذة :نجيبة بن جازية</td></tr>
+</table>
+<div class="exsub"><u>القسم الأول :</u></div>
+
+<div class="chtag"><span>المحور</span> القيم: الأخلاق والدولة</div>
+
+<p class="para">التمرين الأوّل :قيل : " على النظام السياسي أن يكون تسلطيا ليتوقى الخلافات الناتجة عن الفروقات الاجتماعية " .إلى أي مدى يمكن التسليم بنجاعة هذا الحلّ ؟ وما هو الحل البديل في نظرك ؟</p>
+
+
+<p class="para">التمرين الثاني : استخرج أحد رهانات القول التالي :<br>
+" إنّ سلطة الدولة لا تتعلق إلا بالخيرات المدنية ،و أنّها مقصورة على رعاية شؤون هذه الدنيا ، و أنه لا يحقّ لها أن تمسّ أي شيء يتعلق بالآخرة ".</p>
+
+
+<div class="exsub"><u>القسم الثاني :</u></div>
+<p class="subhead t-navy">النصّ</p>
+<p class="para">إنّ بنية السلطة التي تتميّز بالبساطة في نظام السلطة الفردية ، لأنّ الرئيس كان يجمع في شخصه كل صفات السلطة ،هي أكثر تعقيدا بكثير في الدولة لأنه علينا أن نميّز فيها بين السيد الذي يؤسس السلطة ، و الحكام الذين يضعونها موضع التنفيذ ، و قدرة الدولة التي تمنح الفعالية لقراراتهم . ثمة هنا مصدر للتعقيدات إلى حدّ لم يرد بعض المؤلفين أن يرى في هذا التمييز إلا تنظيرا لا جدوى فيه. لقد ادعوا أنّ ظاهرة الدولة برمتها تعود في الحقيقة إلى وجود بعض الأفراد في جماعة معينة، هم الحكام، يستفيدون من قوة كبيرة و يمارسون بالتالي قدرة قمعية.<br>
+مهما تكن هذه الواقعيّة جذابة فهي وهمية ، إذ أنّ الواقعية لا تعرّفنا بالحكام فقط ، و إنّما هي تظهر أنه ،في ما يتعدّى الحكام الذين يعبرون ،ثمة قدرة تبقى مستقرة ،و أنه فوق إرادة الحكام ثمة سلطة سيّدة تعيّنهم و تستطيع أن تقيلهم عند الضرورة . إنّها الملاحظة إذن ، التي تفيدنا أن السلطة في الدولة ، لا تتركز بكاملها في شخص الحكام . ثمّة سيد و إن كان لا يحكم دائما فعليا فإنه يلعب دورا حاسما ، و ثمة قدرة الدولة التي و إن استعارت فكر الحكام و إرادتهم ،فهي تتمتع باستقلال تام يثبته استقرارها .</p>
+<p class="para">ج .بيردو :" الدولة "</p>
+<p class="consigne">أجب عن الأسئلة التالية انطلاقا من النصّ :</p>
+<p class="para">1 – استخرج الأطروحة و الأطروحة المستبعدة .<br>
+2- حدّد الدلالات المختلفة للسلطة مبرزا خصوصية سيادة الدولة<br>
+3- اكشف عن التبعات الممكنة لقول الكاتب :" قدرة الدولة (...) تتمتع باستقلال تام يثبته استقرارها ".</p>
+<!-- PROOFREAD: 2216 part1 p01 — "last line below the questions too faint/broken to read (looks like 'عملا موفقا .'), not transcribed" -->
+<div class="exsub">الإصلاح</div>
+<!-- NOTE: the correction (p02-p03) is entirely handwritten in faint pencil-grey ink on squared paper; best reading, gaps flagged where the writing cannot be read reliably -->
+<p class="subhead t-red">إصلاح الفرض التأليفي الثالث</p>
+
+
+<p class="subhead t-navy">I) <u>القسم الأول: التمرين الأوّل:</u></p>
+<p class="para">- إذا كان هذا القول يراهن على دور قوة الدولة في التصدي لهذه الخلافات والحروب الناتجة عن الفروقات الإجتماعية ، وإذا كانت هذه الدولة … <!-- PROOFREAD: 2216 part1 p02 — "one word before 'تستمد' still illegible (looks like 'مادمت'/'مادامت')" --> تستمد سلطتها من قدرتها على إرساء السلم والأمن فإنّ نجاعة هذه الدولة تظل نسبية ووقتية كما أنّ الإفراط في استخدامها "عنف الدولة" يؤول في حالات كثيرة إلى تعميق الخلافات وإنتاج صراعات وحروب تهدد أمن المواطنين نفسه والإطاحة بالنظام السياسي ذاته . وهذا مايفترض النظر … والعمل <!-- PROOFREAD: 2216 part1 p02 — "'تهدد' and 'نفسه' uncertain; one word after 'النظر' still illegible" --> الوقائي من الخلافات والنظر في مشروعية الفروقات الإجتماعية والحد منها بحثا عن حلول أكثر نجاعة . - الحلول المقترحة :</p>
+<ul class="b">
+<li>مراهنة النظام السياسي على العدالة … العدالة … دون … هذه القيمة غاية لا وسيلة … العدالة <!-- PROOFREAD: 2216 part1 p02 — "most of this 2-line item still illegible; only the words kept are readable" --></li>
+<li>تخلي النظام السياسي عن الإستبداد واعتماد نظام حكم ديمقراطي يعبر عن الإرادة السياسية للمواطنين بماهي تجسيد للحرية كما يدعم قيم المساواة في ظل الفروقات</li>
+<li>السعي للتوفيق بين مطلبي العدالة والنجاعة</li>
+<li>احترام حقوق الإنسان وبناء نظام سياسي ضمن أفق أخلاقي يرعى القيم "كالمواطنة ، التسامح ، التعاون ، السلم".</li>
+<li>اختيار نظام اقتصادي يقلص من الفوارق الإجتماعية … ويسعى للقضاء عليها ( … ) وتكفل الدولة برعاية الفئات الأقل … النظام السياسي الإجتماعي <!-- PROOFREAD: 2216 part1 p02 — "several words still illegible (end of line 1, start of line 2, inside the parenthesis, middle of line 3)" --></li>
+</ul>
+
+
+<p class="subhead t-navy"><u>التمرين الثاني :</u></p>
+<p class="para">يتضمن هذا القول رهانا نظريا وعمليا : حيث يكسبنا على المستوى النظري وعيا بالأساس الوضعي لسلطة الدولة من صنع الإنسان وحده . ويكشف لنا عن وظيفتها المدنية بماهي وسيلة لتحقيق مطالب الإنسان الدنيوية إن إرساء "المجتمع المدني" لا يتم إلا بالإهتمام بالشأن الدنيوي . والوعي … الفصل بين الشأن السياسي المدني والشأن الديني الغيبي … ومثل هذا الوعي يكسبنا على المستوى العملي القدرة على التعايش في الدولة تضمن وحدة مواطنيها رغم اختلاف معتقداتهم وأديانهم … التي تتأسس على المواطنة لا غير . كما أن هذا القول يحد من سلطة الدولة ويمنحنا حق مقاومتها عند تهديدها للخيرات المدنية . وانتهاكها لحق حرية المعتقد</p>
+<!-- PROOFREAD: 2216 part1 p02 — "'وعمليا' uncertain; first word of line 5 and the small margin addition at its end illegible; 'تضمن' uncertain; last word of line 7 illegible; 'لحق حرية المعتقد' uncertain (edge)" -->
+
+
+<p class="subhead t-navy">II) <u>القسم الثاني : الإشتغال على نص ج.بيردو .</u></p>
+<p class="para">1) الأطروحة : يدعو الكاتب إلى التمييز بين سلطة الدولة وسلطة الأشخاص مؤكدا الطابع اللاشخصي والمركزي للدولة</p>
+<!-- PROOFREAD: 2216 part1 p03 — "'مؤكدا' uncertain" -->
+<p class="para">- الأطروحة المستبعدة : يستبعد الكاتب الخلط الشائع بين سلطة الأشخاص وسلطة الدولة</p>
+<p class="para">- يستبعد مقاربة الدولة انطلاقا من عناصرها الحسية والواقعية المتمثلة في الحكام ، وعدم ادراك طبيعتها المجردة والمستقلة</p>
+<p class="para">2) تحديد دلالات السلطة : سياقيا [ ينبغي استخدام الدلالات الواردة في النص ]</p>
+<p class="para">يشير مفهوم السلطة عامة إلى القدرة والقوة التي تخضع الأفراد لإرادتها . فإذا كانت تتخذ دلالات مختلفة وأشكالا متنوعة بإعتبارها "متنوعة في كل مكان" على حد قول الكاتب يمكن تحديدها في المجال السياسي حيث تعني الحكم والسلطان والسيادة . والسلطة السياسية تتشكل في أشكال عدة وفي هذا السياق يتم التمييز بين السلطة الشخصية للأفراد وسلطة الدولة</p>
+<ul class="b">
+<li><u>سلطة الفرد/الرئيس/الأفراد</u> : هي سلطة تحدد الحكام الذين يمارسونها هم مجموعة أفراد يمتلكون قدرة <u>مطلقة</u> تسمح لهم إستخدام العنف القوة والقمعية فهذه السلطة … والعينية قابلة للتغيير والإنحلال … زوال الأشخاص … <!-- PROOFREAD: 2216 part1 p03 — "a word after 'السلطة', the end of line 3 and most of line 4 still illegible" --></li>
+<li>سلطة الدولة تحيل على السيادة بماهي سلطة مستقلة ثابتة مشتركة ومركزية ، فهي مستقلة عن الحكام وإن كانت تمارس عن طريقهم ومؤسسة واقعية عينية إلا أنها تعبر عن إرادة مجردة ، فهي لاشخصية . لا تمارس بطريقة مباشرة بل من خلال <u>قوانين</u> .</li>
+</ul>
+<p class="para">إنها سيادة الحق و سلطة القانون <u>المستقلة</u> عن الأفراد وإن كانت تعبر عن إرادتهم "بماهي إرادة عامة" إن هذه الاستقلالية تمنح سيادة الدولة الثبات والديمومة عند زوال الحكام .</p>
+<p class="para">خصوصية سلطة الدولة تجمع بين المجرد والواقعي "إنها فكرة واقعية" .</p>
+<p class="para">3) تبعات الإقرار بإستقلالية وثبات قوة الدولة : + يؤول هذا القول إلى تأكيد سيادة الدولة وتأكيد سلطة القانون التي تقتضي طاعة الأفراد بإعتبارهم مواطنين أحرارا"</p>
+<p class="para">+ يفضي هذا القول إلى تأكيد نجاعة الدولة من حيث هي ضامن لتحقيق الإستقرار والحياة الآمنة</p>
+<p class="para">+ يدفع هذا القول إلى إضفاء ضرب من "القداسة" على الدولة تقتضي طاعة القانون حتى وإن كان جائرا !</p>
+<!-- PROOFREAD: 2216 part1 p03 — "'إضفاء' uncertain" -->
+<p class="para">(ملاحظة : ينبغي عدم الخلط بين التشكيك في المشروعية و… <!-- PROOFREAD: 2216 part1 p03 — "margin note (2 lines at bottom left, the second running beside the last line): 'ينبغي' and 'المشروعية' uncertain, last word illegible" --></p>
+<p class="para">+ يؤول إلى استبعاد إمكانية معارضة سلطة الدولة .</p>
+<!-- PROOFREAD: 2216 part1 p02-p03 — "whole correction is faint handwriting; every line needs checking against the image" -->
+<!-- file: Lycée Pilote Sousse - DS 3 2013 (+Corrigé) -->
+
+<div class="chtag"><span>المحور</span> فروض ومواضيع (عدّة محاور)</div>
+
+<div class="exsub">Lycée Pilote Sousse - DS 3 2013 (+Corrigé)</div>
+<table>
+<tr><td>المعهد النموذجي بسوسة<br>السنة الدراسية: 2013-2014</td><td>الفرض التأليفي الثالث<br>في الفلسفة</td><td>أقسام الرابعة علوم تجريبية</td></tr>
+</table>
+<div class="exsub"><u>القسم الأول :</u></div>
+
+<div class="chtag"><span>المحور</span> القيم: الأخلاق والدولة</div>
+
+<p class="subhead t-navy"><u>التمرين الأول :</u></p>
+<p class="para">حدّد معني المواطنة في سياق القول التالي : <b>"المواطنة امتثال و مقاومة "</b></p>
+
+
+<p class="subhead t-navy">التمرين الثاني :</p>
+<p class="para">قيل: <b>"إنّ كلّ كائن لا يمكن أن يفعل فعلا إلاّ تحت تأثير فكرة الحريّة ، فهو من وجهة النظر العملية كائن حرّ حقا"</b></p>
+<p class="consigne">ما هي المسلمة الضمنية التي يقوم عليها هذا الإقرار ؟</p>
+
+<div class="chtag"><span>المحور</span> العلم بين الحقيقة والنمذجة</div>
+
+<p class="subhead t-navy">التمرين الثالث : النصّ</p>
+<p class="para">أعتبر النظريّات العلميّة اختراعات إنسانية هي بمثابة شباك نصنعها بأنفسنا لنصطاد بها العالم . فهي اختراعات تختلف لا محالة عن ابداعات الشعراء ، و حتّى عن اختراعات التقنيين . إذ ليست النظرية أداة فحسب. فما نطلبه هو الحقيقة . و نحن نختبر نظرياتنا لنقصي ما كان منها غير صحيح. و إنّنا لنتوصّل هكذا إلى تحسين نظرياتنا _ حتّى بما هي أدوات _ و ذلك من خلال استنباط شباك تتلاءم شيئا فشيئا مع مهمة اصطياد أسماكنا ، أي العالم الواقعي و لكنّها مع ذلك لا تكون قطّ أدوات كاملة . بل هي شباك عقليّة نحن صنعناها و ينبغي ألا ننخدع فنحملها على أنها تمثل يستوفي كلّ جوانب العالم الواقعيّ ، حتّى و إن كانت هذه النظريات باهرة النجاح أو بدا لنا أنّها تعطينا مقاربات ممتازة للواقع .</p>
+<p class="para">كارل بوبر : الكون المفتوح<br>"دفاعا عن اللاحتمية "</p>
+<!-- NOTE: the author/book reference under the text is handwritten -->
+<p class="consigne">أجب عن الأسئلة التالية انطلاقا من النصّ :</p>
+<ul class="dash">
+<li>صغ الإشكالية التي يطرحها الكاتب .</li>
+<li>وضح الحجّة التي وظّفها الكاتب للدفاع عن أطروحته .</li>
+<li>حدّد دلالة الحقيقة العلمية في سياق النصّ مبرزا قيمتها الابستمولوجية .</li>
+</ul>
+<div class="exsub"><u>القسم الثاني:</u></div>
+<p class="consigne">يختار التلميذ ( ة) أحد السؤالين التاليين ليحرّر في شأنه محاولة في حدود ثلاثين سطرا :</p>
+
+<div class="chtag"><span>المحور</span> القيم: الأخلاق والدولة</div>
+
+<p class="para"><u>السؤال الأوّل :</u> هل يعد حكم الأغلبية حكما عادلا بالضرورة ؟</p>
+
+<div class="chtag"><span>المحور</span> العلم بين الحقيقة والنمذجة</div>
+
+<p class="para"><u>السؤال الثاني :</u> هل يقتضي تمثل الواقع اعتمادا على النمذجة العلمية استبعاد القيم ؟</p>
+<div class="exsub">الإصلاح</div>
+<!-- NOTE: the correction (p02 onward) is entirely handwritten; best reading -->
+<p class="subhead t-red">إصلاح الفرض التأليفي الثالث في الفلسفة .</p>
+<p class="subhead t-navy">I) <u>القسم الأول :</u></p>
+
+<div class="chtag"><span>المحور</span> القيم: الأخلاق والدولة</div>
+
+<p class="para">1) <u>التمرين الأول</u> : حدد معنى المواطنة في سياق القول التالي "المواطنة امتثال ومقاومة"</p>
+<p class="para">المواطنة قيمة سياسية تنبني على مبدأ المساواة في الحقوق والواجبات ، هي صفة يحملها كل فرد يحيا في إطار دولة تمارس سلطة ذات مشروعية قانونية تأسس على إرادة المواطنين وتحيل بالتالي على التوافق بين السيادة والمواطنة وهذا ما يفترض واجب طاعة المواطنين لهذه السيادة التي تضمن لهم حقوقهم المدنية وحتى الحقوق الكونية . إلا أن عدم التزام صاحب السيادة بالحفاظ على حقوق المواطنين يستوجب مقاومة سلطته . فلا معنى لواجب الطاعة في غياب حق المقاومة ولا معنى للمقاومة إلا إذا كانت مشروعة بالرجوع إلى لامعقولية ووحشية طاعة المستبد الذي فقد حق الطاعة .</p>
+<p class="para">فالمواطنة إذا قيمة نسبية لا مطلقة ، فهي تتحقق وتنبني في ظل حكم مشروع وعادل وتقتضي الفاعلية والمشاركة من خلال المراقبة والمقاومة .</p>
+
+
+<p class="para">2) <u>التمرين الثاني</u> : قيل : "إن كل كائن لا يمكن أن يفعل فعلا إلا تحت تأثير فكرة الحرية ، فهو من وجهة النظر العملية كائن حر حقا"</p>
+<p class="para">يفترض القول ضمنيا :</p>
+<ul class="dash">
+<li>تجريد الفعل الأخلاقي من الطابع الإلزامي وإخضاعه إلى نداء الواجب الذي ينبع من إرادة واعية وحرة</li>
+<li>تأسيس الفعل الأخلاقي على مقولة الإلتزام وما يفترضه من احتكام إلى إرادة العقل العملي (الأمر الباطني للعقل العملي)</li>
+<li>الإقرار بالحرية بماهي حق طبيعي أساسي لايمكن التنازل عنه بإسم أي مطلب أخر . فهي غاية في حد ذاتها وهي قيمة مطلقة "لاحق للحديث عن الحرية إلا في سبيل الحرية"</li>
+<li>استبعاد القول بوجود قوى متعالية مفارقة للذات توجه الحياة العملية وتحدد إنسانية الإنسان التي تتحدد أساسا بالحرية .</li>
+<li>نفي مقولة القدر والحتمية التي تلغي الإرادة الإنسانية</li>
+</ul>
+<!-- PROOFREAD: 2218 part1 p02 — "'(الأمر الباطني للعقل العملي)' and the quotation 'لاحق للحديث عن الحرية إلا في سبيل الحرية' uncertain" -->
+
+<div class="chtag"><span>المحور</span> العلم بين الحقيقة والنمذجة</div>
+
+<p class="para">3) <u>التمرين الثالث</u> : الإشتغال على نص كارل بوبر :</p>
+<p class="para">* <u>صياغة الإشكالية</u> : ماهي النظريات العلمية ؟ هل تمثل أدوات كاملة تسيطر على الواقع وتمدنا بمقاربات ممتازة وحقائق نهائية ومطلقة بشأنه ؟ أم هي ابتكارات عقلية تتمثل الواقع على نحو افتراضي ويتم اختبار مدى صلاحيتها وملاءمتها له اعتمادا على مبدأ التكذيب والتعديل رهانها في ذلك ادراك اليقين دون ادعاء الاستكمال ؟</p>
+<p class="para">* توضيح الحجة التي وظفها الكاتب للدفاع عن أطروحته :</p>
+<p class="para">للدفاع عن أطروحته استخدم الكاتب الحجاج <u>بواسطة المماثلة</u> حيث ماثل بين النظريات العلمية وشباك الصيد ليبرهن على الطابع الإنساني للعلم ودور النظريات في معرفة حقيقة الواقع بماهي حقيقة نسبية ومؤقتة قابلة للتعديل إستنادا إلى معياري الصلاحية والملاءمة . فالنظريات العلمية لاتدرك كل جوانب العالم الواقعي وإنما تتمثل افتراضيا بعض جوانب هذا الواقع وهذا مايفسر المماثلة بينها وبين الشباك التي لا تمسك بكل الأسماك ويتم تحسينها لكي تستكمل وظيفتها ، فالنظريات هي عبارة عن شباك عقلية لاتستوفي حقيقة الواقع .</p>
+<p class="para">* دلالة الحقيقة العلمية سياقيا وقيمتها الإبستمولوجية :</p>
+<p class="para">تمثل الحقيقة مطلبا علميا وإذا كانت تعني عامة مطابقة الفكر للفكر ومطابقة الفكر الواقع فإنها وفي سياق النص تُفهم في إطار النظريات العلمية وتفيد الصلاحية والملاءمة . فالعلم لايبني حقائق نهائية و مطلقة وإنما يُبدع نماذج أي تمثلات قابلة للإختبار والتعديل والتكذيب . فالحقيقة العلمية لاتطرد الخطأ وإنما تستمد قيمتها من قابليته محايثة للجهد العلمي بماهو تصحيح الخطأ وإذا كان الأمر كذلك فإن الحقيقة تظل نسبية</p>
+<p class="para">القيمة الإبستمولوجية لهذا المعنى :</p>
+<p class="para">يكشف هذا المعنى عن خصوصية الخطاب العلمي بما هو خطاب عقلاني مفتوح يحتكم في تمثله للظواهر إلى نمذجة بنائية /إستيتيقية تجعل من المعرفة العلمية مشروعا ومغامرة استكشافية لامتناهية كما تساهم في تجديد وتطوير بنية العقل العلمي : فكلّما تمّ استكشاف الواقع تطورت بنية الذهن وكلما تجددت المعرفة تعززت امكانات الفعل في الواقع وأثبتت نجاعة في مستوى التحكم فيه .</p>
+<!-- PROOFREAD: 2218 part1 p03 — "'مطابقة الفكر للفكر ومطابقة الفكر الواقع' / 'تستمد قيمتها من قابليته محايثة' / 'نمذجة بنائية /إستيتيقية' / 'تعززت امكانات' uncertain readings" -->
+
+<div class="chtag"><span>المحور</span> القيم: الأخلاق والدولة</div>
+
+<p class="subhead t-navy">II) <u>القسم الثاني :</u></p>
+<p class="para"><u>السؤال الأول</u> : هل يُعد حكم الأغلبية حكما عادلا بالضرورة ؟</p>
+<p class="para">* <u>اللحظة الأولى</u> : التمهيد : يمكن الإنطلاق من الإحراج / المفارق الذي يثيره نظام الحكم الديمقراطي بإعتباره النموذج الأمثل لممارسة السلطة السياسية مقابل معاناة المواطنين الذين ينتمون إلى هذا النظام من اغتراب سياسي و فقدانهم الشعور بالعدل .</p>
+<p class="para">صياغة الإشكالية : فهل يستوفي الحكم الديمقراطي مطلب العدالة ؟ ألا يمكن لسلطة ترعى مصالح الأغلبية أن تنتهك حقوق الأقلية وتكون بالتالي جائرة ؟ وإذا كان الأمر كذلك ألا تظل العدالة قيمة أخلاقية منشودة تدفع لمقاومة تسلط وجور الدولة ؟</p>
+<p class="para">* <u>اللحظة الثانية</u> : 1) امكان القول بعدالة حكم الأغلبية :</p>
+<ul class="dash">
+<li>توضيح معنى حكم الأغلبية بماهو نظام سياسي ديمقراطي تمارس فيه الدولة سلطة وتتمتع بسيادة مشروعة مشروعية تعاقدية وانتخابية و تعبر عن إرادة الأفراد كما تضمن حق المواطنة الذي يفترض المساواة في مستوى الحقوق والواجبات وهذا ماتجعله منه حكما عادلا طالما أن العدالة تقوم على مبدأ المساواة .</li>
+<li>تحديد معنى العدالة في جانبها الإجتماعي بماهي فضيلة تقتضي احترام حقوق الأخرين وإعطاء كل ذي حق حقه . وتوضيح أشكال تحققها في الدولة بماهي عدالة المعاوضة وعدالة التوزيع وكذلك عدالة القانون</li>
+<li>توضيح مظاهر التزام دولة الحق بتطبيق العدالة في مختلف مظاهرها [استحضار موقف روسو أو سبينوزا في إطار الدفاع عن دولة القانون]</li>
+<li>تأكيد الرابطة المنطقية بين مفهومي العدالة والديمقراطية وبيان كيف أن النظام الديمقراطي يشعر الأغلبية بعدالة قوانينه وإختياراته التي تعبر عن تطلعاتهم</li>
+</ul>
+<p class="para">استنتاج وانتقال : ولكن إذا سلمنا بأن حكم الأغلبية ينصف المجموعة التي يمثلها ويشعرهم بالعدل فما هو مصير الأقلية ؟ ألا تمارس الدولة الديمقراطية انتهاكات في حقها لتكون بالتالي جائرة ؟</p>
+<p class="para">2) إمكان القول بتهديد العدالة في ظل حكم الأغلبية :</p>
+<ul class="dash">
+<li>تحديد معنى العدالة كمطلب أخلاقي يقوم على مبدأ المساواة دون تحقيقها طالما أن الواقع الإنساني ينبني على الإختلافات :</li>
+<li>توضيح الإختلاف بماهو عائق يحول دون تحقيق العدالة في ظل نظام يفترض التماثل والتجانس والوحدة في مستوى المتطلبات والحقوق والواجبات .</li>
+<li>اعتبار كل نظام سياسي جائرا متى عبّر عن إرادة الأغلبية ولايرضي الأقلية التي تشعر لضرورة بعدم الإنصاف ، دكتاتورية الأغلبية</li>
+<li>المراهنة على مراهنة النظام السياسي على الطاعة وتحقيق مطالب امنية كالأمن والسلم دون المراهنة على العدالة كقيمة أخلاقية يمكن استخدامها كوسيلة لغايات نفعية أو التضحية بها في سبيل تحقيق النجاعة [يمكن توظيف المقاربة البرغماتية]</li>
+<li>التشكيك في عدالة حكم الأغلبية الذي يستخدم عنف الدولة المشروع ويهدد حرية كل الأفراد و يشعرهم بالإغتراب السياسي [يمكن توظيف مقاربة ريكور]</li>
+<li>عدم الثقة في عدالة حكم الأغلبية الذي يحول الدولة إلى جهاز قمعي يمارس نفوذا سياسيا واقتصاديا لرعاية مصالح الطبقة المهيمنة مقابل الإعتداء على حقوق الطبقة المستغلة [توظيف المقاربة الماركسية]</li>
+<li>توضيح ارتباط تطبيق العدالة بمبادئ ديونتولوجية لا يحتكم إليها نظام حكم الأغلبية بالضرورة [توظيف مقاربة راولز للعدالة].</li>
+</ul>
+<p class="para">* <u>اللحظة الثالثة</u> : استخلاص نسبية العدالة في نظام حكم الأغلبية ووجود عوائق تحول دون استكمالها .</p>
+<p class="para">وهذا ما يمكننا من الوعي بالتعارض بين ماهو أخلاقي وماهو سياسي دون الإنتهاء إلى الريبية أو الإعراض عن قيمة العدالة التي تظل فضيلة أساسية ينبغي التمسك بها و مقاومة النظام السياسي الذي ينتهكها وهذا مايقود عمليا إلى تفعيل دور المواطنة من إلزام الدولة بإحترام هذه القيمة وتجسيدها واقعيا .</p>
+
+<div class="chtag"><span>المحور</span> العلم بين الحقيقة والنمذجة</div>
+
+<p class="para"><u>السؤال الثاني</u> : هل يقتضي تمثل الواقع إعتمادا على النمذجة العلمية استبعاد القيم ؟</p>
+<p class="para">* <u>اللحظة الأولى</u> : التمهيد : يمكن التمهيد انطلاقا من مطلب معرفة الواقع وتفسيره علميا و ما يقتضيه هذا المطلب حسب المقاربة الواقعية ، من معالجة عقلانية حسابية صارمة تستدعي اقصاء المعايير والغايات الأخلاقية والجمالية .</p>
+<p class="para"><u>صياغة الإشكالية</u> : فهل يستوجب بناء نماذج تفسر تركيب الأنساق الواقعية الموضوعية ضرب القيم ؟ أم أن النمذجة في أبعادها المختلفة تنتج معاني تربية وتفترض التزام المنمذجين بجملة قيم إنسانية كونية ؟</p>
+<p class="para">* <u>اللحظة الثانية</u> : 1) بيان أن أسس العقلانية العلمية تفترض النمذجة بمعزل عن القيم :</p>
+<ul class="dash">
+<li>تحديد معنى النمذجة العلمية بما هي منهج يُنتج تمثلات للوقائع تبنى في شكل نماذج متعددة الأشكال (رسوم بيانية ، معادلة ، رياضيات ...) وتحتكم إلى شروط ومعايير عقلانية منطقية ، تجريبية ، تقنية تشكل قيمتها النظرية والتطبيقية</li>
+<li>توضيح الطابع اللاواقعي للقيم بما هي مبادئ ، غايات ومعاني تتنزل ضمن وعي الذوات و تشير إلى ما " ينبغي أن يكون " في حين أن النماذج تتناول "ماهو كائن" ، فنفهم الواقع بما هو راهن وافتراضي ، فالعلم تحمل واجهة من الراهنية واجهة مركبة افتراضية حسب ج.ج قرانجي .</li>
+<li>الإشتغال على التعارض بين مطلب الموضوعية و صفة الذاتية التي تميز القيم</li>
+<li>القول بالتعارض بين العلم والحكمة يفترض استبعاد القيم بإعتبارها عوائق ابستمولوجية وعملية إذ تقيد ارادة الإستكشاف والتحكم التي توجه العلماء</li>
+</ul>
+<p class="para">- استنتاج وانتقال : تنسيب هذا التصور والتساؤل عن خلفياته : ألا يستند هذا التصور إلى مقاربة وضعية تحدد النمذجة كإجراء تحليلي ، تبسيطي واختزالي ؟</p>
+<p class="para">2) في أن النمذجة العلمية تنتج معاني متنوعة وتحمل غايات مختلفة كما تقتضي اخضاعها لرقابة القيم :</p>
+<ul class="dash">
+<li>توضيح الطابع الرمزي للنماذج التي تمدنا بتمثلات وتبني رموزا قابلة للتأويل والفهم وتكون بالتالي موطن المعنى ومايفترضه المعنى من قيم .</li>
+<li>تحديد النمذجة في بعدها البنائي وما تفترضه من فهم للكائنات الواقعية ضمن تفاعلاتها الداخلية والخارجية وفي علاقتها بسياق ومرجع يختاره المنمذج لاوفق معايير موضوعية وإنما بالرجوع إلى مقاصد ذاتية .</li>
+<li>توضيح ارتباط النمذجة بمشروع معرفي رهانه الحكمة بما تتطلبه من أبعاد أخلاقية واستيتيقية تنعكس في مستوى تقييم النماذج استنادا إلى معايير أتيقية وجمالية [يمكن توظيف دفاع لوموانيو عن المعنى في حواره مع هانيلي]</li>
+<li>المراهنة على ضرورة التزام المنمذج بالقيم الإنسانية وإطلاعه بمسؤوليته إزاء الإنسانية ككل وإزاء مستقبل الأجيال . إنتاج النماذج العلمية ضمن أفق أتيقي يحصن النمذجة والعلم ككل من التوظيف اللاإنساني ويجعل الحقيقة في علاقة بالخير والسعادة .</li>
+</ul>
+<!-- PROOFREAD: 2218 part1 p06 — "'فالعلم تحمل واجهة من الراهنية' / 'ج.ج قرانجي' / bracket note at the end of item 3 (name after 'حواره مع' unreadable) / 'وإطلاعه بمسؤوليته' uncertain" -->
+<p class="para"><u>اللحظة الثالثة</u> : استخلاص حضور القيم بماهي معاني محايثة لفعل النمذجة في توجهها البنائي - النمذجة النسقية - مع ضرورة اخضاع النماذج العلمية لرقابة القيم تجنبا لمخاطرها الوثوقية .</p>
+<p class="para">وهذا مايكسبنا وعيا بإمكانية الوفاق والتحالف بين العلم والقيم والمراهنة على التآلف بين قيم الحق والجمال والخير من أجل ادراك الحكمة في بعدها الكلي .</p>
+<!-- PROOFREAD: 2218 part1 p05 — "'ضرب القيم' / 'معاني تربية' / 'الأنساق الواقعية الموضوعية' / 'رسوم بيانية ، معادلة ، رياضيات' uncertain" -->
+<!-- PROOFREAD: 2218 part1 p04 — "margin note beside item 2) ('كمثال ... ' ?) illegible, not transcribed; 'دون تحقيقها طالما' / 'تشعر لضرورة' / 'المراهنة على مراهنة' / 'مطالب امنية' uncertain; margin box text '[استحضار موقف روسو أو سبينوزا في إطار الدفاع عن دولة القانون]' uncertain" -->
+<!-- file: Lycée Pilote Sousse - DS 3 2018 (+Corrigé) -->
+
+<div class="chtag"><span>المحور</span> القيم: الأخلاق والدولة</div>
+
+<div class="exsub">Lycée Pilote Sousse - DS 3 2018 (+Corrigé)</div>
+<p class="lead">كل الأقسام الرابعة / المدّة : ثلاثُ ساعات</p>
+
+<p class="subhead t-red">القسمُ الأوّل / التمارين ( أربع نقاط )</p>
+<div class="exsub">1 - التمرين الأوّل ( نقطتان )</div>
+<p class="consigne">ارصد أحد رهانات القول التالي وصُغْه بدقّةٍ</p>
+<div class="note"><div class="nb">" الحريّة بلا عدالةٍ تناقضٌ محضٌ "<br><span dir="ltr">« La liberté sans la justice est une véritable contradiction »</span></div></div>
+
+<div class="exsub">2 - التمرين الثاني ( نقطتان )</div>
+<div class="note"><div class="nb">" النماذج أدواتٌ ناقصةٌ واختزاليّةٌ ولكنّها ناجعةٌ في تحليل الواقع."<br><span dir="ltr">« Les modèles sont des instruments imparfaits et réducteurs, mais efficaces d’analyse de la réalité »</span></div></div>
+<p class="consigne">عرّف دلالة النموذج في العلوم بما يتلاءم مع سياق القول المقتَرَح موضحاً وجه المفارقة في اعتباره ناقصا واختزاليّا وناجعاً في آنٍ واحدٍ.</p>
+
+<p class="subhead t-red">القسمُ الثاني / النصّ ( ستّ نقاط )</p>
+<!-- CROP: c7u1 1 0.715 0.385 0.948 0.640 c7u1_tocqueville -->
+<figure class="fig"><img src="https://wael-philo.b-cdn.net/figs/2216/936_tocqueville.png" alt=""></figure>
+<p class="para">أرى أنّ نوعَ الاضطهاد الذي يتهدّد الشعوبَ الديمقراطيّة لا يُشبه في شيءٍ الاضطهادَ السابقَ في العالَم، ولا يجد معاصرونا صورتَه في ذاكرتهم.(...)</p>
+<p class="para">أريدُ أن أتخيّلَ تحتَ أيّة معالم جديدةٍ سيتمكّن الاستبدادُ من الحدوثِ في العالَم : أرى جمهوراً لا يُعدُّ من النّاس المتشابهين والمتساوين الذين يدورون حولَ أنفسهم دون راحةٍ ليحصلوا على ملذّاتٍ صغيرةٍ ومبتذلةٍ، يملؤون بها نفوسَهم. كلّ منهم، ينسحبُ بعيداً، ويكون كغريبٍ عن مصير الآخرين جميعاً : أولادُه وأصدقاؤه الخاصون يشكّلونَ بالنسبة إليه كلَّ النوع البشريّ؛ أمّا بقيّة مواطنيه، فيكون بجانبهم ولا يراهم، هو يلمسهم ولا يحسّ بهم البتّة؛ هو لا يوجَدُ إلاّ بنفسه ولأجل نفسه فقط، وإذا بقيتْ له عائلةٌ، فيمكن القولُ على الأقلّ أنّه لا يملك وطناً.</p>
+<p class="para">فوقهم ترتفعُ سلطةٌ واسعةٌ وحاميةٌ، مكلّفةٌ وحدَها بتأمين متعتهم، وبالسهَر على مصيرهم. إنّها سلطةٌ مطلقةٌ ومفصّلةٌ ومنتظمةٌ ولطيفةٌ وبصيرةٌ. وهي ستشبه السلطة الأبويّةَ إذا كان موضوعها مثلَها يكمُن في إعدادِ النّاس لسنّ الرجولة، ولكنّها على العكس من ذلك لا تعملُ إلا على إبقائهم نهائيّا في حالة الطفولة؛ إنّها سلطةٌ تحبّ أن يستمتعَ المواطنون شريطة ألا يفكّروا إلا بالاستمتاع. إنّها تعملُ طوعا لإسعادهم، ولكنّها تُريدُ أن تكونَ الوكيلَ الوحيدَ والسيّدَ المطلقَ الوحيدَ. توفّر لهم الأمانَ ، تقدّر حاجاتهم وتؤمّنها، تسهّلُ ملذّاتهم، تُديرُ شؤونهم الرئيسيّة، توجّه صناعتَهم، ترتّبُ تركاتهم، تقسّم إرثَهم: ألا تستطيعُ أن تنزعَ منهم كليّا اضطرابَ التفكير وألمَ العيش ؟</p>
+<!-- PROOFREAD: c7u1 p1 — "شريطة" partly smudged in the scan -->
+<p class="para"><span class="t-blue">ألكسيس دي توكفيل</span> "الديمقراطيّة في أمريكا" <span dir="ltr">Alexis de Tocqueville (1805-1859) « De la démocratie en Amérique »</span></p>
+
+<p class="subhead t-navy">المهام</p>
+<ul class="b">
+  <li>ارصدْ إشكاليّة النصّ وصغْها بدقّةٍ ( نقطةٌ ونصف )</li>
+  <li>ما طبيعة الاضطهاد الذي يتهدّد، اليومَ، الشعوبَ في ظلّ الدولة ؟ وما هي الحجج التي اعتمدها الكاتب في بيان ذلك . ( ثلاث نقاط )</li>
+  <li>إلى أيّ حدّ يُمكن تأييد الكاتب في نقده للواقع السياسيّ الراهن ( نقطة ونصف )</li>
+</ul>
+
+<p class="subhead t-red">القسمُ الثالث / التحرير الفلسفيّ ( عشر نقاط )</p>
+<p class="consigne">حرّر محاولةً فلسفيّة في حدود ثلاثين سطرا تتناول من خلالها أحد السؤالَيْن التاليَيْن</p>
+<p class="para"><b>السؤال الأوّل</b> : هل يُمكن اعتبار دولة الحقّ البديلَ الأمثلَ للاستبداد ؟</p>
+<p class="para"><b>السؤال الثاني</b> : هل التفكير في الغايات الإنسانيّة للنمذجة العلميّة مطلبٌ يتجاوز حدودَ مهمّة العالِم المعرفيّة ؟</p>
+
+<!-- PROOFREAD: c7u1 p2-p3 — the corrigé is handwritten (poor legibility); whole section transcribed as best reading, please proofread against the scan -->
+<div class="exh"><span class="idx ex">إصلاح</span><h2>إصلاح الفرض التأليفي رقم 3</h2>
+  <div class="qrcard"><div class="qrt">فيديو الإصلاح</div>
+    <div class="qrslot"><img src="qr/2216.svg" alt="QR"></div></div></div>
+
+<p class="subhead t-red">I) القسم الأوّل</p>
+<div class="exsub">التمرين الأوّل : " الحريّة بلا عدالة تناقض محض "</div>
+<p class="para">الحريّة المدنيّة أو الحق المدني هذا ما يستدعي العدالة التي تؤسس <u>يكسبنا هذا القول وعيا</u> بقيمة <u>العدالة</u> فما هو الضامن الوحيد للحريّة</p>
+<!-- PROOFREAD: c7u1 p2 — first lines of exercise 1 hard to read: "الحريّة المدنيّة أو الحق المدني هذا ما يستدعي" / "يكسبنا هذا القول وعيا" -->
+<p class="para">اهتمام المواطن بمطلب العدالة</p>
+<ul class="dash">
+  <li>الوعي بأنّ قيمة النظام السياسي لا تتحدّد بالرجوع إلى الحريّة التي تغيب العدالة إنّما تتحدّد بالرجوع إلى المساواة بين المواطنين ولا فلا قيمة للعدالة الصوريّة</li>
+  <li>الوعي بأنّ الجور يهدّد الحريّة طالما أنّ انتهاك حقوق الأفراد وعدم انصافهم يولّد الشعور بالاضطهاد والعبوديّة.</li>
+  <li>إنّ تأسيس الحريّة على مبدأ العدالة والتصدّي ومقاومة النظام الجائر لا ينزع حق الحريّة أي بناء الحريّة الحقيقيّة (رهان عملي)</li>
+  <li>يحمل القول رهانا أخلاقيا حيث يسند أولويّة <s>لـ</s> العدالة كفضيلة أساسيّة تضفي قيمة على مطلب الحريّة كحق واقعي.</li>
+</ul>
+<!-- PROOFREAD: c7u1 p2 — "الصوريّة" / "الجائر لا ينزع" uncertain readings -->
+
+<div class="exsub">التمرين الثاني : " النماذج أدوات ناقصة واختزاليّة ولكنها ناجعة في تحليل الواقع "</div>
+<p class="para">تحديد معنى النموذج بما هو تمثّل لنسق واقعي يبرز بعض عناصر الكائن في إطار بناء صورة مبسّطة ومتريّضة له. وتأكيد قيمته الدلاليّة طالما أنّه يمكّننا من تحليل الواقع وفهمه على نحو جزئي ونسبي وهذا ما يعود إلى خاصيّة النمذجة العلميّة التي تقوم على "استراتيجيا الإهمال" فتهتمّ بمدى ملاءمة النموذج لفهم الكائن وتوضيح آليات اشتغاله. فالطابع الاختزالي للنماذج لا يهدّد القيمة الإجرائيّة للنمذجة ولا يشكّك في نجاعتها بل هي تجمع بين الاختزاليّة والإجرائيّة في الآن نفسه فكلّ صفة ترتبط بالأخرى وتفسّرها.</p>
+<!-- PROOFREAD: c7u1 p2 — "ومتريّضة له" and "في الآن نفسه فكلّ صفة" uncertain -->
+
+<p class="subhead t-red">II) القسم الثاني : الاشتغال على نصّ دي توكفيل</p>
+<ol class="q">
+  <li><b>إشكالية النصّ :</b> هل يمكن اعتبار الاستبداد السياسي حالة ولّت وانتهت بظهور الدولة الديمقراطيّة ؟ أم أنّ الشعوب الديمقراطيّة تعاني اغترابا سياسيا وتخضع لأشكال جديدة من الاضطهاد ؟</li>
+  <li><b>تحديد طبيعة الاضطهاد الذي يتهدّد اليوم الشعوب الديمقراطيّة</b> بما هو عنف ناعم خفي يسلب الناس حقوقهم ومنها الأساسيّة كحق الاختلاف / حق الشعور بالانتماء إلى الوطن / حق المواطنة / قيمة التعاطف مع الآخرين / قيمة الصداقة.<br>ومقابل ما ينتزع من المواطنين فإنّ الدولة الديمقراطيّة تمنحهم جملة أوهام تكبّلهم وتخضعهم في حالة اغتراب سياسي كوهم المساواة / وهم الأمان / وهم السعادة<br>لتوضيح مظاهر الاضطهاد وخصوصيته اعتمد الكاتب الحجج التالية :<br>* استقراء الواقع للبرهنة على غربة المواطن في وطنه وانتشار النزعة الفردانيّة التي تهدّد المواطنة في دولة تدّعي إرساء توافق من الاستقلال والمواطنة<br>* المقارنة بين السلطة الدولة والسلطة الأبويّة للبرهنة على تورّط السلطة في مؤامرات ضدّ مواطنيها تهدف إلى حصرهم في حالة قصور دائمة (حالة الطفولة) ...</li>
+  <li><b>مقاربة نقديّة لموقف الكاتب في نقد الكاتب للواقع السياسي الراهن :</b><br><u>قيمة النقد</u> تكمن في الكشف عن مظاهر الاستبداد الجديد والكشف عن الأقنعة الإيديولوجيّة التي تستخدمها الدولة الديمقراطيّة<br>تنسيب الموقف النقدي الذي يكتسي صبغة تشاؤميّة ومغالي في تشخيص حالة القصور والاغتراب الذي يعيشه المواطنون وذلك اعتمادا على الحجج التالية :<br>+ إمكانية المقاومة أو حق المقاومة الذي يعود لكل مواطن يعيش في نظام استبدادي<br>+ الملذّات لا يمكن أن تغيّب الوعي النقدي لدى المواطن<br>+ الاستبداد عنف يولّد عنفا وتمرّدا<br>+ الاستبداد في النظام الديمقراطي يعود إلى ما عبّر عنه ريكور "بالداء السياسي" الذي يكون داخل كل سلطة سياسيّة ... داء التسلّط ضمني<br>+ عيوب الديمقراطيّة لا يمكنها أن تخفي مكاسبها.</li>
+</ol>
+<!-- PROOFREAD: c7u1 p3 — "ومغالي في تشخيص" and "داء التسلّط ضمني" uncertain readings -->
+
+<p class="subhead t-red">III) القسم الثالث : هل يُمكن اعتبار دولة الحقّ البديل الأمثل للاستبداد ؟</p>
+<p class="para"><b><u>اللحظة الأولى</u> :</b> ينطلق الإنطلاق من حالة الاغتراب السياسي التي يعيشها المواطن ضمن دولة القانون وشعوره بعدم الرضا.</p>
+<p class="para">- الإشكالية : هل يمكن الثقة في قدرة الدولة الحق على وضع حدّ للاستبداد الذي هيمن في أشكال حكم مختلفة ؟ ألا يمكن لهذه الدولة أن تمارس الاضطهاد لتؤسس شكلا جديدا للاستبداد ؟ وإذا كان الأمر كذلك ألا يمكن التسليم بأنّ الاستبداد داء سياسي ملازم للسلطة السياسيّة ؟</p>
+<p class="para"><b>اللحظة الثانية :</b> 1) البرهنة على دور دولة الحق في تجاوز الاستبداد السياسي :</p>
+<ul class="dash">
+  <li>تعريف دولة الحق والكشف عن مشروعيتها التاريخيّة والتعاقديّة التي تمكّنها من إرساء التوافق بين السيادة والمواطنة. (توظيف فلسفة العقد الاجتماعي)</li>
+  <li>تثمين الدولة الديمقراطيّة مقارنة بالأنظمة الأوتوقراطيّة والثيوقراطيّة كنموذج للاستبداد (مع تعريف معنى الاستبداد)</li>
+</ul>
+<p class="para">2) تنسيب دور دولة الحق في تجاوز كل مظاهر الاضطهاد.</p>
+<ul class="dash">
+  <li>سلطة الحق تستمدّ مشروعيتها من الأغلبيّة وتقصي الأقليّة.</li>
+  <li>الطابع المجرّد لمفهوم الحق وإمكانيّة توظيفه إيديولوجيا (توظيف الماركسيّة)</li>
+  <li>التعارض بين القوّة التي تستخدمها الدولة والحق الذي تتأسس عليه وهو تعارض بين السياسي والأخلاقي (توظيف موقف ريكور)</li>
+</ul>
+<p class="para"><b><u>اللحظة الثالثة</u> :</b> الانتهاء إلى أنّ قيمة دولة الحق لا يمكن أن تلغي إمكانيّة انتهاكها لحقوق الإنسان وهذا ما يشرّع حقّ المقاومة<br>كما يمكن الانتهاء إلى أنّ الاستبداد خاصيّة بنيويّة للسلطة السياسيّة لا يمكن أن تزول طالما كان من واجب الإنسان ككائن أخلاقي متطلّع للحريّة أن ينقد هذا الاستبداد ويسعى لمقاومته بكل الأشكال.</p>
+<!-- PROOFREAD: c7u1 p3 — "ينطلق الإنطلاق" (probably "يمكن الإنطلاق"), "لا يمكن أن تزول طالما" uncertain readings -->
+
+<!-- PROOFREAD: c7u1 p2 — last handwritten line at the bottom of page 2 is cut off by the page edge (ends "... وتقادا أفكارهم ?"); also "حق الاختلاف" and "من الاستقلال والمواطنة" uncertain -->
+
+</section>
+
+</div>
+</body>
+</html>

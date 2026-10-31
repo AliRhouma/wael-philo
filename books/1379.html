@@ -1,0 +1,512 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<title>Wael Academy — Philosophie · شواهد للانية والغيرية- باكالوريا </title>
+<script>
+  window.MathJax = {
+    tex: { inlineMath: [['\\(','\\)']], displayMath: [['\\[','\\]']] },
+    chtml: { fontURL: 'https://cdn.jsdelivr.net/npm/mathjax@3/es5/output/chtml/fonts/woff-v2', matchFontHeight: true },
+    startup: { typeset: true }
+  };
+</script>
+<script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js" async></script>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Sora:wght@400;500;600;700;800&family=Cairo:wght@400;500;600;700;800;900&family=Tajawal:wght@400;500;700;800&family=JetBrains+Mono:wght@400;500;600;700&display=swap');
+:root{
+  /* ===== Wael Academy palette — MAIN ACCENT = green-teal gradient #0FAB8F → #067360 ===== */
+  --bg:#fff; --panel:#f2f8f8; --hair:#e6e6e9; --hair2:#d6d6db;
+  --fg:#0f2a31;        /* body text (and +/− signs) */
+  --fg2:#3f5b62;       /* softer text */
+  --fg3:#7c959b;       /* muted (footer) */
+  --blue:#067360;      /* deep accent — small numbers, borders, watermark, accent equations */
+  --blue-dark:#045260; /* titles & wordmarks (also the balance colour) */
+  --teal:#0fab8f;      /* bright accent end */
+  --loop:#0d9c82;      /* logo-loop helper */
+  --orange:#067360;    /* kicker/category labels (gold retired → deep teal) */
+  --red:#f5322f;       /* EXERCISE CHIPS ONLY — never for emphasis */
+  --cream:#e6f3f4; --blue-soft:#e6f3f4;  /* pale teal — callout fill + table sub-row fill */
+  --blue-line:#cde7e4; /* hairline */
+  --sub-ink:#045260;   /* table sub-row text */
+  --grad:linear-gradient(148deg,#0fab8f 0%,#0d9c82 52%,#067360 100%);
+  --mono:'JetBrains Mono',monospace; --latin:'Sora',sans-serif; --ar:'Cairo',sans-serif; --arb:'Tajawal',sans-serif;
+}
+*{box-sizing:border-box;margin:0;padding:0;}
+body{font-family:var(--latin);color:var(--fg);background:#e4e4e7;padding:28px 0;
+     -webkit-print-color-adjust:exact;print-color-adjust:exact;}
+html[dir="rtl"] body{font-family:var(--arb);}
+
+/* ===== brand watermark: REAL text (crisp), full-bleed, repeats per page ===== */
+.wm{position:fixed;inset:0;z-index:0;pointer-events:none;display:flex;
+    align-items:center;justify-content:center;overflow:hidden;
+    -webkit-print-color-adjust:exact;print-color-adjust:exact;}
+.wm span{font-family:var(--mono);font-weight:800;font-size:76.8pt;letter-spacing:.16em;
+    color:var(--blue);opacity:.06;white-space:nowrap;transform:rotate(-54deg);}  /* single diagonal: bottom-left → top-right */
+.wm.mono span{color:#000;opacity:.05;}
+
+/* ===== continuous flow stream (no page border) ===== */
+.flow{width:210mm;margin:0 auto;background:transparent;color:var(--fg);
+      padding-block:16mm 18mm;padding-inline:23mm 14mm;position:relative;}   /* spiral gutter: inline-start(=spine) 23mm / outer 14mm — dir-aware; print margins set in render_flow.py */
+@media screen{ .flow{background:#fff;box-shadow:0 10px 40px rgba(0,0,0,.16);} }
+.flow>*{position:relative;z-index:1;}
+.flow p,.flow li,.flow .data,.flow .note,.flow .ex{break-inside:auto;}
+.flow .fig,.flow figure,.flow img,.flow svg.figsvg,.flow table,.flow tr,.flow .chapdiv,.flow .exh,.flow .qrcard,.flow .meta{break-inside:avoid;}
+.flow h1,.flow h2,.flow h3,.flow .exh,.flow .subhead,.flow .chapdiv{break-after:avoid;}
+.flow img,.flow svg.figsvg{max-width:100%;height:auto;}
+.flow figcaption,.flow .figcap{display:none;}          /* rule 3: no figure captions */
+
+/* ===== front matter + chapters each start on a fresh page ===== */
+.flow .cover{break-after:page;}        /* cover alone on page 1 */
+.flow .toc{break-after:page;}          /* Sommaire alone on the next page */
+.flow .chapter{break-before:page;}
+.flow .chapter:first-of-type{break-before:auto;}
+
+/* ===== cover ===== */
+.cover{padding:14mm 0 8mm;border-bottom:2px solid var(--blue);margin-bottom:6mm;}
+.cover .badge{font-family:var(--mono);font-size:8.5pt;letter-spacing:.28em;text-transform:uppercase;color:var(--orange);margin-bottom:10px;}
+.cover h1{font-family:var(--latin);font-weight:800;font-size:34pt;line-height:1.03;letter-spacing:-.025em;color:var(--blue-dark);}
+.cover .grule{width:120px;height:5px;border-radius:5px;background:var(--grad);margin:14px 0;}
+.cover .sub{font-family:var(--mono);font-size:10pt;letter-spacing:.14em;text-transform:uppercase;color:var(--teal);}
+.cover .auth{font-size:11pt;color:var(--fg2);margin-top:6px;font-weight:600;}
+
+/* ===== table of contents ===== */
+.toc{margin:2mm 0 4mm;}
+.toc h2{font-family:var(--latin);font-weight:800;font-size:15pt;color:var(--blue-dark);margin-bottom:4mm;}
+.toc .trititle{font-family:var(--mono);font-size:8pt;letter-spacing:.2em;text-transform:uppercase;color:var(--orange);margin:4mm 0 2mm;}
+.toc ol{list-style:none;}
+.toc li{display:flex;align-items:baseline;gap:8px;font-size:10pt;padding:2.2px 0;color:var(--fg);line-height:1.4;}
+.toc li .n{font-family:var(--mono);font-weight:700;font-size:9pt;color:var(--blue);min-width:26px;}
+.toc li .dots{flex:1;border-bottom:1px dotted var(--hair2);transform:translateY(-3px);}
+
+/* ===== chapter divider band ===== */
+.chapdiv{margin:0 0 5mm;padding:6mm 16px 5mm;border-radius:12px;background:var(--grad);
+    -webkit-print-color-adjust:exact;print-color-adjust:exact;}   /* green-filled chapter band */
+.chapdiv .cn{font-family:var(--mono);font-size:8.5pt;font-weight:700;letter-spacing:.24em;text-transform:uppercase;color:rgba(255,255,255,.82);margin-bottom:5px;}
+.chapdiv h2{font-family:var(--latin);font-weight:800;font-size:17pt;line-height:1.1;letter-spacing:-.015em;color:#fff;}
+/* conclusion block — same green-filled look as the chapter band */
+.conclusion{background:var(--grad);border-radius:12px;padding:6mm 16px;margin:5mm 0;color:#fff;break-inside:avoid;
+    -webkit-print-color-adjust:exact;print-color-adjust:exact;}
+.conclusion .ck{font-family:var(--mono);font-size:8.5pt;font-weight:700;letter-spacing:.24em;text-transform:uppercase;color:rgba(255,255,255,.82);margin-bottom:6px;}
+.conclusion h3{font-family:var(--latin);font-weight:800;font-size:13pt;line-height:1.2;color:#fff;margin-bottom:4px;}
+.conclusion p,.conclusion li{font-size:10.4pt;line-height:1.7;color:#fff;}
+.conclusion b,.conclusion strong{color:#fff;font-weight:700;}
+
+/* ===== unit header (lesson/exercise) + QR emplacement ===== */
+.exh{display:flex;align-items:center;gap:11px;margin:6mm 0 3mm;}
+.exh .idx{font-family:var(--mono);font-size:9pt;font-weight:600;color:#fff;background:var(--grad);
+    border-radius:6px;padding:4px 11px;letter-spacing:.08em;text-transform:uppercase;
+    -webkit-print-color-adjust:exact;print-color-adjust:exact;}
+.exh .idx.ex{background:var(--red);}   /* exercise chip = red */
+.exh h2{font-family:var(--latin);font-size:14pt;font-weight:700;letter-spacing:-.01em;color:var(--blue-dark);}
+.exh .qrcard{margin-inline-start:auto;flex:0 0 auto;display:flex;flex-direction:column;align-items:center;gap:3px;width:26mm;}
+.qrcard .qrt{font-family:var(--mono);font-size:6.5pt;letter-spacing:.1em;text-transform:uppercase;color:var(--teal);text-align:center;}
+.qrcard .qrslot{width:24mm;height:24mm;padding:1.5mm;background:#fff;border:1px solid var(--blue-line);border-radius:8px;display:flex;align-items:center;justify-content:center;}
+.qrcard .qrslot img,.qrcard .qrslot svg{width:100%;height:100%;display:block;}
+
+/* sub-exercise label when one file holds several exercices */
+.exsub{font-family:var(--latin);font-weight:800;font-size:11.5pt;color:var(--blue-dark);margin:5mm 0 2.5mm;padding-bottom:3px;border-bottom:2px solid var(--blue-line);}
+
+/* ===== text blocks ===== */
+.lead{font-size:11pt;line-height:1.7;margin:2mm 0 3mm;color:var(--fg);}
+.para{font-size:10.6pt;line-height:1.7;margin:2mm 0 2.5mm;color:var(--fg);}
+.consigne{font-size:10.4pt;line-height:1.6;margin:1mm 0 2mm;color:var(--fg);font-style:italic;}
+.subhead{font-family:var(--latin);font-weight:800;font-size:12pt;letter-spacing:-.01em;color:var(--blue-dark);margin:5mm 0 2.5mm;}
+/* emphasis — green accent = .t-blue/.t-green ; balance = .t-navy ; red = SECONDARY accent (.t-red) on titles + a few words */
+.t-blue{color:var(--blue);font-weight:600;} .t-navy{color:var(--blue-dark);font-weight:700;}
+.t-red{color:var(--red);font-weight:600;} .t-green{color:var(--teal);font-weight:600;} .t-gold{color:var(--orange);font-weight:600;}
+.subhead.t-red{color:var(--red);font-weight:800;}   /* red Roman-numeral section title (I, II, …) — keeps subhead weight */
+/* highlighter marks — a soft colour wash behind a key word (agent picks green or red per what balances the page) */
+.hl-green,.hl-red{border-radius:3px;padding:.02em .24em;font-weight:600;box-decoration-break:clone;-webkit-box-decoration-break:clone;
+    -webkit-print-color-adjust:exact;print-color-adjust:exact;}
+.hl-green{background:rgba(15,171,143,.20);color:var(--blue-dark);}   /* green highlight */
+.hl-red{background:rgba(245,50,47,.13);color:#c0261f;}               /* red highlight  */
+
+.data{background:var(--blue-soft);border:1px solid var(--blue-line);border-inline-start:4px solid var(--blue);
+    border-radius:8px;padding:11px 16px;margin:3mm 0;font-size:10pt;line-height:1.65;color:var(--fg2);}
+.data b{color:var(--fg);font-weight:700;}
+.note{border:1px dashed var(--hair2);border-radius:9px;padding:11px 16px;margin:4mm 0;background:var(--panel);}
+.note .kicker{font-family:var(--mono);font-size:7.5pt;letter-spacing:.18em;color:var(--orange);display:block;margin-bottom:5px;}
+.note .nb{font-size:10pt;line-height:1.7;color:var(--fg2);} .note b{color:var(--fg);}
+.ex:not(.idx){background:var(--blue-soft);border:1px solid var(--blue-line);border-inline-start:3px solid var(--blue);
+    border-radius:7px;padding:7px 11px;font-size:9.6pt;line-height:1.6;color:var(--fg2);margin:2mm 0;}   /* :not(.idx) so it never hits the exercise chip (which is .idx.ex) */
+.ex .extag{display:inline-block;font-family:var(--latin);font-weight:800;font-size:7.6pt;color:var(--blue-dark);background:#fff;
+    border:1px solid var(--blue);border-radius:5px;padding:1px 9px;margin-inline-end:7px;vertical-align:middle;text-transform:uppercase;letter-spacing:.06em;}
+
+/* ===== lists ===== */
+ol.q{list-style:none;counter-reset:q;margin:1mm 0 2mm;}
+ol.q>li{counter-increment:q;position:relative;padding-inline-start:30px;margin-bottom:2.5mm;font-size:10.4pt;line-height:1.6;}
+ol.q>li::before{content:counter(q);position:absolute;inset-inline-start:0;top:1px;width:21px;height:21px;background:var(--grad);color:#fff;
+    border-radius:50%;font-family:var(--mono);font-size:9pt;font-weight:600;display:flex;align-items:center;justify-content:center;
+    -webkit-print-color-adjust:exact;print-color-adjust:exact;}
+ol.sub{list-style:none;counter-reset:s;margin:4px 0 0;padding-inline-start:2px;border-inline-start:1px solid var(--blue-line);}
+ol.sub li{counter-increment:s;position:relative;padding:2.5px 0 2.5px 26px;font-size:10.1pt;line-height:1.55;}
+ol.sub li::before{content:counter(s,lower-alpha)".";position:absolute;inset-inline-start:10px;top:2.5px;font-family:var(--mono);font-size:9pt;font-weight:600;color:var(--teal);}
+ol.qn{list-style:none;counter-reset:qn;margin:1mm 0 2mm;}
+ol.qn>li{counter-increment:qn;position:relative;padding-inline-start:26px;margin-bottom:2.2mm;font-size:10.4pt;line-height:1.55;}
+ol.qn>li::before{content:counter(qn)".";position:absolute;inset-inline-start:0;top:0;font-family:var(--mono);font-size:9.5pt;font-weight:700;color:var(--blue);}
+ul.b{list-style:none;margin:1mm 0 2mm;} ul.b>li{position:relative;padding-inline-start:22px;margin-bottom:2.4mm;font-size:10.4pt;line-height:1.6;}
+ul.b>li::before{content:"";position:absolute;inset-inline-start:3px;top:8px;width:8px;height:8px;border-radius:50%;background:var(--grad);
+    -webkit-print-color-adjust:exact;print-color-adjust:exact;}
+ul.dash{list-style:none;margin:1mm 0 2mm;} ul.dash>li{position:relative;padding-inline-start:20px;margin-bottom:1.8mm;font-size:10.4pt;line-height:1.6;}
+ul.dash>li::before{content:"–";position:absolute;inset-inline-start:2px;top:0;color:var(--fg);font-weight:700;}  /* dash / +/− signs = body colour */
+.flow ul.opts{list-style:none;margin:4px 0 3px;padding-inline-start:16px;}
+.flow ul.opts li{padding:2px 0;font-size:10.2pt;line-height:1.5;color:var(--fg);}
+
+/* ===== figures / tables ===== */
+.fig{margin:3mm 0;} .fig svg.figsvg{display:block;margin:0 auto;background:#fff;max-width:100%;height:auto;}
+.photo{display:block;margin:3mm auto;border-radius:8px;border:1px solid var(--hair);max-width:100%;}
+.figrow{display:flex;flex-wrap:wrap;gap:9px;justify-content:center;margin:3mm auto;max-width:190mm;}
+.flow .figrow img{border-radius:7px;border:1px solid var(--hair);height:46mm;width:auto;max-width:none;object-fit:cover;}
+.schemarow{display:flex;gap:16px;align-items:flex-start;flex-wrap:wrap;margin:2mm 0;}
+.schemarow .col-txt{flex:1 1 90mm;min-width:80mm;} .schemarow .col-fig{flex:0 0 78mm;} .schemarow .col-fig .fig{margin:0;}
+.flow table{border-collapse:collapse;width:100%;margin:3mm 0;font-size:9.8pt;line-height:1.5;}
+.flow table th,.flow table td{border:1px solid var(--blue-line);padding:6px 10px;text-align:start;vertical-align:top;}
+.flow table th{background:var(--grad);color:#fff;font-family:var(--latin);font-weight:700;font-size:9.4pt;
+    -webkit-print-color-adjust:exact;print-color-adjust:exact;}
+.flow table tr:nth-child(even) td{background:var(--blue-soft);color:var(--sub-ink);}   /* sub-row: #E6F3F4 / #045260 */
+
+mjx-container{color:var(--fg) !important;font-weight:400 !important;font-size:1.0em !important;}
+.eq-hi mjx-container,mjx-container.eq-hi{color:var(--blue) !important;}   /* accent (green) equation — highlight a key result; balance with plain math */
+.eq-red mjx-container,mjx-container.eq-red{color:var(--red) !important;}  /* red accent equation / symbol — complements the green .eq-hi */
+
+/* ===== per-file books: credit line, copies list, figures at their size ===== */
+.credit{display:flex;flex-wrap:wrap;align-items:center;gap:5px;margin:-1mm 0 3.5mm;font-size:9.4pt;color:var(--fg2);}
+.credit .who{font-weight:700;color:var(--blue-dark);}
+.credit .tg{font-family:var(--mono);font-size:7.2pt;letter-spacing:.04em;border-radius:5px;padding:1px 7px;line-height:1.6;
+    border:1px solid var(--blue-line);color:var(--blue);background:#fff;-webkit-print-color-adjust:exact;print-color-adjust:exact;}
+.credit .tg.sec{background:var(--blue-dark);border-color:var(--blue-dark);color:#fff;}
+.credit .tg.cor{background:#fff;border-color:var(--red);color:var(--red);}
+.credit a{color:var(--fg3);font-family:var(--mono);font-size:7pt;text-decoration:none;}
+.cover .auth .credit{margin:4mm 0 0;}
+.cover .copies{margin-top:5mm;font-size:8.6pt;color:var(--fg2);}
+.cover .copies ul{list-style:none;margin:2mm 0 0;padding:0;columns:2;}
+.cover .copies a{color:var(--fg3);text-decoration:none;font-size:8pt;}
+.flow figure.fig{text-align:center;}
+.flow figure.fig img{max-height:60mm;width:auto;max-width:70%;display:inline-block;}
+
+/* chapter tag on each part of a multi-chapter book (the book keeps the original order of the file) */
+.chtag{display:inline-block;margin:5mm 0 2mm;padding:1mm 3mm;border-radius:2mm;background:#eef3fb;border:1px solid #c9d6ea;
+  color:#1f3a6b;font-size:9pt;font-weight:700}
+.chtag span{color:#6b7f9e;font-weight:600;margin-inline-end:1.5mm}
+
+@media print{ body{background:#fff;padding:0;} .flow{width:auto;max-width:none;margin:0;padding:0;} }
+@page{size:A4;}   /* margins come from render_flow.py — do NOT set them here */
+</style>
+<meta data-pagefind-filter="type[content]" content="درس">
+<meta data-pagefind-filter="resource[content]" content="Taki Academy">
+<meta data-pagefind-meta="n[content]" content="1379">
+<meta data-pagefind-meta="title[content]" content="شواهد للانية والغيرية- باكالوريا">
+<meta data-pagefind-filter="chapter[content]" content="الإنية والغيرية">
+<meta data-pagefind-filter="section[content]" content="باكالوريا رياضيات"><style>.qrcard{display:none!important}.wa-nav{position:sticky;top:0;z-index:50;background:#045260;padding:10px 18px;font-family:Cairo,sans-serif;direction:rtl}.wa-nav a{color:#fff;text-decoration:none;font-weight:700}@media print{.wa-nav{display:none}}</style>
+</head>
+
+<body dir="rtl" lang="ar"
+      data-brand="Wael Academy" data-handle="@WaelAcademy"
+      data-tagline="في تُرابنا.. مغامرة بمغامرة"
+      data-phone="+216 50 40 40 42" data-site="waeldocuments.com"
+      data-cta="سجل معانا وأقرى عن بعد مع منصة Wael Academy"
+      data-subject="Philosophie · شواهد للانية والغيرية- باكالوريا " data-watermark="Wael Academy" data-pagefind-body><nav class="wa-nav" data-pagefind-ignore><a href="../index.html">→ الرجوع إلى فهرس الفلسفة</a></nav>
+
+<!-- single full-page diagonal watermark, bottom-left → top-right (repeats on every page) -->
+<div class="wm" aria-hidden="true"><span>WAEL&nbsp;ACADEMY</span></div>
+
+<div class="flow colored">
+<div class="cover"><div class="badge">◉ Wael Academy · Philosophie</div><h1>شواهد للانية والغيرية- باكالوريا </h1><div class="grule"></div><div class="sub">الإنية والغيرية</div><div class="auth"><div class="credit">المؤلّف / المصدر : <span class="who">Taki Academy www.takiacademy.com 73.832.000 — TakiAcademy</span> <span class="tg">موضوع باكالوريا</span><span class="tg sec">الفلسفة · باكالوريا رياضيات</span> <a href="https://drive.google.com/file/d/1RPXpRaVtdAjUXDuJTN8jHVFFQqf-3s42/view">↗ شواهد للانية والغيرية- باكالوريا .pdf</a></div></div><div class="copies" data-pagefind-ignore><b>نسخ هذا الملف في الدرايفات (1)</b><ul><li><a href="https://drive.google.com/file/d/1RPXpRaVtdAjUXDuJTN8jHVFFQqf-3s42/view">Eya Masmoudi · Bac math 2026 › فلسفة / الإنية و الغيرية</a></li></ul></div></div>
+<section class="chapter"><div class="chapdiv"><div class="cn">المحور</div><h2>الإنية والغيرية</h2></div>
+<!-- SOURCE: Taki Academy www.takiacademy.com 73.832.000 — TakiAcademy -->
+<div class="exh"><span class="idx">درس</span><h2>الفلسفة</h2>
+  <div class="qrcard"><div class="qrt">فيديو الدرس</div><div class="qrslot"><img src="qr/1379.svg" alt="QR"></div></div></div>
+<div class="credit">المؤلّف / المصدر : <span class="who">Taki Academy www.takiacademy.com 73.832.000 — TakiAcademy</span> <span class="tg">موضوع باكالوريا</span><span class="tg sec">الفلسفة · باكالوريا رياضيات</span> <a href="https://drive.google.com/file/d/1RPXpRaVtdAjUXDuJTN8jHVFFQqf-3s42/view">↗ شواهد للانية والغيرية- باكالوريا .pdf</a></div>
+<p class="para">باكالوريا</p>
+<p class="subhead t-red">الدرس: الإنية والغيرية (الشواهد)</p>
+<p class="para">تهنى على قرايتك</p>
+<!-- PROOFREAD: 1379 part1 p01 — "تهنى على قرايتك" decorative script, reading uncertain -->
+<ul class="b">
+<li>الإنية هي تحقق الوجود العيني من حيث مرتبته الذاتية - الجرجاني</li>
+<li>الإنسان مقياس كل شيء - بروتاغوراس</li>
+<li>الجسد هو وعاء الروح الذي يحرسه ويحميه - لوكراس</li>
+<li>أيها الجنس البشري كم أنت شقي باعتقادك أن الالهة هي أسباب ما يحدث من نتائج - لوكراس</li>
+<li>الإنسان ذكي لأنه يملك بدا - إنكساغور</li>
+<li>لا تسبح أبدا في نفس النهر مرتين - هيرقليطس</li>
+<li>من فقد حسنا فقد علما - أرسطو</li>
+<li>إن الذي يقابل الواحد من جهة ما هو هو هي الغيرية - أرسطو</li>
+<li>الوجود يقال على أنحاء شتى - أرسطو</li>
+<li>إن المواطنين لو تعلق بعضهم ببعض برباط الصداقة لما احتاجوا إلى العدالة - أرسطو</li>
+<li>إن الهوية هي وحدة الكائن أو وحدة الكائنات المتعددة، أو هي في نهاية المطاف وحدة الفرد الذي يعامل بما هو كثرة - أرسطو</li>
+<li>الكلي هو ما ينطبق على كل الحالات ويستحيل إدراكه لأنه ليس شيئا محددا، ولا لحظة محددة، وإلا ما كان له أن يكون كليا - أرسطو</li>
+<li>الإنسان الذي لا يمكنه أن يكون عضوا في مجموعة أو الذي لا يشعر أنه بحاجة إلى ذلك لأنه يكتفى بذاته إنما هو إنسان لا ينتمي إلى المدينة وبالتالي فهو إما وحش وإما إله - أرسطو</li>
+<li>التفكير هو حوار النفس مع ذاتها في صمت. - أفلاطون</li>
+<li>التفلسف هو التشبه بالألهة قدر الإمكان. - أفلاطون</li>
+<li>تكلم حق أراك - أفلاطون</li>
+<li>إن الجسد مقبرة (سجن) للنفس - أفلاطون</li>
+<li>أن نتفلسف هو أن نتدرب على الموت - أفلاطون</li>
+<li>إن مسألة الوجود غامضة غموض مسألة اللاوجود - أفلاطون</li>
+<li>انظر إلى الحروب والفتن والمعارك، ليس لها من باعث غير الجسد ومطالبه - أفلاطون</li>
+<li>إن نفس الفيلسوف تزدري الجسد بعمق وتفر منه وتحاول أن تنعزل بذاتها عنه - أفلاطون</li>
+<li>هؤلاء السجناء لا يعرفون من الحقيقة في كل شيء إلا الأشياء المصنوعة - أفلاطون</li>
+<li>إن عيون النفس لا تبدأ في النظر الثاقب إلا عندما تبدأ عيون الجسد في غض بصرها. - أفلاطون</li>
+</ul>
+<ul class="b">
+<li>فلما لم يكن الإنسان هو الجسد، ولا هو الجملة المؤتلفة من الجسد والنفس، لزم إذن أن نستنتج من ذلك أن الإنسان هو النفس - أفلاطون</li>
+<li>إن الأمر المتعقل من حيث امتيازه على الأغيار يسمى هوية، ومن حيث حمل اللوازم عليه بسمى ذاتا - أبو البقاء التفتازاني</li>
+<li>لا يمكن أن يكون الإنسان ينال الكمال إلا باجتماعات جماعة كثيرة متعاونين، يقوم كل واحد لكل واحد ببعض ما يحتاج إليه في قوامه - الفارابي</li>
+<li>المراد بالنفس ما يشير إليه كل واحد بقوله أنا - ابن سينا</li>
+<li>الكلي هو اللفظ الذي لا يمنع مفهومه أن يشترك في معناه كثيرون- ابن سينا</li>
+<li>هبطت إليك من المكان الأرفع *** ورقاء ذات تعزز وتمنع - ابن سينا</li>
+<li>إن الإنسان مركب من مادة وصورة، فمادته هي البدن، وصورته هي النفس ابن سينا</li>
+<li>للذات التي أثبت وجودها خاصية على أنها هو بعينه (إنيته) غير جسمه وأعضائه التي لم تثبت. - ابن سينا</li>
+<li>ليس الإنسان إنسانا بأنه حيوان أو مائت أو أي شيء أخر، بل إنه مع حيوانيته ناطق - ابن سينا إني أكون أنا وإن لم أعرف أن لي يدا ورجلا أو عضوا من هذه الأعضاء.... بل أظن أن هذه توابعي وأعتقد أنها آلات لي أستعملها في حاجات - ابن سينا</li>
+<li>النفس سائس والبدن مسوس، والنفس باقية والبدن داثر، ومصلحة الباقي والعناية بتقويمه وتعديله أصلح وأفضل من إصلاح وتعديل الدائر لا محالة الفاسد بالطبع - الكندي</li>
+<li>إنا بأنفسنا نحن ما نحن لا بأجسامنا، لأن الجسم مشترك لكل ذي جسم، فأما حيوانية لكل واحد من الحية فبنفسه، وأنفسنا ذاتية لنا - الكندي</li>
+<li>إن الفساد والاضمحلال إنما هو من صفات الأجسام - ابن طفيل</li>
+<li>الوجود وجودان وجود أشرف ووجود أخس، والوجود الأشرف هو علة الأخس -ابن رشد</li>
+<li>الإنسانية أفق والإنسان متحرك إلى أفقه بالطبع – التوحيدي</li>
+<li>إن العرض لا يحمل عرضا لأن العرض في نفسه محمول أبدا موجودا في غيره لا قوام له بذاته وهذا الجوهر ... - ابن مسكويه</li>
+<li>النفس ليست جسما ولا جزأ من جسم ولا عرضا - ابن مسكويه</li>
+<li>أنا أفكر إذن أنا موجود - ديكارت</li>
+<li>أنا وسط بين الإله والعدم - ديكارت</li>
+<li>إن النفس متحدة بجميع أجزاء البدن - ديكارت</li>
+<li>إن العقل أعدل الأشياء توزيعا بين الناس -ديكارت</li>
+</ul>
+<ul class="b">
+<li>إن حدس البداهة أوثق من الاستنتاج ذاته - ديكارت</li>
+<li>كل ما هو نفسي واع وكل ما هو واع نفسي - ديكارت</li>
+<li>لا أقيم في جسمي كما يقيم الريان في السفينة - ديكارت</li>
+<li>الجسد مثل الساعة تنتهي حركتها حالما تنتهي عبوتها - ديكارت</li>
+<li>إن "الأنا" أي النفس التي أنا بها ما أنا متميزة تمام التميز عن الجسم، بل إن معرفتنا بها أيسر - ديكارت</li>
+<li>فقد يحصل أني متى انقطعت عن التفكير تماما انقطعت عن الوجود بتاتا - ديكارت</li>
+<li>لا يزيد الفرق بين إنسان حي وإنسان ميت على الفرق بين ساعة معبأة وساعة نفذت عبوتها - ديكارت</li>
+<li>من عدم الحكمة أن نطمئن لمن حاول أن يخدعنا ولو مرة واحدة - ديكارت</li>
+<li>فعرفت من ذلك أني جوهر مفكر كل ماهيته أو طبيعته لا تقوم إلا على الفكر - ديكارت</li>
+<li>ثم اني أمعنت النظر بانتباه في ما كنت عليه، فرأيت أنني أستطيع أن أفرض أنه ليس لي جسم، وأنه ليس هناك أي عالم، ولا أي حيز أشغله، ولكنني لا أستطيع من أجل ذلك أن أفرض أنني غير موجود، لأن شكي في حقيقة الأشياء الأخرى يلزم عنه بضد ذلك، لزوما بالغ البداهة واليقين، أن أكون موجودا - ديكارت</li>
+<li>ليس بمقدوري أبدا أن أصل إلى الإحاطة بذاتي بدون إدراك حسي ما - هيوم</li>
+<li>وعندما يحدث أن تنقطع إدراكاتنا الحسية، مثلما يقع بفعل سبات عميق، فإني طيلة هذه الحالة، لا يكون لدي إحساس بذاتي، ومن الممكن بحق القول عندئذ إني لا أوجد - هيوم</li>
+<li>لنفرض أن العقل / النفس صفحة بيضاء، فكيف تحصل على الأفكار؟ إني أجيب: من التجربة. ومنها تستمد كل مواد التفكير - لوك</li>
+<li>يولد العقل كصفحة بيضاء، تأتي التجربة لتنقش عليها ما تشاء - ستيوارت ميل</li>
+<li>أكبر عقاب لي أن أعيش وحيدا في الجنة - مالبرانش</li>
+<li>ليس الجسد سوى امتداد بالطول والعرض والعمق -مالبرانش</li>
+<li>إننا لا تعرف أحدا إلا بواسطة الصداقة - القديس أوغسطين</li>
+<li>إن كل أسئلة الفلسفة ترجع المال أسلم منها الانسان؟ - كانط</li>
+<li>ما كان بإمكاننا أن نفكر كفاية ولا أن نفكر مع الآخرين – كانط</li>
+<li>إذا كانت معرفتنا كلها تبدأ مع التجربة فهذا لا يعني أنها تنتج كلها عن  التجربة - كانط</li>
+<li>إن المقولات (المفاهيم) بدون حدوسات ( الحدوس الحسية) جوفاء، كما انالحدوسات بدون مقولات عمياء – كانط</li>
+</ul>
+<!-- PROOFREAD: 1379 part1 p04 — "ترجع المال أسلم منها الانسان؟" reading as printed, uncertain -->
+<ul class="b">
+<li>إن قدرة الإنسان على امتلاك الأنا في تمثله تسمو به غاية السمو فوق سائر الكائنات الحية الأخرى على وجه الأرض، وبذلك يكون شخصا – كانط</li>
+<li>ليس أجدى للإنسان من الإنسان -سبينوزا</li>
+<li>إن النفس البشرية متحدة بالجسم - سبينوزا</li>
+<li>إن التجربة لا تعلمنا ماهية الأشياء - سبينوزا</li>
+<li>إن العقل يجد شكله الأسمى والأصح في الحدس - سبينوزا</li>
+<li>إن النفس والجد شيء واحد، تارة نتصوره بصفة الفكر وطورا بصفة الامتداد - سبينوزا</li>
+<li>لا يعرف الإنسان نفسه إلا من خلال انفعالات جسمه وأفكاره - سبينوزا</li>
+<li>لا أحد إلى حد الآن -والحق يقال- قد بين ما يستطيع (مستطاع) الجسد فعله - سبينوزا</li>
+<li>لا يعرف أحد تركيبة الجسد بقدر كبير من الدقة بحيث يمكن له أن يفسر كل وظائفه - سبينوزا</li>
+<li>إن الذين يقولون أن هذا الفعل أو ذاك من أفعال الجسد متأتّ من النفس التي لها نفوذ عليه إنما يقولون ما لا يعلمون – سبينوزا</li>
+<li>الاحتفاظ بما لم يعد موجودا، واستباق ما لم يوجد بعد، تلك هي اذن وظيفة الوعي الأولى  - سبينوزا</li>
+<li>إن موضوع الفكرة المؤلفة للنفس البشرية هي الجسم، أي أنه حال موجود بالفعل من أحوال الامتداد – سبينوزا</li>
+<li>إن أوامر النفس ليست شيئا آخر سوى النوازع ذاتها، وهي تتغير بالتالي بحسب الاستعداد المتغير للجسد – سبينوزا</li>
+<li>الرغبة في عين ماهية الإنسان، أي انها الجهد الذي يبذله الإنسان سعيا إلى الاستمرار في وجوده – سبينوزا</li>
+<li>إن ما يميز الإنسان من الحيوان هو توقه إلى الاكتمال -روسو</li>
+<li>أفضل طريقة لنشر السعادة بين أفراد الناس هي أن تدلهم الى واجباتهم - روسو</li>
+<li>إن حالة التأمل مناقضة للطبيعة، والإنسان الذي يتأمل حيوان منحرف - روسو</li>
+<li>الإنسان ذئب للإنسان - هوبز</li>
+<li>الحب هو وحدتي مع الغير ووحدة الغير معي -هيقل</li>
+<li>يمكن أن أكون حرا حق وان كنت مقيدا بالأغلال -هيقل</li>
+<li>إن الوعي بالذات يستوجب الوعي بالآخر -هيقل</li>
+<li>فالأذى الذي يُوجه إلى جسمي هو أذى موجه إلي أيضا - هيقل</li>
+</ul>
+<ul class="b">
+<li>إن هدف التاريخ الكلي هو أن يتوصل الفكر إلى معرفة ما هو حقيقي -هيقل</li>
+<li>إن الوعي هو العلاقة بين الأنا والموضوع سواء أكان داخليا أم خارجي -هيقل</li>
+<li>لا يتمتع (الإنسان) بالأشياء إلا لأنه يعثر فيها على شكل خارجي لحقيقته الخاصة -هيقل</li>
+<li>وطالما كنت حيا فإن نفسي وجسدي ليسا منفصلين لأن جسمي هو تجسيد لحريتي فبواسطة هذا الجسم أشعر وأحس- هيقل</li>
+<li>إن أشياء الطبيعة لا توجد إلا على خود مباشر وبطريقة واحدة، في حين يكون للإنسان لأنه روح، وجود مزدوج، فهو يوجد من جهة وجود أشياء الطبيعة لكنه من جهة أخرى يوجد أيضا لذاته، يتأمل ذاته، يتمثلها لنفسه، ويتفكرها، وهو ليس فكرا إلا بهذا النشاط الذي يقوم كائنا لذاته - هيقل</li>
+<li>إن الوعي هو أولا نتاج اجتماعي وبطل كذلك طالما وجد البشر - إنقلز</li>
+<li>ليس الوعي هو الذي يحدد الحياة، بل الحياة هي التي تحدد الوعي- ماركس</li>
+<li>يتطور الوعي القطيعي أو القبلي وينمو بنمو الإنتاجية والحاجات- ماركس</li>
+<li>فلا يتميز الإنسان عن الحروف إلا بحلول الوعي لديه محمل الغريزة أو بتحويل غريزته إلى غريزة واعية – ماركس/ إنقلز</li>
+<li>ان إنتاج الأفكار والتمثلات والوعي هو قبل كل شيء مرتبط مباشرة وبعمق بالنشاط المادي وبعلاقات الناس المادية - ماركس</li>
+<li>إنه (الوعي) لغة الحياة الواقعية – ماركس</li>
+<li>إن ما نسميه التاريخ الإنساني ليس إلا انبثاق الإنسان عن طريق العمل الإنساني - ماركس</li>
+<li>إن الصراع هو قانون تطور المجتمعات - ماركس</li>
+<li>إنما الأنا (الشعور / الوعي) وهم - نيتشه</li>
+<li>إن الحقائق أوهام نسينا أنها كذلك - نيتشه</li>
+<li>من أراد الخلق والإبداع عليه أن يبدأ أولا بتحطيم القيم - نيتشه</li>
+<li>إني بأسري جسد ولا شيء سوى جسد وما الروح الا كلمة تشير إلى جزء من هذا الجسد - نيتشه</li>
+<li>إن الجسد لهو عقل عظيم وكثرة ذات اتجاه واحد - نيتشه</li>
+<li>هذا الجسد لا يقول أنا بل يكون أنا من خلال الفعل - نيتشه</li>
+<li>أن نتفلسف هو أن نصغي لنداء الجسد- نيتشه</li>
+<li>إننا لنسمع في الوقت الحاضر بعضلاتنا، بل ونقرأ بها – نيتشه</li>
+<li>ما هو ذهني ليس سوى اللغة الرمزية للجسد - نيتشه</li>
+</ul>
+<ul class="b">
+<li>عداوة صريحة أجدى من صداقة مصطنعة - نيتشه</li>
+<li>يجب الإنسان ميوله، لا الأشياء التي يميل إليها - نيتشه</li>
+<li>الحياة هي مجموع الوظائف المقاومة للموت - نيتشه</li>
+<li>الوعي ليس إجمالا إلا شبكة من الروابط بين الناس- نيتشه</li>
+<li>لا أدعوكم إلى محبة القريب، بل أدعوكم إلى محبة الصديق - نيتشه</li>
+<li>إن الجزء الأكبر من نشاطنا الفكري يحصل بطريقة لا شعورية - نيتشه</li>
+<li>في العزلة يضني المعتزل قلبه بنفسه، ومع الجماعة فإن الحشد هو ما يضنيه - نيتشه</li>
+<li>لقد استعصى على الإنسان تعلم النسيان فظل باستمرار مشدودا إلى الماضي - نيتشه</li>
+<li>في جسدك حكمة أصوب من حكمتك - نيتشه / إن في جسدك من العقل ما يفوق خير حكمة فيك - نيتشه</li>
+<li>إن وراء أفكارك ومشاعرك يقوم سيد جبار وحكم مجهول، إنه الهو الذي يسكن جسدك، بل هو جسدك - نيتشه</li>
+<li>إن الوعي لا يخص أساسا الوجود الفردي للإنسان ولكنه بالعكس يخص بطبعه الجزء المشترك بين أفراد القطيع - نيتشه</li>
+<li>إن العقل، بما هو وسيلة الفرد إلى البقاء، بطور قواه الرئيسية عبر الإخفاء، فهو الوسيلة التي بها يبقى الأفراد الأكثر ضعفا والأقل صلابة - نيتشه</li>
+<li>إن الأنا لم يعد سيدا حتى في بيته - فرويد</li>
+<li>إن الشعور قطرة ماء في محيط اللاشعور - فرويد</li>
+<li>إن الشعور هو النفسي ذاته وحقيقته الأساسية - فرويد</li>
+<li>إن الشعور هو الحياة النفسية ذاتها وواقعها الأساسي - فرويد</li>
+<li>الشعور بالأنا عرضة للتحريف والتشويه وحدوده ليست ثابتة - فرويد</li>
+<li>...إن الأنا هو جزء من الهو طرأ عليه تعديل وتحوير بحكم مجاورته للعالم الخارجي و تأثره به... - فرويد</li>
+<li>وتسمى هذه القدرة على استبدال هدف، كان في الأصل جنسيا بآخر لم يعد جنسيا وإن كان - على الصعيد النفسي- ذا قرابة به، قدرة على الإعلاء - فرويد</li>
+<li>إنني ذات عارفة وموضوع، وهذه الذاتية الموضوعية، أي هذا الارتداد للمعرفة على ذاتها، هو ما أقصده باسم:"الأنا". - فيخته</li>
+<li>إن شرط وعيي بمجمله هو أن يكون هناك تمييز بين الذات العارفة التي تعي والموضوع الذي تعيه. - فيخته</li>
+</ul>
+<ul class="b">
+<li>الحياة هي الموت - كلودبرنار</li>
+<li>يتعذر فهم الإنسان بدون معرفة مسبقة للإنسانية التي هو جزء منها - أ. كونت</li>
+<li>إن الفرد المفكر لا يمكنه أن ينشطر شطرين، أحدهما يفكر والآخر يشاهد التفكير - أ. كونت</li>
+<li>إن البيولوجيين لا يدرسون منا سوى الحيوان، أما الإنسان فكثيرا ما تبقى صفاته الجوهرية مجهولة عندهم - أ. كونت</li>
+<li>غابة الحياة هي الحياة نفسها - غوته</li>
+<li>إن أعظم عقاب بالنسبة إلي هو أن أكون وحيدا في الجنة - غوته</li>
+<li>إن السؤال عن الإنسان من هو ؟ هو السؤال الأول والأساسي في الفلسفة - غرامشي</li>
+<li>إن كلمة القصدية لا تعني شيئا آخر غير الخصوصية العميقة والعامة التي بمقتضاها يكون الوعي وعيا بشيء ما - هسرل</li>
+<li>إن فيلسوف الميتافيزيقا هو أشبه ما يكون بإنسان يبني قصرا ويسكن في كوخ إلى جانبه - هوسرل</li>
+<li>أن أوجد هو أن أوجد في العالم - هيدقر</li>
+<li>التفكير في حقيقة الوجود هو في الوقت نفسه تفكير في ما هو إنساني في الإنسان هيدقر</li>
+<li>من جسدي يبدأ العالم - مرلوبونتي</li>
+<li>الجسد ليس إذن موضوعا - مرلوبونتي</li>
+<li>لا تاريخ إلا لذات هي ذاتها تاريخية - مرلوبونتي</li>
+<li>كل وعي هو وعي بشيء ما - مرلوبونتي</li>
+<li>إننا نبصر من خلال الجسد - مرلوبنتي</li>
+<li>يوجد الإنسان في العالم ويعرف نفسه فيه - مرلوبونتي</li>
+<li>أنا لست أمام جسدي ولا في جسدي، بل أنا جسدي - مرلوبونتي</li>
+<li>لسنا فكرا وجسدا، لسنا وعيا قبالة العالم بل نحن فكر متجسد، كيان في العالم - مرلوبونتي</li>
+<li>إذا كنا ندرك بالجسد، فإن الجسد... بمثابة الذات التي تدرك - مرلوبونتي</li>
+<li>إن جسدي يتميز عن الطاولة والفانوس لأنه يدرك بصفة مستمرة في حين أنه يتسلى لي الإغضاء عنهما - مرلوبونتي</li>
+<li>إن الأنا بوصفه مركزا تشع منه المقاصد والجسد الذي يحملها والموجودات والأشياء التي تتجه إليها ليست سوى قطاعات ثلاثة الحقل وحيد - مرلوبونتي</li>
+<li>والواقع أن نظرة الغير لا تحولني إلى موضوع، كما لا تحوله نظرتي إلى موضوع، إلا إذا انسحب كل منا وقبع داخل طبيعته المفكرة، وجعلنا نظرة بعضنا إلى بعض لا إنسانية، وإلا إذا شعر كل منا بأن أفعاله بدلا من أن تتقبل وتفهم، تخضع للملاحظة مثل أفعال حشرة - مرلوبونتي</li>
+<li>ليس للحياة معنى قبليا - سارتر</li>
+<li>يعرف الإنسان بمشروعه - سارتر</li>
+<li>الجحيم هم الآخرون - سارتر</li>
+<li>إما أنا أو الآخر - سارتر</li>
+<li>ألا أختار يعني أنني اخترت ألا أختار - سارتر</li>
+<li>يجب أن أكون كما يراني الآخرون - سارتر</li>
+<li>أن أكون هو دائما أن أكون في وضع - سارتر</li>
+<li>الغير هو الآخر بمعنى الأنا الذي ليس أنا - سارتر</li>
+<li>أحتاج إلى وساطة غيري كي أكون ما أكون - سارتر</li>
+<li>إن الإنسان بالنسبة إلى ذاته وإلى الآخرين كائن دال- سارتر</li>
+<li>إن الإنسان يصير نفسه جبانا أو يصيّر نفسه بطلا - سارتر</li>
+<li>إن الغير هو ذلك الذي ليس هو أنا، ولست أنا هو - سارتر</li>
+<li>إن الخجل هو بالطبيعة اعتراف، اعتراف بأني أكون كما يراني الآخرون - سارتر</li>
+<li>لا يوجد غيري فأنا وحدي أقرر الخير وأخترع الشر - سارتر</li>
+<li>الإنسان هو ما صمم أن يكون عليه كمشروع- سارتر</li>
+<li>إن الآخر ضروري لوجودي، قدر ما هو ضروري من جهة أخرى  لتحصيل المعرفة التي لي بذاتي – سارتر</li>
+<li>إن الوعي المباشر مع الآخر المغاير للذات... وهذا الإنتاج الدائم للذات بالعمل والممارسة هو بنيتنا الخاصة – سارتر</li>
+<li>الإنسان في جوهره رغبة في الوجود، ولعل معنى الرغبة في نهاية الأمر هو طموح الإنسان إلى أن يصبح إنها - سارتر</li>
+<li>إن الوجودية هي النظرية الوحيدة التي تقيم للإنسان كرامة شخصية لأنها لا تجعل منه وسيلة أو موضوعا أو غرضا - سارتر</li>
+<li>إنا لا نكتشف أنفسنا في عزلة ما، بل في الطريق في المدينة وسط الجماهير شيئا بين الأشياء، أناسا بين البشر - سارتر</li>
+<li>إن الإنسان الذي يكتشف ذاته مباشرة من خلال الكوجيتو، يكتشف كل الآخرين، يكتشفهم بما هم شرط لوجوده - سارتر</li>
+</ul>
+<ul class="b">
+<li>فحين نقول إن الإنسان يختار ذاته، فإننا لا نعني أنه يختار لنفسه فقط، بل هو يختار أيضا لجميع الناس. - سارتر</li>
+<li>إني مسؤول أمام نفسي وتجاه الآخرين، وأنا أبدع صورة خاصة للإنسان أتخيرها لنفسي، وإذ أختار لنفسي، فإني أختار الإنسان – سارتر</li>
+<li>إني أمنح الأولوية للآخر وإن وجودي مسخر له، أما واجبات الآخر تجاهي فذاك أمره وليس أمري - ليفيناس</li>
+<li>المصافحة ممارسة طقوسية مادية تعبر عن الاعتراف الإيديولوجي في الحياة اليومية- ألتوسير</li>
+<li>توجد دعاية تذكرنا بلا انقطاع على طريقة التراتيل الدينية، بأنا لا تمتلك إلا جسدا وعلينا إنقاذه - بودريار</li>
+<li>لا نمتلك إلا جسدا وعلينا إنقاذه - بودريار</li>
+<li>لقد انصب الاهتمام طيلة قرون على إقناع الناس بأن لا أجساد لهم - بودريار</li>
+<li>الإنسان حيوان ميتافيزيقي - شوبنهاور</li>
+<li>إن التاريخ وحده يمنح شعبا وعيا تاما بذاته - شوبنهاور</li>
+<li>يقوم التاريخ بالنسبة إلى النوع الإنساني مقام العقل بالنسبة إلى الفرد - شوبنهاور</li>
+<li>لا يكون المرء مطابقا لذاته إلا إذا كان بمفرده. لذلك، فالكاره للعزلة كاره للحرية - شوبنهاور</li>
+<li>ما الوعي من فكرنا إلا سطحه، كالأرض، لا نعرف سوى قشرتها، أما داخلها فلا - شوبنهاور</li>
+<li>إني أفكر حيث لا أوجد وأوجد حيث لا أفكر - لاكان</li>
+<li>هو هذا الفصل من تاريخي الذي تم محوه أو الذي تحتله أكذوبة: إنه الفصل الذي خضع للرقابة - لاكان</li>
+<li>نحن نفعل بماضينا كله - برغسون</li>
+<li>كل وعي هو إذن ذاكرة بمعنى احتفاظ بالماضي وتراكم له في الحاضر - برغسون</li>
+<li>لا يكون الوعي في المجال النفسي، مرادفا للوجود، بل فقط مرادفا للفعل - برغسون</li>
+<li>كل حالة من الحالات النفسية بوصفها فقط تنتمي إلى شخص ما إنما تعكس كامل شخصيته - برغسون</li>
+<li>الاحتفاظ بما لم يعد موجودا واستباق ما لم يوجد بعد تلك هي إذن، وظيفة الوعي الأولى - برغسون</li>
+<li>إن الوعي هو رابط (همزة وصل) يصل بين ما انقضى وما سيأتي، إنه جسر يربط بين الماضي والحاضر - برغسون</li>
+</ul>
+<ul class="b">
+<li>إن شعوري لا يخمد في لحظة حتى يلمع في شعور آخر - برغسون</li>
+<li>إن الذات بطبعها مغلقة ومفتوحة - موران</li>
+<li>يجب أن يكون تصورنا للذات معقدا - موران</li>
+<li>الحاجة إلى الآخر ضرورية إذ تشهد بعدم اكتمال الأنا - موران</li>
+<li>الإنسان كائن ثقافي بالطبع، لأنه كائن طبيعي بالثقافة - موران</li>
+<li>أن يكون المرء ذاتا هو أن يكون مستقلا وتابعا في الوقت ذاته - موران</li>
+<li>إن الأنا كالذرة، في الظاهر وحدة بسيطة وفي الواقع بنية مركبة - موران</li>
+<li>أن يكون المرء ذاتا، معناه أن يحتل المركز داخل عالمه الخاص ويملأ موقع "الأنا" - موران</li>
+<li>علينا أن نتعلم من جديد أن نبصر، أن نتصور، أن نفكر وأن نفعل، نحن لا نعرف الدرب ولكننا نعرف أنه يُنحت بفعل المسير ... - موران</li>
+<li>الغير هو في الوقت نفسه المماثل والمباين لي، إنه المماثل بسماته الإنسانية أو الثقافية المشتركة والمباين بخصائصه الفردية أو فروقه العرقية - موران</li>
+<li>أن يكون المرء قادرا على قول "أنا" وأن يكون المرء ذاتا معناه أن يحتل موقعا وموضعا حتى يكون في مركز عالمه حتى يتمكن من النظر فيه والنظر في ذاته – موران</li>
+<li>إن الحاجة إلى الآخر جذرية، إذ تشهد بعدم اكتمال الأنا حينما يكون فاقدا للاعتراف به وفاقدا للصداقة والحب. - موران</li>
+<li>إن أفضل وسيلة لمعرفة النفس هي أن تسعى لمعرفة الغير - أندريه جيد</li>
+<li>لكن هذا لا يصدق علي أنا - أندريه جيدا! قلتم كريه هو الأنا - أندريه جيد</li>
+<li>كريه هو الأنا - باسكال</li>
+<li>ما الإنسان إلا يراع أوهى ما في الطبيعة، ولكنه يراع مفكر - باسكال</li>
+<li>أين هي إذن هذه الأنا إن لم تكن في الجسم ولا في النفس؟ - باسكال</li>
+<li>إن من ينظر في أمر نفسه ينتابه الفزع من نفسه فهو في وضع بين هوّة اللامتناهي وهوّة العدم - باسكال</li>
+<li>ليس الإنسان ملاكا ولا وحشا، والبلية أن كل من أراد أن يكون ملاكا كان وحشا – باسكال</li>
+<li>أين موجود هو الإنسان ضمن الطبيعة؟ إنه عدم بالنظر إلى اللامتناهي وإنه كل شيء بالنظر إلى العدم، إنه توسط بين لاشيء وكل شيء - باسكال</li>
+<li>لقد أصبح الإنسان مشكلا مستمرا بالنسبة إلى ذاته - شيلر</li>
+<li>إن الرغبة الواعية لكائن ما هي التي تشكله بما هو أنا - كوجيف</li>
+<li>الأنا يوجد في علاقته المتبادلة مع الآخر - غوسدورف</li>
+</ul>
+<ul class="b">
+<li>إن الآخر شرط وجود الإنسان غوسدورف</li>
+<li>ليست الشخصية ما نحن عليه، بل أن شخصنا هو الذي نريد إقناع الغير به، أو ذلك الذي يريد الغير إقناعنا بأننا هو - غوسدورف</li>
+<li>إن الآخر كلما كان مختلفا عني استطاع مساعدتي على أن أكون أنا - برجيه</li>
+<li>يحمل كل إنسان الصورة الكاملة للوضع الإنساني - مونتاني</li>
+<li>إنما الفرق بين إنسان وآخر أكثر من الفرق بين الإنسان والحيوان -مونتاني</li>
+<li>الأنثروبولوجيا (علم الإنسان) علم تتمثل غايته الأولى بل غايته الوحيدة، في تحليل الفوارق وتأويلها - لفي ستراوس</li>
+<li>الإنسان يفكر أي يخاطب غيره ويتكلم إلى نفسه - فويرباخ</li>
+<li>إن ما ينسبه الإنسان إلى الله هو عين ما ينفيه عن نفسه - فويرباخ</li>
+<li>إن الوعي بالمعنى الأدق لا يوجد إلا لدى كائن اتخذ من نوعه الخاص ومن ماهيته الخاصة موضوعا - فويرباخ</li>
+<li>الإنسان هو بالنسبة إلى نفسه أنا وأنت في آن، فإذا كان بإمكانه أن يحتل موقع الآخر فذاك تحديدا لكون موضوعه ليس فرديته بل نوعه وما هيته - فويرباخ</li>
+<li>لعل تعريفات الإنسان تفوق عدد تعريفات أي حيوان آخر والسبب في ذلك واضح، مادام الإنسان مصدر لكل التعريفات - فابل</li>
+<li>الفرق بين الإنسان والحيوان أن الأول يفعل وفقا لمبادئه ما يفعله الثاني وفقا للضرورة الطبيعية، أي أن الإنسان يفكر في حين أن الحيوان يتصرف كما لو كان يفكر - لانيو</li>
+<li>الإنسان ذلك القرد الذي فقد طبيعته - روستان</li>
+<li>إن عظمة الإنسان في عزمه على تجاوز وضعه - كامو</li>
+<li>الإنسان ابن الرغبة لا ابن الحاجة - باشلار</li>
+<li>إن الاختلاف بيني وبين نفسي لا يقل عن الاختلاف بيني وبين غيري - ج. لوموان</li>
+<li>إنني لا أوجد إلا من أجل الغير - مونييه</li>
+<li>الشخص كائن قادر على التجرد من ذاته وعلى التخلي عنها، إنه كائن يحيد عن مركزية ذاته من أجل التفرغ للآخرين- مونييه</li>
+<li>الإنسان اختراع أثبتت أركيولوجيا (حفريات) فكرنا حداثة عهده، وربما نهايته القريبة - فوكو</li>
+<li>إن مسألة الوعي غامضة غموض مسألة اللاوعي - ريكور</li>
+<li>أن أكون إنسانا هو أن أكون قادرا على الانتقال إلى مركز منظور آخر - ريكور</li>
+<li>أن أكون إنسانا هو أن أكون غيري في الوقت الذي أبقى فيه أنا نفسي - ريكور</li>
+</ul>
+<ul class="b">
+<li>لا أملك إدراك نفسي كموجود إلا من حيث أني أدرك نفسي أنني لست الآخرين، أي أني غيرهم - غابريال مارسيل</li>
+<li>إن الغريب يسكننا على نحو غريب - كريستيفا</li>
+<li>إن الجحيم كله في كلمة عزلة - هيقو</li>
+<li>إننا نكف عن أن نحب إن لم نجد أحدا يحبنا - دي ستايل</li>
+<li>لقد أصبح الإنسان مشكلا مستمرا بالنسبة إلى ذاته - شيلر</li>
+<li>أعرف جيدا أنني ذات نفسي لكنني لا أملك البرهنة على ذلك - بول فاليري</li>
+<li>كريه فعلا هو الأنا... لكن هذا الأمر يتعلق بأنا الآخرين - فاليري</li>
+<li>الشخص ليس هو الفرد ولا هو الكلي، إنه ما بعد الفرد والكلي - جان لاكروا</li>
+<li>أن نسمي شخصا باسمه معناه أن تنتظر منه جوابا يؤسس كينونته - لاكروا</li>
+<li>يسعى المذهب الإنساني إلى جعل الإنسان أكثر إنسانية - مارينان</li>
+<li>لا يهتم المتخصص في العلوم الإنسانية بالإنسان وانما بالعلم -سابير</li>
+<li>لا أحد يشبهني لا لحمي لحمهم ولا فكري فكرهم - ماكس ستبرنر</li>
+<li>لا يستطيع كائن إنساني حقيقة أن يفهم آخر - غراهام غرين</li>
+<li>في العزلة يجب أن نتصرف كما لو أن الكل يرقبنا، وحين يرانا كل العالم يجب أن نتصرف كما لو كنا وحدنا – لافال</li>
+<li>إن مفتاح فهمنا للسلوك إنما يوجد برمته في الفيزيولوجيا- بافلوف</li>
+<li>إن وحدتي، مهما كنت متوحدا، إنما تتخللها دلالات إنسانية أحملها معي. فلا وجود إذن لخبرة هي خبرة وحدة الذات – ج. جيرار</li>
+<li>إن الحيوانات تلد حيوانات... أما الإنسان فلا يولد إنسانا، بل لابد أن تربيه ليصبح كذلك - جوستاين غاردر</li>
+<li>تبدأ الحقيقة بوجود شخصين - كارل ياسبرس</li>
+<li>إن الإنسان غامض في ذاته وهذا ما يتعين معرفته - الآن</li>
+<li>إننا نتعايش بشكل سيء مع الذين نعرفهم جيدا، ونتعايش بشكل سيء مع الذين لا نعرفهم أصلا، ولكننا نتعايش أفضل مع الذين لا تعرفهم بشكل جيد - الآن</li>
+<li>الغير هو آخر الآنا، منظورا إليه ليس بوصفه موضوعا، بل بوصفه أنا آخر. - لالاند</li>
+</ul>
+<!-- NOTE: 1379 part1 p14 is the publisher back cover (MAGAZINES logo, "Nos Locaux" list of Taki Academy branches, www.takiacademy.com 73.832.000) — not transcribed as content -->
+
+</section>
+
+</div>
+</body>
+</html>

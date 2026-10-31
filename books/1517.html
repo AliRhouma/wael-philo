@@ -1,0 +1,680 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<title>Wael Academy — Philosophie · 2. العلم بين الحقيقة و النمذجة </title>
+<script>
+  window.MathJax = {
+    tex: { inlineMath: [['\\(','\\)']], displayMath: [['\\[','\\]']] },
+    chtml: { fontURL: 'https://cdn.jsdelivr.net/npm/mathjax@3/es5/output/chtml/fonts/woff-v2', matchFontHeight: true },
+    startup: { typeset: true }
+  };
+</script>
+<script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js" async></script>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Sora:wght@400;500;600;700;800&family=Cairo:wght@400;500;600;700;800;900&family=Tajawal:wght@400;500;700;800&family=JetBrains+Mono:wght@400;500;600;700&display=swap');
+:root{
+  /* ===== Wael Academy palette — MAIN ACCENT = green-teal gradient #0FAB8F → #067360 ===== */
+  --bg:#fff; --panel:#f2f8f8; --hair:#e6e6e9; --hair2:#d6d6db;
+  --fg:#0f2a31;        /* body text (and +/− signs) */
+  --fg2:#3f5b62;       /* softer text */
+  --fg3:#7c959b;       /* muted (footer) */
+  --blue:#067360;      /* deep accent — small numbers, borders, watermark, accent equations */
+  --blue-dark:#045260; /* titles & wordmarks (also the balance colour) */
+  --teal:#0fab8f;      /* bright accent end */
+  --loop:#0d9c82;      /* logo-loop helper */
+  --orange:#067360;    /* kicker/category labels (gold retired → deep teal) */
+  --red:#f5322f;       /* EXERCISE CHIPS ONLY — never for emphasis */
+  --cream:#e6f3f4; --blue-soft:#e6f3f4;  /* pale teal — callout fill + table sub-row fill */
+  --blue-line:#cde7e4; /* hairline */
+  --sub-ink:#045260;   /* table sub-row text */
+  --grad:linear-gradient(148deg,#0fab8f 0%,#0d9c82 52%,#067360 100%);
+  --mono:'JetBrains Mono',monospace; --latin:'Sora',sans-serif; --ar:'Cairo',sans-serif; --arb:'Tajawal',sans-serif;
+}
+*{box-sizing:border-box;margin:0;padding:0;}
+body{font-family:var(--latin);color:var(--fg);background:#e4e4e7;padding:28px 0;
+     -webkit-print-color-adjust:exact;print-color-adjust:exact;}
+html[dir="rtl"] body{font-family:var(--arb);}
+
+/* ===== brand watermark: REAL text (crisp), full-bleed, repeats per page ===== */
+.wm{position:fixed;inset:0;z-index:0;pointer-events:none;display:flex;
+    align-items:center;justify-content:center;overflow:hidden;
+    -webkit-print-color-adjust:exact;print-color-adjust:exact;}
+.wm span{font-family:var(--mono);font-weight:800;font-size:76.8pt;letter-spacing:.16em;
+    color:var(--blue);opacity:.06;white-space:nowrap;transform:rotate(-54deg);}  /* single diagonal: bottom-left → top-right */
+.wm.mono span{color:#000;opacity:.05;}
+
+/* ===== continuous flow stream (no page border) ===== */
+.flow{width:210mm;margin:0 auto;background:transparent;color:var(--fg);
+      padding-block:16mm 18mm;padding-inline:23mm 14mm;position:relative;}   /* spiral gutter: inline-start(=spine) 23mm / outer 14mm — dir-aware; print margins set in render_flow.py */
+@media screen{ .flow{background:#fff;box-shadow:0 10px 40px rgba(0,0,0,.16);} }
+.flow>*{position:relative;z-index:1;}
+.flow p,.flow li,.flow .data,.flow .note,.flow .ex{break-inside:auto;}
+.flow .fig,.flow figure,.flow img,.flow svg.figsvg,.flow table,.flow tr,.flow .chapdiv,.flow .exh,.flow .qrcard,.flow .meta{break-inside:avoid;}
+.flow h1,.flow h2,.flow h3,.flow .exh,.flow .subhead,.flow .chapdiv{break-after:avoid;}
+.flow img,.flow svg.figsvg{max-width:100%;height:auto;}
+.flow figcaption,.flow .figcap{display:none;}          /* rule 3: no figure captions */
+
+/* ===== front matter + chapters each start on a fresh page ===== */
+.flow .cover{break-after:page;}        /* cover alone on page 1 */
+.flow .toc{break-after:page;}          /* Sommaire alone on the next page */
+.flow .chapter{break-before:page;}
+.flow .chapter:first-of-type{break-before:auto;}
+
+/* ===== cover ===== */
+.cover{padding:14mm 0 8mm;border-bottom:2px solid var(--blue);margin-bottom:6mm;}
+.cover .badge{font-family:var(--mono);font-size:8.5pt;letter-spacing:.28em;text-transform:uppercase;color:var(--orange);margin-bottom:10px;}
+.cover h1{font-family:var(--latin);font-weight:800;font-size:34pt;line-height:1.03;letter-spacing:-.025em;color:var(--blue-dark);}
+.cover .grule{width:120px;height:5px;border-radius:5px;background:var(--grad);margin:14px 0;}
+.cover .sub{font-family:var(--mono);font-size:10pt;letter-spacing:.14em;text-transform:uppercase;color:var(--teal);}
+.cover .auth{font-size:11pt;color:var(--fg2);margin-top:6px;font-weight:600;}
+
+/* ===== table of contents ===== */
+.toc{margin:2mm 0 4mm;}
+.toc h2{font-family:var(--latin);font-weight:800;font-size:15pt;color:var(--blue-dark);margin-bottom:4mm;}
+.toc .trititle{font-family:var(--mono);font-size:8pt;letter-spacing:.2em;text-transform:uppercase;color:var(--orange);margin:4mm 0 2mm;}
+.toc ol{list-style:none;}
+.toc li{display:flex;align-items:baseline;gap:8px;font-size:10pt;padding:2.2px 0;color:var(--fg);line-height:1.4;}
+.toc li .n{font-family:var(--mono);font-weight:700;font-size:9pt;color:var(--blue);min-width:26px;}
+.toc li .dots{flex:1;border-bottom:1px dotted var(--hair2);transform:translateY(-3px);}
+
+/* ===== chapter divider band ===== */
+.chapdiv{margin:0 0 5mm;padding:6mm 16px 5mm;border-radius:12px;background:var(--grad);
+    -webkit-print-color-adjust:exact;print-color-adjust:exact;}   /* green-filled chapter band */
+.chapdiv .cn{font-family:var(--mono);font-size:8.5pt;font-weight:700;letter-spacing:.24em;text-transform:uppercase;color:rgba(255,255,255,.82);margin-bottom:5px;}
+.chapdiv h2{font-family:var(--latin);font-weight:800;font-size:17pt;line-height:1.1;letter-spacing:-.015em;color:#fff;}
+/* conclusion block — same green-filled look as the chapter band */
+.conclusion{background:var(--grad);border-radius:12px;padding:6mm 16px;margin:5mm 0;color:#fff;break-inside:avoid;
+    -webkit-print-color-adjust:exact;print-color-adjust:exact;}
+.conclusion .ck{font-family:var(--mono);font-size:8.5pt;font-weight:700;letter-spacing:.24em;text-transform:uppercase;color:rgba(255,255,255,.82);margin-bottom:6px;}
+.conclusion h3{font-family:var(--latin);font-weight:800;font-size:13pt;line-height:1.2;color:#fff;margin-bottom:4px;}
+.conclusion p,.conclusion li{font-size:10.4pt;line-height:1.7;color:#fff;}
+.conclusion b,.conclusion strong{color:#fff;font-weight:700;}
+
+/* ===== unit header (lesson/exercise) + QR emplacement ===== */
+.exh{display:flex;align-items:center;gap:11px;margin:6mm 0 3mm;}
+.exh .idx{font-family:var(--mono);font-size:9pt;font-weight:600;color:#fff;background:var(--grad);
+    border-radius:6px;padding:4px 11px;letter-spacing:.08em;text-transform:uppercase;
+    -webkit-print-color-adjust:exact;print-color-adjust:exact;}
+.exh .idx.ex{background:var(--red);}   /* exercise chip = red */
+.exh h2{font-family:var(--latin);font-size:14pt;font-weight:700;letter-spacing:-.01em;color:var(--blue-dark);}
+.exh .qrcard{margin-inline-start:auto;flex:0 0 auto;display:flex;flex-direction:column;align-items:center;gap:3px;width:26mm;}
+.qrcard .qrt{font-family:var(--mono);font-size:6.5pt;letter-spacing:.1em;text-transform:uppercase;color:var(--teal);text-align:center;}
+.qrcard .qrslot{width:24mm;height:24mm;padding:1.5mm;background:#fff;border:1px solid var(--blue-line);border-radius:8px;display:flex;align-items:center;justify-content:center;}
+.qrcard .qrslot img,.qrcard .qrslot svg{width:100%;height:100%;display:block;}
+
+/* sub-exercise label when one file holds several exercices */
+.exsub{font-family:var(--latin);font-weight:800;font-size:11.5pt;color:var(--blue-dark);margin:5mm 0 2.5mm;padding-bottom:3px;border-bottom:2px solid var(--blue-line);}
+
+/* ===== text blocks ===== */
+.lead{font-size:11pt;line-height:1.7;margin:2mm 0 3mm;color:var(--fg);}
+.para{font-size:10.6pt;line-height:1.7;margin:2mm 0 2.5mm;color:var(--fg);}
+.consigne{font-size:10.4pt;line-height:1.6;margin:1mm 0 2mm;color:var(--fg);font-style:italic;}
+.subhead{font-family:var(--latin);font-weight:800;font-size:12pt;letter-spacing:-.01em;color:var(--blue-dark);margin:5mm 0 2.5mm;}
+/* emphasis — green accent = .t-blue/.t-green ; balance = .t-navy ; red = SECONDARY accent (.t-red) on titles + a few words */
+.t-blue{color:var(--blue);font-weight:600;} .t-navy{color:var(--blue-dark);font-weight:700;}
+.t-red{color:var(--red);font-weight:600;} .t-green{color:var(--teal);font-weight:600;} .t-gold{color:var(--orange);font-weight:600;}
+.subhead.t-red{color:var(--red);font-weight:800;}   /* red Roman-numeral section title (I, II, …) — keeps subhead weight */
+/* highlighter marks — a soft colour wash behind a key word (agent picks green or red per what balances the page) */
+.hl-green,.hl-red{border-radius:3px;padding:.02em .24em;font-weight:600;box-decoration-break:clone;-webkit-box-decoration-break:clone;
+    -webkit-print-color-adjust:exact;print-color-adjust:exact;}
+.hl-green{background:rgba(15,171,143,.20);color:var(--blue-dark);}   /* green highlight */
+.hl-red{background:rgba(245,50,47,.13);color:#c0261f;}               /* red highlight  */
+
+.data{background:var(--blue-soft);border:1px solid var(--blue-line);border-inline-start:4px solid var(--blue);
+    border-radius:8px;padding:11px 16px;margin:3mm 0;font-size:10pt;line-height:1.65;color:var(--fg2);}
+.data b{color:var(--fg);font-weight:700;}
+.note{border:1px dashed var(--hair2);border-radius:9px;padding:11px 16px;margin:4mm 0;background:var(--panel);}
+.note .kicker{font-family:var(--mono);font-size:7.5pt;letter-spacing:.18em;color:var(--orange);display:block;margin-bottom:5px;}
+.note .nb{font-size:10pt;line-height:1.7;color:var(--fg2);} .note b{color:var(--fg);}
+.ex:not(.idx){background:var(--blue-soft);border:1px solid var(--blue-line);border-inline-start:3px solid var(--blue);
+    border-radius:7px;padding:7px 11px;font-size:9.6pt;line-height:1.6;color:var(--fg2);margin:2mm 0;}   /* :not(.idx) so it never hits the exercise chip (which is .idx.ex) */
+.ex .extag{display:inline-block;font-family:var(--latin);font-weight:800;font-size:7.6pt;color:var(--blue-dark);background:#fff;
+    border:1px solid var(--blue);border-radius:5px;padding:1px 9px;margin-inline-end:7px;vertical-align:middle;text-transform:uppercase;letter-spacing:.06em;}
+
+/* ===== lists ===== */
+ol.q{list-style:none;counter-reset:q;margin:1mm 0 2mm;}
+ol.q>li{counter-increment:q;position:relative;padding-inline-start:30px;margin-bottom:2.5mm;font-size:10.4pt;line-height:1.6;}
+ol.q>li::before{content:counter(q);position:absolute;inset-inline-start:0;top:1px;width:21px;height:21px;background:var(--grad);color:#fff;
+    border-radius:50%;font-family:var(--mono);font-size:9pt;font-weight:600;display:flex;align-items:center;justify-content:center;
+    -webkit-print-color-adjust:exact;print-color-adjust:exact;}
+ol.sub{list-style:none;counter-reset:s;margin:4px 0 0;padding-inline-start:2px;border-inline-start:1px solid var(--blue-line);}
+ol.sub li{counter-increment:s;position:relative;padding:2.5px 0 2.5px 26px;font-size:10.1pt;line-height:1.55;}
+ol.sub li::before{content:counter(s,lower-alpha)".";position:absolute;inset-inline-start:10px;top:2.5px;font-family:var(--mono);font-size:9pt;font-weight:600;color:var(--teal);}
+ol.qn{list-style:none;counter-reset:qn;margin:1mm 0 2mm;}
+ol.qn>li{counter-increment:qn;position:relative;padding-inline-start:26px;margin-bottom:2.2mm;font-size:10.4pt;line-height:1.55;}
+ol.qn>li::before{content:counter(qn)".";position:absolute;inset-inline-start:0;top:0;font-family:var(--mono);font-size:9.5pt;font-weight:700;color:var(--blue);}
+ul.b{list-style:none;margin:1mm 0 2mm;} ul.b>li{position:relative;padding-inline-start:22px;margin-bottom:2.4mm;font-size:10.4pt;line-height:1.6;}
+ul.b>li::before{content:"";position:absolute;inset-inline-start:3px;top:8px;width:8px;height:8px;border-radius:50%;background:var(--grad);
+    -webkit-print-color-adjust:exact;print-color-adjust:exact;}
+ul.dash{list-style:none;margin:1mm 0 2mm;} ul.dash>li{position:relative;padding-inline-start:20px;margin-bottom:1.8mm;font-size:10.4pt;line-height:1.6;}
+ul.dash>li::before{content:"–";position:absolute;inset-inline-start:2px;top:0;color:var(--fg);font-weight:700;}  /* dash / +/− signs = body colour */
+.flow ul.opts{list-style:none;margin:4px 0 3px;padding-inline-start:16px;}
+.flow ul.opts li{padding:2px 0;font-size:10.2pt;line-height:1.5;color:var(--fg);}
+
+/* ===== figures / tables ===== */
+.fig{margin:3mm 0;} .fig svg.figsvg{display:block;margin:0 auto;background:#fff;max-width:100%;height:auto;}
+.photo{display:block;margin:3mm auto;border-radius:8px;border:1px solid var(--hair);max-width:100%;}
+.figrow{display:flex;flex-wrap:wrap;gap:9px;justify-content:center;margin:3mm auto;max-width:190mm;}
+.flow .figrow img{border-radius:7px;border:1px solid var(--hair);height:46mm;width:auto;max-width:none;object-fit:cover;}
+.schemarow{display:flex;gap:16px;align-items:flex-start;flex-wrap:wrap;margin:2mm 0;}
+.schemarow .col-txt{flex:1 1 90mm;min-width:80mm;} .schemarow .col-fig{flex:0 0 78mm;} .schemarow .col-fig .fig{margin:0;}
+.flow table{border-collapse:collapse;width:100%;margin:3mm 0;font-size:9.8pt;line-height:1.5;}
+.flow table th,.flow table td{border:1px solid var(--blue-line);padding:6px 10px;text-align:start;vertical-align:top;}
+.flow table th{background:var(--grad);color:#fff;font-family:var(--latin);font-weight:700;font-size:9.4pt;
+    -webkit-print-color-adjust:exact;print-color-adjust:exact;}
+.flow table tr:nth-child(even) td{background:var(--blue-soft);color:var(--sub-ink);}   /* sub-row: #E6F3F4 / #045260 */
+
+mjx-container{color:var(--fg) !important;font-weight:400 !important;font-size:1.0em !important;}
+.eq-hi mjx-container,mjx-container.eq-hi{color:var(--blue) !important;}   /* accent (green) equation — highlight a key result; balance with plain math */
+.eq-red mjx-container,mjx-container.eq-red{color:var(--red) !important;}  /* red accent equation / symbol — complements the green .eq-hi */
+
+/* ===== per-file books: credit line, copies list, figures at their size ===== */
+.credit{display:flex;flex-wrap:wrap;align-items:center;gap:5px;margin:-1mm 0 3.5mm;font-size:9.4pt;color:var(--fg2);}
+.credit .who{font-weight:700;color:var(--blue-dark);}
+.credit .tg{font-family:var(--mono);font-size:7.2pt;letter-spacing:.04em;border-radius:5px;padding:1px 7px;line-height:1.6;
+    border:1px solid var(--blue-line);color:var(--blue);background:#fff;-webkit-print-color-adjust:exact;print-color-adjust:exact;}
+.credit .tg.sec{background:var(--blue-dark);border-color:var(--blue-dark);color:#fff;}
+.credit .tg.cor{background:#fff;border-color:var(--red);color:var(--red);}
+.credit a{color:var(--fg3);font-family:var(--mono);font-size:7pt;text-decoration:none;}
+.cover .auth .credit{margin:4mm 0 0;}
+.cover .copies{margin-top:5mm;font-size:8.6pt;color:var(--fg2);}
+.cover .copies ul{list-style:none;margin:2mm 0 0;padding:0;columns:2;}
+.cover .copies a{color:var(--fg3);text-decoration:none;font-size:8pt;}
+.flow figure.fig{text-align:center;}
+.flow figure.fig img{max-height:60mm;width:auto;max-width:70%;display:inline-block;}
+
+/* chapter tag on each part of a multi-chapter book (the book keeps the original order of the file) */
+.chtag{display:inline-block;margin:5mm 0 2mm;padding:1mm 3mm;border-radius:2mm;background:#eef3fb;border:1px solid #c9d6ea;
+  color:#1f3a6b;font-size:9pt;font-weight:700}
+.chtag span{color:#6b7f9e;font-weight:600;margin-inline-end:1.5mm}
+
+@media print{ body{background:#fff;padding:0;} .flow{width:auto;max-width:none;margin:0;padding:0;} }
+@page{size:A4;}   /* margins come from render_flow.py — do NOT set them here */
+</style>
+<meta data-pagefind-filter="type[content]" content="إصلاح">
+<meta data-pagefind-filter="resource[content]" content="الأستاذ سفيان سعد الله">
+<meta data-pagefind-meta="n[content]" content="1517">
+<meta data-pagefind-meta="title[content]" content="2. العلم بين الحقيقة و النمذجة">
+<meta data-pagefind-filter="chapter[content]" content="العلم بين الحقيقة والنمذجة">
+<meta data-pagefind-filter="section[content]" content="باكالوريا علوم الإعلامية"><style>.qrcard{display:none!important}.wa-nav{position:sticky;top:0;z-index:50;background:#045260;padding:10px 18px;font-family:Cairo,sans-serif;direction:rtl}.wa-nav a{color:#fff;text-decoration:none;font-weight:700}@media print{.wa-nav{display:none}}</style>
+</head>
+
+<body dir="rtl" lang="ar"
+      data-brand="Wael Academy" data-handle="@WaelAcademy"
+      data-tagline="في تُرابنا.. مغامرة بمغامرة"
+      data-phone="+216 50 40 40 42" data-site="waeldocuments.com"
+      data-cta="سجل معانا وأقرى عن بعد مع منصة Wael Academy"
+      data-subject="Philosophie · 2. العلم بين الحقيقة و النمذجة " data-watermark="Wael Academy" data-pagefind-body><nav class="wa-nav" data-pagefind-ignore><a href="../index.html">→ الرجوع إلى فهرس الفلسفة</a></nav>
+
+<!-- single full-page diagonal watermark, bottom-left → top-right (repeats on every page) -->
+<div class="wm" aria-hidden="true"><span>WAEL&nbsp;ACADEMY</span></div>
+
+<div class="flow colored">
+<div class="cover"><div class="badge">◉ Wael Academy · Philosophie</div><h1>2. العلم بين الحقيقة و النمذجة </h1><div class="grule"></div><div class="sub">العلم بين الحقيقة والنمذجة</div><div class="auth"><div class="credit">المؤلّف / المصدر : <span class="who">الأستاذ سفيان سعدالله · معهد الثانوي أبو القاسم الشابي (start cut by page edge) · المعهد النموذجي فرحات حشاد بصفاقس — الأستاذ: ناجي خليف (p20)</span> <span class="tg sec">الفلسفة · باكالوريا علوم الإعلامية</span> <a href="https://drive.google.com/file/d/1fZlLdUzpgzBrnRX6zkxHgfl52e-exOhD/view">↗ 2. العلم بين الحقيقة و النمذجة .pdf</a></div></div><div class="copies" data-pagefind-ignore><b>نسخ هذا الملف في الدرايفات (1)</b><ul><li><a href="https://drive.google.com/file/d/1fZlLdUzpgzBrnRX6zkxHgfl52e-exOhD/view">Hamza · Résumé 4SI (By HamZa A&#x27;y) › Philosophie</a></li></ul></div></div>
+<section class="chapter"><div class="chapdiv"><div class="cn">المحور</div><h2>العلم بين الحقيقة والنمذجة</h2></div>
+<!-- SOURCE: الأستاذ سفيان سعدالله · معهد الثانوي أبو القاسم الشابي (start cut by page edge) · المعهد النموذجي فرحات حشاد بصفاقس — الأستاذ: ناجي خليف (p20) -->
+<div class="exh"><span class="idx">إصلاح</span><h2>2. العلم بين الحقيقة و النمذجة</h2>
+  <div class="qrcard"><div class="qrt">فيديو الدرس</div><div class="qrslot"><img src="qr/1517.svg" alt="QR"></div></div></div>
+<div class="credit">المؤلّف / المصدر : <span class="who">الأستاذ سفيان سعدالله · معهد الثانوي أبو القاسم الشابي (start cut by page edge) · المعهد النموذجي فرحات حشاد بصفاقس — الأستاذ: ناجي خليف (p20)</span> <span class="tg sec">الفلسفة · باكالوريا علوم الإعلامية</span> <a href="https://drive.google.com/file/d/1fZlLdUzpgzBrnRX6zkxHgfl52e-exOhD/view">↗ 2. العلم بين الحقيقة و النمذجة .pdf</a></div>
+<!-- p01 -->
+<p class="consigne"><u>السؤال الثاني :</u> ما معنى أن يكون النموذج في العلم " نموذج شيء ما ، من أجل شيء ما " ؟</p>
+<ul class="b">
+<li>المطلوب تحديد دلالة النموذج في العلم ضمن سياق القولة ، بإبراز الترابط بين البعدين المعرفي ( أو النظـــري ) ( التركيبي و الدلالي ) و العملي ( أو التداولي ) .</li>
+</ul>
+<ul class="dash">
+<li>في البعد الأول ( المعرفي أو النظري ) ( التركيبـــــي و الدلالي ) ، النموذج هو تمثل ( تأويل ) مادي أو ذهني لنسق واقعي ، يُمكن التعبير عنه في تصاميم أو في رسوم بيانية أو في صيغ رياضية مجردة .</li>
+<li>في البعد الثاني العملي ( أو التداولي ) ، النموذج يُنتجه المنمذج وفق غاية عملية براغماتية ، و يقوم على التبسيط المتعمّد و القصدي ، و يعمد استراتيجيا الإهمال .</li>
+</ul>
+<ul class="b">
+<li>ملاحظة منهجية : يُراعى مدى الارتباط بين تحديد معنى النموذج و القولة الواردة في السؤال .</li>
+</ul>
+<p class="consigne"><u>السؤال الأول :</u> دورة 2010 " لا يمكن لأي نموذج علمي أن يكون نهائيا " . اكشف عن إحدى تبعات هذا القول.</p>
+<p class="para">يُطالب المترشح بتقديم إحدى التبعات كأن يبرز :</p>
+<ul class="dash">
+<li>النمذجة تنتج معرفة علمية مفتوحة أو تاريخية</li>
+<li>كل نموذج علمي هو تمثل قابل للمراجعة أو التعديل</li>
+<li>صلاحية النموذج ترتبط بالمشاريع المعرفية المختلفة أو بمعيار الفاعلية أو النجاعة.</li>
+<li>النمذجة تقطع مع التصور الذي يرى في العلم إنتاجا لحقائق مطلقة و ثابتة</li>
+<li>النمذجة قد تفضي إلى التفريط في مطلب الحقيقة</li>
+</ul>
+<p class="para"><u>ملاحظة:</u> ضرورة مراعاة سلامة التعبير و سلامة الفكرة</p>
+<p class="consigne"><u>السؤال الثاني :</u> قيل: "بقدر ما يتقدم العلم في نمذجة الواقع، بقدر ما يبتعد عنه" حدد دلالة النموذج في سياق هذا القول . _</p>
+<ul class="dash">
+<li>النموذج آلية لمقاربة الواقع تقوم على استبدال الواقع المعطى بواقع منشأ قصد تعقله والتحكم فيه</li>
+<li>النموذج لا يقوم على محاكاة الواقع المعطى والمباشر بل يقوم على إنتاج واقع عقلي بديل</li>
+<li>النموذج العلمي يستبدل الواقع المحسوس بعالم منشأ عقليا يحل فيه الإفتراضي والممكن، محلّ الواقعي</li>
+<li>النموذج إنشاء عقلي يلعب الدور الرئيسي في تطور العلم من خلال تجاوز عقبة الواقع المحسوس</li>
+</ul>
+<p class="para"><u>ملاحظة:</u></p>
+<p class="para">يُراعى في إسناد العدد سلامة التعبير و وضوح الفكرة</p>
+<!-- p02 -->
+<!-- NOTE: 1517 part1 p02 — handwritten mark/watermark over the printed text left out -->
+<div class="data">
+<p class="para">ترتبط مشكلة الواقعية العلمية بمسألة معرفة ما إذا كان العلم في قسمه النظري، يُعدّ في حد ذاته وصفا موضوعيا لواقع، غالبا ما يعتبر أكثر جوهرية، و كذلك – و لهذا السبب بالذات – أكثر واقعية من الواقع الملاحظ. إن خصوم الواقعية [...] يؤكدون أن ما يتسنى لنا التطلع إليه، و أفضل ما نحن قادرون على الظفر به في شأن المعرفة الموضوعية، ليس إنتاج نظريات صحيحة تكمن مهمتها في وصف الآلية الحقيقية للطبيعة، بل فقط إنتاج نظريات، تكون أدوات ناجعة للحساب و التوقع. إن قبول نظرية علمية لا يلزمنا إذن البتة بالإعتقاد في صحتها و في أن الكائنات التي تصفها هي كائنات واقعية، إذ يكفي – لتكون نظرية ما مقبولة – أن يتم اعتبارها ملائمة خبريا [...]. إن النشاط العلمي هو نشاط إنشائي أكثر مما هو إكتشاف: إنشاء نماذج ينبغي أن تكون ملائمة للظواهر، و ليس إكتشافا للحقيقة الخاصة بالمُلاحظ.</p>
+<p class="para"><b>جاك بوفراس</b></p>
+<p class="para"><b>مقال:"هل أن ابستيمولوجيا واقعية هي ابستيمولوجيا ممكنة؟</b></p>
+<p class="para">ورد ضمن[الحقيقة في العلوم]</p>
+<p class="para">إشراف: ج.ب.شنجو</p>
+</div>
+<p class="consigne"><b>السؤال الأول :</b> - <b>ماهي الإشكالية التي يطرحها الكاتب في النص؟</b></p>
+<ul class="dash">
+<li>التساؤل عما إذا كان النشاط النظري للعلم يتمثل في اكتشاف حقيقة الواقع أم في بناء نماذج ملائمة للظواهر تسمح بإحتسابها و توقعها و التحكم فيها؟</li>
+</ul>
+<p class="consigne"><b>السؤال الثاني :</b> <b>حدد سياقيا كل مفهوم من المفهومين التاليين : "النموذج" ، "الحقيقة" ؟</b></p>
+<!-- p03 -->
+<p class="subhead t-navy"><b><u>* "الحقيقة":</u></b></p>
+<ul class="dash">
+<li>التفطن إلى وجود تحديد مستبعد للحقيقة العلمية بما هي حكم دال على جوهر الظواهر (المطابقة)، و على النظام اللامرئي لحدوثها.</li>
+<li>التفطن إلى وجود تحديد مؤكد للحقيقة العلمية بماهي حقيقة منشأة، معيارها الملاءمة.</li>
+</ul>
+<p class="subhead t-navy"><b><u>* "النموذج" :</u></b></p>
+<ul class="dash">
+<li>النموذج تمثل ذهني لظاهرة أو لنسق من الظواهر.</li>
+<li>وظيفته تفسيرية و تحكمية.</li>
+<li>شرط صلاحيته هو الملاءمة.</li>
+<li>و لذلك، يكون النموذج نظرية مُوجّهة نحو الفعل الذي يراد تحقيقه.</li>
+</ul>
+<p class="consigne"><b>السؤال الثالث :</b> <b>ارصد حجة يبرز بها الكاتب رفضه للأطروحة القائلة بأن النظرية العلمية تمثل إكتشافا لحقيقة الواقع؟</b></p>
+<ul class="dash">
+<li><b><u>الحجة الأولى:</u></b> تتعلق بمحدودية القدرة المعرفية للإنسان ("ما يتسنى لنا التطلع إليه، و أفضل ما نحن قادرون على الظفر به").</li>
+<li><b><u>الحجة الثانية:</u></b> تتعلق بتصور معين لوظيفة العلم تتمثل في "إنتاج نظريات تكون أدوات ناجعة للحساب و التوقع".</li>
+<li><b><u>الحجة الثالثة:</u></b> مفادها أن النشاط العلمي – في مستوى نظرياته وحقائقه وتصوره للواقع – هو <u>"نشاط إنشائي"</u>.</li>
+</ul>
+<p class="para">*****</p>
+<!-- p04 -->
+<p class="para"><u>النص :</u> يُعرف مفهوم النموذج عند البعض بطريقة صورية [...]، بينما يُستعمل بالأحرى عند كتاب آخرين استعمالا غير صوري، ولكننا في جميع الحالات نعتبر أن النماذج بما هي تمثلات جزئية ومؤمثلة " لأجزاء صغيرة " من الواقع ( أو التجربة الإنسانية ) إنما تُشكل " جوهر " المعرفة العلمية. إن أغلب كتاب هذه المرحلة، من وجهة نظر ابستيمولوجية عامة، هم مضادون للواقعية بشكل صريح أو ضمني، إذا ما فهمنا الواقعية العلمية على أنها الاعتقاد في مسلمة ضمنية تعتبر أن هدف النظريات العلمية هو أن تعكس على نحو متفاوت في التقريب واقع الطبيعة كما هي. ويوجد أيضا لدى بعض هؤلاء الكتاب قدر ما من النزعة الأداتية بالمعنى الواسع: فالنماذج التي تقترحها العلوم هي أدوات تمكّن من التوجه في حقل من حقول التجربة الإنسانية التي يؤدي تعقّدها الشديد إلى استحالة أن تكون قابلة للانعكاس الكلي و الوفي في نظرية واحدة.</p>
+<p class="para">"المقاربات النمذجية و شبيهاتها "، كارلوس ايلسناس مولينساس .</p>
+<p class="consigne"><u>الأسئلة:</u> – اعمل على صياغة الإشكالية. (2ن).</p>
+<p class="para">هل النموذج وصف للواقع أم بناء له؟</p>
+<p class="para">أو</p>
+<p class="para">فيم تكمن قيمة النمذجة العلمية؟ هل في رسم صورة تقريبية للواقع أم في إنشاء واقع بديل؟</p>
+<p class="consigne">- كيف يكون النموذج صورة تقريبية للواقع ؟(2ن).</p>
+<ul class="dash">
+<li>لا يقدّم النموذج سوى بعض جوانب الواقع. وبقدر ما تكتفي الواقعية العلمية بمحاكاة الواقع وصياغة قوانينه في أشكال رياضية، فإنّ ابستيمولوجيا البنائية تعتبر النموذج تمثيل افتراضي واعتماد تجارب اصطناعية. ومن أهم آليات النمذجة التبسيط والإختزال: استراتيجيا الإهمال والإغفال لتبسيط المركّب.</li>
+</ul>
+<p class="consigne">- ما معنى أن النماذج أدوات ؟(2ن)</p>
+<p class="para">تعريف النماذج على أنها ادوات أي انها تبنى لغرض ما وانها تمكّن من التوجه نحو الفعل وهو ما تجسمه التجارب الانسانية. فالنماذج ادوات في معنى انها ترتبط بمطلب التحكم وحل مشكلات عملية. وعلى قدر تنوع النماذج تتنوع سبل التوقع والفعل...</p>
+<!-- p05 -->
+<!-- NOTE: 1517 part1 p05 — highlighter and handwritten margin line left out -->
+<p class="subhead t-red">في النموذج والحقيقة</p>
+<p class="subhead t-navy"><b>تمهيد</b></p>
+<p class="para">1.تتزايد اليوم فاعلية النماذج بوصفه علامة تطور العقل العلمي في شتى المجالات البيولوجية والفيزيائية والاقتصادية إلى حد اعتبار عصرنا عصر بناء النماذج ....وهذا ما يدفعنا إلى ....</p>
+<p class="para">2. يشهد العلم اليوم تطورات على مستوى مفاهيمه وتمشياته تؤثر في تصوراتنا للواقع ...والحقيقة ....</p>
+<p class="para">3. من المفارقة اعتبار النمذجة سمة تطور العلم المعاصر وما يفضي إليه من تخلي عن الحقيقة.....</p>
+<p class="para">4.ثمّة تعارض بين بناء نماذج متنوعة تدل على ثراء العقل البشري وبين بلوغ حقيقة....</p>
+<p class="para">5. يسود على الصعيد الابيستيمولوجي نوع من التوتر بين الاعتراف بقيمة العلم من جهة والاختلاف حول تلك القيمة من جهة أخرى...</p>
+<p class="subhead t-navy"><b>المكتسبات</b></p>
+<p class="para">1.إبراز قدرة العقل العلمي التي يكشف عنها بناء النموذج وتعدّي التصورات الوضعانية والمناهج الجاهزة الفيزيائوية التي تحد من الإبداع العلمي.</p>
+<p class="para">2.بروز دور ابيستيمولوجيا النمذجة في بناء تصور جديد للواقع يتجاوز الواقعية الوضعانية</p>
+<p class="para">3. قيمة النمذجة في الترابط بين الأبعاد بما يثبت جدلية التجريد الصوري والافتراضي، جدلية النظري والواقعي.</p>
+<p class="para">4.النمذجة حررتنا بشكل نهائي من فكرة الواقعي ...والحقيقة المطلقة.</p>
+<!-- p06 -->
+<p class="subhead t-navy"><b>الحدود</b></p>
+<p class="para">1.حاجة النمذجة إلى نقد ابيستيمولوجي بما ان العلم أضحى منظوريات من شأنها أن تزعزع الطابع اليقين للعلم.</p>
+<p class="para">2.الإقرار بنسبية الحقيقة العلمية قد يوقعنا في ضرب من التشكيك وغياب معيار التمييز بين الحقيقة والخطأ.</p>
+<p class="para">3. النموذج إجراء اختزالي تبسيطي يكتفي بعنصر ويهمل عناصر أخرى</p>
+<p class="para">4.تورّط المنمذج في تشريع غايات عملية لا انسانية (صنع قنبلة، الاستنساخ...).</p>
+<p class="subhead t-navy"><b>الخاتمة:</b></p>
+<p class="para">1. الوعي بالخلفيات السياسية والتوظيف الإيديولوجي للعلم أو النماذج ( التداخل بين العلمي والسياسي والاقتصادي).</p>
+<p class="para">2.التأكيد على أن يكون العلم في خدمة الإنساني لا في خدمة قوى الهيمنة</p>
+<p class="para">3. .إبراز الطابع المركب للواقع وما يفترضه من إبداع نماذج متنوعة..</p>
+<p class="para">4.قابلية العلم اليوم أو النمذجة للمراجعة والتعديل...</p>
+<!-- p07 -->
+<p class="subhead t-red">فرض محور النمذجة ومطلب الحقيقة</p>
+<p class="consigne"><b>الموضوع:</b> هل النموذج العلمي معرفة بالواقع أم تحكم فيه؟</p>
+<p class="subhead t-navy"><b><u>المقدمة :</u></b></p>
+<p class="para"><b><u>أ-التمهيد:</u></b></p>
+<!-- PROOFREAD: 1517 part1 p07 — "أ-التمهيد" (heading partly hidden under the stamp/signature) -->
+<ul class="b">
+<li><b><u>امكانية أولى:</u></b>الإنطلاق من ما تطرحه علاقة النماذج العلمية بالواقع من صعوبات حيث يتجاذبها مطلب تقديم معرفة بالواقع ومطلب التحكم والتأثير فيه قصد تغييره</li>
+<li><b><u>امكانية ثانية:</u></b> الإنطلاق من التعارض القائم بين مثل أعلى للمعرفة يروم بلوغ الحقيقة لذاتها وتصور العلم يروم النجاعة والتحكم في الواقع قصد تغييره.</li>
+</ul>
+<p class="para"><b><u>ب-طرح الإشكال :</u></b></p>
+<ul class="b">
+<li><b><u>إمكانية أولى :</u></b> أية علاقة تحكم ارتباط النماذج بالواقع:هل هي علاقة معرفة وإدراك لحقيقة الواقع؟ أم هي علاقة فعل و تحكم؟ وهل تكون الصبغة التحكمية التداولية للنماذج مدعاة للتشكيك في وظيفتها وقيمتها المعرفية؟</li>
+<li><b><u>إمكانية ثانية:</u></b> هل في اهتمام النماذج بالتحكم في الواقع ما ينفي عنها الإهتمام بمعرفته؟ وهل يمكن الفصل بين مطلب المغرفة ومطلب الفعل؟ ألا يعتبر الرهان التحكمي عن تضخيم قيمة النجاعة على حساب مطلب المعنى؟</li>
+</ul>
+<!-- PROOFREAD: 1517 part1 p07 — "أية علاقة" / "ألا يعتبر" partly hidden under the stamp/signature -->
+<p class="subhead t-red"><b><u>-لحظة أولى:بيان الوظيفة المعرفية للنموذج العلمي:</u></b></p>
+<p class="subhead t-navy"><b><u>أ-تعريف النموذج العلمي:</u></b></p>
+<ul class="b">
+<li>النموذج هو بناء يُنشئه العالم وفق معايير صورية و خبرية بهدف حلّ مشكل بعينه.</li>
+</ul>
+<p class="subhead t-navy"><b><u>ب-خصائص المعرفة التي ينتجها النموذج:</u></b></p>
+<ul class="b">
+<li><b><u>في علاقتها بالواقع:</u></b></li>
+</ul>
+<ul class="dash">
+<li>لا تسلم للنماذج بوجود ولقع في ذاته يسعى العلم إلى إدراكه بموجب كونها تعتبر أن الواقع هو ما يبنيه العالم وفق مقتضيات تركيبية ودلالية و تداولية يفرضها منطق البناء و التركيب، لا منطق التحليل.</li>
+</ul>
+<!-- p08 -->
+<ul class="b">
+<li>إبراز أن البعد التداولي التطبيقي للنموذج لا يقل قيمة عن بعديه التركيبي و الدلالي. فقيمة النموذج تكمن أيضا في نجاعته وقدرته على حلّ المشكل الذي من أجله صمّم و أنشئ.</li>
+<li>للنماذج (علاوة على وظيفتها المعرفية)، وظائف استكشافية و توقعية ومعيارية. وهو ما يجعلها قادرة على تغيير وجهة الواقع وفق المقاصد التي يراها المنمذج</li>
+</ul>
+<p class="subhead t-navy"><b><u>د-استنتاج:</u></b></p>
+<ul class="b">
+<li>إن المعرفة – المشروع التي تنتجها النمذجة هي معرفة تحتكم إلى معايير النجاعة و الفعالية</li>
+<li>لا تفصل ابستيمولوجيا النمذجة بين المعرفة و الفعل و النظر إلى الحقيقة بما هي الفعل.</li>
+</ul>
+<p class="subhead t-navy"><b><u>ملاحظة:</u></b></p>
+<ul class="b">
+<li>يمكن للمترشح أن يتخيّر تمشيا مغايرا كأن يقدم تحليل التحكم على بيان المنزلة المعرفية للنموذج العلمي</li>
+</ul>
+<p class="subhead t-red"><b><u>III – المناقشة :</u></b></p>
+<p class="subhead t-navy"><b><u>1-المكاسب :</u></b></p>
+<ul class="b">
+<li>تثمين الترابط الذي تقيمه النمذجة بين الأبعاد المعرفية النظرية للنماذج والأبعاد التطبيقية النفعية</li>
+<li>إبراز دور ابستيمولوجيا النماذج في بناء تصور جديد للواقع بعيد عن الواقعية الساذجة من جهة و عن التصورات الوضعية المبالغة في القول بمبدأ الحتمية من جهة أخرى</li>
+<li>تثمين القدرة الإبداعية للعقل البشري التي تكشف عنها النمذجة</li>
+<li>إبراز أن أهمية الجانب التطبيقي و التحكمي لا ينفي عن النماذج وظيفتها المعرفية</li>
+<li>تثمين الطابع الإقتصادي للنمذجة</li>
+</ul>
+<!-- PROOFREAD: 1517 part1 p08 — "تقيمه" / "تصور" / "الحتمية" / "عنها" / "النماذج وظيفتها" partly hidden under the stamp/signature -->
+<p class="subhead t-navy"><b><u>2-الحدود :</u></b></p>
+<ul class="b">
+<li>- بيان ما يمكن أن يؤدي إليه تغيير المسارات الطبيعية من إخلال بالتوازنات الطبيعية للظواهر خاصة في ما يتعلق بمجال المناخ أو علم الأحياء أو حتى في المجال الإقتصادي الذي استبدل الواقع الفعلي بالواقع الإفتراضي و ما أفرزه ذلك من أزمات مالية متتالية: مخاطر هيمنة الإفتراضي</li>
+<li>بيان أن التداخل بين الجانب العلمي و الجانب المعياري قد يؤدي إلى إجحاف في فرض معايير قيمية تحتاج بدورها إلى معالجة و نقد</li>
+<li>إبراز ما قد تؤدي إليه المبالغة في القول بنجاعة أو فاعلية النماذج من فرض لعقلانية أداتية تبالغ في تضخيم قيمة النجاعة و المنفعة على حساب قيم أخرى</li>
+</ul>
+<!-- PROOFREAD: 1517 part1 p08 — "استبدل الواقع" partly hidden under the stamp -->
+<p class="para">الخدمات المعرفية و العملية التي تقدمها النماذج لا تحصننا من النقد الفلسفي الذي يسعى إلى كشف الأبعاد السلطوية المتخفية وراء إرادة المعرفة و التحكم.</p>
+<p class="para">..................................................</p>
+<!-- p09 -->
+<!-- NOTE: 1517 part1 p09 — handwritten ticks in the margin left out -->
+<p class="subhead t-red"><b>تمارين في النمذجة 2021</b></p>
+<p class="consigne">1.قيل: " الرياضيات ليست مجرّد لغة بل هي أساس إنشاء الواقع"</p>
+<p class="consigne">أبرز أهمية الرياضيات ودورها في النمذجة (2ن).</p>
+<p class="para">من مزايا ابيستيمولوجيا النمذجة نقد التمييز بين العلوم كالرياضيات والفيزياء والعلوم الإنسانية وكأنّ كلّ علم له لغته ومنهجه وأبعاده في حين أن النموذج تمشي مشترك بين مختلف العلوم على وجه العموم وهو ما يقتضي ضرورة استعمال الرياضيات لإدراك الواقع. اذ يحتاج الأمر إلى صياغة القوانين العلمية في رموز رياضية فمن معاني الثورة العلمية مع غاليلاي...أو نيوتن ترييض الطبيعة. لكن مع ظهور العلم المعاصر ودراسة الجسيمات مثل الذرة واستبدال الواقع الموضوعي بالواقع الإنشائي أصبحت الرياضيات ذات دور أساسي ذلك أن المنمذج يضع فرضيات للوصول الى نتائج ويبني أنساقا قوامها عدم التناقض ...ويعمد إلى الحساب والتوقع للتحكم في الواقع وهكذا تضطلع الرياضيات في شكلها الاكسيومي والنسقي بدور هام لا في عملية البرهنة والاستدلال بل أيضا بناء واقع افتراضي.</p>
+<p class="consigne">2. قيل " لم يعد ممكنا الانطلاق من الواقعي لصنع اللاواقعي، بل ستصبح العمليّة معكوسة: سنخلق أوضاعا مفارقة ونماذج اصطناع، و من ثم نبذل الجهود لصبغها بألوان الواقع، وبإعادة ابتكار الواقع كتخيل".</p>
+<p class="consigne">اعمل على تحديد معانيّ الواقع. ( 2ن).</p>
+<p class="para">إنّ النموذج في شكله الحديث هدفه تفسير الواقع واستقراء قوانينه ومثاله أن نيوتن ينطلق من الواقع الموضوعي بغاية اكتشاف قانون يحكم جميع الظواهر هو الجاذبية الكوني والتعبير عنه رياضيا فهناك حركة في صلب العقل العلمي من الواقعي إلى إنشاء مفاهيم علمية. أما المنمذج اليوم وبحكم تطور موضوعات العلم فإنه يبدع واقعا افتراضيا ممكنا يحل محل الواقعي فلا يتصور المنمذج الواقع كما هو، وإنما يتخيل ما يمكن أن يكون، فيصنع واقعا افتراضيا مما يعني أنّ النمذجة أساسها الاصطناع أي ابتكار واقع يتصوره ذهنيا ومثاله نموذج الذرة. فالمنمذج يبتكر واقعا بديلا.</p>
+<!-- p10 -->
+<p class="consigne">3. قيل "إن المفاهيم الفيزيائية إبداعات حرة للفكر البشري وهي لا تتحدد بالاعتماد على الواقع". حدد دلالة النموذج في سياق هذا القول.</p>
+<p class="para">ليس النموذج محاكاة للواقع ووصفا لظواهره لأنه توجد اليوم ظواهر طبيعية جديدة كالظواهر الذرية وأصبح الواقع العلمي واقعا منشأ ذهنيا لا وجود له إلا في ذهن العالم. وهو ما أدى إلى استبدال مفهوم للواقع بما هو موضوع بواقع مبني يتخيله المنمذج فيحلّ الواقع الافتراضي محلّ الواقعي. ومثاله نموذج الذرة ومكوناتها وبتعبير آخر إنّ النموذج الذي يضعه العلماء للذرة لا يشير إلى واقعة موضوعية بل يشير إلى مكونات الذرة يبنيها المنمذج بناءا عقليا نسقيا. فتحيل النماذج إلى بناء خيالي أي افتراضي..وبهذا المعنى نستنتج الطابع البنائي للحقيقة العلمية.</p>
+<p class="consigne">4. قيل: "ليست الحقيقة العلمية مجرد إدراك للواقع بقدر ما هي إنشاء له" أبرز معيار الحقيقة العلمية.</p>
+<p class="para">من معاني الحقيقة العلمية تفسير الواقع الموضوعي واستقراء القوانين وفق منهج علمي يقوم على الملاحظة....والتجريب... وبالتالي يقوم معيار الحقيقة العلمية على مبدأ التطابق بين النموذج والواقع الموضوعي وصياغة القوانين صياغة رياضية. لكن تغير معيار الحقيقة العلمية لأنّ المنمذج يبني واقعا آخر سميناه الواقع الافتراضي ويخضع البناء لعدة إجراءات أهمها الانسجام بين الفرضيات والنتائج فالنموذج بما هو تمثل نسقي للواقع يقوم على مبدأ عدم التناقض وهو معيار الحقيقة العلمية اليوم. وفضلا عن ذلك، يتصور المنمذج واقعا "خياليا" يعبر عن شكل من أشكال فهم الواقع وتبسيطه. وهذا النموذج ( الواقع الافتراضي) هو الذي يتلاءم مع الواقع. فالمنمذج ينطلق من اللاواقعي لفهم الواقع والحقيقة العلمية معيارها التلاؤم.</p>
+<p class="consigne"><b>5. قيل : "لا وجود لنموذج كلّي وواحد" بيّن أسباب تنوع النماذج؟</b></p>
+<p class="para">تُعبر النماذج في تنوعها عن أشكال من الفهم للواقع، ويرجع ذلك الى عدة أسباب أهمها أنّ النماذج وجهات نظر متنوعة أي أنّ كل فريق علمي له تصوره الخاص للواقع وثانيا تطور الأدوات التقنية وأجهزة المخابر وأخيرا تعقّد الظواهر؛ مما يعني أنه لا وجود لنموذج تفسيري واحد ومطلق، وكل نموذج علمي هو تمثل قابل للمراجعة أو التعديل حيث ينظر المنمذج الى الواقع المعقد من زاوية معينة ويهمل أخرى وهو ما يُسمى بالاستراتيجيا الإهمال. كما يرتبط تنوع النموذج بالمشاريع المعرفية المختلفة أو بمعيار الفاعلية أو النجاعة.</p>
+<!-- p11 -->
+<!-- NOTE: 1517 part1 p11 — highlighter over printed text left out -->
+<div class="data">
+<p class="para">ى كلّ واحد منّا الأشياء التي تحيط به على نحو ما، ويستثمرها في أعمال تتفاوت فيها درجة التبصّر. ويستخدم كلّ واحد منّا النماذج لحظة استخداما ضمنيّا في استكشافه الدائم، وأحيانا الآلي لمحيطه. ويتعلق الأمر هنا بضرورات حيويّة. فكلّ واحد منّا يحتاج إلى منطق ومناهج في علاقاته بالعالم. وكلّ واحد يطبقها تطبيقا واعيا بدرجات متفاوتة [...] ويكمن المشكل في أنه لا يوجد منطق واحد يكفي أن نتعلّمه، وفي أنّ الأشياء ليست في غاية البساطة واليسر، كما قد نعتقد للوهلة الأولى. وليست النماذج، حتى أكثرها قِدَما، يسيرة الاستعمال ولا خالية من المخاطر. وهكذا لم يوجد في التاريخ منطق واحد، ولا وجود في هذه اللحظة ذاتها لمنطق واحد، لأن المنطق رهين جملة من المعارف التي نمتلكها في لحظة ما ، ووسائل البحث التي تتاح لنا والأهداف التي نسعى إلى تحقيقها، فالمنطق ليس شيئا ثابتا وليس وقفا إلى الأبد على الإنسان مطلقا، أو إلى أحد الناس المحظوظين، وإنّما هو أداة فكرية انبثقت انبثاقا مرحليّا لسدّ حاجات متغيرة، ومن ثمّة شهدت الأداة تطورا في شكلها وأسسها وتغيرت تغيرا عميقا في بعض اللحظات الحرجة.</p>
+<p class="para">لوغاي ( جون ماري)، التجربة والنموذج، مقال في المنهج، صص.20-21</p>
+</div>
+<!-- PROOFREAD: 1517 part1 p11 — first word cut by the page edge, only "ى" visible before "كلّ" -->
+<p class="consigne">1. اعمل على صياغة الإشكالية</p>
+<p class="para">ما الذي يفسر الحاجة إلى إنشاء نموذج؟ وما علاقته بالأشياء؟ وهل النموذج هو مجرد منطق مستقل عن الواقع؟</p>
+<p class="para">أو بأيّ معنى يكون النموذج استكشافا للواقع؟ وهل يوجد نموذج واحد أم نماذج متنوعة ؟</p>
+<p class="consigne">2 حدد انطلاقا من النص مفهوم النموذج</p>
+<p class="para">النموذج ليس هو الأشياء وإنما هو تصور لها إذ يتوسط النموذج علاقة العالِم بالأشياء على نحو يسمح بـ"استكشافها" وفق آليات مثل الأكسمة وبناء نسق. ولكل منّا قدرة على رؤية أي "تبصّر" الأشياء على أن ما يُحدد تلك الرؤية هو: مجموعة من القواعد أو العلاقات التي تحكم الأشياء. وهي قواعد منطقية وأساسها عدم التناقض فالنموذج بهذا المعنى هو "منطق" أي وسيلة منهجية للتفكير والتحليل، يعتمد عليه العلماء اليوم من أجل تبسيط الأشياء وقولبتها في شكل افتراضات منتظمة منطقيا.</p>
+<p class="consigne">3.بما نفسر تنوع النماذج؟</p>
+<p class="para">تظهر النماذج على نحو متنوع والسبب في ذلك اختلاف "المعارف" التي ينطلق منها المنمذج. لاسيما وان النموذج في حد ذاته هو منظورية أي تصور خاص للعالم ويرجع أيضا تنوع النماذج إلى تطوّر الوسائل التقنية وأجهزة المخابر وبفضل الحاسوب والمعلوماتية تكوّنت اليوم مخابر لصنع نماذج تساعدنا على حل مشكلات اقتصادية وطبية ..وتتنوع النماذج ايضا بتنوع الاهداف لأنه لا وجود لمعرفة بالأشياء لا تقودها أهداف عملية مثل السيطرة على الظاهرة والتحكّم فيها. فالنماذج وفق هذه الاسباب قابلة للتعديل والمراجعة مما قد يؤدي الى التفريط في وجود حقيقة ثابتة ومطلقة.</p>
+<!-- p12 -->
+<p class="para"><u>نص :</u></p>
+<!-- PROOFREAD: 1517 part1 p12 — heading cut by the page edge, only "نص :" visible -->
+<div class="data">
+<p class="para">تكمن المفارقة في كون مثل تلك الرسوم أو نماذج الواقع المجردة، قد جرى إنجازها بفضل إنعطافٍ للفكر ، حَدَثَ بفعل ما نسميه إفتراضيات. فالظواهر الملاحظة – في الوقت الراهن – ليست هي الوحيدة التي يتعيّن تمثيلها مباشرة في النموذج كما لو كانت تنعكسُ على مرآة إذا جاز القول . يُدمج التمثل و التفسير العلمي ، إلى جانب صورة الحوادث التي حدثت الآن، حوادث افتراضية قد تتحقق وقد لا تتحقق، يكمن دورها في إستكمال تشكيل الظواهر بالكشف عن مجموع التجريدات التي توجد من بينها صورة الظواهر الملاحظة فعليا . و هكذا ، ألا يتكوّن الواقع العلمي من عوالم أحداث افتراضية محكمة الترابط بفعل قواعد تسمح بتحديد صورة الوقائع الراهنة تحديدا دقيقا و يقينيا أو يكاد. [...].يُمكن مثل هذا التصور للمعرفة العلمية و لعلاقتها بالواقع – على ما يبدو – من فهم أن هذه المعرفة ليست معرفة إعتباطية البتة . إذ تُختَبَرُ بإستمرار و عبر مواجهتها بواقع التجارب الراهن ، و تظل – مع ذلك – مؤقتة دوما ، و قابلة للمراجعة ، و في تقدم . يتوّلد هذا التقدم – بلا شك – بناء على تحسين وسائل الملاحظة و إستثارة الظواهر الراهنة . لكن تبقى المعرفة العلمية – بوجه خاص – رهينة ما سيلحق الطابع الإفتراضي للواقع من إعادة صياغة و إثراء و توسيع .</p>
+<p class="para"><b>قرانجي</b></p>
+<p class="para"><b>"المحتمل و الممكن و الإفتراضي"</b></p>
+</div>
+<p class="consigne">1.ما آلية تفسير العلم للواقع؟ :</p>
+<ul class="b">
+<li>بيان دلالة الواقع في العلم :</li>
+</ul>
+<ul class="dash">
+<li>تأكيد أن الواقع العلمي ليس واقعا معطى نكتشفه و إنما هو واقع منشأ يُبنى وفق معقولية مخصوصة بفضل إنشاء النماذج .</li>
+<li>الوقوف على دلالة النموذج في العلم بإبراز أنه ليس تمثيلا مباشرا أو وحيدا للوقائع الملاحظة أو ليس مرآة تعكس الواقع كما هو ، بل هو تمثل له ، في صورة رسوم ، و بيانات أو تصاميم .</li>
+</ul>
+<p class="consigne">2. حدد منزلة الإفتراضي في بناء العلم .</p>
+<!-- p13 -->
+<ul class="b">
+<li>
+<ul class="dash">
+<li>تحديد دلالة التفسير بما هو تمثل للروابط بين الحوادث أو إنشاء إمكانات تعقل أو فهم للعلاقات التفاعلية.</li>
+<li>تحديد دلالة الإفتراضي : بما هو ما ليس الراهن ، أو ما يمكن أن يحدث أو الممكن القابل للتحقق ، و ما لا يتعارض مع الواقعي .</li>
+<li>التأكيد على أن النموذج بناء يراوح بين الإفتراضي و الراهن ببيان أن النموذج تشكيل للوقائع الملاحظة راهنا و للوقائع الإفتراضية في آن ، و ببيان أن النموذج ينطلق من ملاحظة الراهن ليعيد تشكيله و استكماله بالإفتراضي ، وببيان أن ملاحظة الحوادث معيار اختبار سلامة أسس الإنشاء الافتراضي أو صلاحيته.</li>
+</ul>
+</li>
+<li>تأكيد العلاقة التفاعلية بين البعد التركيبي للنموذج و البعد الدلالي .</li>
+<li>الافتراضي هو أساس استكمال الجانب الذي لا تقدّم راهنيات التجارب و الملاحظات صورة كاملة عنه.</li>
+</ul>
+<!-- PROOFREAD: 1517 part1 p13 — "كاملة عنه." partly hidden under the stamp/signature -->
+<p class="consigne">3.بين ان المعرفة العلمية بنية مفتوحة :</p>
+<ul class="b">
+<li>بيان خصائص المعرفة العلمية :
+<ul class="dash">
+<li>نفي الطابع الإعتباطي للمعرفة العلمية القائمة على الإفتراضي .</li>
+<li>التأكيد على الطابع الجزئي ( لإرتباط المعرفة بالسياق أو استنادا إلى استراتيجيا الإهمال ) و المؤقت ( بما هي معرفة تقوم على منطق الملاءمة لا منطق المطابقة ) للمعرفة العلمية .</li>
+<li>تأكيد قابلية المعرفة العلمية للمراجعة .</li>
+</ul>
+</li>
+<li>بيان آليات ( شروط ) تقدم المعرفة العلمية :
+<ul class="dash">
+<li>تحسين الوسائل .</li>
+<li>القدرة على استثارة الظواهر عبر التمثيل الإصطناعي</li>
+<li>قابلية الإفتراضي للتوسيع و الإثراء و إعادة الصياغة.</li>
+</ul>
+</li>
+<li>استخلاص :
+<ul class="dash">
+<li>تأكيد الكاتب على أولوية الإفتراضي و قيمته في تقدم المعرفة العلمية. إن النموذج بناء مفتوح . إذ لا وجود لنموذج مكتمل أو نهائي .</li>
+</ul>
+</li>
+</ul>
+<!-- p14 -->
+<p class="consigne">الموضوع: هل يُعدّ تنوع النماذج عائقا تجاه مطلب الحقيقة؟</p>
+<p class="subhead t-red">التخطيط</p>
+<p class="subhead t-navy">مقدمة</p>
+<p class="subhead t-navy">تمهيد</p>
+<p class="para">-تاريخ العلم هو تاريخ بناء نماذج متنوعة / يشهد العلم من وجهة تاريخية تنوع النماذج.</p>
+<p class="para">-ساهمت الثورة في مجال المعلوماتية والاتصال في انشاء نماذج متنوعة مما افضى الى مراجعة مفهوم الحقيقة...</p>
+<p class="subhead t-navy">الإشكالية:</p>
+<p class="para">هل النماذج في تنوعها تقربنا من الحقيقة أم تبعدنا عنها؟</p>
+<p class="para">أو</p>
+<p class="para">هل الإقرار بتنوع النماذج يفضي ضرورة إلى إلغاء الحقيقة العلمية؟</p>
+<p class="para">أو</p>
+<p class="para">بماذا نفسر تنوع النماذج؟ وما هي دلالة الحقيقة العلمية وهل تقوم على المطابقة أم ملائمة؟</p>
+<p class="subhead t-navy">التحليل:</p>
+<p class="subhead t-red"><b>1. نموذج واحد وحقيقة مطلقة:</b></p>
+<p class="subhead t-navy"><u>أ.تحديد مفاهيم</u></p>
+<p class="para">لا يقيم العلماء علاقة مباشرة مع الواقع ......وقد يستدعي تفسير الواقع وظواهره بناء نماذج متنوعة...وكما يقول فليزار "النموذج تمثّل لشيء واقعي سواء كان ماديا أو ذهنيا يتم التعبير عنه بلغة رمزية أو رسوم بيانية". قصد تفسير الواقع وبلوغ الحقيقة.</p>
+<!-- p15 -->
+<p class="subhead t-navy"><u>ب.الصورة التقليدية للعلم</u></p>
+<p class="para">العلم تفسير للواقع وفق منهج تجريبي وصياغة قوانينه في لغة رياضية..مثال قانون سقوط الأجسام لغاليلاي.....والنموذج النيوتني هو اكتشاف لقانون الجاذبية بحسب خطوات علمية كالملاحظة والتجريب...</p>
+<p class="para">ج.معيار الحقيقة: تكمن الحقيقة العلمية في تفسير الواقع الموضوعي...معيار الحقيقة هو المطابقة...</p>
+<p class="subhead t-red"><b>2.تنوع النماذج والحقائق:</b></p>
+<p class="para">أ.تجاوز المفهوم التقليدي للعلم ليس النموذج تفسيرا أو اكتشافا للواقع المعطى بل بناء واقع في شكل تصميم أو إنشاء ذهني..والنموذج هو بناءات علمية..يتمثّل المُنمذج الواقع في شكل مصغر ومبسّط ..ويظهر الطابع الخلاق للمُنمذج في بناء واقع افتراضي...... هذا التغير في دلالة الواقع أي استبدال الواقع المعطى بالواقع المنشأ ذهنيا يُشكّل قوام النمذجة ويُتيح بناء نماذج متنوعة....</p>
+<p class="para">ب.الحجج المثبتة لتنوع النماذج</p>
+<p class="para">كل نموذج يُعبر عن تمثل ما للواقع ....فالنماذج منظوريات/رؤى تتضمن قدرة الذات على البناء والتخيل.</p>
+<p class="para">تنوع النماذج يرجع أيضا إلى اختلاف الأدوات وتطورها...تنوع النماذج بحسب تنوع الأهداف....استراتيجيا الاهمال....وكل فريق عمل أو مخبر يبني نموذجا وفق إمكاناته وأهدافه. فلا يدعي المنمذج اليوم تقديم نتائج نهائية وهو ما يزعزع من مفهوم الحقيقة.</p>
+<p class="para">ج. تنوع النماذج في علاقتها بالحقيقة:</p>
+<p class="para">*النموذج التقليدي هو إنتاج معرفة حول الظاهرة الطبيعة /الواقع لكشف القوانين المتحكمة فيه..والحقيقة وفق هذا المنظور التقليدي هي الموضوعية وتقوم على الفصل بين الذات (العالم وعقائده وقيمه) والموضوع. وتقوم الحقيقة العلمية على التطابق مع الواقع الموضوعي. والنموذج النيوتني على سبيل المثال هو مجرد تصور /تفسير للواقع وفق إجراءات علمية كالتجريب والحتمية والصياغة الرياضية.</p>
+<p class="para">* تغير في طبيعة العلم بوصفه انشاءا لواقع افتراضي/بناء خيالي لواقع.....تنوع النماذج وتغير في دلالة الحقيقة. معيار الصلاحية المنطقية باعتبار أن النمذجة تخضع لفرضيات تفترض علاقات وفق مبدأ عدم التناقض...والنمذجة هي إنشاء واقع افتراضي مما يعني ان النموذج <!-- p16 -->الملائم هو النموذج الحقيقي لأنه يعبر عن فهم للواقع فهما كليا نسقيا (السبيبرنيطيقا نموذج أي نظرية عامة في الأنساق تنطبق على الاقتصاد والبيولوجيا ..... الحقيقة تبرز أيضا في علاقتها بالممارسة والنموذج هو كيفية التحكم في الظاهرة والنجاعة في حل مشكل وهي معايير الحقيقة العلمية اليوم. لم تعد الحقيقة مجرد نظرية بل تطبيق ومثاله التقنية.</p>
+<p class="subhead t-red"><b>العنصر النقدي</b></p>
+<p class="subhead t-navy"><u>المكتسبات</u></p>
+<p class="para">-النموذج صورة تقريبية للواقع...قابلية النموذج للمراجعة والتغيير</p>
+<p class="para">-لا وجود لنموذج كوني مطلق وواحد وثابت</p>
+<p class="para">-استبدال ثنائية النموذج والحقيقة بالنماذج والحقائق.</p>
+<p class="subhead t-navy"><u>الحدود</u></p>
+<p class="para">-قابلية النماذج للمراجعة والتعديل.....نسبية الحقيقة العلمية....الوقوع في التشكيك في قيمة العلم</p>
+<p class="para">– معالجة أخرى لعلاقة النموذج بالحقيقة: النمذجة وإمكان تورّطها في تحقيق أغراض لا إنسانية.</p>
+<p class="para">-المخابر العلمية هي مواقع استراتيجية تتحكم فيها قوى اقتصادية وسياسية.</p>
+<p class="subhead t-navy"><b>الخاتمة</b></p>
+<p class="para">-ضرورة التفكير في العلم/النمذجة لا من حيث قيمتها العلمية بل أيضا الأخلاقية والتحرر من استثمار العلم على وجه العموم لاعتبارات لا إنسانية.</p>
+<p class="para">-بعث مؤسسات تراقب العلماء والسياسة على حد سواء.</p>
+<!-- p17 -->
+<p class="subhead t-red"><b>تدريب منهجي</b></p>
+<p class="consigne"><u>السؤال:</u> هل النمذجة إدراك للواقع ؟</p>
+<p class="subhead t-navy"><u>تمهيد:</u></p>
+<p class="para">-الثورات العلمية المعاصرة أفضت من زاوية ابيستيمولوجية إلى مراجعة علاقة النموذج العلمي بالوقع.</p>
+<p class="para">- الإنسان هو الكائن الوحيد الذي يسعى إلى فهم الواقع وظواهره ...وينبني العلم على فكرة إمكانية إدراك الواقع.</p>
+<p class="para">ما النمذجة ؟ وأيّ معنى للإدراك ؟ وهل النموذج العلمي هو وصف للواقع الموضوعي أم إنشاء له؟ وهل الإدراك يتيح لنا معرفة ما هو موجود من ظواهر طبيعية أم تصور واقع بديل؟ واذا سلمنا بهذا هل الحقيقة هي تطابق النموذج العلمي مع الواقع ؟</p>
+<p class="subhead t-red"><b>I.العلم إدراك للواقع المعطى</b></p>
+<p class="subhead t-navy"><u>1.تحديد المفاهيم والنظر في علاقة النموذج العلمي بالواقع:</u></p>
+<p class="para">- يشهد العلم اليوم تطورات على مستوى مفاهيمه وتمشياته تجسمت في تأسيس النمذجة باعتبارها المسار الذي يؤدي إلى إنشاء نماذج ندرك بها الواقع ونتحكّم فيه.</p>
+<p class="para">النموذج العلمي بناء عقلي يساعد على إدراك الواقع والسيطرة عليه./ النمذجة العلمية هي تمثيل تبسيطي و تقريبي لواقع معين قصد إدراكه. يقول فاليزار "النموذج هو تمثل لنسق واقعي سواء كان ذهنيا أو ماديا، يتم التعبير عنه بلغة أدبية أو في شكل رسوم بيانية أو رموز رياضية ". ليس النموذج نسخ للواقع وإنما هو إعادة تمثل للواقع والتعبير عنه في شكل رسوم أو بيانات أو رموز رياضية. ولكن يمكن تمثل الواقع تمثلا ماديا أما في شكل تصميم او قالب ما واما في شكل تصوري نسقي لا وجود له إلا في ذهن المنمذج.</p>
+<p class="para">-النموذج العلمي سعي لتفسير الواقع الموضوعي/ الواقع المعطى ومثاله التصور البطليموسي للواقع المادي مما يفيد أنّ الإدراك فعل الحسي ...</p>
+<p class="para">-اعتبار الواقع موضوع العلم وقعا مستقلا عن الذات المدركة / العارفة</p>
+<p class="para">-الرياضيات باعتبارها الشكل الكمي للإدراك والتعبير عن الواقع</p>
+<p class="para">2.<u>النموذج العلمي والحقيقة</u>: الإدراك وسيلة لكشف الحقيقة المعبرة عن الواقع العيني والمطابقة له. الحقيقة العلمية مطلقة وواحدة.</p>
+<p class="subhead t-red"><b>II. العلم إنشاء لواقع مبني</b></p>
+<p class="subhead t-navy"><u>1. إعادة النظر في علاقة النموذج العلمي بالواقع:</u></p>
+<!-- p18 -->
+<!-- NOTE: 1517 part1 p18 — highlighter and handwritten marks at the bottom left out -->
+<p class="para">-تخلي العلم عن الواقع المعطى ومثاله الفيزياء المعاصرة فيزياء ميكروفيزيائية. وكذلك مراجعة العلم المعاصر للمفاهيم من قبيل أزمة الأسس في الرياضيات كظهور الهندسات اللاإقليدية... .</p>
+<p class="para">هذه الأمثلة تدل على مراجعة أسس العلم ومعاني الإدراك. ليست النمذجة مجرد إدراك للواقع المعطى المادي إذ لا يتعلق الأمر بادراك الموضوع والاقتصار على تفسير الظواهر الطبيعية والكشف عن العلاقات بينها بغاية استقراء القوانين. يقول باشلار "لا شيء معطى، كل شيء مبني". العلم اليوم تحرر من الواقع المادي/ المعطى لكي يصبح فعلا إنشائيا على أن المقصود بهذا بناء واقع مشروع ما يؤكد فاعلية العقل. مثال دراسة الذرة ومكوناتها وحركة الالكترون ...وسرعتها. نموذج بوهر وطمسون ورودفور وشرودنجر نماذج متنوعة تتخيل الذرة /هناك نمذجة للذرة وبنيتها وخصائصها ..</p>
+<p class="para">-النموذج العلمي اليوم تخطى شروط الإدراك الواقع من ناحيتين الأولى لم يعد الإدراك عملية حسية والثانية ان الواقع ليس الواقع المعطى. ومثاله الفيزياء النظرية مع اينشتاين التي تؤكد أنها وليدة "الخيال" في معنى بناءات رياضية ومنطقية تساعد على فهم الواقع .والإدراك هنها فعل عقلي منطقي وبوجه عام المنمذج يتخيل واقعا من أجل أن يفهم الواقع. وما يتخيله هو الواقع الافتراضي. وقد أتاحت لنا الأنظمة المعلوماتية ابتكار تصورات لواقع خيالي شكلت إضافة نوعية في مسار العلم ونقدا للدراسات الوضعية التي تنطلق من الواقع وتجعل من الإدراك عملية حسية خالصة على اعتبار ان الواقع الموضوع هو الشرط الأساس للعلم أو الإدراك. في حين أضحى مفهوم الإدراك عملية إنشائية لواقع افتراضي يقول لودفيغ باسكال: "يمكن للنماذج التي يبنيها العلماء أن تتكلم عن أشياء لا يمكن إن توجد إلا في تأمّل أو في بناء خيالي يكون هدفه الوحيد تنظيم معطيات أو التوصل لبعض التوقعات". يحيل النموذج إلى أشياء لا توجد إلا في ذهن العالم، فهو بناء خيالي يكون هدفه تنظيم المعطيات والتوصل إلى توقعات. ولعل مفهوم الذرة خير مثال للبرهنة على ان الواقع العلمي الفيزيائي المعاصر أصبح نسقا متكونا من الالكترونات و...و...والرموز .</p>
+<p class="para">-لا ينفصل مفهوم النسق عن مفهوم النموذج منظورا إليه كنسق تصوري لنسق واقعي. ومثلما يقول فايزار "كل نموذج يمكن اعتباره نسقا خصوصيا ايا كانت طبيعته فيزيائية أو مجردة" وهو ما يبرز الدور الخلاق للافتراضات أو الاكسمة لا بوصفها لغة تعبيرية وإنما هي إبداع لافتراضات وتكوين نسق له خصائص مثل العلاقات والتحولات والكلية بحسب بياجي. فالمفاهيم العلمية هي إبداعات حرة للعقل البشري.</p>
+<p class="para">-ليس المعيار لصدق و خطأ النموذج علاقته بالواقع المادي، وإنما مدى تماسك أجزائه وبنية نسقه منطقيا. ذلك ان المنمذج ينطلق من مجموع الفرضيات، ويستنتج جملة من النتائج في نسق صوري إذا أخذنا بعين الاعتبار بنية النمذجة فكيف نفهم العلاقة بين الطابع الصوري للنموذج وإدراك الواقع ؟</p>
+<p class="para">يعيد المنمذج من ناحية أولى صياغة الواقع وهيكلته لما قد يوافق العقل والفهم والنظام . النموذج وحدة معرفية أو إدراكية مستقلة تعبّر عن نفسها في شكل علاقات صورية بين مقادير. أما من الناحية الثانية التجريبية فيكون للنموذج منزلة ابستيمولوجية معاصرة إذ ان <!-- p19 -->التجربة اليوم لا تستند إلى ملاحظات بقدر ما تنطلق من فكرة وتُسمى تجربة فكر. مثال من الفيزياء النظرية ينطلق المنمذج اليوم من واقع افتراضي، اي من واقع يبنيه بناء خياليا ، وهو واقع مجاله الممكن وليس واقعا فعليا. لذلك فهو يتقابل مع الراهن والمعطى.</p>
+<p class="para">-وعلى هذا الأساس أصبحت علاقة النموذج بالواقع افتراضية، فليس العلم محاكاة للواقع المعطى، وإنما هو نسق رموز صورية بسيطة من خلالها يتمثل المنمذج الواقع افتراضيا</p>
+<p class="para">-إنا نمر من الواقع المعطى إلى الواقع المنشأ، من الواقعي إلى الافتراضي، من الموضوعية التقليدية الآلية إلى النسق التفاعلي بين الذات و"المشروع"، ومن البسيط إلى المركب.</p>
+<p class="para">هل يتحدد العلم باعتباره إنشاء للواقع لمعايير الصحة والخطأ أم يقوم على فعالية الصلاحية والملائمة ؟</p>
+<p class="para">2. <u>النموذج العلمي والحقيقة:</u> ما أفضت إليه النمذجة العلمية في علاقتها بالواقع مراجعة لمفهوم الحقيقة العلمية ومعاييرها ونتائجها:</p>
+<p class="para">-المنمذج التقليدي ينطلق من الواقع ويتخذه معيارا الحقيقة والتجربة هي المنهج الذي يتيح إدراك الواقع غير ان النمذجة العلمية المعاصرة استعاضت عن مفهوم الحقيقة بالصلاحية بحسب ما تقتضيه الأكسمة فلا يمكن إذا أن نؤكد صحة و خطا النموذج الا في اطار نسقية وملاءمة لتركيبته الداخلية. من ناحية أولى وما يسمح به الإدراك من تصور لواقع مشروع هو في آخر المطاف منظورية.</p>
+<p class="para">ولا يهتم المنمذج بتطابق نظريته مع الواقع لأنه لا يعتقد في وجود حقيقة موضوعية، بل يهتم بمدى تلاؤم نسقه العلمي داخليا بنيويا رياضيا منطقيا بما يساعد على فهم الواقع الراهن، وهنا <u>تلتقي الملائمة مع الصلاحية</u>، بما أنها تهتم بالانسجام الداخلي للنسق الأكسيومي في علاقة بالفرضيات والنتائج من جهة أولى وفي علاقة بابتكار واقع افتراضي من جهة ثانية. وهكذا حررتنا النمذجة بشكل نهائي من فكرة الواقعي ...والحقيقة المطلقة.</p>
+<p class="subhead t-red"><b>النقاش :</b></p>
+<p class="subhead t-navy"><u>المكتسبات:</u></p>
+<p class="para">-يكتسي النموذج قيمة منهجية في العلم، فنحن لا نفكر إلا من خلال النماذج</p>
+<p class="para">-تجاوز الإدراك الوضعاني للواقع</p>
+<p class="para">-إعادة النظر في مفهوم الإدراك وشروطه.</p>
+<p class="para">-تحديد الإدراك كإنشاء وابتكار للمفاهيم</p>
+<p class="para">-العلم معرفة تاريخية نسبية قابلية المعرفة العلمية للمراجعة والنقد</p>
+<!-- p20 -->
+<!-- PROOFREAD: 1517 part1 p20 — entire page handwritten in two ruled columns (kept as a two-column table, row by row); many readings uncertain, esp. the recurring mark "له" opening left-column lines, "فك لغزيته", "سطاتها", and the last line cut at the bottom -->
+<p class="subhead t-red">هل يولّد الممكن علميا موقفا وتوقيا من العلم ؟ .</p>
+<p class="subhead t-navy">I - <u>المقدمة</u>: ..........................</p>
+<table>
+<tr><td>أ- <u>التمهيد</u>: الانطلاق من المفارقة</td><td>1. استثارة الظواهر عبر التمثيل الاصطناعي</td></tr>
+<tr><td>بين اعتبار النمذجة تمثل الحدث الاكثر تمثيلا</td><td>وهو ما يسمح باختبار سلامة أسس البناء من</td></tr>
+<tr><td>لفعالية الانسان في العلم ما دفع البعض الى</td><td>زاوية نظرية قبل الذهاب الى التطبيق .</td></tr>
+<tr><td>تثمينها وتمجيدها من المساءلة وبين ما</td><td>2. استباق حدوث الظواهر اذ يملك الافتراضي</td></tr>
+<tr><td>آلت اليه الممارسة العلمية من مخاطر</td><td>قدرة استشرافية ..........</td></tr>
+<tr><td>دفعت للتفطن عليها ........</td><td>3. يساعد الافتراضي على معالجة وضعيات</td></tr>
+<tr><td>ب- الإشكالية: أي موقف وجب اتخاذه .........</td><td>خطيرة / مركبة بكيفية مرنة ......</td></tr>
+<tr><td>ازاء الممكن علميا؟ هل نستحسنه ونثق</td><td>← استنتاج ان فتوحات العلم اليوم دفعت</td></tr>
+<tr><td>مطلقا فيه أم أنه لا يعلو عن المساءلة</td><td>الى تفريطه وتقديسه و منح الحصانة له</td></tr>
+<tr><td>والنقد؟ .......</td><td><u>لحظة ثانية</u> : في التفطن على الممكن علميا</td></tr>
+<tr><td>II - <u>الجوهر</u>: ......</td><td>له يتطلب الممكن علميا الخيالي وهو ما يرفع</td></tr>
+<tr><td><u>لحظة أولى</u>: بيان مرتكزات القول بأن الممكن</td><td>كل شكل من الحدود الضوابط أمامه وهو</td></tr>
+<tr><td>علميا يولد موقفا وتوقيا من العلم وذلك</td><td>ما قد يحول العلم الى مغامرة غير مأمونة</td></tr>
+<tr><td>1- تحديد دلالة الممكن علميا :</td><td>العواقب و دامت تضعنا أمام المجهول الذي</td></tr>
+<tr><td>- يُقصد بالممكن علميا الافتراضي أي ما ليس</td><td>قد يربك ثقتنا في العلم ......</td></tr>
+<tr><td>الراهن والقابل للتحقق و ما لا يتعارض</td><td>له الافتراضي و نثق الصلة بالنجاعة أي</td></tr>
+<tr><td>مع الواقعي ... و هو دعامة الممارسة</td><td>بطبيعة المشاريع وسياقاتها وغاياتها وهو</td></tr>
+<tr><td>العلمية اليوم .. وخاصية جوهرية في النمذجة</td><td>ما يهدد العلم بالسقوط في التبرير الايديولوجي</td></tr>
+<tr><td>2- بيان كيف ولّد الافتراضي موقفا</td><td>مفرزا عقلانية حسابية تخدم مصالح القوى</td></tr>
+<tr><td>وتوقيا ......</td><td>السياسية الاقتصادية ......</td></tr>
+<tr><td>- يعكس الممكن علميا الاقتدار المعرفي</td><td>له يجعلنا الافتراضي نسبح بعيدا في</td></tr>
+<tr><td>للانسان الذي بدوره سيساعد العلماء</td><td>التجريب و هو ما يغرق الممارسة العلمية في</td></tr>
+<tr><td>على السيطرة التقنية على المحيط والتغيير</td><td>سطاتها و بات تحولها الى ترف فكري</td></tr>
+<tr><td>النافع له .</td><td>و مجانية / اعتباطية تهز ثقتنا بالعلم .</td></tr>
+<tr><td>- يعكس الممكن علميا ذكاء العلماء اذ جعلهم</td><td>له يقوم الممكن علميا على الاختزال و هو</td></tr>
+<tr><td>قادرين على : ........</td><td>مشوه للواقع</td></tr>
+<tr><td>• بناء نظم وأنساق رمزية مهيكلة باتقان</td><td>له الاعتماد على الافتراضي قد يتسبب</td></tr>
+<tr><td>و متماسكة منطقيا تساعد على التعقل أي</td><td>في أزمات عندما يتم استبدال الواقع الفعلي</td></tr>
+<tr><td>فهم وتأويل المركب و فك لغزيته</td><td>بواقع افتراضي مثلما حدث في الأزمة</td></tr>
+<tr><td>• توليد صور افتراضية شاهدة على القدرة</td><td>الاقتصادية الأمريكية .</td></tr>
+<tr><td>التخيلية للعلماء اذ صار بالامكان صياغة</td><td>ـه بيان أن ارتكاز العلم على الافتراضي يمثل علامة</td></tr>
+<tr><td>الواقع رمزيا و ترجمة الرموز واقعيا</td><td>خصوبة العقل العلمي بما يوفره أدوات فعل</td></tr>
+<tr><td>• تشكيل واستكمال الجانب من الظواهر</td><td>وتحكم غير أنه يجب استثماره ايتيقيا وكونيا .</td></tr>
+<tr><td>الذي لا تقدم راهنية التجارب و الملاحظات</td><td>خاتمة القول. يطرح الممكن علميا في</td></tr>
+<tr><td>صورة كاملة عنه (مثال جبال الجليد (موران)</td><td>النمذجة تحديات كبيرة على الفكر العلمي بما</td></tr>
+<tr><td></td><td>يُجبره على مراجعة التطبيقات التقنية للأهداف</td></tr>
+<tr><td></td><td>الانسانية ومنها</td></tr>
+</table>
+<!-- PROOFREAD: 1517 part1 p20 — last handwritten line at the bottom edge only partly visible ("الانسانية ومنها ..." rest illegible/cut) -->
+<!-- p21 -->
+<!-- NOTE: 1517 part1 p21 — highlighter and blue-ink additions written over the handwritten text left out -->
+<!-- PROOFREAD: 1517 part1 p21 — entire page handwritten (two columns, right then left); uncertain: "حطارها المبهر", "رجّ النمذجة", "تنزع سنوب العلم", "ليست تقني" (word hidden under stamp), recurring bullet mark "له" -->
+<p class="consigne"><u>الموضوع</u>: هل يفترض الإقرار بنجاحات النمذجة استبعاد كل موقف نقدي منها ؟</p>
+<p class="subhead t-red">I - المقدمة .</p>
+<p class="para">أ- <u>التمهيد</u> : مثلت النمذجة (مرحلة شديدة التميز والتوهج من مراحل تطور العلم والذكاء البشري لتكون) الحدث الأكثر تمثيلا لفعالية الإنسان وبوابته لإحكام سيطرته على الكون، فرسم حطارها المبهر وخدماتها الفائقة النجاعة علامة فارقة في مسار العلم ورغم كل هذا فإنها خضعت إلى وجوه عدة من النقد</p>
+<p class="para">ب- <u>الإشكالية</u> : فعلى أي جهة وجب النظر إلى نجاحات النمذجة بما هي شهادة تأمين ضد كل ارتياب بشأنها أم أن نجاحاتها تخلعها تتعالى على النقد؟</p>
+<p class="subhead t-red">II - الجوهر</p>
+<p class="subhead t-navy">1. نجاحات النمذجة :</p>
+<p class="para">له تحديد النمذجة بما هي مسار أساسي في العلم ينتج نماذج بما هي تمثلات بهدف فهم الواقع والفعل فيه .</p>
+<p class="para">له بيان نجاحات النمذجـة :</p>
+<p class="para">- رجّ النمذجة لثوابت البراديغم الوضعي</p>
+<p class="para">له استبدال الموضوعية بعلاقة تفاعلية / فاعلية العالم</p>
+<p class="para">له الحقيقة بناء وليست معطى / يقين ... المطابقة بالملائمة</p>
+<p class="para">له التحرر من النزعة الواقعية / الأنطولوجية التي تختزل النشاط العلمي في الوصف الموضوعي للآلية الحقيقية للطبيعة .</p>
+<p class="para">له استباق المشكلات واقتراح حلول فاعلة وناجعة تُقلص من حجم النفقات والخسائر المادية والبشرية .(استغلال ما يعرف بالتمثيل الاصطناعي الافتراضي).</p>
+<p class="para">له أقدرت النماذج العلماء على معالجة وضعيات شديدة الدقة والتعقيد والخطورة يصعب التعامل معها مباشرة .</p>
+<p class="para">له بناء نظم / أنساق رمزية مهيكلة باتقان تساعد على اختبار سلامة الأسس من زاوية نظرية قبل المرور الى التطبيق .</p>
+<p class="para">- انشاء امكانات للتعقل للواقع وذلك بصياغته رمزيا وترجمة الرموز واقعيا وهو ما يعطي العلم قدرة استشرافية تفتحنا على الممكن</p>
+<p class="para">له ولوج عوالم كانت مستعصية على العلم سابقا .</p>
+<p class="para">له للنماذج فعاليتها الاجتماعية والاقتصادية ( رخاء / رفاه / جودة حياة ...)</p>
+<p class="subhead t-navy">2 - <u>في حدود النمذجـة</u> :</p>
+<p class="para">- بيان أن ما تعمد اليه النمذجة من اهمال واختزال يفضي الى افقار الواقع معرفة منقوصة ، محدودة</p>
+<p class="para">له تقدم النمذجة تأويلات لا تدعي من خلالها امتلاك الحقيقة بل تروم النجاعة .</p>
+<p class="para">له اقتران مطلب الفهم في النمذجة بالفعل يهدد العلم بالسقوط في التبرير الايديولوجي .</p>
+<p class="para">له ولدت النمذجة عقلانية أداتية جعلت من العلم أداة للسيطرة وحصرت الانسان في البعد المادي ..</p>
+<p class="para">له تورطت النمذجة سياسيا واقتصاديا إذ هي ليست تقني وحيادي بل هي موالية لجهات علمية لا تكترث إلا لحساباتها لمصالح</p>
+<p class="para">له اغتراب الانسان وتقلص شعوره بالسعادة في ظل النمذجة</p>
+<p class="para">" النمذجة تنزع سنوب العلم " نيكولا بولو</p>
+<p class="para">" النمذجة : علم بلا ضمير " موران</p>
+<p class="subhead t-navy"><u>التقييم</u></p>
+<p class="para">- بيان راهنية أزمة العلم بما هي في العمق أزمة الانساني / القيمي / الكوني .</p>
+<p class="para">- بيان رهانية السؤال المتنزل في نقد العلم وعقلنة مساره وإنتاجاته</p>
+<p class="subhead t-red">III - <u>الخاتمة</u></p>
+<p class="para">استخلاص أن العلم مهما تنوعت نجاحاته وبلغت ذروتها فإن ذلك لا يدفع باتجاه الركون الى دغمائية تمنع كل مراجعة وتعديل ..</p>
+<!-- p22 -->
+<!-- NOTE: 1517 part1 p22 — highlighter, blue-ink additions and the pink line under the frame left out; decorative border of figures is not content -->
+<!-- PROOFREAD: 1517 part1 p22 — entire page handwritten in two columns (two separate subjects: right column first, then left column); many readings uncertain -->
+<p class="consigne">هل في اعتبار النماذج اهمالا للواقع ما يُفضي الى تخلي العلم عن الحقيقة ؟.........</p>
+<p class="subhead t-red">I - <u>المقدمة</u> :</p>
+<p class="para">أ - <u>التمهيد</u>: الانطلاق من المفارقة بين اعتبار النمذجة سمة لتطور العلم وما أظهرته من نجاحات وبين التفطن عليها بوصفها لا تفضي الى بلوغ الحقيقة .</p>
+<p class="para">ب - <u>الإشكالية</u>: أيّ علاقة بين النمذجة العلمية والواقع؟ واذا سلمنا بأن النماذج تتغافل عن الواقع فهل يُشرّع ذلك التفطن على علاقة النمذجة بالحقيقة؟</p>
+<p class="subhead t-red">II - <u>الجوهر</u></p>
+<p class="para"><u>لحظة أولى</u> : بيان مرتكزات القول بأن اهمال النماذج للواقع يفيد التخلي عن الحقيقة وذلك بـ :</p>
+<p class="para">• تحديد دلالة النمذجة بما هي تمشي / مسار انتاج النماذج بوصفها تمثلات / بناءات افتراضية تهدف الى فهم الواقع والتحكم فيه</p>
+<p class="para">• الوقوف عند مظاهر الاهمال</p>
+<p class="para">تحديد دلالة الإهمال بما هو فعل قصدي يُنجزه المنمذج في علاقته بالواقع المتصف بالتركيب والذي يصعب دراسته مباشرة</p>
+<p class="para">- بيان أن الإهمال يقوم على الإهتمام ببعض العناصر والخصائص واغفال أخرى وذلك بحسب طبيعة المشروع وسياقه وغاياته</p>
+<p class="para">- يُؤكد الإهمال أن التعامل مع الواقع يقوم على منطق اختزالي وتبسيطي وأن النماذج ليست اكتشافا للواقع وانما هي بناء لواقع</p>
+<p class="para">وعلى هذا الأساس فإن النمذجة وفق مسارها وآلياتها لا تطلب اكتشاف الحقيقة بما هي حقيقة يقينية وثابتة</p>
+<p class="para"><u>لحظة ثانية</u> : بيان أن النمذجة ليست تخليا عن الحقيقة بل هي مراجعة لمفهومها</p>
+<p class="para">له استبدال الحقيقة المطلقة والثابتة بالحقيقة النسبية / المؤقتة / المفتوحة بالنظر الى مرونة النماذج في علاقتها بالغايات والسياقات .......</p>
+<p class="para">له الانتقال من الحقيقة القائمة على الاكتشاف والمطابقة الى الحقيقة بما هي بناء والقائمة على الملائمة والصلاحية / النمذجة معرفة موجهة نحو الفعل والحقيقة ليست سوى الفوائد .</p>
+<p class="consigne">هل يؤدي القول بالطابع التخيلي للنموذج الى انفصاله مطلقا عن الواقع ؟.........</p>
+<p class="subhead t-red">I - <u>المقدمة</u> : .........</p>
+<p class="para"><u>التمهيد</u> : الانطلاق من بيان أن العلم في تعمقه في دراسة الواقع يواجه صعوبات ما اضطر العلماء الى اعتماد الخيال وهو ما أثار مشكل علاقته بالواقع ........</p>
+<p class="para"><u>الإشكالية</u> : ما المقصود بالخيال في النمذجة؟ هل يؤدي اعتماده الى القطع مع الواقع أم أنه يحيل على واقع؟ ..........</p>
+<p class="subhead t-red">الجوهر : .....</p>
+<p class="para"><u>لحظة 1</u> : القول بأن النموذج بناء خيالي يفصلنا عن الواقع :</p>
+<p class="para">تحديد دلالة الخيال بما هو قدرة ذهنية يتمتع بها العلماء وتظهر خاصة في الصورنة ..... ويبرز اللجوء اليه الى طبيعة الظواهر المركبة التي يصعب التعامل معها مباشرة</p>
+<p class="para">بيان أن النماذج هي بناءات تخيلية وافتراضية تهدف الى تبسيط الواقع واختزاله</p>
+<p class="para">- ابراز أن النموذج ليس هو الشيء الذي يمثله فهو لا يعكس الواقع ولا ينسخه وعليه فهو يقطع مع الواقع الراهن والمعطى لأن النموذج كنسق صوري ليس معنيا بالمطابقة وانما بالملائمة</p>
+<p class="para">بيان أن النمذجة لا تشتغل بآلية التحليل والاكتشاف وانما بآلية التمثيل والفهم</p>
+<p class="para"><u>لحظة 2</u> : القول بالطابع الخيالي للنموذج لا يؤدي الى انفصاله عن الواقع ....</p>
+<p class="para">بيان أن آليات النمذجة المعتمدة في تمثيل الواقع المركب (الحسنة / صورنة / الحال...) تؤكد التعامل مع واقع افتراضي أي كما تمثله العالم (صورة ذهنية) د آينشتاين لا نرى العالم كما هو وانما نتمثله بـ ... فيكون هذا العالم معقولية طالما أنه يخضع الى شروط البناء المنطقي</p>
+<!-- PROOFREAD: 1517 part1 p22 — "(الحسنة / صورنة / الحال...)" and "د آينشتاين لا نرى" barely legible -->
+<p class="para">- بيان أن العلم اليوم يبني موضوعاته ولا يستنبطها من التجربة فالخيالي هو الذي يوجه العقل العلمي غير أنه لا ينطلق من الواقع وانما ينتهي اليه .</p>
+<!-- p23 -->
+<!-- NOTE: 1517 part1 p23 — blue-ink margin additions and an overlapping pink line between rows 2 and 3 left out -->
+<!-- PROOFREAD: 1517 part1 p23 — entire page handwritten; uncertain: "كما رسخه التوجه الوضعي", "رينيه توم", "يُضاعف قدرتها" -->
+<p class="subhead t-red">II - الجوهر : <u>مثال تحليل</u> عنصر: يهتم النموذج العلمي بمعرفة الواقع .</p>
+<table>
+<tr><td>1</td><td>الإشتغال سياقيا على المفاهيم والعلاقات القائمة بينها</td><td colspan="2">يُفيد النموذج العلمي بناءً يُنشؤه العالم وفق معايير صورية وخبرية بهدف فهم وضعية مركبة وتبسيطها من أجل التحكم فيها.<br><span class="t-red">فالنموذج وسيط أداتي يتوسله العالم لمعالجة واقع موصوف بالتركيب.</span></td></tr>
+<tr><td>2</td><td>البرهنة<br>نظام الحجاج</td><td>أدواته<br>• وبالفعل<br>• وعليه<br>• ولا شك<br>• من المؤكد<br>• إذ<br>• سيما وأن</td><td>وبالفعل، فإن النموذج بما هو تمثّل لشيء ما يعد سندا معرفيا ودعامة فكرية لتعقل الظاهرة. فالنموذج لا يُسلم بواقع في ذاته أي كما هو يسعى العالم الى إدراكه وكشف القوانين الحتمية المتحكمة فيه كما ساد في التصور الوضعي وإنما الواقع هو ما يبنيه العالم وفق مقتضيات تركيبية ودلالية وتداولية. ومن المؤكد أن المعرفة تقتضي باعتماد العالم لاستراتيجيا اهمال وهي خطة فنية لا يمكن أن تأخذ في اعتبارها جميع خصائص الواقع بل مجموعة من البرامترات دون غيرها. ولا شك أن منطق البناء يُغير من دلالة الحقيقة ومن معيارها كما رسخه التوجه الوضعي.</td></tr>
+<tr><td>3</td><td>التدعيم<br>• مرجعيات فلسفية<br>• شواهد<br>• أمثلة</td><td colspan="2">لقد بيّن باشلار أن نشاط العقل العلمي أصبح متعلقا ببناء الموضوع العلمي فالظاهرة العلمية لا تكتشف وإنما تنتج من خلال نماذج. فالواقع العلمي تركيب ذهني وهذا ما نلمسه في نماذج الذرة. فالمعرفة العلمية ترتكز على حدس وخيال العالم. يقول باشلار: "في كل الأحوال ينبغي على المعطى أن يترك المكان للمنشأ". <span class="t-red">"لا شيء معطى، الكل مبني".</span></td></tr>
+<tr><td>4</td><td>الإستنتاج</td><td>• وهكذا<br>• وبالتالي<br>• إذن</td><td>وهكذا، فإن المعرفة التي ينتجها المنمذج هي معرفة مشروع تتجاوز المعرفة - موضوع التي يحكمها منطق التحليل والاستقراء ولكن، هل تقف وظيفة النموذج عند معرفة الواقع؟</td></tr>
+</table>
+<p class="subhead t-navy"><u>العنصر الثاني</u> : النموذج بما هو تحكم في الواقع .</p>
+<div class="data">
+<p class="para">يبدو أن تلازم أبعاد النمذجة يفتحنا على الوظيفة الإجرائية للنموذج والمتمثلة في التحكم الذي يُفيد سيطرة العالم على الواقع بكيفية تسمح بتوجيهها وتوظيفها والفعل فيها وفق غايات محددة . وعليه، تقوم آلية التحكم على محاكاة الأنساق الطبيعية بإنشاء أنساق اصطناعية ساعدت العالم على التأثير فيهما وهذا ما نراه في السيناريوهات الافتراضية التي تكون بمثابة تجارب نظرية . وعلى هذا الأساس تبرز قيمة النموذج أساسا في فعاليته ونجاعته وقدرته على حل المشكل الذي صمم من أجله.</p>
+<p class="para">فمثال رجل الاقتصاد عندما يكون أمام أزمة اقتصادية ويبني جداول احصائية ورسوم بيانية فانه لا يريد منها فقط توصيفا للأزمة وانما يستغلها من أجل حل تلك الأزمة . وهنا تساعدنا النماذج على تهيئة واتخاذ القرارات المناسبة مما يُضاعف قدرتها على تغيير الواقع والتحكم فيه . يقول رينيه توم "نتخذ كل قراراتنا من نماذج".</p>
+<p class="para">وهكذا فإن المعرفة - مشروع التي تنتجها النمذجة تحتكم الى معايير النجاعة والفعالية، ولا تفصل ابستيمولوجيا النمذجة بين المعرفة والفعل وانما تنظر الى الحقيقة بما هي الفعل</p>
+<p class="para">• تكمن قيمة هذا السؤال في مراجعة العقل العلمي للكيفية التي بها تنتج المعرفة</p>
+<p class="para">غير أن الإفراط في القول بالنجاعة في العلم اليوم قد يُسقطه في التبرير الإيديولوجي ...</p>
+<p class="para">• خلاصة القول إن مزاوجة النمذجة بين المعرفي والتطبيقي قد يجعلها أكثر قدرة على معالجة الظواهر المركبة شرط أن يكون مسارها معقلنا وخادما للانسانية .</p>
+</div>
+
+</section>
+
+</div>
+</body>
+</html>

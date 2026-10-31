@@ -1,0 +1,614 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<title>Wael Academy — Philosophie · 2014 — philo</title>
+<script>
+  window.MathJax = {
+    tex: { inlineMath: [['\\(','\\)']], displayMath: [['\\[','\\]']] },
+    chtml: { fontURL: 'https://cdn.jsdelivr.net/npm/mathjax@3/es5/output/chtml/fonts/woff-v2', matchFontHeight: true },
+    startup: { typeset: true }
+  };
+</script>
+<script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js" async></script>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Sora:wght@400;500;600;700;800&family=Cairo:wght@400;500;600;700;800;900&family=Tajawal:wght@400;500;700;800&family=JetBrains+Mono:wght@400;500;600;700&display=swap');
+:root{
+  /* ===== Wael Academy palette — MAIN ACCENT = green-teal gradient #0FAB8F → #067360 ===== */
+  --bg:#fff; --panel:#f2f8f8; --hair:#e6e6e9; --hair2:#d6d6db;
+  --fg:#0f2a31;        /* body text (and +/− signs) */
+  --fg2:#3f5b62;       /* softer text */
+  --fg3:#7c959b;       /* muted (footer) */
+  --blue:#067360;      /* deep accent — small numbers, borders, watermark, accent equations */
+  --blue-dark:#045260; /* titles & wordmarks (also the balance colour) */
+  --teal:#0fab8f;      /* bright accent end */
+  --loop:#0d9c82;      /* logo-loop helper */
+  --orange:#067360;    /* kicker/category labels (gold retired → deep teal) */
+  --red:#f5322f;       /* EXERCISE CHIPS ONLY — never for emphasis */
+  --cream:#e6f3f4; --blue-soft:#e6f3f4;  /* pale teal — callout fill + table sub-row fill */
+  --blue-line:#cde7e4; /* hairline */
+  --sub-ink:#045260;   /* table sub-row text */
+  --grad:linear-gradient(148deg,#0fab8f 0%,#0d9c82 52%,#067360 100%);
+  --mono:'JetBrains Mono',monospace; --latin:'Sora',sans-serif; --ar:'Cairo',sans-serif; --arb:'Tajawal',sans-serif;
+}
+*{box-sizing:border-box;margin:0;padding:0;}
+body{font-family:var(--latin);color:var(--fg);background:#e4e4e7;padding:28px 0;
+     -webkit-print-color-adjust:exact;print-color-adjust:exact;}
+html[dir="rtl"] body{font-family:var(--arb);}
+
+/* ===== brand watermark: REAL text (crisp), full-bleed, repeats per page ===== */
+.wm{position:fixed;inset:0;z-index:0;pointer-events:none;display:flex;
+    align-items:center;justify-content:center;overflow:hidden;
+    -webkit-print-color-adjust:exact;print-color-adjust:exact;}
+.wm span{font-family:var(--mono);font-weight:800;font-size:76.8pt;letter-spacing:.16em;
+    color:var(--blue);opacity:.06;white-space:nowrap;transform:rotate(-54deg);}  /* single diagonal: bottom-left → top-right */
+.wm.mono span{color:#000;opacity:.05;}
+
+/* ===== continuous flow stream (no page border) ===== */
+.flow{width:210mm;margin:0 auto;background:transparent;color:var(--fg);
+      padding-block:16mm 18mm;padding-inline:23mm 14mm;position:relative;}   /* spiral gutter: inline-start(=spine) 23mm / outer 14mm — dir-aware; print margins set in render_flow.py */
+@media screen{ .flow{background:#fff;box-shadow:0 10px 40px rgba(0,0,0,.16);} }
+.flow>*{position:relative;z-index:1;}
+.flow p,.flow li,.flow .data,.flow .note,.flow .ex{break-inside:auto;}
+.flow .fig,.flow figure,.flow img,.flow svg.figsvg,.flow table,.flow tr,.flow .chapdiv,.flow .exh,.flow .qrcard,.flow .meta{break-inside:avoid;}
+.flow h1,.flow h2,.flow h3,.flow .exh,.flow .subhead,.flow .chapdiv{break-after:avoid;}
+.flow img,.flow svg.figsvg{max-width:100%;height:auto;}
+.flow figcaption,.flow .figcap{display:none;}          /* rule 3: no figure captions */
+
+/* ===== front matter + chapters each start on a fresh page ===== */
+.flow .cover{break-after:page;}        /* cover alone on page 1 */
+.flow .toc{break-after:page;}          /* Sommaire alone on the next page */
+.flow .chapter{break-before:page;}
+.flow .chapter:first-of-type{break-before:auto;}
+
+/* ===== cover ===== */
+.cover{padding:14mm 0 8mm;border-bottom:2px solid var(--blue);margin-bottom:6mm;}
+.cover .badge{font-family:var(--mono);font-size:8.5pt;letter-spacing:.28em;text-transform:uppercase;color:var(--orange);margin-bottom:10px;}
+.cover h1{font-family:var(--latin);font-weight:800;font-size:34pt;line-height:1.03;letter-spacing:-.025em;color:var(--blue-dark);}
+.cover .grule{width:120px;height:5px;border-radius:5px;background:var(--grad);margin:14px 0;}
+.cover .sub{font-family:var(--mono);font-size:10pt;letter-spacing:.14em;text-transform:uppercase;color:var(--teal);}
+.cover .auth{font-size:11pt;color:var(--fg2);margin-top:6px;font-weight:600;}
+
+/* ===== table of contents ===== */
+.toc{margin:2mm 0 4mm;}
+.toc h2{font-family:var(--latin);font-weight:800;font-size:15pt;color:var(--blue-dark);margin-bottom:4mm;}
+.toc .trititle{font-family:var(--mono);font-size:8pt;letter-spacing:.2em;text-transform:uppercase;color:var(--orange);margin:4mm 0 2mm;}
+.toc ol{list-style:none;}
+.toc li{display:flex;align-items:baseline;gap:8px;font-size:10pt;padding:2.2px 0;color:var(--fg);line-height:1.4;}
+.toc li .n{font-family:var(--mono);font-weight:700;font-size:9pt;color:var(--blue);min-width:26px;}
+.toc li .dots{flex:1;border-bottom:1px dotted var(--hair2);transform:translateY(-3px);}
+
+/* ===== chapter divider band ===== */
+.chapdiv{margin:0 0 5mm;padding:6mm 16px 5mm;border-radius:12px;background:var(--grad);
+    -webkit-print-color-adjust:exact;print-color-adjust:exact;}   /* green-filled chapter band */
+.chapdiv .cn{font-family:var(--mono);font-size:8.5pt;font-weight:700;letter-spacing:.24em;text-transform:uppercase;color:rgba(255,255,255,.82);margin-bottom:5px;}
+.chapdiv h2{font-family:var(--latin);font-weight:800;font-size:17pt;line-height:1.1;letter-spacing:-.015em;color:#fff;}
+/* conclusion block — same green-filled look as the chapter band */
+.conclusion{background:var(--grad);border-radius:12px;padding:6mm 16px;margin:5mm 0;color:#fff;break-inside:avoid;
+    -webkit-print-color-adjust:exact;print-color-adjust:exact;}
+.conclusion .ck{font-family:var(--mono);font-size:8.5pt;font-weight:700;letter-spacing:.24em;text-transform:uppercase;color:rgba(255,255,255,.82);margin-bottom:6px;}
+.conclusion h3{font-family:var(--latin);font-weight:800;font-size:13pt;line-height:1.2;color:#fff;margin-bottom:4px;}
+.conclusion p,.conclusion li{font-size:10.4pt;line-height:1.7;color:#fff;}
+.conclusion b,.conclusion strong{color:#fff;font-weight:700;}
+
+/* ===== unit header (lesson/exercise) + QR emplacement ===== */
+.exh{display:flex;align-items:center;gap:11px;margin:6mm 0 3mm;}
+.exh .idx{font-family:var(--mono);font-size:9pt;font-weight:600;color:#fff;background:var(--grad);
+    border-radius:6px;padding:4px 11px;letter-spacing:.08em;text-transform:uppercase;
+    -webkit-print-color-adjust:exact;print-color-adjust:exact;}
+.exh .idx.ex{background:var(--red);}   /* exercise chip = red */
+.exh h2{font-family:var(--latin);font-size:14pt;font-weight:700;letter-spacing:-.01em;color:var(--blue-dark);}
+.exh .qrcard{margin-inline-start:auto;flex:0 0 auto;display:flex;flex-direction:column;align-items:center;gap:3px;width:26mm;}
+.qrcard .qrt{font-family:var(--mono);font-size:6.5pt;letter-spacing:.1em;text-transform:uppercase;color:var(--teal);text-align:center;}
+.qrcard .qrslot{width:24mm;height:24mm;padding:1.5mm;background:#fff;border:1px solid var(--blue-line);border-radius:8px;display:flex;align-items:center;justify-content:center;}
+.qrcard .qrslot img,.qrcard .qrslot svg{width:100%;height:100%;display:block;}
+
+/* sub-exercise label when one file holds several exercices */
+.exsub{font-family:var(--latin);font-weight:800;font-size:11.5pt;color:var(--blue-dark);margin:5mm 0 2.5mm;padding-bottom:3px;border-bottom:2px solid var(--blue-line);}
+
+/* ===== text blocks ===== */
+.lead{font-size:11pt;line-height:1.7;margin:2mm 0 3mm;color:var(--fg);}
+.para{font-size:10.6pt;line-height:1.7;margin:2mm 0 2.5mm;color:var(--fg);}
+.consigne{font-size:10.4pt;line-height:1.6;margin:1mm 0 2mm;color:var(--fg);font-style:italic;}
+.subhead{font-family:var(--latin);font-weight:800;font-size:12pt;letter-spacing:-.01em;color:var(--blue-dark);margin:5mm 0 2.5mm;}
+/* emphasis — green accent = .t-blue/.t-green ; balance = .t-navy ; red = SECONDARY accent (.t-red) on titles + a few words */
+.t-blue{color:var(--blue);font-weight:600;} .t-navy{color:var(--blue-dark);font-weight:700;}
+.t-red{color:var(--red);font-weight:600;} .t-green{color:var(--teal);font-weight:600;} .t-gold{color:var(--orange);font-weight:600;}
+.subhead.t-red{color:var(--red);font-weight:800;}   /* red Roman-numeral section title (I, II, …) — keeps subhead weight */
+/* highlighter marks — a soft colour wash behind a key word (agent picks green or red per what balances the page) */
+.hl-green,.hl-red{border-radius:3px;padding:.02em .24em;font-weight:600;box-decoration-break:clone;-webkit-box-decoration-break:clone;
+    -webkit-print-color-adjust:exact;print-color-adjust:exact;}
+.hl-green{background:rgba(15,171,143,.20);color:var(--blue-dark);}   /* green highlight */
+.hl-red{background:rgba(245,50,47,.13);color:#c0261f;}               /* red highlight  */
+
+.data{background:var(--blue-soft);border:1px solid var(--blue-line);border-inline-start:4px solid var(--blue);
+    border-radius:8px;padding:11px 16px;margin:3mm 0;font-size:10pt;line-height:1.65;color:var(--fg2);}
+.data b{color:var(--fg);font-weight:700;}
+.note{border:1px dashed var(--hair2);border-radius:9px;padding:11px 16px;margin:4mm 0;background:var(--panel);}
+.note .kicker{font-family:var(--mono);font-size:7.5pt;letter-spacing:.18em;color:var(--orange);display:block;margin-bottom:5px;}
+.note .nb{font-size:10pt;line-height:1.7;color:var(--fg2);} .note b{color:var(--fg);}
+.ex:not(.idx){background:var(--blue-soft);border:1px solid var(--blue-line);border-inline-start:3px solid var(--blue);
+    border-radius:7px;padding:7px 11px;font-size:9.6pt;line-height:1.6;color:var(--fg2);margin:2mm 0;}   /* :not(.idx) so it never hits the exercise chip (which is .idx.ex) */
+.ex .extag{display:inline-block;font-family:var(--latin);font-weight:800;font-size:7.6pt;color:var(--blue-dark);background:#fff;
+    border:1px solid var(--blue);border-radius:5px;padding:1px 9px;margin-inline-end:7px;vertical-align:middle;text-transform:uppercase;letter-spacing:.06em;}
+
+/* ===== lists ===== */
+ol.q{list-style:none;counter-reset:q;margin:1mm 0 2mm;}
+ol.q>li{counter-increment:q;position:relative;padding-inline-start:30px;margin-bottom:2.5mm;font-size:10.4pt;line-height:1.6;}
+ol.q>li::before{content:counter(q);position:absolute;inset-inline-start:0;top:1px;width:21px;height:21px;background:var(--grad);color:#fff;
+    border-radius:50%;font-family:var(--mono);font-size:9pt;font-weight:600;display:flex;align-items:center;justify-content:center;
+    -webkit-print-color-adjust:exact;print-color-adjust:exact;}
+ol.sub{list-style:none;counter-reset:s;margin:4px 0 0;padding-inline-start:2px;border-inline-start:1px solid var(--blue-line);}
+ol.sub li{counter-increment:s;position:relative;padding:2.5px 0 2.5px 26px;font-size:10.1pt;line-height:1.55;}
+ol.sub li::before{content:counter(s,lower-alpha)".";position:absolute;inset-inline-start:10px;top:2.5px;font-family:var(--mono);font-size:9pt;font-weight:600;color:var(--teal);}
+ol.qn{list-style:none;counter-reset:qn;margin:1mm 0 2mm;}
+ol.qn>li{counter-increment:qn;position:relative;padding-inline-start:26px;margin-bottom:2.2mm;font-size:10.4pt;line-height:1.55;}
+ol.qn>li::before{content:counter(qn)".";position:absolute;inset-inline-start:0;top:0;font-family:var(--mono);font-size:9.5pt;font-weight:700;color:var(--blue);}
+ul.b{list-style:none;margin:1mm 0 2mm;} ul.b>li{position:relative;padding-inline-start:22px;margin-bottom:2.4mm;font-size:10.4pt;line-height:1.6;}
+ul.b>li::before{content:"";position:absolute;inset-inline-start:3px;top:8px;width:8px;height:8px;border-radius:50%;background:var(--grad);
+    -webkit-print-color-adjust:exact;print-color-adjust:exact;}
+ul.dash{list-style:none;margin:1mm 0 2mm;} ul.dash>li{position:relative;padding-inline-start:20px;margin-bottom:1.8mm;font-size:10.4pt;line-height:1.6;}
+ul.dash>li::before{content:"–";position:absolute;inset-inline-start:2px;top:0;color:var(--fg);font-weight:700;}  /* dash / +/− signs = body colour */
+.flow ul.opts{list-style:none;margin:4px 0 3px;padding-inline-start:16px;}
+.flow ul.opts li{padding:2px 0;font-size:10.2pt;line-height:1.5;color:var(--fg);}
+
+/* ===== figures / tables ===== */
+.fig{margin:3mm 0;} .fig svg.figsvg{display:block;margin:0 auto;background:#fff;max-width:100%;height:auto;}
+.photo{display:block;margin:3mm auto;border-radius:8px;border:1px solid var(--hair);max-width:100%;}
+.figrow{display:flex;flex-wrap:wrap;gap:9px;justify-content:center;margin:3mm auto;max-width:190mm;}
+.flow .figrow img{border-radius:7px;border:1px solid var(--hair);height:46mm;width:auto;max-width:none;object-fit:cover;}
+.schemarow{display:flex;gap:16px;align-items:flex-start;flex-wrap:wrap;margin:2mm 0;}
+.schemarow .col-txt{flex:1 1 90mm;min-width:80mm;} .schemarow .col-fig{flex:0 0 78mm;} .schemarow .col-fig .fig{margin:0;}
+.flow table{border-collapse:collapse;width:100%;margin:3mm 0;font-size:9.8pt;line-height:1.5;}
+.flow table th,.flow table td{border:1px solid var(--blue-line);padding:6px 10px;text-align:start;vertical-align:top;}
+.flow table th{background:var(--grad);color:#fff;font-family:var(--latin);font-weight:700;font-size:9.4pt;
+    -webkit-print-color-adjust:exact;print-color-adjust:exact;}
+.flow table tr:nth-child(even) td{background:var(--blue-soft);color:var(--sub-ink);}   /* sub-row: #E6F3F4 / #045260 */
+
+mjx-container{color:var(--fg) !important;font-weight:400 !important;font-size:1.0em !important;}
+.eq-hi mjx-container,mjx-container.eq-hi{color:var(--blue) !important;}   /* accent (green) equation — highlight a key result; balance with plain math */
+.eq-red mjx-container,mjx-container.eq-red{color:var(--red) !important;}  /* red accent equation / symbol — complements the green .eq-hi */
+
+/* ===== per-file books: credit line, copies list, figures at their size ===== */
+.credit{display:flex;flex-wrap:wrap;align-items:center;gap:5px;margin:-1mm 0 3.5mm;font-size:9.4pt;color:var(--fg2);}
+.credit .who{font-weight:700;color:var(--blue-dark);}
+.credit .tg{font-family:var(--mono);font-size:7.2pt;letter-spacing:.04em;border-radius:5px;padding:1px 7px;line-height:1.6;
+    border:1px solid var(--blue-line);color:var(--blue);background:#fff;-webkit-print-color-adjust:exact;print-color-adjust:exact;}
+.credit .tg.sec{background:var(--blue-dark);border-color:var(--blue-dark);color:#fff;}
+.credit .tg.cor{background:#fff;border-color:var(--red);color:var(--red);}
+.credit a{color:var(--fg3);font-family:var(--mono);font-size:7pt;text-decoration:none;}
+.cover .auth .credit{margin:4mm 0 0;}
+.cover .copies{margin-top:5mm;font-size:8.6pt;color:var(--fg2);}
+.cover .copies ul{list-style:none;margin:2mm 0 0;padding:0;columns:2;}
+.cover .copies a{color:var(--fg3);text-decoration:none;font-size:8pt;}
+.flow figure.fig{text-align:center;}
+.flow figure.fig img{max-height:60mm;width:auto;max-width:70%;display:inline-block;}
+
+/* chapter tag on each part of a multi-chapter book (the book keeps the original order of the file) */
+.chtag{display:inline-block;margin:5mm 0 2mm;padding:1mm 3mm;border-radius:2mm;background:#eef3fb;border:1px solid #c9d6ea;
+  color:#1f3a6b;font-size:9pt;font-weight:700}
+.chtag span{color:#6b7f9e;font-weight:600;margin-inline-end:1.5mm}
+
+@media print{ body{background:#fff;padding:0;} .flow{width:auto;max-width:none;margin:0;padding:0;} }
+@page{size:A4;}   /* margins come from render_flow.py — do NOT set them here */
+</style>
+<meta data-pagefind-filter="type[content]" content="موضوع">
+<meta data-pagefind-filter="resource[content]" content="امتحانات وطنية (وزارة التربية)">
+<meta data-pagefind-meta="n[content]" content="1628">
+<meta data-pagefind-meta="title[content]" content="2014 — philo">
+<meta data-pagefind-filter="chapter[content]" content="العلم بين الحقيقة والنمذجة">
+<meta data-pagefind-filter="chapter[content]" content="الإنية والغيرية">
+<meta data-pagefind-filter="chapter[content]" content="القيم: الأخلاق والدولة">
+<meta data-pagefind-filter="chapter[content]" content="الخصوصية والكونية">
+<meta data-pagefind-filter="section[content]" content="باكالوريا تقنية"><style>.qrcard{display:none!important}.wa-nav{position:sticky;top:0;z-index:50;background:#045260;padding:10px 18px;font-family:Cairo,sans-serif;direction:rtl}.wa-nav a{color:#fff;text-decoration:none;font-weight:700}@media print{.wa-nav{display:none}}</style>
+</head>
+
+<body dir="rtl" lang="ar"
+      data-brand="Wael Academy" data-handle="@WaelAcademy"
+      data-tagline="في تُرابنا.. مغامرة بمغامرة"
+      data-phone="+216 50 40 40 42" data-site="waeldocuments.com"
+      data-cta="سجل معانا وأقرى عن بعد مع منصة Wael Academy"
+      data-subject="Philosophie · 2014 — philo" data-watermark="Wael Academy" data-pagefind-body><nav class="wa-nav" data-pagefind-ignore><a href="../index.html">→ الرجوع إلى فهرس الفلسفة</a></nav>
+
+<!-- single full-page diagonal watermark, bottom-left → top-right (repeats on every page) -->
+<div class="wm" aria-hidden="true"><span>WAEL&nbsp;ACADEMY</span></div>
+
+<div class="flow colored">
+<div class="cover"><div class="badge">◉ Wael Academy · Philosophie</div><h1>2014 — philo</h1><div class="grule"></div><div class="sub">العلم بين الحقيقة والنمذجة</div><div class="auth"><div class="credit">المؤلّف / المصدر : <span class="who">الجمهورية التونسية — وزارة التربية — امتحان البكالوريا — دورة جوان 2014 · الجمهورية التونسية — وزارة التربية</span> <span class="tg cor">إصلاح</span><span class="tg sec">الفلسفة · باكالوريا تقنية</span> <a href="https://drive.google.com/file/d/1w3Wf9a1XLdjpLWVSEtb1wbWNMKd_2xgQ/view">↗ philo (10).pdf</a> <a href="https://drive.google.com/file/d/1w78cO1NBrKrc-Ad7awU-9ZslQ5lvmM05/view">↗ philo_c (6).pdf</a></div></div><div class="copies" data-pagefind-ignore><b>نسخ هذا الملف في الدرايفات (9)</b><ul><li><a href="https://drive.google.com/file/d/1w3Wf9a1XLdjpLWVSEtb1wbWNMKd_2xgQ/view">Mohamed Ahmed Zahi · Bac Math Zahi 2024/2025 › Philo / Des Bacs / principale / 2014</a></li><li><a href="https://drive.google.com/file/d/1r02o6gHZipSmKaaKREQG3N_CKBV36esx/view">Mohamed aziz saideni lycee Farhat Hached bizertebac 2026 · BAC MATH 2026 MOHAMED AZIZ SAIDENI › TOUT 2026 / Pour réviser les langues_ travaillez ces sujets corrigés / 2014 / Principale</a></li><li><a href="https://drive.google.com/file/d/1niSavQ0OPZqxO9Pc9sRbPY3SOILjNsuN/view">Jihed Rezgani · Bac Info › Sujets Bac / bacinfo2014 / principale</a></li><li><a href="https://drive.google.com/file/d/13DVDXPXLW9rcpEW32aGTkAVF_4vMSWWM/view">Maram Belgacem · Bac math 2025 ( what you really need) › examenbac / philo</a></li><li><a href="https://drive.google.com/file/d/1w78cO1NBrKrc-Ad7awU-9ZslQ5lvmM05/view">Mohamed Ahmed Zahi · Bac Math Zahi 2024/2025 › Philo / Des Bacs / principale / 2014</a></li><li><a href="https://drive.google.com/file/d/1W-bQB4VdvbJNwZ7WMVFUDRV7YAWtQK-m/view">Mohamed aziz saideni lycee Farhat Hached bizertebac 2026 · BAC MATH 2026 MOHAMED AZIZ SAIDENI › TOUT 2026 / Pour réviser les langues_ travaillez ces sujets corrigés / 2014 / Principale</a></li><li><a href="https://drive.google.com/file/d/1F6JIJuCuMTfM9jPTN3zl3VGLG2zPzDAb/view">Jihed Rezgani · Bac Info › Sujets Bac / bacinfo2014 / principale</a></li><li><a href="https://drive.google.com/file/d/1JVxqkibXj8oKqi4vsgcJIoBjs0efz5oX/view">Maram Belgacem · Bac math 2025 ( what you really need) › examenbac / philo</a></li><li><a href="https://drive.google.com/file/d/1-zL84uki2vaikDeEmZzrEgy10tfdUYIY/view">Mariem Benkaied · BacTech (LPN 2k26) › philo / correction bac</a></li></ul></div></div>
+<section class="chapter">
+<div class="chtag"><span>المحور</span> العلم بين الحقيقة والنمذجة</div>
+<!-- SOURCE: الجمهورية التونسية — وزارة التربية — امتحان البكالوريا — دورة جوان 2014 · الجمهورية التونسية — وزارة التربية -->
+<!-- NOTE: one book for 2 files of the Drive folder "Philo / Des Bacs / principale / 2014" (series), in file order -->
+<div class="exh"><span class="idx ex">موضوع</span><h2>2014 — philo</h2>
+  <div class="qrcard"><div class="qrt">فيديو الدرس</div><div class="qrslot"><img src="qr/1628.svg" alt="QR"></div></div></div>
+<div class="credit">المؤلّف / المصدر : <span class="who">الجمهورية التونسية — وزارة التربية — امتحان البكالوريا — دورة جوان 2014 · الجمهورية التونسية — وزارة التربية</span> <span class="tg cor">إصلاح</span><span class="tg sec">الفلسفة · باكالوريا تقنية</span> <a href="https://drive.google.com/file/d/1w3Wf9a1XLdjpLWVSEtb1wbWNMKd_2xgQ/view">↗ philo (10).pdf</a> <a href="https://drive.google.com/file/d/1w78cO1NBrKrc-Ad7awU-9ZslQ5lvmM05/view">↗ philo_c (6).pdf</a></div>
+
+<!-- file: philo (10) -->
+
+
+<div class="exsub">philo (10)</div>
+<table>
+<tr><td>الجمهورية التونسية<br>وزارة التربية<br>◈◈◈<br><b>امتحان البكالوريا</b><br><b>دورة جوان 2014</b></td><td>الاختبار : <b>الفلسفة</b><br>الشعب : <b>الرياضيات والعلوم التجريبية والعلوم التقنية والاقتصاد والتصرف وعلوم الإعلامية</b><br>الحصة : 3 س<br>الضارب : 1</td></tr>
+</table>
+<p class="subhead t-red"><b>القسم الأول</b> : (10 نقاط)</p>
+
+<div class="chtag"><span>المحور</span> الإنية والغيرية</div>
+
+<p class="subhead t-navy"><b>1- التّمرين الأوّل : ( نقطتان )</b></p>
+<p class="para">قيل: " تحوي الذّاتية ضمنيّا الغيريّة." اكشف إحدى تبعات هذا الإقرار.</p>
+
+<div class="chtag"><span>المحور</span> العلم بين الحقيقة والنمذجة</div>
+
+<p class="subhead t-navy"><b>2- التّمرين الثّاني : ( نقطتان )</b></p>
+<p class="para">بقدر ما يتقدّم العلم في نمذجة الواقع، يبتعد عنه. حدّد دلالة النّموذج في سياق هذا القول.</p>
+
+<div class="chtag"><span>المحور</span> القيم: الأخلاق والدولة</div>
+<p class="subhead t-navy"><b>3- التّمرين الثّالث : ( 6 نقاط )</b></p>
+<p class="para">النصّ :</p>
+<p class="para">إنّ سلطة تعسّفية ومطلقة، وحكما دون قوانين قائمة ومستقرّة، أمرٌ لا يمكن أن يتوافق مع غايات المجتمع والحكم. وفعلا، أَفَهَلْ يَتْرُكُ البشر حرّية حالة الطّبيعة ليَخضَعوا إلى حكم لا يأتمنون فيه على أرواحهم وحرّياتهم وراحتهم وممتلكاتهم ؟ وليس لنا أن نفترض أنّه كان في نيّتهم، ولا حتّى كان من حقّهم أن يَهَبُوا لِشَخْصٍ أو مجموعة أشخاص حكما مطلقا وتعسّفيا يُسَلّطُ على أشخاصهم وممتلكاتهم، وأنْ يسمحوا للحاكم أو الأمير أن يفعل بهم ما يشاء، بإرادة تعسّفية لا يحدّها حدّ. سيكون ذلك بالتأكيد وضعًا أسوأ بكثير ممّا هي عليه حالة الطّبيعةِ، حيث يتسنّى فيها لكلّ امرئٍ حرّية الدّفاع عن حقّه ضدّ اعتداءات الغير والتّماسك أمام كلّ عدوان من شخص أو مجموعة أشخاص متّحدين إن كان له قدر من القوّة. و بالفعل، إذا افترضنا أنّنا أخضعنا أنفسنا لسلطة مطلقةٍ وإرادة متعسّفةٍ لمشرّعٍ، فإنّنا نكون قد جرّدنا أنفسنا من أسلحتنا وسلّحنا هذا المشرّع حتّى يصبح الخاضعون له فريستَهُ، فَيُعَامَلُونَ على النّحوِ الّذي يحلُو لَهُ.</p>
+<p class="para">جون لوك<br>رسالة في الحكم المدني</p>
+<p class="consigne">أنجز المهامّ التّالية انطلاقا من النصّ :</p>
+<p class="para">1- حدّدْ أطروحة الكاتب.<b>( نقطتان)</b></p>
+<p class="para">2- إستخرج من النصّ حجّتيْن دحض بهما الكاتب الحكم المطلق. <b>(نقطتان)</b></p>
+<p class="para">3- إستخلص رهان الكاتب من خلال ما ورد في النصّ. <b>(نقطتان)</b></p>
+<p class="subhead t-red"><b>القسم الثّاني</b> : (10 نقاط)</p>
+<p class="consigne">يختار المترشّح أحد السؤاليْن التّاليين ليحرّر في شأنه محاولة في حدود 30 سطرا.</p>
+<ul class="dash">
+<li>السؤال الأوّل: هل من الضّروري أن نختار بين الالتزام بالواجب الأخلاقي وطلب السعادة ؟</li>
+</ul>
+<div class="chtag"><span>المحور</span> الخصوصية والكونية</div>
+<li>السؤال الثاني: إذا كانت كلّ هويّة تنزع إلى إثبات خصوصيّتها، فهل في ذلك ما يهدّد الكونيّة ؟</li>
+
+
+<div class="chtag"><span>المحور</span> العلم بين الحقيقة والنمذجة</div>
+<!-- file: philo_c (6) -->
+
+
+<div class="exsub">philo_c (6)</div>
+<p class="para">الاختبار: <b>الفلسفة</b><br>الشعب: <b>الرياضيات والعلوم التجريبية والعلوم التقنية والاقتصاد والتصرّف وعلوم الإعلامية</b><br>الحصّة: 3 س<br>الضارب: 1</p>
+
+<p class="subhead t-red"><b>القسم الأوّل: (10 نقاط)</b></p>
+
+<div class="chtag"><span>المحور</span> الإنية والغيرية</div>
+
+<div class="exsub">1-التّمرين الأوّل: (نقطتان)</div>
+<p class="para">قيل: "تحوي الذاتية ضمنيا الغيرية" اكشف إحدى تبعات هذا الإقرار.</p>
+
+<div class="chtag"><span>المحور</span> العلم بين الحقيقة والنمذجة</div>
+
+<div class="exsub">2-التّمرين الثاني: (نقطتان)</div>
+<p class="para">بقدر ما يتقدّم العلم في نمذجة الواقع، يبتعد عنه. حدّد دلالة النّموذج في سياق هذا القول.</p>
+
+<div class="chtag"><span>المحور</span> القيم: الأخلاق والدولة</div>
+
+<div class="exsub">3-التّمرين الثالث: (6نقاط )</div>
+<p class="para"><b>النـــصّ:</b></p>
+<p class="para">إنّ سلطة تعسّفية ومطلقة، وحكما دون قوانين قائمة ومستقرّة، أمر لا يمكن أن يتوافق مع غايات المجتمع والحكم. وفعلا، أفهل يترك البشر حرّية حالة الطّبيعة ليخضعوا إلى حكم لا يأتمنون فيه على أرواحهم وحرّياتهم وراحتهم وممتلكاتهم؟ وليس لنا أن نفترض أنّه كان في نيّتهم، ولا حتّى كان من حقّهم أن يهبوا لشخص أو مجموعة أشخاص حكما مطلقا وتعسّفيا يسلّط على أشخاصهم وممتلكاتهم، وأن يسمحوا للحاكم أو الأمير أن يفعل بهم ما يشاء، بإرادة تعسّفية لا يحدّها حدّ. سيكون ذلك بالتأكيد وضعا أسوأ بكثير ممّا هي عليه حالة الطبيعة، حيث يتسنّى فيها لكلّ امرئٍ حرّية الدفاع عن حقّه ضدّ اعتداءات الغير والتّماسك أمام كلّ عدوان من شخص أو مجموعة أشخاص متّحدين، إن كان له قدر من القوّة. وبالفعل، إذا افترضنا أنّنا أخضعنا أنفسنا لسلطة مطلقة وإرادة متعسّفة لمشرّع، فإنّنا نكون قد جرّدنا أنفسنا من أسلحتنا وسلّحنا هذا المشرّع حتّى يصبح الخاضعون له فريسته، فيُعاملون على النحوِ الذي يحلو له.</p>
+<p class="para">جون لوك – رسالة في الحكم</p>
+<p class="consigne">أنجز المهامّ التّالية انطلاقا من النصّ:</p>
+<ol class="qn">
+<li>حدّد أطروحة الكاتب. (نقطتان)</li>
+<li>استخرج من النصّ حجّتين دحض بهما الكاتب الحكم المطلق. (نقطتان)</li>
+<li>استخلص رهان الكاتب من خلال ما ورد في النصّ. (نقطتان)</li>
+</ol>
+
+
+<div class="chtag"><span>المحور</span> العلم بين الحقيقة والنمذجة</div>
+
+<p class="subhead t-red"><b>القسم الثاني: (10 نقاط)</b></p>
+<p class="consigne">يختار المترشّح أحد السؤالين التاليين ليحرّر في شأنه محاولة في حدود30 سطرا.</p>
+
+<div class="chtag"><span>المحور</span> القيم: الأخلاق والدولة</div>
+
+<ul class="dash">
+<li>السؤال الأوّل: هل من الضروري أن نختار بين الالتزام بالواجب الأخلاقي وطلب السعادة؟</li>
+</ul>
+
+<div class="chtag"><span>المحور</span> الخصوصية والكونية</div>
+
+<ul class="dash">
+<li>السؤال الثاني: إذا كانت كلّ هوّية تنزع إلى إثبات خصوصيّتها، فهل في ذلك ما يهدّد الكونية؟</li>
+</ul>
+
+<div class="chtag"><span>المحور</span> العلم بين الحقيقة والنمذجة</div>
+
+
+<div class="exsub">الإصلاح</div>
+<p class="subhead t-red">القسم الأوّل (10 نقاط)</p>
+
+<div class="chtag"><span>المحور</span> الإنية والغيرية</div>
+
+<p class="para">التمرين الأوّل (نقطتان)<br>"قيل تحوي الذاتية ضمنيا الغيرية" اكشف إحدى تبعات هذا الإقرار</p>
+<table>
+<tr><th>التمشّيات المنهجية</th><th>الإنجاز</th></tr>
+<tr><td><ol class="qn">
+<li>فهم المطلوب من خلال الاهتمام بجزأي التمرين: الجزء الأوّل المتمثّل في الإقرار والموقف الذي يتضمّنه (الأطروحة) والجزء الثاني المتمثّل في التعليمة التي تطلب منّا الكشف عن إحدى التبعات.</li>
+<li>الوقوف على الدلالة السياقية لأهمّ المفاهيم (الذاتية، الغيرية).</li>
+<li>تحديد المطلوب المتمثّل في الكشف عن إحدى التبعات: التبعة بما هي التصوّر الكامن في الموقف بشكل ضمني (غير مصرّح به)/ التبعة بما هي ما يترتّب عن التسليم بالموقف الوارد في نصّ القول.</li>
+<li>يمكن تحديد التبعات من خلال الاستعانة بالأسئلة التالية: - ما الذي ينجم عن التسليم بهذا الموقف؟ أو - ما الذي يترتّب عن هذا الإقرار ، على المستوى النظري وعلى المستوى العملي ؟ أو – إلى ماذا يؤدّي القول بذلك، نظريا وعمليا؟</li>
+<li>صياغة التبعة في لغة سليمة وبشكل موجز.</li>
+</ol></td>
+<td>يطالب المترشّح بالكشف عن إحدى التبعات كأن يشير إلى:
+<ul class="dash">
+<li>أنّ إدراك الذات لذلتها لا يتمّ بمعزل عن الغيرية. وأنّ الغير لا يمثّل الطرف المقابل للأنا، بقدر ما يمثّل أحد مكوّناته.</li>
+</ul>
+أو
+<ul class="dash">
+<li>تجاوز تصوّر الذات كجوهر بسيط إلى اعتبارها كيانا مركّبا.</li>
+</ul>
+أو
+<ul class="dash">
+<li>إعادة النظر في المنطق الذي يحكم العلاقة بالآخر واستبدال العلاقة القائمة على المواجهة والصراع بعلاقة قائمة على التفاعل والاعتراف المتبادل.</li>
+</ul></td></tr>
+</table>
+
+
+<div class="chtag"><span>المحور</span> العلم بين الحقيقة والنمذجة</div>
+
+<p class="para">التمرين الثاني (نقطتان)<br>"بقدر ما يتقدّم العلم في نمذجة الواقع، يبتعد عنه". حدّد دلالة النّموذج في سياق هذا القول.</p>
+<table>
+<tr><th>التمشّيات المنهجية</th><th>الإنجاز</th></tr>
+<tr><td><ol class="qn">
+<li>فهم الموقف الوارد في نصّ القول، من خلال الوقوف على دلالة أهمّ المفاهيم والعلاقة بينها.</li>
+<li>تحديد المطلوب في التمرين: التحديد السياقي للمفهوم: تحديد الدلالة السياقية لمفهوم النموذج (التعريف الملائم لسياق القول).</li>
+<li>التحديد السياقي للمفهوم: ربط المفهوم بالإطار النظري الذي يندرج فيه القول وبيان دوره وقيمته.</li>
+</ol></td>
+<td>يطالب المترشّح بتقديم تعريف للنموذج بإبراز:
+<ul class="dash">
+<li>"أنّ النموذج آلية لمقاربة الواقع تقوم على استبدال الواقع المعطى بواقع منشأ، قصد تعقّله والتحكّم فيه".</li>
+</ul>
+أو
+<ul class="dash">
+<li>"أنّ النموذج لا يقوم على محاكاة الواقع المعطى والمباشر، بل يقوم على إنتاج واقع عقلي بديل".</li>
+</ul>
+أو
+<ul class="dash">
+<li>"أنّ النموذج العلمي يستبدل الواقع</li>
+</ul></td></tr>
+<tr><td><ol class="qn" start="4">
+<li>الاستعانة بالأسئلة التالية:<br>أ. أيّة دلالة للنموذج تستقيم في ظلّ الإقرار بهذا الموقف؟<br>ب. أيّ تعريف للنموذج العلمي يتلاءم مع هذا القول؟</li>
+<li>صياغة دلالة النموذج في لغة سليمة وبشكل دقيق وموجز.</li>
+</ol></td>
+<td>المحسوس بعالم منشأ عقليا يحلّ فيه الافتراضي والممكن محلّ الواقعي".<br>أو
+<ul class="dash">
+<li>"أنّ النموذج إنشاء عقلي يلعب الدور الرئيسي في تطوّر العلم، من خلال تجاوز عقبة الواقع المحسوس".</li>
+</ul></td></tr>
+</table>
+
+
+<div class="chtag"><span>المحور</span> القيم: الأخلاق والدولة</div>
+
+<p class="para">التمرين الثالث: النصّ<br>أ. المهمّة الأولى<br>حدّد أطروحة الكاتب.</p>
+<table>
+<tr><th>التمشّيات المنهجية</th><th>الإنجاز</th></tr>
+<tr><td><ol class="qn">
+<li>فهم المطلوب: تحديد أطروحة الكاتب أي الموقف الذي يتبنّاه ويدافع عنه والذي يمثّل إجابة عن المشكل الذي يطرحه النصّ.</li>
+<li>الاستعانة بالأسئلة التالية:<br>أ. ما هو موقف الكاتب من المشكل الذي يطرحه النصّ؟<br>ب. ما هي إجابة الكاتب عن المشكل الذي يطرحه النصّ؟<br>ج. ما هو الموقف الذي يدافع عنه الكاتب؟</li>
+</ol></td>
+<td>يطالب المترشّح بتقديم أطروحة الكاتب بإبراز:
+<ul class="dash">
+<li>"أنّ السلطة تستمدّ مشروعيتها من مدى توافقها مع غايات المجتمع والحكم والمتمثّلة في ضمان حرّية الأفراد وأمنهم وممتلكاتهم".</li>
+</ul>
+أو
+<ul class="dash">
+<li>"أنّ السلطة تفقد مشروعيتها إذا ما كانت في تناقض مع حرّية المجتمع وأمنه وأن لا مبرّر للقبول بسلطة تعسّفية ومطلقة".</li>
+</ul></td></tr>
+</table>
+
+<p class="para">ب. المهمّة الثانية<br>استخرج من النصّ حجّتين دحض بهما الكاتب الحكم المطلق.</p>
+<table>
+<tr><th>التمشّيات المنهجية</th><th>الإنجاز</th></tr>
+<tr><td>فهم المطلوب: تقديم حجّتين دحض بهما الكاتب الحكم المطلق: الحجّة هي القيمة النظرية التي تقوم مقام الدليل التجريبي والبرهان الرياضي، بقصد إثبات موقف أو دحضه أو بيان حدوده. والدحض بما هو الاعتراض على موقف ما من خلال بيان تهافته وتناقضه داخليا أو خارجيا أو بيان عدم وجاهته، من خلال تقديم حجج على ذلك.
+<ul class="dash">
+<li>الاستعانة بالسؤال التالي: ما هي الحجج التي اعتمدها الكاتب في تدعيم موقفه.</li>
+<li>رصد الحجج.</li>
+<li>صياغة الحجج في لغة سليمة وفي شكل موجز ودقيق.</li>
+</ul></td>
+<td>يطالب المترشّح بتقديم حجّتين كأن يشير إلى:
+<ul class="dash">
+<li>أنّ السلطة المطلقة تتعارض مع مقاصد الأفراد والمجتمع في العيش في حرّية وأمن.</li>
+<li>أنّ السلطة المطلقة تتعارض مع الحقّ الطبيعي، فإذا كان للإنسان الحقّ طبيعيا في حرّية التصرّف في حياته وممتلكاته، فإنّه لا يملك حقّ التخلّي عن حرّيته.</li>
+<li>أنّ السلطة المطلقة لا معقولة لأنّها تعكس إرادة تسلّطية، فتمسي حالة المدنية وضعا أسوأ من حالة الطبيعة حين يفقد الأفراد حقوقهم في الدفاع عن أنفسهم ويتنازلون عن حرّياتهم</li>
+</ul></td></tr>
+<tr><td></td><td>دون مقابل.</td></tr>
+</table>
+
+<p class="para">ج. المهمّة الثالثة<br>استخلص رهان الكاتب من خلال ما ورد في النصّ.</p>
+<table>
+<tr><th>التمشّيات المنهجية</th><th>الإنجاز</th></tr>
+<tr><td>تحديد المطلوب:
+<ul class="dash">
+<li>الرهان هو الخطورة والأهمّية التي يكتسيها التفكير في مشكل ما.</li>
+<li>الكشف عن الطابع الحاسم والمصيري للموقف الذي نتّخذه من هذا المشكل.</li>
+<li>بيان ما يمكن أن نغنمه من الأخذ بهذا الموقف أو ذاك على المستويين النظري والعملي.</li>
+<li>الرهان هو الغنم الناجم عن الإقرار بموقف ما وفي ذات الوقت المخاطر المرتبطة به نظريا وعمليا.</li>
+</ul>
+الاستعانة بالأسئلة التالية:
+<ul class="dash">
+<li>ما الذي يرمي إليه الكاتب من وراء طرح هذا المشكل؟</li>
+<li>أيّة أهمّية لاتّخاذ هذا الموقف على المستوى النظري وعلى المستوى العملي (أخلاقيا، سياسيا، اجتماعيا...)</li>
+</ul>
+صياغة الرهان بلغة سليمة وبشكل دقيق وموجز.</td>
+<td>يطالب المترشّح بالكشف عن رهان الكاتب بالإشارة إلى:
+<ul class="dash">
+<li>"ضرورة رسم حدود لممارسة السلطة، حماية لحرّية الفرد من غطرسة الحكم المطلق."</li>
+</ul>
+أو
+<ul class="dash">
+<li>"التشريع لحقّ المواطن في مقاومة كلّ سلطة استبدادية".</li>
+</ul>
+أو
+<ul class="dash">
+<li>"التأسيس لدولة القانون ضمانا للحقوق الأساسية: الحرّية والأمن والملكية".</li>
+</ul>
+أو
+<ul class="dash">
+<li>"التأسيس العقلاني والتعاقدي للحكم الديمقراطي".</li>
+</ul>
+أو
+<ul class="dash">
+<li>"تحرير الإنسان من الاغتراب السياسي".</li>
+</ul></td></tr>
+</table>
+
+<p class="subhead t-red"><b>القسم الثاني: (10 نقاط)</b></p>
+<p class="consigne">يختار المترشّح أحد السؤالين التاليين ليحرّر في شأنه محاولة في حدود30 سطرا.</p>
+<ul class="dash">
+<li>السؤال الأوّل: هل من الضروري أن نختار بين الالتزام بالواجب الأخلاقي وطلب السعادة؟</li>
+</ul>
+<table>
+<tr><th>التمشّيات المنهجية</th><th>الإنجاز</th></tr>
+<tr><td><ol class="qn">
+<li>فهم السؤال من خلال الوقوف عند أهمّ المعاني والمفاهيم ورصد أوجه العلاقة بينها.</li>
+<li>بلورة محاولة في الإجابة عن السؤال في حدود 30 سطرا وفق التمشّي التالي:</li>
+</ol>
+أ. بناء المشكل:
+<ul class="dash">
+<li>بيان ما يبرّر طرح المشكل. (ما هي مبرّرات طرح السؤال؟)</li>
+</ul></td>
+<td>دواعي طرح المشكل:
+<ul class="dash">
+<li>إمكانية الانطلاق من تنزيل السؤال ضمن التفكير في مقتضيات الفعل</li>
+</ul></td></tr>
+<tr><td><ul class="dash">
+<li>الكشف عن أهمّية السؤال. (فيم تتمثّل القيمة الفلسفية لهذا السؤال؟ ما الذي نغنمه نظريا وعمليا من طرح هذا السؤال؟)</li>
+<li>صياغة المشكل بوضوح. (ما هو المشكل الفلسفي الذي يثيره طرح هذا السؤال؟)</li>
+</ul>
+ب. بلورة إجابة:
+<ul class="dash">
+<li>بيان ما يوجب ضرورة الاختيار.</li>
+<li>تقديم ما يؤيّد ذلك.</li>
+<li>تجاوز الإقرار بضرورة الاختيار.</li>
+</ul>
+ج. استخلاص:</td>
+<td>الأخلاقي وإحراجاته التي تجعل من الاختيار بين الالتزام بالواجب الأخلاقي وطلب السعادة معضلة فلسفية.<br>
+طرح الإشكالية:
+<ul class="dash">
+<li>ما طبيعة العلاقة بين الالتزام بالواجب الأخلاقي وطلب السعادة؟ هل هي علاقة تنافر أم تكامل؟</li>
+</ul>
+أو
+<ul class="dash">
+<li>هل تقتضي أخلاقية الفعل التضحية بالسعادة؟ وهل يمكن للمرء أن يكون أخلاقيا وسعيدا في آن؟</li>
+</ul>
+بلورة التفكير في المشكل:
+<ul class="dash">
+<li>تحدد دلالة الاختيار بما هو إعلان عن إرادة مستقلّة للذات.</li>
+<li>ربط الاختيار بالتباس العلاقة بين الالتزام بالواجب الأخلاقي وطلب السعادة.</li>
+<li>تحديد دلالة الواجب الأخلاقي بما هو التزام بقانون كلّي وضروري ولا مشروط.</li>
+<li>تحديد دلالة السعادة بما هي تجربة ذاتية مشروطة برغبات الأفراد وميولاتهم.</li>
+</ul>
+بيان ما يترتّب عن هذا التقابل المفهومي بين السعادة والواجب الأخلاقي:
+<ul class="dash">
+<li>اعتبار الالتزام بالواجب الأخلاقي مصدر إكراه يكون في تعارض مع رغبة الذات في تحقيق سعادتها.</li>
+<li>الحرص على تحقيق السعادة قد يؤدّي إلى وضعية تنتفي عنها صفة الأخلاقية.</li>
+<li>الالتزام بالواجب الأخلاقي لا يجعل الإنسان سعيدا بل يجعله جديرا بالسعادة.</li>
+<li>بيان الطابع المحرج للاختيار بما هو تأرجح بين سبيلين لا يقلّ أحدهما أهمّية عن الآخر.</li>
+</ul>
+نفي القول بضرورة الاختيار:<br>
+افتراض التأليف بين الالتزام بالواجب الأخلاقي وطلب السعادة.
+<ul class="dash">
+<li>إعادة تعريف السعادة بما هي دفع للأحزان والآلام وتحقيق للطمأنينة.</li>
+</ul></td></tr>
+<tr><td><ul class="dash">
+<li>استخلاص الموقف النهائي.</li>
+<li>بيان قيمته الفلسفية.</li>
+</ul></td>
+<td><ul class="dash">
+<li>تقديم الاعتدال بما هو فضيلة من فضائل الفعل الأخلاقي.</li>
+<li>الحرص على تحقيق الطمأنينة من خلال عقلنة تصريف الملذّات، تعبيرا عن التوافق بين الالتزام بالواجب الأخلاقي وطلب السعادة.</li>
+</ul>
+استخلاص موقف:
+<ul class="dash">
+<li>القول بالتنافر بين المفهومين يجعل الأخلاق صورية، لا تأخذ في الاعتبار واقعية الوجود الإنساني.</li>
+<li>القول بالتوافق يسمح بتجاوز تأثيم السعادة ويجعل الواجب الأخلاقي جامعا بين البعد النفعي والبعد العقلاني في حياة الإنسان.</li>
+</ul></td></tr>
+</table>
+
+
+<div class="chtag"><span>المحور</span> الخصوصية والكونية</div>
+
+<ul class="dash">
+<li>السؤال الثاني: إذا كانت كلّ هوّية تنزع إلى إثبات خصوصيّتها، فهل في ذلك ما يهدّد الكونية؟</li>
+</ul>
+<table>
+<tr><th>التمشّيات المنهجية</th><th>الإنجاز</th></tr>
+<tr><td><ol class="qn" start="3">
+<li>فهم السؤال من خلال الوقوف عند أهمّ المعاني والمفاهيم ورصد أوجه العلاقة بينها.</li>
+<li>بلورة محاولة في الإجابة عن السؤال في حدود 30 سطرا وفق التمشّي التالي:</li>
+</ol>
+أ. بناء المشكل:
+<ul class="dash">
+<li>بيان ما يبرّر طرح المشكل. (ما هي مبرّرات طرح السؤال؟)</li>
+<li>الكشف عن أهمّية السؤال. (فيم تتمثّل القيمة الفلسفية لهذا السؤال؟ ما الذي نغنمه نظريا وعمليا من طرح هذا السؤال؟)</li>
+<li>صياغة المشكل بوضوح. (ما هو المشكل الفلسفي الذي يثيره طرح هذا السؤال؟)</li>
+</ul></td>
+<td>الإشارة إلى التوتّر القائم داخل الهويّة بين الحرص على الخصوصية من جهة والتوق إلى الكونية من جهة أخرى.<br>أو
+<ul class="dash">
+<li>التناقض بين الموقف المباشر للخصوصية الذي يكتفي بالتشبّث بالهويّة والموقف الفلسفي الذي يسائلها في علاقتها بالكوني.</li>
+</ul>
+طرح الإشكالية:
+<ul class="dash">
+<li>متى يكون تأكيد الهويّة لخصوصيتها تهديدا للكونية، وضمن أيّة شروط يكون تحقيقا لها؟</li>
+</ul>
+أو
+<ul class="dash">
+<li>ما الذي يحكم العلاقة بين الهويّات الثقافية؟ أهو الصراع أم الحوار؟</li>
+</ul>
+أو
+<ul class="dash">
+<li>ما هو الكوني ؟ هل هو تضحية بالخصوصي أم أنّه حصيلة لقاء الخصوصيات الثقافية؟</li>
+</ul>
+بلورة التفكير في المشكل:
+<ol class="qn">
+<li>دلالة الهويّة بما هي إثبات للخصوصية.</li>
+</ol>
+<ul class="dash">
+<li>دلالة الهويّة في علاقتها بالانتماء</li>
+</ul></td></tr>
+<tr><td>ب. بلورة إجابة:
+<ul class="dash">
+<li>الاهتمام بالمفاهيم الأساسية (الهويّة – الخصوصية – الكوني).</li>
+<li>الاهتمام بالعلاقات بين المفاهيم: الوجه الأوّل للعلاقة.</li>
+<li>الوجه الثاني للخصوصية.</li>
+</ul>
+مراجعة المفاهيم.<br><br>
+ج. استخلاص
+<ul class="dash">
+<li>استخلاص الموقف النهائي.</li>
+<li>بيان قيمته الفلسفية.</li>
+</ul></td>
+<td>لثقافة ما.
+<ul class="dash">
+<li>مظاهر إثبات الخصوصية (اعتزاز بالهويّة – تشبّث بالجذور).</li>
+<li>تضخّم الخصوصي على حساب المشترك أدّى إلى التنكّر للكوني.</li>
+</ul>
+<ol class="qn" start="2">
+<li>إثبات الخصوصية بما هو تهديد للكونية:</li>
+</ol>
+<ul class="dash">
+<li>نزوع بعض الهويّات الثقافية إلى الهيمنة على ثقافات أخرى.</li>
+<li>ميل الهويّات الثقافية إلى إثبات خصوصيتها من خلال بيان ما يميّزها عن غيرها من الثقافات، وما قد ينجم عن ذلك من إنكار ضمنيّ لما هو مشترك وما هو كوني.</li>
+<li>بيان موقع الآخر في سياق إثبات الخصوصية، على أنّه الغريب والعدوّ وما يترتّب عن ذلك من صراع وعنف.</li>
+</ul>
+<ol class="qn" start="3">
+<li>تأكيد الخصوصية تجسيم للكونية.</li>
+</ol>
+<ul class="dash">
+<li>إثبات أنّ الهويّة الثقافية في وعيها الحقيقي بخصوصيتها لا تنفصل عن الكوني.</li>
+<li>تمييز الكوني عن العولمي المهيمن، وبيان أنّ الكوني هو محصّلة لقاء الخصوصيات: فالخصوصيات تساهم على امتداد التاريخ في بناء إرث إنساني مشترك، مادّي ومعنويّ.</li>
+</ul>
+استخلاص موقف وبيان أهمّيته:
+<ul class="dash">
+<li>تثمين اللّقاء المثمر بين الخصوصي والكوني المتمثّل في الطابع المركّب للكوني الثقافي.</li>
+</ul>
+أو
+<ul class="dash">
+<li>الانتهاء إلى الطابع المنفتح للهويّة الثقافية من جهة تعريفها بما يميّزها عن باقي الثقافات وما يمثّل خصوصيتها ومن جهة ما يجمعها ببقيّة الثقافات وما يمثّل شراكتها في الكوني الإنساني.</li>
+</ul></td></tr>
+</table>
+
+</section>
+
+</div>
+</body>
+</html>

@@ -1,0 +1,755 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<title>Wael Academy — Philosophie · philo — philo (2)</title>
+<script>
+  window.MathJax = {
+    tex: { inlineMath: [['\\(','\\)']], displayMath: [['\\[','\\]']] },
+    chtml: { fontURL: 'https://cdn.jsdelivr.net/npm/mathjax@3/es5/output/chtml/fonts/woff-v2', matchFontHeight: true },
+    startup: { typeset: true }
+  };
+</script>
+<script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js" async></script>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Sora:wght@400;500;600;700;800&family=Cairo:wght@400;500;600;700;800;900&family=Tajawal:wght@400;500;700;800&family=JetBrains+Mono:wght@400;500;600;700&display=swap');
+:root{
+  /* ===== Wael Academy palette — MAIN ACCENT = green-teal gradient #0FAB8F → #067360 ===== */
+  --bg:#fff; --panel:#f2f8f8; --hair:#e6e6e9; --hair2:#d6d6db;
+  --fg:#0f2a31;        /* body text (and +/− signs) */
+  --fg2:#3f5b62;       /* softer text */
+  --fg3:#7c959b;       /* muted (footer) */
+  --blue:#067360;      /* deep accent — small numbers, borders, watermark, accent equations */
+  --blue-dark:#045260; /* titles & wordmarks (also the balance colour) */
+  --teal:#0fab8f;      /* bright accent end */
+  --loop:#0d9c82;      /* logo-loop helper */
+  --orange:#067360;    /* kicker/category labels (gold retired → deep teal) */
+  --red:#f5322f;       /* EXERCISE CHIPS ONLY — never for emphasis */
+  --cream:#e6f3f4; --blue-soft:#e6f3f4;  /* pale teal — callout fill + table sub-row fill */
+  --blue-line:#cde7e4; /* hairline */
+  --sub-ink:#045260;   /* table sub-row text */
+  --grad:linear-gradient(148deg,#0fab8f 0%,#0d9c82 52%,#067360 100%);
+  --mono:'JetBrains Mono',monospace; --latin:'Sora',sans-serif; --ar:'Cairo',sans-serif; --arb:'Tajawal',sans-serif;
+}
+*{box-sizing:border-box;margin:0;padding:0;}
+body{font-family:var(--latin);color:var(--fg);background:#e4e4e7;padding:28px 0;
+     -webkit-print-color-adjust:exact;print-color-adjust:exact;}
+html[dir="rtl"] body{font-family:var(--arb);}
+
+/* ===== brand watermark: REAL text (crisp), full-bleed, repeats per page ===== */
+.wm{position:fixed;inset:0;z-index:0;pointer-events:none;display:flex;
+    align-items:center;justify-content:center;overflow:hidden;
+    -webkit-print-color-adjust:exact;print-color-adjust:exact;}
+.wm span{font-family:var(--mono);font-weight:800;font-size:76.8pt;letter-spacing:.16em;
+    color:var(--blue);opacity:.06;white-space:nowrap;transform:rotate(-54deg);}  /* single diagonal: bottom-left → top-right */
+.wm.mono span{color:#000;opacity:.05;}
+
+/* ===== continuous flow stream (no page border) ===== */
+.flow{width:210mm;margin:0 auto;background:transparent;color:var(--fg);
+      padding-block:16mm 18mm;padding-inline:23mm 14mm;position:relative;}   /* spiral gutter: inline-start(=spine) 23mm / outer 14mm — dir-aware; print margins set in render_flow.py */
+@media screen{ .flow{background:#fff;box-shadow:0 10px 40px rgba(0,0,0,.16);} }
+.flow>*{position:relative;z-index:1;}
+.flow p,.flow li,.flow .data,.flow .note,.flow .ex{break-inside:auto;}
+.flow .fig,.flow figure,.flow img,.flow svg.figsvg,.flow table,.flow tr,.flow .chapdiv,.flow .exh,.flow .qrcard,.flow .meta{break-inside:avoid;}
+.flow h1,.flow h2,.flow h3,.flow .exh,.flow .subhead,.flow .chapdiv{break-after:avoid;}
+.flow img,.flow svg.figsvg{max-width:100%;height:auto;}
+.flow figcaption,.flow .figcap{display:none;}          /* rule 3: no figure captions */
+
+/* ===== front matter + chapters each start on a fresh page ===== */
+.flow .cover{break-after:page;}        /* cover alone on page 1 */
+.flow .toc{break-after:page;}          /* Sommaire alone on the next page */
+.flow .chapter{break-before:page;}
+.flow .chapter:first-of-type{break-before:auto;}
+
+/* ===== cover ===== */
+.cover{padding:14mm 0 8mm;border-bottom:2px solid var(--blue);margin-bottom:6mm;}
+.cover .badge{font-family:var(--mono);font-size:8.5pt;letter-spacing:.28em;text-transform:uppercase;color:var(--orange);margin-bottom:10px;}
+.cover h1{font-family:var(--latin);font-weight:800;font-size:34pt;line-height:1.03;letter-spacing:-.025em;color:var(--blue-dark);}
+.cover .grule{width:120px;height:5px;border-radius:5px;background:var(--grad);margin:14px 0;}
+.cover .sub{font-family:var(--mono);font-size:10pt;letter-spacing:.14em;text-transform:uppercase;color:var(--teal);}
+.cover .auth{font-size:11pt;color:var(--fg2);margin-top:6px;font-weight:600;}
+
+/* ===== table of contents ===== */
+.toc{margin:2mm 0 4mm;}
+.toc h2{font-family:var(--latin);font-weight:800;font-size:15pt;color:var(--blue-dark);margin-bottom:4mm;}
+.toc .trititle{font-family:var(--mono);font-size:8pt;letter-spacing:.2em;text-transform:uppercase;color:var(--orange);margin:4mm 0 2mm;}
+.toc ol{list-style:none;}
+.toc li{display:flex;align-items:baseline;gap:8px;font-size:10pt;padding:2.2px 0;color:var(--fg);line-height:1.4;}
+.toc li .n{font-family:var(--mono);font-weight:700;font-size:9pt;color:var(--blue);min-width:26px;}
+.toc li .dots{flex:1;border-bottom:1px dotted var(--hair2);transform:translateY(-3px);}
+
+/* ===== chapter divider band ===== */
+.chapdiv{margin:0 0 5mm;padding:6mm 16px 5mm;border-radius:12px;background:var(--grad);
+    -webkit-print-color-adjust:exact;print-color-adjust:exact;}   /* green-filled chapter band */
+.chapdiv .cn{font-family:var(--mono);font-size:8.5pt;font-weight:700;letter-spacing:.24em;text-transform:uppercase;color:rgba(255,255,255,.82);margin-bottom:5px;}
+.chapdiv h2{font-family:var(--latin);font-weight:800;font-size:17pt;line-height:1.1;letter-spacing:-.015em;color:#fff;}
+/* conclusion block — same green-filled look as the chapter band */
+.conclusion{background:var(--grad);border-radius:12px;padding:6mm 16px;margin:5mm 0;color:#fff;break-inside:avoid;
+    -webkit-print-color-adjust:exact;print-color-adjust:exact;}
+.conclusion .ck{font-family:var(--mono);font-size:8.5pt;font-weight:700;letter-spacing:.24em;text-transform:uppercase;color:rgba(255,255,255,.82);margin-bottom:6px;}
+.conclusion h3{font-family:var(--latin);font-weight:800;font-size:13pt;line-height:1.2;color:#fff;margin-bottom:4px;}
+.conclusion p,.conclusion li{font-size:10.4pt;line-height:1.7;color:#fff;}
+.conclusion b,.conclusion strong{color:#fff;font-weight:700;}
+
+/* ===== unit header (lesson/exercise) + QR emplacement ===== */
+.exh{display:flex;align-items:center;gap:11px;margin:6mm 0 3mm;}
+.exh .idx{font-family:var(--mono);font-size:9pt;font-weight:600;color:#fff;background:var(--grad);
+    border-radius:6px;padding:4px 11px;letter-spacing:.08em;text-transform:uppercase;
+    -webkit-print-color-adjust:exact;print-color-adjust:exact;}
+.exh .idx.ex{background:var(--red);}   /* exercise chip = red */
+.exh h2{font-family:var(--latin);font-size:14pt;font-weight:700;letter-spacing:-.01em;color:var(--blue-dark);}
+.exh .qrcard{margin-inline-start:auto;flex:0 0 auto;display:flex;flex-direction:column;align-items:center;gap:3px;width:26mm;}
+.qrcard .qrt{font-family:var(--mono);font-size:6.5pt;letter-spacing:.1em;text-transform:uppercase;color:var(--teal);text-align:center;}
+.qrcard .qrslot{width:24mm;height:24mm;padding:1.5mm;background:#fff;border:1px solid var(--blue-line);border-radius:8px;display:flex;align-items:center;justify-content:center;}
+.qrcard .qrslot img,.qrcard .qrslot svg{width:100%;height:100%;display:block;}
+
+/* sub-exercise label when one file holds several exercices */
+.exsub{font-family:var(--latin);font-weight:800;font-size:11.5pt;color:var(--blue-dark);margin:5mm 0 2.5mm;padding-bottom:3px;border-bottom:2px solid var(--blue-line);}
+
+/* ===== text blocks ===== */
+.lead{font-size:11pt;line-height:1.7;margin:2mm 0 3mm;color:var(--fg);}
+.para{font-size:10.6pt;line-height:1.7;margin:2mm 0 2.5mm;color:var(--fg);}
+.consigne{font-size:10.4pt;line-height:1.6;margin:1mm 0 2mm;color:var(--fg);font-style:italic;}
+.subhead{font-family:var(--latin);font-weight:800;font-size:12pt;letter-spacing:-.01em;color:var(--blue-dark);margin:5mm 0 2.5mm;}
+/* emphasis — green accent = .t-blue/.t-green ; balance = .t-navy ; red = SECONDARY accent (.t-red) on titles + a few words */
+.t-blue{color:var(--blue);font-weight:600;} .t-navy{color:var(--blue-dark);font-weight:700;}
+.t-red{color:var(--red);font-weight:600;} .t-green{color:var(--teal);font-weight:600;} .t-gold{color:var(--orange);font-weight:600;}
+.subhead.t-red{color:var(--red);font-weight:800;}   /* red Roman-numeral section title (I, II, …) — keeps subhead weight */
+/* highlighter marks — a soft colour wash behind a key word (agent picks green or red per what balances the page) */
+.hl-green,.hl-red{border-radius:3px;padding:.02em .24em;font-weight:600;box-decoration-break:clone;-webkit-box-decoration-break:clone;
+    -webkit-print-color-adjust:exact;print-color-adjust:exact;}
+.hl-green{background:rgba(15,171,143,.20);color:var(--blue-dark);}   /* green highlight */
+.hl-red{background:rgba(245,50,47,.13);color:#c0261f;}               /* red highlight  */
+
+.data{background:var(--blue-soft);border:1px solid var(--blue-line);border-inline-start:4px solid var(--blue);
+    border-radius:8px;padding:11px 16px;margin:3mm 0;font-size:10pt;line-height:1.65;color:var(--fg2);}
+.data b{color:var(--fg);font-weight:700;}
+.note{border:1px dashed var(--hair2);border-radius:9px;padding:11px 16px;margin:4mm 0;background:var(--panel);}
+.note .kicker{font-family:var(--mono);font-size:7.5pt;letter-spacing:.18em;color:var(--orange);display:block;margin-bottom:5px;}
+.note .nb{font-size:10pt;line-height:1.7;color:var(--fg2);} .note b{color:var(--fg);}
+.ex:not(.idx){background:var(--blue-soft);border:1px solid var(--blue-line);border-inline-start:3px solid var(--blue);
+    border-radius:7px;padding:7px 11px;font-size:9.6pt;line-height:1.6;color:var(--fg2);margin:2mm 0;}   /* :not(.idx) so it never hits the exercise chip (which is .idx.ex) */
+.ex .extag{display:inline-block;font-family:var(--latin);font-weight:800;font-size:7.6pt;color:var(--blue-dark);background:#fff;
+    border:1px solid var(--blue);border-radius:5px;padding:1px 9px;margin-inline-end:7px;vertical-align:middle;text-transform:uppercase;letter-spacing:.06em;}
+
+/* ===== lists ===== */
+ol.q{list-style:none;counter-reset:q;margin:1mm 0 2mm;}
+ol.q>li{counter-increment:q;position:relative;padding-inline-start:30px;margin-bottom:2.5mm;font-size:10.4pt;line-height:1.6;}
+ol.q>li::before{content:counter(q);position:absolute;inset-inline-start:0;top:1px;width:21px;height:21px;background:var(--grad);color:#fff;
+    border-radius:50%;font-family:var(--mono);font-size:9pt;font-weight:600;display:flex;align-items:center;justify-content:center;
+    -webkit-print-color-adjust:exact;print-color-adjust:exact;}
+ol.sub{list-style:none;counter-reset:s;margin:4px 0 0;padding-inline-start:2px;border-inline-start:1px solid var(--blue-line);}
+ol.sub li{counter-increment:s;position:relative;padding:2.5px 0 2.5px 26px;font-size:10.1pt;line-height:1.55;}
+ol.sub li::before{content:counter(s,lower-alpha)".";position:absolute;inset-inline-start:10px;top:2.5px;font-family:var(--mono);font-size:9pt;font-weight:600;color:var(--teal);}
+ol.qn{list-style:none;counter-reset:qn;margin:1mm 0 2mm;}
+ol.qn>li{counter-increment:qn;position:relative;padding-inline-start:26px;margin-bottom:2.2mm;font-size:10.4pt;line-height:1.55;}
+ol.qn>li::before{content:counter(qn)".";position:absolute;inset-inline-start:0;top:0;font-family:var(--mono);font-size:9.5pt;font-weight:700;color:var(--blue);}
+ul.b{list-style:none;margin:1mm 0 2mm;} ul.b>li{position:relative;padding-inline-start:22px;margin-bottom:2.4mm;font-size:10.4pt;line-height:1.6;}
+ul.b>li::before{content:"";position:absolute;inset-inline-start:3px;top:8px;width:8px;height:8px;border-radius:50%;background:var(--grad);
+    -webkit-print-color-adjust:exact;print-color-adjust:exact;}
+ul.dash{list-style:none;margin:1mm 0 2mm;} ul.dash>li{position:relative;padding-inline-start:20px;margin-bottom:1.8mm;font-size:10.4pt;line-height:1.6;}
+ul.dash>li::before{content:"–";position:absolute;inset-inline-start:2px;top:0;color:var(--fg);font-weight:700;}  /* dash / +/− signs = body colour */
+.flow ul.opts{list-style:none;margin:4px 0 3px;padding-inline-start:16px;}
+.flow ul.opts li{padding:2px 0;font-size:10.2pt;line-height:1.5;color:var(--fg);}
+
+/* ===== figures / tables ===== */
+.fig{margin:3mm 0;} .fig svg.figsvg{display:block;margin:0 auto;background:#fff;max-width:100%;height:auto;}
+.photo{display:block;margin:3mm auto;border-radius:8px;border:1px solid var(--hair);max-width:100%;}
+.figrow{display:flex;flex-wrap:wrap;gap:9px;justify-content:center;margin:3mm auto;max-width:190mm;}
+.flow .figrow img{border-radius:7px;border:1px solid var(--hair);height:46mm;width:auto;max-width:none;object-fit:cover;}
+.schemarow{display:flex;gap:16px;align-items:flex-start;flex-wrap:wrap;margin:2mm 0;}
+.schemarow .col-txt{flex:1 1 90mm;min-width:80mm;} .schemarow .col-fig{flex:0 0 78mm;} .schemarow .col-fig .fig{margin:0;}
+.flow table{border-collapse:collapse;width:100%;margin:3mm 0;font-size:9.8pt;line-height:1.5;}
+.flow table th,.flow table td{border:1px solid var(--blue-line);padding:6px 10px;text-align:start;vertical-align:top;}
+.flow table th{background:var(--grad);color:#fff;font-family:var(--latin);font-weight:700;font-size:9.4pt;
+    -webkit-print-color-adjust:exact;print-color-adjust:exact;}
+.flow table tr:nth-child(even) td{background:var(--blue-soft);color:var(--sub-ink);}   /* sub-row: #E6F3F4 / #045260 */
+
+mjx-container{color:var(--fg) !important;font-weight:400 !important;font-size:1.0em !important;}
+.eq-hi mjx-container,mjx-container.eq-hi{color:var(--blue) !important;}   /* accent (green) equation — highlight a key result; balance with plain math */
+.eq-red mjx-container,mjx-container.eq-red{color:var(--red) !important;}  /* red accent equation / symbol — complements the green .eq-hi */
+
+/* ===== per-file books: credit line, copies list, figures at their size ===== */
+.credit{display:flex;flex-wrap:wrap;align-items:center;gap:5px;margin:-1mm 0 3.5mm;font-size:9.4pt;color:var(--fg2);}
+.credit .who{font-weight:700;color:var(--blue-dark);}
+.credit .tg{font-family:var(--mono);font-size:7.2pt;letter-spacing:.04em;border-radius:5px;padding:1px 7px;line-height:1.6;
+    border:1px solid var(--blue-line);color:var(--blue);background:#fff;-webkit-print-color-adjust:exact;print-color-adjust:exact;}
+.credit .tg.sec{background:var(--blue-dark);border-color:var(--blue-dark);color:#fff;}
+.credit .tg.cor{background:#fff;border-color:var(--red);color:var(--red);}
+.credit a{color:var(--fg3);font-family:var(--mono);font-size:7pt;text-decoration:none;}
+.cover .auth .credit{margin:4mm 0 0;}
+.cover .copies{margin-top:5mm;font-size:8.6pt;color:var(--fg2);}
+.cover .copies ul{list-style:none;margin:2mm 0 0;padding:0;columns:2;}
+.cover .copies a{color:var(--fg3);text-decoration:none;font-size:8pt;}
+.flow figure.fig{text-align:center;}
+.flow figure.fig img{max-height:60mm;width:auto;max-width:70%;display:inline-block;}
+
+/* chapter tag on each part of a multi-chapter book (the book keeps the original order of the file) */
+.chtag{display:inline-block;margin:5mm 0 2mm;padding:1mm 3mm;border-radius:2mm;background:#eef3fb;border:1px solid #c9d6ea;
+  color:#1f3a6b;font-size:9pt;font-weight:700}
+.chtag span{color:#6b7f9e;font-weight:600;margin-inline-end:1.5mm}
+
+@media print{ body{background:#fff;padding:0;} .flow{width:auto;max-width:none;margin:0;padding:0;} }
+@page{size:A4;}   /* margins come from render_flow.py — do NOT set them here */
+</style>
+<meta data-pagefind-filter="type[content]" content="موضوع">
+<meta data-pagefind-filter="resource[content]" content="امتحانات وطنية (وزارة التربية)">
+<meta data-pagefind-meta="n[content]" content="1633">
+<meta data-pagefind-meta="title[content]" content="philo — philo (2)">
+<meta data-pagefind-filter="chapter[content]" content="العلم بين الحقيقة والنمذجة">
+<meta data-pagefind-filter="chapter[content]" content="الإنية والغيرية">
+<meta data-pagefind-filter="chapter[content]" content="الخصوصية والكونية">
+<meta data-pagefind-filter="chapter[content]" content="القيم: الأخلاق والدولة">
+<meta data-pagefind-filter="chapter[content]" content="محور غير محدّد">
+<meta data-pagefind-filter="chapter[content]" content="اللغة والتواصل">
+<meta data-pagefind-filter="section[content]" content="باكالوريا رياضيات"><style>.qrcard{display:none!important}.wa-nav{position:sticky;top:0;z-index:50;background:#045260;padding:10px 18px;font-family:Cairo,sans-serif;direction:rtl}.wa-nav a{color:#fff;text-decoration:none;font-weight:700}@media print{.wa-nav{display:none}}</style>
+</head>
+
+<body dir="rtl" lang="ar"
+      data-brand="Wael Academy" data-handle="@WaelAcademy"
+      data-tagline="في تُرابنا.. مغامرة بمغامرة"
+      data-phone="+216 50 40 40 42" data-site="waeldocuments.com"
+      data-cta="سجل معانا وأقرى عن بعد مع منصة Wael Academy"
+      data-subject="Philosophie · philo — philo (2)" data-watermark="Wael Academy" data-pagefind-body><nav class="wa-nav" data-pagefind-ignore><a href="../index.html">→ الرجوع إلى فهرس الفلسفة</a></nav>
+
+<!-- single full-page diagonal watermark, bottom-left → top-right (repeats on every page) -->
+<div class="wm" aria-hidden="true"><span>WAEL&nbsp;ACADEMY</span></div>
+
+<div class="flow colored">
+<div class="cover"><div class="badge">◉ Wael Academy · Philosophie</div><h1>philo — philo (2)</h1><div class="grule"></div><div class="sub">العلم بين الحقيقة والنمذجة</div><div class="auth"><div class="credit">المؤلّف / المصدر : <span class="who">Portail Educatif Tunisien البوابة التربوية التونسية www.edunet.tn — الجمهورية التونسية وزارة التربية والتكوين · الشبكة التربوية التونسية www.edunet.tn · الجمهورية التونسية — وزارة التربية</span> <span class="tg cor">إصلاح</span><span class="tg sec">الفلسفة · باكالوريا رياضيات</span> <a href="https://drive.google.com/file/d/1Qmid3S6u68v_EmkqrIuwzX7orUsyKxk8/view">↗ philo2008.pdf</a> <a href="https://drive.google.com/file/d/1Y14axCRlMuY5sYlSUN0BYD6CQx_pFsJz/view">↗ philo2009.pdf</a> <a href="https://drive.google.com/file/d/1vpcZpp6Hgtt_1eggpd0R4JIG_pVK_dDd/view">↗ philo_c2009.pdf</a> <a href="https://drive.google.com/file/d/1M93B3bD8oEPZJ8hEBGVfvL1bt9L7ARw9/view">↗ philo2010.pdf</a> <a href="https://drive.google.com/file/d/1uLt_Hy907xQppeUPW41j5j11jEjn6cs_/view">↗ philo2011.pdf</a> <a href="https://drive.google.com/file/d/1lCwJo4ja1m591osiz1EiLYKqst_88aCd/view">↗ philo2012.pdf</a> <a href="https://drive.google.com/file/d/18KBQXsFzMp8QXnA5lrLK197yLfSRqTuH/view">↗ philo2013.pdf</a> <a href="https://drive.google.com/file/d/1km57DpoqaZ41nVsSgeE6n8ZrFQTMstLR/view">↗ philo_c2013.pdf</a></div></div><div class="copies" data-pagefind-ignore><b>نسخ هذا الملف في الدرايفات (21)</b><ul><li><a href="https://drive.google.com/file/d/1Qmid3S6u68v_EmkqrIuwzX7orUsyKxk8/view">Maram Belgacem · Bac math 2025 ( what you really need) › examenbac / philo</a></li><li><a href="https://drive.google.com/file/d/1YeO_BzTaKEmZuJlhkB0jjsrFDdLci1Tt/view">Jihed Rezgani · Bac Info › Sujets Bac / bacinfo2008 / principale</a></li><li><a href="https://drive.google.com/file/d/1Y14axCRlMuY5sYlSUN0BYD6CQx_pFsJz/view">Maram Belgacem · Bac math 2025 ( what you really need) › examenbac / philo</a></li><li><a href="https://drive.google.com/file/d/1vpcZpp6Hgtt_1eggpd0R4JIG_pVK_dDd/view">Maram Belgacem · Bac math 2025 ( what you really need) › examenbac / philo</a></li><li><a href="https://drive.google.com/file/d/1KIR-4jGRIyui7jVDP3tix5stM4LWps3q/view">Jihed Rezgani · Bac Info › Sujets Bac / bacinfo2009 / principale</a></li><li><a href="https://drive.google.com/file/d/1M93B3bD8oEPZJ8hEBGVfvL1bt9L7ARw9/view">Maram Belgacem · Bac math 2025 ( what you really need) › examenbac / philo</a></li><li><a href="https://drive.google.com/file/d/1kbIYAlvg9aWDK2LmH7RQKE8M10mgIahi/view">Amin Guermazi · Archive Bac 2025 › Philo / الاستاذة اسيا / باكالوريات</a></li><li><a href="https://drive.google.com/file/d/10ynXWh3YOINEq9olMLyaVqfb7KwZADgH/view">Mohamed aziz saideni lycee Farhat Hached bizertebac 2026 · BAC MATH 2026 MOHAMED AZIZ SAIDENI › TOUT 2026 / Pour réviser les langues_ travaillez ces sujets corrigés / 2010 / Principale</a></li><li><a href="https://drive.google.com/file/d/1PbNOsbvk-_IFWJz-GbvWb3NssJz3Qein/view">Jihed Rezgani · Bac Info › Sujets Bac / bacinfo2010 / principale</a></li><li><a href="https://drive.google.com/file/d/1uLt_Hy907xQppeUPW41j5j11jEjn6cs_/view">Maram Belgacem · Bac math 2025 ( what you really need) › examenbac / philo</a></li><li><a href="https://drive.google.com/file/d/1StmWyhjjphNE9RtFJR2sTVc1cJiQt9Sp/view">Mohamed aziz saideni lycee Farhat Hached bizertebac 2026 · BAC MATH 2026 MOHAMED AZIZ SAIDENI › TOUT 2026 / Pour réviser les langues_ travaillez ces sujets corrigés / 2011 / Principale</a></li><li><a href="https://drive.google.com/file/d/1lCwJo4ja1m591osiz1EiLYKqst_88aCd/view">Maram Belgacem · Bac math 2025 ( what you really need) › examenbac / philo</a></li><li><a href="https://drive.google.com/file/d/1p_Xao1hGnqgTlrltZaqoNDvmiLZgMl5D/view">Amin Guermazi · Archive Bac 2025 › Philo / الاستاذة اسيا / باكالوريات</a></li><li><a href="https://drive.google.com/file/d/1SVmbLvkibg7MtfRXmJM8UH96wPp60sG3/view">Karim Fourati · Bac 2KF25 › Philo / Mme Kcherem / Révision</a></li><li><a href="https://drive.google.com/file/d/1bRsccrgbPblc2lKHVWf5cZpE9EfWdU1y/view">Mohamed aziz saideni lycee Farhat Hached bizertebac 2026 · BAC MATH 2026 MOHAMED AZIZ SAIDENI › TOUT 2026 / Pour réviser les langues_ travaillez ces sujets corrigés / 2012 / Principale</a></li><li><a href="https://drive.google.com/file/d/1SUirt0IG_7sCByQNf1mePa5WZiooQ33u/view">Jihed Rezgani · Bac Info › Sujets Bac / bacinfo2012 / principale</a></li><li><a href="https://drive.google.com/file/d/18KBQXsFzMp8QXnA5lrLK197yLfSRqTuH/view">Maram Belgacem · Bac math 2025 ( what you really need) › examenbac / philo</a></li><li><a href="https://drive.google.com/file/d/1km57DpoqaZ41nVsSgeE6n8ZrFQTMstLR/view">Maram Belgacem · Bac math 2025 ( what you really need) › examenbac / philo</a></li><li><a href="https://drive.google.com/file/d/1PbEZvyo-ZsaEOJdWPH80fgd4iiIUQ1u3/view">Mohamed aziz saideni lycee Farhat Hached bizertebac 2026 · BAC MATH 2026 MOHAMED AZIZ SAIDENI › TOUT 2026 / Pour réviser les langues_ travaillez ces sujets corrigés / 2013 / Principale</a></li><li><a href="https://drive.google.com/file/d/15i9tQQ2jcYLdi7kDtT5p-vUTQBaooc5p/view">Jihed Rezgani · Bac Info › Sujets Bac / bacinfo2013 / principale</a></li><li><a href="https://drive.google.com/file/d/1Dlj2XgkLQpj-CAB9mHjj8mD8pG62H45M/view">Mariem Benkaied · BacTech (LPN 2k26) › philo / correction bac</a></li></ul></div></div>
+<section class="chapter">
+<div class="chtag"><span>المحور</span> العلم بين الحقيقة والنمذجة</div>
+<!-- SOURCE: Portail Educatif Tunisien البوابة التربوية التونسية www.edunet.tn — الجمهورية التونسية وزارة التربية والتكوين · الشبكة التربوية التونسية www.edunet.tn · الجمهورية التونسية — وزارة التربية -->
+<!-- NOTE: one book for 8 files of the Drive folder "examenbac / philo" (series), in file order -->
+<div class="exh"><span class="idx ex">موضوع</span><h2>philo — philo (2)</h2>
+  <div class="qrcard"><div class="qrt">فيديو الدرس</div><div class="qrslot"><img src="qr/1633.svg" alt="QR"></div></div></div>
+<div class="credit">المؤلّف / المصدر : <span class="who">Portail Educatif Tunisien البوابة التربوية التونسية www.edunet.tn — الجمهورية التونسية وزارة التربية والتكوين · الشبكة التربوية التونسية www.edunet.tn · الجمهورية التونسية — وزارة التربية</span> <span class="tg cor">إصلاح</span><span class="tg sec">الفلسفة · باكالوريا رياضيات</span> <a href="https://drive.google.com/file/d/1Qmid3S6u68v_EmkqrIuwzX7orUsyKxk8/view">↗ philo2008.pdf</a> <a href="https://drive.google.com/file/d/1Y14axCRlMuY5sYlSUN0BYD6CQx_pFsJz/view">↗ philo2009.pdf</a> <a href="https://drive.google.com/file/d/1vpcZpp6Hgtt_1eggpd0R4JIG_pVK_dDd/view">↗ philo_c2009.pdf</a> <a href="https://drive.google.com/file/d/1M93B3bD8oEPZJ8hEBGVfvL1bt9L7ARw9/view">↗ philo2010.pdf</a> <a href="https://drive.google.com/file/d/1uLt_Hy907xQppeUPW41j5j11jEjn6cs_/view">↗ philo2011.pdf</a> <a href="https://drive.google.com/file/d/1lCwJo4ja1m591osiz1EiLYKqst_88aCd/view">↗ philo2012.pdf</a> <a href="https://drive.google.com/file/d/18KBQXsFzMp8QXnA5lrLK197yLfSRqTuH/view">↗ philo2013.pdf</a> <a href="https://drive.google.com/file/d/1km57DpoqaZ41nVsSgeE6n8ZrFQTMstLR/view">↗ philo_c2013.pdf</a></div>
+
+<!-- file: philo2008 -->
+
+
+<div class="exsub">philo2008</div>
+<p class="para"><b>نظام جديد</b></p>
+<p class="para"><b>الشعب العلمية والاقتصادية</b> &nbsp; <b>الاختبار</b> : <b>الفلسفـة</b> &nbsp; <b>الحصة</b> : 3 <b>ساعات</b> &nbsp; <b>الضارب</b> : 1</p>
+
+<p class="subhead t-red">I - <b>القسم الأوّل</b>: ( <b>عشر نقاط</b> )</p>
+
+
+<div class="chtag"><span>المحور</span> الإنية والغيرية</div>
+
+<div class="exsub">1) التمرين الأوّل : ( نقطتان )</div>
+<p class="para">يعرفني الآخر أكثر ممّا أعرف نفسي.<br>ما هي المسلّمة الضمنيّة التي يقوم عليها هذا الإقرار؟</p>
+
+
+<div class="chtag"><span>المحور</span> العلم بين الحقيقة والنمذجة</div>
+
+<div class="exsub">2) التمرين الثّاني : ( نقطتان )</div>
+<p class="para">ما معنى أن يكون النموذج في العلم " نموذج شيء ما من أجل شيء ما "؟</p>
+
+
+<div class="chtag"><span>المحور</span> الخصوصية والكونية</div>
+
+<div class="exsub">3) التمرين الثّالث : ( ستّ نقاط )</div>
+<p class="para">النصّ :</p>
+<p class="para">إنّ ضرورة المحافظة على تنوّع الثقافات في عالم مهدّد بالرّتابة والتماثل، لم تغب بالتأكيد عن تقدير المؤسّسات الدوليّة. إنّها تدرك أنّه لا يكفي لبلوغ الهدف، أن نتعاطف مع تقاليد محليّة وأن نمنح ثقتنا في الأزمنة المنقضية. إنّ ما يتعيّن المحافظة عليه هو ظاهرة التنوّع، وليس المضمون التاريخي الذي أعطاه له كلّ عصر إذ لا يمكن لأيّ عصر، بعد انقضائه، أن يضمن دوام هذا المضمون. يجب إذن الإصغاءُ إلى السنابل وهي تنمو، وحَفْزُ الطاقات الكامنة، وإيقاظُ كلّ نزعات العيش معا التي يزخر بها التاريخ؛ وعلينا كذلك أن نكون مستعدّين، دون شعور بالمفاجأة ودون نفور ودون تمرّد، لتقبّل كلّ ما يمكن أن تحمله صيغ التعبير الاجتماعيّة الجديدة هذه من أشياء لم نألفها. ليس التسامحُ موقفا تأمّليّا، نعفو بمقتضاه عمّا مضى وعمّا هو قائم. إنّه موقف نشيط يجعلنا نتوقّع ما يريد أن يكون ونفهمه ونشجّعه. إنّ تنوّع الثقافات الإنسانيّة هو تنوّع وراءنا وحولنا وأمامنا. إنّ المطلب الوحيد الذي نستطيع أن ندعوَ إليه في هذا المضمار، هو أن يتحقّق هذا التنوّع بأشكال مختلفة بحيث يساهم كلّ شكل في جعل الأشكال الأخرى أكثر سخاء.</p>
+<p class="para"><b>كلود ليفي شتراوس</b>، العرق والتاريخ</p>
+<p class="consigne">أجب عن الأسئلة التالية انطلاقا من النص:</p>
+<p class="para">1- أيّة إشكاليّة يطرحها الكاتب في هذا النص؟ (نقطتان)<br>
+2- ما هي الشّروط التي تجعل " العيش معا " ممكنا ؟ (نقطتان)<br>
+3- هل تجد في دعوة الكاتب إلى التسامح وجاهة ما؟ (نقطتان)</p>
+
+
+<div class="chtag"><span>المحور</span> العلم بين الحقيقة والنمذجة</div>
+
+<p class="subhead t-red">II - <b>القسم الثاني</b>: (<b>عشر نقاط</b>)</p>
+<p class="consigne">يختار المترشّح أحد السؤالين ليحرّر في شأنه محاولة في حدود ثلاثين سطرا:</p>
+
+<div class="chtag"><span>المحور</span> الإنية والغيرية</div>
+
+<div class="exsub">1) السّؤال الأوّل:</div>
+<p class="para">هل يمكن اعتبار الجسد كيانا مغايرا للذات ؟</p>
+
+<div class="chtag"><span>المحور</span> القيم: الأخلاق والدولة</div>
+
+<div class="exsub">2) السّؤال الثّاني:</div>
+<p class="para">هل من وجاهة في الاعتراض على حكم الأغلبيّة ؟</p>
+
+<div class="chtag"><span>المحور</span> العلم بين الحقيقة والنمذجة</div>
+<!-- file: philo2009 -->
+
+<div class="chtag"><span>المحور</span> محور غير محدّد</div>
+
+<div class="exsub">philo2009</div>
+<table>
+<tr><td><b>الجمهورية التونسية<br>وزارة التربية والتكوين</b></td><td><b>امتحان البكالوريا<br>دورة جوان 2009</b></td></tr>
+<tr><td colspan="2"><b>الشعب العلمية والاقتصادية</b></td></tr>
+<tr><td><b>الاختبار: الفلسفة</b></td><td><b>الحصة: 3 ساعات</b> &nbsp; <b>الضارب: 1</b></td></tr>
+</table>
+<div class="exsub">I - <b>القسم الأوّل</b>: (عشر نقاط)</div>
+
+<div class="chtag"><span>المحور</span> الخصوصية والكونية</div>
+
+<p class="subhead t-navy">1) التمرين الأوّل : ( نقطتان )</p>
+<p class="consigne">« إنّ الحوار هو الذي يحرّر الإنسان من فرديته » . قدّم حجّة تدافع بها عن وجاهة هذه الأطروحة.</p>
+
+<div class="chtag"><span>المحور</span> القيم: الأخلاق والدولة</div>
+
+<p class="subhead t-navy">2) التمرين الثاني : ( نقطتان )</p>
+<p class="consigne">حدّد دلالة مفهوم « المواطن العالمي ».</p>
+
+<div class="chtag"><span>المحور</span> العلم بين الحقيقة والنمذجة</div>
+
+<p class="subhead t-navy">3) التمرين الثالث : ( ستّ نقاط )</p>
+<p class="para"><b>النصّ</b>:</p>
+<div class="data"><p>« ترتبط مشكلة الواقعيّة العلميّة بمسألة معرفة ما إذا كان العلم في قسمه النظري، يُعدُّ في حدّ ذاته وصفا موضوعيّا لواقع غالبًا ما يُعتبر أكثر جوهريّة وكذلك ـ ولهذا السبب بالذات ـ أكثر واقعيّة من الواقع المُلاحَظ . إنّ خصوم الواقعيّة(...) يؤكدون أن ما يتسنّى لنا التطلّع إليه وأفضل ما نحن قادرون على الظفر به في شأن المعرفة الموضوعيّة ليس إنتاج نظريات صحيحة تكمن مهمّتها في وصف الآليّة الحقيقيّة للطبيعة، بل فقط إنتاج نظريات تكون أدوات ناجعة للحساب والتوقّع. إنّ قبول نظرية علمية لا يلزمنا إذن البتة بالاعتقاد في صحّتها وفي أن الكائنات التي تصفها هي كائنات واقعيّة. إذ يكفي، لتكون نظرية ما مقبولة، أن يتمّ اعتبارها ملائمة خبريّا(...) إنّ النشاط العلمي هو نشاط إنشائي أكثر ممّا هو اكتشاف : إنشاء نماذج ينبغي أن تكون ملائمة للظواهر وليس اكتشافا للحقيقة الخاصة باللاّمُلاحَظ . »</p></div>
+<p class="para">جاك بوفراس : هل أن ابستمولوجيا واقعية هي ابستمولوجيا ممكنة ؟ ورد ضمن " الحقيقة في العلوم " مؤلف جماعي تحت إشراف ج.ب. شنجو. نشر أوديل جاكوب 2003 ص 15 – 16</p>
+<p class="consigne">أجب عن الأسئلة التاليّة انطلاقا من النص:</p>
+<ol class="qn">
+<li>ما هي الإشكالية التي يطرحها الكاتب في النص؟ <b>(نقطة و نصف)</b></li>
+<li>حدّد سياقيا كلّ مفهوم من المفهوميْن التاليين : النموذج ، الحقيقة. <b>(3 نقاط )</b></li>
+<li>أرصد حجّة يبرّر بها الكاتب رفضه للأطروحة القائلة بأنّ النظرية العلمية تمثل اكتشافا لحقيقة الواقع ؟ <b>(نقطة و نصف)</b></li>
+</ol>
+<div class="exsub">II - <b>القسم الثاني</b>: (عشر نقاط)</div>
+<p class="consigne">يختار المترشّح أحد السؤالين ليحرّر في شأنه محاولة في حدود ثلاثين سطرا:</p>
+
+<div class="chtag"><span>المحور</span> القيم: الأخلاق والدولة</div>
+
+<p class="subhead t-navy">1) السؤال الأوّل:</p>
+<p class="para">هل لا بدّ للإنسان أن يختار بين النظام والحريّة ؟</p>
+
+<div class="chtag"><span>المحور</span> الخصوصية والكونية</div>
+
+<p class="subhead t-navy">2) السؤال الثّاني:</p>
+<p class="para">« فوق الأمم توجد الإنسانيّة» . ما الذي يمنع الناس من الاعتراف بهذه الحقيقة ؟</p>
+<!-- file: philo_c2009 -->
+
+<div class="chtag"><span>المحور</span> محور غير محدّد</div>
+
+<div class="exsub">philo_c2009</div>
+<p class="para">الشعب العلميّة والاقتصاديّة &nbsp;&nbsp; الاختبار: الفلسفة &nbsp;&nbsp; الحصّة: 3ساعات &nbsp;&nbsp; الضارب: 1</p>
+<p class="subhead t-red">I. القسم الأوّل: (عشر نقاط)</p>
+<p class="subhead t-navy">1) <u>التمرين الأوّل</u> (نقطتان)</p>
+<p class="consigne">" إنّ الحوار هوّ الذي يحرّر الإنسان من فرديّته ". قدّم حجّة تدافع بها عن وجاهة هذه الأطروحة.</p>
+<table>
+<tr><th>التمشيات المنهجيّة</th><th>الإنجاز</th></tr>
+<tr><td><p class="para">العمل التحضيري:</p><p class="para">1.النظر في التمرين لتحديد مكوّناته الأساسيّة:</p></td><td><p class="para">يتكوّن التمرين من جزأين اثنين:<br>أطروحة + تعليمة</p></td></tr>
+<tr><td><p class="para">2.فهم الأطروحة الواردة في التمرين:<br>أ. ما الأطروحة؟</p></td><td><p class="para">الأطروحة:<br>° إقرار يؤكّد موقفا من مسألة معيّنة.<br>° قضيّة تُصاغ صياغة تقريريّة، تنتصر لموقف من مسألة خلافيّة وتستبعد موقفا آخر يمكن أن يكون ضمنيّا.</p></td></tr>
+<tr><td><p class="para">ب. فهم مضمون الأطروحة:<br>ماذا تؤكّد هذه الأطروحة؟</p></td><td><p class="para">° أن للحوار أهميّة.<br>° تكمن أهميّة الحوار في كونه يحرّر الإنسان من فرديّته.<br>° خارج دائرة الحوار يبقى الإنسان غارقا في فرديّته.</p></td></tr>
+<tr><td><p class="para">تحديد دلالة المفاهيم الواردة في الإقرار:<br>° ما المقصود بالحوار في سياق هذه الأطروحة؟</p></td><td><p class="para">° تواصل الذّات الفكري مع ذات أخرى لها وجود خاص ومستقل.<br>° علاقة لغويّة بينذاتيّة ذات مضمون فكري تقوم بين شخصين (أو أكثر) يتبادلان أدوار البثّ والتقبّل.<br>° لا يكون الحوار ممكنا إلاّ بقبول الاختلاف.<br>° يقوم على الحجاج ويطلب الإقناع.</p></td></tr>
+<tr><td><p class="para">° ما المقصود بالفرديّة في سياق هذه الأطروحة؟</p></td><td><p class="para">° تحيل الفرديّة على معنى الذات المكتفيّة بنفسها.<br>° تفيد تصوّرا للإنيّة يقرّ بانغلاقها وعدم حاجتها للآخر أو الغير لتأكيد ذاتها.</p></td></tr>
+<tr><td><p class="para">° ما دلالة التحرّر من الفرديّة؟</p></td><td><p class="para">° الفرديّة بالمعنى الذي تمّ تحديده عبارة عن فكرة قفة يحملها المرء عن ذاته<!-- PROOFREAD: 2349 part1 p01 — "قفة" first letters hidden under arrow (زائفة؟) --><br>° تتضمّن الأطروحة موقفا سلبيّا من الفرديّة يراها
+ضربا من اغتراب الذات ووهما لا يتخلّص منه الفرد إلاّ بالحوار.</p></td></tr>
+<tr><td><p class="para"><b><u>استخلاص:</u></b></p><p class="para">3.فهم التعليمة:<br>أ. ما الحجّة؟</p></td><td><p class="para">° الحجّة هي ما يؤتى به لإثبات ما تمسّ الحاجة إلى إثباته.<br>° الحجّة هي ما به نؤكّد صدق حكم ما.</p></td></tr>
+<tr><td><p class="para">ب. المطلوب في التعليمة:</p></td><td><p class="para">تقديم حجّة تبرز أهميّة الحوار في تخليص الإنسان من فرديّته أي من انغلاقه على ذاته.</p></td></tr>
+<tr><td><p class="para">ج. صياغة مطلوب التعليمة في سؤال دقيق:</p></td><td><p class="para">كيف يمكّن الحوار الإنسانَ من التحرّر من فرديّته؟</p></td></tr>
+<tr><td><p class="para">بلورة الجواب:</p><p class="para">° يطلب السؤال تقديم حجّة واحدة من بين حجج ممكنة.<br>° تصاغ الحجّة التي وقع عليها الاختيار في لغة سليمة وفي فقرة لا تتجاوز الأربعة أسطر.</p></td><td><p class="para">بالحوار تعترف الذات بالآخر المختلف باعتباره رفيقا في الحياة فتتجاوز عزلتها وتتخلّص من انغلاقها حين تتبيّن أن الآخر يحدّد كيانها.</p><p class="para">بالحوار تفصح الذات عن ذاتها للآخر بما يمكّنها من امتحان قناعاتها والتخلص من أوهامها فيتأكّد لها أنّ الآخر طرف في تكوّن إنيّتها.</p><p class="para">الحوار تحرير للذات من فرديّتها لكونه يتأسّس التعقل ويقتضي مكافحة الأهواء بتفعيل العقل والاحتكام إلى سلطة الحجّة الأفضل القادرة على الإقناع مما يطوّر ملكات الذات ويمكّنها من إعادة بناء كيانها.</p></td></tr>
+</table>
+<p class="subhead t-navy">2- <u>التمرين الثاني</u> (نقطتان)</p>
+<p class="consigne">حدّد دلالة مفهوم " المواطن العالمي ".</p>
+<table>
+<tr><th>التمشيات المنهجيّة</th><th>الإنجاز</th></tr>
+<tr><td><p class="para">العمل التحضيري:</p><p class="para">° التفكير في المطلوب لتحديد المهمّة التي يجب إنجازها:</p><p class="para">1.تحديد دلالة مفهوم:<br>تقتضي هذه العمليّة تحديد الدلالة عبر:</p></td><td><p class="para">° تحديد المجال النظري الذي يحيل إليه هذا المفهوم.<br>° رصد خصائصه بالوقوف على الضروري منها بما يجعله متميّزا عن غيره من المفاهيم.<br>° التأليف بين هذه الخصائص تأليفا متماسكا لا يحوي تناقضا داخليّا.</p></td></tr>
+<tr><td><p class="para">2.المفهوم المعني بالتحديد " المواطن العالمي ".</p><p class="para">يتكوّن هذا المفهوم من معنيين اثنين:</p></td><td></td></tr>
+<tr><td><p class="para">أ. المواطن</p></td><td><p class="para">°تحيل كلمة مواطن على معنى المواطنة بما هي انتماء الفرد لكيان سياسي يسمّى الدّولة تنحصر سلطتها في حدود إقليميّة معيّنة.<br>° يقتضي هذا الانتماء ضربا من التعاقد الضمني يمكّن الفرد / المواطن من جملة من الحقوق ويفرض عليه مجموعة من الواجبات.</p></td></tr>
+<tr><td><p class="para"><b><u>استخلاص:</u></b></p></td><td><p class="para">° المواطن مفهوم سياسي يتعلّق بالهويّة التي يتخذها الفرد من جهة عيشه في مجتمع سياسي تحكمه الدولة بواسطة سلطة القوانين التي تمنحه حقوقا وتلزمه بواجبات ضمن ضرب من التعاقد الضمني ضامن للحريّة. وهذا ما يجعله مختلفا عن الرعيّ,</p></td></tr>
+<tr><td><p class="para">ب. العالمي:</p></td><td><p class="para">° انتساب للعالم من جهة كونه يمثّل الإنسانيّة جمعاء.<br>° تحيل الإنسانيّة العالميّة إلى جملة من القيم المشتركة التي تجعل الفرد مساو لأمثاله من الأفراد في الحقوق والواجبات بصرف النظر عن كلّ انتماء إقليمي أو ديني أو عرقي,</p></td></tr>
+<tr><td><p class="para"><b><u>استخلاص:</u></b></p></td><td><p class="para">° لا يحيل معنى العالميّة على وجود فعلي بل على أفق انتماء يطمح إليه الإنسان في انفتاحه على الآخرين رغم انتمائهم إلى هذه الدولة أو تلك.</p></td></tr>
+<tr><td><p class="para"><u>بلورة الجواب</u> باستعادة الأفكار السابقة وصياغتها في فقرة متماسكة تجمع بين خصائص المواطنة وخصائص العالميّة:</p></td><td><p class="para">يحيل مفهوم المواطن العالمي على معنى الانفتاح على الإنسانيّة بوصفها أفق انتماء بعيدا عن التعصّب القومي والانغلاق الاثني والعرقي على اعتبار أنّ كل البشر متساوون في الحقوق والواجبة بصرف النظر عن خصوصياتهم بحيث يصبح الفرد مسؤولا عن ذاته ومسؤولا عن الإنسانيّة جمعاء فضلا على كونه مسؤولا أمامها.</p></td></tr>
+</table>
+<p class="subhead t-navy">3) <u>التمرين الثالث:</u> (ست نقاط)</p>
+<p class="para">النص:</p>
+<div class="data"><p class="para">ترتبط مشكلة الواقعيّة العلميّة بمسألة معرفة إذا كان العلم في قسمه النّظري، يُعدُّ في حدّ ذاته وصفا موضوعيّا لواقع غالباً ما يُعتبر أكثر جوهريّة وكذلك – ولهذا السّبب بالذات – أكثر واقعيّة من الواقع الملاحظ. إنّ خصوم الواقعيّة (...) يؤكّدون أنّ ما يتسنّى لنا التطلّع إليه وأفضل ما نحن قادرون على الظّفر به في شأن المعرفة الموضوعيّة ليس إنتاج نظريّات صحيحة تكمن مهمّتها في وصف الآليّة الحقيقيّة للطبيعة، بل فقط إنتاج نظريات تكون أدوات ناجعة للحساب والتوقّع. إنّ قبول نظريّة علميّة لا يلزمنا إذن البتّة بالاعتقاد في صحّتها وفي أنّ الكائنات التي تصفها هيّ كائنات واقعيّة، إذ يكفي، لتكون نظرّة ما مقبولة، أن يتمّ اعتبارها ملائمة خبريّا (,,,) إنّ النشاط العلمي هو نشاط إنشائي أكثر ممّا هم اكتشاف: إنشاء نماذج ينبغي أن تكون ملائمة للظواهر وليس اكتشافا للحقيقة الخاصّة بالملاحِظ.</p>
+<p class="para"><b>جاك بوفراس</b>؛ هل أنّ ابستيمولوجيا واقعيّة هي ابستيمولوجيا ممكنة؟<br>ورد ضمن " الحقيقة في العلوم ". مؤلّف تحت إشراف ج. ب. شنجو.</p></div>
+<p class="consigne">أجب عن الأسئلة التاليّة انطلاقا من النص:</p>
+<p class="consigne">1-ما هي الإشكاليّة التي يطرحها الكاتب في النص؟ (نقطة ونصف)<br>2-حدّد سياقيّا كلّ مفهوم من المفهومين التاليين: النموذج، الحقيقة.(3 نقاط)<br>3-أُرصد حجّة يبرّر بها الكاتب رفضه للأطروحة القائلة بأنّ النظريّة العلميّة تمثّل اكتشافا لحقيقة الواقع. (نقطة ونصف)</p>
+<table>
+<tr><th colspan="2">1- <u>السؤال الأوّل</u>: ما هي الإشكاليّة التي يطرحها الكاتب في النص؟</th></tr>
+<tr><th>التمشيات المنهجيّة</th><th>الإنجاز</th></tr>
+<tr><td><p class="para">° لتحديد الإشكاليّة ينبغي إنجاز المهام التاليّة:<br>1. تحديد المفهوم المركزي الذي يُعدّ المبحث المركزي للنص:</p></td><td><p class="para">يتعلّق النص بـ: " النشاط النظري للعلم ".</p></td></tr>
+<tr><td><p class="para">2.تحديد السؤال الذي يجيب عنه النص والذي يمثّل مسألة خلافيّة:</p></td><td><p class="para">ما هو مطلب النشاط النظري للعلم؟<br>أو: ما هيّ وظيفة النظريّات العلميّة؟<br>أو: ما هيّ مهمّة العلم؟</p></td></tr>
+<tr><td><p class="para">3.رصد مختلف المواقف الواردة في النص بما في ذلك موقف الكاتب:</p></td><td><p class="para">° يمكّن العلم من إنتاج نظريّات صحيحة تتكفّل بوصف الآليّة الحقيقيّة للطبيعة مما يجعل العلم اكتشافا للحقيقة.<br>° تكمن مهمة العلم في إنتاج نظريات تكون ناجعة للحساب والتوقع مما يجعل العلم إنشاء لنماذج ملائمة.</p></td></tr>
+<tr><td><p class="para">4. <b><u>بلورة الجواب:</u></b> صياغة الإشكاليّة صياغة تساؤليّة تحوّل المواقف المرصودة إلى أجوبة محتملة:</p></td><td><p class="para">هل يتمثّل النّشاط النظري للعلم في اكتشاف حقيقة الواقع بواسطة النظريات أم في بناء نماذج ملائمة للظواهر تسمح باحتسابها وتوقعها والتحكّم فيها؟</p></td></tr>
+<tr><th colspan="2">2- <u>السؤال الثاني</u>: حدّد سياقيّا كلّ مفهوم من المفهومين التاليين: النموذج، الحقيقة.</th></tr>
+<tr><th>التمشيات المنهجيّة</th><th>الإنجاز</th></tr>
+<tr><td><p class="para">1. فهم مطلوب السؤال:<br>° تتمثّل المهمّة في تحديد دلالة مفهوم "النموذج " ودلالة مفهوم " الحقيقة ".<br>° أن يكون هذا التحديد <b>سياقيّا</b> أي مرتبطا بالنص ومنسجما مع أطروحة الكاتب.<br>° أن يجري هذا التحديد في فقرتين مختلفتين.</p></td><td><p class="para">جملة العوامل التي يجب أن تتوفرّ حتّى يصير "العيش معا" واقعا.</p><p class="para">"يكفي / لا يكفي " - " ما يتعيّن" – " يجب إذن " – " علينا كذلك " -"المطلب الوحيد "</p></td></tr>
+<tr><td><p class="para">2. تحديد مفهوم النموذج:<br>أ. قراءة النص كاملا ورصد العبارات التي يحدّد من خلالها الكاتب دلالة النموذج:</p></td><td><ul class="dash"><li>النموذج إنشاء من إنشاء النشاط العلمي.</li><li>يستعمل الكاتب مفهوم النموذج في سياق متصل بمفهوم النظريّة العلميّة.</li><li>النموذج / النظريّة: أدوات ناجعة للحساب والتوقع.</li><li>لا يتّصل النموذج بالضرورة بكائنات واقعيّة.</li><li>شرط القبول بالنماذج أن تكون ملائمة للظواهر خبريّا.</li></ul></td></tr>
+<tr><td><p class="para">ب. <b><u>بلورة الجواب:</u></b> صياغة فقرة قصيرة تجمع بين هذه الخصائص مرتبة ترتيبا يسمح بتحديد النموذج من جهة: طبيعته ووظيفته وشروط صلاحيّته.</p></td><td><p class="para">° النموذج إنشاء علمي في شكل تمثّل ذهني يستعمله العلماء كأداة تسمح بحساب الظواهر وتوقع حدوثها. لا يدّعي النموذج المطابقة مع الواقع بل يقترح تفسيرا ملائما يمكّن من التحكّم في الواقع لذلك يستمدّ النموذج قيمته العلميّة من نجاعته,</p></td></tr>
+<tr><td><p class="para">3.تحديد مفهوم الحقيقة:<br>أ. قراءة النص كاملا ورصد العبارات التي يحدّد من خلالها الكاتب دلالة الحقيقة:<br>يسوق الكاتب في النص دلالتين للحقيقة :<br>دلالة مستبعدة:</p></td><td><ul class="dash"><li>موضوعيّة وواقعيّة يتم اكتشافها</li><li>تحيل إلى نظريّات صحيحة تصف الآليات الحقيقية للطبيعة.</li><li>تفيد الصحّة أو الصدق أي المطابقة مع الواقع.</li></ul></td></tr>
+<tr><td><p class="para">دلالة مؤكّدة:</p></td><td><ul class="dash"><li>تكون النظريّة مقبولة عندما تكون ملائمة للظواهر.</li><li>متصلة بالنجاعة بما هي القدرة على الحساب والتوقع.</li><li>إنشاء ذهني</li></ul></td></tr>
+<tr><td><p class="para">ب.<b><u>بلورة الجواب:</u></b> صياغة فقرة قصيرة تميّز بين ما يستبعده الكاتب وما يؤكّده</p></td><td><p class="para">° يستبعد الكاتب أن تكون الحقيقة العلميّة حكما دالا على جوهر الظواهر يتمّ اكتشافه بطريقة موضوعيّة ويكون معيار صدقه درجة مطابقته للواقع. لا تحيل مفهوم الحقيقة على هذه المعاني بل على معنى ما ينشئه من تمثّلات شرطها الملاءمة والتحكّم.</p></td></tr>
+<tr><th colspan="2">3- <u>السؤال الثالث</u>: أُرصد حجّة يبرّر بها الكاتب رفضه للأطروحة القائلة بأنّ النظريّة العلميّة تمثّل اكتشافا لحقيقة الواقع.</th></tr>
+<tr><th>التمشيات المنهجيّة</th><th>الإنجاز</th></tr>
+<tr><td><p class="para">1.فهم مطلوب السؤال:</p><p class="para">° <b>تذكير:</b></p><ul class="dash"><li>الحجاج أسلوب في القول يهدف إلى الإقناع بصحّة رأي أو خطئه بتوسّل جملة من الحجج.</li><li>الحجّة هي ما يؤتى به لإثبات موقف أو دحضه.</li></ul></td><td><p class="para">تتمثّل المهمّة التي يقتضي إنجازها في رصد العبارات الواردة في النص واستخراج ما يمثّل حجّة على خطأ الموقف القائل بأن النظريّة تمثّل اكتشافا لحقيقة الواقع:</p></td></tr>
+<tr><td><p class="para">2.بلورة الجواب برصد العبارات التي بها يفنّد الكاتب الموقف الوارد في السؤال.</p><p class="para">° <b>ملاحظة: يكتفي المترشّح بتقديم حجّة واحدة من بين الحجج المرصودة.</b></p></td><td><p class="para">° حجّة أولى: يتأكّد خطأ هذا الموقف عندما نعلم أن قدرة المعرفة الإنسانيّة محدودة: " ما يتسنّى التطلّع إليه... وأفضل ما نحن قادرون عليه... "<br>° حجّة ثانيّة: يتأكّد خطأ هذا الموقف بالرجوع إلى وظيفة العلم التي تتمثّل في " إنتاج نظريات تكون أدوات ناجعة للحساب والتوقع ".<br>° حجّة ثالثة: يتأكّد خطأ هذا الموقف بالرجوع إلى طبيعة النشاط العلمي بما هو " نشاط إنشائي ".</p></td></tr>
+</table>
+<p class="subhead t-red">II. القسم الثاني (عشر نقاط).</p>
+<p class="consigne">يختار المترشّح أحد السؤالين ليحرّر في شأنه محاولة في حدود ثلاثين سطرا.</p>
+<p class="subhead t-navy">1) السؤال الأوّل:</p>
+<p class="consigne"><b>هل لابدّ للإنسان أن يختار بين النظام والحريّة؟</b></p>
+<table>
+<tr><th>التمشيات المنهجيّة</th><th>الإنجاز</th></tr>
+<tr><td><p class="para">° <b>تذكير:</b></p><p class="para">-<b><u>طبيعة المهمّة:</u></b> تحرير محاولة متماسكة المبنى في حدود ثلاثين سطرا تقترح إجابة عن السؤال تبني موقفا من المشكل الذي يثيره.</p><p class="para">-<b><u>أقسام المحاولة</u></b>: تتكوّن المحاولة من ثلاثة أقسام:</p><ul class="b"><li>القسم الأول: بناء المشكل وصياغة الإشكاليّة.</li><li>القسم الثاني: قسم تحليلي يتضمّن معالجة منظمة للإشكاليّة المطروحة في اتجاه بناء موقف.</li><li>القسم الثالث: القسم الختامي وفيه يتم استخلاص الموقف النهائي وبيان قيمته.</li></ul></td><td><p class="para">في حدود 6 أسطر.<br>في حدود 18 سطرا.</p><p class="para">في حدود 6 أسطر.</p></td></tr>
+<tr><td><p class="para">1. <b>العمل التحضيري</b>: فهم مطلوب السؤال وأبعاده.</p><p class="para">° يتعلّق السؤال بعلاقة بين مفهومين:<br>°إطار هذه العلاقة:<br>°الفضاء الإشكالي للسؤال:</p></td><td><p class="para">" النظام " – " الحريّة ".<br>الوجود المدني والسياسي للإنسان.<br>°يضعنا السؤال أمام اختيارين:</p><ul class="dash"><li>اختيار النظام ضد الحريّة</li><li>اختيار الحريّة ضدّ النظام</li></ul><p class="para">° يضعنا السؤال أم اختيار ضمني ثالث:<br>المواءمة بين النظام والحريّة والجمع بينهما.</p></td></tr>
+<tr><td><p class="para">° يفترض هذا السؤال:</p></td><td><p class="para">أنّ بين النظام والحريّة تعارضا أساسيّا يلزمنا باختيار أحدهما.</p></td></tr>
+<tr><td><p class="para">° مطلوب السؤال:<br>° قاعدة الاختيار الأسلم:</p></td><td><p class="para">البتّ في الاختيار الأسلم من بين هذه الاختيارات<br>ضمان وجود إنساني قائم على استقرار يمكّن المجتمع من تحقيق ازدهاره ويبلغ بالفرد أرفع درجة ممكنة من الحياة التي هو جدير بها كإنسان.</p></td></tr>
+<tr><td><p class="para"><b>استخلاص المهمّة:</b></p><p class="para">° <b>يقتضي إنجاز هذه المهمّة فحص كل اختيار من جهة مبررات اعتماده ومن جهة تبعاته والتثبت فيها إن كان الوجود الإنساني المنشود قابل للتحقّق في ضوئها.</b></p></td><td><p class="para">استبعاد الاختيار غير الملائم مع الوجود الإنساني المنشود والانتصار إلى الاختيار الوجيه وذلك باعتماد مسار حجاجي يمكّن من ترجيح الحلّ الأفضل.</p></td></tr>
+<tr><td><p class="para">2.<b>إنجاز العمل:</b></p><p class="para">1. <u>القسم الأوّل</u>: صياغة فقرة تتضمّن:<br>أ- تمهيدا قصيرا يستثمر العمل التحضيري المتعلّق بالفضاء الإشكالي للسؤال:<br>ب- تأكيد أهميّة السؤال:</p></td><td><p class="para">الإشارة إلى ارتباط السؤال بمشكل البحث في شروط الوجود المدني والسياسي للإنسان باعتباره وجودا منفتحا على إمكانيّات مختلفة.</p><p class="para">بالإشارة إلى أن اختيار بين الإمكانيات من شأنه أن يفضي إلى اختيار بين تصوّرات للتنظيم السياسي للمجتمعات القابلة للتجسّد في أشكال للدولة تتراوح ما الدولة المستبدّة إلى الدولة الديمقراطيّة.</p></td></tr>
+<tr><td><p class="para">ج: صياغة الإشكالية باستثمار العمل التحضيري المتعلّق باختلاف وجهات النظر المتصلة بمنزلة الجسد في تحديد إنيّة الإنسان.</p><p class="para"><u>ملاحظة</u>: يمكن صياغة الإشكاليّة بطرق مختلفة والمهم أن تتضمّن الإحراج الذي يثيره السؤال.</p></td><td><p class="para"><b>إمكانيّة أولى:</b> أيّهما أسلم للوجود الإنساني: النظام أم الحريّة؟<br><b>إمكانيّة ثانيّة:</b> هل يوجد تعارض بين النظام والحريّة يبرّر ضرورة الاختيار بينهما أم أن الوجود المدني للإنسان يفرض الملاءمة بينهما كقيمتين متضايفتين؟</p></td></tr>
+<tr><td><p class="para">2. <u>القسم الثاني</u>: وهو القسم التحليلي ويتكوّن من ثلاث لحظات أساسيّة:<br>أ- الحسم في اختيار النظام ضدّ الحريّة وذلك بالنظر إلى:<br>° مبرّراته:</p></td><td><p class="para">° طبيعة الإنسان الشريرة تحتاج إلى إخضاع بالقوّة الغالبة.<br>° النظام يضمن الأمن والاستقرار.<br>° الحريّة تؤدّي إلى الفوضى والصّراع.</p></td></tr>
+<tr><td><p class="para">° مخاطره</p></td><td><p class="para">° يقود إلى دولة مستبدّة وإلى خنق الحريّات الفرديّة .<br>° يتحوّل الوجود الاجتماعي إلى كيان قسري يفقد معه الإنسان حقوقه.</p><p class="para">° التفريط في الحريّة والحقوق يفضي إلى اغتراب سياسي يفقد معه الإنسان إنسانيته ويحوّله إلى كائن مسلوب الإرادة.</p></td></tr>
+<tr><td><p class="para"><b>استنتاج:</b></p></td><td><p class="para">° الحريّة تمثّل جوهرا بالنسبة إلى الإنسان لا سبيل إلى التفريط فيه.<br>° الدولة كيان سياسي لا يمكن أن يكون إلاّ قاهرا.</p></td></tr>
+<tr><td><p class="para">ب- الحسم في اختيار الحريّة ضدّ النظام وذلك بالنظر إلى:<br>° مبرّراته:</p><p class="para">° مخاطره:</p></td><td><p class="para">° اختيار يهدّد وحدة الجسم الاجتماعي بسبب ما يؤول إليه من احتمالات تمرّد وعنف وتسيّب.<br>° سيادة منطق القوّة الذي تكون فيه الغلبة للأقوى.<br>° اختيار يوهم بالحريّة ولا يحققها.</p><p class="para">° موقف يفضي إلى فوضويّة لا تعترف بضرورة الخضوع لسلطة تمنع الناس بعضهم عن بعض ولا يتلاءم مع وجود إنساني قابل للتحقيق.</p></td></tr>
+<tr><td><p class="para"><b>استنتاج:</b></p></td><td><p class="para">° إعادة تحديد فكرة النظام بالنظر إليه بما هو وجود مدني مؤسّساتي يحكمه القانون وبما هو نتاج لتعاقد يجسّم من خلاله الشعب سيادته.<br>° إعادة تحديد الحريّة بالنظر إليها بما هي التزام ذاتي وطاعة للقوانين التي تضمن للأفراد حقوقهم وحرياتهم العامّة والفرديّة.<br>° يضمن التلاؤم بين النظام والحريّة تلاؤما ثان بين السيادة والمواطنة.</p></td></tr>
+<tr><td><p class="para">ج- المواءمة بين النظام والحريّة كاختيار ثالث ممكن ترفع التضارب بينهما وذلك بـ:</p></td><td><p class="para">° في ضوء هذه المواءمة تتضح حاجة الحريّة للنظام كي يؤمّن الحقوق وحاجة النظام للحريّة كي يكون جديرا بالطّاعة.<br>° تؤمّن هذه المواءمة وجودا إنسانيّا يحقق للإنسان إنسانيّته ويقيه الاستبداد والفوضى.<br>° لا تتحقّق هذه المواءمة إلاّ مع سلطة سياسيّة ديمقراطيّة تطوّر باستمرار بقدر الموازنة بين مقتضى النظام ومطلب الحريّة.</p></td></tr>
+<tr><td><p class="para">3. <u>القسم الثالث</u>: استخلاص الموقف النهائي وبيان قيمته وذلك في ضوء مكاسب القسم الثاني:</p></td><td></td></tr>
+</table>
+<p class="subhead t-navy">2) السؤال الثاني:</p>
+<p class="consigne"><b>" فوق الأمم توجد الإنسانيّة ". ما الذي يمنع النّاس من الاعتراف بهذه الحقيقة؟</b></p>
+<table>
+<tr><th>التمشيات المنهجيّة</th><th>الإنجاز</th></tr>
+<tr><td><p class="para">° <b>تذكير:</b></p><p class="para">-<b><u>طبيعة المهمّة:</u></b> تحرير محاولة متماسكة المبنى في حدود ثلاثين سطرا تقترح إجابة عن السؤال تبني موقفا من المشكل الذي يثيره.</p><p class="para">-<b><u>أقسام المحاولة</u></b>: تتكوّن المحاولة من ثلاثة أقسام:</p><ul class="b"><li>القسم الأول: بناء المشكل وصياغة الإشكاليّة.</li><li>القسم الثاني: قسم تحليلي يتضمّن معالجة منظمة للإشكاليّة المطروحة في اتجاه بناء موقف.</li><li>القسم الثالث: القسم الختامي وفيه يتم استخلاص الموقف النهائي وبيان قيمته.</li></ul></td><td><p class="para">في حدود 6 أسطر.<br>في حدود 18 سطرا.</p><p class="para">في حدود 6 أسطر.</p></td></tr>
+<tr><td><p class="para">1. <b>العمل التحضيري</b>: فهم مطلوب السؤال وأبعاده.<br>° مكوّنات السؤال؟</p></td><td><p class="para">يتكوّن السؤال من " أطروحة " + " تعليمة ".</p></td></tr>
+<tr><td><p class="para">° فهم مضمون الأطروحة القائلة:<br>" فوق الأمم توجد الإنسانيّة "<br>تحيل مفهوم الأمم على معنى:<!-- PROOFREAD: 2349 part1 p10 — "تحيل" / "تقرّ": first letters covered by arrow symbols --></p></td><td><p class="para">° توزّع البشر على كيانات اجتماعيّة مختلفة ومتنوّعة.<br>° تتميّز كلّ أمّة / كيان اجتماعي بخصوصيّات تتعلّق بالموقع الجغرافي والعرق والثقافة بأشكالها المختلفة.</p></td></tr>
+<tr><td><p class="para">تحيل مفهوم الإنسانيّة على معنى:</p></td><td><p class="para">° وحدة البشر بما هي فضاء مشترك تسنده قيم كونيّة تعبّر عمّا هو جوهري في الإنسان.</p></td></tr>
+<tr><td><p class="para">تقرّ الأطروحة بفوقيّة الإنسانيّة على الأمم وهذا يعني :</p></td><td><p class="para">° أن وراء واقع تفوّق هذه الأمة أو تلك يكمن تساوي الأمم من جهة الحقّ.<br>° علاقة الأمم بعضها ببعض يجب أن يجري على قاعدة القيم الكونيّة لا على قاعدة علويّة الخصوصيّة.</p></td></tr>
+<tr><td><p class="para">° فهم التعليمة المصاحبة للأطروحة:<br>تقرّ التعليمة:</p></td><td><p class="para">° أن الأطروحة المعلنة تمثّل حقيقة.<br>° أن من الناس من لا يعترف بهذه الحقيقة.</p></td></tr>
+<tr><td><p class="para">تطلب التعليمة:</p></td><td><p class="para">° استحضار بعض الموانع التي تدفع الناس إلى إنكار هذه الحقيقة.<br>° بيان هشاشة هذه الموانع بما يدفع المعترضين على القبول بهذه الحقيقة.</p></td></tr>
+<tr><td><p class="para">° <b>استخلاص المهمّة:</b></p></td><td><p class="para">° تحليل مضمون الأطروحة وبيان ما يجعلها حقيقة لا يرقى إليها الشك.<br>° بيان ما يمنع البعض من الاعتراف بهذه الحقيقة.<br>° التثبت من وجاهة الاعتراض على هذه الحقيقة.</p></td></tr>
+<tr><td><p class="para">2.<b>إنجاز العمل:</b></p><p class="para">1. <u>القسم الأوّل</u>: صياغة فقرة تتضمّن:<br>أ- تمهيدا قصيرا يستثمر العمل التحضيري المتعلّق بفهم الأطروحة الواردة في السؤال:</p></td><td><p class="para">° الإشارة إلى واقع التنوّع بين الأمم الذي أفضى إلى ضرب من الصّراع الحضاري يدفع إلى التفكير في سبل تنقذ الوجود الإنساني من احتمال وقوع دمار شامل.<br>أو<br>° الإشارة إلى تنامي الدعوة إلى مواطنة عالميّة كفيلة برفع التوتّر بين خصوصيّة منغلقة وعولمة أساسها الهيمنة.</p><p class="para">بالإشارة إلى أن خارج هذا التوازن يصبح الوجود الإنساني فضاء للصراع والاغتراب.</p></td></tr>
+<tr><td><p class="para">ب: صياغة الإشكالية باستثمار العمل التحضيري السابق:</p></td><td><p class="para">هل من دواع وجيهة تجعل وحدة الإنسانيّة "حقيقة" يجب الدّفاع عنها أم أنّنا أما وحدة تمثّل خطرا يجب التفطّن إليه ومطلبا علينا التظنّن عليه؟</p></td></tr>
+<tr><td><p class="para">2. <u>القسم الثاني</u>: وهو القسم التحليلي ويتكوّن من ثلاث لحظات:<br>أ- تحديد دلالة الأطروحة القائلة بأنّ فوق الأمم توجد الإنسانيّة:</p></td><td><p class="para">° بيان دلالة الأمم بما تحمله من إشارة إلى التنوّع الثقافي والسياسي,<br>° بيان دلالة الإنسانيّة بما تحمله من معاني وحدة قوامها كونيّة القيم.<br>° بيان معنى عبارة " فوق " على انّه لا يفيد شيئا متعاليا على الأمم بل يفيد المجال المشترك الذي يجمع بين الأمم على اختلافها,</p></td></tr>
+<tr><td><p class="para">ب- الوقوف على ما يمنع الناس من الاعتراف بهذه الحقيقة:</p></td><td><p class="para">° تفاقم العنف المصاحب للعولمة على قاعدة فرض إرادة بعض الأمم ومصالحها على سائر شعوب العالم.<br>° توظيف المواثيق الدوليّة غطاء لتبرير العدوان.<br>° المركزيّة الثقافيّة التي تغذي شعور البعض بالتفوّق العرقي والحضاري.<br>° خطر القضاء على الخصوصيّة الوطنيّة أو الإقليميّة وتفكك الهويّة.</p></td></tr>
+<tr><td><p class="para">ج- بيان مشروعيّة الدّفاع عن وحدة الإنسانيّة كحقيقة:</p></td><td><p class="para">° الكشف عن تجليات هذه الوحدة:<br>-على الصعيد البيولوجي: وحدة المدونة الوراثيّة.<br>-على الصعيد الثقافي: وحدة مقومات الثقافة من لغة ودين وأخلاق...<br>- على الصعيد الحقوقي: الإعلان العالمي لحقوق الإنسان.</p><p class="para">° الكشف عن رهانات هذه الوحدة:<br>-إحلال السلم العالمي.<br>- المساواة بين الشعوب والتقارب بينها.<br>-تمتين التواصل بينها على أساس التعاون والتعاضد لحل مشكلات الفقر والجهل والتخلّف.</p></td></tr>
+<tr><td><p class="para">3. <u>القسم الثالث</u>: استخلاص الموقف النهائي وبيان قيمته:</p></td><td><p class="para">° التباس مفهوم الوحدة الإنسانيّة في عصر العولمة.<br>° الاعتراض على هذه الحقيقة ينبّه للمخاطر ويساعد على تخليص هذا الطموح من العيوب التي يمكن أن تحول دون تحقيقه,<br>° وحدة الإنسانيّة فضاء لتحقق الخصوصيّة عبر التواصل والتثاقف.<br>° وجوب توفير مرجعيّة كونيّة قيميّة وحقوقيّة تضمن مواطنة عالميّة كفيلة برفع التوتّر بين الخصوصيّة والكونيّة.</p></td></tr>
+</table>
+<!-- file: philo2010 -->
+
+<div class="chtag"><span>المحور</span> العلم بين الحقيقة والنمذجة</div>
+
+<div class="exsub">philo2010</div>
+<p class="para"><b>الشعبة</b> : الشعب العلمية والاقتصادية &nbsp; <b>الاختبار</b> : الفلسفة &nbsp; <b>الحصة</b> : <b>3</b> ساعات &nbsp; <b>الضارب</b> : <b>1</b></p>
+
+<p class="subhead t-red">I - <b>القسم الأوّل</b>: (<b>عشر نقاط</b>)</p>
+
+<div class="exsub">1) التمرين الأوّل : ( نقطتان )</div>
+<p class="para">قيل: « لا يمكن لأيّ نموذج علميّ أن يكون نهائيّا. »<br>اكشف عن إحدى تبعات هذا القول.</p>
+
+
+<div class="chtag"><span>المحور</span> الخصوصية والكونية</div>
+
+<div class="exsub">2) التمرين الثاني : ( نقطتان )</div>
+<p class="para">قيل : « إنّ التسليم بالكونيّ شرط لفهم ثقافة الآخر. »<br>أيّة دلالة " للكونيّ " يفترضها هذا القول ؟</p>
+
+
+<div class="chtag"><span>المحور</span> القيم: الأخلاق والدولة</div>
+
+<div class="exsub">3) التمرين الثالث : ( ستّ نقاط )</div>
+<p class="para"><b>النصّ:</b></p>
+<p class="para">« لا تصلح المبادئ التجريبيّة لأن يؤسَّس عليها أيّ قانون أخلاقيّ.وبالفعل فإنّ الطابع الكلّيّ الذي يسمح لهذه القوانين بأن تكون صالحة لجميع الكائنات العاقلة دون تمييز، والضرورة العملية اللامشروطة المفروضة عليها بفعل ذلك،ينتفيان بمجرّد تأسيسها على <b>التكوين الخاصّ بالطبيعة الإنسانيّة</b> أو على الظروف العرضيّة التي وُضعت فيها.ومع ذلك فإنّ أكثر المبادئ عرضة للإدانة هـو مبـدأ <b>السعادة الشخصيّـــة</b>، لا لأنّه فاســد فحسب،وأنّ التجربة تناقض الافتراض القائل بأنّ رغد العيش يتناسب دوْمًا مع حسن السلوك، ولا لأنّه لا يوفر أساسا للأخلاقيّة،إذ أنّ جعْل الانسان سعيدا يختلف كلّ الاختلاف عن جعله طيّبا، وجعله إنسانا حريصا على مصالحه ومنتبها لها يختلف أيضا عن جعله فاضلا،بل خاصّة لأنّ مبدأ السعادة الشخصيّة يقيم الأخلاق على دوافع هي بالأحرى تقوّضها وتقضي على ما فيها من عظمة. وفعلا، فهي تجمع في صنف واحد الدّوافع التي تولّد الفضيلة والدوافع التي تحرّض على الرذيلـة، إنّـها لاتزيد عـن أن تعلّـم الإنسان كيف يُتقـن الحساب، بينما تقضي قضاء مبرما على الفارق النوعي بين هذين الصنفين من الدّوافع. »</p>
+<p class="para">إيمانوال كانط : تأسيس ميتافيزيقا الأخلاق</p>
+<p class="consigne">أجب عن الأسئلة التّالية انطلاقا من النص:</p>
+<p class="para">1- صغ الإشكالية التي يعالجها الكاتب في هذا النص. <b>(نقطتان)</b><br>
+2- أُذكر حجّتين من بين الحجج التي دحض بها الكاتب فكرة تأسيس الأخلاقيّة على " مبدأ السعادة الشخصيّة ". <b>(نقطتان)</b><br>
+3- صُغْ تعريفا للفعل الأخلاقي بالاستناد إلى النصّ مستحضرا خاصّيتين من خصائصه. <b>( نقطتان )</b></p>
+
+
+<div class="chtag"><span>المحور</span> العلم بين الحقيقة والنمذجة</div>
+
+<p class="subhead t-red">II - <b>القسم الثاني</b>: (<b>عشر نقاط</b>)</p>
+<p class="consigne">يختار المترشّح أحد السؤالين التّاليين ليحرّر في شأنه محاولة في حدود ثلاثين سطرا:</p>
+
+<div class="chtag"><span>المحور</span> الإنية والغيرية</div>
+
+<div class="exsub">1) السّؤال الأوّل:</div>
+<p class="para">هل يُفضي اللقاء بالآخر إلى تصدّع الهويّة ؟</p>
+
+<div class="chtag"><span>المحور</span> القيم: الأخلاق والدولة</div>
+
+<div class="exsub">2) السّؤال الثاني:</div>
+<p class="para">هل يمكن أن أكون إنسانا دون أن أكون مواطنا ؟</p>
+
+<div class="chtag"><span>المحور</span> العلم بين الحقيقة والنمذجة</div>
+<!-- file: philo2011 -->
+
+
+<div class="exsub">philo2011</div>
+<p class="para"><b>الشعبة</b> : الشعب العلمية والاقتصادية<br><b>الاختبار</b> : الفلسفـــــة<br><b>الحصـــة</b> : <b>3</b> ساعـــات &nbsp; <b>الضارب</b> : <b>1</b></p>
+
+<p class="subhead t-red"><b>القسم الأول</b>: 10 نقاط</p>
+
+
+<div class="chtag"><span>المحور</span> الإنية والغيرية</div>
+
+<div class="exsub"><u>التمرين الأول</u>: (نقطتان)</div>
+<p class="para">قيل: " إنّ الذّاكرة هي صانعة الهويّة وإنْ فَقَدَ المرء ذاكرته فَقَدَ هويّته." حدّد دلالة الهويّة في سياق هذا القول.</p>
+
+
+<div class="chtag"><span>المحور</span> القيم: الأخلاق والدولة</div>
+
+<div class="exsub"><u>التمرين الثاني</u>: (نقطتان)</div>
+<p class="para">قيل: " إنّ حدود القوّة من حدود الحقّ ذاته." اكشف عن مسلّمة ضمنيّة لهذا القول.</p>
+
+
+<div class="chtag"><span>المحور</span> الخصوصية والكونية</div>
+
+<div class="exsub"><u>التمرين الثالث</u>: (6 نقاط)</div>
+<p class="para">النص:</p>
+<p class="para">إنّ الوحدة الكوكبيّة هي المقتضى العقلاني الأدنى لعالم منحسر ومترابط الأجزاء. وإنّ وحدة من هذا القبيل تحتاج إلى وعي وإحساس بالانتماء المشترك يربطنا بأرضنا بما هي الوطن الأوّل والأخير.</p>
+<p class="para">إذا كانت فكرة الوطن تتضمّن هويّة مشتركة وعلاقة انتساب وجدانيّ...وتتضمّن أخيرا مصيرا مشتركا، فبإمكاننا عندئذ أنْ نقترح فكرة الأرض- الوطن.</p>
+<p class="para">...إنّنا نمتلك جميعا، فيما وراء اختلافاتنا الفرديّة والثقافيّة والاجتماعيّة، هويّة وراثيّة ودماغيّة ووجدانيّة مشتركة. إنّنا نِتاج التطوّر الذي شهدته الحياة والذي مثّلت الأرض رحمه وحضنه، وأخيرا فكلّ البشر يعيشون منذ القرن العشرين نفس المشاكل الأساسيّة للحياة وللموت ويشتركون في نفس المصير الكوكبيّ.</p>
+<p class="para">...ألا يتعيّن علينا، عندئذ، أنْ نتعلّم كيف " نسكن" هذا الكوكب؟ أنْ نتعلّم كيف نسكن الكوكب يعني: أنْ نتعلّم كيف نعيش ونتقاسم الأشياء ونتواصل ونتّحد على نحو حميميّ. هذا ما كنّا نتعلمه فقط في الثّقافات الخصوصيّة وبفضلها. ويتعيّن علينا مستقبلا أنْ نتعلّم كيف نكون ونعيش ونتقاسم ونتواصل ونتّحد باعتبارنا أيضا بشرا ينتمون إلى كوكب الأرض. إنّنا لا ننتمي فقط إلى ثقافة ما وإنّما نحن أيضا كائنات هذه الأرض. علينا أنْ نَنذُرَ أنفسنا لتهيئة سبل سكنى الأرض وتحسينها وفهمها لا للسّيطرة عليها.</p>
+<p class="para">إدغار موران، تربية المستقبل.</p>
+<p class="consigne">أنجز المهام التالية انطلاقا من النص:</p>
+<p class="para">1- صغ الإشكاليّة التي يطرحها الكاتب في النص. (نقطتان)<br>
+2- قدّم حجّة تشرّع الحديث عن مفهوم الأرض- الوطن. (نقطتان)<br>
+3- اذكر تبعة من بين تبعات مفهوم الأرض- الوطن في مستوى علاقة الإنسان بخصوصيّته الثقافيّة أو في مستوى علاقته بثقافات الآخرين. (نقطتان)</p>
+
+
+<div class="chtag"><span>المحور</span> العلم بين الحقيقة والنمذجة</div>
+
+<p class="subhead t-red"><b>القسم الثاني</b>: 10 نقاط</p>
+<p class="consigne">يختار المترشّح أحد السؤالين التاليين ليحرّر في شأنه محاولة في حدود 30 سطرا.</p>
+<div class="exsub">السّؤال الأول:</div>
+<p class="para">هل يمكن للقيمة التداوليّة للنّماذج أنْ تحصّن النّمذجة العلميّة من كلّ نقد؟</p>
+
+<div class="chtag"><span>المحور</span> القيم: الأخلاق والدولة</div>
+
+<div class="exsub">السّؤال الثاني:</div>
+<p class="para">هل تضمن دولة القانون حقّ المواطنة ؟</p>
+
+<div class="chtag"><span>المحور</span> العلم بين الحقيقة والنمذجة</div>
+<!-- file: philo2012 -->
+
+<div class="chtag"><span>المحور</span> اللغة والتواصل</div>
+
+<div class="exsub">philo2012</div>
+<table>
+<tr><td>الجمهورية التونسية<br>◆◆◆<br>وزارة التربية</td><td colspan="3"><b>امتحان البكالوريــــا</b><br><b>دورة جوان 2012</b></td></tr>
+<tr><td><b>الشعب :</b> العلمية والاقتصادية</td><td><b>الاختبار :</b> الفلسفة</td><td><b>الحصـة :</b> 3 س</td><td><b>الضارب :</b> 1</td></tr>
+</table>
+<div class="exsub">القسم الأوّل : 10 نقاط</div>
+
+<div class="chtag"><span>المحور</span> القيم: الأخلاق والدولة</div>
+
+<p class="subhead t-navy"><b>1. التمرين الأوّل :</b> ( نقطتان )</p>
+<p class="consigne">إنّ الأخلاق تظلّ واحدة لدى كلّ النّاس الذين يعتمدون عقولهم.<br>إكشف عن إحدى تبعات هذا الإقرار.</p>
+
+<div class="chtag"><span>المحور</span> اللغة والتواصل</div>
+
+<p class="subhead t-navy"><b>2. التمرين الثاني :</b> ( نقطتان )</p>
+<p class="consigne">التعصّب لا الاختلاف هو الذي يَعوق التّواصل. قدّم حجة تثبت بها وجاهة هذا الموقف.</p>
+
+<div class="chtag"><span>المحور</span> العلم بين الحقيقة والنمذجة</div>
+
+<p class="subhead t-navy"><b>3. التمرين الثالث :</b> ( 6 نقاط )</p>
+<p class="subhead t-navy"><b>النّصّ</b></p>
+<p class="para">أهو الذّكاء البشريّ ذاته ؟ ذكاء الاعتداد العلموي الباهر والمتواتر بكثرة لدى رجال التقنية الفخورين بعديد المآثر التكنولوجيّة المذهلة والتي غدت أمرا مألوفا، وذكاء البؤس المرير الذي تنضح به هذه المدن والمصانع وهذه المظالم التي تصوّرها الإنسان وأرادها ؟ أهو الذكاء البشريّ ذاته ذاك الذي يسمح لفرد ما بأنْ يمشي  على سطح القمر بحرّيّة و ذاك الذي يفرض على الكثيرين من النّاس عبثية كساد تبعث على السّخط ؟ هل يوجد إذن فارق مماثل بين التحكم في الجاذبيّة والتحكم في التضخّم الماليّ ؟ فهل ما استطاع الذكاء البشريّ فعلَه هنا يعجز عن فعلِه هناك؟</p>
+<p class="para">لقد أضحت التكنوقراطيا نظامنا الضروريّ، وأضحت النجاعة والمردوديّة والمركزيّة والإدماج بالنسبة إلينا مرجعياتنا اللازمة. وتراجع شيئا فشيئا اعتمادنا  البيروقراطيةَ صورةً محفّزةً وحاجزَ وقايةٍ. ومع ذلك تراكم الخيبات : إفلاس نيويورك، مجاعة الساحل الإفريقي، أزمة منظومات التعليم، ومنظومات الصحة، ومنظومات النقل... وأزمة العلم ذاته ! إنه التفاوت الذي غدا أكثر بداهة والذي يصعب أكثر فأكثر إخفاؤه بين علم غزير وركود جليّ للفكر العلمي إزاء المشكلات المركزية التي تؤثّر في معرفتنا بالواقع.</p>
+<p class="para">جون لويس لوموانيه : نظرية النسق العام</p>
+<p class="consigne"><b>أنجز المهام التالية انطلاقا من النّصّ :</b></p>
+<p class="para">1- صُغْ إشكالية النّصّ. ( نقطتان )</p>
+<p class="para">2- يقوم النّصّ على نقد التفاوت بين"علم غزير وركود جليّ للفكر العلمي". حدّد إحدى ضمنيات هذا النقد. ( نقطتان )</p>
+<p class="para">3- حدّدْ رهان الكاتب من خلال نقده للعلم المعاصر. ( نقطتان )</p>
+<div class="exsub">القسم الثاني : 10 نقاط</div>
+<p class="consigne"><b>يختار المترشح أحد السؤالَيْن التاليين ليحرّر في شأنه محاولة في حدود 30 سطرا.</b></p>
+
+<div class="chtag"><span>المحور</span> الإنية والغيرية</div>
+
+<p class="para">- <b>السؤال الأوّل</b> : إذا كان الآخر حاضرا معنا على الدّوام فهل في ذلك تهديد لفرديتنا ؟</p>
+
+<div class="chtag"><span>المحور</span> القيم: الأخلاق والدولة</div>
+
+<p class="para">- <b>السؤال الثاني</b> : هل يتعارض الإقرار بالمواطنة العالميّة مع سيادة الدّولة ؟</p>
+<!-- file: philo2013 -->
+
+<div class="chtag"><span>المحور</span> محور غير محدّد</div>
+
+<div class="exsub">philo2013</div>
+<table>
+<tr><td>الجمهورية التونسية<br>وزارة التربية<br><b>امتحان البكالوريا دورة جوان 2013</b></td><td>الاختبار : <b>الفلسفة</b><br>الحصـــة : 3س<br>الضارب : 1</td></tr>
+<tr><td colspan="2">الشعب العلمية والاقتصادية</td></tr>
+</table>
+<div class="exsub"><b>القسم الأول</b> : 10 نقاط</div>
+
+<div class="chtag"><span>المحور</span> الخصوصية والكونية</div>
+
+<p class="subhead t-navy">1- <b>التمرين الأوّل</b> : ( نقطتان )</p>
+<p class="consigne">" إنّ المجتمع هو الذي يرسم للفرد منهاج حياته ". حدّد قيمة هذا القول.</p>
+<p class="subhead t-navy">2- <b>التمرين الثاني</b> : ( نقطتان )</p>
+<p class="consigne">" التسامح علامة ضعف ". قدّم حجّة مضادّة لذلك.</p>
+
+<div class="chtag"><span>المحور</span> الإنية والغيرية</div>
+
+<p class="subhead t-navy">3- <b>التمرين الثالث</b> : ( 6 نقاط )</p>
+<p class="para"><b>النصّ</b> :</p>
+<div class="data"><p>إنّ الأمر الذي يشغل كلّ واحد منّا، إنّما هو الحصول على تقدير الآخر. وهو أمر أساسيّ لتعزيز وجودنا الخاصّ؛ ذلك أنّ الفضل في وجودنا إنّما يعود في جزء منه إلى اعتراف الآخر بنا. فهو من يمنحنا القيمة، يقبلنا أو يرفضنا يقدّم لنا صورة قيمتنا الخاصّة؛ إنّ تشكّل الذّوات الإنسانيّة تشكّل بينيّ، يمرّ عبر الرّأي والتّقدير و الاعتراف. والآخر هو من يُعيرُ وجودي معنى حين يقدّم لي الصّورة المهتزّة عن نفسي.</p>
+<p>ولكن هل من هشاشة تفوق هشاشة هذا الوجود المنعكس ؟ إنّ علاقة الاعتراف المتبادل هذه سرعان ما تنغّصها كلّ أهواء الحقيقة و الادّعاء و الحسد. (...) ها هي إذن علاقة بينذاتيّة بامتياز ولكنّها علاقة تحطّمها شرورٌ ورذائل تمسّ الأشخاص المتفرّدين في الصميم.</p></div>
+<p class="para">بول ريكور – التاريخ و الحقيقة.</p>
+<p class="consigne"><b>أنجز المهامّ التّالية انطلاقا من النصّ :</b></p>
+<ol class="qn">
+<li>حدّد بدقّة إشكاليّة النصّ. ( نقطتان )</li>
+<li>حدّد سياقيّا مفهوم الاعتراف. (نقطتان)</li>
+<li>" إنّ تشكّل الذّوات الإنسانيّة بينيّ ". قدّم حجّة مدعّمة لذلك. (نقطتان)</li>
+</ol>
+<div class="exsub"><b>القسم الثاني</b> : 10 نقاط</div>
+<p class="consigne"><b>يختار المترشح أحد السؤالَيْن التاليَيْن ليحرّر في شأنه محاولة في حدود 30 سطرا.</b></p>
+
+<div class="chtag"><span>المحور</span> العلم بين الحقيقة والنمذجة</div>
+
+<p class="para">- <b>السؤال الأوّل</b> : إذا كانت النّمذجة في العلم فعل اختزال وتبسيط، فهل تمثّل الواقع بحقّ ؟</p>
+
+<div class="chtag"><span>المحور</span> القيم: الأخلاق والدولة</div>
+
+<p class="para">- <b>السؤال الثاني</b> : ما الذي يدعونا إلى طاعة القانون ؟</p>
+<!-- file: philo_c2013 -->
+
+<div class="chtag"><span>المحور</span> العلم بين الحقيقة والنمذجة</div>
+
+<div class="exsub">philo_c2013</div>
+<p class="subhead t-red">القسم الأوّل: 10 نقاط</p>
+
+<div class="chtag"><span>المحور</span> الإنية والغيرية</div>
+
+<div class="exsub">1- التمرين الأوّل: (نقطتان)</div>
+<p class="para">"إنّ المجتمع هو الذي يرسم للفرد منهاج حياته." حدّد قيمة هذا القول.</p>
+
+<div class="chtag"><span>المحور</span> الخصوصية والكونية</div>
+
+<div class="exsub">2- التمرين الثاني: (نقطتان)</div>
+<p class="para">"التسامح علامة ضعف." قدّم حجّة مضادّة لذلك.</p>
+
+<div class="chtag"><span>المحور</span> الإنية والغيرية</div>
+
+<div class="exsub">3- التمرين الثالث: (6 نقاط)</div>
+<p class="para">النصّ</p>
+<p class="para">إنّ الأمر الذي يشغل كلّ واحد منّا، إنّما هو الحصول عل تقدير الآخر. وهو أمر أساسيّ لتعزيز وجودنا الخاصّ، ذلك أنّ الفضل في وجودنا إنّما يعود في جزء منه إلى اعتراف الآخر بنا. فهو من يمنحنا القيمة، يقبلنا أو يرفضنا، يقدّم لنا صورة قيمتنا الخاصّة. إنّ تشكّل الذوات الإنسانية تشكّل بينيّ، يمرّ عبر الرأي والتقدير والاعتراف. والآخر هو من يُعير وجودي معنى حين يقدّم لي الصّرة المهتزّة عن نفسي.</p>
+<p class="para">ولكن هل من هشاشة تفوق هشاشة هذا الوجود المنعكس؟ إنّ علاقة الاعتراف المتبادل هذه سرعان ما تنغّصها كلّ أهواء الحقيقة والادّعاء والحسد(...) هال هي إذن علاقة بينذاتيّة بامتياز ولكنّها علاقة تحطّمها شرور ورذائل تمسّ الأشخاص المتفرّدين في الصميم.</p>
+<p class="para">بور ريكور-التاريخ والحقيقة</p>
+<p class="consigne">أنجز المهامّ التاليّة انطلاقا من النصّ:</p>
+<p class="para">1- حدّد بدقّة إشكالية النصّ. (نقطتان)<br>
+2- حدّد سياقيا مفهوم الاعتراف. (نقطتان)<br>
+3- "إنّ تشكّل الذوات الإنسانية بينيّ." قدّم حجّة مدعّمة لذلك. (نقطتان)</p>
+
+
+<div class="chtag"><span>المحور</span> العلم بين الحقيقة والنمذجة</div>
+
+<p class="subhead t-red">القسم الثاني: 10 نقاط</p>
+<p class="consigne">يختار المترشّح أحد السؤالين التاليين ليحرّر في شأنه محاولة في حدود 30 سطرا.</p>
+<p class="para">السؤال الأوّل: إذا كانت النمذجة في العلم فعل اختزال وتبسيط، فهل تمثّل الواقع بحقّ؟</p>
+
+<div class="chtag"><span>المحور</span> القيم: الأخلاق والدولة</div>
+
+<p class="para">السؤال الثاني: ما الذي يدعونا إلى طاعة القانون؟</p>
+
+<div class="chtag"><span>المحور</span> العلم بين الحقيقة والنمذجة</div>
+
+
+<div class="exsub">الإصلاح</div>
+<p class="subhead t-red">القسم الأوّل</p>
+
+<div class="chtag"><span>المحور</span> الإنية والغيرية</div>
+
+<p class="para">1- التمرين الأوّل: (نقطتان)<br>"إنّ المجتمع هو الذي يرسم للفرد منهاج حياته." حدّد قيمة هذا القول.</p>
+<table>
+<tr><th>التمشّيات</th><th>المضامين</th></tr>
+<tr><td>أهميّة الانطلاق من فهم دقيق للقول وتحديد واضح للمطلوب.</td>
+<td>الإشارة إلى أهمّية العيش المشترك والشعور بالانتماء إلى المجتمع، في تحقيق الفرد لوجوده، وعيا وممارسة.<br>
+تجاوز القول بـأنّ الفرد يستمدّ منهاج حياته، من ذاته أو من مرجعيات إطلاقية، والاقرار بنسبية القيم وتاريخيتها.<br>
+الإشارة من جهة أخرى إلى أنّ خضوع الفرد للمجتمع، من شأنه أن يكرّس التبعيّة والاغتراب.<br>
+وهم الاعتقاد بأن المجتمع وحدة متجانسة.</td></tr>
+</table>
+
+
+<div class="chtag"><span>المحور</span> الخصوصية والكونية</div>
+
+<p class="para">2- التمرين الثاني: (نقطتان)<br>"التسامح علامة ضعف." قدّم حجّة مضادّة لذلك.</p>
+<table>
+<tr><th>التمشّيات</th><th>المضامين</th></tr>
+<tr><td>الحجّة هي القيمة النظرية التي تقوم مقام الدليل والبرهان، بقصد إثبات موقف أو دحضه.</td>
+<td>الإشارة إلى إمكانية أن يكون التسامح علامة قوّة، بدليل أنّ المتسامح هو من يمتلك القدرة على التعايش مع الآخر المختلف والقبول به.<br>
+ارتباط التسامح بالتعقّل والحكمة.<br>
+تمييز التسامح عن الخضوع والتنازل أو فقدان القدرة على الفعل.</td></tr>
+</table>
+
+
+<div class="chtag"><span>المحور</span> الإنية والغيرية</div>
+
+<p class="para">3- التمرين الثالث: (6 نقاط)<br>النصّ</p>
+<table>
+<tr><th>التمشّيات</th><th>المضامين</th></tr>
+<tr><td>تقتضي صياغة المشكل الانطلاق من تصوّر واضح للقضيّة التي يثيرها النصّ، وردّها إلى سؤال مركزي وتوضيح أهمّيته ودواعي طرحه، ورهانا ته.</td>
+<td>المهمّة الأولى: حدّد بدقّة إشكالية النصّ.<br>
+صياغة الإشكالية بالتساؤل: هل بإمكان الذات أن تدرك قيمتها وحقيقتها بذاتها، أم أنّها تشترط ضرورة، اعتراف الآخر بها؟<br>
+أو التساؤل: بأي معنى يكون وعي الذات بقيمتها واحترامها لذاتها، مشروطين بمدى اعتراف الغير بها؟</td></tr>
+<tr><td>التحديد السياقي للمفهوم يقتضي ربط المفهوم بمرجعيّة نظرية وإطار إشكالي محدّد، وبيان بعده الإجرائي.</td>
+<td>المهمّة الثانية: حدّد سياقيا مفهوم الاعتراف.<br>
+الاعتراف هو القبول بوجود الآخر والتقدير والاحترام المتبادل كشرط لتعزيز الوجود الخاصّ.<br>
+الاعتراف هو تدعيم واثبات الوجود الذاتي في تفاعل مع الصورة التي يعكسها الآخر.</td></tr>
+<tr><td></td>
+<td>المهمّة الثالثة: "إن تشكّل الذوات الإنسانية بينيّ". قدّم حجّة مدعّمة لذلك.<br>
+الوجود الفردي لا يتحقّق إلاّ بحضور الآخر.<br>
+تستمدّ الذات معناها وقيمتها من خلال التفاعل مع الآخرين.</td></tr>
+<tr><td></td><td>ما يقوم عليه الوجود البشري من فضائل ورذائل وخير وشرّ، لا معنى له في غياب الآخر.</td></tr>
+</table>
+
+
+<div class="chtag"><span>المحور</span> العلم بين الحقيقة والنمذجة</div>
+
+<p class="subhead t-red">القسم الثاني: 10 نقاط</p>
+<p class="consigne">يختار المترشّح أحد السؤالين التاليين ليحرّر في شأنه محاولة في حدود 30 سطرا.</p>
+<p class="para">السؤال الأوّل: إذا كانت النمذجة في العلم فعل اختزال وتبسيط، فهل تمثّل الواقع بحقّ؟</p>
+<table>
+<tr><th>التمشّيات</th><th>المضامين</th></tr>
+<tr><td>مرحلة بناء المشكل: بالإشارة إلى قيمة السؤال ومبرّراته وصياغة مشكله بوضوح</td>
+<td><b>لحظة أولى:</b> بناء المشكل<br>
+إمكانية الانطلاق من <b>إبراز دواعي طرح المشكل</b> بالإشارة إلى أهمّية التطوّرات التي يعيشها العلم على مستوى مفاهيمه وتمشّياته، وأثر ذلك على تصوّرنا للحقيقة والواقع.<br>
+صياغة المشكل بالتساؤل:<br>
+بأيّ معنى تكون النمذجة العلميّة اختزالا وتبسيطا؟ وكيف تمثّل نمذجة الواقع، بناء له؟<br>
+إذا ما كانت النمذجة العلميّة تقوم على الاختزال والتبسيط، فأيّة صورة تقدّمها لنا عن الواقع؟</td></tr>
+<tr><td>التحديد السياقي للمفهوم الرئيسي.<br><br>بيان البعد الإجرائي للمفهوم المركزي: أثره في تغيير نظرتنا للحقيقة وللواقع.</td>
+<td><b>لحظة ثانية:</b> بلورة موقف من المشكل وفق التمشّي التالي
+<ol class="qn">
+<li>دلالة النمذجة العلميّة وآليات اشتغالها.<br>النمذجة بما هي تمشّ فكريّ يبني نماذج.<br>آليات النمذجة العلميّة وكيفية بنائها للظواهر على سبيل الاختزال والتبسيط...</li>
+<li>بيان أثر ذلك على تصوّرنا للواقع وللحقيقة العلميّة.<br>التمييز بين الواقع المعطى أو المعيش، والواقع العلميّ كما يتمّ تمثّله بواسطة لغة رمزيّة.<br>التمييز بين الحقيقة بما هي مطابقة والحقيقة بما هي ملاءمة.</li>
+<li>حدود قدرة النمذجة العلميّة بما هي اختزال وتبسيط على تمثّل الواقع.<br>إنّ فعل النمذجة تجزئة للواقع دون قدرة على إدراكه في كلّيته.<br>اعتبار التبسيط العلمي للواقع، تفقير له.</li>
+</ol></td></tr>
+<tr><td>بلورة موقف من المشكل.</td>
+<td><b>لحظة ثالثة:</b> استخلاص أنّ النمذجة العلميّة حرّرتنا بشكل نهائي من فكرة "الواقع في ذاته" أو "الواقع بحقّ" و"الحقيقة في ذاتها".</td></tr>
+</table>
+
+
+<div class="chtag"><span>المحور</span> القيم: الأخلاق والدولة</div>
+
+<p class="subhead t-red">القسم الثاني: 10 نقاط</p>
+<p class="consigne">يختار المترشّح أحد السؤالين التاليين ليحرّر في شأنه محاولة في حدود 30 سطرا.</p>
+<p class="para">السؤال الثاني: ما الذي يدعونا إلى طاعة القانون؟</p>
+<table>
+<tr><th>التمشّيات</th><th>المضامين</th></tr>
+<tr><td>-بيان قيمة السؤال نظريا وعمليا.<br>-الكشف عن دواعي طرحه<br>-الكشف عن رهاناته.<br>تحويل السؤال إلى مشكل بالكشف عن المفارقات والإحراجات والمآزق التي يصطدم بها، والتي تدعونا إلى الاضطلاع بالتفكير فيه.</td>
+<td><b>لحظة أولى:</b> بناء المشكل<br>
+التمهيد انطلاقا من الإشارة إلى ما يسم الواقع اليوم، من صراع، على المستويين الاجتماعي والسياسي، وما سينجرّ عن ذلك من إعادة نظر في طبيعة القوانين التي تحكم حياتنا والعلاقة التي تربطنا بها ودورها في الحياة السياسية والاجتماعية.<br>
+الإشارة إلى حاجة المجتمع إلى بناء كيان سياسي، تنتظم وفقه العلاقات التي تربط بين البشر.<br>
+صياغة المشكل بالتساؤل:<br>
+إذا ما اقتضى العيش المشترك، أن تنتظم علاقات الأفراد وفق نسق من القوانين. فما الذي يبرّر طاعة القوانين، الخوف من العنف أم ضمان الحرّية؟<br>
+هل من إمكانية للتأليف بين نزوع الأفراد إلى الحرّية، من جهة، وضرورة العيش في ظلّ سلطة القوانين، من جهة أخرى؟ وهل ينقاد الفرد إلى طاعة القانون خوفا من بطش سلطته، أم تجسيدا للحرّية؟</td></tr>
+<tr><td>الاهتمام في هذا المستوى بالاشتغال على المفاهيم الأساسية.<br><br>الكشف عن البعد الإشكالي للمفهوم المركزي.</td>
+<td><b>لحظة ثانية:</b> بلورة موقف من المشكل وفق التمشّي التالي:
+<ol class="qn">
+<li>بيان دلالة القانون، بما هو مبدأ تنظيمي للعلاقات وضامن للحقوق والحرّيات.<br>بيان دلالة الطاعة بما هي امتثال لسلطة القانون، إمّا إراديا أو بالإكراه.<br>بيان قيمة القانون في الحياة الإنسانية من جهة التعرّض إلى دوره، في الانتقال بالإنسان من "حالة الطبيعة" إلى "حالة المدنيّة".<br>بيان أنّ طاعة القوانين ضرورة اجتماعيّة.</li>
+<li>كيفية تجسّد القانون في الحياة السياسية بالنظر في كيفية حضوره.<br>إمكانية أن يكون القانون عادلا أو جائرا.<br>إمكانية أن يكون القانون سالبا للحرّية، أو ضامنا لها.</li>
+<li>التمييز بين طاعة القانون تجسيدا للحرّية، والخضوع لسلطته، خوفا من بطشه، حين يكون أداة هيمنة.</li>
+</ol></td></tr>
+<tr><td>الانتهاء إلى بلورة موقف من السؤال.</td>
+<td><b>لحظة ثالثة:</b> استخلاص الشروط السياسية والإيتيقية، الواجب توفّرها حتّى تكون طاعة القوانين تجسيدا للإرادة والحرّية:
+<ul class="b">
+<li>من جهة مصدرها: أن تكون نابعة من الإرادة.</li>
+<li>من جهة دورها: أن تكون ضامنة للمساواة بين المواطنين في الحقوق والواجبات.</li>
+<li>من جهة رهاناتها: أن تكون في تناغم مع مطلب الحرّية.</li>
+</ul></td></tr>
+</table>
+
+</section>
+
+</div>
+</body>
+</html>

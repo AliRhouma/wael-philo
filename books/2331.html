@@ -1,0 +1,496 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<title>Wael Academy — Philosophie · fasicule انية</title>
+<script>
+  window.MathJax = {
+    tex: { inlineMath: [['\\(','\\)']], displayMath: [['\\[','\\]']] },
+    chtml: { fontURL: 'https://cdn.jsdelivr.net/npm/mathjax@3/es5/output/chtml/fonts/woff-v2', matchFontHeight: true },
+    startup: { typeset: true }
+  };
+</script>
+<script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js" async></script>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Sora:wght@400;500;600;700;800&family=Cairo:wght@400;500;600;700;800;900&family=Tajawal:wght@400;500;700;800&family=JetBrains+Mono:wght@400;500;600;700&display=swap');
+:root{
+  /* ===== Wael Academy palette — MAIN ACCENT = green-teal gradient #0FAB8F → #067360 ===== */
+  --bg:#fff; --panel:#f2f8f8; --hair:#e6e6e9; --hair2:#d6d6db;
+  --fg:#0f2a31;        /* body text (and +/− signs) */
+  --fg2:#3f5b62;       /* softer text */
+  --fg3:#7c959b;       /* muted (footer) */
+  --blue:#067360;      /* deep accent — small numbers, borders, watermark, accent equations */
+  --blue-dark:#045260; /* titles & wordmarks (also the balance colour) */
+  --teal:#0fab8f;      /* bright accent end */
+  --loop:#0d9c82;      /* logo-loop helper */
+  --orange:#067360;    /* kicker/category labels (gold retired → deep teal) */
+  --red:#f5322f;       /* EXERCISE CHIPS ONLY — never for emphasis */
+  --cream:#e6f3f4; --blue-soft:#e6f3f4;  /* pale teal — callout fill + table sub-row fill */
+  --blue-line:#cde7e4; /* hairline */
+  --sub-ink:#045260;   /* table sub-row text */
+  --grad:linear-gradient(148deg,#0fab8f 0%,#0d9c82 52%,#067360 100%);
+  --mono:'JetBrains Mono',monospace; --latin:'Sora',sans-serif; --ar:'Cairo',sans-serif; --arb:'Tajawal',sans-serif;
+}
+*{box-sizing:border-box;margin:0;padding:0;}
+body{font-family:var(--latin);color:var(--fg);background:#e4e4e7;padding:28px 0;
+     -webkit-print-color-adjust:exact;print-color-adjust:exact;}
+html[dir="rtl"] body{font-family:var(--arb);}
+
+/* ===== brand watermark: REAL text (crisp), full-bleed, repeats per page ===== */
+.wm{position:fixed;inset:0;z-index:0;pointer-events:none;display:flex;
+    align-items:center;justify-content:center;overflow:hidden;
+    -webkit-print-color-adjust:exact;print-color-adjust:exact;}
+.wm span{font-family:var(--mono);font-weight:800;font-size:76.8pt;letter-spacing:.16em;
+    color:var(--blue);opacity:.06;white-space:nowrap;transform:rotate(-54deg);}  /* single diagonal: bottom-left → top-right */
+.wm.mono span{color:#000;opacity:.05;}
+
+/* ===== continuous flow stream (no page border) ===== */
+.flow{width:210mm;margin:0 auto;background:transparent;color:var(--fg);
+      padding-block:16mm 18mm;padding-inline:23mm 14mm;position:relative;}   /* spiral gutter: inline-start(=spine) 23mm / outer 14mm — dir-aware; print margins set in render_flow.py */
+@media screen{ .flow{background:#fff;box-shadow:0 10px 40px rgba(0,0,0,.16);} }
+.flow>*{position:relative;z-index:1;}
+.flow p,.flow li,.flow .data,.flow .note,.flow .ex{break-inside:auto;}
+.flow .fig,.flow figure,.flow img,.flow svg.figsvg,.flow table,.flow tr,.flow .chapdiv,.flow .exh,.flow .qrcard,.flow .meta{break-inside:avoid;}
+.flow h1,.flow h2,.flow h3,.flow .exh,.flow .subhead,.flow .chapdiv{break-after:avoid;}
+.flow img,.flow svg.figsvg{max-width:100%;height:auto;}
+.flow figcaption,.flow .figcap{display:none;}          /* rule 3: no figure captions */
+
+/* ===== front matter + chapters each start on a fresh page ===== */
+.flow .cover{break-after:page;}        /* cover alone on page 1 */
+.flow .toc{break-after:page;}          /* Sommaire alone on the next page */
+.flow .chapter{break-before:page;}
+.flow .chapter:first-of-type{break-before:auto;}
+
+/* ===== cover ===== */
+.cover{padding:14mm 0 8mm;border-bottom:2px solid var(--blue);margin-bottom:6mm;}
+.cover .badge{font-family:var(--mono);font-size:8.5pt;letter-spacing:.28em;text-transform:uppercase;color:var(--orange);margin-bottom:10px;}
+.cover h1{font-family:var(--latin);font-weight:800;font-size:34pt;line-height:1.03;letter-spacing:-.025em;color:var(--blue-dark);}
+.cover .grule{width:120px;height:5px;border-radius:5px;background:var(--grad);margin:14px 0;}
+.cover .sub{font-family:var(--mono);font-size:10pt;letter-spacing:.14em;text-transform:uppercase;color:var(--teal);}
+.cover .auth{font-size:11pt;color:var(--fg2);margin-top:6px;font-weight:600;}
+
+/* ===== table of contents ===== */
+.toc{margin:2mm 0 4mm;}
+.toc h2{font-family:var(--latin);font-weight:800;font-size:15pt;color:var(--blue-dark);margin-bottom:4mm;}
+.toc .trititle{font-family:var(--mono);font-size:8pt;letter-spacing:.2em;text-transform:uppercase;color:var(--orange);margin:4mm 0 2mm;}
+.toc ol{list-style:none;}
+.toc li{display:flex;align-items:baseline;gap:8px;font-size:10pt;padding:2.2px 0;color:var(--fg);line-height:1.4;}
+.toc li .n{font-family:var(--mono);font-weight:700;font-size:9pt;color:var(--blue);min-width:26px;}
+.toc li .dots{flex:1;border-bottom:1px dotted var(--hair2);transform:translateY(-3px);}
+
+/* ===== chapter divider band ===== */
+.chapdiv{margin:0 0 5mm;padding:6mm 16px 5mm;border-radius:12px;background:var(--grad);
+    -webkit-print-color-adjust:exact;print-color-adjust:exact;}   /* green-filled chapter band */
+.chapdiv .cn{font-family:var(--mono);font-size:8.5pt;font-weight:700;letter-spacing:.24em;text-transform:uppercase;color:rgba(255,255,255,.82);margin-bottom:5px;}
+.chapdiv h2{font-family:var(--latin);font-weight:800;font-size:17pt;line-height:1.1;letter-spacing:-.015em;color:#fff;}
+/* conclusion block — same green-filled look as the chapter band */
+.conclusion{background:var(--grad);border-radius:12px;padding:6mm 16px;margin:5mm 0;color:#fff;break-inside:avoid;
+    -webkit-print-color-adjust:exact;print-color-adjust:exact;}
+.conclusion .ck{font-family:var(--mono);font-size:8.5pt;font-weight:700;letter-spacing:.24em;text-transform:uppercase;color:rgba(255,255,255,.82);margin-bottom:6px;}
+.conclusion h3{font-family:var(--latin);font-weight:800;font-size:13pt;line-height:1.2;color:#fff;margin-bottom:4px;}
+.conclusion p,.conclusion li{font-size:10.4pt;line-height:1.7;color:#fff;}
+.conclusion b,.conclusion strong{color:#fff;font-weight:700;}
+
+/* ===== unit header (lesson/exercise) + QR emplacement ===== */
+.exh{display:flex;align-items:center;gap:11px;margin:6mm 0 3mm;}
+.exh .idx{font-family:var(--mono);font-size:9pt;font-weight:600;color:#fff;background:var(--grad);
+    border-radius:6px;padding:4px 11px;letter-spacing:.08em;text-transform:uppercase;
+    -webkit-print-color-adjust:exact;print-color-adjust:exact;}
+.exh .idx.ex{background:var(--red);}   /* exercise chip = red */
+.exh h2{font-family:var(--latin);font-size:14pt;font-weight:700;letter-spacing:-.01em;color:var(--blue-dark);}
+.exh .qrcard{margin-inline-start:auto;flex:0 0 auto;display:flex;flex-direction:column;align-items:center;gap:3px;width:26mm;}
+.qrcard .qrt{font-family:var(--mono);font-size:6.5pt;letter-spacing:.1em;text-transform:uppercase;color:var(--teal);text-align:center;}
+.qrcard .qrslot{width:24mm;height:24mm;padding:1.5mm;background:#fff;border:1px solid var(--blue-line);border-radius:8px;display:flex;align-items:center;justify-content:center;}
+.qrcard .qrslot img,.qrcard .qrslot svg{width:100%;height:100%;display:block;}
+
+/* sub-exercise label when one file holds several exercices */
+.exsub{font-family:var(--latin);font-weight:800;font-size:11.5pt;color:var(--blue-dark);margin:5mm 0 2.5mm;padding-bottom:3px;border-bottom:2px solid var(--blue-line);}
+
+/* ===== text blocks ===== */
+.lead{font-size:11pt;line-height:1.7;margin:2mm 0 3mm;color:var(--fg);}
+.para{font-size:10.6pt;line-height:1.7;margin:2mm 0 2.5mm;color:var(--fg);}
+.consigne{font-size:10.4pt;line-height:1.6;margin:1mm 0 2mm;color:var(--fg);font-style:italic;}
+.subhead{font-family:var(--latin);font-weight:800;font-size:12pt;letter-spacing:-.01em;color:var(--blue-dark);margin:5mm 0 2.5mm;}
+/* emphasis — green accent = .t-blue/.t-green ; balance = .t-navy ; red = SECONDARY accent (.t-red) on titles + a few words */
+.t-blue{color:var(--blue);font-weight:600;} .t-navy{color:var(--blue-dark);font-weight:700;}
+.t-red{color:var(--red);font-weight:600;} .t-green{color:var(--teal);font-weight:600;} .t-gold{color:var(--orange);font-weight:600;}
+.subhead.t-red{color:var(--red);font-weight:800;}   /* red Roman-numeral section title (I, II, …) — keeps subhead weight */
+/* highlighter marks — a soft colour wash behind a key word (agent picks green or red per what balances the page) */
+.hl-green,.hl-red{border-radius:3px;padding:.02em .24em;font-weight:600;box-decoration-break:clone;-webkit-box-decoration-break:clone;
+    -webkit-print-color-adjust:exact;print-color-adjust:exact;}
+.hl-green{background:rgba(15,171,143,.20);color:var(--blue-dark);}   /* green highlight */
+.hl-red{background:rgba(245,50,47,.13);color:#c0261f;}               /* red highlight  */
+
+.data{background:var(--blue-soft);border:1px solid var(--blue-line);border-inline-start:4px solid var(--blue);
+    border-radius:8px;padding:11px 16px;margin:3mm 0;font-size:10pt;line-height:1.65;color:var(--fg2);}
+.data b{color:var(--fg);font-weight:700;}
+.note{border:1px dashed var(--hair2);border-radius:9px;padding:11px 16px;margin:4mm 0;background:var(--panel);}
+.note .kicker{font-family:var(--mono);font-size:7.5pt;letter-spacing:.18em;color:var(--orange);display:block;margin-bottom:5px;}
+.note .nb{font-size:10pt;line-height:1.7;color:var(--fg2);} .note b{color:var(--fg);}
+.ex:not(.idx){background:var(--blue-soft);border:1px solid var(--blue-line);border-inline-start:3px solid var(--blue);
+    border-radius:7px;padding:7px 11px;font-size:9.6pt;line-height:1.6;color:var(--fg2);margin:2mm 0;}   /* :not(.idx) so it never hits the exercise chip (which is .idx.ex) */
+.ex .extag{display:inline-block;font-family:var(--latin);font-weight:800;font-size:7.6pt;color:var(--blue-dark);background:#fff;
+    border:1px solid var(--blue);border-radius:5px;padding:1px 9px;margin-inline-end:7px;vertical-align:middle;text-transform:uppercase;letter-spacing:.06em;}
+
+/* ===== lists ===== */
+ol.q{list-style:none;counter-reset:q;margin:1mm 0 2mm;}
+ol.q>li{counter-increment:q;position:relative;padding-inline-start:30px;margin-bottom:2.5mm;font-size:10.4pt;line-height:1.6;}
+ol.q>li::before{content:counter(q);position:absolute;inset-inline-start:0;top:1px;width:21px;height:21px;background:var(--grad);color:#fff;
+    border-radius:50%;font-family:var(--mono);font-size:9pt;font-weight:600;display:flex;align-items:center;justify-content:center;
+    -webkit-print-color-adjust:exact;print-color-adjust:exact;}
+ol.sub{list-style:none;counter-reset:s;margin:4px 0 0;padding-inline-start:2px;border-inline-start:1px solid var(--blue-line);}
+ol.sub li{counter-increment:s;position:relative;padding:2.5px 0 2.5px 26px;font-size:10.1pt;line-height:1.55;}
+ol.sub li::before{content:counter(s,lower-alpha)".";position:absolute;inset-inline-start:10px;top:2.5px;font-family:var(--mono);font-size:9pt;font-weight:600;color:var(--teal);}
+ol.qn{list-style:none;counter-reset:qn;margin:1mm 0 2mm;}
+ol.qn>li{counter-increment:qn;position:relative;padding-inline-start:26px;margin-bottom:2.2mm;font-size:10.4pt;line-height:1.55;}
+ol.qn>li::before{content:counter(qn)".";position:absolute;inset-inline-start:0;top:0;font-family:var(--mono);font-size:9.5pt;font-weight:700;color:var(--blue);}
+ul.b{list-style:none;margin:1mm 0 2mm;} ul.b>li{position:relative;padding-inline-start:22px;margin-bottom:2.4mm;font-size:10.4pt;line-height:1.6;}
+ul.b>li::before{content:"";position:absolute;inset-inline-start:3px;top:8px;width:8px;height:8px;border-radius:50%;background:var(--grad);
+    -webkit-print-color-adjust:exact;print-color-adjust:exact;}
+ul.dash{list-style:none;margin:1mm 0 2mm;} ul.dash>li{position:relative;padding-inline-start:20px;margin-bottom:1.8mm;font-size:10.4pt;line-height:1.6;}
+ul.dash>li::before{content:"–";position:absolute;inset-inline-start:2px;top:0;color:var(--fg);font-weight:700;}  /* dash / +/− signs = body colour */
+.flow ul.opts{list-style:none;margin:4px 0 3px;padding-inline-start:16px;}
+.flow ul.opts li{padding:2px 0;font-size:10.2pt;line-height:1.5;color:var(--fg);}
+
+/* ===== figures / tables ===== */
+.fig{margin:3mm 0;} .fig svg.figsvg{display:block;margin:0 auto;background:#fff;max-width:100%;height:auto;}
+.photo{display:block;margin:3mm auto;border-radius:8px;border:1px solid var(--hair);max-width:100%;}
+.figrow{display:flex;flex-wrap:wrap;gap:9px;justify-content:center;margin:3mm auto;max-width:190mm;}
+.flow .figrow img{border-radius:7px;border:1px solid var(--hair);height:46mm;width:auto;max-width:none;object-fit:cover;}
+.schemarow{display:flex;gap:16px;align-items:flex-start;flex-wrap:wrap;margin:2mm 0;}
+.schemarow .col-txt{flex:1 1 90mm;min-width:80mm;} .schemarow .col-fig{flex:0 0 78mm;} .schemarow .col-fig .fig{margin:0;}
+.flow table{border-collapse:collapse;width:100%;margin:3mm 0;font-size:9.8pt;line-height:1.5;}
+.flow table th,.flow table td{border:1px solid var(--blue-line);padding:6px 10px;text-align:start;vertical-align:top;}
+.flow table th{background:var(--grad);color:#fff;font-family:var(--latin);font-weight:700;font-size:9.4pt;
+    -webkit-print-color-adjust:exact;print-color-adjust:exact;}
+.flow table tr:nth-child(even) td{background:var(--blue-soft);color:var(--sub-ink);}   /* sub-row: #E6F3F4 / #045260 */
+
+mjx-container{color:var(--fg) !important;font-weight:400 !important;font-size:1.0em !important;}
+.eq-hi mjx-container,mjx-container.eq-hi{color:var(--blue) !important;}   /* accent (green) equation — highlight a key result; balance with plain math */
+.eq-red mjx-container,mjx-container.eq-red{color:var(--red) !important;}  /* red accent equation / symbol — complements the green .eq-hi */
+
+/* ===== per-file books: credit line, copies list, figures at their size ===== */
+.credit{display:flex;flex-wrap:wrap;align-items:center;gap:5px;margin:-1mm 0 3.5mm;font-size:9.4pt;color:var(--fg2);}
+.credit .who{font-weight:700;color:var(--blue-dark);}
+.credit .tg{font-family:var(--mono);font-size:7.2pt;letter-spacing:.04em;border-radius:5px;padding:1px 7px;line-height:1.6;
+    border:1px solid var(--blue-line);color:var(--blue);background:#fff;-webkit-print-color-adjust:exact;print-color-adjust:exact;}
+.credit .tg.sec{background:var(--blue-dark);border-color:var(--blue-dark);color:#fff;}
+.credit .tg.cor{background:#fff;border-color:var(--red);color:var(--red);}
+.credit a{color:var(--fg3);font-family:var(--mono);font-size:7pt;text-decoration:none;}
+.cover .auth .credit{margin:4mm 0 0;}
+.cover .copies{margin-top:5mm;font-size:8.6pt;color:var(--fg2);}
+.cover .copies ul{list-style:none;margin:2mm 0 0;padding:0;columns:2;}
+.cover .copies a{color:var(--fg3);text-decoration:none;font-size:8pt;}
+.flow figure.fig{text-align:center;}
+.flow figure.fig img{max-height:60mm;width:auto;max-width:70%;display:inline-block;}
+
+/* chapter tag on each part of a multi-chapter book (the book keeps the original order of the file) */
+.chtag{display:inline-block;margin:5mm 0 2mm;padding:1mm 3mm;border-radius:2mm;background:#eef3fb;border:1px solid #c9d6ea;
+  color:#1f3a6b;font-size:9pt;font-weight:700}
+.chtag span{color:#6b7f9e;font-weight:600;margin-inline-end:1.5mm}
+
+@media print{ body{background:#fff;padding:0;} .flow{width:auto;max-width:none;margin:0;padding:0;} }
+@page{size:A4;}   /* margins come from render_flow.py — do NOT set them here */
+</style>
+<meta data-pagefind-filter="type[content]" content="درس">
+<meta data-pagefind-filter="resource[content]" content="COGITO NEWS">
+<meta data-pagefind-meta="n[content]" content="2331">
+<meta data-pagefind-meta="title[content]" content="fasicule انية">
+<meta data-pagefind-filter="chapter[content]" content="محور غير محدّد">
+<meta data-pagefind-filter="chapter[content]" content="الإنية والغيرية">
+<meta data-pagefind-filter="section[content]" content="باكالوريا رياضيات"><style>.qrcard{display:none!important}.wa-nav{position:sticky;top:0;z-index:50;background:#045260;padding:10px 18px;font-family:Cairo,sans-serif;direction:rtl}.wa-nav a{color:#fff;text-decoration:none;font-weight:700}@media print{.wa-nav{display:none}}</style>
+</head>
+
+<body dir="rtl" lang="ar"
+      data-brand="Wael Academy" data-handle="@WaelAcademy"
+      data-tagline="في تُرابنا.. مغامرة بمغامرة"
+      data-phone="+216 50 40 40 42" data-site="waeldocuments.com"
+      data-cta="سجل معانا وأقرى عن بعد مع منصة Wael Academy"
+      data-subject="Philosophie · fasicule انية" data-watermark="Wael Academy" data-pagefind-body><nav class="wa-nav" data-pagefind-ignore><a href="../index.html">→ الرجوع إلى فهرس الفلسفة</a></nav>
+
+<!-- single full-page diagonal watermark, bottom-left → top-right (repeats on every page) -->
+<div class="wm" aria-hidden="true"><span>WAEL&nbsp;ACADEMY</span></div>
+
+<div class="flow colored">
+<div class="cover"><div class="badge">◉ Wael Academy · Philosophie</div><h1>fasicule انية</h1><div class="grule"></div><div class="sub">محور غير محدّد</div><div class="auth"><div class="credit">المؤلّف / المصدر : <span class="who">COGITO NEWS — By Rouis Rim</span> <span class="tg sec">الفلسفة · باكالوريا رياضيات</span> <a href="https://drive.google.com/file/d/1ZDeoNp00CSMVEHQonzceJHuGMX42VSuI/view">↗ fasicule انية.pdf</a></div></div><div class="copies" data-pagefind-ignore><b>نسخ هذا الملف في الدرايفات (1)</b><ul><li><a href="https://drive.google.com/file/d/1ZDeoNp00CSMVEHQonzceJHuGMX42VSuI/view">Karim Fourati · Bac 2KF25 › Philo / Mme Rouiss / انية</a></li></ul></div></div>
+<section class="chapter">
+<div class="chtag"><span>المحور</span> محور غير محدّد</div>
+<!-- SOURCE: COGITO NEWS — By Rouis Rim -->
+
+<div class="chtag"><span>المحور</span> الإنية والغيرية</div>
+
+<div class="exh"><span class="idx">درس</span><h2>الإنية و الغيرية</h2>
+  <div class="qrcard"><div class="qrt">فيديو الدرس</div><div class="qrslot"><img src="qr/2331.svg" alt="QR"></div></div></div>
+<div class="credit">المؤلّف / المصدر : <span class="who">COGITO NEWS — By Rouis Rim</span> <span class="tg sec">الفلسفة · باكالوريا رياضيات</span> <a href="https://drive.google.com/file/d/1ZDeoNp00CSMVEHQonzceJHuGMX42VSuI/view">↗ fasicule انية.pdf</a></div>
+<!-- CROP: 2331 1 1 0.19 0.03 0.95 0.39 2331_cover -->
+<figure class="fig"><img src="https://wael-philo.b-cdn.net/figs/2331/2331_cover.png" alt=""></figure>
+<p class="subhead t-red">COGITO NEWS</p>
+<p class="para">By Rouis Rim</p>
+<p class="subhead t-red">الإنية و الغيرية</p>
+<p class="para">دروس و تمارين</p>
+<p class="para">BAC 2025</p>
+<!-- PROOFREAD: 2331 part1 p02-p28 — handwritten pages, best reading throughout -->
+<p class="subhead t-blue"><span class="t-blue">الانية والغيرية</span> <span class="t-blue">(الاشكالية)</span></p>
+<p class="subhead t-navy"><span class="t-blue">تمهيد :</span></p>
+<!-- PROOFREAD: 2331 part1 p02 — "تمهيد :" written vertically in blue in the margin -->
+<p class="para">تضرب الدعوة الى معرفة الانسان بجذورها في الارث السقراطي اذ مثل هذا الكائن الاشكالي ولازال موضوع انشغال الفلسفة منذ بداية تشكلها ليمتد الاهتمام به وبالبحث في حقيقته داخل فكر الحداثة حيث كان السؤال عن الانسان سؤالا ماهويا يبحث عن ماهيته اي عن جوهره الثابت وهو ما يؤكد تعقد تركيبة الانسان ليعتبر <span class="t-red">بول ريكور</span> : اشكال ما هو الذات بل أكثر الاشكالات تعقيدا وهو ما يدفعنا الى السؤال عن حقيقته وما به يكون.</p>
+<p class="para"><span class="t-red">فأي تعريف</span> للذات <span class="t-red">وبم</span> تتحدد انيتها ؟</p>
+<p class="para"><span class="t-red">كيف</span> تمثل ذاتها <span class="t-red">وتعي</span> حقيقتها ؟</p>
+<p class="para"><span class="t-red">هل</span> تعي ذاتها بذاتها <span class="t-red">ام</span> تحتاج الى الأخر في مسارها ؟</p>
+<p class="para"><span class="t-red">هل</span> تمثل ذاتها بذاتها في عزلة وانقطاع عن كل آخر <span class="t-red">ام ان</span> الانية لا تتشكل الا بوجود الأخر وفي افق الغيرية ؟</p>
+<p class="para"><span class="t-red">والأخر من هو؟ هل</span> هو مجرد جسد ممتد تقصيه الانا من فضائها <span class="t-red">ام</span> هو الانا الأخر الذي يتراوح بين الصداقة تارة والعداوة طورا..؟</p>
+<p class="para"><span class="t-red">والانية هل</span> تختزل في الفكر وحده ليكون العقل جوهرها وماهيتها في <span class="t-red"><u>معزل</u></span> عن الجسد <span class="t-red">ام</span> هي ذات متجسدة . متصالحة مع جسدها الذاتي ومنخرطة في العالم <span class="t-red">والى</span> أي مدى يمكن المراهنة على استيعاب الذات في كليتها في ظل الراهن <span class="t-red">ألا</span> يكون تعقد تركيبة الانا وتعدد ابعادها حائلا دون ذلك ؟ وألا يكون حضور الأخر دوما مولدا من جهة التهديد ؟ ام أن الانية <span class="t-red">مشروع</span> تنحته الذات فرديا وتستشرف به افقا كونيا في آن <span class="t-red">؟</span></p>
+<p class="subhead t-red">الدرس 1 في الانية المتعالية / الانية بمعزل عن الغيرية :</p>
+<p class="subhead t-navy"><u>الانية ومركزية الذات / الانية كأنانة</u> <span class="t-red">(ديكارت - أفلاطون)</span></p>
+<p class="para">اذا كانت الانية مسارا تتشكل الذات حتى تتبين حقيقتها وتعي ذاتها فهي بذلك رهينة وعي الذات بذاتها <span class="t-blue">كأنا أفكر</span> او <span class="t-blue">كوجيتو</span> دون حاجة الى <span class="t-blue">غيرية الجسم</span>.</p>
+<p class="para">فالذات ترتد الى ذاتها في حركة <span class="t-blue">استبطانية / ضد ذاتية</span> لتتأمل ذاتها بذاتها في عزلة وانقطاع عن كل آخر وبمعزل عن أي <span class="t-blue">غيرية</span> وفي مسارها ذاك حيث تنثني الى ذاتها تتبين ماهيتها كفكر خالص . بل <span class="t-blue">كجوهر مفكر كل ماهيته تكمن في الفكر</span> . لتختزل حقيقة الانا في <span class="t-red">العقل</span> وحده جوهر الانا ويقينها وحقيقتها التي <span class="t-red">لا يعتريها شك</span> في المقابل يكون الجسد <span class="t-blue">آخر الفكر</span> او <span class="t-blue">غيرية عاطلة</span> لا تأثير لها على مسار الفكر وحركة الوعي وهو ما يؤكده قول <span class="t-red">ديكارت : ان الانا أي النفس التي انا بها ما انا متميزة عن الجسم</span> وقد ساهمت آلية الشك المنهجي بما هو حركة هدم بناءة سلطها ديكارت على كل مصادر المعرفة (موروثات - محسوسات - مرورا بالمخيلة وصولا الى العقل) في تقويض كل الاسس الواهية للمعرفة والمصادر المزعومة بحثا عن الاس الذي لا يزعزعه شك ، ليكون <span class="t-red">العقل</span> هو المصدر الاكثر رسوخا اذ صمد امام هجمات الشك المتكررة - بل لم يزده الشك الا ثباتا وليكون <span class="t-red">الكوجيتو</span> حقيقة حدسية راسخة لا يعتريها شك بل يزيدها يقينا بأن الانا <span class="t-red">ذات مفكرة</span> و<span class="t-red">جوهر فكري خالص</span> بذلك فقد مثلت تجربة الشك المنهجي تأكيدا لاهمية هذا المسار الترنسندنتالي الذي لا تحتاج فيه الانا الوسائط او <span class="t-red">الآخر</span> ليقصي <span class="t-red">الجسد</span> الامتداد والكتلة الفيزيولوجية العاطلة التي لا دور لها في مسار الانية باعتبار الذات <span class="t-red">مكتفية بذاتها</span> قادرة على تبين حقيقتها دون حاجة الى الغير ان هو الا <span class="t-red">غيرية عاطلة</span> وآخر الانا مبعد من دائرة <span class="t-red">الانانة وفلكها</span> .</p>
+<!-- PROOFREAD: 2331 part1 p03 — "سلطها" / "مرورا بالمخيلة" / "الترنسندنتالي" uncertain readings; "عن الجسم" added above line -->
+<p class="subhead t-red">اشكلة</p>
+<!-- PROOFREAD: 2331 part1 p04 — scratched red word before "اشكلة" illegible; page is a mind-map (circled "2") -->
+<div class="data"><p class="para"><span class="t-red">الأنا = الذات</span></p></div>
+<p class="para"><span class="t-blue">: اي تعريف للانسان / للذات وكيف تدرك الذات ذاتها ؟</span></p>
+<p class="para">واي حضور للآخر في هذا المسار ؟</p>
+<p class="para"><span class="t-blue">هل تعرف الانا ذاتها بذاتها في عزلة وانقطاع عن كل آخر ؟</span></p>
+<p class="para">هل يمثل العدو الذي يهدد الذات ويربكها بما يجعلها في صراع معه</p>
+<p class="para"><span class="t-blue">ام أن معرفة الذات تستوجب حضور الغير والاعتراف به ؟</span></p>
+<p class="para">أم هو ذاك الضروري الذي لا تعي الانا ذاتها ولا تتبين حقيقتها إلا به وعبره ؟</p>
+<p class="para"><span class="t-blue">والى مدى</span> (أو) <span class="t-blue">إلى اي حد</span> يمكن الاقرار بحاجتنا الى الآخر ؟ <span class="t-blue">على الاحاطة بالذات وتبين حقيقتها</span> ؟</p>
+<p class="para">(أو) <span class="t-blue">ما مدى وجاهة ما مشروعية</span> <span class="t-green">اقحام الآخر في مسار الانية ؟</span></p>
+<p class="para"><span class="t-gold">ألا يكون العدو الذي يربكها بما يستوجب الصراع معه ؟</span></p>
+<p class="subhead t-blue"><span class="t-blue">المحور 1</span> <span class="t-blue">الانية والغيرية</span></p>
+<p class="subhead t-navy"><span class="t-blue">الدرس 1</span> : <span class="t-green"><u>في الانية المتعالية : الانية بما هي أنانة</u></span></p>
+<p class="para"><span class="t-gold">تعريف</span> (المسار الذي تسلكه الذات لتتبين ذاتها وتكشف حقيقتها - تمشي / مسلك تنتهجه الانا)</p>
+<p class="para">⇓</p>
+<p class="para">مسار ضد ذاتي -</p>
+<p class="para"><span class="t-blue">حركة <u>استبطانية</u> ترتد فيها الذات الى ذاتها</span> / <span class="t-red">انثناء وتثني</span> / حركة عود على الذات حتى تكتشف حقيقتها وتعرف الى ذاتها ← <span class="t-gold">حركة تأملية محض</span> ← <span class="t-gold"><u>فالانية وما حاجتها الى الآخر</u> ؟</span></p>
+<p class="para">انثناء الذات وانطواءها على ذاتها / ارتدادها الى ذاتها</p>
+<p class="para"><span class="t-blue">الاشكالية</span> : أي حضور للغيرية / للآخر في هذا المسار</p>
+<p class="para"><span class="t-red">الترنسندنتالي</span></p>
+<p class="para"><span class="t-red">التعالوي</span></p>
+<p class="para"><span class="t-red">الاستبطاني</span></p>
+<p class="para"><span class="t-red">الضمنذاتي</span></p>
+<p class="para"><span class="t-red">المحض ذاتي</span></p>
+<!-- PROOFREAD: 2331 part1 p05 — bottom line "انثناء الذات وانطواءها على ذاتها / ارتدادها الى ذاتها" partly cut by page edge; mind-map with large question mark drawing -->
+<p class="subhead t-navy"><span class="t-blue"><u>I في الانية المتعالية</u> / <u>الانية بما هي انانة</u></span> : الانية بمعزل عن الغيرية <span class="t-blue"><span dir="ltr">Descartes + (Platon)</span></span></p>
+<p class="para">← <span class="t-red">الذات في حرصها على معرفة ذاتها وتبين حقيقتها كذات تحتاج الى</span> <span class="t-blue">الانقطاع عن كل آخر</span> ← الانثناء على الذات / العود الى الذات / الارتداد الى ذاتها</p>
+<p class="para">في حركة <span class="t-green">استبطانية محض / محض ذاتية</span> ⇐ <span class="t-green">ترتد بها الذات وتنثني وتتثنى على ذاتها</span></p>
+<p class="para"><span class="t-blue">في حركتها التأملية تعي ذاتها وتدرك حقيقتها</span> ↓ <span class="t-gold">كـكوجيتو / جوهر مفكر</span></p>
+<p class="para"><span class="t-blue">ليتوفى للذات معرفة بذاتها وتبينا <u>لجوهرها</u></span> = <span class="t-red">ماهيتها</span> → <span class="t-red"><span dir="ltr">L'essence</span></span> : ما يكون به الشيء <u>هو هو</u> = <span class="t-blue">الهوهو</span></p>
+<p class="para">↓ <span class="t-green">بمطرح سؤال <u>ما الانسان</u></span></p>
+<!-- PROOFREAD: 2331 part1 p06 — circled "3"; bottom line cut by page edge, unreadable; "ليتوفى" uncertain -->
+<p class="subhead t-red"><u><span dir="ltr">Descarts</span></u></p>
+<p class="para">[ أب الحداثة الذي استحدث السؤال عن الانسان وجدد الدعوة السقراطية ]</p>
+<p class="para"><span class="t-red"><span dir="ltr">Une Sagesse</span></span> حكمة ديكارت ↓ <span class="t-green">[ من الحكمة الا أثق فيمن خدعني ولو مرة واحدة في حياتي ]</span></p>
+<p class="para"><span class="t-green">[ غايتي أن يكون الانسان سيدا للطبيعة وسائسا لها ]</span></p>
+<p class="para"><span class="t-red">الغاية المزدوجة</span> <span class="t-green"><span dir="ltr">Double Objectif</span></span></p>
+<ul class="dash">
+<li><span class="t-blue">جوهر الانا أفكر</span> ⇓ <span class="t-blue">حقيقة الانا</span></li>
+<li><span class="t-blue">مصدر موثوق ثابت للمعرفة</span></li>
+</ul>
+<p class="para"><span class="t-blue"><span dir="ltr">L'Outil</span> الوسيلة</span></p>
+<p class="para"><span class="t-blue"><u><span dir="ltr">Le Doute Methodique</span></u></span></p>
+<p class="para"><span class="t-red">آلية منهجية وبناءة</span> ≠ <span class="t-red">الشك الريبي عقيم</span></p>
+<p class="para"><span class="t-red">{ شك منهجي / فلسفي / ارادي / مرحلي / جذري / مؤقت / كلي / تصاعدي }</span></p>
+<!-- PROOFREAD: 2331 part1 p07 — circled "5"; faded empty blue ellipse top-left; "ثابت" under "مصدر موثوق" uncertain; "Le Outil" with "Le" overwritten -->
+<p class="subhead t-navy"><span class="t-green">الفلسفي</span> ← <span class="t-red"><u>الشك</u></span> → <span class="t-green">الريبي</span></p>
+<table>
+<tr><th><span class="t-red">الشك المنهجي</span></th><th>≠</th><th><span class="t-red">الشك المذهبي</span></th></tr>
+<tr><td>ارادي - مرحلي تصاعدي - غائي جذري ↓ <span class="t-red"><span dir="ltr">Outil</span></span> ↓ آلية هدم بناءة ↓ اداة لبلوغ غاية يتوقف بادراكها ⇓ <span class="t-red">يتراوح بين جدلية الهدم والبناء</span></td><td></td><td>دائم - مطلق كلي ↓ <span class="t-red"><span dir="ltr">But en soi</span></span> ↓ غاية ذاته لاحد له الا تعليق الحكم ⇓ <span class="t-red">شك عقيم هدام .</span></td></tr>
+</table>
+<p class="para"><span class="t-blue">إعتمد ديكارت الشك آلية منهجية مميزة سحبها على</span> <span class="t-red"><u>كل</u> مصادر المعرفة</span> :</p>
+<ul class="dash">
+<li><span class="t-blue">الموروثات</span></li>
+<li><span class="t-blue">الحواس</span></li>
+<li><span class="t-blue">المخيلة</span></li>
+<li><span class="t-blue">العقل</span></li>
+</ul>
+<!-- CROP: 2331 1 8 0.01 0.57 0.53 1.00 2331_doute_stairs -->
+<figure class="fig"><img src="https://wael-philo.b-cdn.net/figs/2331/2331_doute_stairs.png" alt=""></figure>
+<p class="para">الموروثات / الطفولة تماما - خداعة - الحواس - لبس - المخيلة - العقل - فرضية الشيطان الماكر - الشك = تفكير والتفكير = علامة الوجود - <span class="t-blue">انا افكر ، انا موجود</span> - <span class="t-green">الكوجيتو</span> - النقطة الأرخميدية</p>
+<p class="para"><span class="t-green">تعريف</span> <span class="t-blue">الكوجيتو</span> <span class="t-blue"><span dir="ltr">Definition du</span></span> ↓ <span dir="ltr">Cogito</span> = الحقيقة الحدسية التي لا يعتريها شك بل تزيدها الشك وثوقا / <span class="t-red">متانة</span></p>
+<!-- PROOFREAD: 2331 part1 p08 — circled "6"; staircase diagram labels partly faded ("خداعة"، "الطفولة تماما"); "سحبها" uncertain -->
+<p class="para">⇐ افضت تجربة الشك الى تبني <span class="t-blue"><u>جوهرية الفكر واستقلاليته</u></span> = <span class="t-blue">اذا اختزلت حقيقة الانا في الفكر وحده</span></p>
+<p class="para"><span class="t-green">" إنني جوهر كل ماهيته تكمن في الفكر "</span></p>
+<p class="para">- محوريته واعتباره ماهية الانسان وحقيقته التي لا يعتريها شك بل تزيدها يقينا .</p>
+<p class="para"><span class="t-red">العقل = جوهر الانا</span> <span class="t-green">يقينها حقيقتها ماهيتها أساس إنيتها .</span></p>
+<p class="para"><span class="t-blue">↓</span> <span class="t-red">تمييز</span></p>
+<table>
+<tr><th><span class="t-red"><u>جوهر مفكر</u></span></th><th><span class="t-red"><u>جوهر ممتد</u></span> <span class="t-gold">(اعتراف بوجوده)</span></th></tr>
+<tr><td>{ العقل / الروح / الفكر / الذهن } ⇓ حقيقة الانا ويقينها بذاتها</td><td>- كتلة عضوية فيزيولوجية<br>- جسم عاطل <span class="t-red">(سمة العطالة)</span><br>- آلة ميكانيكية - يحركها الفكر</td></tr>
+</table>
+<p class="para"><span class="t-gold">الانا المكتفية بذاتها (لا) تحتاج في مسار انيتها ← غيرية عاطلة</span></p>
+<p class="para">≠ <span class="t-red"><u><span dir="ltr">Platon</span></u></span> <span class="t-blue">" الجسد قبر للنفس والفلسفة الحق تدرب على الموت أي على اماتة الجسد "</span></p>
+<p class="para"><span class="t-green">عائق - هامش - دون</span> - <span class="t-red">وضيع - مقذر</span> ...</p>
+<!-- PROOFREAD: 2331 part1 p09 — circled "7"; "(لا)" circled in orange note, uncertain; bottom line partly cut -->
+<p class="subhead t-navy"><u>تعريف الانا حسب ديكارت</u> :</p>
+<p class="para"><span class="t-green">حتى تتبين الانا ذاتها وتكتشف حقيقتها تقيم مسارا</span> <span class="t-red">استبطانيا أي حركة ضمنذاتية</span> <span class="t-green">تتم بين الانا وذاتها اذ تبدو / ما تنثني <u>على ذاتها</u> وتتثنى تتأمل الذات ذاتها بذاتها في عزلة عن كل آخر وبمنأى عن كل غيرية ليقتضي لها ارتدادها الى ذاتها تبينا لحقيقتها كذات</span> <span class="t-red">مفكرة</span> <span class="t-green">وكجوهر</span> <span class="t-red">عاقل متعال ولا حاجة له الى وسيط وهو ما يؤكده قول ديكارت : " انني جوهر كل ماهيته تكمن في <u>الفكر</u> . "</span> <span class="t-green">وقد ساهمت آلية الشك المنهجي في تبين حقيقة الانا أفكر اذ تقيم ما ينسحب هذا الشك الجذري التصاعدي والمؤقت على كل مصادر المعرفة ليطيح بكل ما يجد فيه أقل موضع للشك .</span> <span class="t-red">(موروثات - محسوسات - مخيلة ...)</span> <span class="t-green">بقدر ما يكشف العقل كأس لا يزعزعه شك بل يزيده يقينا بما</span> <span class="t-red">يجعله جوهر الانا فكرهو المصدر / الاساس والموثوق لكل يقين .</span></p>
+<p class="para">⇓ <span class="t-blue">الانا = الانانة</span> ↓ <span class="t-blue">الانا الواحدية (المتعالية) في حركتها</span> <span class="t-red">الترنسندنتالية</span> <span class="t-blue">تكتفي ذاتها <u>دون حاجة</u> الى الغيرية / الآخر</span></p>
+<!-- PROOFREAD: 2331 part1 p10 — page number circle top-left illegible; "تقيم ما ينسحب" / "فكرهو" uncertain readings -->
+<p class="subhead t-blue">حدود التصور العقلي .</p>
+<ul class="dash">
+<li>الثقة المفرطة في العقل لتختزل حقيقة الانا في الفكر وحده واعتبار أن العقل يستوفي حقيقة الانا ← <span class="t-blue">تكريس</span> <span class="t-gold">لدغمائية</span> <span class="t-red">التصور العقلي</span> بتغييبه للآخر ونفيه للغيرية .</li>
+<li><span class="t-gold">استبعاد الغيرية من مسار الانية واعتبار الأنا المفكرة أنا</span> <span class="t-red">متعالية</span> <span class="t-gold">عبر</span> <span class="t-blue">حركتها الترنسندنتالية</span> <span class="t-gold">يجعل منها</span> <span class="t-red">سجينة داخل فلك الانانة تحيك أوهاما حول ذاتها وتعمق قناعتها بأنها ماهية مفكرة بينما لا يعدو ذلك الا ان يكون أوهاما - طلقا دغمائية / تعنتا معه تكون الذات سجينة داخل <u>فلك الانانة</u> في عزلة وانقطاع عن كل آخر</span></li>
+<li>اقصاء الجسد كجوهر ممتد واعتباره <span class="t-red">" غيرية عاطلة " لا تأثير لها على مسار الفكر وعلى حركة وعي الانا بذاتها</span> ← (استنقاصا للجسد) قيمة وتجريده من فاعليته واستطاعاته</li>
+</ul>
+<p class="para">↓ <span class="t-blue">سبينوزا</span> <span class="t-red"><u><span dir="ltr">Spinoza</span></u></span> <span class="t-blue">«</span> <span class="t-red">لا احد والحق يقال قد بين ما <u>يستطيع</u> الجسد فعله</span> <span class="t-blue">»</span></p>
+<p class="para"><span class="t-gold"><u>برهان بالخلف</u> = جسد فاعل = فكر عاجز عن التفكير</span></p>
+<!-- PROOFREAD: 2331 part1 p11 — circled page number; faint/bled-through words at top beside title not transcribed; "طلقا" uncertain; text speckled -->
+<p class="subhead t-red"><u>الدرس 2</u> <u>الانية والحاجة الى الآخر</u> : <span class="t-red">من الانا الى آخر الانا</span></p>
+<p class="para"><span class="t-red">الجسد ← في مقابل اعتباره</span> <span class="t-green">غيرية عاطلة</span> <span class="t-red">تقصيها الانا أفكر من مسار ادراك ذاتها</span></p>
+<p class="para"><span class="t-blue">بنأى الجسد عن ان يكون مجرد غيرية عاطلة او</span> <span class="t-red">آخر الفكر</span> <span class="t-blue">مقصى من مسار الوعي ودائرة الانا أفكر</span> ≠ <span class="t-blue">بل</span></p>
+<p class="para"><span class="t-green"><u>الفينومينولوجيا</u></span> : <b>هوسرل</b> (مؤسسها) — مبدأها <span class="t-red"><u>قصدية الوعي</u></span> . <span class="t-red">" كل وعي هو وعي بشيء ما "</span></p>
+<p class="para"><span class="t-red"><u>عملية الادراك</u> : حركة حيوية قصدية لا تتم بمعزل عن الجسد</span></p>
+<p class="para">(ثلاثية الابعاد) <span class="t-red">وسيط</span></p>
+<p class="para">(ميرلوبونتي) « انه قوام وجودي وموطن ادراكي » + <span class="t-red"><u>اداة ادراك</u> - <u>نشاطة</u></span></p>
+<p class="para">العالم - <span class="t-red">الجسد</span> - العقل</p>
+<p class="para"><span class="t-blue">* يتحرر الجسد مع الفينومينولوجيا من كل الاطوار السالبة وللنواقص التحقيرية تلك التي تدينه حتى انه تقصيه</span></p>
+<!-- PROOFREAD: 2331 part1 p12 — three overlapping circles diagram (العالم / الجسد / العقل); "بنأى" / "نشاطة" uncertain; bottom-left green letters cut by edge -->
+<p class="para"><span class="t-red">تمييز حقيقي لا ننكر وجود الجسد الامتداد ولكن لنعترف بأن وجبة تمييز ميرلو بونتي الفينومينولوجي</span></p>
+<table>
+<tr><th><span class="t-red"><u>الجسد الموضوع</u></span></th><th>≠</th><th><span class="t-red"><u>الجسد الخاص</u></span></th></tr>
+<tr><td>↓ <span class="t-green">الجثة الكتلة - الامتداد الجسم الممتد</span> ↓ <span class="t-red">مشترك</span> ⇓ <span class="t-red">" جسدي كما في العالم لا كما هو بالنسبة الي . "</span> " لقد كان ملكي أكثر مما كان وجودي . " = <span class="t-red">(جسد ملكية)</span><br><span dir="ltr">J'ai un corps</span> " لي جسد " — <span class="t-gold"><span dir="ltr">Ich habe ...</span></span></td><td></td><td>↓ - جسم<br>- معيش تعيشه الذات بجره وعبره<br>- تعي العالم<br>- جسد مدرك<br>- جسد واع + <span class="t-red">ووعي متجسد .</span><br>- لا نغاير الانا<br>- لا نغاير فهما (بل) هو لصيق بها في وحدة صماء<br>« انه قوام وجودي وموطن ادراكي »<br><span class="t-red">" من جسدي يبدأ العالم "</span><br><span dir="ltr">Je suis mon corps</span> " انا جسدي " — <span class="t-gold"><span dir="ltr">Ich bin ...</span></span></td></tr>
+</table>
+<p class="para"><span class="t-red"><u><span dir="ltr">Maurice Merleau Ponty</span></u></span></p>
+<!-- PROOFREAD: 2331 part1 p13 — top red line partly hidden by spiral binding ("وجبة تمييز" uncertain); French/German phrases written sideways in margins; "بجره" / "لا نغاير فهما" uncertain -->
+<p class="subhead t-red">الانية والحاجة الى الآخر : <u>في الانية الأخر الجسد</u></p>
+<p class="subhead t-navy"><span class="t-red">تحرير</span> ( <span class="t-green">" ما يعجز عنه لساني يقوله جسدي "</span></p>
+<p class="para">اذا كنا نحن نحن ننخرط في العالم ونعيش فيه قبل أن نعي به ونتبين دلالته ومعانيه فإن تجربتنا في العالم تحدد وعينا به وإدراكنا له في خضم تقاطع بين <span class="t-green">جسدي والعالم</span> تقاطع تتحقق عبره التجربة لا الادراك <span class="t-green">لا كحركة تأملية بل كتجربة قصدية</span> حيوية لا تكون الا بحضور <u>الجسد</u> وفي هذا التقاطع يلتقي <span class="t-green">" جسدي الخاص "</span> والمدرك (الحميم) مع العالم فيحتضنه هذا الأخير حاملا لمقاصد الذات وتتشكل داخل هذا الانفتاح كل <span class="t-green">منظورية</span> يتولد عنها معنى العالم والذات في آن . فالوعي <span class="t-green">لا يستقيم</span> في غياب الجسد ولا يتحقق الا في <span class="t-green">العلاقة التفاعلية</span> ولا خلالها - اذ لا وجود للذات خارج العالم ولا عالما خارج تجربة الذات المدركة <span class="t-green">حيث</span> تنكشف معاني الوجود ودلالاته بتنوع المقاصد وزوايا النظر ولا تحققا لذلك الا <span class="t-red">بالجسد وعبر الجسد الخاص والحميم</span> هذه التجربة المعيشة والمميزة تتجاوز الذات بحثها عن وصل معرفي بينها والعالم <span class="t-green">نحو رابط وجودي</span> تكون فيه العالم <span class="t-green">أفقا</span> في خصوصته وضمن سياقاته الانطولوجية والتاريخية يحضر <span class="t-green">الجسد الواعي والوعي الملتحم</span> <u>كشاشة</u> بها تنفتح الذات على العالم وكوسيط رمزي بامتياز يؤسس <span class="t-green">لحركة وصل</span> وللتفاعل في أرقى اشكاله . <span class="t-green">انه احتفاء بالجسد الخاص</span> واحتفال بالوجود المتعين حيث يتحول الجسد من <span class="t-green">مجرد غيرية عاطلة</span> وآخر الفكر إلى <span class="t-green">" قوام وجود الذات وموطن ادراكها "</span> <span class="t-red">اذ من جسدي يبدأ العالم "</span> كما أكد ميرلو بونتي -</p>
+<p class="para">( لكن )</p>
+<p class="para"><span class="t-red">الخوف من أن</span></p>
+<ul class="dash">
+<li><span class="t-red">* - تكرس شكلا جديدا من أشكال المبالغة والتضخم الجسد لنسقع في " ديكتاتورية الجسد</span> (بدل ديكتاتورية الانانة)</li>
+<li><span class="t-red">* دنشوة بورنوغرافيا القيم بعد ما نشهده اليوم من توظيفات مشينة للجس</span></li>
+</ul>
+<!-- PROOFREAD: 2331 part1 p14 — left-edge words cut by page edge (e.g. "دلالته", "للجس"); "لنسقع" / "دنشوة" uncertain; "الكن" circled -->
+<p class="subhead t-red"><u>اهمية حضور الأخر بين الاعتراف والاقصاء</u> (2 cas)</p>
+<p class="para"><span dir="ltr">" L'enfer c'est les Autres "</span></p>
+<p class="para"><span class="t-red">(1)</span> <span class="t-red"><span dir="ltr">Sartre</span></span> : مؤسس الفلسفة <u>الوجودية</u> : <span class="t-red">(الحرية)</span></p>
+<p class="para"><span class="t-red">" اذا فقد الانسان <u>حريته</u> جرد من صميم انسانيته . "</span></p>
+<p class="para">الحرية كقيمة كونية هي لحمة لانسانية الانسان ⇓ الانسان <span class="t-red">مشروع</span> وجود <span dir="ltr">L'homme est un Projet</span></p>
+<p class="para">← انيتنا من صنع وابداع عصط ايدينا</p>
+<p class="para"><span class="t-red"><u>أي حضور للأخر ؟</u></span></p>
+<p class="para"><span class="t-red">الغير</span> هو <span class="t-red">الانا الأخر الذي ليس انا</span> = <span class="t-red">انه</span> <span class="t-red"><u>الضروري</u></span> <span class="t-red">لوجودي .</span> له اهمية الوجود / في مسار الانية .</p>
+<p class="para">مالم <span class="t-red">ستفرغ الانا انسانيتها</span> ⇓ " <b>يتحول الى جحيم</b> <span class="t-green">" اما انا او الأخر علي احتراسه منها "</span></p>
+<p class="para">+ <span class="t-red">اللمس - يسلب - يجرد - الحرية</span></p>
+<p class="para"><span class="t-red">نحت الكيان عبر البراكسيس : الممارسة الحرة</span></p>
+<!-- PROOFREAD: 2331 part1 p15 — yellow highlighter on the author's own handwriting; "عصط" scratched word; green line "اما انا او الأخر علي احتراسه منها" faint, uncertain -->
+<p class="subhead t-red"><u>الدرس</u> 3 <u>الانية والحاجة الى الأخر</u> من الانا الى الانا الأخر . <span class="t-red">(1) <span dir="ltr">cours</span></span></p>
+<p class="para"><span class="t-red">تمهيد : اذا كنا نحيا داخل فضاء علائقي تتقاطع فيه الذوات وتحتاج كل ذات الى الآخر فإن العلاقة البينذاتية تتراوح بين حدين متناقضين :</span></p>
+<p class="para">إما علاقة</p>
+<table>
+<tr><td><span class="t-red">+ الصداقة<br>+ التفاعل<br>+ تواصل</span></td><td><span class="t-red">+ العداوة<br>+ الصدام<br>+ اقصاء</span></td></tr>
+</table>
+<p class="para">المرجعيات : <span class="t-red">سارتر - هيقل - موران - دولوز</span></p>
+<p class="subhead t-red"><u>أهمية حضور الآخر وحاجة الانا إليه</u> (+) <span dir="ltr">(4 cours)</span></p>
+<table>
+<tr><th><span class="t-red"><u>جيل دولوز</u></span> <span class="t-blue"><span dir="ltr">Gilles Deleuze</span></span></th><th><span class="t-red"><u>ادغار موران</u></span> <span class="t-green"><span dir="ltr">Edgar Morin</span></span></th></tr>
+<tr><td><u>مؤسس فلسفة الاختلاف</u><br><span class="t-red">" الآخر بنية الحقل الادراكي "</span><br>انه هو الضامن لاثراء تجارب الانا واغنائها فهو يسمح للذات <span class="t-red">بولوج عوالم ممكنة</span> وخوض تجارب جديدة <span class="t-red">باحداثيات مكانية مختلفة</span><br>↓ (العالم الممكن ليس عالما وهميا او خياليا (بل) هو عالم غير موجود هنا والآن .)<br><span class="t-red">" الاختلاف لا يعاديني بل يثريني ؟ "</span></td><td><span class="t-red"><u>التفاعل الغيري</u></span><br>سواء كان الآخر &lt; صديقا او عدو / شبيها او مختلفا<br>وجب التفاعل معه<br>بالاحتكام الى ايتيقا الحب والصداقة والمسؤولية</td></tr>
+</table>
+<p class="subhead t-blue"><u>الانية والحاجة الى الأخر</u> : في حضور الآخر (كأنا آخر - غير)</p>
+<p class="para"><span class="t-red">" أكون كما يراني الآخرون " - <span dir="ltr">Sartre</span> -</span></p>
+<p class="para">اذا كنا نحيا داخل فضاء علائقي تتقاطع فيه الذوات ويشكل حضور الآخر فيه الاحراجات ما يحثنا على التساؤل عما اذا كان الآخر <span class="t-red">صديقا</span> نحبه <span class="t-red">أم</span> عدوا نخشاه ؟ <span class="t-red">فأي حضور للغير في مسار الانية ؟</span></p>
+<p class="para">اذا اعتبرنا أن الغير هو <span class="t-red">" الانا الأخر الذي ليس انا "</span> وهو ذاك الذي <span class="t-red">ليس انا ولست انا هو</span> فإن هذا المباين لي الذي يعيش داخل عالمه تماما كما احيا داخل عالمي <span class="t-red">" عالم منغلق علي "</span> بتعبير <span class="t-red">ميرلو بونتي</span> . فانه رغم ذلك <span class="t-red">" ضروري لوجودي "</span> كما أكد <u>سارتر</u> <span dir="ltr">Sartre</span> اذ لا تعي الذات ذاتها ولا تدرك حقيقتها الا بوجوده فلا ألج عالمي ولا أتبين ذاتي في العزلة والانقطاع عنه اذ لا يستقيم منطق <span class="t-red">الانانة</span> لما يكرسه لها اوهام ومغالطات بل ان المرور عبر الغير ضرورة لتبين حقيقة الذات الا ان <u>المفارقة</u> التي يشكلها حضوره أنه بقدر ما تقتلعني من عزلتي فإن " موضعته لي " وتحويلي الى " شيء " تجعلني أنظر الى ذاتي كما يراها الآخرون أي أراها من الخارج كما يراها هو <span class="t-red">فأكون كما يراني الآخرون "</span> هكذا يقول سارتر لتتحول العلاقة <span class="t-red">البينذاتية</span> الى <span class="t-red">علاقة سلب للحرية</span> وبالتالي للوعي والارادة بما من شأنه ان يباعد بين الانا والآخر بل تحوله من <span class="t-red">ضروري</span> الى <span class="t-red">" جحيم "</span> تكتوي الانا بسعيره فتفقدها نظرته وتحد من <span class="t-red">تلقائيته</span> ليحل <span class="t-red">" الخجل "</span> شعورا أخرى وانفعالا تحت وطأة حضور الآخر وتأثيره السالب فعل التشيئة هذا يكرس للصدام والصراع بديلا عن التفاعل حينها <span class="t-red">" فإما انا او الآخر علي ان اختار بينهما " (سارتر)</span> فيكون الآخر بحضوره مهددا الوجود الانا سالبا لحريتها باعتبارها <span class="t-red"><u>ماهيتها</u></span></p>
+<p class="para"><span class="t-blue">لكن هل لا يحمل الآخر الا على سبيل العدو المهدد ؟</span></p>
+<p class="para"><span class="t-blue">ألا يكون وجودها ضامنا لمعرفة أعمق ولتفاعل أكثر حيوية ؟</span></p>
+<p class="para"><span class="t-red">" الآخر مرآتي الارتدادية العاكسة " . هيقل .</span></p>
+<p class="para">في مقابل " الانانة " وما تشرع له من انغلاق للذات وانزواء لها بعيدا عن كل آخر وبمنأى عن أي غيرية فان <span class="t-blue">الوعي بالذات يستوجب الوعي بالآخر</span> كما أكد <span class="t-blue">هيقل</span> والانية لا تتشكل الا في أفق الغيرية إذ كل ذات ترى ذاتها في مرآة الآخر ومن <span class="t-red"><u>اعترافه</u></span> لها تستمد يقينها بذاتها في غياب كل <span class="t-red">مفاضلة أو استعلاء</span> بل في مسار جدلي وعبر حركة أفقية ، حركة اعتراف متبادل بالانية ، فالآخر بموضعته يجبر الانا على أن تواجهه في حركة جدلية قد تحتاج فيها الى انتزاع الاعتراف فالذات لا تثبت ذاتها الا في العالم الخارجي وفي تقاطعه مع الآخر فلكل ذات " وعي لذاته " يتحول الى وعي بالذات باعتراف الآخر به ذاتا ليكون <u>الصراع</u> الجدلي اساسا لحركة الوعي وهو ما يؤكد حاجة الانية الى الغيرية . فهذا الاعتراف المتبادل بالانية هو الضامن لوعي الانا بذاتها وتأكيد لضرورة وجود الغير في مسارها وهو ما تعكسه <span class="t-red">" جدلية العبد والسيد "</span> التي تمثل تأكيدا لاهمية <span class="t-red"><u>الغير</u></span> اذ لا تكتمل الانا ولا تدرك ذاتها او تعي حقيقتها الا وفق <span class="t-red"><u>منطق الاعتراف</u></span> .</p>
+<p class="para">هكذا تكون الانية " مشروع وجود " وكينونة لا تتحقق الا لحو نفاني بل هي من نحت كيانه على نحو كوني فالانية مشروع فردي لكنها ذات بعد كوني مادامت الحرية أرقى القيم الكونية وجوهر الانا وماهيتها التي انا فقدها تسلب صميم انسانيتها .</p>
+<!-- PROOFREAD: 2331 part1 p19 — right-hand ends of several lines cut by page edge (e.g. "يستوجب", "بالذات", "الوعي", "بالانية", "الغير", "منطق"); "لحو نفاني" illegible, best reading; "التي انا فقدها" uncertain -->
+<p class="subhead t-red"><u>الدرس 6</u> <u>في الغيرية كبعد للانية</u> : <span class="t-red"><u>فلاسفة الظنة وكاشفي الاقنعة</u></span></p>
+<p class="para"><span class="t-blue"><span dir="ltr">Les philosophes du Soupçon</span></span></p>
+<p class="para">ما كان ثانويا / هامشيا مضمونا منه صحبوه اوليا واساسيا .</p>
+<p class="para">↓ " قناع العقل الذي يتخفى وراءه " فلاسفة <u>الوعي</u> ↓ " محتقرو الجسد "</p>
+<p class="para"><span class="t-blue">← فلاسفة ما بعد الحداثة : تحطيم قلعة الانانة</span> { <span class="t-blue">الاطاحة بصرح العقل وكل ما انشأه</span> اهتزاز تبين الذات بذاتها كجوهر مفكر <span class="t-blue"><u>ككوجيتو</u></span> . }</p>
+<p class="para"><span class="t-red">← تبعا لهذا (ظهور فلسفة ما بعد الحداثة)</span></p>
+<p class="para"><span class="t-blue">لاوعي - جسد - تاريخ</span></p>
+<!-- PROOFREAD: 2331 part1 p20 — "صحبوه" uncertain -->
+<p class="subhead t-navy">فرويد <u>عالم</u> نفس - يقودنا الى <span class="t-blue">آخر</span> الوعي .</p>
+<p class="para">↓ <span class="t-blue"><u>اللاوعي</u></span> آخر معه الوعي - " قطرة في بحر اللاوعي "</p>
+<p class="para">فلاسفة الوعي يعتبرونه ← آخر باطن { كامن فينا ثاوي داخلنا }</p>
+<p class="para"><span class="t-red">لم يكن المشروع الفلسفي قادرا على الاعتراف به وهو ما جعله آخر مجهول / منقص</span></p>
+<p class="para"><span class="t-green">" الوعي لم يعد سيدا حتى في <u>بيته</u> "</span></p>
+<table>
+<tr><td><u>الوعي</u> : جملة العمليات الذهنية الصادرة عن الفكر والتي بها تتعرف الانا الى ذاتها وتدرك</td><td>≠</td><td><span class="t-blue">اللاوعي : جملة العمليات النفسية والعصبية الصادرة عن الجسد والتي تفلت</span></td></tr>
+</table>
+<!-- PROOFREAD: 2331 part1 p21 — last lines cut by page bottom edge; "منقص" uncertain -->
+<p class="para">ان فرضية اللاوعي / اللاشعور فرضية لازمة ومشروعة</p>
+<p class="para">↓ ضرورية - لسد كل ثغرات الوعي - للتمييز بين الفكر + النفسي الواعي + النفسي</p>
+<p class="para">لها مبرراتها <span dir="ltr">legitime</span> + مقبولة من الجميع</p>
+<p class="para"><span class="t-green">التمظهرات</span> :</p>
+<ul class="dash">
+<li><u>الاحلام</u> : <span class="t-red"><u>الطريق الملكي للاوعي</u> . الحلم تأشيرة نحصل عليها اضطرابنا</span></li>
+<li>(الهفوات و الزلات) اخطاء القراءة والكتابة ليست عفوية / مجانية / اعتباطية</li>
+<li><u>الاعلاء او التصعيد</u> : <span class="t-blue">تحويل الرغبة من بعدها الجنسي الى بعد ثقافي / فني / رياضي ..</span></li>
+</ul>
+<!-- CROP: 2331 1 22 0.65 0.31 0.85 0.51 2331_paper -->
+<figure class="fig"><img src="https://wael-philo.b-cdn.net/figs/2331/2331_paper.png" alt=""></figure>
+<!-- PROOFREAD: 2331 part1 p22 — "تأشيرة نحصل عليها اضطرابنا" uncertain reading -->
+<table>
+<tr><th><u>الهفوات والزلات</u></th><th><u>الاحلام</u></th><th><u>التصعيد / الاعلاء</u></th></tr>
+<tr><td>ليست اعتباطية او عفوية بل تقود الى اللاوعي أي الى عمق حياتنا النفسية<br><span class="t-red">زلات اللسان<br>زلات القراءة<br>الكتابة<br><span dir="ltr">Des Lapsus Revelateurs</span></span></td><td>الطريق الملكي للاوعي<br>↓ الحلم شاشة نعرض عليها جميع اضطراباتنا<br>↓ الأحلام متنفس اللاوعي اذ يغيب الوعي والرقابة ويحقق اللاوعي اشباعه عبر الحلم .</td><td>- طريقة مقنعة لتحقيق الاشباع دون الدخول في صدام مع الانا الاعلى<br>- تحويل وجهة الرغبة واعلاءها من بعدها الجنسي الى بعد ثقافي - فن / موسيقى / رسم / رقص / رياضة / ادب ..<br>⇓ لا يجد المبدع فقط اشباعه بل كل فئات المجتمع تجد اشباعها بطريقة غير مباشرة .</td></tr>
+</table>
+<p class="para"><span class="t-green">تجليات / تمظهرات</span></p>
+<!-- PROOFREAD: 2331 part1 p23 — circled "6"; bottom faded line (black and green) cut/illegible, not transcribed -->
+<p class="para"><span class="t-blue">فرويد العالم - تقيد <u>بالعلوم الصحيحة</u> - يؤسس تصور علمي للانسان</span></p>
+<p class="para">(مقاربة <u>علمية</u>) ↓ أن <u>فرضية</u> اللاشعور فرضية لازمة مشروعة .</p>
+<p class="para">↓ <span dir="ltr">Indispensable</span> (ضرورية) - لسد كل ثغرات الوعي - للتمييز بين النفسي والواعي</p>
+<p class="para"><u><span dir="ltr">legitime</span></u> <span class="t-red">(مشروعة) لأنها مقبولة من الجميع أي لها مبرراتها التي تؤكد وجودها كحقيقة علمية راسخة لا يعتريها شك .</span></p>
+<ol class="qn">
+<li><u>الهفوات والزلات</u> - اخطاء القراءة او الكتابة وهي ليست عفوية او مجانية</li>
+<li><u>الاحلام</u> ، الطريق الملكي للامساك باللاوعي د شاشة نعرض عليها جميع اضطراباتنا</li>
+<li><u>التصعيد او الاعلاء</u> تحويل الرغبة من بعدها الجنسي الى ابعاد ومظاهر ثقافية ← طريقة مقنعة للاشباع - ريادة حيله دبلوماسية</li>
+</ol>
+<!-- PROOFREAD: 2331 part1 p24 — bottom lines cut by page edge; "ريادة حيله دبلوماسية" uncertain; small drawing of paper top-right -->
+<p class="subhead t-blue"><u>فرويد <span dir="ltr">Freud</span></u></p>
+<p class="para"><span class="t-blue">حتى يؤسس لتصور جديد للانسان ويرسم له صورة خارج حدود الوعي اعترف فرويد بوجود <u>جهاز نفسي</u> أي</span> <span class="t-gold">بنية نفسية معقدة ومركبة</span> <span class="t-blue">داخل كل</span> <span class="t-gold">فرد في صراع دائم بين هيئاتها .</span> <span class="t-blue">هذا الصراع السيكولوجي هو اساس الحياة النفسية .</span></p>
+<!-- CROP: 2331 1 25 0.43 0.08 0.98 0.98 2331_appareil_psychique -->
+<figure class="fig"><img src="https://wael-philo.b-cdn.net/figs/2331/2331_appareil_psychique.png" alt=""></figure>
+<p class="para"><u>الجهاز النفسي</u> :</p>
+<ul class="dash">
+<li><span class="t-red">(الضمير)</span> <span class="t-blue">الانا الاعلى <span dir="ltr">Le Sur Moi</span></span> — <span class="t-red">هيئة تنشأ تحت تأثير الوسط (مجتمع ، دين ، قوانين)</span> — قوة ← آخر ايتيقي</li>
+<li><span class="t-blue"><u>الجزء الواعي</u></span> : الانا — <span class="t-blue">المسكين</span></li>
+<li><span class="t-blue">الهو <span dir="ltr">Le Ça</span></span> — غرائز / رغبات / مطالب جسدية + جنسية — <span class="t-red">الخزان الكبير للطاقة = اللبيدو</span> — قوة ← آخر ايروسي — المشاكس</li>
+</ul>
+<p class="para">الرياء الديبلوماسي / الحيل الديبلوماسية : الهفوات - الاحلام - الاعلاء او التصعيد</p>
+<!-- SOURCE: المعهد النموذجي بيرم الخامس المنزه8 — watermark: Mme Rouis Rym -->
+<!-- NOTE: 2331 part1 p26 — yellow highlighter marks over printed text left out -->
+<p class="subhead t-navy">الانية و الغيرية : <span class="t-green">فلاسفة الظنة و كاشفي الاقنعة</span> / <span class="t-red">فلاسفة الرجة</span></p>
+<table>
+<tr><th>الموقف الماركسي</th><th>الموقف النيتشوي</th><th>الموقف الفرويدي</th></tr>
+<tr>
+<td><span class="t-red"><u>"ليس وعي الناس هو الذي يحدد كينونتهم الاجتماعية بل كينونتهم الاجتماعية هي التي تحدد وعيهم"</u></span><br><br><span class="t-blue">يتشكل الوعي</span> داخل <span class="t-blue">الاطار الاجتماعي والواقع الاقتصادي</span> والمادي الذي يفرزه ليتبين من ذلك أبعاد الوعي في علاقات العمل بما يجعله <span class="t-blue">وعيا طبقيا</span> توجهه اهداف وغايات براغماتية تخدم صنّاع القرار او البورجوازيون<br>يميز كارل ماركس بين البنية الفوقية والبنية التحتية معتبرا ان تشكل الوعي داخل الاطر الاجتماعية يجعله <span class="t-red">وعيا تاريخيا</span> متطورا بتطور وسائل الانتاج.<br><span class="t-blue">الانية</span> تتحدّد بوعي الفرد بالانتماء الطبقي إلى البروليتاريا تاريخيا و هي لا تتحقّق إلا <span class="t-green">بصراع جدلي مادي مع الاخر الطبقي البرجوازي</span> تتحول فيه من وعي شقي و مغترب إلى وعي حقيقي بالوضع الطبقي .<br>يؤكد ماركس على <span class="t-blue">اسبقية</span> الواقع الموضوعي في ابعاده الاقتصادية والاجتماعية على الفكر.<br><span class="t-blue">انية البروليتاريا</span> تتحدد من خلال <span class="t-blue">صراعها</span> مع <span class="t-blue">الاخرالبورجوازي</span> المختلف عنها اقتصاديا و اجتماعيا وهو <span class="t-blue">صراع مادي جدلي</span> يقوم على النفي و التجاوز بتحول البروليتاريا من وعي شقي و مغترب وخاضع للبرجوازية إلى وعي حقيقي بالذات كمالك حقيقي لوسائل الانتاج و متحررمن قيم البرجوازية<br><br><span class="t-red">" الوعي نتاج إجتماعي وسيضل كذلك طالما وجد بشر"</span></td>
+<td><span class="t-red"><u>"العقل صنم وآن الأوان لأفول الأصنام"</u></span><br><br><span class="t-blue">اهتزاز الثقة</span> <span class="t-red">في العقل</span> بما هو منتج للاوهام والاعلان عن ميلاد الجسد الذي غدا <span class="t-green">"العقل العظيم"</span> والذي اتخذ من <span class="t-green">العقل الصغير "اداة والعوبة بيد الجسد"</span><br>هذا الجسد الذي عايش كل اشكال الادانة والتحقير والذي هو مصدر الحيوية واساس الحياة<br><span class="t-red"><u>"لا يقول انا بل يكون انا من خلال الفعل"</u></span><br><br>ارباك فلسفات <span class="t-red">الوعي</span> وكل تصور لم يعترف بالجسد و بأهميته <u>بل</u> باطلاقيته و الدعوة إلى <b><u>مراجعة معاني الوجود الإنساني</u></b> و <b>قلب القيم</b> بتأسيس قيم <b><u>"إرادة القوة" /ارادة الاقتدار(الانسان الارقى)</u></b><br><br><span class="t-blue">الانية</span> كما صورتها فلسفات الوعي الطوباوية أو من يقدّمهم نيتشه "بمحتقري الجسد" ليست سوى "وهم" من انتاج العقل هذه التصورات لا تقدّم سوى حقيقة الانسان في الواقع و لا تراعي حيوية <span class="t-blue">الجسد</span> لكن في المقابل تقدم صورة مثالية و متعالية عن الانسان ذاته ولذلك وجب الاعلان عن صورة جديدة للانسان تختزله في الرغبة بما هو "الإنسان الأرقى"<br><span class="t-red"><u>" اناجسد انا عالم او اني باسري جسد ولا شيء سوى جسد"</u></span><br><span class="t-red"><u>لي كلمة اقولها لمحتقري الجسد ان</u></span> <span class="t-green"><u>هوكم</u></span> <span class="t-red"><u>يتوق الى الانحدار</u></span></td>
+<td><span class="t-red"><u>"ليس الوعي ماهية الحياة النفسية بل صفة من صفاتها وهي صفة غير ثابتة غيابها اكثر بكثير من حضورها"</u></span><br><br><span class="t-blue">تصور علمي يرسم صورة جديدة للانسان بالسير على نفس المسار الابستمولوجي للعلوم التجريبية</span> <span class="t-green"><u>بوضع فرضية اللاشعور</u></span> <span class="t-blue">وتاكيد "لزومها ومشروعيتها"</span><br><b>تؤكد تمظهرات اللاوعي وجوده كحقيقة علمية راسخة لا يمكن مجددا نفيها او التشكيك فيها.</b><br>رسم فرويد <b><u>بنية الجهاز النفسي</u></b> ليكون(الانا/انا الاعلى /الهو )<br><span class="t-blue">إثبات الانية</span> بنجاح الانا في صراعها النفسي مع قوى الكبت<br>تتعرف <span class="t-blue">الانا</span> إلى ذاتها من خلال موقعها بين مؤسسات الجهاز النفسي وعبر مهمتها التوفيقية لتكتشف منها انيتها فيما يميّزها من ردود أفعال نفسية وقدرة على التوفيق بين المطالب المتناقضة <span class="t-green"><u>للهو كاخر ايروسي والانا الاعلى كاخر ايتيقي</u></span><br><span class="t-blue">الانية</span> تتحقّق بالنجاح في السيطرة على قوى الكبت باعتماد <span class="t-green">حيل دبلوماسية ناجحة</span> كالحلم و الهفوات ثم الإعلاء في أشكاله الثقافية المتنوعة.<br><br><span class="t-blue">الوعي بحقيقة الاخر النفسي</span> داخلنا / الاخر<br>*الوعي بالكبت و علاقات الصراع و حاجتنا إلى غيرية الاخر لتتعرف الانا منها إلى قدراتها<br>* أن اللاوعي كآخر أو الوعي ليس غياب الوعي بل هو فاعل داخلي لا يخضع إلا إلى قوانينه وحدها و هو أساس الحياة النفسية</td>
+</tr>
+</table>
+<!-- PROOFREAD: 2331 part1 p26 — large "Mme Rouis Rym" watermark overlaps text; "باسري" / "هوكم" as printed -->
+<p class="subhead t-red"><u>الانية والصراع مع الأخر</u> : (حوصلة)</p>
+<table>
+<tr><th><span class="t-red"><u><span dir="ltr">SARTRE</span></u></span></th><th><span class="t-red"><u><span dir="ltr">Hegel</span></u></span></th><th><span class="t-red"><u><span dir="ltr">MARX</span></u></span></th><th><span class="t-red"><u><span dir="ltr">Freud</span></u></span></th></tr>
+<tr>
+<td>الوجودية = الحرية كأرقى واجل القيم لا يتنازل الانسان عن حريته دون أن يفقد انسانيته .<br><span class="t-red"><u>الآخر ضروري</u> اذ في ظل الفضاء العلائقي = علاقة بينذاتية</span><br>(لكن) انا سلب الأخر <u>حريته</u> الانا بالتشيئة / الموضعة يتحول من ضروري الى جحيم<br>: الآخرون هم الجحيم ، <span dir="ltr">Exp</span> تجربة الخجل</td>
+<td><u>الوعي بالذات</u> (يستوجب) <u>الوعي بالآخر</u><br><span class="t-red">الآخر مرآتي الارتدادية العاكسة</span><br>كل ذات تحتاج الى <u>الاعتراف</u> علاقة بين حدين متكافئين<br>(لكن) جدلية العبد والسيد ..<br>انتزاع الاعتراف = <span class="t-red">(تشيئة اماتة)</span><br><span class="t-red">(الحل) اعتراف متبادل بالانية</span> في اطار علاقة افقية</td>
+<td><span class="t-red">صراع جدلي مادي تاريخي .</span><br><u>الوعي نتاج اجتماعي</u><br>تتشكل الوعي كوعي طبقي تاريخي داخل الواقع الاجتماعي .<br><span class="t-red"><u>البروليتاريا</u></span> : طبقة العمال<br>≠ <span class="t-red"><u>البورجوازية</u></span> : أصحاب رؤوس الاموال<br>← دعوة الى الثورة</td>
+<td>صراع نفسي بين الوعي واللاوعي ↓ الجهاز النفسي</td>
+</tr>
+</table>
+<!-- PROOFREAD: 2331 part1 p27 — bottom lines cut by page edge; "في اطار علاقة افقية" partly cut -->
+<p class="subhead t-red">(حوصلة)</p>
+<table>
+<tr><th><u>الانية المتعالية</u></th><th><u>الانية المتصالحة مع جسدها</u></th><th><u>الانية في صراع مع آخر</u></th><th><u>الانية والبينذاتية</u></th></tr>
+<tr>
+<td><u><span dir="ltr">Descartes</span></u><br>" الانا أفكر " جوهر مفكر عاقل<br><span class="t-red">" أنانة "</span><br>تعي ذاتها وتمثل ذاتها بذاتها في حركتها <span class="t-red">الاستبطانية الضمنذاتية</span><br>↓ تبين حقيقة الذات وماهيتها <span class="t-red">كجوهر مفكر / فكر عاقل</span><br>≠ <u>الآخر</u> : (جسد) غيرية عاطلة ↓ - امتداد - عضوية جوهر ممتد<br>الانية بمعزل عن الغيرية</td>
+<td><u><span dir="ltr">Spinoza</span></u> + <span dir="ltr">Merleau Ponty</span><br><span class="t-red">المصالحة ووحدة الفكر + الجسد</span><br>" النفس والجسد شيء واحد "<br>- <u>الوعي القصدي</u><br>له وعي متجسد = جسد له الوعي<br>↓ تغادر الانا قلعة انانتها وتخرج من عزلتها لتنخرط في العالم عبر الجسد <span class="t-red">الخاص المعيش الحميم</span><br><span class="t-red">الجسد الواعي والوعي المتجسد</span><br><span class="t-red">مصالحة الانية والغيرية</span></td>
+<td><span class="t-red"><u>هيقل</u> : غياب الاعتراف والانعدام في ظل علاقة مفاضلة : الصراع</span><br><span class="t-red">الأخر هو الجحيم "</span><br>(سارتر) الموضعة / التشيئة التقزيم = سلبه الحرية وسلبيا - يتحول الأخر جحيما<br><span class="t-red">اكون كما يراني الآخرون</span><br>- الآخر تحكم يتملكني موضوعه<br>وجب الصراع معه من اجل انتزاع (سارتر) - <u>الحرية</u> - <u>الاعتراف</u> (هيقل)<br>⇓ <span class="t-red">الانية مشروع وكل مشروع فهو ذو بعد كوني / صبغة كونية</span></td>
+<td>(هيقل) <span class="t-red">الآخر مرآتي الارتدادية العاكسة</span><br><span class="t-green">الاعتراف</span><br>(سارتر) <span class="t-red">" الآخر ضروري لوجودي "</span><br>(موران <span dir="ltr">Morin</span>) <span class="t-red">أهمية التفاعل الغيري مع آخر صديقا كان أو عدوا ايتيقا الحب والصداقة</span><br>(دولوز) <span class="t-green">الاختلاف لا يعاديني بل يثريني :</span> <span class="t-red"><u>الآخر بنية الحقل الادراكي</u></span></td>
+</tr>
+</table>
+<p class="para"><span class="t-green">(<span dir="ltr">Recapitulatif</span>)</span></p>
+<!-- PROOFREAD: 2331 part1 p28 — several readings uncertain ("والانعدام", "التقزيم", "تحكم يتملكني موضوعه") -->
+
+
+</section>
+
+</div>
+</body>
+</html>

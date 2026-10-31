@@ -1,0 +1,405 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<title>Wael Academy — Philosophie · الدولة ١</title>
+<script>
+  window.MathJax = {
+    tex: { inlineMath: [['\\(','\\)']], displayMath: [['\\[','\\]']] },
+    chtml: { fontURL: 'https://cdn.jsdelivr.net/npm/mathjax@3/es5/output/chtml/fonts/woff-v2', matchFontHeight: true },
+    startup: { typeset: true }
+  };
+</script>
+<script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js" async></script>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Sora:wght@400;500;600;700;800&family=Cairo:wght@400;500;600;700;800;900&family=Tajawal:wght@400;500;700;800&family=JetBrains+Mono:wght@400;500;600;700&display=swap');
+:root{
+  /* ===== Wael Academy palette — MAIN ACCENT = green-teal gradient #0FAB8F → #067360 ===== */
+  --bg:#fff; --panel:#f2f8f8; --hair:#e6e6e9; --hair2:#d6d6db;
+  --fg:#0f2a31;        /* body text (and +/− signs) */
+  --fg2:#3f5b62;       /* softer text */
+  --fg3:#7c959b;       /* muted (footer) */
+  --blue:#067360;      /* deep accent — small numbers, borders, watermark, accent equations */
+  --blue-dark:#045260; /* titles & wordmarks (also the balance colour) */
+  --teal:#0fab8f;      /* bright accent end */
+  --loop:#0d9c82;      /* logo-loop helper */
+  --orange:#067360;    /* kicker/category labels (gold retired → deep teal) */
+  --red:#f5322f;       /* EXERCISE CHIPS ONLY — never for emphasis */
+  --cream:#e6f3f4; --blue-soft:#e6f3f4;  /* pale teal — callout fill + table sub-row fill */
+  --blue-line:#cde7e4; /* hairline */
+  --sub-ink:#045260;   /* table sub-row text */
+  --grad:linear-gradient(148deg,#0fab8f 0%,#0d9c82 52%,#067360 100%);
+  --mono:'JetBrains Mono',monospace; --latin:'Sora',sans-serif; --ar:'Cairo',sans-serif; --arb:'Tajawal',sans-serif;
+}
+*{box-sizing:border-box;margin:0;padding:0;}
+body{font-family:var(--latin);color:var(--fg);background:#e4e4e7;padding:28px 0;
+     -webkit-print-color-adjust:exact;print-color-adjust:exact;}
+html[dir="rtl"] body{font-family:var(--arb);}
+
+/* ===== brand watermark: REAL text (crisp), full-bleed, repeats per page ===== */
+.wm{position:fixed;inset:0;z-index:0;pointer-events:none;display:flex;
+    align-items:center;justify-content:center;overflow:hidden;
+    -webkit-print-color-adjust:exact;print-color-adjust:exact;}
+.wm span{font-family:var(--mono);font-weight:800;font-size:76.8pt;letter-spacing:.16em;
+    color:var(--blue);opacity:.06;white-space:nowrap;transform:rotate(-54deg);}  /* single diagonal: bottom-left → top-right */
+.wm.mono span{color:#000;opacity:.05;}
+
+/* ===== continuous flow stream (no page border) ===== */
+.flow{width:210mm;margin:0 auto;background:transparent;color:var(--fg);
+      padding-block:16mm 18mm;padding-inline:23mm 14mm;position:relative;}   /* spiral gutter: inline-start(=spine) 23mm / outer 14mm — dir-aware; print margins set in render_flow.py */
+@media screen{ .flow{background:#fff;box-shadow:0 10px 40px rgba(0,0,0,.16);} }
+.flow>*{position:relative;z-index:1;}
+.flow p,.flow li,.flow .data,.flow .note,.flow .ex{break-inside:auto;}
+.flow .fig,.flow figure,.flow img,.flow svg.figsvg,.flow table,.flow tr,.flow .chapdiv,.flow .exh,.flow .qrcard,.flow .meta{break-inside:avoid;}
+.flow h1,.flow h2,.flow h3,.flow .exh,.flow .subhead,.flow .chapdiv{break-after:avoid;}
+.flow img,.flow svg.figsvg{max-width:100%;height:auto;}
+.flow figcaption,.flow .figcap{display:none;}          /* rule 3: no figure captions */
+
+/* ===== front matter + chapters each start on a fresh page ===== */
+.flow .cover{break-after:page;}        /* cover alone on page 1 */
+.flow .toc{break-after:page;}          /* Sommaire alone on the next page */
+.flow .chapter{break-before:page;}
+.flow .chapter:first-of-type{break-before:auto;}
+
+/* ===== cover ===== */
+.cover{padding:14mm 0 8mm;border-bottom:2px solid var(--blue);margin-bottom:6mm;}
+.cover .badge{font-family:var(--mono);font-size:8.5pt;letter-spacing:.28em;text-transform:uppercase;color:var(--orange);margin-bottom:10px;}
+.cover h1{font-family:var(--latin);font-weight:800;font-size:34pt;line-height:1.03;letter-spacing:-.025em;color:var(--blue-dark);}
+.cover .grule{width:120px;height:5px;border-radius:5px;background:var(--grad);margin:14px 0;}
+.cover .sub{font-family:var(--mono);font-size:10pt;letter-spacing:.14em;text-transform:uppercase;color:var(--teal);}
+.cover .auth{font-size:11pt;color:var(--fg2);margin-top:6px;font-weight:600;}
+
+/* ===== table of contents ===== */
+.toc{margin:2mm 0 4mm;}
+.toc h2{font-family:var(--latin);font-weight:800;font-size:15pt;color:var(--blue-dark);margin-bottom:4mm;}
+.toc .trititle{font-family:var(--mono);font-size:8pt;letter-spacing:.2em;text-transform:uppercase;color:var(--orange);margin:4mm 0 2mm;}
+.toc ol{list-style:none;}
+.toc li{display:flex;align-items:baseline;gap:8px;font-size:10pt;padding:2.2px 0;color:var(--fg);line-height:1.4;}
+.toc li .n{font-family:var(--mono);font-weight:700;font-size:9pt;color:var(--blue);min-width:26px;}
+.toc li .dots{flex:1;border-bottom:1px dotted var(--hair2);transform:translateY(-3px);}
+
+/* ===== chapter divider band ===== */
+.chapdiv{margin:0 0 5mm;padding:6mm 16px 5mm;border-radius:12px;background:var(--grad);
+    -webkit-print-color-adjust:exact;print-color-adjust:exact;}   /* green-filled chapter band */
+.chapdiv .cn{font-family:var(--mono);font-size:8.5pt;font-weight:700;letter-spacing:.24em;text-transform:uppercase;color:rgba(255,255,255,.82);margin-bottom:5px;}
+.chapdiv h2{font-family:var(--latin);font-weight:800;font-size:17pt;line-height:1.1;letter-spacing:-.015em;color:#fff;}
+/* conclusion block — same green-filled look as the chapter band */
+.conclusion{background:var(--grad);border-radius:12px;padding:6mm 16px;margin:5mm 0;color:#fff;break-inside:avoid;
+    -webkit-print-color-adjust:exact;print-color-adjust:exact;}
+.conclusion .ck{font-family:var(--mono);font-size:8.5pt;font-weight:700;letter-spacing:.24em;text-transform:uppercase;color:rgba(255,255,255,.82);margin-bottom:6px;}
+.conclusion h3{font-family:var(--latin);font-weight:800;font-size:13pt;line-height:1.2;color:#fff;margin-bottom:4px;}
+.conclusion p,.conclusion li{font-size:10.4pt;line-height:1.7;color:#fff;}
+.conclusion b,.conclusion strong{color:#fff;font-weight:700;}
+
+/* ===== unit header (lesson/exercise) + QR emplacement ===== */
+.exh{display:flex;align-items:center;gap:11px;margin:6mm 0 3mm;}
+.exh .idx{font-family:var(--mono);font-size:9pt;font-weight:600;color:#fff;background:var(--grad);
+    border-radius:6px;padding:4px 11px;letter-spacing:.08em;text-transform:uppercase;
+    -webkit-print-color-adjust:exact;print-color-adjust:exact;}
+.exh .idx.ex{background:var(--red);}   /* exercise chip = red */
+.exh h2{font-family:var(--latin);font-size:14pt;font-weight:700;letter-spacing:-.01em;color:var(--blue-dark);}
+.exh .qrcard{margin-inline-start:auto;flex:0 0 auto;display:flex;flex-direction:column;align-items:center;gap:3px;width:26mm;}
+.qrcard .qrt{font-family:var(--mono);font-size:6.5pt;letter-spacing:.1em;text-transform:uppercase;color:var(--teal);text-align:center;}
+.qrcard .qrslot{width:24mm;height:24mm;padding:1.5mm;background:#fff;border:1px solid var(--blue-line);border-radius:8px;display:flex;align-items:center;justify-content:center;}
+.qrcard .qrslot img,.qrcard .qrslot svg{width:100%;height:100%;display:block;}
+
+/* sub-exercise label when one file holds several exercices */
+.exsub{font-family:var(--latin);font-weight:800;font-size:11.5pt;color:var(--blue-dark);margin:5mm 0 2.5mm;padding-bottom:3px;border-bottom:2px solid var(--blue-line);}
+
+/* ===== text blocks ===== */
+.lead{font-size:11pt;line-height:1.7;margin:2mm 0 3mm;color:var(--fg);}
+.para{font-size:10.6pt;line-height:1.7;margin:2mm 0 2.5mm;color:var(--fg);}
+.consigne{font-size:10.4pt;line-height:1.6;margin:1mm 0 2mm;color:var(--fg);font-style:italic;}
+.subhead{font-family:var(--latin);font-weight:800;font-size:12pt;letter-spacing:-.01em;color:var(--blue-dark);margin:5mm 0 2.5mm;}
+/* emphasis — green accent = .t-blue/.t-green ; balance = .t-navy ; red = SECONDARY accent (.t-red) on titles + a few words */
+.t-blue{color:var(--blue);font-weight:600;} .t-navy{color:var(--blue-dark);font-weight:700;}
+.t-red{color:var(--red);font-weight:600;} .t-green{color:var(--teal);font-weight:600;} .t-gold{color:var(--orange);font-weight:600;}
+.subhead.t-red{color:var(--red);font-weight:800;}   /* red Roman-numeral section title (I, II, …) — keeps subhead weight */
+/* highlighter marks — a soft colour wash behind a key word (agent picks green or red per what balances the page) */
+.hl-green,.hl-red{border-radius:3px;padding:.02em .24em;font-weight:600;box-decoration-break:clone;-webkit-box-decoration-break:clone;
+    -webkit-print-color-adjust:exact;print-color-adjust:exact;}
+.hl-green{background:rgba(15,171,143,.20);color:var(--blue-dark);}   /* green highlight */
+.hl-red{background:rgba(245,50,47,.13);color:#c0261f;}               /* red highlight  */
+
+.data{background:var(--blue-soft);border:1px solid var(--blue-line);border-inline-start:4px solid var(--blue);
+    border-radius:8px;padding:11px 16px;margin:3mm 0;font-size:10pt;line-height:1.65;color:var(--fg2);}
+.data b{color:var(--fg);font-weight:700;}
+.note{border:1px dashed var(--hair2);border-radius:9px;padding:11px 16px;margin:4mm 0;background:var(--panel);}
+.note .kicker{font-family:var(--mono);font-size:7.5pt;letter-spacing:.18em;color:var(--orange);display:block;margin-bottom:5px;}
+.note .nb{font-size:10pt;line-height:1.7;color:var(--fg2);} .note b{color:var(--fg);}
+.ex:not(.idx){background:var(--blue-soft);border:1px solid var(--blue-line);border-inline-start:3px solid var(--blue);
+    border-radius:7px;padding:7px 11px;font-size:9.6pt;line-height:1.6;color:var(--fg2);margin:2mm 0;}   /* :not(.idx) so it never hits the exercise chip (which is .idx.ex) */
+.ex .extag{display:inline-block;font-family:var(--latin);font-weight:800;font-size:7.6pt;color:var(--blue-dark);background:#fff;
+    border:1px solid var(--blue);border-radius:5px;padding:1px 9px;margin-inline-end:7px;vertical-align:middle;text-transform:uppercase;letter-spacing:.06em;}
+
+/* ===== lists ===== */
+ol.q{list-style:none;counter-reset:q;margin:1mm 0 2mm;}
+ol.q>li{counter-increment:q;position:relative;padding-inline-start:30px;margin-bottom:2.5mm;font-size:10.4pt;line-height:1.6;}
+ol.q>li::before{content:counter(q);position:absolute;inset-inline-start:0;top:1px;width:21px;height:21px;background:var(--grad);color:#fff;
+    border-radius:50%;font-family:var(--mono);font-size:9pt;font-weight:600;display:flex;align-items:center;justify-content:center;
+    -webkit-print-color-adjust:exact;print-color-adjust:exact;}
+ol.sub{list-style:none;counter-reset:s;margin:4px 0 0;padding-inline-start:2px;border-inline-start:1px solid var(--blue-line);}
+ol.sub li{counter-increment:s;position:relative;padding:2.5px 0 2.5px 26px;font-size:10.1pt;line-height:1.55;}
+ol.sub li::before{content:counter(s,lower-alpha)".";position:absolute;inset-inline-start:10px;top:2.5px;font-family:var(--mono);font-size:9pt;font-weight:600;color:var(--teal);}
+ol.qn{list-style:none;counter-reset:qn;margin:1mm 0 2mm;}
+ol.qn>li{counter-increment:qn;position:relative;padding-inline-start:26px;margin-bottom:2.2mm;font-size:10.4pt;line-height:1.55;}
+ol.qn>li::before{content:counter(qn)".";position:absolute;inset-inline-start:0;top:0;font-family:var(--mono);font-size:9.5pt;font-weight:700;color:var(--blue);}
+ul.b{list-style:none;margin:1mm 0 2mm;} ul.b>li{position:relative;padding-inline-start:22px;margin-bottom:2.4mm;font-size:10.4pt;line-height:1.6;}
+ul.b>li::before{content:"";position:absolute;inset-inline-start:3px;top:8px;width:8px;height:8px;border-radius:50%;background:var(--grad);
+    -webkit-print-color-adjust:exact;print-color-adjust:exact;}
+ul.dash{list-style:none;margin:1mm 0 2mm;} ul.dash>li{position:relative;padding-inline-start:20px;margin-bottom:1.8mm;font-size:10.4pt;line-height:1.6;}
+ul.dash>li::before{content:"–";position:absolute;inset-inline-start:2px;top:0;color:var(--fg);font-weight:700;}  /* dash / +/− signs = body colour */
+.flow ul.opts{list-style:none;margin:4px 0 3px;padding-inline-start:16px;}
+.flow ul.opts li{padding:2px 0;font-size:10.2pt;line-height:1.5;color:var(--fg);}
+
+/* ===== figures / tables ===== */
+.fig{margin:3mm 0;} .fig svg.figsvg{display:block;margin:0 auto;background:#fff;max-width:100%;height:auto;}
+.photo{display:block;margin:3mm auto;border-radius:8px;border:1px solid var(--hair);max-width:100%;}
+.figrow{display:flex;flex-wrap:wrap;gap:9px;justify-content:center;margin:3mm auto;max-width:190mm;}
+.flow .figrow img{border-radius:7px;border:1px solid var(--hair);height:46mm;width:auto;max-width:none;object-fit:cover;}
+.schemarow{display:flex;gap:16px;align-items:flex-start;flex-wrap:wrap;margin:2mm 0;}
+.schemarow .col-txt{flex:1 1 90mm;min-width:80mm;} .schemarow .col-fig{flex:0 0 78mm;} .schemarow .col-fig .fig{margin:0;}
+.flow table{border-collapse:collapse;width:100%;margin:3mm 0;font-size:9.8pt;line-height:1.5;}
+.flow table th,.flow table td{border:1px solid var(--blue-line);padding:6px 10px;text-align:start;vertical-align:top;}
+.flow table th{background:var(--grad);color:#fff;font-family:var(--latin);font-weight:700;font-size:9.4pt;
+    -webkit-print-color-adjust:exact;print-color-adjust:exact;}
+.flow table tr:nth-child(even) td{background:var(--blue-soft);color:var(--sub-ink);}   /* sub-row: #E6F3F4 / #045260 */
+
+mjx-container{color:var(--fg) !important;font-weight:400 !important;font-size:1.0em !important;}
+.eq-hi mjx-container,mjx-container.eq-hi{color:var(--blue) !important;}   /* accent (green) equation — highlight a key result; balance with plain math */
+.eq-red mjx-container,mjx-container.eq-red{color:var(--red) !important;}  /* red accent equation / symbol — complements the green .eq-hi */
+
+/* ===== per-file books: credit line, copies list, figures at their size ===== */
+.credit{display:flex;flex-wrap:wrap;align-items:center;gap:5px;margin:-1mm 0 3.5mm;font-size:9.4pt;color:var(--fg2);}
+.credit .who{font-weight:700;color:var(--blue-dark);}
+.credit .tg{font-family:var(--mono);font-size:7.2pt;letter-spacing:.04em;border-radius:5px;padding:1px 7px;line-height:1.6;
+    border:1px solid var(--blue-line);color:var(--blue);background:#fff;-webkit-print-color-adjust:exact;print-color-adjust:exact;}
+.credit .tg.sec{background:var(--blue-dark);border-color:var(--blue-dark);color:#fff;}
+.credit .tg.cor{background:#fff;border-color:var(--red);color:var(--red);}
+.credit a{color:var(--fg3);font-family:var(--mono);font-size:7pt;text-decoration:none;}
+.cover .auth .credit{margin:4mm 0 0;}
+.cover .copies{margin-top:5mm;font-size:8.6pt;color:var(--fg2);}
+.cover .copies ul{list-style:none;margin:2mm 0 0;padding:0;columns:2;}
+.cover .copies a{color:var(--fg3);text-decoration:none;font-size:8pt;}
+.flow figure.fig{text-align:center;}
+.flow figure.fig img{max-height:60mm;width:auto;max-width:70%;display:inline-block;}
+
+/* chapter tag on each part of a multi-chapter book (the book keeps the original order of the file) */
+.chtag{display:inline-block;margin:5mm 0 2mm;padding:1mm 3mm;border-radius:2mm;background:#eef3fb;border:1px solid #c9d6ea;
+  color:#1f3a6b;font-size:9pt;font-weight:700}
+.chtag span{color:#6b7f9e;font-weight:600;margin-inline-end:1.5mm}
+
+@media print{ body{background:#fff;padding:0;} .flow{width:auto;max-width:none;margin:0;padding:0;} }
+@page{size:A4;}   /* margins come from render_flow.py — do NOT set them here */
+</style>
+<meta data-pagefind-filter="type[content]" content="درس">
+<meta data-pagefind-filter="resource[content]" content="المصدر غير مذكور">
+<meta data-pagefind-meta="n[content]" content="1969">
+<meta data-pagefind-meta="title[content]" content="الدولة ١">
+<meta data-pagefind-filter="chapter[content]" content="القيم: الأخلاق والدولة">
+<meta data-pagefind-filter="section[content]" content="باكالوريا علوم تجريبية"><style>.qrcard{display:none!important}.wa-nav{position:sticky;top:0;z-index:50;background:#045260;padding:10px 18px;font-family:Cairo,sans-serif;direction:rtl}.wa-nav a{color:#fff;text-decoration:none;font-weight:700}@media print{.wa-nav{display:none}}</style>
+</head>
+
+<body dir="rtl" lang="ar"
+      data-brand="Wael Academy" data-handle="@WaelAcademy"
+      data-tagline="في تُرابنا.. مغامرة بمغامرة"
+      data-phone="+216 50 40 40 42" data-site="waeldocuments.com"
+      data-cta="سجل معانا وأقرى عن بعد مع منصة Wael Academy"
+      data-subject="Philosophie · الدولة ١" data-watermark="Wael Academy" data-pagefind-body><nav class="wa-nav" data-pagefind-ignore><a href="../index.html">→ الرجوع إلى فهرس الفلسفة</a></nav>
+
+<!-- single full-page diagonal watermark, bottom-left → top-right (repeats on every page) -->
+<div class="wm" aria-hidden="true"><span>WAEL&nbsp;ACADEMY</span></div>
+
+<div class="flow colored">
+<div class="cover"><div class="badge">◉ Wael Academy · Philosophie</div><h1>الدولة ١</h1><div class="grule"></div><div class="sub">القيم: الأخلاق والدولة</div><div class="auth"><div class="credit">المؤلّف / المصدر : <span class="who">المصدر غير مذكور في الوثيقة</span> <span class="tg">ملخّص</span><span class="tg sec">الفلسفة · باكالوريا علوم تجريبية</span> <a href="https://drive.google.com/file/d/1YmFgnJlN9FJoXvlQGVSEhnNSKM9R22M5/view">↗ الدولة ١.pdf</a></div></div><div class="copies" data-pagefind-ignore><b>نسخ هذا الملف في الدرايفات (1)</b><ul><li><a href="https://drive.google.com/file/d/1YmFgnJlN9FJoXvlQGVSEhnNSKM9R22M5/view">Fatma Jmal · Drive de fatma ( bac sc 26) › philo / Resumé personnel</a></li></ul></div></div>
+<section class="chapter"><div class="chapdiv"><div class="cn">المحور</div><h2>القيم: الأخلاق والدولة</h2></div>
+<div class="exh"><span class="idx">درس</span><h2>الدولة ١</h2>
+  <div class="qrcard"><div class="qrt">فيديو الدرس</div><div class="qrslot"><img src="qr/1969.svg" alt="QR"></div></div></div>
+<div class="credit">المؤلّف / المصدر : <span class="who">المصدر غير مذكور في الوثيقة</span> <span class="tg">ملخّص</span><span class="tg sec">الفلسفة · باكالوريا علوم تجريبية</span> <a href="https://drive.google.com/file/d/1YmFgnJlN9FJoXvlQGVSEhnNSKM9R22M5/view">↗ الدولة ١.pdf</a></div>
+<!-- NOTE: 1969 — entirely handwritten course; highlighter marks not reproduced. Readings below are best readings from zoomed tiles of small cursive. -->
+<p class="subhead"><span class="t-blue">الدولة : السيادة والمواطنة</span></p>
+<!-- PROOFREAD: 1969 part1 p01 — title "السيادة والمواطنة" (pale ink, partly faded) -->
+<p class="para">* الأكسيولوجيا السياسية : وفيها كتابة للممارسة السياسية &nbsp; أبدع الإنسان جهاز الدولة لتنظيم وجوده والقطع مع الفردية والفوضى</p>
+<p class="para">وتجاوز ومشروعية التساؤل عن الدولة : ما حقيقة خلق الإنسان الدولة وإبداعها ؟ في جوهرها تواصل للعقل البشري متماهية مع مطالب طاقة</p>
+<p class="para">ومن جهة أخرى هي تدل على الأفراد تذوق الفرد إنسانيته وتحرره من وعيه الذاتي الخاص وحريته بما هي مطلب إنساني .</p>
+<!-- PROOFREAD: 1969 part1 p01 — lines 1-3: "كتابة" / "وتجاوز" / "مطالب طاقة" / "تدل على الأفراد تذوق" uncertain -->
+<p class="subhead"><span class="t-green">الدولة بين الضرورة داخل الوجود الإنساني أم إمكانية يستغنى عنها ؟</span></p>
+<p class="subhead"><span class="t-green">⇐ التأكيد على أن الدولة ضرورة :</span></p>
+<p class="para">* الدولة قادرة على نقل الوجود السياسي من حالة الفوضى والصراع إلى وضعية الانتظام بناء السلوك والعلاقات بين البشر &nbsp; وفي مقاربة "توماس هوبس" : الأفراد في البداية يعيشون الحالة الطبيعية أو ما سمي بـ</p>
+<p class="para">بالحرب العدوانية) ← مكتنفة ذئبوية بين الأفراد دفعهم إلى إقامة عقد اجتماعي أساسه التنازل بما يقوت تنازل الأفراد عن حريتهم الفردية المطلقة</p>
+<p class="para">لصالح الإرادة العاقلة = المصلحة الجماعية المتمثلة في تحقيق الأمن والسلم .</p>
+<p class="para">* الحالة المدنية : وفيها ظهور الدولة كجهاز ينشئ القوانين المحققة للإرادة العاقلة = الأمن والسلم . &nbsp; ← دولة قوية لكنها لا تنزع لمفهوم الحرية</p>
+<!-- PROOFREAD: 1969 part1 p01 — Hobbes paragraph: "ذئبوية" / "بما يقوت" / "ينشئ" / margin note "دولة قوية لكنها لا تنزع لمفهوم الحرية" uncertain -->
+<p class="subhead"><span class="t-green">الدولة عند هوبس دولة تعاقدية قوية تحول للانتقال من حالة الفوضى إلى حالة الانتظام</span></p>
+<p class="para">* الدولة ضرورة لقدرتها على تحقيق الحرية المدنية = ممارسة الحرية بالتزام بالقوانين التي تشترك بها مؤسسات الدولة .</p>
+<p class="para">على حد تعبير جان جاك روسو / الطبيعة البشرية قائمة على هبة الحرية "ولد الإنسان حرا وحرا" ولكن ما أوافر هذه السلبيات واسعة</p>
+<p class="para">الإبداعات من حكم الخيرة والحسد والأنانية فهنا أسلوب يبنى عقد اجتماعي يتنازل فيه كل فرد عن جزء من حريته الفردية لصالح الحرية</p>
+<p class="para">المشتركة = حرية ملتزمة بالقانون التي يشرعها ← دولة تؤمن بالحريات وبذلك فهي دولة ديمقراطية .</p>
+<!-- PROOFREAD: 1969 part1 p01 — Rousseau paragraph: name spelling ("دوهجا كروسو"?), the quotation "ولد الإنسان حرا وحرا", "ما أوافر هذه السلبيات واسعة", "الإبداعات من حكم الخيرة" uncertain -->
+<p class="para">* الدولة هي الممثل الشرعي للمجتمع ومؤسساتها تقوم بإحياء العلاقات التفاعلية الاجتماعية . فالإيمان بوجودية الانفتاح</p>
+<p class="para">على الآخر وإقامة مختلف التبادلات والاشتراكات أو استفادة الذاتية من المنتج الإنساني يستوجب حضور الدولة بمؤسساتها .</p>
+<p class="para">⇐ الدولة تجاوز لعطالة الوجود الإنساني من حيث قدرتها على تجاوز الحالة الانغلاقية والانعزال والتكلس على السيادة الذاتية وإرادة الانفتاح</p>
+<p class="para">على اللقاء بالآخر المغاير ← تحديد الدولة في إطار العلاقات البينسياسية القيم الكونية المعبرة عن المعنى الإنساني .</p>
+<p class="para">* قدرة الدولة على المساهمة في توحيد المجتمع من خلال مسألة التنسيق في التشريعات ← إن الدلالة التابعة لمؤسسات المجتمع</p>
+<p class="para">← الدولة تجذب الأفراد إليها بالتآلف والتذاكر .</p>
+<!-- PROOFREAD: 1969 part1 p01 — "بإحياء" / "الاشتراكات" / "لعطالة" / "التكلس" / "إن الدلالة التابعة" / "بالتآلف والتذاكر" uncertain -->
+<p class="subhead"><span class="t-green">⇐ التأكيد على ضرورة زوال الدولة</span></p>
+<p class="para">* الدولة الكليانية = المستبدة تكرس آليات العنف المادي والرمزي لكي تضمن السيطرة والتحكم في الأفراد</p>
+<p class="para">← بما هي المراقبة والسجون ← التحكم في دور الأفراد الهدمي متحركة "</p>
+<p class="para">وأدوات عقاب تحتكرها عملية مؤسسات الدولة الاستبدادية ، خاضعين لإرادة السياسي</p>
+<p class="para">← توظيف الإعلام / أدوات التواصل الاجتماعي لتوجيه العقول</p>
+<p class="para">وأدلجة السلوك وخلق واقع الغباء المبرمج وبذلك يدفع الفرد للنزعة العبودية ، الحرفية ، والخضوع التبعية ← يقول نيتشه :</p>
+<p class="para">"الدولة تكذب برطانة عندما تقول أنا الدولة أنا الشعب" ← إذ ما هي إلا نتاج للسياسي وتهميش لحقوق الأفراد ووعيهم الذاتي .</p>
+<p class="para">يقول تروتسكي : "إن كل الدول قائمة على القوة" ← إنه يمنعون توجهات الدولة يصبح كيانا قابلا للتحكم والسيطرة .</p>
+<p class="para">يقول موسيليني : "إن الدولة تستعمل القوة" ← الدولة تصبح مجال توحش وقوة للأفراد لما تكتنفه من نزعة احتلالية بحتة .</p>
+<!-- PROOFREAD: 1969 part1 p01 — totalitarian-state paragraph: "الهدمي متحركة" / "عملية" / "الحرفية" / Nietzsche quotation wording / "إنه يمنعون توجهات" / Mussolini quotation and "احتلالية بحتة" uncertain -->
+<p class="para">* إن اعتقاد الدولة نظام حكم استبدادي يسعى من خلاله السياسي إلى التحكم في كل السلط التشريعية والتنفيذية والقضائية .</p>
+<p class="subhead"><span class="t-green">⇐ النزعة الذاتوية للسلطة</span></p>
+<p class="para">← نفي لمبدأ المشاركة ← نظام استبدادي</p>
+<p class="para">← قدسية السياسي الذي يحمل دلالات الإطلاقية &nbsp; { حكم فردي / مطلق / ديكتاتوري تحت هيمنة السلطة</p>
+<p class="para">* الدولة عن ما تحتكر القانون العدالة للترسيخ / تكريس المصالح الذاتية السياسية ← يتخذ القانون نزعة براغماتية / مصلحية / نفعية</p>
+<p class="para">وإن مصالح الطبقة البرجوازية الموالية للطبقة المهيمنة والمستغلة للطبقة المحرومة ← الدولة أداة في خدمة مصالح الطبقات</p>
+<p class="para">يقول ماركس : "الدولة جهاز طبقي" &nbsp; المحرومة (العبيد / الأقنان / العمال) ← تجاوز المؤسسات / زوال الدولة المطلقة</p>
+<!-- PROOFREAD: 1969 part1 p01 — "اعتقاد" / margin "حكم فردي / مطلق / ديكتاتوري" / "عن ما تحتكر" / "خدمة مصالح الطبقات" / "تجاوز المؤسسات / زوال الدولة المطلقة" uncertain -->
+<p class="para">⇐ استنتاج : الإقرار بضرورة الدولة لتكريس انتظامهم وتحقيق الرهانات الحقوقية للأفراد ← الوضعية / الحسية الحرية</p>
+<p class="para">مع ضرورة اكتساب وعي بمجال الدولة / نزعة براغماتية للفعل السياسي &nbsp; ← الحقوق الوضعية : العمل / السكن / الصحة .</p>
+<p class="para">(أي تنمية الوعي المواطني للأفراد والوعي السياسي لدعم مؤسسات الدولة)</p>
+<!-- PROOFREAD: 1969 part1 p01 — conclusion: "لتكريس انتظامهم" / "الوضعية / الحسية الحرية" / "(أي تنمية" uncertain -->
+<p class="subhead"><span class="t-green">ما دلالة السيادة بالمواطنة ؟ الدولة هل هي تحترم حقوق المواطنة أم تجعلها هامشية لها !</span></p>
+<!-- PROOFREAD: 1969 part1 p01 — teal question line before ① barely legible -->
+<p class="para">① ← الديمقراطية مفهوم مفارقي بين الدولة كلية تحترم الوحدة الاجتماعية وتحقق الأفراد في سياقات الانتظام والتقدم والإنسانية وبين</p>
+<p class="para">ما يكشفه الواقع الراهن من توجه الأفراد ما أحجمه الدولة والدعوة إلى مقاومتها والحد من سيطرتها وتطبيقها بمختلف الأشكال .</p>
+<p class="para">فالدولة تحمي المواطنة الفعلية عندما تنتقل إلى آليات الحكم الديمقراطي فتكون الشعب هو الفاعل المصدر للقوانين المتماهية وجوهره .</p>
+<p class="para">⇐ سيادة الدولة هي سيادة الأفراد (حكم الأغلبية في حكم الأقلية) فالسياسي مجبر على احترام الإرادة العامة لأنها قائمة على الانتخاب مما يؤهل الحرية في</p>
+<p class="para">سلوكيات الأفراد . يقول سبينوزا : "لم توجد الدولة لتحكم الإنسان بالخوف بل لتحرر الفرد من الخوف" .</p>
+<!-- PROOFREAD: 1969 part1 p01 — ① paragraph: "مفارقي" / "ما أحجمه" / "وتطبيقها" / "المتماهية وجوهره" / Spinoza quotation wording uncertain -->
+<p class="para">* المواطنة تحسب صفة المواطنة فالسياسي مجبر على تشريع القوانين المعبرة عن الإرادة العاقلة في ظل المصلحة الجماعية &nbsp; { إمكانية معاينة الأفراد للعدالة في مسؤولية تعم بالأفراد</p>
+<p class="para">← توسيع للحقوق الواسعة للفرد والحقوق المدنية</p>
+<p class="para">* حينما تحتكر الدولة آليات العنف المشروع (الحماية من الأعداء والحفاظ على وجودهم) وبذلك لا تسمح للأفراد بأن يستعمل العنف المادي (عنف غير مشروع)</p>
+<p class="para">⇐ الدولة تستأثر بممارسة العنف وذلك لتحقيق الأمن والسلم وتجنب أشكال الفوضى الفاتكة بالكيانات الاجتماعية .</p>
+<p class="para">* الدولة تحقق مشاركة الأفراد بناء على مبادئ المجتمع وذلك عبر احتكام الحياة السياسية والاجتماعية ← الانتخاب واختيار مؤسسات الدولة</p>
+<p class="para">← وهي الرهانات الحقيقية التي تمكن الأفراد من ابداء الرأي السياسية والمدنية وذلك عبر مشاركتهم ← تفاعل بالواقع والفاعلية المدنية .</p>
+<p class="para">← التداخل مؤسسات الدولة وتفعيل مؤسسات المجتمع المدني . &nbsp; ← الارتباط بمكونات المجتمع المدني</p>
+<!-- PROOFREAD: 1969 part1 p01 — "تحسب صفة" / margin "إمكانية معاينة الأفراد للعدالة في مسؤولية تعم بالأفراد" / "احتكام" / "التداخل" uncertain -->
+<p class="para">الديمقراطية {</p>
+<ul class="b">
+<li>حكم الشعب بنفسه لنفسه</li>
+<li>الالتزام بمبدأ الفصل بين السلط ≠ شخصنة الدولة</li>
+<li>غياب التمييز الطبقي وبذلك تحقيق حالة المساواة داخل المجتمع</li>
+<li>تنوع الكيانات السياسية (الأحزاب / جمعيات + ...)</li>
+</ul>
+<!-- PROOFREAD: 1969 part1 p01 — last bullet ending "(الأحزاب / جمعيات + ...)" uncertain -->
+
+<p class="para">② ← حكم الأغلبية من حكم الأقلية ← تجاوز النزعة الانعزالية والانطلاقية لمكونات الواقع السياسي التي تكرس بها الديمقراطية بما هي نظام</p>
+<p class="para">حكم يحمل في جوهره تفاعلا وتماسكا للمؤسسات السياسية الحاكمة .</p>
+<p class="para">* الديمقراطية عادة ما ترتبط بتداول الصراعات السلطوية ابتداء من (العنف) ركائز حرية العدالة المساواة ...) وتهمل تقوم / تتفق الحوار مع احترام وحدة عزلة المجتمع</p>
+<p class="para">* الديمقراطية هي بشكلها الرمزي فهي تنطبق / تتفق بشكل واضح في تغايرات السلوكيات .</p>
+<!-- PROOFREAD: 1969 part1 p02 — top lines ② and two "* الديمقراطية" lines largely uncertain ("الانطلاقية" / "ابتداء من (العنف)" / "وحدة عزلة المجتمع" / "تغايرات السلوكيات") -->
+<p class="para">* ديمومة الدولة الاستبدادية : ما هي نظام حكم كلياني استبدادي يقوم على القمع بين السلطة وتحجر السلطة المطلقة</p>
+<p class="para">في عمق العلاقة الرابطة بين مؤسسات الدولة والمجتمع ← حرمان الأفراد من ممارسة المواطنة التي تتجلى في جوهرها المشاركة</p>
+<p class="para">في تشكل البناء السياسي .</p>
+<p class="para">* الدولة الاستبدادية تتخذ العنف كآلية جوهرية في ممارسة الحكم ، موظفة آليات العنف المادي والرمزي لكي تضمن قهر الأفراد و</p>
+<p class="para">التحكم في سلوكهم ← تغييب الحرية بما هي مطلب إنساني .</p>
+<p class="para">* توظيف المؤسسات كأدوات براغماتية ومنفعية تخدم الرهانات السياسية للسلطة وتهميش الوعي الذاتي للأفراد .</p>
+<p class="para">⇐ دولة لا تنتج المواطن بل تنتج العبيد الخاضعين وذلك أداة لقهر الفرد من المشاركة في تقييم الممارسة السياسية</p>
+<p class="para">يقول هيغل <span dir="ltr">Hegel</span> : تقوم الدولة الكليانية على مبدأ الحق والممارسة الحرة للتفكير .</p>
+<p class="para">يقول موسيليني (فاشي) : "الكل في الدولة ، لا شيء خارج الدولة ، لا شيء ضد الدولة" .</p>
+<p class="para">← الدولة المستبدة تريد قوانينها تتماهى وتعطي إسما لقوانينها الوضعية مجردة للأفراد من وعيهم الذاتي الخاص .</p>
+<!-- PROOFREAD: 1969 part1 p02 — "ديمومة" / "يقوم على القمع بين السلطة" / "يقول هيغل Hegel" (name written in Latin letters?) and its sentence / Mussolini quotation wording / "تريد قوانينها تتماهى وتعطي إسما" uncertain -->
+<p class="subhead"><span class="t-green">العلاقة بالآخر السياسي : تهديد وتعرض للسيادة الوطنية :</span></p>
+<p class="para">① ← عندما يمتلك الآخر السياسي نزعة التجلي المركزية السياسية حيث يقترن بمركزية توجهاته الفكرية والسياسية ويسعى</p>
+<p class="para">إلى إخضاع الأنا السياسي إلى مبدأ المماثلة والمطابقة ← تطبيقه سياسية تقوم على تفاضل الآخر في مجال يقصى تراهاتنا ية</p>
+<p class="para">في تجريبهم ما يستعقل ليتم ← مفهوم الأنا وإعتباره المصدر الوحيد المطلق الإطلاقية للحقيقة السياسية .</p>
+<p class="para">وبذلك تنهار السيادة الوطنية وتقوض بما هي استقلالية سياسية وطنية : إندماج النظام داخل بوتقة العولمي السياسي .</p>
+<!-- PROOFREAD: 1969 part1 p02 — ① paragraph: "التجلي" / "تطبيقه سياسية تقوم على تفاضل الآخر في مجال يقصى تراهاتنا ية" / "في تجريبهم ما يستعقل ليتم" uncertain -->
+<p class="para">② ← عندما يلتزم الآخر السياسي بآليات العنف المادي في مستوياته المعقدة والدقيقة (العسكرية ، الحروب ، العنف المفرط) والعنف</p>
+<p class="para">الرمزي (وسائل تجريدية ، الحركة الدعائية / الإنتاج / وتقع حسيد ... كاستعمار وابتهاج) وبذلك يرتبط الآخر بمفهوم تهديد السيادة الوطنية</p>
+<p class="para">③ ← يفتقر ما يجعل المجتمع أخير الدولة ← ولذلك يسعى رواج الثقافة المستبدة إلى تفكيك مكونات الهوية الثقافية &nbsp; حوم ها</p>
+<p class="para">وطمس العمق الخصوصي للذات الثقافية ، إن حقل ذلك على الوجود السياسي : تفكيك الثقافية يؤدي حتما إلى تفكير السياسي</p>
+<p class="para">إن توجه علاقة تلازمية بين المكونات الأنثروبولوجية والمكون السياسي (التكامل الحزب مع العرب)</p>
+<p class="para">④ ← عندما يشكل الآخر قوة إقتصادية وحضارية تنزع إلى استمالة كل أنواع القوى الأخرى واستنزاف ثرواتهم بنزعة</p>
+<p class="para">الوعد للمعتر وحماية السياسة نزعة إلى التحكم في قدرتها لتكون المستدامة مع مواطنها البراغماتية النفعية اللاإنسانية</p>
+<p class="para">أن الحكم السياسي يتبع وهمه ابتهام تنظام يصحب بتوابع الآخر الأنا السياسي .</p>
+<p class="para">⑤ ← عندما يكون الأنا السياسي قابلا مستعدا للانصهار في كل مقاومة الآخر واستكمال الاستعمار إن تمادى بشكل يبنها مع النظام</p>
+<p class="para">السياسي للآخر ويدفع حتى أخيرا حول داخل المجتمع وإنشاء ولاء ... أكثر لوضعه الهيمنة وهما إن الاستعمار التزام التعدد</p>
+<!-- PROOFREAD: 1969 part1 p02 — points ②–⑤ are best readings with many doubtful words ("وتقع حسيد ... كاستعمار وابتهاج" / "يفتقر ما يجعل المجتمع أخير الدولة" / "حوم ها" / "تفكير السياسي" / "(التكامل الحزب مع العرب)" / "الوعد للمعتر" / "وهمه ابتهام تنظام" / "حول داخل المجتمع وإنشاء ولاء ..." / "التزام التعدد") -->
+<p class="subhead"><span class="t-green">العلاقة بالآخر السياسي ترمز / يتهدد السيادة الوطنية ← إنشاء مفهوم العلاقة البينسياسية .</span></p>
+<p class="para">① ← الاعتراف بمبدأ الحوار العقلاني القائم على الاعتراف بالاختلاف السياسي والإقرار بمشروعية وجوب الانفتاح على كل دولة</p>
+<p class="para">تحترم خصوصيات السياسة (أنظمة وتوجهات مغايرة)</p>
+<p class="para">مثال : الوحدة الأوروبية تمثل نتاج الحوار العقلاني بين مختلف الكيانات السياسية ← تفاعلات مشتركة قائمة على التنسيق .</p>
+<p class="para">② ← الارتباط بمطلب المصالح المشتركة .</p>
+<p class="para">③ ← عندما يولي الآخر السياسي يجعله بالإنسان أساسا الاحترام والتعايش السلمي ← احترام الخصوصيات الثقافية لكل دولة</p>
+<p class="para">والالتزام بها ذي إرادة التواصل والتفاعل السلمي والحقوقي بين مختلف الشعوب .</p>
+<p class="para">④ ← التزام الكيانات السياسية بالقيم الكونية بما هي المرجعية المثلى والمطلقة التي تتجاوز مطلب الروابط السياسية ، بما</p>
+<p class="para">تمثل المشترك الإنساني الجمعي .</p>
+<!-- PROOFREAD: 1969 part1 p02 — teal heading "ترمز / يتهدد" / "يولي الآخر السياسي يجعله بالإنسان" / "ذي إرادة" uncertain -->
+<p class="subhead"><span class="t-green">ما مبررات الدعوة للالتزام بالمواطنة العالمية ؟</span></p>
+<p class="para">فهو المسعى إلى استرجاع ... الأنا</p>
+<p class="para">← إن المواطن العالمي هو الذي يمتلك وعيا بضرورة تحقيق القيم المدنية والسياسية داخل العالم عبر الانتماء إلى منظومة إنسانية</p>
+<p class="para">الإنسان كائن كوسموبوليتي يتبلور وعيه داخل أفق عالمي .</p>
+<p class="para">* الوعي الذاتي الخاص بأن جميع البشر يجب أن يتمتعوا بنفس القيم والحقوق (الحرية ، العدل ، المساواة ...) وهي بذلك المعنى الإنساني الكوني</p>
+<p class="para">تجعل من كل البشر أفرادا متساوين في الانتماء للعالم البشري .</p>
+<p class="para">← المسألة هي حقيقة المواطنة وما تجاوز المجتمع المحدود الضيق مما يؤدي إلى شأنه بشكل إنساني أوسع وأشمل .</p>
+<p class="para">← الوعي الإنساني بمختلف قضايا الشعوب الأخرى في النزاعات وتجاوز النزعات الإقليمية والسياسية والحقوقية ← وعي إنساني عالمي</p>
+<p class="para">مختلف الأزمات الإنسانية وبه يتجلى تواصله وانتمائه للمجتمع الإنساني . ← يقول برتراند راسل : "أنا أفكر كإنسان ومسؤول عن الإنسانية"</p>
+<p class="para">← المواطنة العالمية هي المواطنة الإنسانية التي تمكن الإنسان أن يكون مواطنا ومواطنا عالميا .</p>
+<p class="para">← الانتماء للمنظمات العالمية ومؤسساتها والتبادلات الثقافية يؤسس الاختلاف والتنوع وهو استفادة من تجارب الأمم الأخرى والاطلاع</p>
+<p class="para">على منظومات القيم الأخلاقية والمعتقدات والعقائد والفنية وهو ما يساهم في إثراء الهوية الثقافية مع التمسك بالخصوصية</p>
+<p class="para">يقول غاندي : "أفتح نوافذي لكل رياح العالم ولكن لا أدعها تقتلعني من جذوري" .</p>
+<!-- PROOFREAD: 1969 part1 p02 — margin note "فهو المسعى إلى استرجاع ... الأنا" / "تحقيق القيم المدنية" / "المسألة هي حقيقة المواطنة ... مما يؤدي إلى شأنه" / Russell and Gandhi quotation wording / "التمسك بالخصوصية" uncertain -->
+<p class="para">⇐ المواطنة العالمية : مفهوم حديث نشأ إثر ابتداء الفكر الفلسفي</p>
+<!-- PROOFREAD: 1969 part1 p02 — "مفهوم حديث نشأ إثر ابتداء الفكر الفلسفي" largely illegible -->
+<ul class="dash">
+<li>← تعتبر كل البشر متساوين في الحقوق والواجبات دون اعتبار / اختلاف في الخصوصي أو كل مستوى الوعي الذاتي</li>
+<li>← رفض التعصب القومي والانغلاق الديني والعرقي</li>
+<li>← اعتبار كل إنسانا مسؤولا عن الإنسانية كافة</li>
+</ul>
+<p class="para">← ارتباطها بمواجهة الفرد لدوائر الانتماء المحلي والإقليمي للانفتاح على العالم : تكريس المنظومة قيمية وحقوقية وكونية .</p>
+<p class="para">فالإنسان ← مواطن الدولة بموجب الانتماء والولاء السياسي ثابتة .</p>
+<p class="para">← مواطن عالمي بموجب وحدة الانتماء إلى العالم .</p>
+<p class="para">⇐ المواطنة العالمية جامعة بين البعد الخصوصي والبعد الكوني الإنساني .</p>
+
+<p class="subhead t-red">المواطنة العالمية</p>
+<p class="para">: ← التمسك بالانتماء إلى الدولة وحدة دائرة الفعل السياسي / في مجال خصوصي يمثل ذات واحدة &nbsp; توتر</p>
+<p class="para">← الالتزام بتجسيد القيم المدنية والسياسية ، أفراده يتمتع بالعالم ← الانفتاح بعد إنساني ← مرتكز المواطنة العالمية .</p>
+<!-- PROOFREAD: 1969 part1 p03 — opening lines next to "المواطنة العالمية": "وحدة دائرة" / "يمثل ذات واحدة" / circled "توتر" (with small "وسيا" beside it?) / "أفراده يتمتع بالعالم" uncertain -->
+<p class="subhead t-navy">1) وجب الالتزام بالمواطنة العالمية</p>
+<p class="para">1) إن إرادة العقل البشري في تحقيق وجوده وانتمائه لإنسانية واحدة وعالم يشترك فيه الجنس البشري تدفعه إلى تجسيد القيم المدنية كمستوى كامل إنساني .</p>
+<p class="para">يقول موران : "كلنا نشترك في الإنسانية" .</p>
+<p class="para">2) إن تمثل / إدراك الأزمات والعقبات التي تعايشها الإنسانية وملامسة تداعياتها (حقوقية / إق / إلخ / سياسية) ← تحقيق فعلي للمواطنة بعدا كاملا . &nbsp; وعي كوني إنساني</p>
+<p class="para">فالمواطن يعتبر مدنيا منتميا لنظام سياسي واحد لا هو مسؤول عن الإنسانية كافة رغم اختلاف الوعي الذاتي والمنظمة الهيكلية / السياسات .</p>
+<p class="para">إذ يقول راسل : "أنا أفكر عالميا وأنا كإنسان مسؤول عن الإنسانية" .</p>
+<!-- PROOFREAD: 1969 part1 p03 — point 2): "(حقوقية / إق / إلخ / سياسية)" / "تحقيق فعلي ... بعدا كاملا" / "المنظمة الهيكلية / السياسات" / Russell quotation wording uncertain -->
+<p class="para">3) الانتماء الفرد للمنظمات العالمية يمثل مبادرة تكاملية مثيا ووسيطا ثقافيا يؤهل الاختلاف والتنوع قصد الاستفادة من تجارب ومجتمعات الأخرى والاطلاع على منظومات القيم الأخلاقية والعقائدية ← الانفتاح على تجارب الشعوب الأخرى في المجالات الحقوقية والسياسية والثقافية مما يعزز تطورا حضاريا / ابوبرنامجيا وانفتاحا للثقافات القومية &nbsp; ذكر ① الانفتاح الثقافي</p>
+<!-- PROOFREAD: 1969 part1 p03 — point 3): "مثيا" / "ابوبرنامجيا" uncertain -->
+<p class="para">4) الانتماء للمنظمات العالمية يجذر الفرد في عمق الوجود الإنساني من قدرته على الانفتاح على الثقافات الأخرى وتمثل هويته وتمثل مختلف المسائل الدينية والقيمية الأخلاقية والإيديولوجية مع المحافظة على أصالة الهوية والتجذر في طلب الوجود الثقافي &nbsp; رمز الوعي الديمقراطي / الانتماء العالمي &nbsp; ذكر ② تبادل التجارب / الحركة وتطوير الأداء الثقافي / السياسي والسياسي</p>
+<p class="para">وهو ما كشفه غاندي في قوله : "أفتح نوافذي على كل رياح العالم ولكن لا أدعها تقتلعني من جذوري" .</p>
+<!-- PROOFREAD: 1969 part1 p03 — point 4): "رمز الوعي الديمقراطي / الانتماء العالمي" (highlighted margin note) / margin note "ذكر ② ..." (crosses the fold) / Gandhi quotation wording uncertain; a large pale violet word below the quotation (reads like "تطلن") not typed -->
+<p class="subhead t-navy">2) وجب الحذر من المواطنة العالمية</p>
+<p class="para">* ← يمكن للمنظمات العالمية أن تتجرد من صفتها الإنسانية لتكشف عن وجهها اللاإنساني فهي قد توظف من بعض الأطراف كمواقع للجوسسة والتدخل ومجالات للسيطرة والهيمنة وتحقيق قوى رهانات الهيمنة والسيطرة بالإرهاب .</p>
+<p class="para">* بذريعة التضامن والخطابات المشبعة بالإنسانية وبالقيم الكونية تخفي المنظمات العالمية غايات براغماتية ومنفعية بما هي كيانات تؤثر في الأجهزة الدولية وفي إدارة الصراعات وتحمي سياسات وتشرع للعمليات المتماثلة مع منظومتها وتوجهاتها .</p>
+<p class="para">* إن المنظمات العالمية كادت تنزع إلى تغيير عمق الخصوصي للشعوب في دعم ذرائع تفسيرها ... للتراث الثقافي للشعوب وتدرس أسس / تكريسا للوصول خاصة</p>
+<p class="para">البناء الحقيقي للشعوب (الانطباعية الهوية الثقافية الإنسانية / والأنثروبولوجية) فقد تكون أرضية مشتركة للصراعات والتدخلات بين الشعوب والأمم .</p>
+<p class="para">مثال : الثقافة الغربية بمختلف مظاهرها اللاأخلاقية السياسية الصناعية</p>
+<!-- PROOFREAD: 1969 part1 p03 — section 2): "رهانات الهيمنة والسيطرة بالإرهاب" / "تحمي سياسات وتشرع للعمليات المتماثلة" / third bullet ("تغيير عمق الخصوصي ... ذرائع تفسيرها ... وتدرس أسس / تكريسا للوصول خاصة ... الانطباعية") / example line ending uncertain -->
+
+<p class="para">مواضيع : I) هل في الاحتكام للطاعة إلى سلطة القانون ما يحقق العدالة ؟</p>
+<p class="para">هل في طاعة الدولة ما يقوض مطالب المواطنة ؟</p>
+<p class="para">* الطاعة بما هي الالتزام بالقوانين والمبادئ السياسية والفكرية التي تفرضها الدولة . القانون بما هو بحسب كلية مجموع التشريعات الوضعية المنظمة للعلاقات بين الأفراد والشعوب . العدالة بما هي قيمة كونية وفق أفق مساواة . المواطنة بما هي الانتماء إلى دولة ذات سيادة يكون فيها الفرد مشاركا في الحكم .</p>
+<p class="para">. الطاعة أرضية حقيقية للانتظام ، فالنظام الحكم الديمقراطي بما هو قائم على صوت الحق لا منطق السلطة القوة ← تحقيق الحريات والعدالة والمساواة بين الأفراد بما</p>
+<p class="para">توظيف آليات الحكم الديمقراطي بما هو نظام حكم الشعب "حكم الشعب للشعب" ← يستمد القانون شرعيته من إرادة الشعب والأفراد &nbsp; حكم الأغلبية لا الأقلية</p>
+<p class="para">ونظرا لهذا النظام الديمقراطي الذي يقوم على قوة الحق ، تتحدد الإرادة العامة معنى أعمق وأرشد : إذ يقول سبينوزا : "لم توجد الدولة لتحكم الإنسان بالخوف بل لتحرره من الخوف"</p>
+<!-- PROOFREAD: 1969 part1 p03 — left page: "بحسب كلية" / "صوت الحق لا منطق السلطة القوة" / small note "حكم الأغلبية لا الأقلية" / "معنى أعمق وأرشد" / Spinoza quotation wording uncertain -->
+<p class="para">* الاحتكام لسلطة القانون ضمان لمبدأ العدالة داخل المجتمع فالقانون يكرس لمنهج المساواة بين الأفراد ← تساوي الأفراد كل مستوى الحقوق والواجبات مما يكرس الديمقراطية للأفراد يقول ألان : "يجب على كل الديمقراطية أن تكون للضعفاء ضمانة لهم من الأقوياء" .</p>
+<!-- PROOFREAD: 1969 part1 p03 — "مما يكرس الديمقراطية للأفراد" / author "ألان" / quotation wording uncertain -->
+<p class="para">* يقترن مطلب كون الفرد مواطنا للدولة بتفعيل مبادئ المنظومة الحقوقية الكونية في جوهرها ← فالدولة تؤسس للتعايش السلمي وأشكال التعاون وبعيدا عن الصراعات ← السلام والحوار وتجذير لكل الوحدة إلخ والسياسة</p>
+<p class="para">* استند الدولة على آلية العنف المشروع والعنف الاستبدادي ← قوة الدولة وكيانها ← لا يدعو استعمال العنف المفرط ← قبول الأفراد ← رغبة الأفراد في المشاركة والانضمام</p>
+<p class="para">يقول روسو : "إن القوة الدولة تكفل ضعفاء" ← لا تكون قوة الدولة</p>
+<p class="para">"إن قوة الدولة هي التي تصنع حرية المواطنين" .</p>
+<!-- PROOFREAD: 1969 part1 p03 — last lines of left page: "وبعيدا عن الصراعات ← السلام والحوار وتجذير لكل الوحدة إلخ والسياسة" / "والعنف الاستبدادي" / "لا يدعو استعمال العنف المفرط" / left-margin notes "قبول الأفراد ← رغبة الأفراد في المشاركة والانضمام" / "يقول روسو : "إن القوة الدولة تكفل ضعفاء"" and "لا تكون قوة الدولة" largely illegible -->
+
+</section>
+
+</div>
+</body>
+</html>

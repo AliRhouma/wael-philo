@@ -1,0 +1,320 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<title>Wael Academy — Philosophie · تم _فلسفة النموذج 1</title>
+<script>
+  window.MathJax = {
+    tex: { inlineMath: [['\\(','\\)']], displayMath: [['\\[','\\]']] },
+    chtml: { fontURL: 'https://cdn.jsdelivr.net/npm/mathjax@3/es5/output/chtml/fonts/woff-v2', matchFontHeight: true },
+    startup: { typeset: true }
+  };
+</script>
+<script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js" async></script>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Sora:wght@400;500;600;700;800&family=Cairo:wght@400;500;600;700;800;900&family=Tajawal:wght@400;500;700;800&family=JetBrains+Mono:wght@400;500;600;700&display=swap');
+:root{
+  /* ===== Wael Academy palette — MAIN ACCENT = green-teal gradient #0FAB8F → #067360 ===== */
+  --bg:#fff; --panel:#f2f8f8; --hair:#e6e6e9; --hair2:#d6d6db;
+  --fg:#0f2a31;        /* body text (and +/− signs) */
+  --fg2:#3f5b62;       /* softer text */
+  --fg3:#7c959b;       /* muted (footer) */
+  --blue:#067360;      /* deep accent — small numbers, borders, watermark, accent equations */
+  --blue-dark:#045260; /* titles & wordmarks (also the balance colour) */
+  --teal:#0fab8f;      /* bright accent end */
+  --loop:#0d9c82;      /* logo-loop helper */
+  --orange:#067360;    /* kicker/category labels (gold retired → deep teal) */
+  --red:#f5322f;       /* EXERCISE CHIPS ONLY — never for emphasis */
+  --cream:#e6f3f4; --blue-soft:#e6f3f4;  /* pale teal — callout fill + table sub-row fill */
+  --blue-line:#cde7e4; /* hairline */
+  --sub-ink:#045260;   /* table sub-row text */
+  --grad:linear-gradient(148deg,#0fab8f 0%,#0d9c82 52%,#067360 100%);
+  --mono:'JetBrains Mono',monospace; --latin:'Sora',sans-serif; --ar:'Cairo',sans-serif; --arb:'Tajawal',sans-serif;
+}
+*{box-sizing:border-box;margin:0;padding:0;}
+body{font-family:var(--latin);color:var(--fg);background:#e4e4e7;padding:28px 0;
+     -webkit-print-color-adjust:exact;print-color-adjust:exact;}
+html[dir="rtl"] body{font-family:var(--arb);}
+
+/* ===== brand watermark: REAL text (crisp), full-bleed, repeats per page ===== */
+.wm{position:fixed;inset:0;z-index:0;pointer-events:none;display:flex;
+    align-items:center;justify-content:center;overflow:hidden;
+    -webkit-print-color-adjust:exact;print-color-adjust:exact;}
+.wm span{font-family:var(--mono);font-weight:800;font-size:76.8pt;letter-spacing:.16em;
+    color:var(--blue);opacity:.06;white-space:nowrap;transform:rotate(-54deg);}  /* single diagonal: bottom-left → top-right */
+.wm.mono span{color:#000;opacity:.05;}
+
+/* ===== continuous flow stream (no page border) ===== */
+.flow{width:210mm;margin:0 auto;background:transparent;color:var(--fg);
+      padding-block:16mm 18mm;padding-inline:23mm 14mm;position:relative;}   /* spiral gutter: inline-start(=spine) 23mm / outer 14mm — dir-aware; print margins set in render_flow.py */
+@media screen{ .flow{background:#fff;box-shadow:0 10px 40px rgba(0,0,0,.16);} }
+.flow>*{position:relative;z-index:1;}
+.flow p,.flow li,.flow .data,.flow .note,.flow .ex{break-inside:auto;}
+.flow .fig,.flow figure,.flow img,.flow svg.figsvg,.flow table,.flow tr,.flow .chapdiv,.flow .exh,.flow .qrcard,.flow .meta{break-inside:avoid;}
+.flow h1,.flow h2,.flow h3,.flow .exh,.flow .subhead,.flow .chapdiv{break-after:avoid;}
+.flow img,.flow svg.figsvg{max-width:100%;height:auto;}
+.flow figcaption,.flow .figcap{display:none;}          /* rule 3: no figure captions */
+
+/* ===== front matter + chapters each start on a fresh page ===== */
+.flow .cover{break-after:page;}        /* cover alone on page 1 */
+.flow .toc{break-after:page;}          /* Sommaire alone on the next page */
+.flow .chapter{break-before:page;}
+.flow .chapter:first-of-type{break-before:auto;}
+
+/* ===== cover ===== */
+.cover{padding:14mm 0 8mm;border-bottom:2px solid var(--blue);margin-bottom:6mm;}
+.cover .badge{font-family:var(--mono);font-size:8.5pt;letter-spacing:.28em;text-transform:uppercase;color:var(--orange);margin-bottom:10px;}
+.cover h1{font-family:var(--latin);font-weight:800;font-size:34pt;line-height:1.03;letter-spacing:-.025em;color:var(--blue-dark);}
+.cover .grule{width:120px;height:5px;border-radius:5px;background:var(--grad);margin:14px 0;}
+.cover .sub{font-family:var(--mono);font-size:10pt;letter-spacing:.14em;text-transform:uppercase;color:var(--teal);}
+.cover .auth{font-size:11pt;color:var(--fg2);margin-top:6px;font-weight:600;}
+
+/* ===== table of contents ===== */
+.toc{margin:2mm 0 4mm;}
+.toc h2{font-family:var(--latin);font-weight:800;font-size:15pt;color:var(--blue-dark);margin-bottom:4mm;}
+.toc .trititle{font-family:var(--mono);font-size:8pt;letter-spacing:.2em;text-transform:uppercase;color:var(--orange);margin:4mm 0 2mm;}
+.toc ol{list-style:none;}
+.toc li{display:flex;align-items:baseline;gap:8px;font-size:10pt;padding:2.2px 0;color:var(--fg);line-height:1.4;}
+.toc li .n{font-family:var(--mono);font-weight:700;font-size:9pt;color:var(--blue);min-width:26px;}
+.toc li .dots{flex:1;border-bottom:1px dotted var(--hair2);transform:translateY(-3px);}
+
+/* ===== chapter divider band ===== */
+.chapdiv{margin:0 0 5mm;padding:6mm 16px 5mm;border-radius:12px;background:var(--grad);
+    -webkit-print-color-adjust:exact;print-color-adjust:exact;}   /* green-filled chapter band */
+.chapdiv .cn{font-family:var(--mono);font-size:8.5pt;font-weight:700;letter-spacing:.24em;text-transform:uppercase;color:rgba(255,255,255,.82);margin-bottom:5px;}
+.chapdiv h2{font-family:var(--latin);font-weight:800;font-size:17pt;line-height:1.1;letter-spacing:-.015em;color:#fff;}
+/* conclusion block — same green-filled look as the chapter band */
+.conclusion{background:var(--grad);border-radius:12px;padding:6mm 16px;margin:5mm 0;color:#fff;break-inside:avoid;
+    -webkit-print-color-adjust:exact;print-color-adjust:exact;}
+.conclusion .ck{font-family:var(--mono);font-size:8.5pt;font-weight:700;letter-spacing:.24em;text-transform:uppercase;color:rgba(255,255,255,.82);margin-bottom:6px;}
+.conclusion h3{font-family:var(--latin);font-weight:800;font-size:13pt;line-height:1.2;color:#fff;margin-bottom:4px;}
+.conclusion p,.conclusion li{font-size:10.4pt;line-height:1.7;color:#fff;}
+.conclusion b,.conclusion strong{color:#fff;font-weight:700;}
+
+/* ===== unit header (lesson/exercise) + QR emplacement ===== */
+.exh{display:flex;align-items:center;gap:11px;margin:6mm 0 3mm;}
+.exh .idx{font-family:var(--mono);font-size:9pt;font-weight:600;color:#fff;background:var(--grad);
+    border-radius:6px;padding:4px 11px;letter-spacing:.08em;text-transform:uppercase;
+    -webkit-print-color-adjust:exact;print-color-adjust:exact;}
+.exh .idx.ex{background:var(--red);}   /* exercise chip = red */
+.exh h2{font-family:var(--latin);font-size:14pt;font-weight:700;letter-spacing:-.01em;color:var(--blue-dark);}
+.exh .qrcard{margin-inline-start:auto;flex:0 0 auto;display:flex;flex-direction:column;align-items:center;gap:3px;width:26mm;}
+.qrcard .qrt{font-family:var(--mono);font-size:6.5pt;letter-spacing:.1em;text-transform:uppercase;color:var(--teal);text-align:center;}
+.qrcard .qrslot{width:24mm;height:24mm;padding:1.5mm;background:#fff;border:1px solid var(--blue-line);border-radius:8px;display:flex;align-items:center;justify-content:center;}
+.qrcard .qrslot img,.qrcard .qrslot svg{width:100%;height:100%;display:block;}
+
+/* sub-exercise label when one file holds several exercices */
+.exsub{font-family:var(--latin);font-weight:800;font-size:11.5pt;color:var(--blue-dark);margin:5mm 0 2.5mm;padding-bottom:3px;border-bottom:2px solid var(--blue-line);}
+
+/* ===== text blocks ===== */
+.lead{font-size:11pt;line-height:1.7;margin:2mm 0 3mm;color:var(--fg);}
+.para{font-size:10.6pt;line-height:1.7;margin:2mm 0 2.5mm;color:var(--fg);}
+.consigne{font-size:10.4pt;line-height:1.6;margin:1mm 0 2mm;color:var(--fg);font-style:italic;}
+.subhead{font-family:var(--latin);font-weight:800;font-size:12pt;letter-spacing:-.01em;color:var(--blue-dark);margin:5mm 0 2.5mm;}
+/* emphasis — green accent = .t-blue/.t-green ; balance = .t-navy ; red = SECONDARY accent (.t-red) on titles + a few words */
+.t-blue{color:var(--blue);font-weight:600;} .t-navy{color:var(--blue-dark);font-weight:700;}
+.t-red{color:var(--red);font-weight:600;} .t-green{color:var(--teal);font-weight:600;} .t-gold{color:var(--orange);font-weight:600;}
+.subhead.t-red{color:var(--red);font-weight:800;}   /* red Roman-numeral section title (I, II, …) — keeps subhead weight */
+/* highlighter marks — a soft colour wash behind a key word (agent picks green or red per what balances the page) */
+.hl-green,.hl-red{border-radius:3px;padding:.02em .24em;font-weight:600;box-decoration-break:clone;-webkit-box-decoration-break:clone;
+    -webkit-print-color-adjust:exact;print-color-adjust:exact;}
+.hl-green{background:rgba(15,171,143,.20);color:var(--blue-dark);}   /* green highlight */
+.hl-red{background:rgba(245,50,47,.13);color:#c0261f;}               /* red highlight  */
+
+.data{background:var(--blue-soft);border:1px solid var(--blue-line);border-inline-start:4px solid var(--blue);
+    border-radius:8px;padding:11px 16px;margin:3mm 0;font-size:10pt;line-height:1.65;color:var(--fg2);}
+.data b{color:var(--fg);font-weight:700;}
+.note{border:1px dashed var(--hair2);border-radius:9px;padding:11px 16px;margin:4mm 0;background:var(--panel);}
+.note .kicker{font-family:var(--mono);font-size:7.5pt;letter-spacing:.18em;color:var(--orange);display:block;margin-bottom:5px;}
+.note .nb{font-size:10pt;line-height:1.7;color:var(--fg2);} .note b{color:var(--fg);}
+.ex:not(.idx){background:var(--blue-soft);border:1px solid var(--blue-line);border-inline-start:3px solid var(--blue);
+    border-radius:7px;padding:7px 11px;font-size:9.6pt;line-height:1.6;color:var(--fg2);margin:2mm 0;}   /* :not(.idx) so it never hits the exercise chip (which is .idx.ex) */
+.ex .extag{display:inline-block;font-family:var(--latin);font-weight:800;font-size:7.6pt;color:var(--blue-dark);background:#fff;
+    border:1px solid var(--blue);border-radius:5px;padding:1px 9px;margin-inline-end:7px;vertical-align:middle;text-transform:uppercase;letter-spacing:.06em;}
+
+/* ===== lists ===== */
+ol.q{list-style:none;counter-reset:q;margin:1mm 0 2mm;}
+ol.q>li{counter-increment:q;position:relative;padding-inline-start:30px;margin-bottom:2.5mm;font-size:10.4pt;line-height:1.6;}
+ol.q>li::before{content:counter(q);position:absolute;inset-inline-start:0;top:1px;width:21px;height:21px;background:var(--grad);color:#fff;
+    border-radius:50%;font-family:var(--mono);font-size:9pt;font-weight:600;display:flex;align-items:center;justify-content:center;
+    -webkit-print-color-adjust:exact;print-color-adjust:exact;}
+ol.sub{list-style:none;counter-reset:s;margin:4px 0 0;padding-inline-start:2px;border-inline-start:1px solid var(--blue-line);}
+ol.sub li{counter-increment:s;position:relative;padding:2.5px 0 2.5px 26px;font-size:10.1pt;line-height:1.55;}
+ol.sub li::before{content:counter(s,lower-alpha)".";position:absolute;inset-inline-start:10px;top:2.5px;font-family:var(--mono);font-size:9pt;font-weight:600;color:var(--teal);}
+ol.qn{list-style:none;counter-reset:qn;margin:1mm 0 2mm;}
+ol.qn>li{counter-increment:qn;position:relative;padding-inline-start:26px;margin-bottom:2.2mm;font-size:10.4pt;line-height:1.55;}
+ol.qn>li::before{content:counter(qn)".";position:absolute;inset-inline-start:0;top:0;font-family:var(--mono);font-size:9.5pt;font-weight:700;color:var(--blue);}
+ul.b{list-style:none;margin:1mm 0 2mm;} ul.b>li{position:relative;padding-inline-start:22px;margin-bottom:2.4mm;font-size:10.4pt;line-height:1.6;}
+ul.b>li::before{content:"";position:absolute;inset-inline-start:3px;top:8px;width:8px;height:8px;border-radius:50%;background:var(--grad);
+    -webkit-print-color-adjust:exact;print-color-adjust:exact;}
+ul.dash{list-style:none;margin:1mm 0 2mm;} ul.dash>li{position:relative;padding-inline-start:20px;margin-bottom:1.8mm;font-size:10.4pt;line-height:1.6;}
+ul.dash>li::before{content:"–";position:absolute;inset-inline-start:2px;top:0;color:var(--fg);font-weight:700;}  /* dash / +/− signs = body colour */
+.flow ul.opts{list-style:none;margin:4px 0 3px;padding-inline-start:16px;}
+.flow ul.opts li{padding:2px 0;font-size:10.2pt;line-height:1.5;color:var(--fg);}
+
+/* ===== figures / tables ===== */
+.fig{margin:3mm 0;} .fig svg.figsvg{display:block;margin:0 auto;background:#fff;max-width:100%;height:auto;}
+.photo{display:block;margin:3mm auto;border-radius:8px;border:1px solid var(--hair);max-width:100%;}
+.figrow{display:flex;flex-wrap:wrap;gap:9px;justify-content:center;margin:3mm auto;max-width:190mm;}
+.flow .figrow img{border-radius:7px;border:1px solid var(--hair);height:46mm;width:auto;max-width:none;object-fit:cover;}
+.schemarow{display:flex;gap:16px;align-items:flex-start;flex-wrap:wrap;margin:2mm 0;}
+.schemarow .col-txt{flex:1 1 90mm;min-width:80mm;} .schemarow .col-fig{flex:0 0 78mm;} .schemarow .col-fig .fig{margin:0;}
+.flow table{border-collapse:collapse;width:100%;margin:3mm 0;font-size:9.8pt;line-height:1.5;}
+.flow table th,.flow table td{border:1px solid var(--blue-line);padding:6px 10px;text-align:start;vertical-align:top;}
+.flow table th{background:var(--grad);color:#fff;font-family:var(--latin);font-weight:700;font-size:9.4pt;
+    -webkit-print-color-adjust:exact;print-color-adjust:exact;}
+.flow table tr:nth-child(even) td{background:var(--blue-soft);color:var(--sub-ink);}   /* sub-row: #E6F3F4 / #045260 */
+
+mjx-container{color:var(--fg) !important;font-weight:400 !important;font-size:1.0em !important;}
+.eq-hi mjx-container,mjx-container.eq-hi{color:var(--blue) !important;}   /* accent (green) equation — highlight a key result; balance with plain math */
+.eq-red mjx-container,mjx-container.eq-red{color:var(--red) !important;}  /* red accent equation / symbol — complements the green .eq-hi */
+
+/* ===== per-file books: credit line, copies list, figures at their size ===== */
+.credit{display:flex;flex-wrap:wrap;align-items:center;gap:5px;margin:-1mm 0 3.5mm;font-size:9.4pt;color:var(--fg2);}
+.credit .who{font-weight:700;color:var(--blue-dark);}
+.credit .tg{font-family:var(--mono);font-size:7.2pt;letter-spacing:.04em;border-radius:5px;padding:1px 7px;line-height:1.6;
+    border:1px solid var(--blue-line);color:var(--blue);background:#fff;-webkit-print-color-adjust:exact;print-color-adjust:exact;}
+.credit .tg.sec{background:var(--blue-dark);border-color:var(--blue-dark);color:#fff;}
+.credit .tg.cor{background:#fff;border-color:var(--red);color:var(--red);}
+.credit a{color:var(--fg3);font-family:var(--mono);font-size:7pt;text-decoration:none;}
+.cover .auth .credit{margin:4mm 0 0;}
+.cover .copies{margin-top:5mm;font-size:8.6pt;color:var(--fg2);}
+.cover .copies ul{list-style:none;margin:2mm 0 0;padding:0;columns:2;}
+.cover .copies a{color:var(--fg3);text-decoration:none;font-size:8pt;}
+.flow figure.fig{text-align:center;}
+.flow figure.fig img{max-height:60mm;width:auto;max-width:70%;display:inline-block;}
+
+/* chapter tag on each part of a multi-chapter book (the book keeps the original order of the file) */
+.chtag{display:inline-block;margin:5mm 0 2mm;padding:1mm 3mm;border-radius:2mm;background:#eef3fb;border:1px solid #c9d6ea;
+  color:#1f3a6b;font-size:9pt;font-weight:700}
+.chtag span{color:#6b7f9e;font-weight:600;margin-inline-end:1.5mm}
+
+@media print{ body{background:#fff;padding:0;} .flow{width:auto;max-width:none;margin:0;padding:0;} }
+@page{size:A4;}   /* margins come from render_flow.py — do NOT set them here */
+</style>
+<meta data-pagefind-filter="type[content]" content="درس">
+<meta data-pagefind-filter="resource[content]" content="Taki Academy">
+<meta data-pagefind-meta="n[content]" content="1686">
+<meta data-pagefind-meta="title[content]" content="تم _فلسفة النموذج 1">
+<meta data-pagefind-filter="chapter[content]" content="العلم بين الحقيقة والنمذجة">
+<meta data-pagefind-filter="section[content]" content="باكالوريا رياضيات"><style>.qrcard{display:none!important}.wa-nav{position:sticky;top:0;z-index:50;background:#045260;padding:10px 18px;font-family:Cairo,sans-serif;direction:rtl}.wa-nav a{color:#fff;text-decoration:none;font-weight:700}@media print{.wa-nav{display:none}}</style>
+</head>
+
+<body dir="rtl" lang="ar"
+      data-brand="Wael Academy" data-handle="@WaelAcademy"
+      data-tagline="في تُرابنا.. مغامرة بمغامرة"
+      data-phone="+216 50 40 40 42" data-site="waeldocuments.com"
+      data-cta="سجل معانا وأقرى عن بعد مع منصة Wael Academy"
+      data-subject="Philosophie · تم _فلسفة النموذج 1" data-watermark="Wael Academy" data-pagefind-body><nav class="wa-nav" data-pagefind-ignore><a href="../index.html">→ الرجوع إلى فهرس الفلسفة</a></nav>
+
+<!-- single full-page diagonal watermark, bottom-left → top-right (repeats on every page) -->
+<div class="wm" aria-hidden="true"><span>WAEL&nbsp;ACADEMY</span></div>
+
+<div class="flow colored">
+<div class="cover"><div class="badge">◉ Wael Academy · Philosophie</div><h1>تم _فلسفة النموذج 1</h1><div class="grule"></div><div class="sub">العلم بين الحقيقة والنمذجة</div><div class="auth"><div class="credit">المؤلّف / المصدر : <span class="who">Taki Academy — الأستاذ: سفيان سعدالله — www.takiacademy.com — 73.832.000</span> <span class="tg sec">الفلسفة · باكالوريا رياضيات</span> <a href="https://drive.google.com/file/d/1BiOIkz4bfrP7mbRVIbScnMG82nzFG8g0/view">↗ تم _فلسفة النموذج 1.pdf</a></div></div><div class="copies" data-pagefind-ignore><b>نسخ هذا الملف في الدرايفات (1)</b><ul><li><a href="https://drive.google.com/file/d/1BiOIkz4bfrP7mbRVIbScnMG82nzFG8g0/view">Mohamed Amine Hammami · Bac 2025 › Philo</a></li></ul></div></div>
+<section class="chapter"><div class="chapdiv"><div class="cn">المحور</div><h2>العلم بين الحقيقة والنمذجة</h2></div>
+<!-- SOURCE: Taki Academy — الأستاذ: سفيان سعدالله — www.takiacademy.com — 73.832.000 -->
+<div class="exh"><span class="idx">درس</span><h2>العلم بين الحقيقة والنمذجة1</h2>
+  <div class="qrcard"><div class="qrt">فيديو الدرس</div><div class="qrslot"><img src="qr/1686.svg" alt="QR"></div></div></div>
+<div class="credit">المؤلّف / المصدر : <span class="who">Taki Academy — الأستاذ: سفيان سعدالله — www.takiacademy.com — 73.832.000</span> <span class="tg sec">الفلسفة · باكالوريا رياضيات</span> <a href="https://drive.google.com/file/d/1BiOIkz4bfrP7mbRVIbScnMG82nzFG8g0/view">↗ تم _فلسفة النموذج 1.pdf</a></div>
+<p class="subhead t-red">فلسفة</p>
+<p class="para">القسم: باكالوريا شعب علمية</p>
+<p class="para">الدرس: <span class="t-gold"><b>العلم بين الحقيقة والنمذجة1</b></span></p>
+
+<p class="subhead t-red"><u>النموذج ومطلب الحقيقة 1</u></p>
+<p class="para">ما النموذج؟</p>
+<table>
+<tr><th>كيف نُنَمذج؟</th><th>ماذا نُنَمذج؟</th><th>لماذا نُنَمذج؟ او ما الغاية ؟</th></tr>
+<tr><td>البعد التركيبي</td><td>البعد الدلالي</td><td>البعد التداولي</td></tr>
+<tr><td>يحيل النموذج في جانبه التركيبي  الى الجهد الذي يصرفه العقل في انشاء رموز رياضية ( الترييض) وبناء أنساق مركبة من عناصر وتحكمها قواعد تمتاز بطابع صوري مجرد ( الأكسمة) ورغم ذلك فهي قادرة على إعادة بناء الواقع.<br>ان أشكال الصورنة وان كانت جهدا عقليا خالصا فمطلبها هو فهم الواقع<br>فالجانب التركيبي هو جانب صوري<br>يهدف العلم إلى إنشاء بنيات تكون على النحو الأكثر تجريدا كي تمثل الظواهر ونسمي هذه البنيات نماذج.  غرانجي</td>
+<td>النموذج في جانبه الدلالي هو تَمثّل للواقع واستقراء قوانينه وتكوين نظرية علمية معينة<br>وقد اتسم العقل العلمي بإبداع واقع بديل انه واقع افتراضي بحيث اصبح الواقع العلمي واقعا منشأ وافتراضيا واصطناعيا<br>المنمذج يتخيل يفترض واقعا صوريا<br>ما تمتاز به المعرفة العلمية هو كونها تمكننا من تمثلات للظواهر في الافتراضي .غرانجي</td>
+<td>النموذج يدل على محاولة في فهم الواقع وصياغته صوريا في نسق رمزي له صلاحيته في علاقة بكيفيات استعماله اقتصاديا و...و.. والتوقع للتحكم والفعل مما يطرح مشكل الغايات<br>إن التقنية هي مصدر لا يقل ثراء عن العلم بأمثلة نماذج . فرودنتال</td></tr>
+</table>
+
+<p class="para">تمرين1: ما معنى أن يكون النموذج في العلام "نموذج  شيء ما من أجل شيء ما"</p>
+<p class="para">-المطلوب تحديد دلالة النموذج في العلم ضمن سياق القولة بابراز الترابط بين البعدين المعرفي أو النظري (التركيبي والدلالي) والعملي (التداولي)</p>
+<p class="para">في البعد الأول المعرفي التركيبي والدلالي النموذج هو تمثّل تأويل مادي أو ذهني لنسق واقعي يمكن التعبير عنه في تصاميم او في رسوم بيانية أو في صيغ رياضية مجردة في البعد الثاني العملي او التداولي النموذج ينتجه المنمذج وفق غاية عملية براغماتية ويقوم على التبسيط المتعمد والقصدي ويعمد استراتيجيا الاهمال</p>
+<p class="para">2. النموذج وأبعاده</p>
+<div class="data">
+<p class="para">1-  <u>أبعــاد النموذج في التصوّر الوضعي:</u></p>
+<p class="para">البعد التركيبي (في علاقة بلغة العلم) : من شروط بناء النموذج الترييض أي استعمال لغة كميّة مثل الأعداد والرموز الرياضية. يقول غاليلاي:« إن الطبيعة تتكلم بحروف رياضية» فالعلم بالطبيعة هو علم بالرياضيات بوصفها لغة لصياغة القوانين صياغة علمية. ويظهر النموذج في شكل صور مثل الأشكال الهندسية وهو ما نصطلح عليه بالصورنة وهي اجراء صوري يتيح للمنمذج التعبير عن واقع ما وفق صور. فلا وجود لتقابل بين الرياضيات أو العلوم الصورية والعلوم التجريبية وغاية الأمر التخلص من اللغة المألوفة طلبا للموضوعية والحقيقة العلمية.</p>
+<p class="para">البعد الدلالي: <u>(في علاقته بالواقع)</u>: ان النموذج في دلالته التقليدية لا يقتصر على الصورنة والترييض وهي جميعها أشكال مجردة متنوعة، بل يهدف ايضا الى تفسير الواقع واستقراء قوانينه والتعبير عنها في رموز رياضية. اذ ينطلق غاليلاي او نيوتن من الواقع كظواهر مادية ذات علاقات تحكمها قوانين يصوغها الفيزيائي في لغة رياضية. والعالم /الفيزيائي رغم أنه ينطلق من الواقع الموضوعي فإنه ينتهي إلى اكتشاف قوانين فيصوّر كل ذلك تصورا ذهنيا- رياضيا فهناك حركة في صلب الفكر العلمي النيوتني من تحليل الواقع واكتشاف قوانينه إلى إنشائه وصياغته ذهنيا –رياضيا ومثاله قانون الجاذبية الكوني.</p>
+<p class="para">البعد التداولي (في علاقة بالغايات النظرية والعملية): يرمي المنمذج الى تفسير الواقع وتبسيط المعقّد على مستوى نظري وهي الغاية الأساسيّة للنشاط العلمي. ولا يخلوا ذلك</p>
+</div>
+<div class="data">
+<p class="para">من بعد عملي وهو السيادة على الطبيعة وصنع تقنية تساعد الانسان على تحقيق منفعة ما. ويبقى الرهان النظري من تفسير للظواهر وتكوين نظرية علمية هو الرهان الأساس.</p>
+</div>
+<div class="data">
+<p class="para"><u>النموذج العلمي في التصوّر البنائي:</u></p>
+<p class="para"><u>البعد التركيبي:</u> أما اليوم ومع ظهور الميكروفيزياء والواقع الذري لم تَعد الرياضيات اليوم مجرد لغة لصياغة القوانين بل أصبحت أساس النموذج والحقيقة العلمية  اذ تقترن النمذجة - أي إنشاء النماذج -  بعمليات رياضية صوريّة شأن الأكسمة وهي بناء الأنساق بناءا فكريا يتم تشييده بواسطة فرضيات يقع عليها الاختيار دون النظر إلى صدقها أو كذبها أو علاقتها بالواقع، ومنها تستنتج قضايا معينة بطريقة صورية و منطقية مجردة، بحيث يتولّى المنمذج وضع فرضيات ويتمثّل وضعيات بمعنى بناء تصورات  تُعبّر عن فهم  الواقع وبالتالي يصبح معيار الحقيقة او الصدق هو انسجام الفرضيات والنتائج. وبتعبير آخر، النموذج في بعده التركيبي هو بناء فرضي استنتاجي.  وهكذا نلاحظ أن الرياضيات في شكلها الأكسيومي ليست لغة، بل هي منطق في البرهنة والتخطيط والتوقع وبالتالي تتميز الحقيقة العلمية بكونها برهانية منطقية.</p>
+<p class="para"><u>البعد الدلالي:</u> مع العلم المعاصر فان المنمذج إنشاء الواقع وتركيبه وفق صور مجردة. إنّ النموذج تركيب مجرد يتمثل من خلاله المنمذج واقعا فيزيائيا أو بيولوجيا او اجتماعيا فيتخيل ظواهر في شكل رسم أو صورة أو نسق أكسيومي والمقصود هاهنا بالتخيل إنشاء فرضيات يبني من خلالها المنمذج وضعيات أو وقائع وهذا يعني أن النموذج ليس مجرد إجراء منهجي رياضي، بل يتعدى الأمر الجانب التركيبي بوجه عام إلى الجانب الدلالي.<br>ونعني بذلك استبدال الواقع المحسوس بواقع مبني هنا نتساءل أي دلالة للواقع اليوم؟<br>هل الواقع معطى/ مادي ام ذهني انشائي؟<br>ليس النموذج هو الواقع، ولا هو علاقة مباشرة بالواقع، وإنما تمثل للواقع، أي إعادة بناء الواقع بناءًا ذهنيا فكأنّ الواقع قد تَقولَب في صور أو أنساق تُجسم كلها الطابع الإبداعي للمنمذج؛ وبفضل الإعلامية وشاشات الحاسوب نقوم ببناء نماذج وصورنة وضعيات، من ذلك أن المهند س المعماري يضع تصميما ويرسم توبوغرافيا مثالا معماريا هو بالأساس تمثّل للواقع، إذ ينطلق من معطيات هامة أولية كمساحة الأرض المعدة للبناء وموقعها الخ؛ فيعمد إلى بناء تمثل لمسكن لا وجود له واقعيا، ولكنه يوجد المسكن ذهنيا في شكل صورة أو رسم. يعيد المنمذج بناء الواقع بناءً افتراضيا يتخيله المنمذج كما يرى لودفيع باسكال وذلك باعتماد فرضيات يتصورها ومثاله في الفيزياء نموذج بوهر ونموذج طومسون ونموذج رودفور.. فهي نماذج ممكنة وبناءات خيالية للذرة و مكوناتها و حركة</p>
+</div>
+<div class="data">
+<p class="para">الاكترونات وسرعتها و توقعها. فالمنمذج لا يتصور الواقع كما هو، وانما يتخيل ما يمكن أن يكون، فيصنع واقعا افتراضيا  (<span dir="ltr">virtuel</span>)فأساس النمذجة الاصطناع و هو ما يعني أن الواقع العلمي واقع مَبني و ليس معطى و الهدف من وراء ذلك الحصول على نوع من التلائم بين ما يتخيله أي يتصوره المنمذج وما يضم الواقع من معطيات.<br>نستنتج أن النماذج تمثلات ذهنية، اصطناعية، أي أنها ليست مستوحاة من الواقع، بل هي تمثلات يُنشئها الذهن ويقترحها أداة لفهم الواقع. فهل النموذج مجرد تمثل أم يكتسي بعدا عمليا نفعيا؟</p>
+</div>
+<div class="data">
+<p class="para">البعد التداولي: والمقصود بالبعد التداولي للنموذج رسم أهداف النموذج بما هو تمثل لكيفية اشتغال نسق ما بغرض معرفته والتحكّم فيه. على اعتبار أنّ المعرفة التي تقود النموذج هي معرفة موجّهة نحو الفعل. إذ يُعد النموذج أداة فاعلة للتوقع والبرمجة في خدمة التحكّم والقرار. وتمثّل التقنيات هي في ذاتها نماذج أو بالأحرى التحقق الأداتي والعملي لنماذج اي تمثلات وفي الوقت نفسه تتيح التقنيات اليوم مساعدة المنمذج على تحقيق أغراض عملية. فتوجد علاقة تفاعل بين النمذجة والتقنية. إن غاية النمذجة هي استخدام الأساليب العلمية لحل المشاكل المعقدة، ومساعدتنا على اتخاذ قرار علمي ومدروس للقيام بعمل ما على أفضل وجه وضمن الإمكانات المتاحة.</p>
+<p class="para">إلى هذا الحد نستنتج أن النموذج تمثل رياضي يعكس حركة جدلية بين الواقعي والافتراضي، بين النظري والعملي، ونقصد بالعملي غاية المنمذج هي التحكم في الظاهرة سواء على مستوى نظري وأساسه الفهم والتفسير أو على مستوى عملي السيطرة على الظاهرة وإخضاعها تقنيا لإرادة الإنسان و هذا ما نعبر عنه بالبعد التداولي أو البرغماتي و نعني تحقيق منفعة ما؛ و تتداخل هذه الأبعاد فيما بينها مما يضمن القول بأن الحقيقة العلمية قوامها النمذجة.</p>
+</div>
+<p class="para">التمرين 2: قيل: "بقدر ما يتقدم العلم في نمذجة الواقع، بقدر ما يبتعد عنه". حدد دلالة النموذج في سياق هذا القول</p>
+<ul class="dash">
+<li>النموذج آلية لمقاربة الواقع تقوم على استبدال الواقع المعطى بواقع منشأ ذهنيا قصد تعقله والتحكم فيه</li>
+<li>النموذج لا يقوم على محاكاة الواقع المعطى والمباشر بل يقوم على إنتاج واقع عقلي بديل</li>
+<li>النموذج العلمي يستبدل الواقع المحسوس بعالم منشأ عقليا يحلّ فيه الإفتراضي والممكن، محلّ الواقعي</li>
+</ul>
+<p class="para">النموذج إنشاء عقلي يلعب الدور الرئيسي في تطور العلم من خلال تجاوز عقبة الواقع المحسوس.</p>
+<p class="subhead t-navy">النص:</p>
+<p class="para">يُعرف مفهوم النموذج عند البعض بطريقة صورية [...]، بينما يُستعمل بالأحرى عند كتاب آخرين استعمالا غير صوري، ولكننا في جميع الحالات نعتبر أن النماذج بما هي تمثلات جزئية ومُؤمثَلة " لأجزاء صغيرة " من الواقع (أو التجربة الإنسانية ) إنما تُشكل " جوهر " المعرفة العلمية. إن أغلب كتاب هذه المرحلة، من وجهة نظر ابستيمولوجية عامة، هم مضادون للواقعية بشكل صريح أو ضمني، إذا ما فهمنا الواقعية العلمية على أنها الاعتقاد في مسلمة ضمنية تعتبر أن هدف النظريات العلمية هو أن تعكس على نحو متفاوت في التقريب واقع الطبيعة كما هي. ويوجد أيضا لدى بعض هؤلاء الكتاب قدر ما من النزعة الأداتية بالمعنى الواسع: فالنماذج التي تقترحها العلوم هي أدوات تمكّن من التوجه في حقل من حقول التجربة الإنسانية التي يؤدي تعقّدها الشديد إلى استحالة أن تكون قابلة للانعكاس الكلي والوفي في نظرية واحدة.</p>
+<p class="para">"المقاربات النمذجية وشبيهاتها "، كارلوس ايلساس موليناس</p>
+<p class="subhead t-navy"><u>الأسئلة:</u></p>
+<p class="para">1.   اعمل على صياغة الإشكالية. (2ن).</p>
+<p class="para">هل النموذج وصف للواقع أم بناء له؟</p>
+<p class="para">أو</p>
+<p class="para">فيم تكمن قيمة النمذجة العلمية؟ هل في رسم صورة تقريبية للواقع أم في إنشاء واقع بديل؟</p>
+<p class="para">2.  كيف يكون النموذج صورة تقريبية للواقع؟ (2ن).</p>
+<p class="para">لا يقدّم النموذج سوى بعض جوانب الواقع. وبقدر ما تكتفي الواقعية العلمية بمحاكاة الواقع وصياغة قوانينه في أشكال رياضية، فإنّ ابستيمولوجيا البنائية تعتبر النموذج تمثيلا افتراضيا يعتمد تجارب اصطناعية. ومن أهم آليات النمذجة التبسيط والإختزال: استراتيجيا الإهمال والإغفال لتبسيط المركّب.</p>
+<p class="para">3.  ما معنى أن النماذج أدوات؟ (2ن)</p>
+<p class="para">تعريف النماذج على أنها ادوات أي انها تُبنى لغرض ما وإنها تمكّن من التوجه نحو الفعل وهو ما تجسمه التجارب الانسانية. فالنماذج ادوات في معنى انها ترتبط بمطلب التحكّم وحل مشكلات عملية. وعلى قدر تنوع النماذج تتنوع سبل التوقع والفعل...</p>
+<p class="para">3.النموذج والحقيقة</p>
+<div class="data">
+<p class="para">الإشكال العام: أيّ معنى للحقيقية العلمية؟ هل يتحدّد الواقع من خلال نموذج واحد أم نماذج متنوعة؟ وهل يوجد تعارض بين تنوع النماذج ومطلب وحدة الحقيقة؟</p>
+</div>
+<div class="data">
+<p class="para">1-  الحقيقة العلمية في دلالتها الوضعية.</p>
+<p class="para"><u>الحقيقة في علاقتها بالتركيبي:</u> تعود دلالة الحقيقة/النموذج إلى شروط مثل الترييض والصورنة بغاية تفسير الواقع والتحكّم فيه على وجه العموم. اذ يتميّز النموذج في شكله التقليدي بخصائص أهمها التجريد ويتخذ أشكالا متنوعة منها استعمال الرموز الرياضية (الترييض) والصورنة (أشكال هندسية). للتخلص من اللغة السائدة المحملة بالآراء المسبقة طلبا للحقيقة العلمية.</p>
+<p class="para">الحقيقة <u>في علاقتها بالدلالي</u>: هل الحقيقة العلمية حقيقة مجردة مستقلة عن الواقع؟  من معاني الحقيقة العلمية نظريا تفسير الواقع الموضوعي واستقراء القوانين وفق منهج علمي يقوم على الملاحظة.... والتجريب... وبالتالي تكمن الحقيقة في مبدأ التطابق بين النموذج والواقع الموضوعي.</p>
+</div>
+<div class="data">
+<p class="para"><u>الحقيقة في علاقتها بالتداولي</u>: يتطلع المنمذج على الصعيد العملي الى خلق آلات تساعده على مغالبة الطبيعة. ويظل الجانب النظري للنموذج هو الغاية الأساسية.</p>
+<p class="para">2-  الحقيقة العلمية في التصور البنائي:</p>
+<p class="para"><u>في جانبها التركيبي:</u></p>
+<p class="para">ان الرياضيات اليوم لم تَعد مجرد لغة لصياغة القوانين، بل أصبحت أساس الحقيقة العلمية. حيث يعيد المنمذج صنع الواقع في شكل نسق اكسومي ووضع فرضيات فيكون معيار الحقيقة هو الانسجام المنطقي بين الفرضيات والنتائج التي يبلغها المنمذج. وبالتالي تتميز الحقيقة العلمية بكونها برهانية منطقية.</p>
+</div>
+<div class="data">
+<p class="para">في جانبها الدلالي: تغير معنى الحقيقة العلمية لأن المنمذج لا يصف الواقع ولا يفسر ظواهره وإنما يبني واقعا آخر سميناه الواقع الافتراضي وفق مبدأ هو الملائمة. إذ يتصور المنمذج واقعا "خياليا" يعبر عن شكل من أشكال فهم الواقع وتبسيطه. وهذا النموذج (الواقع الافتراضي) هو الذي يتلاءم مع الواقع. فالمنمذج ينطلق من اللاواقعي لفهم الواقع والحقيقة العلمية قوامها التلاؤم. ومن ثمة فإنّ الحقيقة العلمية ليست معرفة بموضوع بقدر ما هي تصور لمشروع.... هل النموذج مجرد معرفة بالواقع أم له غايات عملية؟ / هل الحقيقة العلمية مجرد معرفة خالصة بالواقع؟</p>
+</div>
+<div class="data">
+<p class="para"><u>الحقيقة في علاقتها بالتداولي</u>: النموذج مشروع ابتكار أدوات تقنية تساعد الإنسان على تحقيق مصلحة ما. ولقد اقترن النموذج بالنجاعة والمردودية والنفع وهي معايير الحقيقة العلمية اليوم. والنموذج يكتسي قيمة علمية بحسب الأهداف كالتحكم في الظاهرة والسيطرة عليها فالنمذجة هي استراتيجيا تقوم على التفاعل بين التصور والتطبيق ومعيار الحقيقة العلمية يتوقف على تحويل التصور إلى ممارسة عملية تتمظهر في خلق تكنولوجيا.</p>
+</div>
+<div class="data">
+<p class="para">3- تنوع النماذج، حقيقة أم حقائق:</p>
+<p class="para">* يمكن إنشاء نماذج متنوعة ويرجع هذا الى عدة اسباب: النماذج وجهات نظر متنوعة أي أنّ كل فريق علمي له تصوره الخاص للواقع وإلى جملة المعارف التي ينطلق منها المنمذج والى تطوّر الأدوات التقنية وأجهزة المخابر وأخيرا تعقّد الظواهر؛ مما يعني أنه لا وجود</p>
+</div>
+<div class="data">
+<p class="para">لنموذج تفسيري واحد ومطلق، فإنشاء نماذج هو إعلان عن نهاية وجود حقيقة علمية مطلقة، لا سيما أن النماذج ليست موضوعات اعتقاد جازم عنه العلماء ولا تكتسي طابعا مطلقا كما بيّنا ذلك من خلال أمثلة من نماذج الذرة. إلى حد أنه يمكن القول إن النماذج "تأويلات" متنوعة لوضعية واحدة فيُبسط المنمذج حلولا تقريبية للمسائل أو للواقع. ولا يدّعي تقديم نتائج نهائية، بل إمكانات فهم تكون قابلة للتجديد.<br>*وقد نفسر تنوع النماذج بكون العلم لا يعرف قواعد ثابتة ومنهج واحد. فلم تعد التجربة إجراءا حاسما لبلوغ الحقيقة، ولقد تغير معنى التجربة كي تصبح تجربة فكر، وما التجربة إلاّ اختبار توجهه بعض الأفكار، فأساس العلم هو الفكر أي التصور إلى حد أنه يصطلح على النمذجة بأنها علم التصور(<span dir="ltr">conception</span>) وهذا ما يتعارض مع الزعم الذي يدعي أن العلم قواعده ثابتة وتجاربه حاسمة و نتائجه يقينية. فالعلم اليوم معرفة أو تصور نسبي.<br>* وتقوم النمذجة على" استراتيجيا الإهمال". فقد يكون النموذج غير ملائم لأنه لا يستوعب الواقع في جميع عناصره واذاك لا بد من ادخال تعديلات جزئية وأخرى أساسية فالنموذج يَحتمل المراجعة والنقد على عكس ما شاع أن النموذج العلمي معرفة يقينية مطلقة.</p>
+</div>
+<div class="data">
+<p class="para">4   النماذج ومسألة الحقيقة (الارتهان إلى السلطة ومؤسساتها الاقتصادية والسياسية والدينية):</p>
+<p class="para">إن النموذج يرتبط بأغراض اقتصادية وسياسية مما يدعو إلى إعادة النظر في العلم والحقيقة العلمية من جهة أثرها في الوجود الإنساني بما هو وجود أخلاقي وسياسي. فقد أصبح العلم حسب قول موران: «سلطة جبارة وقوة فعالة» تتحكم في الطبيعة، ولكن المفارقة تكمن في أن الإنسان المعاصر بقدر ما حقّق ضربا من الانتشاء بحكم السيطرة على الطبيعة، أصبحت التقنية خطرا يهدّد الإنسان. وعلى سبيل المثال تحوّلت اليوم المخابر العلمية وهي مخابر في إنشاء نماذج إلى مخابر قرارات سياسية فالسلطة اليوم تتمركز في المؤسسات السياسية والاجتماعية. ويكفي أن نذكر مصانع المواد الكيميائية وتخصيب اليورانيوم وخضوع كل ذلك إلى السلطة السياسية. فلا وجود لنموذج أو حقيقة علمية بمعزل عن الاعتبارات الاقتصادية والسياسية. ولا بد اليوم من البحث عن سبل التّحكّم في التقنية خدمة لأغراض إنسانية وإنشاء مقاربة جديدة للعلاقة بين العلمي</p>
+</div>
+<div class="data">
+<p class="para">والتقني والايتيقي وذلك بوضع معايير يشرعها الإنسان وتضمن التعايش بين الأفراد والمجتمعات وفق مبادئ حقوق الإنسان.</p>
+</div>
+<p class="para"><u>قيل</u>: "لا يمكن لأي نموذج علمي أن يكون نهائيا ". اكشف عن إحدى تبعات هذا القول.</p>
+<p class="para">النموذج بما هو تمثّل للواقع هو منظورية فهو يقطع مع التصور الذي يرى في العلم إنتاجا لحقائق مطلقة وثابتة وكلية. وقد تفضي النمذجة إلى التفريط في مطلب الحقيقة. فهو ينتج معرفة علمية مفتوحة أو تاريخية. لا معنى اليوم في ظل النمذجة لمعيار التمييز بين الصواب والخطأ. لأنّ كل نموذج علمي هو تمثل قابل للمراجعة أو التعديل. مما أدى الى التخلي عن مطلب الحقيقة لصالح التأويل الذي يمثل نظريا شرط امكان ولادة منظوريات/تصورات فالنمذجة عقلانية مفتوحة اما عمليا فإن من نتائج التنوع النماذج تطوّر التكنولوجيات ووسائل السيطرة على الطبيعة وفق معيار الفاعلية أو النجاعة فانبثقت عقلانية علمية عملية تقنوية.</p>
+
+</section>
+
+</div>
+</body>
+</html>

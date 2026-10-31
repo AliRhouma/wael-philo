@@ -1,0 +1,437 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<title>Wael Academy — Philosophie · منهجية الفلسفة</title>
+<script>
+  window.MathJax = {
+    tex: { inlineMath: [['\\(','\\)']], displayMath: [['\\[','\\]']] },
+    chtml: { fontURL: 'https://cdn.jsdelivr.net/npm/mathjax@3/es5/output/chtml/fonts/woff-v2', matchFontHeight: true },
+    startup: { typeset: true }
+  };
+</script>
+<script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js" async></script>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Sora:wght@400;500;600;700;800&family=Cairo:wght@400;500;600;700;800;900&family=Tajawal:wght@400;500;700;800&family=JetBrains+Mono:wght@400;500;600;700&display=swap');
+:root{
+  /* ===== Wael Academy palette — MAIN ACCENT = green-teal gradient #0FAB8F → #067360 ===== */
+  --bg:#fff; --panel:#f2f8f8; --hair:#e6e6e9; --hair2:#d6d6db;
+  --fg:#0f2a31;        /* body text (and +/− signs) */
+  --fg2:#3f5b62;       /* softer text */
+  --fg3:#7c959b;       /* muted (footer) */
+  --blue:#067360;      /* deep accent — small numbers, borders, watermark, accent equations */
+  --blue-dark:#045260; /* titles & wordmarks (also the balance colour) */
+  --teal:#0fab8f;      /* bright accent end */
+  --loop:#0d9c82;      /* logo-loop helper */
+  --orange:#067360;    /* kicker/category labels (gold retired → deep teal) */
+  --red:#f5322f;       /* EXERCISE CHIPS ONLY — never for emphasis */
+  --cream:#e6f3f4; --blue-soft:#e6f3f4;  /* pale teal — callout fill + table sub-row fill */
+  --blue-line:#cde7e4; /* hairline */
+  --sub-ink:#045260;   /* table sub-row text */
+  --grad:linear-gradient(148deg,#0fab8f 0%,#0d9c82 52%,#067360 100%);
+  --mono:'JetBrains Mono',monospace; --latin:'Sora',sans-serif; --ar:'Cairo',sans-serif; --arb:'Tajawal',sans-serif;
+}
+*{box-sizing:border-box;margin:0;padding:0;}
+body{font-family:var(--latin);color:var(--fg);background:#e4e4e7;padding:28px 0;
+     -webkit-print-color-adjust:exact;print-color-adjust:exact;}
+html[dir="rtl"] body{font-family:var(--arb);}
+
+/* ===== brand watermark: REAL text (crisp), full-bleed, repeats per page ===== */
+.wm{position:fixed;inset:0;z-index:0;pointer-events:none;display:flex;
+    align-items:center;justify-content:center;overflow:hidden;
+    -webkit-print-color-adjust:exact;print-color-adjust:exact;}
+.wm span{font-family:var(--mono);font-weight:800;font-size:76.8pt;letter-spacing:.16em;
+    color:var(--blue);opacity:.06;white-space:nowrap;transform:rotate(-54deg);}  /* single diagonal: bottom-left → top-right */
+.wm.mono span{color:#000;opacity:.05;}
+
+/* ===== continuous flow stream (no page border) ===== */
+.flow{width:210mm;margin:0 auto;background:transparent;color:var(--fg);
+      padding-block:16mm 18mm;padding-inline:23mm 14mm;position:relative;}   /* spiral gutter: inline-start(=spine) 23mm / outer 14mm — dir-aware; print margins set in render_flow.py */
+@media screen{ .flow{background:#fff;box-shadow:0 10px 40px rgba(0,0,0,.16);} }
+.flow>*{position:relative;z-index:1;}
+.flow p,.flow li,.flow .data,.flow .note,.flow .ex{break-inside:auto;}
+.flow .fig,.flow figure,.flow img,.flow svg.figsvg,.flow table,.flow tr,.flow .chapdiv,.flow .exh,.flow .qrcard,.flow .meta{break-inside:avoid;}
+.flow h1,.flow h2,.flow h3,.flow .exh,.flow .subhead,.flow .chapdiv{break-after:avoid;}
+.flow img,.flow svg.figsvg{max-width:100%;height:auto;}
+.flow figcaption,.flow .figcap{display:none;}          /* rule 3: no figure captions */
+
+/* ===== front matter + chapters each start on a fresh page ===== */
+.flow .cover{break-after:page;}        /* cover alone on page 1 */
+.flow .toc{break-after:page;}          /* Sommaire alone on the next page */
+.flow .chapter{break-before:page;}
+.flow .chapter:first-of-type{break-before:auto;}
+
+/* ===== cover ===== */
+.cover{padding:14mm 0 8mm;border-bottom:2px solid var(--blue);margin-bottom:6mm;}
+.cover .badge{font-family:var(--mono);font-size:8.5pt;letter-spacing:.28em;text-transform:uppercase;color:var(--orange);margin-bottom:10px;}
+.cover h1{font-family:var(--latin);font-weight:800;font-size:34pt;line-height:1.03;letter-spacing:-.025em;color:var(--blue-dark);}
+.cover .grule{width:120px;height:5px;border-radius:5px;background:var(--grad);margin:14px 0;}
+.cover .sub{font-family:var(--mono);font-size:10pt;letter-spacing:.14em;text-transform:uppercase;color:var(--teal);}
+.cover .auth{font-size:11pt;color:var(--fg2);margin-top:6px;font-weight:600;}
+
+/* ===== table of contents ===== */
+.toc{margin:2mm 0 4mm;}
+.toc h2{font-family:var(--latin);font-weight:800;font-size:15pt;color:var(--blue-dark);margin-bottom:4mm;}
+.toc .trititle{font-family:var(--mono);font-size:8pt;letter-spacing:.2em;text-transform:uppercase;color:var(--orange);margin:4mm 0 2mm;}
+.toc ol{list-style:none;}
+.toc li{display:flex;align-items:baseline;gap:8px;font-size:10pt;padding:2.2px 0;color:var(--fg);line-height:1.4;}
+.toc li .n{font-family:var(--mono);font-weight:700;font-size:9pt;color:var(--blue);min-width:26px;}
+.toc li .dots{flex:1;border-bottom:1px dotted var(--hair2);transform:translateY(-3px);}
+
+/* ===== chapter divider band ===== */
+.chapdiv{margin:0 0 5mm;padding:6mm 16px 5mm;border-radius:12px;background:var(--grad);
+    -webkit-print-color-adjust:exact;print-color-adjust:exact;}   /* green-filled chapter band */
+.chapdiv .cn{font-family:var(--mono);font-size:8.5pt;font-weight:700;letter-spacing:.24em;text-transform:uppercase;color:rgba(255,255,255,.82);margin-bottom:5px;}
+.chapdiv h2{font-family:var(--latin);font-weight:800;font-size:17pt;line-height:1.1;letter-spacing:-.015em;color:#fff;}
+/* conclusion block — same green-filled look as the chapter band */
+.conclusion{background:var(--grad);border-radius:12px;padding:6mm 16px;margin:5mm 0;color:#fff;break-inside:avoid;
+    -webkit-print-color-adjust:exact;print-color-adjust:exact;}
+.conclusion .ck{font-family:var(--mono);font-size:8.5pt;font-weight:700;letter-spacing:.24em;text-transform:uppercase;color:rgba(255,255,255,.82);margin-bottom:6px;}
+.conclusion h3{font-family:var(--latin);font-weight:800;font-size:13pt;line-height:1.2;color:#fff;margin-bottom:4px;}
+.conclusion p,.conclusion li{font-size:10.4pt;line-height:1.7;color:#fff;}
+.conclusion b,.conclusion strong{color:#fff;font-weight:700;}
+
+/* ===== unit header (lesson/exercise) + QR emplacement ===== */
+.exh{display:flex;align-items:center;gap:11px;margin:6mm 0 3mm;}
+.exh .idx{font-family:var(--mono);font-size:9pt;font-weight:600;color:#fff;background:var(--grad);
+    border-radius:6px;padding:4px 11px;letter-spacing:.08em;text-transform:uppercase;
+    -webkit-print-color-adjust:exact;print-color-adjust:exact;}
+.exh .idx.ex{background:var(--red);}   /* exercise chip = red */
+.exh h2{font-family:var(--latin);font-size:14pt;font-weight:700;letter-spacing:-.01em;color:var(--blue-dark);}
+.exh .qrcard{margin-inline-start:auto;flex:0 0 auto;display:flex;flex-direction:column;align-items:center;gap:3px;width:26mm;}
+.qrcard .qrt{font-family:var(--mono);font-size:6.5pt;letter-spacing:.1em;text-transform:uppercase;color:var(--teal);text-align:center;}
+.qrcard .qrslot{width:24mm;height:24mm;padding:1.5mm;background:#fff;border:1px solid var(--blue-line);border-radius:8px;display:flex;align-items:center;justify-content:center;}
+.qrcard .qrslot img,.qrcard .qrslot svg{width:100%;height:100%;display:block;}
+
+/* sub-exercise label when one file holds several exercices */
+.exsub{font-family:var(--latin);font-weight:800;font-size:11.5pt;color:var(--blue-dark);margin:5mm 0 2.5mm;padding-bottom:3px;border-bottom:2px solid var(--blue-line);}
+
+/* ===== text blocks ===== */
+.lead{font-size:11pt;line-height:1.7;margin:2mm 0 3mm;color:var(--fg);}
+.para{font-size:10.6pt;line-height:1.7;margin:2mm 0 2.5mm;color:var(--fg);}
+.consigne{font-size:10.4pt;line-height:1.6;margin:1mm 0 2mm;color:var(--fg);font-style:italic;}
+.subhead{font-family:var(--latin);font-weight:800;font-size:12pt;letter-spacing:-.01em;color:var(--blue-dark);margin:5mm 0 2.5mm;}
+/* emphasis — green accent = .t-blue/.t-green ; balance = .t-navy ; red = SECONDARY accent (.t-red) on titles + a few words */
+.t-blue{color:var(--blue);font-weight:600;} .t-navy{color:var(--blue-dark);font-weight:700;}
+.t-red{color:var(--red);font-weight:600;} .t-green{color:var(--teal);font-weight:600;} .t-gold{color:var(--orange);font-weight:600;}
+.subhead.t-red{color:var(--red);font-weight:800;}   /* red Roman-numeral section title (I, II, …) — keeps subhead weight */
+/* highlighter marks — a soft colour wash behind a key word (agent picks green or red per what balances the page) */
+.hl-green,.hl-red{border-radius:3px;padding:.02em .24em;font-weight:600;box-decoration-break:clone;-webkit-box-decoration-break:clone;
+    -webkit-print-color-adjust:exact;print-color-adjust:exact;}
+.hl-green{background:rgba(15,171,143,.20);color:var(--blue-dark);}   /* green highlight */
+.hl-red{background:rgba(245,50,47,.13);color:#c0261f;}               /* red highlight  */
+
+.data{background:var(--blue-soft);border:1px solid var(--blue-line);border-inline-start:4px solid var(--blue);
+    border-radius:8px;padding:11px 16px;margin:3mm 0;font-size:10pt;line-height:1.65;color:var(--fg2);}
+.data b{color:var(--fg);font-weight:700;}
+.note{border:1px dashed var(--hair2);border-radius:9px;padding:11px 16px;margin:4mm 0;background:var(--panel);}
+.note .kicker{font-family:var(--mono);font-size:7.5pt;letter-spacing:.18em;color:var(--orange);display:block;margin-bottom:5px;}
+.note .nb{font-size:10pt;line-height:1.7;color:var(--fg2);} .note b{color:var(--fg);}
+.ex:not(.idx){background:var(--blue-soft);border:1px solid var(--blue-line);border-inline-start:3px solid var(--blue);
+    border-radius:7px;padding:7px 11px;font-size:9.6pt;line-height:1.6;color:var(--fg2);margin:2mm 0;}   /* :not(.idx) so it never hits the exercise chip (which is .idx.ex) */
+.ex .extag{display:inline-block;font-family:var(--latin);font-weight:800;font-size:7.6pt;color:var(--blue-dark);background:#fff;
+    border:1px solid var(--blue);border-radius:5px;padding:1px 9px;margin-inline-end:7px;vertical-align:middle;text-transform:uppercase;letter-spacing:.06em;}
+
+/* ===== lists ===== */
+ol.q{list-style:none;counter-reset:q;margin:1mm 0 2mm;}
+ol.q>li{counter-increment:q;position:relative;padding-inline-start:30px;margin-bottom:2.5mm;font-size:10.4pt;line-height:1.6;}
+ol.q>li::before{content:counter(q);position:absolute;inset-inline-start:0;top:1px;width:21px;height:21px;background:var(--grad);color:#fff;
+    border-radius:50%;font-family:var(--mono);font-size:9pt;font-weight:600;display:flex;align-items:center;justify-content:center;
+    -webkit-print-color-adjust:exact;print-color-adjust:exact;}
+ol.sub{list-style:none;counter-reset:s;margin:4px 0 0;padding-inline-start:2px;border-inline-start:1px solid var(--blue-line);}
+ol.sub li{counter-increment:s;position:relative;padding:2.5px 0 2.5px 26px;font-size:10.1pt;line-height:1.55;}
+ol.sub li::before{content:counter(s,lower-alpha)".";position:absolute;inset-inline-start:10px;top:2.5px;font-family:var(--mono);font-size:9pt;font-weight:600;color:var(--teal);}
+ol.qn{list-style:none;counter-reset:qn;margin:1mm 0 2mm;}
+ol.qn>li{counter-increment:qn;position:relative;padding-inline-start:26px;margin-bottom:2.2mm;font-size:10.4pt;line-height:1.55;}
+ol.qn>li::before{content:counter(qn)".";position:absolute;inset-inline-start:0;top:0;font-family:var(--mono);font-size:9.5pt;font-weight:700;color:var(--blue);}
+ul.b{list-style:none;margin:1mm 0 2mm;} ul.b>li{position:relative;padding-inline-start:22px;margin-bottom:2.4mm;font-size:10.4pt;line-height:1.6;}
+ul.b>li::before{content:"";position:absolute;inset-inline-start:3px;top:8px;width:8px;height:8px;border-radius:50%;background:var(--grad);
+    -webkit-print-color-adjust:exact;print-color-adjust:exact;}
+ul.dash{list-style:none;margin:1mm 0 2mm;} ul.dash>li{position:relative;padding-inline-start:20px;margin-bottom:1.8mm;font-size:10.4pt;line-height:1.6;}
+ul.dash>li::before{content:"–";position:absolute;inset-inline-start:2px;top:0;color:var(--fg);font-weight:700;}  /* dash / +/− signs = body colour */
+.flow ul.opts{list-style:none;margin:4px 0 3px;padding-inline-start:16px;}
+.flow ul.opts li{padding:2px 0;font-size:10.2pt;line-height:1.5;color:var(--fg);}
+
+/* ===== figures / tables ===== */
+.fig{margin:3mm 0;} .fig svg.figsvg{display:block;margin:0 auto;background:#fff;max-width:100%;height:auto;}
+.photo{display:block;margin:3mm auto;border-radius:8px;border:1px solid var(--hair);max-width:100%;}
+.figrow{display:flex;flex-wrap:wrap;gap:9px;justify-content:center;margin:3mm auto;max-width:190mm;}
+.flow .figrow img{border-radius:7px;border:1px solid var(--hair);height:46mm;width:auto;max-width:none;object-fit:cover;}
+.schemarow{display:flex;gap:16px;align-items:flex-start;flex-wrap:wrap;margin:2mm 0;}
+.schemarow .col-txt{flex:1 1 90mm;min-width:80mm;} .schemarow .col-fig{flex:0 0 78mm;} .schemarow .col-fig .fig{margin:0;}
+.flow table{border-collapse:collapse;width:100%;margin:3mm 0;font-size:9.8pt;line-height:1.5;}
+.flow table th,.flow table td{border:1px solid var(--blue-line);padding:6px 10px;text-align:start;vertical-align:top;}
+.flow table th{background:var(--grad);color:#fff;font-family:var(--latin);font-weight:700;font-size:9.4pt;
+    -webkit-print-color-adjust:exact;print-color-adjust:exact;}
+.flow table tr:nth-child(even) td{background:var(--blue-soft);color:var(--sub-ink);}   /* sub-row: #E6F3F4 / #045260 */
+
+mjx-container{color:var(--fg) !important;font-weight:400 !important;font-size:1.0em !important;}
+.eq-hi mjx-container,mjx-container.eq-hi{color:var(--blue) !important;}   /* accent (green) equation — highlight a key result; balance with plain math */
+.eq-red mjx-container,mjx-container.eq-red{color:var(--red) !important;}  /* red accent equation / symbol — complements the green .eq-hi */
+
+/* ===== per-file books: credit line, copies list, figures at their size ===== */
+.credit{display:flex;flex-wrap:wrap;align-items:center;gap:5px;margin:-1mm 0 3.5mm;font-size:9.4pt;color:var(--fg2);}
+.credit .who{font-weight:700;color:var(--blue-dark);}
+.credit .tg{font-family:var(--mono);font-size:7.2pt;letter-spacing:.04em;border-radius:5px;padding:1px 7px;line-height:1.6;
+    border:1px solid var(--blue-line);color:var(--blue);background:#fff;-webkit-print-color-adjust:exact;print-color-adjust:exact;}
+.credit .tg.sec{background:var(--blue-dark);border-color:var(--blue-dark);color:#fff;}
+.credit .tg.cor{background:#fff;border-color:var(--red);color:var(--red);}
+.credit a{color:var(--fg3);font-family:var(--mono);font-size:7pt;text-decoration:none;}
+.cover .auth .credit{margin:4mm 0 0;}
+.cover .copies{margin-top:5mm;font-size:8.6pt;color:var(--fg2);}
+.cover .copies ul{list-style:none;margin:2mm 0 0;padding:0;columns:2;}
+.cover .copies a{color:var(--fg3);text-decoration:none;font-size:8pt;}
+.flow figure.fig{text-align:center;}
+.flow figure.fig img{max-height:60mm;width:auto;max-width:70%;display:inline-block;}
+
+/* chapter tag on each part of a multi-chapter book (the book keeps the original order of the file) */
+.chtag{display:inline-block;margin:5mm 0 2mm;padding:1mm 3mm;border-radius:2mm;background:#eef3fb;border:1px solid #c9d6ea;
+  color:#1f3a6b;font-size:9pt;font-weight:700}
+.chtag span{color:#6b7f9e;font-weight:600;margin-inline-end:1.5mm}
+
+@media print{ body{background:#fff;padding:0;} .flow{width:auto;max-width:none;margin:0;padding:0;} }
+@page{size:A4;}   /* margins come from render_flow.py — do NOT set them here */
+</style>
+<meta data-pagefind-filter="type[content]" content="منهجية">
+<meta data-pagefind-filter="resource[content]" content="Taki Academy">
+<meta data-pagefind-meta="n[content]" content="2104">
+<meta data-pagefind-meta="title[content]" content="منهجية الفلسفة">
+<meta data-pagefind-filter="chapter[content]" content="المنهجية">
+<meta data-pagefind-filter="section[content]" content="باكالوريا رياضيات"><style>.qrcard{display:none!important}.wa-nav{position:sticky;top:0;z-index:50;background:#045260;padding:10px 18px;font-family:Cairo,sans-serif;direction:rtl}.wa-nav a{color:#fff;text-decoration:none;font-weight:700}@media print{.wa-nav{display:none}}</style>
+</head>
+
+<body dir="rtl" lang="ar"
+      data-brand="Wael Academy" data-handle="@WaelAcademy"
+      data-tagline="في تُرابنا.. مغامرة بمغامرة"
+      data-phone="+216 50 40 40 42" data-site="waeldocuments.com"
+      data-cta="سجل معانا وأقرى عن بعد مع منصة Wael Academy"
+      data-subject="Philosophie · منهجية الفلسفة" data-watermark="Wael Academy" data-pagefind-body><nav class="wa-nav" data-pagefind-ignore><a href="../index.html">→ الرجوع إلى فهرس الفلسفة</a></nav>
+
+<!-- single full-page diagonal watermark, bottom-left → top-right (repeats on every page) -->
+<div class="wm" aria-hidden="true"><span>WAEL&nbsp;ACADEMY</span></div>
+
+<div class="flow colored">
+<div class="cover"><div class="badge">◉ Wael Academy · Philosophie</div><h1>منهجية الفلسفة</h1><div class="grule"></div><div class="sub">المنهجية</div><div class="auth"><div class="credit">المؤلّف / المصدر : <span class="who">Taki Academy — مطوّل للآخر — اسم الأستاذ : صابر بوزايدة — www.takiacademy.com 73.832.000</span> <span class="tg">منهجية</span><span class="tg cor">إصلاح</span><span class="tg sec">الفلسفة · باكالوريا رياضيات</span> <a href="https://drive.google.com/file/d/1dCtFHZnqfjt1ldd85Hj34SJ_wkzMSj1F/view">↗ منهجية الفلسفة.pdf</a> <a href="https://drive.google.com/file/d/1NOeriy108J4bC_u8mD2UJ4NOKtN9Dh1l/view">↗ إصلاح منهجية الفلسفة (1)</a></div></div><div class="copies" data-pagefind-ignore><b>نسخ هذا الملف في الدرايفات (4)</b><ul><li><a href="https://drive.google.com/file/d/1dCtFHZnqfjt1ldd85Hj34SJ_wkzMSj1F/view">Mohamed Amine Hammami · Bac 2025 › Philo</a></li><li><a href="https://drive.google.com/file/d/1NOeriy108J4bC_u8mD2UJ4NOKtN9Dh1l/view">Dhia Bouguerra · Taki Academy › فلسفة</a></li><li><a href="https://drive.google.com/file/d/1NRFLr60TurcgohWlU_dHCW8tCrpwSsS0/view">Dhia Bouguerra · Taki Academy › فلسفة</a></li><li><a href="https://drive.google.com/file/d/1H1NSTGMCbAZA5nOhF2pFIEwQpNXpwvvi/view">Aymen ktata · Aymen ktata › falsfa</a></li></ul></div></div>
+<section class="chapter"><div class="chapdiv"><div class="cn">المحور</div><h2>المنهجية</h2></div>
+<!-- SOURCE: Taki Academy — مطوّل للآخر — اسم الأستاذ : صابر بوزايدة — www.takiacademy.com 73.832.000 -->
+<div class="exh"><span class="idx">منهجية</span><h2>منهجية الفلسفة</h2>
+  <div class="qrcard"><div class="qrt">فيديو الدرس</div><div class="qrslot"><img src="qr/2104.svg" alt="QR"></div></div></div>
+<div class="credit">المؤلّف / المصدر : <span class="who">Taki Academy — مطوّل للآخر — اسم الأستاذ : صابر بوزايدة — www.takiacademy.com 73.832.000</span> <span class="tg">منهجية</span><span class="tg cor">إصلاح</span><span class="tg sec">الفلسفة · باكالوريا رياضيات</span> <a href="https://drive.google.com/file/d/1dCtFHZnqfjt1ldd85Hj34SJ_wkzMSj1F/view">↗ منهجية الفلسفة.pdf</a> <a href="https://drive.google.com/file/d/1NOeriy108J4bC_u8mD2UJ4NOKtN9Dh1l/view">↗ إصلاح منهجية الفلسفة (1)</a></div>
+<p class="para"><b>الفلسفة</b></p>
+<p class="para"><b>القسم :</b> باكالوريا شعب علمية</p>
+<p class="para"><b>الدرس :</b> منهجية الفلسفة</p>
+<p class="para"><b>اسم الأستاذ :</b> صابر بوزايدة</p>
+<p class="subhead t-red"><span class="t-blue">I- <u>القسم الأول:</u></span></p>
+<p class="subhead t-navy"><span class="t-gold">1- الأسئلة: <u>ترد الأسئلة في الصّيغ التّالية:</u></span></p>
+<ul class="b"><li><span class="t-red">قدم حجّة أو حجّة مضادّة:</span></li></ul>
+<ul class="dash">
+<li>في هذا السّؤال يطلب منّا تقديم حجّة للإثبات والتّأكيد والإقناع أو حجّة مضادّة للتّكذيب والدّحض، والتّشكيك، والتحطيم، <span class="t-blue">والنّفي</span>.</li>
+<li>هناك أسهل أنواع الحجج وهي حجة واقعيّة أي حجّة إستقراء أو ملاحظة الواقع وتصاغ كالتّالي:</li>
+</ul>
+<p class="para">✓ تكشف التجربة عن ... ويطلعنا الواقع عن... كما أن الملاحظة المعيشية تعلمنا أن ... والتاريخ سرعان ما ينبهنا إلى ... لعل جملة تجارب المعيش هي التي تثبت...</p>
+<ul class="dash"><li>أو حجّة فلسفيّة تستند إلى العقل والمنطق والفلسفة، تصاغ كالتّالي:</li></ul>
+<p class="para">✓ العقل يثبت ... ومنطقيا يتأكد أن ... حيث أن حساب ذهنيا يطلعنا على ... كما نجد سندا فلسفيا يقرّب ...، نستنتج من هذا التمشي العقلاني أن ...</p>
+<ul class="b"><li><span class="t-red">المسلّمات الضمنية / ضمنيات / مفترضات:</span></li></ul>
+<ul class="dash">
+<li>في هذه الصيغة يطلب منّا الكشف عمّا يختفي وما يتوارى خلف ذلك الإقرار</li>
+<li>المسلّمات الضمنية هي ما لم يقل <span dir="ltr">(le non dit)</span> وكلّ القول مؤسس عليه أي الغير معلن وما لا يريد قوله وما لم يصرّح به، نكتشفه ونبين قيمته تصاغ كالتالي:</li>
+</ul>
+<p class="para"><span class="t-red">✓</span> إن الإقرار بـ ...يفترض ضمنيا ... وهو يسلم بأن ... إذ لا يعلن عن ... و اللا مقال في هذا التأكيد هو ... وهو يصمت عن ...</p>
+<ul class="b"><li><span class="t-red">التبعات / الإحراجات / المخاطر / الهواجس / الإستتبعات:</span></li></ul>
+<ul class="dash">
+<li>في هذه الصّيغة يطلب منّا تحديد النتائج والتركيز خصوصا على النتائج السلبيّة.</li>
+<li>هي ما يترتّب عن فكرة ما أو ما هو خطير ومزعج في مستوى إنساني.</li>
+<li>من المستحسن تقسيم الإستتبعات إلى:</li>
+</ul>
+<ul class="b">
+<li>مستوى وجودي</li>
+<li>مستوى معرفي</li>
+<li>مستوى قيمي</li>
+</ul>
+<ul class="b"><li><span class="t-red">الكشف عن قيمة موقف / مـــا قيمة / مـــا مشروعية / ما مدى صحة / ما وجاهة / مـــا أحقية:</span></li></ul>
+<ul class="dash"><li>في هذه الصّيغة يطلب كمّا البحث في أهمية وقيمة وصحّة تلك الفكرة ويحدث كالتّالي:</li></ul>
+<ul class="b">
+<li>إثبات قيمة تلك الفكرة ( + )</li>
+<li>نفي قيمتها ( - )</li>
+<li>الجمع بينهما ( + ) + ( - )</li>
+</ul>
+<ul class="b"><li><span class="t-red">راهنية / مدى حضور / اليوم / في عصرنا:</span></li></ul>
+<ul class="dash"><li>يطلب مّنا الوقوف على مدى حضور تلك الفكرة في حاضرنا اليوم أي فحص مدى حضور تلك الفكرة في واقعنا المعاصر + تقديم الحجة واقعيّة (موضة أم لا موضة ولماذا؟)</li></ul>
+<p class="para"><span class="t-blue">ملاحظة:</span> أحيانا تكون راهنة في بعد من الأبعاد وغير راهنة في بعد آخر</p>
+<ul class="b"><li><span class="t-red">الرّهان / الرّهانات:</span></li></ul>
+<ul class="dash"><li>أي الأهداف والغايات التي يريد بلوغها ويقسّم الرهان إلى:</li></ul>
+<ul class="b">
+<li>رهان نظري أي المعرفي الفلسفي والذهني <span class="t-red">(آش يصير في مخك)</span></li>
+<li>رهان علمي أي ما يتعلّق بالممارسة والفعل والحياة <span class="t-red">(آش يصير في حياتك)</span></li>
+</ul>
+<ul class="dash"><li>تصاغ الرّهانات كالتالي:</li></ul>
+<p class="para">✓ إن الإقرار بـــ... يراهن نظريا على ... أي معرفيا يؤسس لــ... فهو ذهنيا يرغب في ...، أما عمليا فهو يريد تحريرنا من ويريد تحقيق ... إذ يسعى إلى ...</p>
+<ul class="b"><li><span class="t-red">تعريف مفهوم / ما مفهوم / ما دلالة / ما معنى / ما المقصود بـ :</span></li></ul>
+<ul class="dash">
+<li>يطلب منا تحديد مفهوم في معنى سياقي أي حقل معيّن.</li>
+<li>يحدث ذلك الانطلاق من تصور خاطئ للمفهوم عبر مقارنة إذ المفهوم لا يتوضّح إلا سياقيا وعبر نقيضه <span class="t-red">←</span> فالمقارنة ضرورية</li>
+</ul>
+<table>
+<tr><th>المفهوم</th><th>عكس ذلك المفهوم</th></tr>
+<tr><td></td><td></td></tr>
+</table>
+<p class="subhead t-navy"><span class="t-gold">2- النصّ:</span></p><p class="para"><span class="t-red">♦ <u>الاشكالية:</u></span></p>
+<p class="para">تحويل عناصر النصّ إلى أسئلة تكون بمثابة التخطيط للنصّ، إنها مخطط النص في شكل أسئلة تكون عناصر النصّ <span class="t-blue">(3 أسئلة)</span></p>
+<p class="para">+ من المستحسن أن يكون السؤال الأول أميا (هل ... أم ...؟)</p>
+<p class="para">+ تجنّب إعادة نفس الصّيغة في التساؤل.</p>
+<p class="para"><span class="t-red">♦ <u>كشف أطروحة:</u></span></p>
+<p class="para">+ الأطروحة هي ما يعمل الكاتب في النص على إقناعنا به أي ما يدافع عنه النص وما يريد إثباته.</p>
+<p class="para">+ تصاغ كالتّالي:</p>
+<p class="para">✓ يثبت النص ... ويعمل على إقناعنا ... وهو يدافع عن ...</p>
+<ul class="dash"><li>تصاغ بشكل مختصر</li></ul>
+<p class="para"><span class="t-red">♦ <u>الأطروحة المستبعدة:</u></span></p>
+<ul class="dash">
+<li>ما يعمل النص على تكذيبه وما يدحضه، ما يستبعده النص، ما يكتب ضد النص.</li>
+<li>أحيانا تكون معلنة وأحيانا تكون ضمنية، في الحالتين يجب استخراجها وتوضيحها.</li>
+<li>تصاغ كالتّالي:</li>
+</ul>
+<p class="para">✓ يدحض النص ... وهو يكذب فكرة أن ... ليشكك في ...</p>
+<p class="subhead t-red"><span class="t-blue">II- <u>القسم الثاني:</u></span></p>
+<p class="para"><span class="t-red">❖ <u>المقدمة:</u></span></p>
+<p class="para">وظيفتها صنع توتر / صراع / مفارقة / حيرة بين موقف عامي وموقف فلسفي في علاقة بالموضوع.</p>
+<table>
+<tr><td><span class="t-blue">موقف عامي</span></td><td>≠</td><td><span class="t-blue">موقف فلسفي</span></td></tr>
+<tr><td>ضعيف</td><td>غير أن<br>بيد أن<br>بينما<br>لكن</td><td>أسلم – أصح</td></tr>
+</table>
+<table>
+<tr><td><ul class="b"><li>يذهب في ظن الكثير من الناس ...</li><li>يظن عادة ...</li><li>يعتقد بعض الناس ...</li><li>لعل المتأمل في الفكر العامي ...</li><li>إذا افترضنا ...</li><li>حين نقبل بأن ...</li></ul></td><td>≠</td><td><ul class="b"><li>غير أن موقفا متبصرا يكشف عن</li><li>الحكمة تقتضي ...</li><li>العقل يقر ...</li><li>التجربة تكشف...</li><li>الواقع سرعان ما يفصح عن ...</li></ul></td></tr>
+</table>
+<p class="para">مثل هذا التوتر يطرح الأسئلة التالية:</p>
+<ul class="b">
+<li><span class="t-red">الإشكالية:</span> تحويل عناصر الفقرة إلى أسئلة كون بمثابة التخطيط إضافة إلى سؤال نقدي.</li>
+<li><span class="t-red">الجوهر:</span> الطّرح: نعم</li>
+</ul>
+<p class="subhead t-navy"><span class="t-blue">I- <u>الانطلاق من الأطروحة الأضعف:</u></span></p>
+<p class="para">أي مسايرة الموضوع:</p>
+<p class="para"><span class="t-gold">1) التعريف</span> بالمفهوم الرّئيسي سياقيّا <span class="t-red">(المفهمة)</span></p>
+<p class="para"><span class="t-gold">2) مرحلة البرهنة</span> أي تدعيم الأطروحة بحجج ( إمّا حجة إستقراء للواقع أو حجة مماثلة أو حجة مقارنة أو حجة &nbsp; مثال أو حجة تقسيم أو برهان الخُلف إذ لإثبات شيء ما نثبت ان عكسه مستحيل، حجة مفاضلة أي تفضيل شيء عن شيء.</p>
+<p class="para"><span class="t-gold">3) النتيجة</span> التي توصلنا إليها إلى ماذا توصلنا في البحث.</p>
+<p class="para"><span class="t-gold">4) رهانات</span> الأطروحة أي الأهداف النظريّة والعملية <span class="t-blue">+ / الراهنية</span></p>
+<p class="para"><span class="t-gold">5) المسلمات</span> الضمنية</p>
+<p class="para"><span class="t-gold">6)</span> في كلّ ذلك نستعين بمرجعيّة لمزيد التدعيم والإقناع.</p>
+<p class="para">ومثل هذا الموقف يؤدّي إلى هواجس وإحراجات<br>أي استدعاء الفلسفة الأكثر تمثيلية لذلك الموضوع</p>
+<p class="para"><span class="t-blue">← تلك النّتيجة التي توصلنا إليها .... انّها خطيرة ولها تبعات محرجة هي...</span></p>
+<p class="para">سؤال انتقال للمرحلة الثانية:</p>
+<p class="subhead t-navy"><span class="t-blue">II- <u>الأطروحة الثانية: نقيض الطرح: لا</u></span></p>
+<p class="para">في الأطروحة الأولى ما يدعو إلى استبعادها لذلك نقترح أطروحة ثانية مضادّة:</p>
+<p class="para">← الانطلاق في تحديد المفهوم الرئيسي سياقيا<br>← البرهنة عبر الحجة<br>← النتيجة<br>← الرهانات<br>← المسلمة الضمنية<br>← المرجعية<br>← تبعات هذه الأطروحة الخطيرة</p>
+<div class="data"><p class="para">النتيجة الأولى والثانية متناقضتان ممّا يستدعي <span class="t-red">حلاّ</span> أي إيجاد حل لهذا التعارض.</p></div>
+<p class="subhead t-navy"><span class="t-blue">III- <u>الحل: التأليف:</u></span></p>
+<p class="para">إما تدعيم نتيجة على حساب الأخرى أو التأليف بين الأطروحتين أو تجاوزهما معا نحو موقف ثالث.</p>
+<p class="para"><span class="t-red">♦ <u>الخاتمة:</u></span> تلخيص لأهم ما توصلنا إليه جوهرا ونقدا بلغة دقيقة وصارمة دون فتح آفاق ودون وضعت أسئلة.</p>
+<div class="exsub">الإصلاح</div>
+<!-- NOTE: part2 p01 cover has a handwritten red "B" annotation, left out; cover also shows "شكبب عالباك BAC 2023" logo and Taki Academy branch list (Sousse (Khezama - Sahloul) / Nabeul / Sfax / Bardo / El Aouina / CUN / Bizerte / Gafsa / Kairouan / Medenine / Kébili / Monastir / Gabes / Djerba / Béja / El Mourouj / Ezzahra / Jendouba / Sidi Bouzid / Siliana) -->
+<p class="para"><b>فلسفة</b></p>
+<p class="para">بكالــوريا</p>
+<p class="para">الدرس: <span class="t-gold"><b>منهجية الفلسفة</b></span></p>
+<p class="para">اسم الأستاذ: <b>صابر بوزايدة</b></p>
+<!-- NOTE: part2 pages carry many handwritten pen annotations (circles, underlines, scribbles, numbers, margin words, highlighter); they are left out -->
+<p class="subhead t-red"><b>منهجية الفلسفة – بكالوريا</b></p>
+<p class="subhead t-red"><span class="t-blue"><b>I– <u>القسم الأول:</u></b></span></p>
+<p class="subhead t-navy"><span class="t-green"><b>1–الأسئلة: <u>ترد الأسئلة في الصّيغ التّالية:</u></b></span></p>
+<ul class="b"><li><span class="t-gold"><b>قدم حجّة أو حجّة مضادّة:</b></span></li></ul>
+<ul class="dash">
+<li>في هذا السّؤال يطلب منّا تقديم حجّة للإثبات والتّأكيد والإقناع أو حجّة مضادّة للتّكذيب والدّحض والتّشكيك والتحطيم و<span class="t-red"><b>النّفي</b></span>.</li>
+<li>هناك أسهل أنواع الحجج وهي حجة واقعيّة أي حجّة إستقراء أو ملاحظة الواقع وتصاغ كالتّالي:</li>
+</ul>
+<p class="para">✓ تكشف التجربة عن ... ويطلعنا الواقع عن... كما أن الملاحظة المعيشية تعلمنا أن ... و التاريخ سرعان ما ينبهنا إلى ... لعل جملة تجارب المعيش هي التي تثبت...</p>
+<ul class="dash"><li>أو حجّة فلسفيّة تستند إلى العقل والمنطق والفلسفة، تصاغ كالتّالي:</li></ul>
+<p class="para">✓ العقل يثبت ... و منطقيا يتأكد أن ... حيث أن حساب ذهنيا يطلعنا على ... كما نجد سندا فلسفيا يقرّب ...، نستنتج من هذا التمشي العقلاني أن ...</p>
+<ul class="b"><li><span class="t-gold"><b>المسلّمات الضمنية / ضمنيات / مفترضات:</b></span></li></ul>
+<ul class="dash">
+<li>في هذه الصيغة يطلب منّا الكشف عمّا يختفي وما يتوارى خلف ذلك الإقرار</li>
+<li>المسلّمات الضمنية هي ما لم يقل <span dir="ltr">(le non dit)</span> و كلّ القول مؤسس عليه أي الغير معلن وما لا يريد قوله وما لم يصرّح به، نكتشفه ونبين قيمته تصاغ كالتالي:</li>
+</ul>
+<p class="para">✓ إن الإقرار بـ ...يفترض ضمنيا ... و هو يسلم بأن ... إذ لا يعلن عن ... و اللا مقال في هذا التأكيد هو ... وهو يصمت عن ...</p>
+<ul class="b"><li><span class="t-gold"><b>التبعات / الإحراجات / المخاطر / الهواجس / الإستتبعات:</b></span></li></ul>
+<ul class="dash">
+<li>في هذه الصّيغة يطلب منّا تحديد النتائج والتركيز خصوصا على النتائج السلبيّة.</li>
+<li>هي ما يترتّب عن فكرة ما أو ماهو خطير ومزعج في مستوى إنساني.</li>
+<li>من المستحسن تقسيم الإستتبعات إلى:</li>
+</ul>
+<p class="para"><span class="t-blue"><b>✓ مستوى وجودي</b></span><br><span class="t-blue"><b>✓ مستوى معرفي</b></span><br><span class="t-blue"><b>✓ مستوى قيمي</b></span></p>
+<ul class="b"><li><span class="t-gold"><b>الكشف عن قيمة موقف / مـــا قيمة / مـــا مشروعية / ما مدى صحة / ما وجاهة / مـــا أحقية:</b></span></li></ul>
+<ul class="dash"><li>في هذه الصّيغة يطلب كمّا البحث في أهمية وقيمة وصحّة تلك الفكرة ويحدث كالتّالي:</li></ul>
+<p class="para">✓ إثبات قيمة تلك الفكرة ( + )<br>✓ نفي قيمتها ( − )<br>✓ الجمع بينهما ( + ) + ( − )</p>
+<ul class="b"><li><span class="t-gold"><b>راهنية / مدى حضور / اليوم / في عصرنا:</b></span></li></ul>
+<ul class="dash"><li>يطلب مّنا الوقوف على مدى حضور تلك الفكرة في حاضرنا اليوم أي فحص مدى حضور تلك الفكرة في واقعنا المعاصر + تقديم الحجة واقعيّة ( موضة أم لا موضة ولماذا؟)</li></ul>
+<p class="para"><span class="t-green"><b>ملاحظة:</b></span> أحيانا تكون راهنة في بعد من الأبعاد وغير راهنة في بعد آخر</p>
+<ul class="b"><li><span class="t-gold"><b>الرّهان / الرّهانات:</b></span></li></ul>
+<ul class="dash"><li>أي الأهداف والغايات التي يريد بلوغها ويقسّم الرهان إلى :</li></ul>
+<ul class="b">
+<li>رهان نظري أي المعرفي الفلسفي والذهني <span class="t-green"><b>(آش يصير في مخك)</b></span></li>
+<li>رهان علمي أي ما يتعلّق بالممارسة والفعل والحياة <span class="t-green"><b>(آش يصير في حياتك)</b></span></li>
+</ul>
+<ul class="dash"><li>تصاغ الرّهانات كالتالي:</li></ul>
+<p class="para">✓ إن الإقرار بــ... يراهن نظريا على ... أي معرفيا يؤسس لـ... فهو ذهنيا يرغب في ...، أما عمليا فهو يريد تحريرنا من ويريد تحقيق ... إذ يسعى إلى ...</p>
+<ul class="b"><li><span class="t-gold"><b>تعريف مفهوم / ما مفهوم / ما دلالة / ما معنى / ما المقصود بـ :</b></span></li></ul>
+<ul class="dash">
+<li>يطلب منا تحديد مفهوم في معنى سياقي أي حقل معيّن.</li>
+<li>يحدث ذلك الانطلاق من تصور خاطئ للمفهوم عبر مقارنة إذ المفهوم لا يتوضّح إلا سياقيا وعبر نقيضه <span class="t-gold">⇐</span> فالمقارنة ضرورية</li>
+</ul>
+<table>
+<tr><th>المفهوم</th><th>عكس ذلك المفهوم</th></tr>
+<tr><td></td><td></td></tr>
+</table>
+<p class="subhead t-navy"><span class="t-green"><b>2–النصّ:</b></span></p>
+<p class="para"><span class="t-green"><b>♦ <u>الاشكالية:</u></b></span></p>
+<p class="para">تحويل عناصر النصّ إلى أسئلة تكون بمثابة التخطيط للنصّ، إنها مخطط النص في شكل أسئلة تكون عناصر النصّ <span class="t-red"><b>(3 أسئلة)</b></span></p>
+<p class="para">+ من المستحسن أن يكون السؤال الأول أميا (هل ... أم ...؟)</p>
+<p class="para">+ تجنّب إعادة نفس الصّيغة في التساؤل.</p>
+<p class="para"><span class="t-green"><b>♦ <u>كشف أطروحة:</u></b></span></p>
+<p class="para">+ الأطروحة هي ما يعمل الكاتب في النص على إقناعنا به أي ما يدافع عنه النص وما يريد إثباته.</p>
+<p class="para">+ تصاغ كالتّالي:</p>
+<p class="para">✓ يثبت النص ...ويعمل على إقناعنا ... وهو يدافع عن ...</p>
+<ul class="dash"><li>تصاغ بشكل مختصر</li></ul>
+<p class="para"><span class="t-green"><b>♦ <u>الأطروحة المستبعدة:</u></b></span></p>
+<ul class="dash">
+<li>ما يعمل النص على تكذيبه وما يدحضه، ما يستبعده النص، ما يكتب ضد النص.</li>
+<li>أحيانا تكون معلنة وأحيانا تكون ضمنية، في الحالتين يجب استخراجها وتوضيحها.</li>
+<li>تصاغ كالتّالي:</li>
+</ul>
+<p class="para">✓ يدحض النص ... وهو يكذب فكرة أن ... ليشكك في ...</p>
+<p class="subhead t-red"><span class="t-blue"><b>II–<u>القسم الثاني:</u></b></span></p>
+<p class="para"><span class="t-red"><b>❖ <u>المقدمة:</u></b></span></p>
+<p class="para">وظيفتها صنع توتر / صراع / مفارقة / حيرة بين موقف عامي وموقف فلسفي في علاقة بالموضوع.</p>
+<table>
+<tr><td><span class="t-gold"><b>موقف عامي</b></span></td><td>≠</td><td><span class="t-gold"><b>موقف فلسفي</b></span></td></tr>
+<tr><td>ضعيف</td><td>غير أن<br>بيد أن<br>بينما<br>لكن</td><td>أسلم – أصح</td></tr>
+</table>
+<table>
+<tr><td>✓ يذهب في ظن الكثير من الناس ...<br>✓ يظن عادة ...<br>✓ يعتقد بعض الناس ...<br>✓ لعل المتأمل في الفكر العامي ...<br>✓ إذا افترضنا ...<br>✓ حين نقبل بأن ...</td><td>≠</td><td>✓ غير أن موقفا متبصرا يكشف عن<br>✓ الحكمة تقتضي ...<br>✓ العقل يقر ...<br>✓ التجربة تكشف...<br>✓ الواقع سرعان ما يفصح عن ...</td></tr>
+</table>
+<p class="para">مثل هذا التوتر يطرح الأسئلة التالية:</p>
+<ul class="b">
+<li><span class="t-red"><b>الإشكالية:</b></span> تحويل عناصر الفقرة إلى أسئلة كون بمثابة التخطيط إضافة إلى سؤال نقدي.</li>
+<li><span class="t-red"><b>الجوهر:</b></span> الطّرح: نعم</li>
+</ul>
+<p class="subhead t-navy"><span class="t-gold"><b>I) <u>الإنطلاق من الأطروحة الأضعف:</u></b></span></p>
+<p class="para">أي مسايرة الموضوع:</p>
+<p class="para"><span class="t-blue"><b>1) التعريف</b></span> بالمفهوم الرّئيسي سياقيّا <span class="t-red"><b>(المفهمة)</b></span></p>
+<p class="para"><span class="t-blue"><b>2) مرحلة البرهنة</b></span> أي تدعيم الأطروحة بحجج ( إمّا حجة إستقراء للواقع أو حجة مماثلة أو حجة مقارنة أو حجة &nbsp; مثال أو حجة تقسيم أو برهان الخُلف إذ لإثبات شيء ما نثبت ان عكسه مستحيل، حجة مفاضلة أي تفضيل شيء عن شيء.</p>
+<p class="para"><span class="t-blue"><b>3) النتيجة</b></span> التي توصلنا إليها إلى ماذا توصلنا في البحث.</p>
+<p class="para"><span class="t-blue"><b>4) رهانات</b></span> الأطروحة أي الأهداف النظريّة والعملية <span class="t-red">+ / الراهنية</span></p>
+<p class="para"><span class="t-blue"><b>5) المسلمات</b></span> الضمنية</p>
+<p class="para"><span class="t-blue"><b>6)</b></span> في كلّ ذلك نستعين بمرجعيّة لمزيد التدعيم والإقناع.</p>
+<p class="para">ومثل هذا الموقف يؤدّي إلى هواجس وإحراجات<br>أي استدعاء الفلسفة الأكثر تمثيلية لذلك الموضوع</p>
+<p class="para"><span class="t-green">⇐</span> <span class="t-red"><b>تلك النّتيجة التي توصلنا إليها .... انّها خطيرة ولها تبعات محرجة هي...</b></span></p>
+<p class="para">سؤال إنتقال للمرحلة الثانية:</p>
+<p class="subhead t-navy"><span class="t-gold"><b>II) <u>الأطروحة الثانية: نقيض الطرح: لا</u></b></span></p>
+<p class="para">في الأطروحة الأولى ما يدعو إلى استبعادها لذلك نقترح أطروحة ثانية مضادّة:</p>
+<p class="para">✓ الإنطلاق في تحديد المفهوم الرئيسي سياقيا<br>✓ البرهنة عبر الحجة<br>✓ النتيجة<br>✓ الرهانات<br>✓ المسلمة الضمنية<br>✓ المرجعية<br>✓ تبعات هذه الأطروحة الخطيرة</p>
+<div class="data"><p class="para"><span class="t-red"><b>النتيجة الأولى والثانية متناقضتان ممّا يستدعي <span class="t-blue">حلاّ</span> أي إيجاد حل لهذا التعارض.</b></span></p></div>
+<p class="subhead t-navy"><span class="t-gold"><b>I) &nbsp;الحل: التأليف:</b></span></p>
+<p class="para">إما تدعيم نتيجة على حساب الأخرى أو التأليف بين الأطروحتين أو تجاوزهما معا نحو موقف ثالث</p>
+<!-- PROOFREAD: 2104 part2 p06 — "ثالث" touches the left page edge, last letter partly cut; heading numeral printed as "I)" -->
+<p class="para"><b>الخاتمة:</b> تلخيص لأهم ما توصلنا إليه جوهرا ونقدا بلغة دقيقة وصارمة دون فتح آفاق ودون وضعت أسئلة.</p>
+
+</section>
+
+</div>
+</body>
+</html>

@@ -1,0 +1,403 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<title>Wael Academy — Philosophie · جذاذة لمراجعة الإنية والغيرية - المعهد النموذجي بسوسة</title>
+<script>
+  window.MathJax = {
+    tex: { inlineMath: [['\\(','\\)']], displayMath: [['\\[','\\]']] },
+    chtml: { fontURL: 'https://cdn.jsdelivr.net/npm/mathjax@3/es5/output/chtml/fonts/woff-v2', matchFontHeight: true },
+    startup: { typeset: true }
+  };
+</script>
+<script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js" async></script>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Sora:wght@400;500;600;700;800&family=Cairo:wght@400;500;600;700;800;900&family=Tajawal:wght@400;500;700;800&family=JetBrains+Mono:wght@400;500;600;700&display=swap');
+:root{
+  /* ===== Wael Academy palette — MAIN ACCENT = green-teal gradient #0FAB8F → #067360 ===== */
+  --bg:#fff; --panel:#f2f8f8; --hair:#e6e6e9; --hair2:#d6d6db;
+  --fg:#0f2a31;        /* body text (and +/− signs) */
+  --fg2:#3f5b62;       /* softer text */
+  --fg3:#7c959b;       /* muted (footer) */
+  --blue:#067360;      /* deep accent — small numbers, borders, watermark, accent equations */
+  --blue-dark:#045260; /* titles & wordmarks (also the balance colour) */
+  --teal:#0fab8f;      /* bright accent end */
+  --loop:#0d9c82;      /* logo-loop helper */
+  --orange:#067360;    /* kicker/category labels (gold retired → deep teal) */
+  --red:#f5322f;       /* EXERCISE CHIPS ONLY — never for emphasis */
+  --cream:#e6f3f4; --blue-soft:#e6f3f4;  /* pale teal — callout fill + table sub-row fill */
+  --blue-line:#cde7e4; /* hairline */
+  --sub-ink:#045260;   /* table sub-row text */
+  --grad:linear-gradient(148deg,#0fab8f 0%,#0d9c82 52%,#067360 100%);
+  --mono:'JetBrains Mono',monospace; --latin:'Sora',sans-serif; --ar:'Cairo',sans-serif; --arb:'Tajawal',sans-serif;
+}
+*{box-sizing:border-box;margin:0;padding:0;}
+body{font-family:var(--latin);color:var(--fg);background:#e4e4e7;padding:28px 0;
+     -webkit-print-color-adjust:exact;print-color-adjust:exact;}
+html[dir="rtl"] body{font-family:var(--arb);}
+
+/* ===== brand watermark: REAL text (crisp), full-bleed, repeats per page ===== */
+.wm{position:fixed;inset:0;z-index:0;pointer-events:none;display:flex;
+    align-items:center;justify-content:center;overflow:hidden;
+    -webkit-print-color-adjust:exact;print-color-adjust:exact;}
+.wm span{font-family:var(--mono);font-weight:800;font-size:76.8pt;letter-spacing:.16em;
+    color:var(--blue);opacity:.06;white-space:nowrap;transform:rotate(-54deg);}  /* single diagonal: bottom-left → top-right */
+.wm.mono span{color:#000;opacity:.05;}
+
+/* ===== continuous flow stream (no page border) ===== */
+.flow{width:210mm;margin:0 auto;background:transparent;color:var(--fg);
+      padding-block:16mm 18mm;padding-inline:23mm 14mm;position:relative;}   /* spiral gutter: inline-start(=spine) 23mm / outer 14mm — dir-aware; print margins set in render_flow.py */
+@media screen{ .flow{background:#fff;box-shadow:0 10px 40px rgba(0,0,0,.16);} }
+.flow>*{position:relative;z-index:1;}
+.flow p,.flow li,.flow .data,.flow .note,.flow .ex{break-inside:auto;}
+.flow .fig,.flow figure,.flow img,.flow svg.figsvg,.flow table,.flow tr,.flow .chapdiv,.flow .exh,.flow .qrcard,.flow .meta{break-inside:avoid;}
+.flow h1,.flow h2,.flow h3,.flow .exh,.flow .subhead,.flow .chapdiv{break-after:avoid;}
+.flow img,.flow svg.figsvg{max-width:100%;height:auto;}
+.flow figcaption,.flow .figcap{display:none;}          /* rule 3: no figure captions */
+
+/* ===== front matter + chapters each start on a fresh page ===== */
+.flow .cover{break-after:page;}        /* cover alone on page 1 */
+.flow .toc{break-after:page;}          /* Sommaire alone on the next page */
+.flow .chapter{break-before:page;}
+.flow .chapter:first-of-type{break-before:auto;}
+
+/* ===== cover ===== */
+.cover{padding:14mm 0 8mm;border-bottom:2px solid var(--blue);margin-bottom:6mm;}
+.cover .badge{font-family:var(--mono);font-size:8.5pt;letter-spacing:.28em;text-transform:uppercase;color:var(--orange);margin-bottom:10px;}
+.cover h1{font-family:var(--latin);font-weight:800;font-size:34pt;line-height:1.03;letter-spacing:-.025em;color:var(--blue-dark);}
+.cover .grule{width:120px;height:5px;border-radius:5px;background:var(--grad);margin:14px 0;}
+.cover .sub{font-family:var(--mono);font-size:10pt;letter-spacing:.14em;text-transform:uppercase;color:var(--teal);}
+.cover .auth{font-size:11pt;color:var(--fg2);margin-top:6px;font-weight:600;}
+
+/* ===== table of contents ===== */
+.toc{margin:2mm 0 4mm;}
+.toc h2{font-family:var(--latin);font-weight:800;font-size:15pt;color:var(--blue-dark);margin-bottom:4mm;}
+.toc .trititle{font-family:var(--mono);font-size:8pt;letter-spacing:.2em;text-transform:uppercase;color:var(--orange);margin:4mm 0 2mm;}
+.toc ol{list-style:none;}
+.toc li{display:flex;align-items:baseline;gap:8px;font-size:10pt;padding:2.2px 0;color:var(--fg);line-height:1.4;}
+.toc li .n{font-family:var(--mono);font-weight:700;font-size:9pt;color:var(--blue);min-width:26px;}
+.toc li .dots{flex:1;border-bottom:1px dotted var(--hair2);transform:translateY(-3px);}
+
+/* ===== chapter divider band ===== */
+.chapdiv{margin:0 0 5mm;padding:6mm 16px 5mm;border-radius:12px;background:var(--grad);
+    -webkit-print-color-adjust:exact;print-color-adjust:exact;}   /* green-filled chapter band */
+.chapdiv .cn{font-family:var(--mono);font-size:8.5pt;font-weight:700;letter-spacing:.24em;text-transform:uppercase;color:rgba(255,255,255,.82);margin-bottom:5px;}
+.chapdiv h2{font-family:var(--latin);font-weight:800;font-size:17pt;line-height:1.1;letter-spacing:-.015em;color:#fff;}
+/* conclusion block — same green-filled look as the chapter band */
+.conclusion{background:var(--grad);border-radius:12px;padding:6mm 16px;margin:5mm 0;color:#fff;break-inside:avoid;
+    -webkit-print-color-adjust:exact;print-color-adjust:exact;}
+.conclusion .ck{font-family:var(--mono);font-size:8.5pt;font-weight:700;letter-spacing:.24em;text-transform:uppercase;color:rgba(255,255,255,.82);margin-bottom:6px;}
+.conclusion h3{font-family:var(--latin);font-weight:800;font-size:13pt;line-height:1.2;color:#fff;margin-bottom:4px;}
+.conclusion p,.conclusion li{font-size:10.4pt;line-height:1.7;color:#fff;}
+.conclusion b,.conclusion strong{color:#fff;font-weight:700;}
+
+/* ===== unit header (lesson/exercise) + QR emplacement ===== */
+.exh{display:flex;align-items:center;gap:11px;margin:6mm 0 3mm;}
+.exh .idx{font-family:var(--mono);font-size:9pt;font-weight:600;color:#fff;background:var(--grad);
+    border-radius:6px;padding:4px 11px;letter-spacing:.08em;text-transform:uppercase;
+    -webkit-print-color-adjust:exact;print-color-adjust:exact;}
+.exh .idx.ex{background:var(--red);}   /* exercise chip = red */
+.exh h2{font-family:var(--latin);font-size:14pt;font-weight:700;letter-spacing:-.01em;color:var(--blue-dark);}
+.exh .qrcard{margin-inline-start:auto;flex:0 0 auto;display:flex;flex-direction:column;align-items:center;gap:3px;width:26mm;}
+.qrcard .qrt{font-family:var(--mono);font-size:6.5pt;letter-spacing:.1em;text-transform:uppercase;color:var(--teal);text-align:center;}
+.qrcard .qrslot{width:24mm;height:24mm;padding:1.5mm;background:#fff;border:1px solid var(--blue-line);border-radius:8px;display:flex;align-items:center;justify-content:center;}
+.qrcard .qrslot img,.qrcard .qrslot svg{width:100%;height:100%;display:block;}
+
+/* sub-exercise label when one file holds several exercices */
+.exsub{font-family:var(--latin);font-weight:800;font-size:11.5pt;color:var(--blue-dark);margin:5mm 0 2.5mm;padding-bottom:3px;border-bottom:2px solid var(--blue-line);}
+
+/* ===== text blocks ===== */
+.lead{font-size:11pt;line-height:1.7;margin:2mm 0 3mm;color:var(--fg);}
+.para{font-size:10.6pt;line-height:1.7;margin:2mm 0 2.5mm;color:var(--fg);}
+.consigne{font-size:10.4pt;line-height:1.6;margin:1mm 0 2mm;color:var(--fg);font-style:italic;}
+.subhead{font-family:var(--latin);font-weight:800;font-size:12pt;letter-spacing:-.01em;color:var(--blue-dark);margin:5mm 0 2.5mm;}
+/* emphasis — green accent = .t-blue/.t-green ; balance = .t-navy ; red = SECONDARY accent (.t-red) on titles + a few words */
+.t-blue{color:var(--blue);font-weight:600;} .t-navy{color:var(--blue-dark);font-weight:700;}
+.t-red{color:var(--red);font-weight:600;} .t-green{color:var(--teal);font-weight:600;} .t-gold{color:var(--orange);font-weight:600;}
+.subhead.t-red{color:var(--red);font-weight:800;}   /* red Roman-numeral section title (I, II, …) — keeps subhead weight */
+/* highlighter marks — a soft colour wash behind a key word (agent picks green or red per what balances the page) */
+.hl-green,.hl-red{border-radius:3px;padding:.02em .24em;font-weight:600;box-decoration-break:clone;-webkit-box-decoration-break:clone;
+    -webkit-print-color-adjust:exact;print-color-adjust:exact;}
+.hl-green{background:rgba(15,171,143,.20);color:var(--blue-dark);}   /* green highlight */
+.hl-red{background:rgba(245,50,47,.13);color:#c0261f;}               /* red highlight  */
+
+.data{background:var(--blue-soft);border:1px solid var(--blue-line);border-inline-start:4px solid var(--blue);
+    border-radius:8px;padding:11px 16px;margin:3mm 0;font-size:10pt;line-height:1.65;color:var(--fg2);}
+.data b{color:var(--fg);font-weight:700;}
+.note{border:1px dashed var(--hair2);border-radius:9px;padding:11px 16px;margin:4mm 0;background:var(--panel);}
+.note .kicker{font-family:var(--mono);font-size:7.5pt;letter-spacing:.18em;color:var(--orange);display:block;margin-bottom:5px;}
+.note .nb{font-size:10pt;line-height:1.7;color:var(--fg2);} .note b{color:var(--fg);}
+.ex:not(.idx){background:var(--blue-soft);border:1px solid var(--blue-line);border-inline-start:3px solid var(--blue);
+    border-radius:7px;padding:7px 11px;font-size:9.6pt;line-height:1.6;color:var(--fg2);margin:2mm 0;}   /* :not(.idx) so it never hits the exercise chip (which is .idx.ex) */
+.ex .extag{display:inline-block;font-family:var(--latin);font-weight:800;font-size:7.6pt;color:var(--blue-dark);background:#fff;
+    border:1px solid var(--blue);border-radius:5px;padding:1px 9px;margin-inline-end:7px;vertical-align:middle;text-transform:uppercase;letter-spacing:.06em;}
+
+/* ===== lists ===== */
+ol.q{list-style:none;counter-reset:q;margin:1mm 0 2mm;}
+ol.q>li{counter-increment:q;position:relative;padding-inline-start:30px;margin-bottom:2.5mm;font-size:10.4pt;line-height:1.6;}
+ol.q>li::before{content:counter(q);position:absolute;inset-inline-start:0;top:1px;width:21px;height:21px;background:var(--grad);color:#fff;
+    border-radius:50%;font-family:var(--mono);font-size:9pt;font-weight:600;display:flex;align-items:center;justify-content:center;
+    -webkit-print-color-adjust:exact;print-color-adjust:exact;}
+ol.sub{list-style:none;counter-reset:s;margin:4px 0 0;padding-inline-start:2px;border-inline-start:1px solid var(--blue-line);}
+ol.sub li{counter-increment:s;position:relative;padding:2.5px 0 2.5px 26px;font-size:10.1pt;line-height:1.55;}
+ol.sub li::before{content:counter(s,lower-alpha)".";position:absolute;inset-inline-start:10px;top:2.5px;font-family:var(--mono);font-size:9pt;font-weight:600;color:var(--teal);}
+ol.qn{list-style:none;counter-reset:qn;margin:1mm 0 2mm;}
+ol.qn>li{counter-increment:qn;position:relative;padding-inline-start:26px;margin-bottom:2.2mm;font-size:10.4pt;line-height:1.55;}
+ol.qn>li::before{content:counter(qn)".";position:absolute;inset-inline-start:0;top:0;font-family:var(--mono);font-size:9.5pt;font-weight:700;color:var(--blue);}
+ul.b{list-style:none;margin:1mm 0 2mm;} ul.b>li{position:relative;padding-inline-start:22px;margin-bottom:2.4mm;font-size:10.4pt;line-height:1.6;}
+ul.b>li::before{content:"";position:absolute;inset-inline-start:3px;top:8px;width:8px;height:8px;border-radius:50%;background:var(--grad);
+    -webkit-print-color-adjust:exact;print-color-adjust:exact;}
+ul.dash{list-style:none;margin:1mm 0 2mm;} ul.dash>li{position:relative;padding-inline-start:20px;margin-bottom:1.8mm;font-size:10.4pt;line-height:1.6;}
+ul.dash>li::before{content:"–";position:absolute;inset-inline-start:2px;top:0;color:var(--fg);font-weight:700;}  /* dash / +/− signs = body colour */
+.flow ul.opts{list-style:none;margin:4px 0 3px;padding-inline-start:16px;}
+.flow ul.opts li{padding:2px 0;font-size:10.2pt;line-height:1.5;color:var(--fg);}
+
+/* ===== figures / tables ===== */
+.fig{margin:3mm 0;} .fig svg.figsvg{display:block;margin:0 auto;background:#fff;max-width:100%;height:auto;}
+.photo{display:block;margin:3mm auto;border-radius:8px;border:1px solid var(--hair);max-width:100%;}
+.figrow{display:flex;flex-wrap:wrap;gap:9px;justify-content:center;margin:3mm auto;max-width:190mm;}
+.flow .figrow img{border-radius:7px;border:1px solid var(--hair);height:46mm;width:auto;max-width:none;object-fit:cover;}
+.schemarow{display:flex;gap:16px;align-items:flex-start;flex-wrap:wrap;margin:2mm 0;}
+.schemarow .col-txt{flex:1 1 90mm;min-width:80mm;} .schemarow .col-fig{flex:0 0 78mm;} .schemarow .col-fig .fig{margin:0;}
+.flow table{border-collapse:collapse;width:100%;margin:3mm 0;font-size:9.8pt;line-height:1.5;}
+.flow table th,.flow table td{border:1px solid var(--blue-line);padding:6px 10px;text-align:start;vertical-align:top;}
+.flow table th{background:var(--grad);color:#fff;font-family:var(--latin);font-weight:700;font-size:9.4pt;
+    -webkit-print-color-adjust:exact;print-color-adjust:exact;}
+.flow table tr:nth-child(even) td{background:var(--blue-soft);color:var(--sub-ink);}   /* sub-row: #E6F3F4 / #045260 */
+
+mjx-container{color:var(--fg) !important;font-weight:400 !important;font-size:1.0em !important;}
+.eq-hi mjx-container,mjx-container.eq-hi{color:var(--blue) !important;}   /* accent (green) equation — highlight a key result; balance with plain math */
+.eq-red mjx-container,mjx-container.eq-red{color:var(--red) !important;}  /* red accent equation / symbol — complements the green .eq-hi */
+
+/* ===== per-file books: credit line, copies list, figures at their size ===== */
+.credit{display:flex;flex-wrap:wrap;align-items:center;gap:5px;margin:-1mm 0 3.5mm;font-size:9.4pt;color:var(--fg2);}
+.credit .who{font-weight:700;color:var(--blue-dark);}
+.credit .tg{font-family:var(--mono);font-size:7.2pt;letter-spacing:.04em;border-radius:5px;padding:1px 7px;line-height:1.6;
+    border:1px solid var(--blue-line);color:var(--blue);background:#fff;-webkit-print-color-adjust:exact;print-color-adjust:exact;}
+.credit .tg.sec{background:var(--blue-dark);border-color:var(--blue-dark);color:#fff;}
+.credit .tg.cor{background:#fff;border-color:var(--red);color:var(--red);}
+.credit a{color:var(--fg3);font-family:var(--mono);font-size:7pt;text-decoration:none;}
+.cover .auth .credit{margin:4mm 0 0;}
+.cover .copies{margin-top:5mm;font-size:8.6pt;color:var(--fg2);}
+.cover .copies ul{list-style:none;margin:2mm 0 0;padding:0;columns:2;}
+.cover .copies a{color:var(--fg3);text-decoration:none;font-size:8pt;}
+.flow figure.fig{text-align:center;}
+.flow figure.fig img{max-height:60mm;width:auto;max-width:70%;display:inline-block;}
+
+/* chapter tag on each part of a multi-chapter book (the book keeps the original order of the file) */
+.chtag{display:inline-block;margin:5mm 0 2mm;padding:1mm 3mm;border-radius:2mm;background:#eef3fb;border:1px solid #c9d6ea;
+  color:#1f3a6b;font-size:9pt;font-weight:700}
+.chtag span{color:#6b7f9e;font-weight:600;margin-inline-end:1.5mm}
+
+@media print{ body{background:#fff;padding:0;} .flow{width:auto;max-width:none;margin:0;padding:0;} }
+@page{size:A4;}   /* margins come from render_flow.py — do NOT set them here */
+</style>
+<meta data-pagefind-filter="type[content]" content="جذاذة مراجعة">
+<meta data-pagefind-filter="resource[content]" content="المعهد النموذجي بسوسة">
+<meta data-pagefind-meta="n[content]" content="229">
+<meta data-pagefind-meta="title[content]" content="جذاذة لمراجعة الإنية والغيرية - المعهد النموذجي بسوسة">
+<meta data-pagefind-filter="chapter[content]" content="الإنية والغيرية">
+<meta data-pagefind-filter="section[content]" content="باكالوريا رياضيات"><style>.qrcard{display:none!important}.wa-nav{position:sticky;top:0;z-index:50;background:#045260;padding:10px 18px;font-family:Cairo,sans-serif;direction:rtl}.wa-nav a{color:#fff;text-decoration:none;font-weight:700}@media print{.wa-nav{display:none}}</style>
+</head>
+
+<body dir="rtl" lang="ar"
+      data-brand="Wael Academy" data-handle="@WaelAcademy"
+      data-tagline="في تُرابنا.. مغامرة بمغامرة"
+      data-phone="+216 50 40 40 42" data-site="waeldocuments.com"
+      data-cta="سجل معانا وأقرى عن بعد مع منصة Wael Academy"
+      data-subject="Philosophie · جذاذة لمراجعة الإنية والغيرية - المعهد النموذجي بسوسة" data-watermark="Wael Academy" data-pagefind-body><nav class="wa-nav" data-pagefind-ignore><a href="../index.html">→ الرجوع إلى فهرس الفلسفة</a></nav>
+
+<!-- single full-page diagonal watermark, bottom-left → top-right (repeats on every page) -->
+<div class="wm" aria-hidden="true"><span>WAEL&nbsp;ACADEMY</span></div>
+
+<div class="flow colored">
+<div class="cover"><div class="badge">◉ Wael Academy · Philosophie</div><h1>جذاذة لمراجعة الإنية والغيرية - المعهد النموذجي بسوسة</h1><div class="grule"></div><div class="sub">الإنية والغيرية</div><div class="auth"><div class="credit">المؤلّف / المصدر : <span class="who">المعهد النموذجي بسوسة</span> <span class="tg">مراجعة</span><span class="tg sec">الفلسفة · باكالوريا رياضيات</span> <a href="https://drive.google.com/file/d/13VXYPdYLmco1Jg1ogH_TvgMaIPxnDljZ/view">↗ جذاذة لمراجعة الإنية والغيرية - المعهد النموذجي بسوسة.pdf</a></div></div><div class="copies" data-pagefind-ignore><b>نسخ هذا الملف في الدرايفات (5)</b><ul><li><a href="https://drive.google.com/file/d/13VXYPdYLmco1Jg1ogH_TvgMaIPxnDljZ/view">Mohamed Mehdi Mareghni · BAC MATHS › الفلسفة / Pilote Sousse / الانية و الغيرية</a></li><li><a href="https://drive.google.com/file/d/1RJl8rl8VL4GM0z0IWPfuIz59P5_k7Lof/view">Iyed Hasnaoui · bac 2024 › Nouveau dossier / Philosphie / الإنية والغيرية</a></li><li><a href="https://drive.google.com/file/d/1w5-92xexHxT0ilZypB4AvKMFK6D46BC1/view">Emna bac maths 2025 · Drive de Emna (Bac maths) › Philosphie / الإنية والغيرية</a></li><li><a href="https://drive.google.com/file/d/1WLIX04rOCHxySJnz4cMryhhRL01Qaeky/view">Mohamed aziz saideni lycee Farhat Hached bizertebac 2026 · BAC MATH 2026 MOHAMED AZIZ SAIDENI › TOUT 2026 / Philosphie / الإنية والغيرية</a></li><li><a href="https://drive.google.com/file/d/18UqPchZn6HZj9MesMhGv8o10HoFpxy34/view">chahredine thamri · Chahredine thamri › Chahredine Thamri / mes documents / philosophie / Philosphie / الإنية والغيرية</a></li></ul></div></div>
+<section class="chapter"><div class="chapdiv"><div class="cn">المحور</div><h2>الإنية والغيرية</h2></div>
+<!-- SOURCE: المعهد النموذجي بسوسة -->
+<!-- NOTE: handwritten margin annotations on the scanned pages (e.g. "تمهيد عام (نموذج)", "الشاهد", arrows, brackets) are not transcribed -->
+<div class="exh"><span class="idx">جذاذة مراجعة</span><h2>جذاذة لمراجعة مسألة : الإنيّة والغيريّة</h2>
+  <div class="qrcard"><div class="qrt">فيديو الدرس</div>
+    <div class="qrslot"><img src="qr/229.svg" alt="QR"></div></div></div>
+<div class="credit">المؤلّف / المصدر : <span class="who">المعهد النموذجي بسوسة</span> <span class="tg">مراجعة</span><span class="tg sec">الفلسفة · باكالوريا رياضيات</span> <a href="https://drive.google.com/file/d/13VXYPdYLmco1Jg1ogH_TvgMaIPxnDljZ/view">↗ جذاذة لمراجعة الإنية والغيرية - المعهد النموذجي بسوسة.pdf</a></div>
+
+<p class="subhead t-red">التجربة الفلسفيّة بما هي دهشة الإنسان تجاه وجوده في العالم</p>
+<!-- CROP: c1u2 1 0.880 0.105 0.962 0.245 c1u2_alain -->
+<figure class="fig"><img src="https://wael-philo.b-cdn.net/figs/229/229_alain.png" alt=""></figure>
+<p class="para"><span class="hl-green">التفلسف هو أن يفكر الإنسان بنفسه باستعمال شجاع ومنظّم لعقله الخاص</span>. وعلامة الشروع في ذلك هي التحرّر من الانخراط العفويّ والواثق في بداهة ما اعتاد عليه من آراء وعقائد وقيم وممارسات وتحويلها إلى منطلقات دهشة فكريّة توقظ العقل لتضعه على طريق الشكّ والتساؤل والبحث باعتماد صيغة وحيدة هي حجج العقل في الإثبات والنفي ضمن التواصل مع الآخرين.</p>
+<div class="note"><div class="nb">يكتب ألان " التفكير هو نفيُ ما كنّا نؤمنُ به." — <b>ألان</b></div></div>
+<!-- CROP: c1u2 1 0.510 0.222 0.590 0.368 c1u2_levinas -->
+<figure class="fig"><img src="https://wael-philo.b-cdn.net/figs/229/229_levinas.png" alt=""></figure>
+<p class="para">ولا يُمكن لتجربة التفلسف أن تبدأ إلاّ <span class="t-red">بصدمة</span> يعيشها الإنسان في علاقة بوضعيّة وجوديّة معيّنة ترتبط بذاته أو بالعالم أو بالآخرين توقعه في مأزق يكشفُ له أنّه لا يفهمُ، وأنّ مصدر ذلك العجز يرجع إلى كونه <b>لا يفكر بنفسه</b>، وأنّ <b>هذا الوضع</b> هو بائس ولا تحرّر من ذلك إلاّ إذا بدأ بالتفكير بنفسه.</p>
+<div class="note"><div class="nb">يكتبُ إمانويل لفيناس " من المرجّح أنّ التفكير يبدأ بصدمات" — <b>إمانويل لفيناس</b></div></div>
+<!-- CROP: c1u2 1 0.882 0.368 0.964 0.520 c1u2_comte_sponville -->
+<figure class="fig"><img src="https://wael-philo.b-cdn.net/figs/229/229_comte_sponville.png" alt=""></figure>
+<p class="para">وهذا التفكير يتطلّبُ منه تفعيلَ ملكة العقل لديه وإيقاظها من سباتها، والاستعانة في ذلك بالقراءة للفلاسفة ومحاورة الآخرين.</p>
+<div class="note"><div class="nb">يكتب أندري كونت­سبونفيل "التفلسفُ هو أن يفكّرَ الإنسانُ بنفسه. ولكن لا أحدَ يتوصّلُ إلى تحقيق ذلك بشكل مرض إلاّ إذا استند، أوّلاً، إلى فكر الآخرين، وبالخصوص كبار الفلاسفة المنتمين إلى الماضي." — <b>أندري كونت سبونفيل</b></div></div>
+<p class="para">وأيّا كان <b>منطلق الصدمة</b> التي ستولّد في الإنسان القدرة على <b>الدهشة بالمعنى الفلسفيّ</b> للعبارة : العنفُ، الموتُ، السلام، الحياة، السّعادة، الشقاء، الحبّ، الكراهية، الحريّة، الإكراه، العدل، الجورُ، الحقيقة، الخطأ...فإنّها <b>ستعودُ بالإنسان إلى ذاته كي يتساءل : مَنْ أنا ؟</b></p>
+
+<p class="subhead t-red">التجربة الفلسفيّة تفكيرٌ في الإنسانيّ بين وحدة الكونيّ وكثرة الجزئيّ</p>
+<p class="para">ولكن لِمَ أسألُ مَنْ أنا ؟ هل في هذا السؤال بحثٌ في إنيّتي الفرديّة فحسب أم هو سؤالٌ ينفتحُ على الكونيّة لينشدَ معرفة ما هو إنسانيّ مشتركٌ بيني وبين كلّ الآخرين ؟</p>
+<!-- CROP: c1u2 1 0.518 0.630 0.592 0.768 c1u2_jaspers -->
+<figure class="fig"><img src="https://wael-philo.b-cdn.net/figs/229/229_jaspers.png" alt=""></figure>
+<p class="para"><span class="hl-green">لا تفلسفَ من دون تساؤل الإنسان عن وجوده الخاص بصيغة : مَنْ أنا ؟</span> ومردّ ذلك أنّ الإنسانَ كائن ملتبسٌ لم يتسنّى لعلوم الطبيعة والإنسان، رغم كثرتها، أن تختزله في معرفة موضوعيّة. لذلك لا يُمكن لتساؤل الإنسان عن ذاته أن يتوقّفَ أبدًا، بل سيستمر بصيغ لا تفتأ تتجدّد.<!-- PROOFREAD: c1u2 p1 — "سيستمر" (first letters blurred, could read "بيستمر") --></p>
+<div class="note"><div class="nb">يكتب كارل ياسبرز، " الإنسانُ، من حيث المبدأ، هو أكثرُ ممّا يُمكن معرفته عن نفسه." — <b>كارل ياسبرز</b></div></div>
+<!-- CROP: c1u2 1 0.886 0.762 0.964 0.900 c1u2_pascal -->
+<figure class="fig"><img src="https://wael-philo.b-cdn.net/figs/229/229_pascal.png" alt=""></figure>
+<p class="para">كما أنّ الإنسان لا يُمكنه التفكير في معنى الحياة بالنسبة إليه ويكتسيبُ الرغبة في إثرائها والقدرة على تحقيق ذلك في مختلف مجالاتها مثل : المعرفة، الفن، المجتمع، السياسة، الأخلاق، الحبّ، السّعادة...إلاّ إذا انطلق من فهم معيّن لمميّزات وجوده الإنسانيّ.</p>
+<div class="note"><div class="nb">يكتبُ بليز باسكال " يقتضي نظامُ التفكير أن يبدأ الإنسان بالتفكير في ذاته." — <b>بليز باسكال</b></div></div>
+<p class="para">ومَنْ يتساءلُ عن ذاته هو ينشدُ فهمَ إنيّته في مواجهة <b>كثرة الاختلافات</b> الموجودة بين النّاس، أي فهم مقوّمات هويّته الفرديّة التي تجعلُ منه أنا واحدًا ومستمرًا يبقى هو نفسَه رغم ما يعيشه من تغيرات كثيرة ومستمرّة، وما تعبّر عنه تلك المقوّمات من تفرّد خصوصي به يختلفُ عن غيره.</p>
+<p class="para">ومَنْ يتساءلُ عن ذاته بصيغة : مَن أنا ؟ هو ينشدُ <span class="hl-green">فهم المشترك إنسانيًّا بينه وبين النّاس الآخرين</span>، أي فهم ما إذا كان الاختلافُ القائمُ بين النّاس فرديّا وثقافيًّا يثبتُ أنّه لا وجودَ لوحدة كونيّة تعبّر عن تماثل الإنسانيّ لدى جميع النّاس، ممّا يعني أنّه لا وجودَ إلاّ للجزئيّ ( أي جملة المميّزات والأفكار والمعارف والقيم التي يشتركُ فيها عدد من النّاس.)، أو ما إذا كان ذلك الاختلافُ يتقاطعُ بكثرته وتنوعه حول إثبات وحدة الإنسانيّ الكونيّة التي تجعلُ من النّاس متشابهين وجوديًّا وثقافيًّا بالرغم من كلّ الاختلافات الجزئيّة التي تفرّق بينهم.</p>
+<p class="para">وسواءً تمّ إثباتُ أنّ ما هو مشتركٌ إنسانيًّا بين جميع النّاس واحدٌ كونيًّا أم متعدّد جزئيًّا. فإنّ التساؤل عن الإنسانيّ هو بحث عن فهم ما إذا كان <b>معطى</b> يعبر عن <b>مميزات كامنة في النّاس</b> ومكاسب متحقّقة بصورة نهائيّة فيهم <b>أم مهمّة</b> منفتحة على <b>التجدّد المستمرّ</b> وتقعُ على الإنسان مسؤوليّة إبداعها والارتقاء بها والعمل على إثرائها.</p>
+
+<p class="subhead t-red">سؤال : من أنا ؟ بين الإنيّة والغيريّة</p>
+<p class="subhead t-navy">I . في استقلال الإنيّة عن الغيريّة</p>
+<p class="para">جعل الفلاسفة اليونانيون من <span class="t-green">غاية الفلسفة</span> البحث بواسطة <span class="t-green">العقل وحده</span> عن <span class="t-green">مبادئ</span> أولى بواسطتها يفهمون <span class="t-green">ماهية الوجود</span> ويؤسّسون للمعرفة وللقيم. إنّها <span class="t-green">مبادئ عقليّة واحدة ومطلقة</span> ويقينيّة <span class="t-green">تتعالى على العالم الحسيّ بكثرته ونسبيّته وريبه</span>. وهذا ما جعلَ منها <span class="t-red">ميتافيزيقيّة</span>. وفي هذا السياق تمّ التفكير في سؤال : مَن أنا ؟</p>
+<p class="para">وقد قاد ذلك إلى <b>اختزال الإنيّة في وحدة</b>، هي <b>وحدة النفس العاقلة أو الذات الواعية</b>. وهذه الإنيّة <b>مستقلّة عن كلّ ما هو آخر</b>( الجسم، العالم، الغير). وبالوعي أو العقل يعرفُ الأنا حقيقة نفسه، ويكون حرًّا في اختيار مواقفه وأفعاله. وتعرّف هذه المقومات إنيّة كلّ فرد، ممّا يجعل منها واحدة بين جميع النّاس معبّرة بذلك عن الإنسانيّ الكونيّ المشترك بينهم جميعًا. ويمكنُ توضيح ذلك من خلال ثلاثة فلاسفة ميتافيزيقيين : روني ديكارت، أفلاطون، فريدريش شيلينغ.</p>
+
+<p class="subhead">1. الإنيّة بما هي وحدة قوامها الذاتُ الواعية</p>
+<!-- CROP: c1u2 1 0.020 0.570 0.110 0.745 c1u2_descartes -->
+<figure class="fig"><img src="https://wael-philo.b-cdn.net/figs/229/229_descartes.png" alt=""></figure>
+<p class="para"><span class="t-blue">تنزّلُ أطروحة ديكارت</span> حول الإنسان من جهة مقوّمات إنيّته ومميّزاته الإنسانيّة النوعيّة في إطار مشروعه الرامي إلى التأسيس للعلوم فلسفيًّا بعد الثورة العلميّة التي شهدتها الحداثة.</p>
+<p class="para">فلو حاولَ المرء، مرّةً في حياته، حسبَ ديكارت، إعادة بناء معارفه على أسس عقليّة يقينيّة بالشكّ في كلّ ما يتضمّنُ أدنى غموض أو تداخل، لأمكنه الشكّ في كلّ شيء : وجود العالم الحسيّ، وجود الآخرين، وجود جسمه، حقائق العقل المنطقيّة، وجود الإله وصدقه، إلاّ في وعيه بذاته، أي أنّه واع بأنّه هو من يشكّ، ولا أحدَ يمكنه أن يشكّكه في ذلك. وبما أنّه واع بذاته أي يفكّر، فإنّه من التناقض، أن لا يكونَ موجودًا فعليًّا في الواقع. إذن يبلغُ مَن يشكّ يقينًا أوّلَ هو الكوجيتو : أنا أفكرُ ( واع بذاتي )، إذن أنا موجودٌ.</p>
+<div class="note"><div class="nb">يكتبُ ديكارت " من غير المُستطاع لنا أن نفترضَ أنّ من يفكرُ غير موجود بينما هو يفكرُ." — <b>ديكارت</b></div></div>
+<p class="para">ويدلّ الكوجيتو على أنّ <span class="hl-green">الأنا أيقن جوده بواسطة الوعي وحده دون وساطة ما هو آخر</span>، أي العالم والآخرين والجسم ( الغيريّة ). وهذا يعني أنّ <span class="t-green">الوعيَ قائمٌ بذاته كجوهر مفكر دون أن يحتاج في وجوده إلى ما هو آخر</span>. إذن هو مختلف جوهريًّا عن الجسم، وهو قوامُ إنيّة الفرد. إذن كلّ إنسان هو ثنائية تتألّف من جوهر مفكر هي النفس، وجوهر ممتد هو الجسم. <span class="t-green">النفس روحية بسيطة لا تقبلُ التجزئة وخالدة</span>، أمّا الجسم فماديّ ومركّبٌ وقابل للتجزئة وفان. <span class="t-green">النفسُ ذاتٌ أي وحدة نفسيّة تتميز بالهوية والاستمرارية والفاعليّة</span>، بها يكون الفردُ أنا مطابق لنفسه وعـــارفا فوريًّا بحالاته النفسيّة ومحددا لأفكاره وقراراته وأفعاله. أما الجسمُ فآلة حيّة تتركّب من عضلات وعظام وأعضاء وتؤدي وظائف لاإرادية ترتبط بالبقاء العضويّ.</p>
+<!-- PROOFREAD: c1u2 p1 — "أيقن جوده" (source appears to read "جوده" for "وجوده") -->
+<div class="note"><div class="nb">يكتبُ ديكارت" إنّ النفسَ التي أنا بها ما أنا متميّزةٌ تمامَ التميّز عن الجسم." — <b>ديكارت</b></div></div>
+<p class="para"><span class="t-blue">الإنيّة، حسب ديكارت، هي ذاتٌ مفكرة متميّزةٌ تمامًا عن الغيريّة</span> : فالوعيُ، بما هو حضورٌ وانتباه يوحّد الحياة النفسيّة بكثرتها وتنوّعها حول مركز فاعل هو الأنا. ومن مظاهر فاعليّة الأنا : معرفته الفوريّة بنفسه، قدرته على استعمال عقله بنظام من أجل التوصّل إلى <b>بناء معرفة يقينيّة كونيّة تحرّر من معطيات حواسي الجسم المتفرّقة والجزئيّة والزائفة</b>، وقدرته <b>على التحكّم في انفعالاته وعلى اختيار أفعاله بحريّة</b>. <span class="t-blue">الإنيّة وحدةٌ قوامها الذاتُ الواعية، ومستقلّة في وجودها عن الغيريّة : العالم، الغير، الجسم.</span></p>
+<div class="note"><div class="nb">يكتبُ ديكارت " إنّني جوهرٌ كلّ ماهيته أو طبيعته لا تقوم إلاّ على الفكر، ولا يحتاجُ في وجوده إلى أيّ مكان ولا يتعلّق بأيّ شيٍ ماديّ." — <b>ديكارت</b></div></div>
+<p class="para">إنّ هذا التعريف <span class="t-red">لا ينطبقُ على إنيّة الفرد على نحو خصوصيّ</span>، بل هو <span class="t-green">شاملٌ لكلّ النّاس</span>. إنّه تعريفٌ للإنسانيّ الكونيّ الواحد بين جميع البشر. فهو يدلّ على الميزة النوعيّة التي تسمو بالإنسانيّة على سائر الكائنات الأخرى تكمُن في العقل. فكلّ إنسان هو ذاتٌ واعية تتميّزُ بالعقل، ولو استعملته بنظام فسوف تبلغُ الحقيقة وتجسّمُ الحريّة. وفي ظلّ هذه النزعة الكونيّة تصبح كثرةُ الاختلافات الجزئيّة بين النّاس غير ذات شأن، فيتمّ تهميشها والتغاضي عنها.</p>
+<div class="note"><div class="nb">يكتبُ ديكارت " إنّ العقلَ هو ما يجعلُ منّا بشرًا ." — <b>ديكارت</b></div></div>
+
+<p class="subhead">2. الجسمُ بما هو آخرُ خارجٌ عن وحدة الإنيّة</p>
+<!-- CROP: c1u2 2 0.515 0.270 0.615 0.485 c1u2_platon -->
+<figure class="fig"><img src="https://wael-philo.b-cdn.net/figs/229/229_platon.png" alt=""></figure>
+<p class="para">تتنزّلُ أطروحة <span class="t-blue">أفلاطون</span> حول منزلة الجسد بالنسبة إلى إنيّة الفرد ومميّزات إنسانيّته في إطار نظريّة أشملَ وهي نظريّة حول الوجود والمعرفة التي تلخّصها نظريّة المثل.</p>
+<p class="para">الواقعُ الحسيّ، في نظر أفلاطون ليسَ هو الوجود الحقيقي، بل هو مجرّد مظاهر جزئيّة متعدّدة ومتغيّرة وزائلة، يجبُ الانطلاقُ منها لاكتشاف الوجود الحقيقيّ المتمثّل في الماهيات العقليّة الكونيّة والواحدة والثابتة والأزليّة التي هي بمثابة النماذج الأصليّة للنسخ الحسيّة المشوّهة التي تحاكيها بشكل زائف. فمن يعرف سقراط أو السيباد لا يعرف ماهية الإنسان في حدّ ذاته، ومن يعرف دائرة حسيّة من خشب أو نحاس لا يعرف <b>ماهية الدائرة بما هي شكلٌ هندسي عقليّ</b>، ومن يعرف هذا التمثال الجميل هو لا يعرف ماهية الجمال التي حكمَ بمقتضاها <b>على هذا التمثال بأنّه جميل...</b></p>
+<div class="note"><div class="nb">يكتبُ أفلاطون " إنّ الماهية التي نعرّفها في سياق أسئلتنا وأجوبتنا بكونها الوجود الحقيقيّ تبقى دائمًا مطابقة لنفها وبنفس الشّكل." — <b>أفلاطون</b></div></div>
+<p class="para">وبناءً على ذلك مَن يبني أحكامه على المظاهر الحسيّة هو لا يتوصّل إلاّ إلى ظنون لا يعلم إن كانت صحيحة أم خاطئة. لذلك <b>لا معرفة إلاّ بالمثل</b>، أي <b>بتجاوز المحسوس نحو المعقول</b>، والتخلّي عن الإدراك الحسيّ لفائدة البرهان العقليّ. عندئذ يُمكن القطع مـــــع <b>الدوكسا ( الظنّ ) لبلوغ الابستمي ( العلم )</b>.</p>
+<div class="note"><div class="nb">يكتبُ أفلاطون " إنّ الماهيات التي تبقى مطابقةً لنفسها دائمًا لا يُمكن إدراكها إلا بواسطة برهان العقل." — <b>أفلاطون</b></div></div>
+<p class="para">الإنسان كائنٌ ارتبط وجوده بمأساة تتمثّل في <b>اجتماع ضدّين متناقضين هما النفسُ بما هي جوهرٌ عاقلٌ والجسد بما هو عرضٌ ماديّ</b>. النفسُ هي قوامُ إنيّة الفرد وميزته الإنسانيّة النوعيّة الواحدة بين جميع البشر. فالعقل هو الذي يجعلُ من الإنيّة وحـــــــــدة متناغمة تؤلّف في انسجام بين البرهان والعاطفة والحاجة والرغبة. راسمةً بذلك له الغاية من وجوده وهي معرفة الحقيقة واعتماده مبدأً للحياة بتعقّل تحقيقًا للفضيلة ونيلاً للسّعادة. ولكنّ <b>الجسد هذا العرض الماديّ</b> الذي يفرضُ على النفس الحاجات والرغبات ويشدّها إلى معطيات الحواس هو <b>ينشرُ الفوضى في الإنيّة ويشوّه إنسانيّتها</b> جاعلاً منها مغتربة. <span class="t-red">فهو الآخر اللامعقول</span> الذي يهدد بكثرته وحدة الإنيّة وسيادة العقل فيها، ساعيًا إلى التردّي بها من الإنسانيّة نحو الحيوانيّة.</p>
+<div class="note"><div class="nb">يكتبُ أفلاطون " الجسدُ قبرُ النفس" — <b>أفلاطون</b></div></div>
+<p class="para">الجسدُ هو مصدرُ اغتراب وجوديّ ينشرُ الفوضى في الإنيّة ويشوه <b>إنسانيّتها</b>. فهو آخرٌ يسجنُ النفسَ ويقيّدها بالمادة لتصبح عاجزة عن الاستقلال عن الحواس والحاجات والرغبات. فهــو يوهمها بأنّ الحواسَ هي الوسيط الأمثلُ لمعرفة الواقع، وأنّ الحاجات ضروريّة ينبغي العناية بها والتفرّغ لتحقيقها، وأنّ الملذّات هي السبيل نحو الحياة السّعيدة.</p>
+<div class="note"><div class="nb">يكتبُ أفلاطون " يجعل منّا الجسدُ عبيدًا في خدمته." ويضيفُ " النفسُ إذا أشركت الجسد فيما تحاول البحث فيه نلاحظ أنّه يوقعها في الخطأ." — <b>أفلاطون</b></div></div>
+<p class="para">لا تحرّر من هذا الاغتراب إلاّ بالفلسفة، فهي <b>تدرّبٌ على الموت</b>، أي <b>إعدادٌ للفرد</b> كي يعيد النظام والانسجام لإنيّته وينقذ <b>إنسانيته</b> من التشويه الذي تتعرض له، من خلال مقاومة الجسد وامتلاك السيادة عليه. فالعقلُ ببراهينه ينبغي أن يكون <b>الوسيط الوحيد</b> لمعرفة الحقيقة المتمثّلة في الماهيات العقليّة. وبالعقل يُمكن التحرّر من <b>الحاجات</b> بالتعامل معها باعتبارها <b>ضرورات</b> نلبيها من أجل الاستمرار في البقاء دون أن تستولي علي الاهتمام بشكل دائم. وبالعقل يمكن <b>التحرّر</b> من الاعتقاد في أنّ الملذات هي السبيل نحو السّعادة، لأنّ ذلك سيجعل من الإنسان بمثابة <b>البرميل المثقوب</b> الذي لا يُمكن ملؤه أبدًا. فالسّعادة ينالها الإنسان بالفضائل التي توجب التعامل مع الملذات بشجاعة واعتدال وعدل وتبصر.</p>
+<div class="note"><div class="nb">يكتبُ أفلاطون " إنّ الفلاسفة الحقيقيين هم يتدرّبون على الموت" ويضيفُ" النفسُ لا تفكرُ أحسن ما يكون التفكير عندما لا يعكرُ صفوها لا السمع ولا البصر ولا الألم ولا اللذة." — <b>أفلاطون</b></div></div>
+
+<p class="subhead">3. التاريخ بما هو نتاجٌ للإنيّة</p>
+<!-- CROP: c1u2 2 0.020 0.255 0.122 0.435 c1u2_schelling -->
+<figure class="fig"><img src="https://wael-philo.b-cdn.net/figs/229/229_schelling.png" alt=""></figure>
+<p class="para">يظهرُ الإنسانُ في سياق واقع اجتماعيّ سابق ليسَ من اختياره. فهل يُمكن اعتبار ذلك الواقع الاجتماعيّ، بظروفه الاقتصاديّة والاجتماعيّة والسياسيّة والفكريّة... آخرَ هو الذي يحدّد إنيّة الفرد ويرسمُ معالم إنسانيّته ؟</p>
+<p class="para">في هذا السياق تندرجُ أطروحة الفيلسوف الألمانيّ <span class="t-blue">فريدريش شيلينغ</span> ( 1775 – 1854 ) الذي يعتبرُ أنّ الإنسان ليسَ له تاريخ جاهزٌ يسطّر له مسبقًا بحيث يحدّد له حاضره كإطار لتكوين إنيّته ومميّزات إنسانيّته، ويحتّم ما سيكون عليه مستقبله، بل هو مَن يبدعُ تاريخه بحريّة، مما يدلّ على أنّ <b>الحريّة هي قوامُ إنيّته وجوهرُ إنسانيّته</b>. فكلّ فردٍ يختار ما ستكون عليه إنيّته، وكلّ مجتمع يصنع ظروف حاضره، منفتحًا بذلك على مستقبل غير محدّد، إنّه أفق الممكن اللانهائي.</p>
+<div class="note"><div class="nb">يكتب شيلينغ " لا يحملُ الإنسانُ تاريخَه معه، بل يخلقُه بنفسه." — <b>شيلينغ</b></div></div>
+<p class="para">التاريخ باعتباره التغيّرات التي تطرأ على واقع المجتمعات الإنسانيّة في مختلف المجالات عبر الزمن ليسَ <b>آخرَ مستقلاً عن وعي النّاس وإرادتهم</b>. فهو ميزة إنسانيّة نوعيّة لكونه ما ينفردُ به الإنسان وحده في إطار الطبيعة. فإذا كانت الطبيعة مادية ومحكومة بالحتميّة ممّا يجعلها تكرّر بشكل متماثل، فإنّ <b>التاريخ هو نتاج وعي النّاس وتعبيرٌ عن حريّتهم</b> متميزًا بذلك بالتقدّم أي بالتطوّر دائمًا نحو الأفضل في مختلف أبعاد الحضارة الإنسانيّة.</p>
+<div class="note"><div class="nb">يكتبُ شيلينغ " لا يحملُ الإنسانُ تاريخَه معه، بل يخلقُه بنفسه." — <b>شيلينغ</b></div></div>
+<!-- PROOFREAD: c1u2 p2 — the paragraph "التاريخ باعتباره التغيّرات..." is printed TWICE in the source (second copy crossed by a handwritten blue mark); both kept verbatim -->
+<p class="para">التاريخ باعتباره التغيّرات التي تطرأ على واقع المجتمعات الإنسانيّة في مختلف المجالات عبر الزمن ليسَ <b>آخرَ مستقلاً عن وعي النّاس وإرادتهم</b>. فهو ميزة إنسانيّة نوعيّة لكونه ما ينفردُ به الإنسان وحده في إطار الطبيعة. فإذا كانت الطبيعة مادية ومحكومة بالحتميّة ممّا يجعلها تكرّر بشكل متماثل، فإنّ <b>التاريخ هو نتاج وعي النّاس وتعبيرٌ عن حريّتهم</b> متميزًا بذلك بالتقدّم أي بالتطوّر دائمًا نحو الأفضل في مختلف أبعاد الحضارة الإنسانيّة.</p>
+<div class="note"><div class="nb">يكتبُ شيلينغ " ليسَ للإنسان تاريخٌ يُسطّرُ له مسبقًا." — <b>شيلينغ</b></div></div>
+<p class="para">من التناقض اعتبار التاريخ آخر، هو الذي <b>يسطّرُ بشكل مسبق حاضر المجتمع</b> بواسطة <b>عوامل موضوعيّة مستقلّة عن وعي النّاس وإرادتهم</b>، ممّا يشكّل <b>ظروفًا اجتماعيّة</b> هي التي تحتّم ما ستكون عليه إنيّة الفرد ومميّزات إنسانيّته. فالتاريخ يستمدّ وجوده من <b>الحريّة الإنسانيّة</b>. فهي التي تختارُ الصيغة الجماعيّة أو الفرديّة التي ستتعامل بها مع <b>العوامل الخارجيّة</b> مثل المناخ أو التضاريس أو الجنس أو النمو السكاني أو الإنتاج الاقتصاديّ أو تنظيم سلطة المجتمع أو العلاقات بين النّاس، مبدعةً بذلك <b>أساليب خصوصيّة متنوعة</b> في تنظيمها وحلّ المشكلات المتعلّقة بها، ونقد تلك الأساليب سواء <b>بتطويرها أو إلغائها</b>.</p>
+<div class="note"><div class="nb">يكتبُ شيلينغ "يُمكن للإنسان ويجبُ عليه صنعُ تاريخه بنفسه." — <b>شيلينغ</b></div></div>
+<p class="para">الحريّة هي إذن، قوامُ نيّة الفرد وميزته الإنسانيّة النوعية. وهي تعني أنّ <b>الوجود الإنسانيّ</b> هو قدرةٌ على <b>إبداع الجديد</b> واختيار الممكن، ممّا يجعله منفتحا على <b>أفق الممكن اللانهائيّ</b>. فالإنيّة والمميزات الإنسانيّة ليست محدّدة بشكل مسبق بحيث يُمكن تعريفها نهائيًّا، بل هي في تجدّد مستمرّ ومنفتحة على ما هو غير قابل للتوقع. إنّ كلّ شعب يُبدعُ بحريّة تاريخه وفي سياقه يبدعُ كلّ فرد إنيّته بحريّة. وبذلك لا يُمكن الحديث عن غيريّة التاريخ.</p>
+<div class="note"><div class="nb">يكتب شيلينغ " ماهية الأنا حريّة" — <b>شيلينغ</b></div></div>
+
+<p class="subhead t-navy">II . في الإنيّة بما هي غيريّة</p>
+<p class="para">أدّى التفكير في سؤال : مَن أنا ؟ من منظور ميتافيزيقيّ إلى : اختزال الإنيّة في وحدة الذات الواعية، والقول باستقلالها في وجودها وعيها بذاتها وقراراتها عن الغيريّة، وإلى اعتبار هذا التعريف كونيًّا بحيث ينطبق على جميع النّاس ملخّصًا بذلك الإنسانيّ في كلّ فرد منهم. فإلى أيّ حدّ يكون من المشروع الإقرار بذلك ؟</p>
+<p class="para">في هذا السياق يفتح فلاسفة الظنّة، <span class="t-green">كارل ماركس وفريدريش نيتشه وسيغموند فرويد</span>. كلّ من داخل إشكاليّته الخصوصيّة، أفقًا مغايرًا للتفكير في سؤال : من أنا ؟ قوامه : تكذيبُ وحدة الذات، ويقين الوعي، واستقلال الذات في وجودها ووعيها بذاتها وقراراتها عن الغيريّة، والكونيّ في فهم الإنسانيّ ...</p>
+
+<p class="subhead">1. الإنيّة لعبةُ لغيريّة اللاّوعي</p>
+<!-- CROP: c1u2 3 0.014 0.305 0.142 0.520 c1u2_freud -->
+<figure class="fig"><img src="https://wael-philo.b-cdn.net/figs/229/229_freud.png" alt=""></figure>
+<p class="para">تتنزّل أطروحة <span class="t-blue">فرويد</span> حول الإنيّة ومميّزاتها الإنسانيّة في سياق مشروع التأسيس لمدرسة علميّة جديدة في إطار علم النفس وهي التحليل النفسي تتخذ من مصادرتها المنهجيّة الأساسية : فهم حياة الإنسان النفسيّة من منظور اللاّوعي، الـــــذي يمثّل الصفة الجوهريّة للحياة النفسيّة، ومجال البحث عن القوى المحدّدة لها وعن دلالتها الحقيقيّة بواسطة التأويل.</p>
+<div class="note"><div class="nb">يكتبُ فرويد " يُمثّلُ التمييزُ في الحياة النفسيّة بين الوعي واللاّوعي المقدّمة الأساسيّة للتحليل النفسي." — <b>فرويد</b></div></div>
+<p class="para">إنّ أوّل ما يبدأ بتحطيمه النقدُ الفرويديّ هو فهم الإنيّة بما هي وحدةٌ تجدُ مركزها في الذات الواعية، وبناءً على ذلك اختزال كلّ الحياة النفسيّة في الوعي. فالإنيّة، كما يفهمها فرويد، صارتْ كثرة من المواضع النفسيّة المتصارعة في إطار الجهاز النفسيّ، اللاّوعي هو صفتها الجوهريّة أما الوعي فلم يعد يمثّل سوى صفة سطحيّة وثانويّة لها. ويمثّل الموضع الأصليّ الذي تتكوّن انطلاقا منه تدريجيًّا الإنيّة في الهو، الذي يشتملُ على الدوافع الغريزيّة الجنسيّة والتدميريّة التي تتولّد عنها باستمرار رغبات لامعقولة يوجهها مبدأ اللّذة الذي يقوم على أنّ الإشباع دون حدود هو اللّذة، وكلّ حرمان أيًّا كانت مبرّراته هو ألم. أما الموضع الثاني فيتمثّل في الأنا الذي يتميّز بالوعي أي بالقدرة على <span class="hl-green">الإدراك الحسيّ</span> والتحليل المنطقيّ والتحكّم الإراديّ، محاولاً من خلال هذه الوسائط تحليل معطيات الواقع الخارجيّ وجمع الخبرة حولها من أجل لعب دور الوسيط بين الرغبات والواقع حفاظًا على البقاء وانسجامًا مع مقتضيات الحياة الاجتماعيّة مع الآخرين. أما الموضع الثالث. فهو الأنا الأعلى الذي يمثّل السلطة الأخلاقيّة الداخليّة التي نشأت بفعل سلطة المجتمع الخارجيّة وما مارسته من تربية أخلاقيّة للفرد كي تراقبُ بصرامة الأنا في تعامله مع الواقع ورغبات الهو، من أجل الحدّ من كلّ تنازل تجاههما. ويتضح من خلال كثرة المواضع هذه، أنّ الوعيَ فقد مكانته السابقة ، لأنّه لم يعد سوى صفة جزئيّة للأنا، ذلك أنّ مكبوتات الهو ، والآليّات التي تحكم كثيرًا من أفعال الأنا مثل الكبت والتصعيد والإسقاط والاستدماج والتحويل،... والجذور الطفوليّة لتكوين الأنا الأعلى هي غير واعية. فاللاّوعي، إذن، صار يمثّل عمقَ الحياة النفسيّة وصفتها الجوهريّة.</p>
+<div class="note"><div class="nb">يكتبُ فرويد " على الأنا أن يخدم ثلاثة أسياد قساة، وهو يجهد نفسه للتوفيق بين مطالبهم. وهذه المطالب متناقضة دومًا، وكثيرًا ما يبدو التوفيق بينها مستحيلاً." ويضيفُ " الوعيُ صفةٌ غير ثابتة غيابـــــها أكثرُ بكثير من حضورها." — <b>فرويد</b></div></div>
+<p class="para">ويؤدي هذا الفهم الجديد للإنيّة إلى طرد الأنا من مركز الحياة النفسيّة ونفي صفة اليقين عن الوعي. ذلك أنّ الوعيَ أصبح زائفًا يتوهّمُ أنّه يفهم حقيقة ما يدور في الحياة النفسيّة، ولكنّه جاهلٌ بها فلا يتمكّن إلاّ من إنشاء دلالات زائفة تخدعُ الأنا وتجعلُه يعتقدُ بسذاجة أنّه عارف بحقيقة ذاته والمتحكّم في تصوراته وعواطفه وقراراته وأفعاله، والحال أنّ هنالك قوى وبنيات وآليّات تتحكّم في كلّ ذلك دون معرفته بذلك ولا فهم لدلالات تلك الحالات والأفعال. ومن أجل تجاوز هذا الزيف لابدّ من الانتقال نحو الآخر في الإنيّة وهو اللاّوعي بواسطة التأويل من أجل تفسير ما يحدث فيها وفهم حقيقته. فتلك الآنســـــة التي تصرّ على إبقــاء باب غرفتها مفتوحا ليلاً هي <b>لا تعي</b> أنّ ما يدفعها إلى ذلك هو <b>تعلّقها الأوديبيّ بالأب</b> ورفضها لخلوته بأمّها في الغرفة المجاورة، وتلك السيّدة التي تبالغ في <b>غسل يديها لا تعي</b> أنّ الدافع على ذلك ليس الحرص على النظافة وإنما هو <b>رجاء التطهّر النفسي</b> من <b>خيانة زوجيّة سابقة</b>، وهذا الزوج الذي نسي مكان احتفاظه بهديّة زوجته لا يعي أنّ في ذلك هفوة تفضح عدم حبه إيّاها. ...</p>
+<!-- PROOFREAD: c1u2 p3 — "ورفضها لخلوته بأمّها" (faint scan, words uncertain) -->
+<div class="note"><div class="nb">يكتب فرويد " لم يعد الأنا سيّدًا حتّى في بيته الخاص." — <b>فرويد</b></div></div>
+<p class="para">ويتضح من خلال كلّ ما سبق أنّ <b>اللاّوعي</b> بما هو آخر مغاير للأنا ولصفة <b>الوعي</b> أضحى بمكوّناته الكثيرة قوام الإنيّة ، وأنّه صار يمثّل مصدر القوى المحددة للحياة النفسيّة ومجال فهم معناها، بعيدًا عن أوهام الوعي الزائفة.</p>
+<div class="note"><div class="nb">يكتب فرويد " اللاّوعيُ هو النفسيّ ذاته وحقيقته الجوهريّة." — <b>فرويد</b></div></div>
+
+<p class="subhead">2. الإنيّة لعبةُ لغيريّة الجسد</p>
+<!-- CROP: c1u2 3 0.511 0.240 0.612 0.428 c1u2_nietzsche -->
+<figure class="fig"><img src="https://wael-philo.b-cdn.net/figs/229/229_nietzsche.png" alt=""></figure>
+<!-- PROOFREAD: c1u2 p3 — the right margin of page (6) is faded: line starts "الأخلاق والمعرفة لإبراز", "مبدعًا ودافعة للرغبة", "رغم كلّ مآسيها، دافعة", "الإنسانيّ الأسمى", "تكون سوى", "تضعف القدرة", "الحياة في حدّ ذاتها", "نيتشه من المطرقة", "الأمراض الباطنيّة", "مقدّمتها إنيّته", "والعقل والإرادة", "الخادعة والغرائز", "واحتقاره", "قيمته ويُرجع", "وعلى نقيض", "من القوى", "غريزي غير واع", "قوّة ضئيلة", "بمتابعة", "إنّ مقوّمات", "ما هو عضويّ أو", "تلقائيّ وحتميّ", "هرمونات ... ضروريّة", "لتعود ... حياة" are best readings -->
+<p class="para">تتنزّل أطروحة <span class="t-blue">نيتشه</span> حول منزلة الجسد في فهم الإنيّة ضمن مشروعه الفلسفيّ المتمثّل في <b>نقد الحضارة الغربيّة منذ أصولها اليهوديّة والمسيحيّة</b>، مرورًا بإسهامــــات <b>اليونانيين والرومان</b>، وصولاً إلى <b>الحداثة</b> وتبعاتها المعاصرة. وقد اعتمد فـــي النقد <b>منهجًا جنيالوجيًّا</b> يقوم على كشف الأقنعة عن قيمة الإرادة التي أنتجت تلك العقائد والفلسفات والفنون ومنظومات الأخلاق والمعرفة...لإبراز ما إذا كانت <b>إرادة اقتدار فعّالة</b> <span dir="ltr">Une volonté de puissance active</span> تكثّف القدرة بكلّ تعبيراتها جاعلة من الإنسان مشرّعًا مبدعًا ودافعة للرغبة في الحياة والعمل على إثرائها والاستمتاع بعيشها رغم كلّ مآسيها، دافعة بذلك نحو الارتقاء بالإنسان نحو ما هو أسمى : الإنسانيّ الأسمى <span dir="ltr">Le Surhumain , Der übermensch</span>، أم أنّها لا تعدو أن تكون سوى <b>إرادة اقتدار ارتكاسيّة</b> <span dir="ltr">Une volonté de puissance réactive</span> تضعف القدرة بكلّ تعبيراتها، باحثة عن <b>أصل القيم في مصدر متعالٍ على الإنسان</b>، ونافية عن الحياة في حدّ ذاتها المعنى، منحطّة من خلال ذلك بالإنسان نحو الوضاعة والضعف والرداءة. لهذا اتخذ نيتشه من المطرقة رمزًا لهذا النقد. إنّها مطرقة شبيهة بتلك التي يستعملها الطبيب في الكشف عن الأمراض الباطنيّة الخفيّة، لتشخيصها ومعالجتها.</p>
+<div class="note"><div class="nb">يكتب نيتشه " إنني أطرح هنا أسئلة بواسطة المطرقة" — <b>نيتشه</b></div></div>
+<p class="para">وفي هذا السياق يعتبرُ نيتشه أنّ <span class="t-red">الميتافيزيقا</span>، عبر كلّ صيغها وأطوارها، هي نتاج إرادة اقتدار ارتكاسيّة انحطّت بالإنسان وأضعفت قدرته  ودفعت به نحو أوهام زائفة في شأن كلّ أبعاد وجوده وفي مقدّمتها إنيّته. وأفظعُ هذه الأوهام الثنائيّة في فهم الإنيّة من خلال المفاضلة بين النفس بما هي الجوهر والعقلُ والإرادة التي تختزلُ ماهية الإنيّة وما هو إنسانيّ فيها، والجسد بما هو العرضُ الماديّ والحواس الخادعة والغرائز الوضيعة التي تمثّل الآخر الغريب عن الإنيّة واللاإنسانيّ فيها الذي يجب رفضه ومقاومته واحتقاره. إنّ هذا الوهم، إلى جوار كلّ الأوهام الأخرى، هو ما يجب تحطيمه وتحرير الإنسان منه ليستعيد قيمته ويُرجع لإرادة الاقتدار فيه القدرة على الإبداع والتجاوز نحو ما هو أسمى.</p>
+<div class="note"><div class="nb">يكتب نيتشه " مرضى ومحتضرون هم أولئك الذى احتقروا الجسد والأرض." — <b>نيتشه</b></div></div>
+<p class="para">وعلى نقيض وهم الثنائيّة الميتافيزيقيّة ينبغي فهم الإنيّة على أنّها <span class="t-green">بأسرها جسدٌ</span>. وهذا الجسد هو كثرة من القوى المتفاعلة فيما بينها من الخليّة إلى الدماغ. والجزء الأعظم من قـــوى الجسد تعملُ بشكل غريزي غير واع من أجل إنجاز كلّ الوظائف العضويّة والنفسيّة المتعلّقة بالإنسان. أمّا الوعيُ فليس أكثر من قوّة ضئيلة وثانويّة من قوى الجسد التي لا دورَ فاعلٌ لها في تحديد حياة الإنسان النفسيّة، لأنّها تكتفي بمتابعة ما يُبدعه الجسد بواسطة مساراته الغريزيّة لتضعَ عليه بعض اللمسات السطحيّة وتنسبها وهمًا إلى الأنا، أي إلى الإرادة والعقل. وبذلك تسقطُ كلّ الثنائيات في فهم الإنيّة فالإنيّة بأسرها جسدٌ، والحياة النفسيّة جانبها غير الواعي الخلاّق أو جانبها الواعي السطحيّ هي جزء من الجسد.</p>
+<div class="note"><div class="nb">يكتب نيتشه " إنّي بأسري جسد ولا شيء سوى جسد وما الروح إلاّ كلمة تشير إلى جزء من هذا الجسد." — <b>نيتشه</b></div></div>
+<p class="para">إنّ مقوّمات إنيّة الفرد تجد منبعها في <b>غرائز الجسد</b> التي تعملُ <b>بشكل غير واع</b> سواء على صعيد ما هو عضويّ أو ما هو نفسيّ. وتفيدُ الغريزة، في هذا السياق، <b>اندفاعات ومسارات</b> تعمل بشكل طبيعيّ تلقائيّ وحتميّ في أعماق الجسد دون أن تحتاجَ إلى <b>تدخلّ الوعي</b> بما يعنيه من إرادة وعقل. <b>فالغدد</b> تفرز هرمونات وعناصر ضروريّة التي تحتاجها الأجهـــزة والأعضاء لأداء وظائفها. <b>والذكريات</b> تصنّف وتخزّن بنظام ودقّة لتعود إلى الحياة النفسيّة الواعية في موجهة حدث أو شخص ضمن سياق معيّن. <b>والقرارات</b> تفرض نفسها على الأنا في سياق معيّن. والأفكار تحضرُ الأنا بشكل فجئيّ لا يختاره أو يتحكّم فيه. والأفعال تتمّ بنظام ودقّة دون الحاجة إلى تركيز الوعي ومتابعته. وبما أنّ <b>الجسد</b> يعملُ <b>بشكل غريزيّ غير واعٍ</b> بمعزل عن <b>الأنا والوعي</b> وجبَ اعتباره <b>آخرَ</b> في صميم الإنيّة. إنّه <b>الهو فينا</b> <span dir="ltr">Le soi, das selbst</span>. وبما أنّ الجسد يبدع في <b>مختلف المجالات بحكمة عالية</b> لا تحتاج إلى تدخّل الوعي، أي الأنا بإرادته ومقولاته المنطقيّة، يصبح من الضروريّ وصفه <b>بالعقل العظيم فينا</b>. أمّا العقل المنطقيّ فقد أضحى عقلاً صغيرًا يستعمله الجسد من أجل <b>تكثيف إرادة الاقتدار</b> لديه حتّى يستعمله من أجل تبسيط الواقع وتنظيمه والسيطرة عليه.</p>
+<!-- PROOFREAD: c1u2 p4 — left margin of page (7) faded/cut: "تفرض نفسها على الأنا", "ومتابعته", "بمعزل عن", "وبما أنّ الجسد يبدع", "يصبح من الضروريّ", "يستعمله الجسد", "وتنظيمه", and the end of Nietzsche's quote "إنّ وراء أفكارك ومشاعرك يا أخي سيّد جبّار" are best readings -->
+<div class="note"><div class="nb">يكتب نيتشه " إنّ الجسد لهو عقل عظيم." ويضيف " إنّ وراء أفكارك ومشاعرك يا أخي سيّد جبّار، حكيم مجهول هو الهو الذي يسكن جسدك بل هو جسدك." — <b>نيتشه</b></div></div>
+<p class="para">وكخلاصة لكلّ ما سبق ، <span class="hl-green">تصبحُ الإنيّة كثرة قوامها الجسد</span>، القوى الفاعلة فيها تحوّلت من الأنا والوعي والعقل نحو الغرائز واللاّوعي، أي نحو الآخر الذي يفكر ويحسّ ويريد ويتذكّر ويتخيّل ويفعل، أي الهو. ولا يعني ذلك سوى <b>الإعلان عن نهاية الذات الفاعلة</b> في فهم الإنيّة للقول بأنّ الإنيّة صارت غيريّة. أمّا <b>الإنسانيّ</b> فقد أضحى إرادة <b>اقتدار</b> فعّالة في تجاوز لذاتها باستمرار نحو ما هو أسمى في كون لا وجود فيه إلاّ لكثرة الجزئيّ.</p>
+<div class="note"><div class="nb">يكتب نيتشه " الإنسان جسرٌ وليسَ هدفًا." — <b>نيتشه</b></div></div>
+
+<p class="subhead">3. الإنيّة لعبةٌ لغيريّة التاريخ</p>
+<!-- CROP: c1u2 4 0.312 0.335 0.432 0.530 c1u2_marx -->
+<figure class="fig"><img src="https://wael-philo.b-cdn.net/figs/229/229_marx.png" alt=""></figure>
+<p class="para">تنزّلَ إسهام <span class="t-blue">كارل ماركس</span> ( 1818 – 1883 ) في فهم إشكاليّة الإنيّة وعلاقتها بالغيريّة ضمن مشروعه الفلسفيّ المتمثّل في وضع منهج علميّ جديد في تفسير التاريخ يدحض الفهمَ المثاليّ له الذي قامَ على تفسير التغيرات الطارئة على المجتمعات الإنسانيّة عبر الزمن بإبداعات النّاس وقراراتهم الواعية تعبيرًا عن دور الحريّة الفاعل في صنع التاريخ. وهذا المنهجُ العلميّ الجديد هو الماديّة التاريخيّة <span dir="ltr">Le matérialisme historique</span>.</p>
+<p class="para">إنّ الفهمَ المثاليّ للتاريخ زائفٌ ومقلوب عاجزٌ عن تقديم تفسير موضوعيّ <b>لمسار التاريخ</b>، والمطلوب هو <b>قلبه جذريًّا</b>. فالفلاسفة <b>المثاليون يتوهّمون</b> أن التحولات التاريخية هي <b>نتاجُ وعي النّاس</b>، أفرادًا وشعوبًا، من خلال تصوراتهم وقناعاتهم <b>وقراراتهم الواعية</b>. ولتصحيح هذا الوهم وجبَ <b>قلبُ المسار</b> تمامًا، واعتبار أنّ <b>الوعيَ</b> بتعبيراته المختلفة هو نتاج <b>تحوّلات أعمق خفيّة عن وعيهم ومستقلّة عنه</b> ترتبط <b>بالقاعدة الاقتصاديّة الماديّة</b> التّي تقومُ عليها المجتمعات التّي ينتمون إليها. لذلك لا يُمكن تفسيرُ الواقع الاجتماعيّ في الحاضر وما تطرأ عليه من <b>تحوّلات</b> إلاّ بالانطلاق من <b>تحليل دقيق لتلك القاعدة الماديّة</b> التّي يصطلح ماركس على تسميتها <b>بالبنية التحتيّة</b> <span dir="ltr">L'infrastructure</span> . هنا ينبغي ملاحظة <b>طبيعة ودرجة تطوّر القوى الماديّة</b> المعتمدة في <b>الإنتاج الاقتصاديّ</b>، <b>والعلاقات</b> التّي تتحدّد بين <b>أفراد المجتمع</b> في إطار ذلك الإنتاج ، بحيث يمكن، عندئذ، تحديد <b>نمط الإنتاج الاقتصاديّ السائد</b> في ذلك المجتمع. فعند ملاحظة أنّ المجتمع اليونانيّ القـــديم يعتمد في اقتصاده على <b>العبيد</b> كقوّة اقتصاديّة أساسيّة، وأن ذلك قد قسّم المجتمع إلى طبقتين متناقضتين هما <b>السّادة والعبيد</b> يُمكن استنتاج أنّ <b>نمط الاقتصاد هو عبوديّ</b>.</p>
+<div class="note"><div class="nb">يكتبُ ماركس "ينخرط البشر عند إنتاجهم الاجتماعيّ لحياتهم في علاقات محدّدة وضروريّة تكون مستقلّة عن إرادتهم. إنّها علاقات إنتاج تتناسب مع مستوى محدّد لتطوّر قواهم الإنتاجيّة الماديّة. وتشكّل جملة علاقات الإنتاج تلك بنية المجتمع الاقتصاديّة." — <b>ماركس</b></div></div>
+<p class="para">إنّ لكلّ مجتمع، بحسب طبيعة <b>البنية التحتيّة</b> التّي يقومُ عليها، <b>أشكالُ وعي دينيّ وقانونيّ وسياسيّ وأخلاقيّ وفنيّ وأدبيّ وفلسفيّ</b>...تعبّر عن درجة تطوّره الاقتصاديّ والصراعات الطبقيّة القائمة فيه. وتؤلّف أشكالُ الوعي تلك بمختلف تعبيراتها <b>رؤية متكاملة للعالم</b> هي نسقٌ من التصورات والقيم التّي يعتمدها النّاس في فهم وجودهم في الكون والمجتمع وتنظيم العلاقات الاجتماعيّة وتحديد قراراتهم ومواقفهم. وهذه <b>الرؤية للعالم</b> حسب ماركس هي <b>الايديولوجيا السائدة</b> <span dir="ltr">L'idéologie dominante</span> في المجتمع. ويصطلح ماركس على تسمية الايديولوجيا <b>بالبنية الفوقيّة</b> <span dir="ltr">La superstructure</span>. وتقترنُ <b>الايديولوجيا</b>، في نظر ماركس <b>بوعي زائف</b>، فالنّاس يتوهّمون أنّ تصوّراتهم وقيمهم هي <b>مستقلّة</b> تعبّر عمّا هو دينيّ أو فنيّ أو قانونيّ أو أخلاقيّ أو فلسفيّ فلا ينتبهون إلى أنّها <b>أقنعة تخفي سيطرة الطبقة المهيمنة على المجتمع وتبرر مصالحها</b> الاقتصاديّة والاجتماعيّة والسياسيّة. فإذا كانت الايديولوجيا الســـائدة في المجتمع اليونانيّ القديم تعتبرُ أنّ العبوديّة طبيعيّة وأنّ المواطنة هي حقّ للرجال الأحرار فقــــط وأنّ العمل اليدويّ وضيع لا يليق بالرجل الحرّ يجبُ تركه للعبيد، فهي حتمًا تعبيرٌ عن هيمنة السّادة على المجتمع وتبرير لمصالحهم الطبقيّة.</p>
+<div class="note"><div class="nb">يكتبُ ماركس " ليسَ وعيُ البشر هو الذي يحدّد وجودهم، بل وجودهم الاجتماعيّ هو الذي يحدّد وعيهم." — <b>ماركس</b></div></div>
+<p class="para"><span class="hl-green">يتغيّرُ الواقعُ الاجتماعيّ</span>، حسب ماركس، لمّا تتطوّرُ قوى الإنتاج وتصبحُ في تناقض مع علاقات <b>الإنتاج السائدة</b> في ذلك المجتمع. عندئذ تظهر <b>طبقة اجتماعيّة جديدة</b> تصارع الطبقة المهيمنة، وهو ما يحدث تغييرًا <b>اقتصاديًّا وطبقيًّا</b> يستوجب <b>تغييرًا جوهريًّا لكلّ عناصر</b> البنية الفوقيّة، أي للإيديولوجيا السائدة في المجتمع. فلمّا تطوّرت <b>قوى الإنتاج في العصر الحديث</b> باتجاه اعتماد الآلات والأجراء تغيّر نمط الإنتاج ليصبح <b>رأسماليًّا</b> ونشأت طبقة اجتماعيّة جديدة هي <b>البورجوازيّة</b> التّي صارعت الطبقة المهيمنة وهم <b>النبلاء</b>. وهذا الصراع استوجبَ <b>ايديولوجيا جديدة</b> تعبّر عن هيمنة <b>البورجوازيّة</b> وتبرر مصالحها. إنّها <b>الايديولوجيا الليبيراليّة</b> التّي تقوم على محوريّة الإنسان في الكون، ومرجعيّة العقل في التفكير والمعرفة، وعلى المساواة بين كلّ المواطنين في الحقوق، وعلى سيادة الشعب أساسا لشرعيّة السلطة السياسيّة ...إذن <b>صراع الطبقات هو العاملُ الذي يفسّر حركة التاريخ</b>. وطالما أنّ هذا الصراع هو خفيّ ومستقلّ عن وعي النّاس وإرادتهم، كان من المنطقيّ اعتبار التاريخ آخر يحدد واقع النّاس الاجتماعيّ وأشكال وعيهم في استقلال عن إرادتهم.</p>
+<div class="note"><div class="nb">يكتبُ ماركس " إنّ تاريخ كلّ مجتمع لم يكن إلى حدّ اليوم سوى صراع الطبقات." — <b>ماركس</b></div></div>
+<p class="para">وفي هذا السياق <span class="t-green">تتضح رؤية ماركس للإنيّة ولما هو إنسانيّ فيها</span>. <span class="t-green">فالإنيّة ومميّزاتها الإنسانيّة هي نتاجٌ لغيريّة التاريخ</span>. ذلك أنّ إنيّة الفرد تتحدّد بحسب ظروف مجتمعه وانتمائه الطبقيّ. فمن ينشأ في مجتمع رأسماليّ منتميًّا إلى طبقة البورجوازيّة الكبرى، ستتحدّ معالمُ هويّته الفرديّة وتصوّراته وقيمه واختياراته التّي تؤلّف أسلوبه في الحياة بشكل مختلف عمن نشأ في نفس ذلك المجتمع ولكنّه كان منتميًا إلى الطبقة العماليّة أو المزارعين الأجراء. أمّا <b>المميّزات الإنسانيّة</b>، فإنّها من منظور ماركس ليست طبيعيّة أو ثابتة وإنّما هي متطوّرة في سياق التاريخ، وتتحدّد بحسب خصوصيّة المجتمع ودرجة تطوّره.</p>
+<div class="note"><div class="nb">يكتبُ ماركس " إنّ حقيقة الإنسان ليست تجريدا ملازما للفرد المعزول. فهي في الواقع جملة العلاقات الاجتماعيّة." — <b>ماركس</b></div></div>
+
+<p class="subhead t-navy">III . في جدليّة الإنيّة والغيريّة</p>
+<p class="para">أدّى نقد فلاسفة الظنّة ( ماركس، نيتشه، فرويد ) للمقاربة الميتافيزيقيّة للإنيّة إلى الإعلان عن نهاية الكوجيتو براديغمًا في فهم إنيّة الفرد والمشترك الإنسانيّ بينه وبين الآخرين :</p>
+<ul class="b">
+  <li>فالوعيُ لم يعدْ ماهية الإنيّة وأساس اليقين لديها وعلامة الحريّة : فقد أمسى صفة ثانويّة ومصدرًا للزيف ونتاج قوى خفيّة تحكم وجود الفرد دون معرفته بها أو قدرته على التحكّم فيها.</li>
+  <li>وبناءً على ذلك، لم تعدْ الذاتُ قوامَ الإنيّة بما هي ذاتٌ مستقلّة بنفسها وجوديًّا ومعرفيًّا وعمليًّا، بل أمست الغيريّة هي قوام الإنيّة ومجال فهم حقيقتها وتفسير أفعالها : إنّه المجتمعُ بصراعاته الطبقيّة حسب ماركس، وغرائز الجسد غير الواعية حسب نيتشه، وهي اللاّوعي بدوافعه ومكبوتاته وآليّاته حسب فرويد.</li>
+  <li>ولم يعد المشترك الإنسانيّ معبّرا عن وحدة تماثل بين جميع النّاس تهمّشُ تنوّع الاختلافات الجزئيّة بينهم، بل أضحى مشتركًا تعدّديًّا ينطلق من تنوّع الجزئيّ بثرائه ليعيدَ فهم الكونيّ على ضوء ذلك بما هو وحدة لا تكون إلاّ بصيغ جزئيّة، تارةً ( ماركس، فرويد )، وليَنفي الكونيّ تمامًا مقتصرًا على تنوّع الجزئيّ بثرائه اللامتناهي، تارةً أخرى. ( نيتشه ).</li>
+</ul>
+<p class="para">ولكن هذه النتيجة لا تخلو بدورها من إحراجات تجعلُ الفكر في حيرة تبرّر استئناف التساؤل :</p>
+<ul class="b">
+  <li>فهل في اكتشاف مجاورة الآخر للوعي في بنية الإنيّة وزيفه وارتباطه بقوى مختلفة عنه في توجيه الحياة النفسيّة ما يبرّر استنتاجَ أنّ الوعي ثانويّ ، وأنّه زائفٌ بإطلاق، وأنّه نتاجٌ لما هو آخر ؟</li>
+  <li>وبناءً على السؤال الأوّل، هل يؤدي الاعتراف بالطابع الجزئيّ للوعي وبزيفه و بوجود الغيريّة المؤثّرة في مختلف أبعاد الإنيّة إلى تحطيم الذات والقول أنّها مجرّد وهم ؟</li>
+</ul>
+
+<!-- PROOFREAD: c1u2 p5 — the left edge of page (9) is cut in the scan: last letters of lines ("وللمشترك", "المتمثّل", "اليقين", "وأنّ", "مجال", "التي", "غيريّة", "تبرّر", "المشروع", "أن", "إعادة", "هو", "زائف", "اللاّوعي", "أوهام", "غرور", "بأيّ", "لدور", "رسم", "الفداء", "على", "بمجال", "أنّها", "لاواعية", "دون", "الإطار", "بيـــن", "مع", "أكثر", "الوعي") are completed by best reading -->
+<p class="subhead">1 . بول ريكور محاورًا لفرويد : أو في الوعي بالذات بما هو مَهمّة لامتناهية</p>
+<!-- CROP: c1u2 5 0.360 0.074 0.430 0.205 c1u2_ricoeur -->
+<figure class="fig"><img src="https://wael-philo.b-cdn.net/figs/229/229_ricoeur.png" alt=""></figure>
+<p class="para">أحدثَ فرويد ثورة معرفيّة غيّرت جوهريًّا فهمَ الإنسان لإنيّته وللمشترك الإنسانيّ بينه وبين الآخرين. فهو قد حرّر الإنسان من أوهامه النرجسيّة المتمثّل في تعريف نفسه بوحدة الوعي ( أو العقل ) ، وباعتبار الوعي أساسَ اليقين والحريّة، ليعترفَ أخيرًا أنّ وراء الوعي أو العقل يوجد اللاّوعي أو اللامعقول، وأنّ الوعي مصدرُ تصوّرات زائفة تخدعه فلا يتمكّن من إدراك أنّ اللاّوعي هو مجال دلالات أفعاله الموضوعيّة ومصدر القوى المحدّدة لها.</p>
+<p class="para">ولكنّ <span class="t-blue">بول ريكور</span> لمّا يثمّن هذه الإقرارات فإنّه لا يقبلها بالصيغة التي قدّمها فرويد رافضًا ما أدت إليه من نتائج والمتمثلة في اختزال الإنيّة في غيريّة اللاّوعي واعتبارها مجال الحقيقة ومصدر القوى المحدّدة لأفعال الإنيّة تبرّر للإعلان عن تحطيم الذات :</p>
+<ul class="b">
+  <li>إنّ اكتشافَ اللاّوعي هو اكتشافٌ لآخر بالنسبة إلى الوعي، ولذلك ليسَ من المشروع الحكمُ أنّ الوعي قد أضحى صفة ثانويّة وسطحيّة " غيابها أكثر بكثير من حضورها "، بل ينبغي القول أنّ الإنسان أضحى كائنًا يجمعُ بين الوعي واللاّوعي في آنٍ بعيدًا عن الفصل أو المفاضلة. " يجبُ إعادة التفكير في مفهوم الوعي حتّى يصبح اللاّوعيُ آخرَ بالنسبة إلى الوعي.</li>
+  <li>إنّ الاعتراف بزيف الوعي يعني نقدًا للموقف الدوغمائيّ الذي يعتبرُ أنّ الوعي هو أساسٌ لكلّ يقين، للإقرار بأنّ الوعي يُمكن أن يختلط بشتى الأوهام. ولكنّ ذلك لا يعني أنّ الوعي زائف بإطلاق، لأنّ الوعيَ هو شرطُ إمكان كلّ تأويل ممكن لدلالات الوعي، ومن دون ذلك يصبـــح اللاّوعي مجهولاً تمامًا. كما أنّ للوعي بواسطة التواصل مع الآخرين ( البينذاتيّة ) القدرة على الكشف عن أوهام الزائفة وتصحيحها على طريق التحرّر منها. "إنّ الإهانة ( التي وجّهها أقطابُ الظنّة للوعي ) لم تُصبْ الوعيَ بل غرور الوعي...وأنّ الوعيَ يُقوّي نفسَه بنفسه لمّا يعيدُ التمركزَ على الآخر بالنسبة إليه."</li>
+</ul>
+<p class="para">أمّا الاعتراف بأنّ اللاّوعيَ يُمثّل مجالاً للدلالة ومصدرًا لتفسير أفعال الإنسان، فإنّه لا يُمكن أن يبرّر بأيّ حال نزعة اختزاليّة أحاديّة تفسّرُ كلّ أفعال الإنسان بعامل وحيد هو اللاّوعي، لأنّ في ذلك تجاهلاً لدور الوعي في إكساب أفعال الإنسان دلالة وتفسير اختيارها عمليًّا. فإذا كان ليوناردو دي فانشي قد رسم لوحة " القديسة أنا والعذراء والطفل يسوع" فإنّ ذلك يعبّر عن مشروع دلاليّ واعٍ محورها الفـــداء اختاره دي فانشي بوعيه وأنجزه بحريّة، ولا يُمكن القولُ أنّ هذه اللّوحة هي نتاجٌ للاّوعي. وبناءً على ذلك وجب إعادة صياغة فهم للإنيّة يقوم على جدليّة الوعي واللاّوعي حيث يتمّ الاعتراف بمجالين للدلالة في فهم كلّ فعل من أفعال الإنيّة بعيدًا عن كلّ اختزال أحاديّ. فلوحة دي فانشي المذكورة أنّها هي في آن تعبيرٌ عن دلالة واعية وهي الفداء من منظور الرؤية المسيحيّة للعالم، وعن دلالة لاواعية وهي تصعيد رغبة مكبوتة لم تتحقّق في الواقع وهي رغبته في إعادة الاعتبار لأمّه التي أنجبته دون زواج بحيث تكون شبيهة بالقديسات.</p>
+<ul class="b">
+  <li>وبناءً على ما سبق ينبغي إضفاء <span class="t-green">النسبيّة على الذات وليسَ تحطيمها</span> : فهي تظلّ الإطار الجامعَ للحياة النفسيّة بما هي قائمة على هويّة سرديّة يُمكنها أن تؤلّف بين ماضيها وحاضرها، بيـــن دلالاتها الواعية ودلالاتها غير الواعية، ساعية على الدوام إلى التحرّر من الزيف بفضل تواصلها مع الآخرين. إذن الإنيّة ذاتٌ وآخر، وعيٌ ولاوعيٌ مهمّتها هي التحرر بالوعي من الزيف من أجل بناء فهم أكثر شمولاً وتماسكا لنفسها يقوم على فهم الآخر فيها بواسطة التواصل مع الغير.</li>
+</ul>
+<div class="note"><div class="nb">يكتب ريكور " لم يعدْ الوعي معطى، لقد صارَ مَهمّة." — <b>بول ريكور</b></div></div>
+
+<p class="subhead">2 . موريس مرلوبونتي محاورًا لنيتشه : أو في الإنيّة بما هي ذاتٌ متجسّدة.</p>
+<!-- CROP: c1u2 5 0.012 0.690 0.098 0.852 c1u2_merleau_ponty -->
+<figure class="fig"><img src="https://wael-philo.b-cdn.net/figs/229/229_merleau_ponty.png" alt=""></figure>
+<p class="para">أعاد نيتشه الاعتبار للجسد لمّا حرّره من الاحتقار الميتافيزيقيّ الذي همّشه نحو منزلة العَرَض ومن الاختزال العلميّ الــــذي الذي يسعى إلى قصره على منزلة الجسم العضويّ. فضدّ الميتافيزيقيين الذين احتقروا الجسد دعا نيتشه إلى تمجيده لأنّه قوام إنيّة الفرد ومصدرُ كلّ قدراته. وضدّ العلماء، ابتداءً من القرن التاسع عشر، الذين يخلطون بين الجسم في بعده البيولوجـــيّ الآلـــيّ والجسد في بعده الوجوديّ المبدع دعا نيتشه إلى اعتبار <b>الجسد إرادة اقتدار</b> تسمو به نحو مزيد من الإنسانيّة دون توقّف. وقد قاد ذلك نيتشه إلى الكشف عن <b>دور الجسد</b> بكلّ قواه في إبداع المعنى في كلّ مجالات الوجود الإنسانيّ : الإدراك، الإحساس، الخيال، الذاكرة، الفكر، القيم...</p>
+<p class="para">ولكنّ <span class="t-blue">مرلوبونتي</span> لمّا يثمّن هذه الإسهامات ويعتبرها <b>مكاسب فلسفيّة ينبغي البناء عليها</b>، هو لا يُنكرُ ما تتضمنه من إحراجات تستوجبُ النقد والتجاوز، رافضًا بذلك أن تؤديَ إلى تهميش الوعي والإعلان عن تحطيم الذات باعتبارها وهمًا :</p>
+<ul class="b">
+  <li>إنّ تعريف الإنيّة بما هي جسدٌ قد اقترن مع نيتشه  بموقف اختزاليّ أحاديّ تمثّل في اختزال الجسد بأسره في اللاّوعي، أي في الغرائز التي هي المحدّد لكلّ ما هو إنسانيّ. وهو أمر يتغاضى عن أنّ الوعيَ هو بعدٌ وجوديّ أساسيّ بالنسبة إلى الجسد، وأنّ أهميّته تفوق اللاّوعي لكونه شرط إمكان فهم كلّ دلالة وأنّ له دورًا محوريًّا في إنتاجها وتنظيمها. ودون التغافل أيضًا عمّا يكتسبه الوعي من قدرات إضافيّة بواسطة الجسد في إطار الوجود الاجتماعيّ مع الآخرين. فباكتساب اللّغة، والتصوّرات الذهنيّة والقيم والخبرات العمليّة بواسطة الجسد في إطار التواصل مع الآخرين تزدادُ قدرات الوعي كمّا وكيفًا. ومن هذا المنظور ينبغي تعديلُ أطروحــة نيتشه والقول أنّ الإنيّة بأسرها جسد، ولكن هذا الجسد هو قوام الغرائز من جهة والوعـــــي والعقل من جهةٍ أخرى. كتب مرلوبونتي " لقد فسخ قرننا خطّ الفصل بين الجسد والروح، لينــظرَ إلى الحياة النفسية على أنّها بأسرها روحيّة وجسديّة في آن واحد."</li>
+  <li>وبناءً على النقد السابق يصبح من <b>غير الممكن اختزالُ الإنيّة بأسرها في الغيريّة</b>، والإعلان عن تحطيم الذات للقول بأنّها لم تكن إلاّ مجرّد وهم. فالإنيّة <b>ليست آخر هو الجسد</b> بغرائزه الذي يفكرُ ويريد ويتخيّل ويحسّ ويقرر بمعزل عن الأنا، لأنّ الإنيّة هي هذه الهويّة التّي تخوّل للفرد الإحالة على نفسه بقول أنا، فتمكّنه من <b>إدراك الاختلاف بينه وبين الآخرين</b> ومن <b>التأليف</b> بين ماضيه وحاضره، ومن التفاعل مع واقعه والآخرين من حوله، ومن <b>اختيار تصوراته وأفعاله</b> بحيث يؤلّف كلّ ذلك <b>وحدةً متحركة</b> على الدوام هي <b>الذات</b>. ومن هنا <b>ليست الذات وهمًا</b>، بل هي هذه الهويّة المتحركة التي تتكون في العالم ومع الآخرين عبر الزمن لتمكن الفرد من <b>الوعي</b> بخصوصيته واختيار قناعاته وأفعاله. ونتيجة ذلك أنّ الإنيّة أنا واعٍ وآخر غير واعٍ قوامهما الجسد الخاصّ كما تعيشه الذات ضمن وجودها في العالم ومع الآخرين.</li>
+</ul>
+<div class="note"><div class="nb">يكتب مرلوبونتي " لا تحقّقُ الذاتُ إنيّتها إلاّ بأن تكون بصورة فعليّة جسدًا، وأن تنخرط في العالم بواسطة هذا الجسد." ويضيف " إنّ كلّ رؤية تفترض في صميم الذاتيّة مشروعا شموليّا ." — <b>موريس مرلوبونتي</b></div></div>
+
+<p class="subhead">3 . جان بول سارتر محاورًا لماركس: أو دور الحريّة الإنسانيّة في صُنع التاريخ.</p>
+<!-- CROP: c1u2 5 0.512 0.600 0.600 0.735 c1u2_sartre -->
+<figure class="fig"><img src="https://wael-philo.b-cdn.net/figs/229/229_sartre.png" alt=""></figure>
+<p class="para">أزاحَ ماركس أحد الأوهام النرجسيّة التّي نسجتها الإنسانيّة حول نفسها والمتمثّل في وهم الاعتقاد في أنّ النّاس بفضل الوعي هم يصنعون واقعهم الاجتماعيّ ويغيّرونه في سياق التاريخ بحريّة، وكشف عمّا يؤدي إليه ذلك من اغتراب كاشفًا القناع عن القوى المحدّدة لوجود النّاس الاجتماعيّ والمتمثّلة في الصراعات الطبقيّة. فهنالك آخر خفيّ ومستقلّ عن وعي الأفراد هو الذي يحدّد وجودهم وإنيّاتهم وأشكال وعيهم ومواقفهم، متوهّمين أنهم هُم مَن يحدّد تلك الأبعاد المذكورة بحريّة.</p>
+<p class="para">يثمّنُ <span class="t-blue">سارتر</span> هذا الإسهام النقديّ، ولكنّه يلاحظ أنّه من الالتباس بحيث يُمكن أن يبرّر قراءات تذهبُ إلى نفي الحريّة الإنسانيّة تكريسًا للحتميّة في تفسير التاريخ، عندئذ سيتحوّل الوعي إلى مصدر تصوّرات زائفة، وواقع النّاس وإنيّاتهم إلى نتيجة حتميّة لعامل وحيد هو صراع الطبقات :</p>
+<ul class="b">
+  <li>إنّ الإقرار بأهميّة العوامل الاجتماعيّة الموضوعيّة التّي يظهر في نطاقها الأفراد إلى الوجود لا ينبغي أن يتحوّل إلى تفسير آليّ يناقض مشروع ماركس الفلسفيّ المتمثّل في صياغة فهم جدليّ للواقع الاجتماعيّ يقوم على التفاعل الدائم بين الأضداد والحركيّة المستمرّة التّي ينتجها التناقض. فالظروف الاقتصاديّة ليست مُسقطة على النّاس ولا تمثّل عاملاً يحدّد مسبقًا ما سيكون عليه وجودهم. فتلك الظروف هي نتيجة تفاعل خلاّق بين ظروف واقعيّة معطاة طبيعيّة أو اجتماعيّة والوعي الإنسانيّ بما يحمله من قدرة على الخيال والإبداع في تصوّر الممكن. فنشأة نمط الإنتاج الرأسماليّ كان نتيجة تراكم لإبداعات إنسانيّة تقنية واقتصاديّة واجتماعيّة، كما أنّ تأثيرَ ذلك النمط لن يكون آليًّا بل سيمرّ حتمًا عبر <b>إبداعات إنسانيّة فريدة</b>. وفي هذا السياق يُمكن فهمُ <b>الاختلاف</b> بين الرؤية البريطانيّة والرؤية الفرنسيّة في تصوّر الإصلاح السياسيّ على ضوء أزمات الرأسماليّة حيث ذهب التوجه البريطانيّ نحو اعتماد نظام ملكيّ دستوريّ للحكم في حين توافق الفرنسيون حول نظام جمهوريّ يقطع مع الملكيّة. يكتبُ سارتر" يتميّز الإنسان، قبل كلّ شيء (...) بواسطة ما يتوصّل إلى فعله بما فعله الآخرون به.(...) إنّ ذلك هو ما نسمّيه المشروع."</li>
+  <li>وعلى غرار <b>الواقع الاجتماعيّ</b> لا يُمكن لإنيّة الفرد أن تفسّر آليًّا على أنّها نتيجة حتميّة لظروف نشأته الطبقيّة وما اقترن بها من تصورات ايديولوجيّة، لأنّ تلك الإنيّة تتكوّن تدريجيًّا في إطار <b>التفاعل مع ذلك الواقع الاجتماعيّ فتتأثر بمختلف الظروف الموضوعيّة</b> ولكنّها بعد ذلك تكتسبُ القدرة على <b>اختيار ما سيكون عليه مشروع وجودها</b>، ممّا يكسبها خصوصيّة تعبّر عن اختلافها النسبيّ أو الجوهريّ عن الآخرين. وفي هذا السياق يمكن فهم الاختلاف الذي يكون أحيانًا جوهريًّا بين أفراد تشابهوا تمامًا على مستوى ظروف نشأتهم الطبقيّة : فهذا الكاتب <b>غوستاف فلوبير</b> رغم تشابهه مع أخيه أخيل فلوبير في الظروف الموضوعيّة إلاّ أنه تفاعلَ معها بشكل مختلف منشئا لنفسه إنيّة مغايرة تمامًا عن إنيّة أخيه. فعلى عكس أخيل الذي استجاب لرغبة الأب الطبيب في أن يصبح طبيبًا مثله، رفض غوستاف ذلك وتمرّد ليختار أن يطوّر كيانه في طار الكتابة الأدبيّة.</li>
+</ul>
+<div class="note"><div class="nb">يكتبُ سارتر " الإنسانُ حريّة." — <b>جان بول سارتر</b></div></div>
+
+</section>
+
+</div>
+</body>
+</html>

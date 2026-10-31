@@ -1,0 +1,391 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<title>Wael Academy — Philosophie · 3eme Trimestre — lycée pilote médenine ds</title>
+<script>
+  window.MathJax = {
+    tex: { inlineMath: [['\\(','\\)']], displayMath: [['\\[','\\]']] },
+    chtml: { fontURL: 'https://cdn.jsdelivr.net/npm/mathjax@3/es5/output/chtml/fonts/woff-v2', matchFontHeight: true },
+    startup: { typeset: true }
+  };
+</script>
+<script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js" async></script>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Sora:wght@400;500;600;700;800&family=Cairo:wght@400;500;600;700;800;900&family=Tajawal:wght@400;500;700;800&family=JetBrains+Mono:wght@400;500;600;700&display=swap');
+:root{
+  /* ===== Wael Academy palette — MAIN ACCENT = green-teal gradient #0FAB8F → #067360 ===== */
+  --bg:#fff; --panel:#f2f8f8; --hair:#e6e6e9; --hair2:#d6d6db;
+  --fg:#0f2a31;        /* body text (and +/− signs) */
+  --fg2:#3f5b62;       /* softer text */
+  --fg3:#7c959b;       /* muted (footer) */
+  --blue:#067360;      /* deep accent — small numbers, borders, watermark, accent equations */
+  --blue-dark:#045260; /* titles & wordmarks (also the balance colour) */
+  --teal:#0fab8f;      /* bright accent end */
+  --loop:#0d9c82;      /* logo-loop helper */
+  --orange:#067360;    /* kicker/category labels (gold retired → deep teal) */
+  --red:#f5322f;       /* EXERCISE CHIPS ONLY — never for emphasis */
+  --cream:#e6f3f4; --blue-soft:#e6f3f4;  /* pale teal — callout fill + table sub-row fill */
+  --blue-line:#cde7e4; /* hairline */
+  --sub-ink:#045260;   /* table sub-row text */
+  --grad:linear-gradient(148deg,#0fab8f 0%,#0d9c82 52%,#067360 100%);
+  --mono:'JetBrains Mono',monospace; --latin:'Sora',sans-serif; --ar:'Cairo',sans-serif; --arb:'Tajawal',sans-serif;
+}
+*{box-sizing:border-box;margin:0;padding:0;}
+body{font-family:var(--latin);color:var(--fg);background:#e4e4e7;padding:28px 0;
+     -webkit-print-color-adjust:exact;print-color-adjust:exact;}
+html[dir="rtl"] body{font-family:var(--arb);}
+
+/* ===== brand watermark: REAL text (crisp), full-bleed, repeats per page ===== */
+.wm{position:fixed;inset:0;z-index:0;pointer-events:none;display:flex;
+    align-items:center;justify-content:center;overflow:hidden;
+    -webkit-print-color-adjust:exact;print-color-adjust:exact;}
+.wm span{font-family:var(--mono);font-weight:800;font-size:76.8pt;letter-spacing:.16em;
+    color:var(--blue);opacity:.06;white-space:nowrap;transform:rotate(-54deg);}  /* single diagonal: bottom-left → top-right */
+.wm.mono span{color:#000;opacity:.05;}
+
+/* ===== continuous flow stream (no page border) ===== */
+.flow{width:210mm;margin:0 auto;background:transparent;color:var(--fg);
+      padding-block:16mm 18mm;padding-inline:23mm 14mm;position:relative;}   /* spiral gutter: inline-start(=spine) 23mm / outer 14mm — dir-aware; print margins set in render_flow.py */
+@media screen{ .flow{background:#fff;box-shadow:0 10px 40px rgba(0,0,0,.16);} }
+.flow>*{position:relative;z-index:1;}
+.flow p,.flow li,.flow .data,.flow .note,.flow .ex{break-inside:auto;}
+.flow .fig,.flow figure,.flow img,.flow svg.figsvg,.flow table,.flow tr,.flow .chapdiv,.flow .exh,.flow .qrcard,.flow .meta{break-inside:avoid;}
+.flow h1,.flow h2,.flow h3,.flow .exh,.flow .subhead,.flow .chapdiv{break-after:avoid;}
+.flow img,.flow svg.figsvg{max-width:100%;height:auto;}
+.flow figcaption,.flow .figcap{display:none;}          /* rule 3: no figure captions */
+
+/* ===== front matter + chapters each start on a fresh page ===== */
+.flow .cover{break-after:page;}        /* cover alone on page 1 */
+.flow .toc{break-after:page;}          /* Sommaire alone on the next page */
+.flow .chapter{break-before:page;}
+.flow .chapter:first-of-type{break-before:auto;}
+
+/* ===== cover ===== */
+.cover{padding:14mm 0 8mm;border-bottom:2px solid var(--blue);margin-bottom:6mm;}
+.cover .badge{font-family:var(--mono);font-size:8.5pt;letter-spacing:.28em;text-transform:uppercase;color:var(--orange);margin-bottom:10px;}
+.cover h1{font-family:var(--latin);font-weight:800;font-size:34pt;line-height:1.03;letter-spacing:-.025em;color:var(--blue-dark);}
+.cover .grule{width:120px;height:5px;border-radius:5px;background:var(--grad);margin:14px 0;}
+.cover .sub{font-family:var(--mono);font-size:10pt;letter-spacing:.14em;text-transform:uppercase;color:var(--teal);}
+.cover .auth{font-size:11pt;color:var(--fg2);margin-top:6px;font-weight:600;}
+
+/* ===== table of contents ===== */
+.toc{margin:2mm 0 4mm;}
+.toc h2{font-family:var(--latin);font-weight:800;font-size:15pt;color:var(--blue-dark);margin-bottom:4mm;}
+.toc .trititle{font-family:var(--mono);font-size:8pt;letter-spacing:.2em;text-transform:uppercase;color:var(--orange);margin:4mm 0 2mm;}
+.toc ol{list-style:none;}
+.toc li{display:flex;align-items:baseline;gap:8px;font-size:10pt;padding:2.2px 0;color:var(--fg);line-height:1.4;}
+.toc li .n{font-family:var(--mono);font-weight:700;font-size:9pt;color:var(--blue);min-width:26px;}
+.toc li .dots{flex:1;border-bottom:1px dotted var(--hair2);transform:translateY(-3px);}
+
+/* ===== chapter divider band ===== */
+.chapdiv{margin:0 0 5mm;padding:6mm 16px 5mm;border-radius:12px;background:var(--grad);
+    -webkit-print-color-adjust:exact;print-color-adjust:exact;}   /* green-filled chapter band */
+.chapdiv .cn{font-family:var(--mono);font-size:8.5pt;font-weight:700;letter-spacing:.24em;text-transform:uppercase;color:rgba(255,255,255,.82);margin-bottom:5px;}
+.chapdiv h2{font-family:var(--latin);font-weight:800;font-size:17pt;line-height:1.1;letter-spacing:-.015em;color:#fff;}
+/* conclusion block — same green-filled look as the chapter band */
+.conclusion{background:var(--grad);border-radius:12px;padding:6mm 16px;margin:5mm 0;color:#fff;break-inside:avoid;
+    -webkit-print-color-adjust:exact;print-color-adjust:exact;}
+.conclusion .ck{font-family:var(--mono);font-size:8.5pt;font-weight:700;letter-spacing:.24em;text-transform:uppercase;color:rgba(255,255,255,.82);margin-bottom:6px;}
+.conclusion h3{font-family:var(--latin);font-weight:800;font-size:13pt;line-height:1.2;color:#fff;margin-bottom:4px;}
+.conclusion p,.conclusion li{font-size:10.4pt;line-height:1.7;color:#fff;}
+.conclusion b,.conclusion strong{color:#fff;font-weight:700;}
+
+/* ===== unit header (lesson/exercise) + QR emplacement ===== */
+.exh{display:flex;align-items:center;gap:11px;margin:6mm 0 3mm;}
+.exh .idx{font-family:var(--mono);font-size:9pt;font-weight:600;color:#fff;background:var(--grad);
+    border-radius:6px;padding:4px 11px;letter-spacing:.08em;text-transform:uppercase;
+    -webkit-print-color-adjust:exact;print-color-adjust:exact;}
+.exh .idx.ex{background:var(--red);}   /* exercise chip = red */
+.exh h2{font-family:var(--latin);font-size:14pt;font-weight:700;letter-spacing:-.01em;color:var(--blue-dark);}
+.exh .qrcard{margin-inline-start:auto;flex:0 0 auto;display:flex;flex-direction:column;align-items:center;gap:3px;width:26mm;}
+.qrcard .qrt{font-family:var(--mono);font-size:6.5pt;letter-spacing:.1em;text-transform:uppercase;color:var(--teal);text-align:center;}
+.qrcard .qrslot{width:24mm;height:24mm;padding:1.5mm;background:#fff;border:1px solid var(--blue-line);border-radius:8px;display:flex;align-items:center;justify-content:center;}
+.qrcard .qrslot img,.qrcard .qrslot svg{width:100%;height:100%;display:block;}
+
+/* sub-exercise label when one file holds several exercices */
+.exsub{font-family:var(--latin);font-weight:800;font-size:11.5pt;color:var(--blue-dark);margin:5mm 0 2.5mm;padding-bottom:3px;border-bottom:2px solid var(--blue-line);}
+
+/* ===== text blocks ===== */
+.lead{font-size:11pt;line-height:1.7;margin:2mm 0 3mm;color:var(--fg);}
+.para{font-size:10.6pt;line-height:1.7;margin:2mm 0 2.5mm;color:var(--fg);}
+.consigne{font-size:10.4pt;line-height:1.6;margin:1mm 0 2mm;color:var(--fg);font-style:italic;}
+.subhead{font-family:var(--latin);font-weight:800;font-size:12pt;letter-spacing:-.01em;color:var(--blue-dark);margin:5mm 0 2.5mm;}
+/* emphasis — green accent = .t-blue/.t-green ; balance = .t-navy ; red = SECONDARY accent (.t-red) on titles + a few words */
+.t-blue{color:var(--blue);font-weight:600;} .t-navy{color:var(--blue-dark);font-weight:700;}
+.t-red{color:var(--red);font-weight:600;} .t-green{color:var(--teal);font-weight:600;} .t-gold{color:var(--orange);font-weight:600;}
+.subhead.t-red{color:var(--red);font-weight:800;}   /* red Roman-numeral section title (I, II, …) — keeps subhead weight */
+/* highlighter marks — a soft colour wash behind a key word (agent picks green or red per what balances the page) */
+.hl-green,.hl-red{border-radius:3px;padding:.02em .24em;font-weight:600;box-decoration-break:clone;-webkit-box-decoration-break:clone;
+    -webkit-print-color-adjust:exact;print-color-adjust:exact;}
+.hl-green{background:rgba(15,171,143,.20);color:var(--blue-dark);}   /* green highlight */
+.hl-red{background:rgba(245,50,47,.13);color:#c0261f;}               /* red highlight  */
+
+.data{background:var(--blue-soft);border:1px solid var(--blue-line);border-inline-start:4px solid var(--blue);
+    border-radius:8px;padding:11px 16px;margin:3mm 0;font-size:10pt;line-height:1.65;color:var(--fg2);}
+.data b{color:var(--fg);font-weight:700;}
+.note{border:1px dashed var(--hair2);border-radius:9px;padding:11px 16px;margin:4mm 0;background:var(--panel);}
+.note .kicker{font-family:var(--mono);font-size:7.5pt;letter-spacing:.18em;color:var(--orange);display:block;margin-bottom:5px;}
+.note .nb{font-size:10pt;line-height:1.7;color:var(--fg2);} .note b{color:var(--fg);}
+.ex:not(.idx){background:var(--blue-soft);border:1px solid var(--blue-line);border-inline-start:3px solid var(--blue);
+    border-radius:7px;padding:7px 11px;font-size:9.6pt;line-height:1.6;color:var(--fg2);margin:2mm 0;}   /* :not(.idx) so it never hits the exercise chip (which is .idx.ex) */
+.ex .extag{display:inline-block;font-family:var(--latin);font-weight:800;font-size:7.6pt;color:var(--blue-dark);background:#fff;
+    border:1px solid var(--blue);border-radius:5px;padding:1px 9px;margin-inline-end:7px;vertical-align:middle;text-transform:uppercase;letter-spacing:.06em;}
+
+/* ===== lists ===== */
+ol.q{list-style:none;counter-reset:q;margin:1mm 0 2mm;}
+ol.q>li{counter-increment:q;position:relative;padding-inline-start:30px;margin-bottom:2.5mm;font-size:10.4pt;line-height:1.6;}
+ol.q>li::before{content:counter(q);position:absolute;inset-inline-start:0;top:1px;width:21px;height:21px;background:var(--grad);color:#fff;
+    border-radius:50%;font-family:var(--mono);font-size:9pt;font-weight:600;display:flex;align-items:center;justify-content:center;
+    -webkit-print-color-adjust:exact;print-color-adjust:exact;}
+ol.sub{list-style:none;counter-reset:s;margin:4px 0 0;padding-inline-start:2px;border-inline-start:1px solid var(--blue-line);}
+ol.sub li{counter-increment:s;position:relative;padding:2.5px 0 2.5px 26px;font-size:10.1pt;line-height:1.55;}
+ol.sub li::before{content:counter(s,lower-alpha)".";position:absolute;inset-inline-start:10px;top:2.5px;font-family:var(--mono);font-size:9pt;font-weight:600;color:var(--teal);}
+ol.qn{list-style:none;counter-reset:qn;margin:1mm 0 2mm;}
+ol.qn>li{counter-increment:qn;position:relative;padding-inline-start:26px;margin-bottom:2.2mm;font-size:10.4pt;line-height:1.55;}
+ol.qn>li::before{content:counter(qn)".";position:absolute;inset-inline-start:0;top:0;font-family:var(--mono);font-size:9.5pt;font-weight:700;color:var(--blue);}
+ul.b{list-style:none;margin:1mm 0 2mm;} ul.b>li{position:relative;padding-inline-start:22px;margin-bottom:2.4mm;font-size:10.4pt;line-height:1.6;}
+ul.b>li::before{content:"";position:absolute;inset-inline-start:3px;top:8px;width:8px;height:8px;border-radius:50%;background:var(--grad);
+    -webkit-print-color-adjust:exact;print-color-adjust:exact;}
+ul.dash{list-style:none;margin:1mm 0 2mm;} ul.dash>li{position:relative;padding-inline-start:20px;margin-bottom:1.8mm;font-size:10.4pt;line-height:1.6;}
+ul.dash>li::before{content:"–";position:absolute;inset-inline-start:2px;top:0;color:var(--fg);font-weight:700;}  /* dash / +/− signs = body colour */
+.flow ul.opts{list-style:none;margin:4px 0 3px;padding-inline-start:16px;}
+.flow ul.opts li{padding:2px 0;font-size:10.2pt;line-height:1.5;color:var(--fg);}
+
+/* ===== figures / tables ===== */
+.fig{margin:3mm 0;} .fig svg.figsvg{display:block;margin:0 auto;background:#fff;max-width:100%;height:auto;}
+.photo{display:block;margin:3mm auto;border-radius:8px;border:1px solid var(--hair);max-width:100%;}
+.figrow{display:flex;flex-wrap:wrap;gap:9px;justify-content:center;margin:3mm auto;max-width:190mm;}
+.flow .figrow img{border-radius:7px;border:1px solid var(--hair);height:46mm;width:auto;max-width:none;object-fit:cover;}
+.schemarow{display:flex;gap:16px;align-items:flex-start;flex-wrap:wrap;margin:2mm 0;}
+.schemarow .col-txt{flex:1 1 90mm;min-width:80mm;} .schemarow .col-fig{flex:0 0 78mm;} .schemarow .col-fig .fig{margin:0;}
+.flow table{border-collapse:collapse;width:100%;margin:3mm 0;font-size:9.8pt;line-height:1.5;}
+.flow table th,.flow table td{border:1px solid var(--blue-line);padding:6px 10px;text-align:start;vertical-align:top;}
+.flow table th{background:var(--grad);color:#fff;font-family:var(--latin);font-weight:700;font-size:9.4pt;
+    -webkit-print-color-adjust:exact;print-color-adjust:exact;}
+.flow table tr:nth-child(even) td{background:var(--blue-soft);color:var(--sub-ink);}   /* sub-row: #E6F3F4 / #045260 */
+
+mjx-container{color:var(--fg) !important;font-weight:400 !important;font-size:1.0em !important;}
+.eq-hi mjx-container,mjx-container.eq-hi{color:var(--blue) !important;}   /* accent (green) equation — highlight a key result; balance with plain math */
+.eq-red mjx-container,mjx-container.eq-red{color:var(--red) !important;}  /* red accent equation / symbol — complements the green .eq-hi */
+
+/* ===== per-file books: credit line, copies list, figures at their size ===== */
+.credit{display:flex;flex-wrap:wrap;align-items:center;gap:5px;margin:-1mm 0 3.5mm;font-size:9.4pt;color:var(--fg2);}
+.credit .who{font-weight:700;color:var(--blue-dark);}
+.credit .tg{font-family:var(--mono);font-size:7.2pt;letter-spacing:.04em;border-radius:5px;padding:1px 7px;line-height:1.6;
+    border:1px solid var(--blue-line);color:var(--blue);background:#fff;-webkit-print-color-adjust:exact;print-color-adjust:exact;}
+.credit .tg.sec{background:var(--blue-dark);border-color:var(--blue-dark);color:#fff;}
+.credit .tg.cor{background:#fff;border-color:var(--red);color:var(--red);}
+.credit a{color:var(--fg3);font-family:var(--mono);font-size:7pt;text-decoration:none;}
+.cover .auth .credit{margin:4mm 0 0;}
+.cover .copies{margin-top:5mm;font-size:8.6pt;color:var(--fg2);}
+.cover .copies ul{list-style:none;margin:2mm 0 0;padding:0;columns:2;}
+.cover .copies a{color:var(--fg3);text-decoration:none;font-size:8pt;}
+.flow figure.fig{text-align:center;}
+.flow figure.fig img{max-height:60mm;width:auto;max-width:70%;display:inline-block;}
+
+/* chapter tag on each part of a multi-chapter book (the book keeps the original order of the file) */
+.chtag{display:inline-block;margin:5mm 0 2mm;padding:1mm 3mm;border-radius:2mm;background:#eef3fb;border:1px solid #c9d6ea;
+  color:#1f3a6b;font-size:9pt;font-weight:700}
+.chtag span{color:#6b7f9e;font-weight:600;margin-inline-end:1.5mm}
+
+@media print{ body{background:#fff;padding:0;} .flow{width:auto;max-width:none;margin:0;padding:0;} }
+@page{size:A4;}   /* margins come from render_flow.py — do NOT set them here */
+</style>
+<meta data-pagefind-filter="type[content]" content="فرض">
+<meta data-pagefind-filter="resource[content]" content="المعهد النموذجي بسوسة">
+<meta data-pagefind-meta="n[content]" content="2203">
+<meta data-pagefind-meta="title[content]" content="3eme Trimestre — lycée pilote médenine ds">
+<meta data-pagefind-filter="chapter[content]" content="فروض ومواضيع (عدّة محاور)">
+<meta data-pagefind-filter="chapter[content]" content="القيم: الأخلاق والدولة">
+<meta data-pagefind-filter="chapter[content]" content="العلم بين الحقيقة والنمذجة">
+<meta data-pagefind-filter="section[content]" content="باكالوريا رياضيات"><style>.qrcard{display:none!important}.wa-nav{position:sticky;top:0;z-index:50;background:#045260;padding:10px 18px;font-family:Cairo,sans-serif;direction:rtl}.wa-nav a{color:#fff;text-decoration:none;font-weight:700}@media print{.wa-nav{display:none}}</style>
+</head>
+
+<body dir="rtl" lang="ar"
+      data-brand="Wael Academy" data-handle="@WaelAcademy"
+      data-tagline="في تُرابنا.. مغامرة بمغامرة"
+      data-phone="+216 50 40 40 42" data-site="waeldocuments.com"
+      data-cta="سجل معانا وأقرى عن بعد مع منصة Wael Academy"
+      data-subject="Philosophie · 3eme Trimestre — lycée pilote médenine ds" data-watermark="Wael Academy" data-pagefind-body><nav class="wa-nav" data-pagefind-ignore><a href="../index.html">→ الرجوع إلى فهرس الفلسفة</a></nav>
+
+<!-- single full-page diagonal watermark, bottom-left → top-right (repeats on every page) -->
+<div class="wm" aria-hidden="true"><span>WAEL&nbsp;ACADEMY</span></div>
+
+<div class="flow colored">
+<div class="cover"><div class="badge">◉ Wael Academy · Philosophie</div><h1>3eme Trimestre — lycée pilote médenine ds</h1><div class="grule"></div><div class="sub">فروض ومواضيع (عدّة محاور)</div><div class="auth"><div class="credit">المؤلّف / المصدر : <span class="who">المعهد النموذجي بسوسة · المعهد النموذجي مدنين (p07) · المعهد النموذجي بمدنين</span> <span class="tg">فرض تأليفي</span><span class="tg cor">إصلاح</span><span class="tg sec">الفلسفة · باكالوريا رياضيات</span> <a href="https://drive.google.com/file/d/1Pr-0fywhnE1OM704badtRKAJmBRAAsz-/view">↗ Lycée Pilote Médenine - DS 3.pdf</a> <a href="https://drive.google.com/file/d/12zgwn_08c_mooa_7JAQf-FAhPluj_Bzn/view">↗ Lycée Pilote Médenine - DS 3 2012.pdf</a></div></div><div class="copies" data-pagefind-ignore><b>نسخ هذا الملف في الدرايفات (10)</b><ul><li><a href="https://drive.google.com/file/d/1Pr-0fywhnE1OM704badtRKAJmBRAAsz-/view">Iyed Hasnaoui · bac 2024 › Nouveau dossier / Philosphie / Devoirs / 3eme Trimestre</a></li><li><a href="https://drive.google.com/file/d/1cMSA0ulAd1bovQ-H7DpBVeGq5xjs2ClI/view">Emna bac maths 2025 · Drive de Emna (Bac maths) › Philosphie / Devoirs / 3eme Trimestre</a></li><li><a href="https://drive.google.com/file/d/1QC7BJK91cQUvaRJ3exOT7wTs5hIieeQK/view">Mohamed aziz saideni lycee Farhat Hached bizertebac 2026 · BAC MATH 2026 MOHAMED AZIZ SAIDENI › TOUT 2026 / Philosphie / Devoirs / 3eme Trimestre</a></li><li><a href="https://drive.google.com/file/d/1IMOxGCsnr8nyYioPiyyoHjOTzrbR7Zs1/view">chahredine thamri · Chahredine thamri › Chahredine Thamri / mes documents / philosophie / Philosphie / Devoirs / 3eme Trimestre</a></li><li><a href="https://drive.google.com/file/d/1Nln9OI-67Te8XEPx1EinwNnTJ37GiZgx/view">Mohamed Ahmed Zahi · Bac Math Zahi 2024/2025 › Philo / Devoirs / 3ème trimestre / Synthèses</a></li><li><a href="https://drive.google.com/file/d/12zgwn_08c_mooa_7JAQf-FAhPluj_Bzn/view">Iyed Hasnaoui · bac 2024 › Nouveau dossier / Philosphie / Devoirs / 3eme Trimestre</a></li><li><a href="https://drive.google.com/file/d/17ebhtkjR-54L3q4n1b6ixJF32GLZ4v1H/view">Emna bac maths 2025 · Drive de Emna (Bac maths) › Philosphie / Devoirs / 3eme Trimestre</a></li><li><a href="https://drive.google.com/file/d/1fBOQoPcaPlvoW7sV7H0sOt5CXse-ZTSq/view">Mohamed aziz saideni lycee Farhat Hached bizertebac 2026 · BAC MATH 2026 MOHAMED AZIZ SAIDENI › TOUT 2026 / Philosphie / Devoirs / 3eme Trimestre</a></li><li><a href="https://drive.google.com/file/d/1R91BxAoLH7I8HH0jXHppVIAy0fGrLcif/view">chahredine thamri · Chahredine thamri › Chahredine Thamri / mes documents / philosophie / Philosphie / Devoirs / 3eme Trimestre</a></li><li><a href="https://drive.google.com/file/d/1U3oP4ltxzkuLxaNYX0yQQR7h99Kfc8N9/view">Mohamed Ahmed Zahi · Bac Math Zahi 2024/2025 › Philo / Devoirs / 3ème trimestre / Synthèses</a></li></ul></div></div>
+<section class="chapter">
+<div class="chtag"><span>المحور</span> فروض ومواضيع (عدّة محاور)</div>
+<!-- SOURCE: المعهد النموذجي بسوسة · المعهد النموذجي مدنين (p07) · المعهد النموذجي بمدنين -->
+<!-- NOTE: one book for 2 files of the Drive folder "Nouveau dossier / Philosphie / Devoirs / 3eme Trimestre" (series), in file order -->
+<div class="exh"><span class="idx ex">فرض</span><h2>3eme Trimestre — lycée pilote médenine ds</h2>
+  <div class="qrcard"><div class="qrt">فيديو الدرس</div><div class="qrslot"><img src="qr/2203.svg" alt="QR"></div></div></div>
+<div class="credit">المؤلّف / المصدر : <span class="who">المعهد النموذجي بسوسة · المعهد النموذجي مدنين (p07) · المعهد النموذجي بمدنين</span> <span class="tg">فرض تأليفي</span><span class="tg cor">إصلاح</span><span class="tg sec">الفلسفة · باكالوريا رياضيات</span> <a href="https://drive.google.com/file/d/1Pr-0fywhnE1OM704badtRKAJmBRAAsz-/view">↗ Lycée Pilote Médenine - DS 3.pdf</a> <a href="https://drive.google.com/file/d/12zgwn_08c_mooa_7JAQf-FAhPluj_Bzn/view">↗ Lycée Pilote Médenine - DS 3 2012.pdf</a></div>
+
+<!-- file: Lycée Pilote Médenine - DS 3 -->
+
+
+<div class="exsub">Lycée Pilote Médenine - DS 3</div>
+<p class="para">- مادة الفلسفة - 4رياضيات و4ع.ت 3 و4تق2</p>
+<p class="para">2018/2017</p>
+
+<div class="chtag"><span>المحور</span> القيم: الأخلاق والدولة</div>
+
+<p class="subhead t-red"><u>القسم الاول . عشر نقاط</u></p>
+<ul class="dash">
+<li><u>التمرين الاول .</u> "تكون الدولة قوية ,كلما احتفظت بداخلها بكل ما يحيى ضدها ويقاومها" .اكشف عن رهان من رهانات هذا الموقف.(نقطتان).</li>
+<li><u>التمرين الثاني .</u> "ان القيمة الاخلاقية للفعل ,لا تكمن في الاثر الذي سينجم عنه". اكشف عن ضمنية من ضمنيات هذا الموقف.(نقطتان).</li>
+<li><u>التمرين الثالث.</u> النص(ست نقاط).</li>
+</ul>
+<p class="para">"بصفة عامة ,تعرف الحياة السياسية بالاكراه الذي هو التمظهر المميز للقوة العمومية ,والتي بدونها لن يكون هناك وجود ,ليس فقط للنظام ولكن ايضا للدولة بما ان كل دولة عبارة عن اكراه ,ما دامت تقوم على مفترض في القيادة والخضوع فان القوة هي, وبشكل حتمي الوسيلة الوحيدة للسياسة كما انها تنتمي لماهيتها .</p>
+<p class="para">وهذا لا يعني مع ذلك ,ان القوة تشكل كل مكونات الوحدة السياسية ولا انها الوسيلة الوحيدة لنفوذ سلطتها ,لان الدولة هي ايضا تنظيم قانوني ,خاصة اليوم ,حيث تحت تاثير العقلنة المتنامية للحياة عموما ,تنحو الشرعية نحو تلطيف التدخلات المباشرة للقوة".جوليان فروند "جوهر السياسي".1966.</p>
+<ul class="dash">
+<li><u>السؤال الاول.</u> استخرج اطروحة الكاتب وعبر عنها بوضوح.(2ن).</li>
+<li><u>السؤال الثاني.</u>حدد مفهوم "القوة".حسب سياق النص.(2ن).</li>
+<li><u>السؤال الثالث.</u> اكشف عن احدى تبعات موقف الكاتب.(2ن).</li>
+</ul>
+<p class="subhead t-red"><u>القسم الثاني .</u> المحاولة .عشر نقاط .</p>
+<p class="consigne">حرر محاولة في احد السؤالين التاليين.</p>
+<ul class="dash">
+<li>السؤال الاول .هل يقتضي الفعل الخير تضحية بالسعادة ؟</li>
+<li>السؤال الثاني. هل ترى تعارضا بين المواطنة العالمية والمواطنة المحلية؟</li>
+</ul>
+<p class="para">.........................عملا موفقا./.</p>
+<div class="exsub">إصلاح الفرض التاليفي للسداسي الثاني</div>
+<!-- PROOFREAD: 2203 part1 p02 — whole page is faint handwriting; many words uncertain (best reading below) -->
+<p class="subhead t-navy"><u>القسم الأول: التمرين الأول</u></p>
+<p class="para">قول: "تكون الدولة قوية ، كلما احتفظت بداخلها بكل ما يحيى ضدها و يقاومها"</p>
+<p class="para"><u>الرهان</u> : يراهن على تمتيع المواطنين بحق المقاومة الذي يتحول إلى واجب يكون الالتزام به نابعا ومفيدا بالنسبة للدولة وهذا ما يحررنا من زيف التمثل السلطة و إهمال مقاومتها ويمكننا من الوعي بالترابط الجدلي بينهما فلا معنى لحكم وسيادة دون معارضة ومقاومة وحيوية من مقاومة تهدف لإضعاف الدولة وإحلالها</p>
+<!-- PROOFREAD: 2203 part1 p02 — "تمتيع المواطنين" / "إهمال" / "وحيوية من مقاومة" / "وإحلالها" uncertain -->
+<p class="para">وهذا ما يمكننا إذ الوعي رابط من المعارضة التي تؤول سيادة الدولة عن تراجعها للحفاظ عليها وضمان المصلحة العامة</p>
+<!-- PROOFREAD: 2203 part1 p02 — "وهذا ما يمكننا إذ الوعي رابط من المعارضة التي تؤول ... عن تراجعها" very uncertain -->
+<ul class="dash">
+<li>يراهن القول على طاعة الدولة ومقاومتها من الآن نفسه انما يدل على آليات الرقابة والمحاسبة.</li>
+<li>يمكننا هذا القول وعيا بمشروعية الدولة المستقلة التي تشرع لكل المواطنين حق المراقبة والمقاومة.</li>
+</ul>
+<!-- PROOFREAD: 2203 part1 p02 — "من الآن نفسه انما يدل" / "بمشروعية" uncertain -->
+<p class="para">التمرين الثاني: " إن القيمة الأخلاقية للفعل لا تكمن من الأثر الذي سينجم عنه</p>
+<p class="para">ضمنيات هذا القول</p>
+<ul class="dash">
+<li>يستبعد القول الأساس النفعي للأخلاق</li>
+<li>تتأسس على مقاربة مثالية للأخلاق التي تبنى على مبادئ ومعايير مطلقة وتعتبر الفعل الأخلاقي يحقق بطابع الخيركغاية في حد ذاته بقطع النظر عن نتائجه وانعكاساته على مستوى الذات أو على أرض الواقع.</li>
+<li>يفترض هذا القول الالتزام بنداء الواجب و التقيد بالأوامر الأخلاقية المطلقة والإبتعاد عن الأوامر الشرطية ليستبعد هذا القول من التفكير الأخلاقي</li>
+<li>يستبعد هذا القول إمكانيا الجمع بين الخير والسعادة ويخضع الفعل الأخلاقي إلى نداء الواجب الأخلاقي ويدعو للالتزام به بقطع النظر عن ما يترتب عنه من مكاسب ومنافع تسعد الذات وتشعرها بالرضا الشخصي</li>
+</ul>
+<!-- PROOFREAD: 2203 part1 p02 — horizontal lines cross some lines of the second exercise (possibly strike-throughs); "يحقق بطابع" / "ليستبعد هذا القول من التفكير الأخلاقي" / "إمكانيا" uncertain -->
+<!-- PROOFREAD: 2203 part1 p03 — whole page is faint handwriting; best reading below -->
+<p class="para">التمرين الثالث : نص جوليان فروند :</p>
+<p class="para">1) أطروحة الكاتب : لا معنى للدولة في غياب القوة المباشرة وغير المباشرة والإكراه والعنف المشروع .</p>
+<p class="para">أو</p>
+<p class="para">يؤكد الكاتب حتمية القوة العمومية التي تجعل الإكراه والإخضاع سمة مميزة للحياة السياسية</p>
+<p class="para">2) تحديد معنى القوة سياقيا :</p>
+<p class="para"><u>يتنزل</u> معنى القوة في سياق الحياة السياسية ويفيد المقدرة على استخدام العنف السياسي . انها القوة العمومية التي تمارس في إطار الدولة التي تخضع المواطنين لسلطتهم وتفرض عليهم كل ظروف القوة . فالقوة هي ماهية الدولة وأساسها ولإذا كانت تعني الإكراه وتلزم المواطنين بالطاعة والتخلي عن حرياتهم حفاظا على النظام وهذا ما يتمظهر على مستوى التسلط عن طريق العنف البادي كالمراقبة والعقاب فإن هذا الإكراه يتخذ أشكالا غير مباشرة وناعمة أحيانا حيث تمارس في إطار تنظيمات قانونية ومؤسسات تمثل في سلطة القانون وترغم الأفراد -دون وعي منهم- على الخضوع لسلطة الواجب من خلال سلطة هذا الواجب وأمنا ومشروعية قانونية عليه .</p>
+<p class="para">فالمشروعية القانونية والعقلانية التي تحملها القوة في إطار دولة القانون تحد من تدخلاتها المباشرة و تلطفها وهذا ما يجعلنها <u>عنفا مشروع</u> تتحول فيه القوة إلى حق وتحتكر بمقتضاه الدولة حق القوة .</p>
+<!-- PROOFREAD: 2203 part1 p03 — "لسلطتهم" / "تفرض عليهم كل ظروف القوة" / "ولإذا" / "سلطة هذا الواجب وأمنا" / "يجعلنها" uncertain -->
+<p class="para">3) تبعات موقف الكاتب</p>
+<ul class="dash">
+<li>تجاوز الظن السائد الذي يقيم اقترانا ضروريا بين العنف والاستبداد ذلك الرأي الذي يتوهم وجود نظام سياسي غير مستند وغير عنيف</li>
+<li>موقف الكاتب الذي يقر بحتمية القوة وماهيتها للوجود السياسي يحررنا من التطلع الخيالي/ الطوباوي للعيش دون إكراه.</li>
+<li>يؤول موقف الكاتب إلى طاعة الدولة رغم عنفها والخضوع لسلطة القانون والمؤسسات (تبعة نظرية)</li>
+<li>يترتب عن موقف الكاتب التخلي عن حق المقاومة وما يفترضه من تهديد لحرية المواطن (تبعة عملية سلبية)</li>
+<li>ويفضي هذا الموقف إلى امكان تقسيم أماد السلطة السياسية بالرجوع إلى الطاعة (النظام - الأمانة - الفردوسية ) مقابل تهميش القيم .</li>
+</ul>
+<!-- PROOFREAD: 2203 part1 p03 — line through "ذلك الرأي الذي يتوهم..." possibly a strike-through; "تبعة نظرية" / "تبعة عملية ايجابية" written above lines; "أماد" / "الأمانة - الفردوسية" very uncertain -->
+<!-- PROOFREAD: 2203 part1 p04 — whole page is faint handwriting; best reading below -->
+<p class="para"><u>السؤال</u> هل يقتضي الفعل الخير تضحية بسعادتنا ؟</p>
+<p class="para"><u>اللحظة الأولى</u> : التمهيد : انطلاقا من التوترات التي تبرز بين ما تقتضيه رغباتنا وما يمليه علينا نداء الواجب الأخلاقي و هذا ما يفسر شكل التعارض بين مطلب السعادة و مبدأ الخير -</p>
+<p class="para">صياغة الإشكالية : هل التزامنا بالواجب الأخلاقي بالتقيد بمبادئ ثابتة ومطلقة تجعل أفعالنا خيرة و يدفعنا مقابل ذلك على التخلي عن مصادر التلذذ و السعي لتحقيق السعادة ؟ أم أنه يمكن أن نلتزم بقيم أخلاقية لزاتها توجهنا لفعل الخير دون التضحية بالسعادة؟ وإذا كان الامر كذلك فكيف يمكن أن أكون خيرا و سعيدا في الآن نفسه ؟</p>
+<p class="para"><u>اللحظة الثانية</u> : 1) في أن الفعل الخير يقتضي التضحية بالسعادة :</p>
+<ul class="dash">
+<li>تحديد دلالة الفعل الخير في سياق التفكير "ما ينبغي فعله" وما يقتضيه هذا الفعل من احتكام إلى الخير بما هو مبدأ معياري يوجهنا من حياتنا العملية ويلزمنا بالامتثال إلى الواجب (اجتماعي/ عقلاني) و التطلع لإدراك الفضيلة وتجنب الرذيلة</li>
+<li>تبيان الأساس المجرد المطلق والكوني لمبادئ الخير وتعارض هذه الأسس مع الأهواء والرغبات والمتطلبات الذاتية التي تمنح شعورا بالتلذذ والرضا النفسي ساهرة لتحقيق السعادة</li>
+<li>الكشف عن المأزق الذي يثيره هذا التعارض والذي يدفع الذوات للتضحية بسعادتهم في سبيل الخير وتقدير ما يمليه الواجب مقابل منع الذات من الاستمتاع لما يتعارض معه : توضيح هذا الحل بالرجوع إلى أمثلة واعتمادا على مرجعيات فلسفية باحثة عن ضرورة تحصيل الخير من أجل الخير والدعوة الإعراض عن مطلب السعادة : المرجعية الكانطية مثلا</li>
+</ul>
+<p class="para"><u>استنتاج وتخلص</u> : استخلاص صرامة مبدأ الخير الذي يكتسي صبغة الزامية بارتباطه بالواجب وهذا ما يؤدي إلى تجريد الفعل من الذاتية والنسبية وهذا ما يجعل الخير منزلة متعالية تحول دون تحقيق السعادة كمطلب كوني لا يمكن التخلي عنه من جهة أخرى</p>
+<p class="para">وكيف يمكن اضفاء طابع أخلاقي وخيري على أفعالنا يمنحنا شعورا بالسعادة ولا يمنعنا من التلذذ ؟</p>
+<p class="para">2) في أن الفعل الخير مشروط من شروط استكمال السعادة ؟</p>
+<ul class="dash">
+<li>استبعاد التعارض بين الخير والسعادة من خلال الربط بينهما عبر تأكيد اقتران السعادة بالفضيلة والخير وتجريدها من الدلالات المادية والاختزالية التي ترجعها إلى التلذذ الحسي والفردي من حيث أنهما ترتبط بالحكمة والعقل وهذا ما يجعلها عن توافق مع الخير.</li>
+</ul>
+<!-- PROOFREAD: 2203 part1 p04 — "لزاتها" / "ساهرة لتحقيق" / "منزلة متعالية" / "مشروط من شروط" / "عن توافق" uncertain; horizontal lines cross the page under some lines -->
+<!-- PROOFREAD: 2203 part1 p05 — whole page is faint handwriting; best reading below -->
+<ul class="dash">
+<li>إعادة التطرق دلالة الفعل الخير بما هو نابع من التزام فردي يؤهل إرادة الذات واختيارها الخير لذاتها وللآخرين وهذا ما يشعرها بالمسؤولية الأخلاقية تجاه الغير وهذا ما يمنحها الشعور بالرضا والكمال لتدرك السعادة من خلال الالتزام بفعل الخير. توضيح هذه الفكرة وتدعيمها من خلال تنزيل الخير ضمن الإنساني وتخليص معاييره من الطابع المجرد والميتافيزيقي</li>
+<li>توضيح مساهمة الفعل الخير في الشعور باللذة وتجنب الألم وتحقيق الذوع والتوافق مع مصالحنا وهذا ما يدفعنا لتجنب الشرور والرذائل لتحقيق سعادتنا [ يمكن من هذا الإطار توظيف المقاربة النفعانية للفعل الخير أو استحضار المقاربة الأبيقورية للسعادة ]</li>
+<li>توضيح مشروعية تخلي الإنسان عن مطلب السعادة وأولويته في الحياة التي تقتضي ايجاد معايير مرنة ونسبية للخير تأخذ بعين الاعتبار نسبية القيم وخصوصية الذات .</li>
+</ul>
+<p class="para"><u>اللحظة الثالثة</u> :</p>
+<ul class="b">
+<li>استخلاص موقف يتضمن تنسيبا للفصل بين الخير والسعادة كمطلبين كونيين يشترط أحدهما الآخر .</li>
+<li>بيان قيمة هذا الموقف الذي يكسبنا نظرتنا وعيا بالتوافق والتلازم بين رهانات الخير ومعايير السعادة وهذا ما يحررنا من أوهام السعادة التي تنتشر اليوم وتبنى على معيار الرفاه والتلذذ الحسي دون قيود أو شروط و تؤسس معيشتنا ضمن أفق استهلاكي كي يلقي الخير كفضيلة تقتضي الاعتدال بما هو السبيل الأمثل لإدراك سعادتنا وسعادة الآخرين .</li>
+</ul>
+<!-- PROOFREAD: 2203 part1 p05 — "الذوع" / "النفعانية" / "مشروعية تخلي" / "نظرتنا" / "كي يلقي" uncertain; words written above lines ("تقتضي", "الصفا") -->
+<!-- PROOFREAD: 2203 part1 p06 — very faint handwriting; best reading below -->
+<p class="para">السؤال : هل ترى تعارضا بين المواطنة العالمية والمواطنة المحلية ؟</p>
+<p class="para">اللحظة الأولى : التمهيد انطلاقا من التحولات التي تعيشها الإنسانية اليوم بتداخل وتشابك المصالح و تداخل المحلي مع العالمي والتي أصبحت تشكل أزمة انتماء المواطن المعاصر لدولة فيبتعد عن المواطنة المحلية وتعميقها من المواطنة العالمية وتسلل الوعي أكثر بالهوية العالمية للمواطن كبديل للمواطنة المحلية</p>
+<p class="para">صياغة الإشكالية : هل يجوز التعارض بين انتماء المواطن إلى دولته والانتماء إلى العالم ككل ؟ أم أن المواطنة تتحدد بحسب من متطلبات تعاملها أساسيا بمبادئ وقيم ومبادئ كونية وعالمية ترتقي إلى مستوى المواطنة العالمية ؟</p>
+<!-- PROOFREAD: 2203 part1 p06 — "فيبتعد" / "وتعميقها من" / "وتسلل" / "تتحدد بحسب من متطلبات تعاملها أساسيا" very uncertain -->
+<div class="exsub">المعهد النموذجي مدنين فرض تأليفي في الفلسفة باكالوريا تجريبيه</div>
+<!-- NOTE: hand circles/underlines on the printed text are left out; handwritten statements filling the exercises are transcribed -->
+<p class="subhead t-red"><b>القسم الاول : (4ن)</b></p>
+
+
+<p class="para"><b>التمرين الاول:(2ن).</b> " ليست السعادة من صنع العقل بل من صنع المخيلة " أطروحة مضادة لهذا القول</p>
+<p class="para"><b>التمرين الثاني:(2ن).</b> " ان أكثر الدول حرية هي التي تقوم قوانينها على العقل السليم" سبينوزا ضع اشكالية لهذا القول</p>
+
+<div class="chtag"><span>المحور</span> العلم بين الحقيقة والنمذجة</div>
+
+<p class="para"><b>التمرين الثالث:(06ن).</b></p>
+<p class="subhead t-navy"><b>النص.</b></p>
+<p class="para"><b>سقراط:اذن سأطرح أشد الاسئلة هولا وان الصيغة فيما أري هي على النحو التالي تقريبا "أ فيمكن لمن يعرف ألا يعرف ؟</b></p>
+<p class="para"><b>ثيودور:بم سنجيب اذن يا ثياتات ؟</b></p>
+<p class="para"><b>ثياتات :أ،نه لأمر مستحيل :ذاك ما أراه علي الأقل.</b></p>
+<p class="para"><b>سقراط:كلا انه ليس بالمستحيل ان افترضت أن الابصار معرفة اذ كيف لك أن تخلص من السؤال الشائك الذي يحسبك فيه الصارم .كما لو اضحيت في بئر ويسألك وقد وضع كفه علي احدي عينيك كان كنت تبصر ثوبه بعينه المغلقة .</b></p>
+<p class="para"><b>ثياتات :أتصور اني أقول :"أما بهذه العين فلا.واما بالاخري فنعم "</b></p>
+<p class="para"><b>سقراط:أوليس في قولكُ هذا : انك في ان واحد تبصر الشيء ذاته ولا تبصره؟</b></p>
+<p class="para"><b>ثياتات:بلي ...وذلك علي نحو ما على أقل تقدير.</b></p>
+<p class="para"><b>سقراط:سيقول سائلك :ليس أكثرت لهذا ٬فاني لست أسالك عن الكيفية دائما اسأل ان كنت تعرف من الاشياء ما انت تجهله وانه لبين جلي انك في تلك اللحظة تبصر ما لاتبصر فلقد سلمت في الواقع بان الابصار معرفة وان عدم الابصار ليس بمعرفة فاستخلص اذن من هذا ما عليك ان تستنتج من النتائج. افلاطون ثيا تات.؟</b></p>
+<p class="para"><b>افلاطون*ثياتات*</b></p>
+<p class="subhead t-navy"><b>المطلوب:</b></p>
+<p class="consigne"><b>1/حدد إشكالية النص(1)</b></p>
+<p class="consigne"><b>2/عرف الوعي بالجهل(1)</b></p>
+<p class="consigne"><b>2/ "أفيمكن لمن يعرف ألا يعرف ما يعرف"(3)</b></p>
+
+<div class="chtag"><span>المحور</span> القيم: الأخلاق والدولة</div>
+
+<p class="consigne">اكتب في الموضوع التالي:هل آن السيادة مواطنة؟</p>
+<p class="para">هل يمكن للانسان أن يكون سعيدا داخل الدولة ؟</p>
+<!-- PROOFREAD: 2203 part1 p07 — handwritten lines: "أطروحة مضادة لهذا القول" / "سبينوزا" / "ضع اشكالية لهذا القول" / final blue question; a blue mark after "عينين" -->
+<!-- file: Lycée Pilote Médenine - DS 3 2012 -->
+
+<div class="chtag"><span>المحور</span> فروض ومواضيع (عدّة محاور)</div>
+
+<div class="exsub">Lycée Pilote Médenine - DS 3 2012</div>
+<p class="para">2012/2011</p>
+<p class="para">القسم: 4 ريا./ع.تجريبية</p>
+
+<div class="chtag"><span>المحور</span> القيم: الأخلاق والدولة</div>
+
+<p class="subhead t-red">القسم الأول:(10ن)</p>
+<p class="para">✓ <b><i><u>التمرين الأول:</u></i></b> أنت ملزم ، إذا أنت تستطيع . حدد المسلمة الضمنية لهذا القول .(2ن)</p>
+<p class="para">✓ <b><i><u>التمرين الثاني:</u></i></b> " الديموقراطية هي حكم الأغلبية مع ضمانات للأقلية " . ما مبررات هذا الموقف ؟(2ن)</p>
+<p class="para">✓ <b><i><u>التمرين الثالث :</u></i></b> النــص (6ن)</p>
+<div class="data">
+<p class="para">لنضف كلمة أخرى ضد كانط ، فيلسوف الأخلاق : ينبغي أن تكون كل فضيلة من إبداعنا ، و أن نجعلها درعا يحمينا عند الحاجة ، و ضرورة ملتصقة بنا أشد ما يكون الإلتصاق . و كل فهم آخر لهذه الفضيلة يجعل منها خطرا يهددنا . إن ما لا يكون شرطا حيويا لوجودنا يضر بهذا الوجود . إن فضيلة ما تكون ضارة حينما تصدر عن مجرد شعور بالإحترام إزاء مفهوم الفضيلة على النحو الذي يراه كانط . إن فكـرة الفضيلـة و فكرة الواجب و فكـرة الخير في ذاته ، الخيـر المتصف بطابع اللاشخصيـة و الكليـة ، إن كل تلك الأفكـار أوهـام ، و هي تعبر في حقيقتها عن الإنحطاط و عما آلت إليه الحياة من إنهاك (...) إن الفعل الذي تجبرنا عليه غريزة الحياة فعل يجد في اللذة دليل مشروعيته . فهل ثمة ما يقضي على الحياة قضاء مريعا مبرما أكثر من أن يعمل المرء و أن يفكر و أن يحس دون ضرورة داخلية ، أي دون إختيار شخصي عميق ، أي دون لذة !؟</p>
+<p class="para"><b><u>نيتشة</u></b></p>
+</div>
+<p class="subhead t-navy">✓ <b><u>المطلـــــــوب</u></b></p>
+<p class="consigne">1- ما هي إشكالية النص ؟ (1،5 ن )</p>
+<p class="consigne">2- ماهي الأطروحة التي يستبعدها الكاتب ؟ ( 1 ن )</p>
+<p class="consigne">3- استخرج حجتين من النص تدحضان موقف كانط . ( 2 ن )</p>
+<p class="consigne">4- حدد دلالة مفهوم " الفضيلة " سياقيا . ( 1،5 ن )</p>
+<p class="subhead t-red">القسم الثاني:( 10 ن)</p>
+<p class="consigne">ينشىء التلميذ محاولة من ثلاثين سطرا في واحدة من المسألتين التاليتين :</p>
+<p class="para">✓ <b><i><u>المسألــة1:</u></i></b> هل تتحقق الأخلاقية باحترام سعادة الغير ؟</p>
+<p class="para">✓ <b><i><u>المسألــة2 :</u></i></b> هل من تناقض بين واجب الطاعة و حق المقاومة ؟</p>
+
+</section>
+
+</div>
+</body>
+</html>

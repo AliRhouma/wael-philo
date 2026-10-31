@@ -1,0 +1,357 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<title>Wael Academy — Philosophie · جذاذة لمراجعة الأخلاق والسعادة - المعهد النموذجي بسوسة</title>
+<script>
+  window.MathJax = {
+    tex: { inlineMath: [['\\(','\\)']], displayMath: [['\\[','\\]']] },
+    chtml: { fontURL: 'https://cdn.jsdelivr.net/npm/mathjax@3/es5/output/chtml/fonts/woff-v2', matchFontHeight: true },
+    startup: { typeset: true }
+  };
+</script>
+<script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js" async></script>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Sora:wght@400;500;600;700;800&family=Cairo:wght@400;500;600;700;800;900&family=Tajawal:wght@400;500;700;800&family=JetBrains+Mono:wght@400;500;600;700&display=swap');
+:root{
+  /* ===== Wael Academy palette — MAIN ACCENT = green-teal gradient #0FAB8F → #067360 ===== */
+  --bg:#fff; --panel:#f2f8f8; --hair:#e6e6e9; --hair2:#d6d6db;
+  --fg:#0f2a31;        /* body text (and +/− signs) */
+  --fg2:#3f5b62;       /* softer text */
+  --fg3:#7c959b;       /* muted (footer) */
+  --blue:#067360;      /* deep accent — small numbers, borders, watermark, accent equations */
+  --blue-dark:#045260; /* titles & wordmarks (also the balance colour) */
+  --teal:#0fab8f;      /* bright accent end */
+  --loop:#0d9c82;      /* logo-loop helper */
+  --orange:#067360;    /* kicker/category labels (gold retired → deep teal) */
+  --red:#f5322f;       /* EXERCISE CHIPS ONLY — never for emphasis */
+  --cream:#e6f3f4; --blue-soft:#e6f3f4;  /* pale teal — callout fill + table sub-row fill */
+  --blue-line:#cde7e4; /* hairline */
+  --sub-ink:#045260;   /* table sub-row text */
+  --grad:linear-gradient(148deg,#0fab8f 0%,#0d9c82 52%,#067360 100%);
+  --mono:'JetBrains Mono',monospace; --latin:'Sora',sans-serif; --ar:'Cairo',sans-serif; --arb:'Tajawal',sans-serif;
+}
+*{box-sizing:border-box;margin:0;padding:0;}
+body{font-family:var(--latin);color:var(--fg);background:#e4e4e7;padding:28px 0;
+     -webkit-print-color-adjust:exact;print-color-adjust:exact;}
+html[dir="rtl"] body{font-family:var(--arb);}
+
+/* ===== brand watermark: REAL text (crisp), full-bleed, repeats per page ===== */
+.wm{position:fixed;inset:0;z-index:0;pointer-events:none;display:flex;
+    align-items:center;justify-content:center;overflow:hidden;
+    -webkit-print-color-adjust:exact;print-color-adjust:exact;}
+.wm span{font-family:var(--mono);font-weight:800;font-size:76.8pt;letter-spacing:.16em;
+    color:var(--blue);opacity:.06;white-space:nowrap;transform:rotate(-54deg);}  /* single diagonal: bottom-left → top-right */
+.wm.mono span{color:#000;opacity:.05;}
+
+/* ===== continuous flow stream (no page border) ===== */
+.flow{width:210mm;margin:0 auto;background:transparent;color:var(--fg);
+      padding-block:16mm 18mm;padding-inline:23mm 14mm;position:relative;}   /* spiral gutter: inline-start(=spine) 23mm / outer 14mm — dir-aware; print margins set in render_flow.py */
+@media screen{ .flow{background:#fff;box-shadow:0 10px 40px rgba(0,0,0,.16);} }
+.flow>*{position:relative;z-index:1;}
+.flow p,.flow li,.flow .data,.flow .note,.flow .ex{break-inside:auto;}
+.flow .fig,.flow figure,.flow img,.flow svg.figsvg,.flow table,.flow tr,.flow .chapdiv,.flow .exh,.flow .qrcard,.flow .meta{break-inside:avoid;}
+.flow h1,.flow h2,.flow h3,.flow .exh,.flow .subhead,.flow .chapdiv{break-after:avoid;}
+.flow img,.flow svg.figsvg{max-width:100%;height:auto;}
+.flow figcaption,.flow .figcap{display:none;}          /* rule 3: no figure captions */
+
+/* ===== front matter + chapters each start on a fresh page ===== */
+.flow .cover{break-after:page;}        /* cover alone on page 1 */
+.flow .toc{break-after:page;}          /* Sommaire alone on the next page */
+.flow .chapter{break-before:page;}
+.flow .chapter:first-of-type{break-before:auto;}
+
+/* ===== cover ===== */
+.cover{padding:14mm 0 8mm;border-bottom:2px solid var(--blue);margin-bottom:6mm;}
+.cover .badge{font-family:var(--mono);font-size:8.5pt;letter-spacing:.28em;text-transform:uppercase;color:var(--orange);margin-bottom:10px;}
+.cover h1{font-family:var(--latin);font-weight:800;font-size:34pt;line-height:1.03;letter-spacing:-.025em;color:var(--blue-dark);}
+.cover .grule{width:120px;height:5px;border-radius:5px;background:var(--grad);margin:14px 0;}
+.cover .sub{font-family:var(--mono);font-size:10pt;letter-spacing:.14em;text-transform:uppercase;color:var(--teal);}
+.cover .auth{font-size:11pt;color:var(--fg2);margin-top:6px;font-weight:600;}
+
+/* ===== table of contents ===== */
+.toc{margin:2mm 0 4mm;}
+.toc h2{font-family:var(--latin);font-weight:800;font-size:15pt;color:var(--blue-dark);margin-bottom:4mm;}
+.toc .trititle{font-family:var(--mono);font-size:8pt;letter-spacing:.2em;text-transform:uppercase;color:var(--orange);margin:4mm 0 2mm;}
+.toc ol{list-style:none;}
+.toc li{display:flex;align-items:baseline;gap:8px;font-size:10pt;padding:2.2px 0;color:var(--fg);line-height:1.4;}
+.toc li .n{font-family:var(--mono);font-weight:700;font-size:9pt;color:var(--blue);min-width:26px;}
+.toc li .dots{flex:1;border-bottom:1px dotted var(--hair2);transform:translateY(-3px);}
+
+/* ===== chapter divider band ===== */
+.chapdiv{margin:0 0 5mm;padding:6mm 16px 5mm;border-radius:12px;background:var(--grad);
+    -webkit-print-color-adjust:exact;print-color-adjust:exact;}   /* green-filled chapter band */
+.chapdiv .cn{font-family:var(--mono);font-size:8.5pt;font-weight:700;letter-spacing:.24em;text-transform:uppercase;color:rgba(255,255,255,.82);margin-bottom:5px;}
+.chapdiv h2{font-family:var(--latin);font-weight:800;font-size:17pt;line-height:1.1;letter-spacing:-.015em;color:#fff;}
+/* conclusion block — same green-filled look as the chapter band */
+.conclusion{background:var(--grad);border-radius:12px;padding:6mm 16px;margin:5mm 0;color:#fff;break-inside:avoid;
+    -webkit-print-color-adjust:exact;print-color-adjust:exact;}
+.conclusion .ck{font-family:var(--mono);font-size:8.5pt;font-weight:700;letter-spacing:.24em;text-transform:uppercase;color:rgba(255,255,255,.82);margin-bottom:6px;}
+.conclusion h3{font-family:var(--latin);font-weight:800;font-size:13pt;line-height:1.2;color:#fff;margin-bottom:4px;}
+.conclusion p,.conclusion li{font-size:10.4pt;line-height:1.7;color:#fff;}
+.conclusion b,.conclusion strong{color:#fff;font-weight:700;}
+
+/* ===== unit header (lesson/exercise) + QR emplacement ===== */
+.exh{display:flex;align-items:center;gap:11px;margin:6mm 0 3mm;}
+.exh .idx{font-family:var(--mono);font-size:9pt;font-weight:600;color:#fff;background:var(--grad);
+    border-radius:6px;padding:4px 11px;letter-spacing:.08em;text-transform:uppercase;
+    -webkit-print-color-adjust:exact;print-color-adjust:exact;}
+.exh .idx.ex{background:var(--red);}   /* exercise chip = red */
+.exh h2{font-family:var(--latin);font-size:14pt;font-weight:700;letter-spacing:-.01em;color:var(--blue-dark);}
+.exh .qrcard{margin-inline-start:auto;flex:0 0 auto;display:flex;flex-direction:column;align-items:center;gap:3px;width:26mm;}
+.qrcard .qrt{font-family:var(--mono);font-size:6.5pt;letter-spacing:.1em;text-transform:uppercase;color:var(--teal);text-align:center;}
+.qrcard .qrslot{width:24mm;height:24mm;padding:1.5mm;background:#fff;border:1px solid var(--blue-line);border-radius:8px;display:flex;align-items:center;justify-content:center;}
+.qrcard .qrslot img,.qrcard .qrslot svg{width:100%;height:100%;display:block;}
+
+/* sub-exercise label when one file holds several exercices */
+.exsub{font-family:var(--latin);font-weight:800;font-size:11.5pt;color:var(--blue-dark);margin:5mm 0 2.5mm;padding-bottom:3px;border-bottom:2px solid var(--blue-line);}
+
+/* ===== text blocks ===== */
+.lead{font-size:11pt;line-height:1.7;margin:2mm 0 3mm;color:var(--fg);}
+.para{font-size:10.6pt;line-height:1.7;margin:2mm 0 2.5mm;color:var(--fg);}
+.consigne{font-size:10.4pt;line-height:1.6;margin:1mm 0 2mm;color:var(--fg);font-style:italic;}
+.subhead{font-family:var(--latin);font-weight:800;font-size:12pt;letter-spacing:-.01em;color:var(--blue-dark);margin:5mm 0 2.5mm;}
+/* emphasis — green accent = .t-blue/.t-green ; balance = .t-navy ; red = SECONDARY accent (.t-red) on titles + a few words */
+.t-blue{color:var(--blue);font-weight:600;} .t-navy{color:var(--blue-dark);font-weight:700;}
+.t-red{color:var(--red);font-weight:600;} .t-green{color:var(--teal);font-weight:600;} .t-gold{color:var(--orange);font-weight:600;}
+.subhead.t-red{color:var(--red);font-weight:800;}   /* red Roman-numeral section title (I, II, …) — keeps subhead weight */
+/* highlighter marks — a soft colour wash behind a key word (agent picks green or red per what balances the page) */
+.hl-green,.hl-red{border-radius:3px;padding:.02em .24em;font-weight:600;box-decoration-break:clone;-webkit-box-decoration-break:clone;
+    -webkit-print-color-adjust:exact;print-color-adjust:exact;}
+.hl-green{background:rgba(15,171,143,.20);color:var(--blue-dark);}   /* green highlight */
+.hl-red{background:rgba(245,50,47,.13);color:#c0261f;}               /* red highlight  */
+
+.data{background:var(--blue-soft);border:1px solid var(--blue-line);border-inline-start:4px solid var(--blue);
+    border-radius:8px;padding:11px 16px;margin:3mm 0;font-size:10pt;line-height:1.65;color:var(--fg2);}
+.data b{color:var(--fg);font-weight:700;}
+.note{border:1px dashed var(--hair2);border-radius:9px;padding:11px 16px;margin:4mm 0;background:var(--panel);}
+.note .kicker{font-family:var(--mono);font-size:7.5pt;letter-spacing:.18em;color:var(--orange);display:block;margin-bottom:5px;}
+.note .nb{font-size:10pt;line-height:1.7;color:var(--fg2);} .note b{color:var(--fg);}
+.ex:not(.idx){background:var(--blue-soft);border:1px solid var(--blue-line);border-inline-start:3px solid var(--blue);
+    border-radius:7px;padding:7px 11px;font-size:9.6pt;line-height:1.6;color:var(--fg2);margin:2mm 0;}   /* :not(.idx) so it never hits the exercise chip (which is .idx.ex) */
+.ex .extag{display:inline-block;font-family:var(--latin);font-weight:800;font-size:7.6pt;color:var(--blue-dark);background:#fff;
+    border:1px solid var(--blue);border-radius:5px;padding:1px 9px;margin-inline-end:7px;vertical-align:middle;text-transform:uppercase;letter-spacing:.06em;}
+
+/* ===== lists ===== */
+ol.q{list-style:none;counter-reset:q;margin:1mm 0 2mm;}
+ol.q>li{counter-increment:q;position:relative;padding-inline-start:30px;margin-bottom:2.5mm;font-size:10.4pt;line-height:1.6;}
+ol.q>li::before{content:counter(q);position:absolute;inset-inline-start:0;top:1px;width:21px;height:21px;background:var(--grad);color:#fff;
+    border-radius:50%;font-family:var(--mono);font-size:9pt;font-weight:600;display:flex;align-items:center;justify-content:center;
+    -webkit-print-color-adjust:exact;print-color-adjust:exact;}
+ol.sub{list-style:none;counter-reset:s;margin:4px 0 0;padding-inline-start:2px;border-inline-start:1px solid var(--blue-line);}
+ol.sub li{counter-increment:s;position:relative;padding:2.5px 0 2.5px 26px;font-size:10.1pt;line-height:1.55;}
+ol.sub li::before{content:counter(s,lower-alpha)".";position:absolute;inset-inline-start:10px;top:2.5px;font-family:var(--mono);font-size:9pt;font-weight:600;color:var(--teal);}
+ol.qn{list-style:none;counter-reset:qn;margin:1mm 0 2mm;}
+ol.qn>li{counter-increment:qn;position:relative;padding-inline-start:26px;margin-bottom:2.2mm;font-size:10.4pt;line-height:1.55;}
+ol.qn>li::before{content:counter(qn)".";position:absolute;inset-inline-start:0;top:0;font-family:var(--mono);font-size:9.5pt;font-weight:700;color:var(--blue);}
+ul.b{list-style:none;margin:1mm 0 2mm;} ul.b>li{position:relative;padding-inline-start:22px;margin-bottom:2.4mm;font-size:10.4pt;line-height:1.6;}
+ul.b>li::before{content:"";position:absolute;inset-inline-start:3px;top:8px;width:8px;height:8px;border-radius:50%;background:var(--grad);
+    -webkit-print-color-adjust:exact;print-color-adjust:exact;}
+ul.dash{list-style:none;margin:1mm 0 2mm;} ul.dash>li{position:relative;padding-inline-start:20px;margin-bottom:1.8mm;font-size:10.4pt;line-height:1.6;}
+ul.dash>li::before{content:"–";position:absolute;inset-inline-start:2px;top:0;color:var(--fg);font-weight:700;}  /* dash / +/− signs = body colour */
+.flow ul.opts{list-style:none;margin:4px 0 3px;padding-inline-start:16px;}
+.flow ul.opts li{padding:2px 0;font-size:10.2pt;line-height:1.5;color:var(--fg);}
+
+/* ===== figures / tables ===== */
+.fig{margin:3mm 0;} .fig svg.figsvg{display:block;margin:0 auto;background:#fff;max-width:100%;height:auto;}
+.photo{display:block;margin:3mm auto;border-radius:8px;border:1px solid var(--hair);max-width:100%;}
+.figrow{display:flex;flex-wrap:wrap;gap:9px;justify-content:center;margin:3mm auto;max-width:190mm;}
+.flow .figrow img{border-radius:7px;border:1px solid var(--hair);height:46mm;width:auto;max-width:none;object-fit:cover;}
+.schemarow{display:flex;gap:16px;align-items:flex-start;flex-wrap:wrap;margin:2mm 0;}
+.schemarow .col-txt{flex:1 1 90mm;min-width:80mm;} .schemarow .col-fig{flex:0 0 78mm;} .schemarow .col-fig .fig{margin:0;}
+.flow table{border-collapse:collapse;width:100%;margin:3mm 0;font-size:9.8pt;line-height:1.5;}
+.flow table th,.flow table td{border:1px solid var(--blue-line);padding:6px 10px;text-align:start;vertical-align:top;}
+.flow table th{background:var(--grad);color:#fff;font-family:var(--latin);font-weight:700;font-size:9.4pt;
+    -webkit-print-color-adjust:exact;print-color-adjust:exact;}
+.flow table tr:nth-child(even) td{background:var(--blue-soft);color:var(--sub-ink);}   /* sub-row: #E6F3F4 / #045260 */
+
+mjx-container{color:var(--fg) !important;font-weight:400 !important;font-size:1.0em !important;}
+.eq-hi mjx-container,mjx-container.eq-hi{color:var(--blue) !important;}   /* accent (green) equation — highlight a key result; balance with plain math */
+.eq-red mjx-container,mjx-container.eq-red{color:var(--red) !important;}  /* red accent equation / symbol — complements the green .eq-hi */
+
+/* ===== per-file books: credit line, copies list, figures at their size ===== */
+.credit{display:flex;flex-wrap:wrap;align-items:center;gap:5px;margin:-1mm 0 3.5mm;font-size:9.4pt;color:var(--fg2);}
+.credit .who{font-weight:700;color:var(--blue-dark);}
+.credit .tg{font-family:var(--mono);font-size:7.2pt;letter-spacing:.04em;border-radius:5px;padding:1px 7px;line-height:1.6;
+    border:1px solid var(--blue-line);color:var(--blue);background:#fff;-webkit-print-color-adjust:exact;print-color-adjust:exact;}
+.credit .tg.sec{background:var(--blue-dark);border-color:var(--blue-dark);color:#fff;}
+.credit .tg.cor{background:#fff;border-color:var(--red);color:var(--red);}
+.credit a{color:var(--fg3);font-family:var(--mono);font-size:7pt;text-decoration:none;}
+.cover .auth .credit{margin:4mm 0 0;}
+.cover .copies{margin-top:5mm;font-size:8.6pt;color:var(--fg2);}
+.cover .copies ul{list-style:none;margin:2mm 0 0;padding:0;columns:2;}
+.cover .copies a{color:var(--fg3);text-decoration:none;font-size:8pt;}
+.flow figure.fig{text-align:center;}
+.flow figure.fig img{max-height:60mm;width:auto;max-width:70%;display:inline-block;}
+
+/* chapter tag on each part of a multi-chapter book (the book keeps the original order of the file) */
+.chtag{display:inline-block;margin:5mm 0 2mm;padding:1mm 3mm;border-radius:2mm;background:#eef3fb;border:1px solid #c9d6ea;
+  color:#1f3a6b;font-size:9pt;font-weight:700}
+.chtag span{color:#6b7f9e;font-weight:600;margin-inline-end:1.5mm}
+
+@media print{ body{background:#fff;padding:0;} .flow{width:auto;max-width:none;margin:0;padding:0;} }
+@page{size:A4;}   /* margins come from render_flow.py — do NOT set them here */
+</style>
+<meta data-pagefind-filter="type[content]" content="جذاذة مراجعة">
+<meta data-pagefind-filter="resource[content]" content="المعهد النموذجي بسوسة">
+<meta data-pagefind-meta="n[content]" content="1043">
+<meta data-pagefind-meta="title[content]" content="جذاذة لمراجعة الأخلاق والسعادة - المعهد النموذجي بسوسة">
+<meta data-pagefind-filter="chapter[content]" content="القيم: الأخلاق والدولة">
+<meta data-pagefind-filter="section[content]" content="باكالوريا رياضيات"><style>.qrcard{display:none!important}.wa-nav{position:sticky;top:0;z-index:50;background:#045260;padding:10px 18px;font-family:Cairo,sans-serif;direction:rtl}.wa-nav a{color:#fff;text-decoration:none;font-weight:700}@media print{.wa-nav{display:none}}</style>
+</head>
+
+<body dir="rtl" lang="ar"
+      data-brand="Wael Academy" data-handle="@WaelAcademy"
+      data-tagline="في تُرابنا.. مغامرة بمغامرة"
+      data-phone="+216 50 40 40 42" data-site="waeldocuments.com"
+      data-cta="سجل معانا وأقرى عن بعد مع منصة Wael Academy"
+      data-subject="Philosophie · جذاذة لمراجعة الأخلاق والسعادة - المعهد النموذجي بسوسة" data-watermark="Wael Academy" data-pagefind-body><nav class="wa-nav" data-pagefind-ignore><a href="../index.html">→ الرجوع إلى فهرس الفلسفة</a></nav>
+
+<!-- single full-page diagonal watermark, bottom-left → top-right (repeats on every page) -->
+<div class="wm" aria-hidden="true"><span>WAEL&nbsp;ACADEMY</span></div>
+
+<div class="flow colored">
+<div class="cover"><div class="badge">◉ Wael Academy · Philosophie</div><h1>جذاذة لمراجعة الأخلاق والسعادة - المعهد النموذجي بسوسة</h1><div class="grule"></div><div class="sub">القيم: الأخلاق والدولة</div><div class="auth"><div class="credit">المؤلّف / المصدر : <span class="who">المعهد النموذجي بسوسة (جذاذة لمراجعة الأخلاق والسعادة)</span> <span class="tg">مراجعة</span><span class="tg sec">الفلسفة · باكالوريا رياضيات</span> <a href="https://drive.google.com/file/d/1sT_efePqOk7C4bCkrpl3Z7oHRTC-DHRs/view">↗ جذاذة لمراجعة الأخلاق والسعادة - المعهد النموذجي بسوسة.pdf</a></div></div><div class="copies" data-pagefind-ignore><b>نسخ هذا الملف في الدرايفات (5)</b><ul><li><a href="https://drive.google.com/file/d/1sT_efePqOk7C4bCkrpl3Z7oHRTC-DHRs/view">Mohamed Mehdi Mareghni · BAC MATHS › الفلسفة / Pilote Sousse / الأخلاق و السعادة</a></li><li><a href="https://drive.google.com/file/d/1QH_O6OFTG4cfoQ6f3NA5dhFx81YG-pJD/view">Iyed Hasnaoui · bac 2024 › Nouveau dossier / Philosphie / الأخلاق والسعادة</a></li><li><a href="https://drive.google.com/file/d/1rOIuaxrtJAOjMbgNIBvksGlUCpnJnyuH/view">Emna bac maths 2025 · Drive de Emna (Bac maths) › Philosphie / الأخلاق والسعادة</a></li><li><a href="https://drive.google.com/file/d/1JORnwF-czQAu3zWzvEG4Hz0yMYna9B01/view">Mohamed aziz saideni lycee Farhat Hached bizertebac 2026 · BAC MATH 2026 MOHAMED AZIZ SAIDENI › TOUT 2026 / Philosphie / الأخلاق والسعادة</a></li><li><a href="https://drive.google.com/file/d/1OMqS1sKMkGP3tld_HY7jlV5GTVqPLsAW/view">chahredine thamri · Chahredine thamri › Chahredine Thamri / mes documents / philosophie / Philosphie / الأخلاق والسعادة</a></li></ul></div></div>
+<section class="chapter"><div class="chapdiv"><div class="cn">المحور</div><h2>القيم: الأخلاق والدولة</h2></div>
+<!-- SOURCE: المعهد النموذجي بسوسة (جذاذة لمراجعة الأخلاق والسعادة) -->
+<div class="exh"><span class="idx">جذاذة مراجعة</span><h2>المسألة الثانية الأخلاق : الخير والسعادة</h2>
+  <div class="qrcard"><div class="qrt">فيديو الدرس</div>
+    <div class="qrslot"><img src="qr/1043.svg" alt="QR"></div></div></div>
+<div class="credit">المؤلّف / المصدر : <span class="who">المعهد النموذجي بسوسة (جذاذة لمراجعة الأخلاق والسعادة)</span> <span class="tg">مراجعة</span><span class="tg sec">الفلسفة · باكالوريا رياضيات</span> <a href="https://drive.google.com/file/d/1sT_efePqOk7C4bCkrpl3Z7oHRTC-DHRs/view">↗ جذاذة لمراجعة الأخلاق والسعادة - المعهد النموذجي بسوسة.pdf</a></div>
+
+<!-- CROP: c4u2 1 0.365 0.065 0.462 0.235 c4u2_portrait1 -->
+<figure class="fig"><img src="https://wael-philo.b-cdn.net/figs/1043/1043_portrait1.png" alt=""></figure>
+<div class="note"><div class="nb">" هل هنالك عددٌ كثيرٌ من الأخلاق بعدد الأفراد ؟ كلا. وهنا تكمُن كلّ مفارقة الأخلاق : إنّها لا تكون لها قيمةٌ إلاّ بالنسبة إلى الذات ولكن على نطاق كوني " — <b>كونت سبونفيل</b></div></div>
+<!-- CROP: c4u2 1 0.012 0.150 0.100 0.295 c4u2_portrait2 -->
+<figure class="fig"><img src="https://wael-philo.b-cdn.net/figs/1043/1043_portrait2.png" alt=""></figure>
+<div class="note"><div class="nb">الأخلاق هي محاولةٌ لفرض رغبات المجموعة على الأفراد. — <b>برتراند رسل</b></div></div>
+
+<p class="subhead t-red">تمهيد إشكالي</p>
+<p class="para">في واقع النّاس ممارساتٌ كثيرةٌ ، مثلَ الاعتداء الجنسيّ على الأطفال أو التمثيل بالجثث أو تعنيف الضعفاء أو غدر الأصدقاء المقرّبين،... تثير لديهم إحساسًا بالاشمئزاز والامتعاض والسخط ، ممّا يدفعهم إلى إدانتها ورفضها والحكم عليها بكونها لا أخلاقيّة. وتفترض هذه الأحكام <span class="t-blue">اعتمادَ مرجعيةٍ من القيمِ</span> تؤسّس لها مثل قيمة الحياة، وقيمة براءة الطفولة، وقيمة سلامة الشخص، وقيمة الصداقة، ... ويقترن هذا التقييمُ الأخلاقيّ باعتقادٍ ضمنيّ في كونيّة القيم المعتمدة . فمَن يُدين الاعتداء الجنسيّ على الأطفال لا يعتبرُ ذلك حكمًا شخصيًّا، ولا حكمًا جزئيًّا خاصًّا بالمجتمع الذي ينتمي إليه وثقافته الخصوصيّة، بل يعتبره حكمًا كونيًّا يجبُ على كلّ إنسانٍ إصداره نظرًا لفظاعة الفعل المرتكب في حقّ الأطفال الأبرياء. إنّ هذا الموقف، الذي يبدو بديهيًّا للبعض هو إشكالي للغاية. وهنا تتدخّل المساءلة الفلسفيّة لإبراز الأبعاد الإشكاليّة لهذه البداهة حتى توقظ الحيرة وتدعو الفكر كي يتدبّر معناها :</p>
+<ul class="b">
+  <li>فإلى أيّ حدّ يُمكن الإقرارُ بكونيّة القيم الأخلاقيّة على ضوء الاختلافات القائمة في شأنها بين الأفراد والمجتمعات وتطوّرها الدائم في الزمن ؟ ألا يُدلّ ذلك على كونها جزئيّة ؟ ولكن لو افترضنا ذلك، هل يصبح من الممكن تقييمُ الأفعال الإنسانيّة أخلاقيًّا للحكم إذا ما كانت حسنة أم سيئة ؟</li>
+  <li>ثمّ إنّ هذا الكائن وهو الإنسان الذي يُصدرُ مثل هذه الأحكام الأخلاقيّة ، ما هو أصلُ هذا الحسّ الأخلاقيّ لديه ؟ هل هو مكتسبٌ اجتماعيًّا بواسطة التربية وضغط المجتمع أم هو نزعةٌ ملازمةٌ لطبيعته تجعلُ منه كائنًا ينشُدُ المثلَ العليا في حياته ؟</li>
+  <li>وعند تحليل مثل هذه الأحكام الأخلاقيّة ؟ هل هي صادرةٌ عن العقل بمفاهيمه المنطقيّة أم عن العاطفة باندفاعاتها التلقائيّة ؟</li>
+  <li>وإذا كان الإنسان من خلال التزاماته الأخلاقيّة ينشد حياةً إنسانيّة مثاليّة، فما هي محدّدات مثل هذه الحياة المُثلى ؟ هل ستكون تجسيمًا للالتزام بالواجبات الأخلاقيّة في الحياة أم نيلَ السعادة باعتبارها حالةً من الاكتمال والغبطة الدائمين ؟</li>
+</ul>
+
+<p class="subhead t-red">1 . القيمُ الأخلاقيّة : قيمٌ جزئيّة أم كونيّة ؟</p>
+<p class="para">القيمةُ الأخلاقيّة هي مبدأ يوجّه حكمَ الأفراد وسلوكهم محدّدًا ما يجبُ عليهم تقديرهُ من الأفعال والإنسانيّة والالتزام به لكونها تمكّنهم من تحقيق كمالٍ أفضل مجسّمة بذلك الخير، وما يجبُ عليهم إدانته ورفضه والإعراض عنه من الأفعال الإنسانيّة التّي تنحطّ بوجودهم نحو الأسوأ مجسّمة بذلك الشرّ. ولكن الإشكاليّة الأساسيّة التّي تتعلّقُ بالقيم الأخلاقيّة هي دلالتها ومنزلتها :</p>
+<p class="para">فهل بالإمكان تعريفُ القيم الأخلاقيّة بشكل موضوعيّ يجعلُ منها كونيّة تحظى بجميع النّاس مهما كانت انتماءاتهم الجزئيّة المختلفة أم أنّها تظلّ معايير ذاتية وجزئيّة تعبّر عن اختيارات الأفراد الشخصيّة ومواضعات المجتمعات الخصوصيّة ممّا يُحتّم أن تكون متعدّدة ومختلفة ومتغيّرة عبر الزمن ؟</p>
+
+<p class="subhead t-navy">أ . الأطروحة النسبويّة <span dir="ltr">Le relativisme moral</span> : القيمُ الأخلاقيّة جزئيّة.</p>
+<p class="para">منذ <span class="t-blue">السوفسطائيين</span> في العصر اليونانيّ القديم ووصولاً لفكر ما بعد الحداثة اليوم، تبلورَ موقفٌ فلسفيّ نسبويّ في شأن الأخلاق يعتبرُ القيمَ الأخلاقيّة نسبيّة وجزئيّة. ومن أهمّ الحجج التّي اعتمدها في الدفاع عن أطروحته يُمكن ذكرُ ما يلي :</p>
+<p class="para">❖ <span class="t-green">الحجّة الأولى</span>، تتمثّل في أنّ القيمَ الأخلاقيّة، مثلما بيّن ذلك الفيلسوف البريطانيّ المعاصر</p>
+<!-- CROP: c4u2 1 0.873 0.074 0.960 0.238 c4u2_russell -->
+<figure class="fig"><img src="https://wael-philo.b-cdn.net/figs/1043/1043_russell.png" alt=""></figure>
+<p class="para"><span class="t-blue">برتراند رسل <span dir="ltr">Bertrand Russell</span></span> ( عاشَ بين 1872 و 1970 ) ليست مبادئَ تتعلّق بوقائع يمكن إخضاعها لشروط المعرفة الموضوعيّة التّي تفضي إلى الحكم على مدى صدقها أو خطئها، مقدّمة بذلك حقائقَ كونيّة يُمكن لجميع النّاس أن يقتنعوا بصلاحيّتها ويعتمدوها في أحكامهم وسلوكاتهم. إنّ المبدأ الأخلاقيّ ليسَ من صنفِ، مثلاً، " إنّ كلّ الصينيين بوذيون" بحيث يمكن العودة إلى الشعب الصينيّ للنظر في عقائدهم والحكم بأنّ ذلك الأقرارَ خاطئ، بل هو من صنفِ " القتلُ فعلٌ سيئ" معبّرًا عن رغبة في أن يلتزمَ النّاس به، دون إمكانيّة للإقناع بوجوب أن تكونَ واحدة بين كلّ النّاس، إذ قد يعتبر بعضُ النّاس أنّ " القتلَ واجبٌ وحسنٌ ". يكتب رسل " وللمبدأ بالقول أنّه من البديهيّ أنّ فكرة الخير والشرّ هي في علاقة بالرغبة. (...) ولو كانت رغباتنا تتوافقُ فيما بيننا جميعًا لاكتفينا بذلك، ولكن، للأسف، رغباتنا تتعارضُ فيما بينها."</p>
+<!-- PROOFREAD: c4u2 p1 — "وللمبدأ بالقول" (Russell quote) hard to read in the scan -->
+
+<!-- CROP: c4u2 1 0.498 0.245 0.585 0.400 c4u2_portrait3 -->
+<figure class="fig"><img src="https://wael-philo.b-cdn.net/figs/1043/1043_portrait3.png" alt=""></figure>
+<p class="para">❖ <span class="t-green">الحجّة الثانية</span>، تتمثّل في أنّ القيمَ الأخلاقيّة مختلفةٌ من ثقافة خصوصيّة إلى أخرى، ممّا يدلّ على أنّها نتاجُ مواضعات جزئيّة خاصة بكلّ مجموعةٍ إنسانيّة. وهذا الاختلافُ يصلُ إلى حدّ التناقض. إنّ هذا ما بيّنته الدراساتُ الانثربولوجيّة بشكل مستفيض. فقد بيّن <span class="t-blue">لوسيان مالسون</span> في مؤلّفه " الأطفال المتوحّشون " الاختلاف الشديد في شأن القيم الأخلاقيّة. فشعب الاسكيمو وسموا يعتبرون أنّه من العاديّ تقديم الزوجة لإمتاع الضيف جنسيًّا، وقتل العدوّ الشخصيّ، كما يعتبر شعب جزر فيجي من العادي دفن الشيوخ أحياءً، ويجيز شعب تاراهومارا للأبناء ضرب آبائهم وشتمهم لأتفه الأسباب. أمّا شعب كوروواي في غينيا الجديدة فيأكلون اللّحوم البشريّة...إنّها بعضُ الأمثلة القليلة التّي تكشف عن أنّ القيمَ الأخلاقيّة ليست كونيّة بل هي جزئيّة.</p>
+<!-- PROOFREAD: c4u2 p1 — "فشعب الاسكيمو وسموا" hard to read in the scan -->
+
+<!-- CROP: c4u2 1 0.869 0.422 0.956 0.598 c4u2_durkheim -->
+<figure class="fig"><img src="https://wael-philo.b-cdn.net/figs/1043/1043_durkheim.png" alt=""></figure>
+<p class="para">❖ أمّا <span class="t-green">الحجّة الثالثة</span>، فتتمثّل في أنّ القيمَ الأخلاقيّة متطوّرة في التاريخ، ممّا يكشفُ على أنّ الأفعال التّي اعتبرها النّاس، خلال عصر معيّن أخلاقيّة، انقلبت إلى أفعال لا أخلاقيّة، في عصور لاحقة. وفي هذا السياق يندرج الرقّ والمفاضلة بين النّاس بحسب العرق والجنس والطبقة والثروة والدّين، والحروب، وتشغيل الأطفال لساعات طويلة .... فقد اعتبرها النّاس في الماضي أفعالاً لا تتعارض مع القيم الأخلاقيّة، ولكنها اليومَ صارت من الأفعال السيّئة والوحشيّة واللا أخلاقيّة. يكتبُ عالم الاجتماع الفرنسي <span class="t-blue">اميل دوركايم <span dir="ltr">Emile Durkheim</span></span> ( عاش بين 1858 و 1917 ) " إنّ ما يُثبتُ أنّ الأخلاق هي نتاجُ المجتمع، هو أنّ الأخلاق تتغيّر بتغيّر المجتمعات." فأخلاق المدن اليونانيّة والرومانيّة ليست أخلاقنا، كما أنّ أخلاق القبائل البدائيّة ليست أخلاق تلك المدن."</p>
+
+<p class="subhead t-navy">ب . الأطروحة الكونيّة <span dir="ltr">L’universalisme moral</span> : القيمُ الأخلاقيّة كونيّة.</p>
+<p class="para">لا يمثّل إفلاتُ القيم الأخلاقيّة من مجال المعرفة الموضوعيّة، واختلافُها من ثقافةٍ إلى أخرى، وتطوّرها عبر التاريخ حججًا كافية لرفض الاعتراف بكونيّتها دفاعًا عن جزئيّتها، في نظر المدافعين عن النزعة الكونيّة في مجال الأخلاق. ومن بين الحجج المعتمدة في هذا الدحض، يمكن ذكر ما يلي :</p>
+<!-- CROP: c4u2 1 0.866 0.695 0.958 0.880 c4u2_portrait4 -->
+<figure class="fig"><img src="https://wael-philo.b-cdn.net/figs/1043/1043_portrait4.png" alt=""></figure>
+<p class="para">❖ تتمثّل <span class="t-green">الحجّة الأولى</span> في أنّ القيمَ الأخلاقيّة رغم أنّها لا يُمكنُ أن تكون موضوعَ معرفةٍ علميّة تخضعها لمعياريْ الصدق والخطأ لكونها ترسمُ للناس غايات مثاليّة تحدّد ما يجبُ أن يكون عليه وجودهم، فإنّه من الممكن بالنسبة للعقل البشريّ، مثلما بيّن أندري كونت سبونفيل مهتديًا في ذلك بامانويل كانط، أن يتحقّق من جدارتها بوجوب احترامها والالتزام بها كونيًّا من قبل جميع الناس عند افتراض غيابها عن توجيه حياتهم وما يُمكن أن يؤدّيَ إليه من نتائج وخيمة تنحطّ بها إنسانيًّا. فإذا كانت الأخلاق توجبُ احترامَ قيمة الشخص الإنسانيّ وحياته بالامتناع عن إيذائه وتعنيفه أو قتله، فإنّ التحقّق من كونيّة هذه القيمة يكون بافتراض العقل غيابها عن حياة النّاس، عندئذ يُمكن استنتاجُ أنّها ستكون حياةً بائسةً سمتها القسوة والعنف والاعتداء والجريمة والصراع والخوف. إذن احترام قيمة كلّ شخص والحفاظ على حياته هي قيمة جديرة باحترام والتزام كونيين. يكتبُ <span class="t-blue">كونت سبونفيل</span> " لن يكون هذا الفعلُ حسنًا إلاّ إذا كان المبدأ الذي امتثلَ له ذلك الفعلُ قابلاً لأن يُعمّمَ كقانونٍ كونيّ." ( جديرٌ باحترام جميع النّاس والتزامهم به )</p>
+<p class="para">❖ أمّا <span class="t-green">الحجّة الثانية</span>، فتبيّنُ أنّ الاختلافَ بين المنظومات الأخلاقيّة المتنوّعة لا يبرّر الاعترافَ بها جميعًا والامتناع عن تقييمها من خارجها، لأنّ ذلك سوفَ يجعل من تقييم الفعل الإنسانـــي أخلاقيًّا غير ممكنٍ، أو يدعو إلى التسامح مع كلّ الاختلافات حتّى وإن كانت لا أخلاقيّة. إنّ المطلوب، بدلاً عن ذلك، كما بيّن ذلك الفيلسوف الأمريكيّ المعاصر <span class="t-blue">مايكل والزر <span dir="ltr">Michael Walzer</span></span>( ولد سنة 1935 ) هو التقاءُ جميع الثقافات حول قيم كونيّة دنيا، يقتنعُ بها كلّ ملاحظٍ محايدٍ، تكون بمثابة القاسم المشترك لكونها تضمن احترامَ الشخص الإنسانيّ في حياته وسلامته وحريّته ومساواته لكلّ الآخرين، الذي يجب اعتماده مرجعيّة في نقد لآداب المتنوّعة في المجتمعات : فما ينسجم معها كانَ أخلاقيًّا وما تعارضَ معها كان لا أخلاقيًّا. فإذا كانت أعراف هذا المجتمع تزوّج بناتٍ قاصراتٍ في سنّ الطفولة لكهولٍ وجبَ إدانة ذلكَ لكونه يتعارضُ مع مقتضى أخلاقيّ كونيّ وهو أن يقومَ الزواج على الاختيار الحرّ الذي لا يصبح ممكنًا إلاّ بفعل النضج النفسيّ والجسميّ والاجتماعي. يكتب مايكل والزر " إنّنا نكتشفُ مع التفاعلات فيما بين الثقافات المختلفة أنّها تتقاطعُ : فالنّاسُ يعترفون بوجود أفكار مختلفة وأخرى مشتركة . إنّ هذه النواة من المبادئ الأخلاقيّة المشتركة تأتي لاحقًا. إنّها تظهر لمّا تحدثُ تفاعلاتٌ فيما بين الثقافات المختلفة."</p>
+<!-- CROP: c4u2 2 0.395 0.072 0.460 0.208 c4u2_walzer -->
+<figure class="fig"><img src="https://wael-philo.b-cdn.net/figs/1043/1043_walzer.png" alt=""></figure>
+
+<!-- CROP: c4u2 2 0.030 0.298 0.128 0.477 c4u2_boudon -->
+<figure class="fig"><img src="https://wael-philo.b-cdn.net/figs/1043/1043_boudon.png" alt=""></figure>
+<p class="para">❖ أمّا <span class="t-green">الحجّة الثالثة</span>، فتعترضُ على اعتبار أنّ التطوّر التاريخيّ للقيم الأخلاقيّة هــــوحجّةٌ كافية لنفي كونيّتها. فالتطوّر التاريخي، مثلما بيّن ذلك عالم الاجتماع الفرنسيّ <span class="t-blue">ريمون بودون</span> ( عاش بين 1934 و 2013 )، يقترن دائمًا بتقدّمٍ أخلاقيّ يتمثّل في تحقيق توافقٍ كونيٍ حول مبادئ أخلاقيّة يصبح من غير الممكن التراجعُ عنها، مثلَ إلغاء الرّق للإقرار بالمساواة بين كلّ النّاس ، وإلغاء كلّ أشكال التمييز بين النساء والرجال، إلغاء تشغيل الأطفال، إلغاء العقوبات البدنيّة مثل الجلد أو الحرق أو البتر...فالتغيّرُ في الزمن يثبتُ نسبيّة القيم ولا ينفي كونيّتها. يكتب ريمون بودون " إنّ المقتضيات والمبادئ الأخلاقيّة التي يقرّها " الملاحظ المحايد " تتطوّر في الزمن بفعل تأثير الانتقاء فتكون منطلقًا لعدد من المواقف التي لا مكانَ فيها للعودة إلى الوراء فنحترمها في المجال القيميّ."</p>
+
+<p class="subhead t-red">2 . الفعلُ الأخلاقيّ إلزامٌ اجتماعيّ أم التزامٌ ذاتيّ ؟</p>
+<p class="para">الإنسانُ كائنٌ يُمكنه أن يرفضَ الاستسلامَ لنزواته وانفعالاته ومصالحه المباشرة في علاقته بغيره ليتصرّفَ طبقًا لمبادئ أخلاقيّة تنطوي على غاياتٍ مثاليّة مثلَ الإيثار أو التعاون أو الصدق أو الوفاء أو الشجاعة ...عندئذ نصفُ سلوكَه بالأخلاقيّ.</p>
+<p class="para">ولكن ما الذي يجعلُ من الإنسان يلتزم بقواعد سلوك مثاليّة يعتبرها واجبةً في حياته ؟ هل يكون ذلك نتاجَ نزعة أخلاقيّة فطريّة فيه أم هو نتاجُ تربية اجتماعيّة حوّلته إلى كائن أخلاقيّ بواسطة الإلزام والجزاء ؟</p>
+
+<p class="subhead t-navy">أ . الفعل الأخلاقيّ بين إلزام المجتمع وجزائه</p>
+<!-- CROP: c4u2 2 0.398 0.615 0.480 0.778 c4u2_durkheim2 -->
+<figure class="fig"><img src="https://wael-philo.b-cdn.net/figs/1043/1043_durkheim2.png" alt=""></figure>
+<p class="subhead">أطروحة عالم الاجتماع الفرنسيّ <span class="t-blue">إميل دوركايم <span dir="ltr">Emile Durkheim</span></span>( 1858 – 1917 )</p>
+<p class="para">إنّ التربية الأخلاقيّة التّي يلقنها المجتمع للفرد بواسطة ما يُمارسه عليه من إلزام وجزاء هي التّي تغيّرُ طبيعته لتجعلَ منه كائنَ الضمير الأخلاقيّ الذي يتصرّف طبقًا للواجب.</p>
+<p class="para">▪ المجتمعُ هو حقيقةٌ مختلفةٌ نوعيًا عن الأفراد لكونه يشتملُ على مجموعة من المؤسّسات التّي تتعالى على الأفراد وتلزمهم بالامتثال لقواعدها، لذلك هي تقاومُ كلّ مَن يتمرّد عليها أو يشذّ عنها، مثل اللغة والدّين والأخلاق، والقرابة، والزواج...وفي هذا الإطار تمثّل الأخلاق نسقًا من قواعد السلوك المتعالية والإلزامية التّي يجبُ طاعتها من أجل تحقيق الخير المنشود. والإنسان ليسَ لديه حسّ أخلاقيّ طبيعيّ، لأنّ طبيعته توجّهه دائمًا نحو اللّذة والمصلحة والانفعال بشكل فرديّ أنانيّ. فمن دون انتماء الفرد إلى المجتمع الذي سوف يغيّر تلك الطبيعة ليجعله في انسجام مع الجماعة بواسطة التربية لمّا أمكنَ للإنسان أن يصبحَ كائنًا أخلاقيًّا له حَكمٌ داخليٌ هو الضمير يردعه عن الاستسلام لرغباته ومصالح وانفعالاته كي يطيعَ قواعدَ المجتمع الأخلاقيّة في حياته. لذلك كتبَ دوركايم " ليسَ الإنسانَ كائنًا أخلاقيًّا إلاّ لأنّه يعيشُ في صُلب مجتمعاتٍ قائمة." وما يدلّ على ذلك بوضوح في نظر دوركايم هو أنّ كلّ تراجع لسلطة المجتمع&nbsp; خلال فترات الأزمات يقترن بانهيار للانضباط الأخلاقيّ لدى الأفراد. يكتبُ دوركايم " إنّ كلّ انخرام في التنظيم أو كلّ ميل إلى الفوضى السياسيّة مقترنٌ بتنامٍ في اللا أخلاقيّة."</p>
+<p class="para">▪ تقومُ التربية الأخلاقيّة في كلّ مجتمع على آليّتيْن متضافرتين وهما : <span class="t-blue">الإلزام والجزاء</span>. فمن جهة تقدّم قواعدُ السلوك الأخلاقيّ في شكل أوامرَ ونواهيَ واجبة الطاعة، لا مجالَ لنقدها أو رفضها. وهي تستمد سلطتها تلك من تعاليها واحترام الجماعة لها والإقرار بأنّها تمثّل الخيرَ الحقيقيّ بالنسبة إلى كلّ إنسان، فهي تنطوي على أسمى الغايات التّي ينبغي على كلّ إنسان أن ينشدَ تحقيقها. ولكن من جهة أخرى، يردّ المجتمع من خلال الرأي والعام والمؤسّسات القانونيّة مثل الشرطة والقضاء الفعلَ على موقف الفرد من الواجبات الأخلاقيّة. فإذا ما أطاعها ناله الثناء والاحترام والتقدير والاستحسان، أمّا إذا حاد عنها وناقضها، حلّ به التوبيخ والتشهيـــر والتهميش والمقاطعة وحتى العقوبات القانونيّة من خلال القضاء. يكتبُ دوركايم " لا يُمكننا الإحساسَ بالواجب إلاّ إذا وجدت حولنا وفوقنا سلطةٌ تقومُ بالجزاء" إنّ هذا ما يجعل من حديث الضميـــر الأخلاقيّ في الفرد هو في الحقيقة صدى لسلطة المجتمع وتوجيهاتها. يكتب دوركايم " عندما يتحدّثُ ضميرنا، فإنّ المجتمعَ هو المتحدّثُ فينا."</p>
+
+<p class="subhead t-navy">ب . الفعلُ الأخلاقيّ والالتزام الذاتيّ والحرّ</p>
+<p class="para">يؤدي التفسيرُ الاجتماعيّ للفعل الأخلاقيّ إلى إحراجات عديدة تبرّر نقده. ومن أبرز تلك الإحراجات : تعريفُ الأخلاق بكونها قواعد سلوك متعالية وإلزاميّة تحدد بشكل مسبق ما يجبُ على الإنسان فعله، وأنّ الإنسان لا يلتزمُ أخلاقيًّا إلاّ بسبب ما تمارسه عليه سلطةُ المجتمع من إلزام وجزاء، وأنّه كلّما تراجعت تلك السلطة إلاّ وأدّى ذلك إلى تنامي لا أخلاقيّة الإنسان.</p>
+<p class="para"><span class="t-red">فإلى أيّ حدّ يجوز الإقرارُ بذلك ؟</span></p>
+<!-- CROP: c4u2 2 0.536 0.295 0.625 0.437 c4u2_sartre -->
+<figure class="fig"><img src="https://wael-philo.b-cdn.net/figs/1043/1043_sartre.png" alt=""></figure>
+<p class="subhead">أطروحةُ الفيلسوف الفرنسيّ <span class="t-blue">جان بول سارتر <span dir="ltr">Jean-Paul Sartre</span></span>( 1905 – 1980 )</p>
+<div class="data">الفعلُ الأخلاقيّ قرارٌ يُبدعه الفردُ من منطلق حريّته التامة التي توجبُ عليه أن يختارَ قراراته ومواقفه وأن يكون مسؤولاً عنها تجاه كلّ الآخرين.</div>
+<p class="para">▪ إنّ <span class="t-green">الخللَ الأوّل</span>، في القراءة الاجتماعيّة، حسب سارتر، يتمثّل في اعتبار الإنسان نتاجًا سلبيًّا لواقعه الاجتماعيّ، فيكون الإنسان صدى لمؤسّسات المجتمع القائمة. وفي ذلك تغاضٍ عن أنّ الإنسان حريّة. فهو لئن كان يظهر في إطار مجتمع وبين آخرين ، ويتأثر بمؤسّسات ذلك المجتمع وبقيمه وبما ينشأ بينه وبين الآخرين من علاقات، فإنّه يتجاوز دائمًا مرحلة التأثر ليصوغَ لنفسه مشروعًا خصوصيًّا يعبر عن هويته الفرديّة المختلفة عن هويات الآخرين . يكتبُ سارتر " ليسَ الإنسان غير ما يفعلُه هو بنفسه." <span dir="ltr">L’homme n’est rien d’autre que ce qu’il se fait</span> ويُضيفُ "الإنسانُ مكرَهٌ على أن يكون حرًّا، لأنّه لم يخلق نفسه ولكنه من جهةٍ أخرى حرّ لأنّه بعدَ أن أُلقيَ في العالم كان مسؤولاً على كلّ ما يفعله."</p>
+<p class="para">▪ الإنسانُ، إذن، في نظر سارتر، <span class="hl-green">حريّة</span>. ويعني ذلك أنّه يكتشفُ نفسه، مهملاً في عالم بلا إحداثيّات جاهزة توجّهه في قراراته. ولذلك يجد نفسه في مواجهة كلّ وضعيّة مكرهًا على أن يختارَ بنفسه. ولا يُمكن لأخلاق المجتمع السائدة وسلوكات الآخرين أن تمدّه بحلولٍ جاهزة أو بأمثلة يكتفي بتقليدها. فهو في كلّ وضعيّة خصوصيّة يجدُ نفسه مترددًا بين أوامر متعارضة : هل يجبُ أن أنظمّ إلى الجيش لأشارك في الحرب وأقتلَ الأبرياء أم يجب أن أفرّ وأرفض الخدمة العسكريّة ؟ هل يجبُ أن أكون وفيًّا لصديقي المطارَد من الأمن&nbsp; الذي لجأ إلى بيتي وأرفض الإخبارَ عنه أم أكون وفيًّا للحقيقة وللقانون وأخبر عنه السلطات ؟ هل يجبُ أن إتفانى في خدمة والدتي أم أتركُ والدتي لأقاومَ دفاعًا عن وطني ؟ هل أصغي لصوت ضميري أم أطيعُ القانون ؟...لذلك لا يُمكن تعريفُ الأخلاق بكونها نسقًا من القواعد المتعالية والإلزاميّة التّي تحدّد للفرد بشكل مسبقٍ ما يجبُ عليه فعله في كلّ وضعيّة، لأنّ الفرد يجد نفسه مترددًا بين أوامر عديدة ومتعارضة، فيكون مكرهًا على إبداع قرارٍ يعتبر أنّه الأكثر وجاهةً في التعامل مع تلك الوضعيّة. والمثالُ الذي يقدّمه سارتر لتوضيح ذلك، هو الشاب الذي وجد نفسه خلال الاحتلال النازيّ لفرنسا ممزقًا بين واجبيْن : واجب برّ والدته والعناية بها وهو الوحيد الذي ظلّ لها بعد رحيل أبيه الخائن وموت أخيه على يد الاحتلال، وبين واجب تحرير الوطن بالانضمام إلى المقاومة المسلّحة. لا وجودَ هنا لواجب جاهز، ولا لمثالٍ يُقتدى به، ممّا دفع الشاب إلى إبداع قرار شخصيّ وهو البقاء إلى جوار الأمّ لرعايتها. يكتبُ سارتر "إنّ ما هو مشتركٌ بين الفنّ والأخلاق أنّه لدينا في الحالتيْن خلقٌ وابتكارٌ. لا يُمكننا أن نقرّر مسبقًا ما يجبُ علينا فعله.(...) نعتقد أنّ مبادئَ مجرّدة جدًا تفشلُ في تعريف الفعل."</p>
+<p class="para">▪ التجربة الأخلاقيّة تضعُ الإنسان وجهًا لوجه أمام حريّته. فهو يعيشُ وضعيّات يكون فيها ممزقًا بين أوامر متناقضة تكرهه على أن يُبدعَ قرارًا ملائمًا بنفسه دون أن تساعده القيـــمُ الأخلاقيّة السائدة ولا قرارات الآخرين. ولكنّ حريّة الإنسان في مجال الأخلاق لا تعني الاعتباط والعشوائيّة، لأنّ الحريّة، في نظر سارتر، تعني <span class="t-red">المسؤوليّة</span>. فالإنسان لمّا يقرّر يشعرُ بالمسؤوليّة تجاه كلّ الآخرين، فيخشى أن يكون مثالاً سيّئًا لغيره أو أن تصدرَ تبعات وخيمة عن أفعاله في حقّ الآخرين، فيحاول أن يختارَ الأمثل أي ما يصلحَ أن يكونَ مثالاً يُحتذى لكلّ الآخرين. فالحريّة مسؤوليّة، لا يُمكنها أن تدفعَ نحو العدميّة باختيارات عشوائيّة مدمّرة للذات وللغير. يكتب سارتر " وحينما نقول أنّ الإنسان يختار ذاته، فإنّنا نعني أنّ كلّ فرد منّا يختار أيضًا لجميع النّاس.(...) فلا شيء يُمكن أن يكون حسنًا بالنسبة إلينا إنْ لم يكنْ حسنًا بالنسبة إلى الجميع.(...) ومعنى هذا أنّني مسؤولٌ أمام نفسي وتجاه الآخرين."</p>
+<!-- PROOFREAD: c4u2 p3 — the following paragraph is struck through by hand in the source; transcribed as printed (end partly hidden by the strokes: "إنّ أخلاقيّة الإنسان تعبير") -->
+<p class="para">▪ ومن هذا المنظور، لا يُمكن القول أنّ الإنسان لا يلتزم بالواجب الأخلاقيّ إلاّ على قدر حضور سلطة المجتمع وما تمارسه عليه من إلزام وجزاء، وأنّه كلّما تراجعت تلك السلطة تنامت لا أخلاقيّة الإنسان. إنّ أخلاقيّة الإنسان تعبير</p>
+
+<p class="subhead t-red">3 . الفعل الأخلاقيّ قرارٌ عقليّ أم ميلٌ عاطفيّ ؟</p>
+<p class="para">خلصَ ما سبقَ إلى أنّ الإنسانَ كائنٌ يُمكنه ضمن علاقاته بالآخرين أن يلتزم بالقيم الأخلاقيّة في قراراته وأفعاله. وأنّ ذلك الالتزامَ الأخلاقيّ ليسَ نتاجَ ما يُمارسه عليه المجتمع من سلطةٍ بواسطة الإلزام والجزاء، بل هو تعبيرٌ عن حريته التّي تجعله مسؤولاً تجاه كلّ الآخرين لمّا يختارُ أسلوبَ حياته وقراراته. ولكنّ السؤال الذي يصبحُ ضروريًّا في هذا السّياق هو :</p>
+<p class="para"><span class="t-red">علامَ يؤسّس الإنسان قراراته الأخلاقيّة : هل يعتمدُ على توجيه عقله أم على توجيه عاطفته ؟</span></p>
+
+<p class="subhead t-navy">أ . العقلُ أساسُ الفعل الأخلاقيّ</p>
+<!-- CROP: c4u2 3 0.366 0.370 0.460 0.542 c4u2_kant -->
+<figure class="fig"><img src="https://wael-philo.b-cdn.net/figs/1043/1043_kant.png" alt=""></figure>
+<p class="subhead">أطروحة الفيلسوف الألمانيّ <span class="t-blue">امانويل كانط <span dir="ltr">Emmanuel Kant</span></span> ( 1724 – 1804 )</p>
+<div class="data">يكونُ فعلَ الإنسان أخلاقيًّا عندما تمتثلُ إرادته تمامًا لتوجيه العقل لتتصرّف احترامًا للواجب بما هو غاية في حدّ ذاته بنيّة طيّبةٍ متحرّرةً بذلك من عواطفها أو أهدافها أو تأثير سلطة المجتمع فيها.</div>
+<p class="para">▪ للعقل، في نظر كانط، استعمالان : <span class="t-green">استعمالٌ نظريّ</span> في مجال المعرفة، <span class="t-green">واستعمالٌ عمليّ</span> في مجال الأخلاق. الأوّل يُجيبُ عن سؤال " ماذا يُمكنني أن أعرف ؟" ويقومُ على استعمالٍ منطقيّ للعقل ينظمُ معطيات التجربة الحسيّة ليفوزَ بحقائق معرفيّة ضروريّة وكونيّة، والثاني يُجيبُ عن سؤال " ماذا يجبُ عليّ أن أفعل ؟ " ويقوم على تحرير الإرادة من التبعيّة للعاطفة أو المنفعة أو السلطة حتّى تصبح مستقلّة فتتصرّف احترامًا للواجب الأخلاقيّ بما هو غاية في حدّ ذاته باعتباره يعبّر عن قاعدة قابلة لأن تكون قانونًا كونيًّا صالحًا لكلّ إنسان. إذن، لا يكونُ الفعلُ أخلاقيًّا إلاّ إذا كان تعبيرًا عن توجيه العقل للإرادة، فكانَ فعلاً حرًّا يُطيعُ الواجب بنيّة صادقة لكونه يضع قاعدة سلوك كونيّة صالحة لجميع النّاس. " لا ينبغي البحث عن مبدأ الوجوب في طبيعة الإنسان ولا في الظروف التي تؤطّر وجوده في العالم ولكن ينبغي البحث عنه قبليًّا في مفاهيم العقل المحض."</p>
+<p class="para">▪ إنّ الاعتمادَ على العقل، في القرار والفعل الأخلاقيّيْن، لايكون بمعرفة ماذا يجبُ علينا فعله، لأنّ الجميعَ يعرفونَ ذلك، ولكنهم لا يلتزمونَ جميعًا بأوامره. كما أنّ الذين يلتزمون بواجباتهم لا يبلغون، بالضرورة درجة الأخلاقيّة. ويعودُ ذلك إلى أنّهم لم يبلغوا إلى درجة العقل، وبالتالي الحريّة والكونيّة. فمن يكرمُ الفقراء حتّى يثني النّاس على كرمه، ومَن يعطف على الأطفال حتّى يُسعدهم، ومن يكون صادقًا في شهادته خوفًا من اتهامه بتضليل العدالة، ومن لا يغش في تجارته حتّى يحافظ على زبائنه، ... فإن هؤلاء قد تصرّفوا طبقًا للواجب وليسَ احترامًا للواجب بنيـــة صادقة. إنّهم ظلوا تابعين لعواطفهم مثلَ الشفقة، الإحساس بالرضا والغبطة،&nbsp; لخوف من فقدان احترام الآخرين أو من عقاب القانون، أو تابعين لمصالحهم مثل الحفاظ على مكانتهم الاجتماعيّة أو تجارتهم ...فعند افتراض فتور هذه العواطف أو زوال تلك المصالح أو تراجع السلطات فلن يستمرّوا في التصرّف طبقًا للواجب. إذن، هم قد تصرّفوا طبقًا لأوامر شرطيّة صيغتها " إذا ... يجبُ عليك..." ويعني ذلك إنّهم لم يحرّروا إرادتهم من التبعيّة بواسطة توجيه العقل، وأفرغوا الواجب من وجوبه الكونيّ ليصح وسيلة لتحقيق هدفًا أرفعَ منه، ونسبيًّا أي لا يلزم إلاّ إذا توفّر شرطه. يكتب كانط "هناك أنفسٌ تنزع بطبعها إلى التعاطف وتجد سرورًا داخليًّا لنشر الغبطة حولها وتنعم بسعادة الغير من حيثُ هي نتيجةٌ لعملها دون باعثٍ من غرورٍ أو مصلحةٍ. ولكنني أرى في هذه الحالة أنّ هذا الفعل مهما كان تطابقه مع الواجب ومهما كان محمودًا هو بالرغم من ذلك بلا قيمة أخلاقيّة حقيقيّة."</p>
+<p class="para">▪ إنّ الفعلَ لا يكون أخلاقيًّا، إذن، إلاّ إذا كان تعبيرًا عن حريّة الإرادة بفعل امتثالها لتوجيه العقل، متحرّرة من عواطفها وأهدافها النفعيّة ومن تأثير سلطة المجتمع والآخرين، لتتصرّف احترامًا للواجب بما هو غاية في حدّ ذاته الذي لا يكون إلاّ في صيغة أمر قطعيّ " يجبُ عليك ". عندئذ يُمكن للفعل أن يكون عقلانيًا، حرًّا كونيًّا، أي معبرًا عن قاعدة قابلة لأن تكون قانونًا كونيًّا صالحًا لكلّ الإنسانيّة. يكتب كانط "ليس هنالك إذن غير أمر قطعيّ واحد يمكن التعبيرُ عنه كالآتي : افعلْ فقط طبقًا للقاعدة التّي تجعلك تقدر على أن تريدَ لها في الوقت نفسه أن تصيرَ قانونًا كونيًّا."</p>
+
+<p class="subhead t-navy">ب . العاطفة أساسُ الفعل الأخلاقيّ</p>
+<!-- CROP: c4u2 3 0.530 0.160 0.624 0.335 c4u2_rousseau -->
+<figure class="fig"><img src="https://wael-philo.b-cdn.net/figs/1043/1043_rousseau.png" alt=""></figure>
+<p class="subhead">أطروحة الفيلسوف السويسري <span class="t-blue">جان جاك روسو <span dir="ltr">Jean-Jacques Rousseau</span></span>( 1712 – 1778 )</p>
+<div class="data">للإنسان ضميرٌ أخلاقيّ فطريّ يتجلى من خلال عاطفة الرأفة الطبيعيّة التّي توجّهه لمّا يُصغي إليها نحو الالتزام بالقيم الأخلاقيّة في قراراته وأفعاله.</div>
+<p class="para">▪ يدحضُ روسو الأطروحات العقلانيّة التّي ذهبت بصيغٍ مختلفة إلى التأسيس للأخلاق على العقل، معتبرة أنّ الإنسان لا يصبح مهيّئًا للتصرّف أخلاقيًّا إلاّ إذا حرّره العقلُ من عواطفه نظرًا لما تمثّله من ذاتيّة في التقييم وإفراط في الانفعال ونزوع نحو تكريس الأهداف الفرديّة ...ويقومُ هذا الدحض، على ما تكشفُ عنه التجربة من رسوخ عاطفة الرأفة فطريًّا في الإنسان التّي تجعله يتصرّف أخلاقيًّا بصورة تلقائيّة من خلال الحدّ من حبه لذاته والاندفاع نحو نجدة&nbsp; الذين يراهم يتألمون والامتناع عن إيذاء الضعفاء. وفي مقابل ذلك تكشف التجربة، أيضًا، عن عجز العقل سواء باستدلالاته أو توجيهاته عن حفز النّاس إلى التصرّف أخلاقيًّا. فعندما يُحكّمُ الفردُ عقله بدلاً عن عاطفة الرأفة التلقائيّة لديه، ليتخذ قرار نجدة إنسان يتألّم، فإنّه يدفع إلى الحذر وعدم المخاطرة بسبب ما يضعه من فرضيّات أو يتوقّعه من نتائج، ممّا يقود إلى التردّد أو الامتناع عن القرار. يكتب روسو "إنّ الرأفة هي التي تحملنا، دون تردّد، على نجدة من نراهم يتألمون... ويُضيفُ "لنا في العاطفة الطبيعيّة، لا في الحجج النافذة ما يفسّر نفورَ كلّ إنسان من عمل الشرّ."</p>
+<p class="para">▪ وبناءً على ما تظهرُه التجربةُ يستنتجُ روسو أنّ <span class="t-green">الحسّ الأخلاقيّ</span> لدى الإنسان لا يُمكنُ أن يكون نتاجَ التربية التّي يتلقاها من المجتمع بواسطة مؤسّساته مثل العائلة والمدرسة... ولا نتاجَ انفراد الإنسان بالعقل بما هو ملكة تخوّله التفكير والاستدلال والحكم. فللإنسان، في نظر روسو، حسٌّ أخلاقيٌّ فطريٌّ يتمثّل في الضمير بما هو استعدادٌ طبيعيٌّ كامنٌ فيه. إنّه مبدأٌ باطنيٌّ ينتصبُ حكمًا في كلّ إنسان يُمكنه كلّما عاد إليه واستشاره من تقييم أفعاله وأفعال غيره إذا ما كانت حسنة أم سيئة. فإذا ما أراد الإنسان أن يقيّم إذا ما كانَ نكثُ عهدٍ ، الاستيلاء على أموال اؤتمِنَ عليها أو الاعتداء على ضعيفٍ أو قتل بريء عادلاً أم جائرًا، فعليه أن يستشيرَ ضميره : عندئذ ستخبره عاطفته بلا تردّد بما تثيرهُ فيه من رأفة على النّاس الذين سلّطت عليه تـــلك الأفعالُ وكدر من بشاعتها بأنّها أفعالٌ لا أخلاقيّة. ولا يُمكن للعقل أن يكون له دورٌ في التجربة الأخلاقيّة، لأنّه غير مؤهّل للتجاوز الواقع كما هو من أجل التشريع لما يجبُ أن يكون عليه الفعلُ الإنسانيّ. فمجاله ينحصر في إطار معرفة ما هو كائن، ولا يمتدّ إلى مجال القيم التّي تشرّعُ لما يجبُ أن يكونَ. كما أنّه بلا تأثير في الإرادة من أجل حفزها على الفعل، لأنّ ذلك من شأن العواطف وحدها وما تحدثه في الذات من إحساس بالرضا أو بالكدر. يكتبُ روسو. "يوجد في أعماق النّاس مبدأ فطريّ للعدالة والفضيلة على أساسه نحكم على أفعالنا وأفعال غيرنا، بالرغم من قواعدنا الخاصة، بأنّها حسنةٌ أو سيئة. وهذا المبدأ هو ما أسمّيه الضمير."</p>
+<!-- PROOFREAD: c4u2 p3 — "نكثُ عهدٍ" partly obscured in the scan -->
+<p class="para">▪ ولأنّ الضميرَ واحدٌ ومشترك بين كلّ النّاس فإنّ القيمَ الأخلاقيّة التّي سيقودهم إليها بواسطة عاطفة الرأفة لا يمكن أن تتعدد وتختلف لتكون نسبيّة وجزئيّة، فهي ستكون حتمًا واحدة وأزليّة وكونيّة. فمهما كان عمق الاختلافات الثقافيّة على صعيد الأعراف فمن المحال أن ينقلب ما هو أخلاقيّ إلى لا أخلاقيّ أو العكس. ذلك أنّ نفسَ مبادئ الصدق والشرف والعدالة والرحمـــة... تسجّل حضورها كمبادئ كونية مشتركة بين جميع النّاس في العالم. يكتب روسو "ستجدون في كلّ مكانٍ نفسَ أفكار العدالة والشرف، نفس مبادئ الأخلاق، نفس مقولات الخير والشرّ."</p>
+
+<p class="subhead t-red">5 . رهان الفعل الأخلاقيّ : الالتزام بالفضيلة أم نيلُ السّعادة ؟</p>
+<div class="data">السّعادةُ حالةٌ وجوديّة مستقرّة ودائمة في الزمن من الاكتمال والرضا التام والسكينة التي يغيبُ عنها الألم والاضطراب والتوتر.</div>
+<p class="para"><span class="t-red">ولكن هل يُمكنُ للإنسان أن يبلغَ فعليًّا هذه الحالة أم أنّها مجرّد رغبةٍ لا تقبلُ التحقّق أبدًا ؟ وهل مســـن المشروع اعتبارها غاية الأخلاق ، إذ هل يلتزمُ الإنسانُ أخلاقيًّا في حياته كي يكون سعيدًا أم كي يحترمَ واجباته باعتبارها غايةً في حدّ ذاتها تجعلُ منه إنسانًا فاضلاً ؟</span></p>
+
+<p class="subhead t-navy">أ . السّعادةُ وهمٌ</p>
+<!-- CROP: c4u2 4 0.033 0.098 0.139 0.290 c4u2_freud -->
+<figure class="fig"><img src="https://wael-philo.b-cdn.net/figs/1043/1043_freud.png" alt=""></figure>
+<p class="para">إنّ السّعادة بما هي حالة مستقرّة ودائمة في الزمن من الاكتمال والرضا التّام والسّكينة هي رغبةٌ نفسيّة يتوق كلّ إنسان إلى تحقيقها دون قدرةٍ فعليّة على بلوغها وعيشها فعليًّا، ممّا يجعل منها وهمًا. والعوامل التّي تجعل بلوغ السّعادة مستحيلاً، هي من نوعين: موضوعيّة تتعلّق بظروف وجود الإنسان في العالم، وذاتيّة تتعلّق بطبيعة القدرات النفسيّة الإنسانيّة.</p>
+<p class="para">▪ إنّ <span class="t-green">العواملَ الموضوعيّة</span> التّي تعوقُ إمكانيّة أن يصبحَ النّاسُ سعداء، كما أوضحها <span class="t-blue">سيغموند فرويد <span dir="ltr">Sigmund Freud</span></span> ، هي ثلاثة : قوّة الطبيعة الساحقة، وشيخوخة جسمنا، وقمع الحضارة، وكلّها عواملُ تؤدي إلى نتيجةٍ حتميّة وهي اقتران وجود الإنسانيّة في العالم بالألم، وبالتالي بالشقاء. ففي <span class="t-navy">المقام الأوّل</span>، هناك قوى الطبيعة المعادية التي تهدّد وجود البشر مثل الزلازل والكوارث والأوبئة... وتجعلهم مهدّدين بالتشريد والمرض والمجاعة والفناء في كلّ لحظة. ولئن كانت العلومُ تتقدّم في تفسيرها والحدّ من فداحة نتائجها، فإنّ الانتصارَ عليها مستحيل. وفي <span class="t-navy">المقام الثاني</span> هناك شيخوخة الجسم البشريّ التّي تحتّم على كلّ إنسان أن تتراجعَ قدراته وصحّته إلى درجات من الألم والعجز، وهو وضعٌ لا يقدر الطبّ على تحرير الإنسان منه. وأخيرًا هناك <span class="t-navy">أشكال التنظيم الحضاري</span> وما تمارسه من قمع للغرائز وما تفرضه من واجبات اجتماعيّة، التّي تحوّل جلّ طاقة الإنسان إلى الدراسة والعمل والزواج والأسرة، فارضة الكبت على الرغبات بعيدًا عمّا ينشده الإنسان من لذّة وحريّة. ونتيجةُ ذلك أنّ أقصى ما يمكن للإنسان أن يحقّقه هو التقليل من الألم في حياته وليس السّعادة. يكتب فرويد " إنّ المصادرَ الثلاثة التّي ينبعُ منها الألمُ الإنسانيّ هي : قوّة الطبيعة الساحقة، وشيخوخة جسمنا بالذات، وعدم كفاية التدابير الرامية إلى تنظيم العلاقات بين البشر."</p>
+<!-- CROP: c4u2 4 0.401 0.515 0.480 0.665 c4u2_schopenhauer -->
+<figure class="fig"><img src="https://wael-philo.b-cdn.net/figs/1043/1043_schopenhauer.png" alt=""></figure>
+<p class="para">▪ أمّا <span class="t-green">العواملُ الذاتية</span> فتتعلّق بطبيعة الرغبات الإنسانيّة مثلما بيّن ذلك <span class="t-blue">أرثور شوبنهاور <span dir="ltr">Arthur Schopenhauer</span></span>، التّي تنطلق جميعها من ألم الحرمان لتتوقَ إلى اللّذة، ولكنّ اللّذة التّي تبلغها تكون مُحبطة دائمًا بسبب قصرها في الزمن ونهاياتها السريعة، عندئذ تنقلبُ الرغبة من عامل شوقٍ للّذة إلى مصدر عامل إحساس بالاحباط والملل. وبذلك تتحوّل حياة الإنسان إلى تأرجح مستمر بين الألم والملل دون أمل في السّعادة. يكتب شوبنهاور " تتأرجحُ الحياة، مثل النّواس من اليمين إلى الشمال، بين الألم والملل."</p>
+
+<p class="subhead t-navy">ب . الفعلُ الأخلاقيّ التزامٌ باحترام الواجب تجسيمًا للفضيلة</p>
+<p class="para"><span class="t-red">إذا كانت السّعادةُ مثالاً خياليًّا من إنشاء الرغبة لا أملَ في تحقيقه، فهل من الممكن أن تتخذ منها الأخلاقُ غايةً لها وأن تجعلها الخيرَ الأسمى الذي تنشد بلوغه ؟</span></p>
+<!-- CROP: c4u2 4 0.029 0.782 0.125 0.952 c4u2_kant2 -->
+<figure class="fig"><img src="https://wael-philo.b-cdn.net/figs/1043/1043_kant2.png" alt=""></figure>
+<p class="subhead">أطروحة الفيلسوف الألماني <span class="t-blue">كانط</span> ( 1724–1804 )</p>
+<div class="data">السّعادةُ بما هو مثالٌ أعلى من إنشاء الخيال يرتبط بالأحاسيس والوضعيّة الخصوصيّة للأفراد يبقى خارجَ مجال الأخلاق التّي تقتضي التحرّر من كلّ تبعيّة تجاه الأحاسيس والأهداف وامتثال لتوجيه العقل وحده بالتصرّف احترامًا للواجب بما هو قاعدة سلوك كونيّة.</div>
+<p class="para">▪ الفعلُ الإنسانيّ لا يكونُ أخلاقيًّا، في نظر كانط، إلاّ إذا كان حرًّا، أي معبّرًا عن استقلال الإرادة من كلّ تبعيّة تجاه العواطف والمصالح والسلطات، عندئذ يُمكن للذات أن تتصرّف احترامًا للواجب بما هو غاية في حدّ ذاته بصيغة أمر قطعيّ " يجبُ عليك ". أمّا السّعادة فهي حالة عاطفيّة لكونها تشترط الإحساس بالرضا والاكتمال والغبطة والسكينة. لذلك يُمثّل اعتبارها غاية للأخلاق عودةً إلى تبعيّة الذات تجاه عواطفها للتصرّف طبقًا لأوامر شرطيّة " إذا أردتَ أن تكون سعيدًا، فيجبُ عليك ..." وهو ما يعد إلغاءً لحريّة الإرادة وتحطيمًا للواجب ولمعنى الأخلاق.</p>
+<p class="para">▪ كما أنّ الفعلَ الأخلاقيّ لا يكون أخلاقيًّا إلاّ إذا كان كونيًّا، أي احترامًا للواجب بما هو قاعدةٌ قابلةٌ لأن تكون قانونًا كونيًّا صالحًا لكلّ الإنسانيّة. أمّا السّعادة فإنّها تشترط تحقيق حالة من الاكتمال تتطلّب إشباع عددٍ غير محدّد من الرغبات والأهداف مثل الصحّة أو الثروة أو طول الحياة أو المعرفة أو الصداقة ...ولكن النّاس لا يستطيعون ضمان تحقيق تلك الأهداف، فلا يكون بلوغها إلاّ جزئيًّا ومتفاوتًا ومؤقتًا ومتغيّرًا. وهذا يتعارضُ مع مقتضى الكونيّة الذي يشترط أن يكون الفعلُ الأخلاقيّ واجبًا على نطاقٍ كونيّ. ولا يتحقّق ذلك إلاّ بجعل احترام الواجب في حدّ ذاته غاية وحيدة للفعل الأخلاقيّ.</p>
+<p class="para">▪ إذن <span class="hl-green">الخيرُ الأسمى الإنسانيّ</span> الذي يكون من المشروع للإنسان أن ينشده في حياته الأخلاقيّة هي الفضيلة وليست السّعادة. فالإنسان لمّا يمتثلُ لأوامر العقل يتحرّر من كلّ تبعيّة ويتصرّف بوازعٍ وحيد وهو احترامُ واجباته بما هي أوامر قطعيّة تشكّلُ غايةً في حدّ ذاتها. يكتب كانط " إنّ جعلَ الإنسان سعيدًا يختلفُ كلّ الاختلاف عن جعله فاضلاً." ويضيف " إنّ مبدأ السّعادة الشخصيّة يُقيمُ الأخلاقَ على دوافع هي بالأحرى تقوّضها وتقضي على ما فيها من عظمة."</p>
+
+<p class="subhead t-navy">ج . الأخلاقُ مشروعُ حياة حاملة للمعنى تجعلُ الإنسان سعيدًا بعيشها</p>
+<p class="para">خلصَ ما سبقَ إلى أنّ السّعادة وهمٌ لا يُمكن للإنسان تحقيقه، وليسَت جديرةً بأن تكون غايةً للالتزام الأخلاقيّ. <span class="t-red">ولكن إلى أيّ حدّ يُمكن الاقتناع بهذه النتيجة ؟ ألاّ تعبّر عن فهميْن معيّنين للأخلاق وللسعادة أدّيا إلى إحداث القطيعة بينهما ؟ إذ هل هل تحافظ الأخلاقُ على معناها بالنسبة إلى الإنسان إنْ لم تمكّنه من بناء حياة حاملة للمعنى جاعلةً منه سعيدًا بعيشها ؟</span></p>
+<!-- CROP: c4u2 4 0.529 0.415 0.632 0.607 c4u2_misrahi -->
+<figure class="fig"><img src="https://wael-philo.b-cdn.net/figs/1043/1043_misrahi.png" alt=""></figure>
+<p class="subhead">أطروحة الفيلسوف المعاصر <span class="t-blue">روبير ميسراهي <span dir="ltr">Robert Misrahi</span></span> ( ولدَ سنة 1926 )</p>
+<div class="data">الأخلاقُ هي تحقيقٌ للانسجام بين الرغبات والفكر يضعُ الإنسان على طريق بناء معنى لحياته مانحًا له السّعادة بما هي حالة مستقرّة ودائمة من البهجة التّي تقومُ على الحلم والإبداع والحبّ.</div>
+<p class="para">▪ ليسَ من الممكن فهمُ الأخلاق بشكل عقلانيّ يُقصي رغباتِ الإنسان وعواطفه وأهدافه النفعيّة ويختزلها في التصرّف احترامًا لواجبات كغاية في حدّ ذاتها باعتبارها كونيّة. إذ يتعيّن على الأخلاق أن تتعاملَ مع الإنسان بكلّ أبعاده المركّبة : فردٌ ومجتمع، عقلٌ وعاطفة، واجب وأهداف ...عندئذ يحسنُ التمييزُ بين <span class="t-green">الأخلاق والاتيقا</span>، من حيث أنّ الأخلاق تهتمّ بالمبادئ الكونيّة التّي يجبُ على كلّ إنسانٍ احترامها والالتزام بها في قراراته وأفعاله، في حين أنّ الاتيقا هي سعيُ كلّ فردٍ إلى الحياة الطيّبة أي حياة تقوم على التعقّل يُكسبها معنى خصوصيًّا ويجعلها مصدرَ سعادةٍ بالنسبة إلى الفرد. عندئذ يتحقّق الانسجام بين الاتيقا والسّعادة. يكتب ميسراهي " يجبُ أن تكون لنا شجاعة السّعادة. "</p>
+<p class="para">▪ تقتضي الاتيقا فعلاً تأسيسيًّا أخلاقيًّا يتمثّل في تحقيق الانسجام التام بين التفكير والرغبة. فالرغباتُ دون تفكير يعقلنها ويوجهها تصبح نزوات مدمّرة لا يُمكن أن تضعَ الإنسان على طريق الأخلاق ونيل السّعادة. وإذا ما نجح الإنسان في ذلك، تبدأ بالنسبة إليه الحياة بشكلٍ أخلاقيّ وبناء السّعادة. إنّ تحقيق الانسجام بين الوعي والرغبة، يكسبُ الإنسان <span class="t-navy">بهجة الحلم</span> : أي أن يرغبَ في عالم أمثلٍ يكون أجمل، فمهما كان الألم والصراع والفشل والعنف والتدمير...فإنّ الرغبة البنّاءة تمنح التفاؤل لتثقَ الذاتُ في إمكانيّة تجاوز كلّ تلك الشرور والانتصار عليها تحقيقًا للمتعة والانسجام والنجاح والسّلام والبناء... وهذا ليست آمالاً في برج عاجيّ بل هي تطلّعاتٌ قابلةٌ للتحقّق في العالم الفعليّ هنا والآن. أمّا البهجة الثانية فهي <span class="t-navy">بهجة الفعل</span>. فمَن يحلمُ يفعلُ أي يُبادرُ ويُبدعُ في مجال حلمه : الأدب، الفلسفة، التعليم، الطبّ، العلم، السياسة، الزراعة، العائلة،...أمّا البهجة الثالثة، فهي <span class="t-navy">بهجةُ الحبّ</span>، أن يحبّ الإنسان نفسه وغيره والحياة بشكل يقوم على العطاء والاستمتاع بفرح الآخرين. بالأخلاق، إذن، بما هي أسلوب حياة يقوم على التعقّل تصبح الرغبة مصدرَ حلم وفعل وحبّ تمنح الإنسان بهجةً دائمة ومستقرّة تكشف عن مدى رضاه عمّا يحقّقه من اكتمالٍ ومعنى في وجوده. يكتب روبير ميسراهي " إنّ البهجة هي المعيشُ الفعليّ الذي يمنحُ للسّعادة أسسها ومضمونها وحياتها، والاتيقا هي السعيُ الفلسفيّ لإعادة بناء الحياة باتجاه تلك البهجة."</p>
+<!-- PROOFREAD: c4u2 p2 — "من خلال الرأي والعام" read as printed (likely "الرأي العام"); "إتفانى" as printed -->
+
+</section>
+
+</div>
+</body>
+</html>

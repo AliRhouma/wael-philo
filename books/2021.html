@@ -1,0 +1,514 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<title>Wael Academy — Philosophie · التواصل و الأنظمة الرمزية</title>
+<script>
+  window.MathJax = {
+    tex: { inlineMath: [['\\(','\\)']], displayMath: [['\\[','\\]']] },
+    chtml: { fontURL: 'https://cdn.jsdelivr.net/npm/mathjax@3/es5/output/chtml/fonts/woff-v2', matchFontHeight: true },
+    startup: { typeset: true }
+  };
+</script>
+<script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js" async></script>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Sora:wght@400;500;600;700;800&family=Cairo:wght@400;500;600;700;800;900&family=Tajawal:wght@400;500;700;800&family=JetBrains+Mono:wght@400;500;600;700&display=swap');
+:root{
+  /* ===== Wael Academy palette — MAIN ACCENT = green-teal gradient #0FAB8F → #067360 ===== */
+  --bg:#fff; --panel:#f2f8f8; --hair:#e6e6e9; --hair2:#d6d6db;
+  --fg:#0f2a31;        /* body text (and +/− signs) */
+  --fg2:#3f5b62;       /* softer text */
+  --fg3:#7c959b;       /* muted (footer) */
+  --blue:#067360;      /* deep accent — small numbers, borders, watermark, accent equations */
+  --blue-dark:#045260; /* titles & wordmarks (also the balance colour) */
+  --teal:#0fab8f;      /* bright accent end */
+  --loop:#0d9c82;      /* logo-loop helper */
+  --orange:#067360;    /* kicker/category labels (gold retired → deep teal) */
+  --red:#f5322f;       /* EXERCISE CHIPS ONLY — never for emphasis */
+  --cream:#e6f3f4; --blue-soft:#e6f3f4;  /* pale teal — callout fill + table sub-row fill */
+  --blue-line:#cde7e4; /* hairline */
+  --sub-ink:#045260;   /* table sub-row text */
+  --grad:linear-gradient(148deg,#0fab8f 0%,#0d9c82 52%,#067360 100%);
+  --mono:'JetBrains Mono',monospace; --latin:'Sora',sans-serif; --ar:'Cairo',sans-serif; --arb:'Tajawal',sans-serif;
+}
+*{box-sizing:border-box;margin:0;padding:0;}
+body{font-family:var(--latin);color:var(--fg);background:#e4e4e7;padding:28px 0;
+     -webkit-print-color-adjust:exact;print-color-adjust:exact;}
+html[dir="rtl"] body{font-family:var(--arb);}
+
+/* ===== brand watermark: REAL text (crisp), full-bleed, repeats per page ===== */
+.wm{position:fixed;inset:0;z-index:0;pointer-events:none;display:flex;
+    align-items:center;justify-content:center;overflow:hidden;
+    -webkit-print-color-adjust:exact;print-color-adjust:exact;}
+.wm span{font-family:var(--mono);font-weight:800;font-size:76.8pt;letter-spacing:.16em;
+    color:var(--blue);opacity:.06;white-space:nowrap;transform:rotate(-54deg);}  /* single diagonal: bottom-left → top-right */
+.wm.mono span{color:#000;opacity:.05;}
+
+/* ===== continuous flow stream (no page border) ===== */
+.flow{width:210mm;margin:0 auto;background:transparent;color:var(--fg);
+      padding-block:16mm 18mm;padding-inline:23mm 14mm;position:relative;}   /* spiral gutter: inline-start(=spine) 23mm / outer 14mm — dir-aware; print margins set in render_flow.py */
+@media screen{ .flow{background:#fff;box-shadow:0 10px 40px rgba(0,0,0,.16);} }
+.flow>*{position:relative;z-index:1;}
+.flow p,.flow li,.flow .data,.flow .note,.flow .ex{break-inside:auto;}
+.flow .fig,.flow figure,.flow img,.flow svg.figsvg,.flow table,.flow tr,.flow .chapdiv,.flow .exh,.flow .qrcard,.flow .meta{break-inside:avoid;}
+.flow h1,.flow h2,.flow h3,.flow .exh,.flow .subhead,.flow .chapdiv{break-after:avoid;}
+.flow img,.flow svg.figsvg{max-width:100%;height:auto;}
+.flow figcaption,.flow .figcap{display:none;}          /* rule 3: no figure captions */
+
+/* ===== front matter + chapters each start on a fresh page ===== */
+.flow .cover{break-after:page;}        /* cover alone on page 1 */
+.flow .toc{break-after:page;}          /* Sommaire alone on the next page */
+.flow .chapter{break-before:page;}
+.flow .chapter:first-of-type{break-before:auto;}
+
+/* ===== cover ===== */
+.cover{padding:14mm 0 8mm;border-bottom:2px solid var(--blue);margin-bottom:6mm;}
+.cover .badge{font-family:var(--mono);font-size:8.5pt;letter-spacing:.28em;text-transform:uppercase;color:var(--orange);margin-bottom:10px;}
+.cover h1{font-family:var(--latin);font-weight:800;font-size:34pt;line-height:1.03;letter-spacing:-.025em;color:var(--blue-dark);}
+.cover .grule{width:120px;height:5px;border-radius:5px;background:var(--grad);margin:14px 0;}
+.cover .sub{font-family:var(--mono);font-size:10pt;letter-spacing:.14em;text-transform:uppercase;color:var(--teal);}
+.cover .auth{font-size:11pt;color:var(--fg2);margin-top:6px;font-weight:600;}
+
+/* ===== table of contents ===== */
+.toc{margin:2mm 0 4mm;}
+.toc h2{font-family:var(--latin);font-weight:800;font-size:15pt;color:var(--blue-dark);margin-bottom:4mm;}
+.toc .trititle{font-family:var(--mono);font-size:8pt;letter-spacing:.2em;text-transform:uppercase;color:var(--orange);margin:4mm 0 2mm;}
+.toc ol{list-style:none;}
+.toc li{display:flex;align-items:baseline;gap:8px;font-size:10pt;padding:2.2px 0;color:var(--fg);line-height:1.4;}
+.toc li .n{font-family:var(--mono);font-weight:700;font-size:9pt;color:var(--blue);min-width:26px;}
+.toc li .dots{flex:1;border-bottom:1px dotted var(--hair2);transform:translateY(-3px);}
+
+/* ===== chapter divider band ===== */
+.chapdiv{margin:0 0 5mm;padding:6mm 16px 5mm;border-radius:12px;background:var(--grad);
+    -webkit-print-color-adjust:exact;print-color-adjust:exact;}   /* green-filled chapter band */
+.chapdiv .cn{font-family:var(--mono);font-size:8.5pt;font-weight:700;letter-spacing:.24em;text-transform:uppercase;color:rgba(255,255,255,.82);margin-bottom:5px;}
+.chapdiv h2{font-family:var(--latin);font-weight:800;font-size:17pt;line-height:1.1;letter-spacing:-.015em;color:#fff;}
+/* conclusion block — same green-filled look as the chapter band */
+.conclusion{background:var(--grad);border-radius:12px;padding:6mm 16px;margin:5mm 0;color:#fff;break-inside:avoid;
+    -webkit-print-color-adjust:exact;print-color-adjust:exact;}
+.conclusion .ck{font-family:var(--mono);font-size:8.5pt;font-weight:700;letter-spacing:.24em;text-transform:uppercase;color:rgba(255,255,255,.82);margin-bottom:6px;}
+.conclusion h3{font-family:var(--latin);font-weight:800;font-size:13pt;line-height:1.2;color:#fff;margin-bottom:4px;}
+.conclusion p,.conclusion li{font-size:10.4pt;line-height:1.7;color:#fff;}
+.conclusion b,.conclusion strong{color:#fff;font-weight:700;}
+
+/* ===== unit header (lesson/exercise) + QR emplacement ===== */
+.exh{display:flex;align-items:center;gap:11px;margin:6mm 0 3mm;}
+.exh .idx{font-family:var(--mono);font-size:9pt;font-weight:600;color:#fff;background:var(--grad);
+    border-radius:6px;padding:4px 11px;letter-spacing:.08em;text-transform:uppercase;
+    -webkit-print-color-adjust:exact;print-color-adjust:exact;}
+.exh .idx.ex{background:var(--red);}   /* exercise chip = red */
+.exh h2{font-family:var(--latin);font-size:14pt;font-weight:700;letter-spacing:-.01em;color:var(--blue-dark);}
+.exh .qrcard{margin-inline-start:auto;flex:0 0 auto;display:flex;flex-direction:column;align-items:center;gap:3px;width:26mm;}
+.qrcard .qrt{font-family:var(--mono);font-size:6.5pt;letter-spacing:.1em;text-transform:uppercase;color:var(--teal);text-align:center;}
+.qrcard .qrslot{width:24mm;height:24mm;padding:1.5mm;background:#fff;border:1px solid var(--blue-line);border-radius:8px;display:flex;align-items:center;justify-content:center;}
+.qrcard .qrslot img,.qrcard .qrslot svg{width:100%;height:100%;display:block;}
+
+/* sub-exercise label when one file holds several exercices */
+.exsub{font-family:var(--latin);font-weight:800;font-size:11.5pt;color:var(--blue-dark);margin:5mm 0 2.5mm;padding-bottom:3px;border-bottom:2px solid var(--blue-line);}
+
+/* ===== text blocks ===== */
+.lead{font-size:11pt;line-height:1.7;margin:2mm 0 3mm;color:var(--fg);}
+.para{font-size:10.6pt;line-height:1.7;margin:2mm 0 2.5mm;color:var(--fg);}
+.consigne{font-size:10.4pt;line-height:1.6;margin:1mm 0 2mm;color:var(--fg);font-style:italic;}
+.subhead{font-family:var(--latin);font-weight:800;font-size:12pt;letter-spacing:-.01em;color:var(--blue-dark);margin:5mm 0 2.5mm;}
+/* emphasis — green accent = .t-blue/.t-green ; balance = .t-navy ; red = SECONDARY accent (.t-red) on titles + a few words */
+.t-blue{color:var(--blue);font-weight:600;} .t-navy{color:var(--blue-dark);font-weight:700;}
+.t-red{color:var(--red);font-weight:600;} .t-green{color:var(--teal);font-weight:600;} .t-gold{color:var(--orange);font-weight:600;}
+.subhead.t-red{color:var(--red);font-weight:800;}   /* red Roman-numeral section title (I, II, …) — keeps subhead weight */
+/* highlighter marks — a soft colour wash behind a key word (agent picks green or red per what balances the page) */
+.hl-green,.hl-red{border-radius:3px;padding:.02em .24em;font-weight:600;box-decoration-break:clone;-webkit-box-decoration-break:clone;
+    -webkit-print-color-adjust:exact;print-color-adjust:exact;}
+.hl-green{background:rgba(15,171,143,.20);color:var(--blue-dark);}   /* green highlight */
+.hl-red{background:rgba(245,50,47,.13);color:#c0261f;}               /* red highlight  */
+
+.data{background:var(--blue-soft);border:1px solid var(--blue-line);border-inline-start:4px solid var(--blue);
+    border-radius:8px;padding:11px 16px;margin:3mm 0;font-size:10pt;line-height:1.65;color:var(--fg2);}
+.data b{color:var(--fg);font-weight:700;}
+.note{border:1px dashed var(--hair2);border-radius:9px;padding:11px 16px;margin:4mm 0;background:var(--panel);}
+.note .kicker{font-family:var(--mono);font-size:7.5pt;letter-spacing:.18em;color:var(--orange);display:block;margin-bottom:5px;}
+.note .nb{font-size:10pt;line-height:1.7;color:var(--fg2);} .note b{color:var(--fg);}
+.ex:not(.idx){background:var(--blue-soft);border:1px solid var(--blue-line);border-inline-start:3px solid var(--blue);
+    border-radius:7px;padding:7px 11px;font-size:9.6pt;line-height:1.6;color:var(--fg2);margin:2mm 0;}   /* :not(.idx) so it never hits the exercise chip (which is .idx.ex) */
+.ex .extag{display:inline-block;font-family:var(--latin);font-weight:800;font-size:7.6pt;color:var(--blue-dark);background:#fff;
+    border:1px solid var(--blue);border-radius:5px;padding:1px 9px;margin-inline-end:7px;vertical-align:middle;text-transform:uppercase;letter-spacing:.06em;}
+
+/* ===== lists ===== */
+ol.q{list-style:none;counter-reset:q;margin:1mm 0 2mm;}
+ol.q>li{counter-increment:q;position:relative;padding-inline-start:30px;margin-bottom:2.5mm;font-size:10.4pt;line-height:1.6;}
+ol.q>li::before{content:counter(q);position:absolute;inset-inline-start:0;top:1px;width:21px;height:21px;background:var(--grad);color:#fff;
+    border-radius:50%;font-family:var(--mono);font-size:9pt;font-weight:600;display:flex;align-items:center;justify-content:center;
+    -webkit-print-color-adjust:exact;print-color-adjust:exact;}
+ol.sub{list-style:none;counter-reset:s;margin:4px 0 0;padding-inline-start:2px;border-inline-start:1px solid var(--blue-line);}
+ol.sub li{counter-increment:s;position:relative;padding:2.5px 0 2.5px 26px;font-size:10.1pt;line-height:1.55;}
+ol.sub li::before{content:counter(s,lower-alpha)".";position:absolute;inset-inline-start:10px;top:2.5px;font-family:var(--mono);font-size:9pt;font-weight:600;color:var(--teal);}
+ol.qn{list-style:none;counter-reset:qn;margin:1mm 0 2mm;}
+ol.qn>li{counter-increment:qn;position:relative;padding-inline-start:26px;margin-bottom:2.2mm;font-size:10.4pt;line-height:1.55;}
+ol.qn>li::before{content:counter(qn)".";position:absolute;inset-inline-start:0;top:0;font-family:var(--mono);font-size:9.5pt;font-weight:700;color:var(--blue);}
+ul.b{list-style:none;margin:1mm 0 2mm;} ul.b>li{position:relative;padding-inline-start:22px;margin-bottom:2.4mm;font-size:10.4pt;line-height:1.6;}
+ul.b>li::before{content:"";position:absolute;inset-inline-start:3px;top:8px;width:8px;height:8px;border-radius:50%;background:var(--grad);
+    -webkit-print-color-adjust:exact;print-color-adjust:exact;}
+ul.dash{list-style:none;margin:1mm 0 2mm;} ul.dash>li{position:relative;padding-inline-start:20px;margin-bottom:1.8mm;font-size:10.4pt;line-height:1.6;}
+ul.dash>li::before{content:"–";position:absolute;inset-inline-start:2px;top:0;color:var(--fg);font-weight:700;}  /* dash / +/− signs = body colour */
+.flow ul.opts{list-style:none;margin:4px 0 3px;padding-inline-start:16px;}
+.flow ul.opts li{padding:2px 0;font-size:10.2pt;line-height:1.5;color:var(--fg);}
+
+/* ===== figures / tables ===== */
+.fig{margin:3mm 0;} .fig svg.figsvg{display:block;margin:0 auto;background:#fff;max-width:100%;height:auto;}
+.photo{display:block;margin:3mm auto;border-radius:8px;border:1px solid var(--hair);max-width:100%;}
+.figrow{display:flex;flex-wrap:wrap;gap:9px;justify-content:center;margin:3mm auto;max-width:190mm;}
+.flow .figrow img{border-radius:7px;border:1px solid var(--hair);height:46mm;width:auto;max-width:none;object-fit:cover;}
+.schemarow{display:flex;gap:16px;align-items:flex-start;flex-wrap:wrap;margin:2mm 0;}
+.schemarow .col-txt{flex:1 1 90mm;min-width:80mm;} .schemarow .col-fig{flex:0 0 78mm;} .schemarow .col-fig .fig{margin:0;}
+.flow table{border-collapse:collapse;width:100%;margin:3mm 0;font-size:9.8pt;line-height:1.5;}
+.flow table th,.flow table td{border:1px solid var(--blue-line);padding:6px 10px;text-align:start;vertical-align:top;}
+.flow table th{background:var(--grad);color:#fff;font-family:var(--latin);font-weight:700;font-size:9.4pt;
+    -webkit-print-color-adjust:exact;print-color-adjust:exact;}
+.flow table tr:nth-child(even) td{background:var(--blue-soft);color:var(--sub-ink);}   /* sub-row: #E6F3F4 / #045260 */
+
+mjx-container{color:var(--fg) !important;font-weight:400 !important;font-size:1.0em !important;}
+.eq-hi mjx-container,mjx-container.eq-hi{color:var(--blue) !important;}   /* accent (green) equation — highlight a key result; balance with plain math */
+.eq-red mjx-container,mjx-container.eq-red{color:var(--red) !important;}  /* red accent equation / symbol — complements the green .eq-hi */
+
+/* ===== per-file books: credit line, copies list, figures at their size ===== */
+.credit{display:flex;flex-wrap:wrap;align-items:center;gap:5px;margin:-1mm 0 3.5mm;font-size:9.4pt;color:var(--fg2);}
+.credit .who{font-weight:700;color:var(--blue-dark);}
+.credit .tg{font-family:var(--mono);font-size:7.2pt;letter-spacing:.04em;border-radius:5px;padding:1px 7px;line-height:1.6;
+    border:1px solid var(--blue-line);color:var(--blue);background:#fff;-webkit-print-color-adjust:exact;print-color-adjust:exact;}
+.credit .tg.sec{background:var(--blue-dark);border-color:var(--blue-dark);color:#fff;}
+.credit .tg.cor{background:#fff;border-color:var(--red);color:var(--red);}
+.credit a{color:var(--fg3);font-family:var(--mono);font-size:7pt;text-decoration:none;}
+.cover .auth .credit{margin:4mm 0 0;}
+.cover .copies{margin-top:5mm;font-size:8.6pt;color:var(--fg2);}
+.cover .copies ul{list-style:none;margin:2mm 0 0;padding:0;columns:2;}
+.cover .copies a{color:var(--fg3);text-decoration:none;font-size:8pt;}
+.flow figure.fig{text-align:center;}
+.flow figure.fig img{max-height:60mm;width:auto;max-width:70%;display:inline-block;}
+
+/* chapter tag on each part of a multi-chapter book (the book keeps the original order of the file) */
+.chtag{display:inline-block;margin:5mm 0 2mm;padding:1mm 3mm;border-radius:2mm;background:#eef3fb;border:1px solid #c9d6ea;
+  color:#1f3a6b;font-size:9pt;font-weight:700}
+.chtag span{color:#6b7f9e;font-weight:600;margin-inline-end:1.5mm}
+
+@media print{ body{background:#fff;padding:0;} .flow{width:auto;max-width:none;margin:0;padding:0;} }
+@page{size:A4;}   /* margins come from render_flow.py — do NOT set them here */
+</style>
+<meta data-pagefind-filter="type[content]" content="درس">
+<meta data-pagefind-filter="resource[content]" content="المصدر غير مذكور">
+<meta data-pagefind-meta="n[content]" content="2021">
+<meta data-pagefind-meta="title[content]" content="التواصل و الأنظمة الرمزية">
+<meta data-pagefind-filter="chapter[content]" content="اللغة والتواصل">
+<meta data-pagefind-filter="section[content]" content="باكالوريا آداب"><style>.qrcard{display:none!important}.wa-nav{position:sticky;top:0;z-index:50;background:#045260;padding:10px 18px;font-family:Cairo,sans-serif;direction:rtl}.wa-nav a{color:#fff;text-decoration:none;font-weight:700}@media print{.wa-nav{display:none}}</style>
+</head>
+
+<body dir="rtl" lang="ar"
+      data-brand="Wael Academy" data-handle="@WaelAcademy"
+      data-tagline="في تُرابنا.. مغامرة بمغامرة"
+      data-phone="+216 50 40 40 42" data-site="waeldocuments.com"
+      data-cta="سجل معانا وأقرى عن بعد مع منصة Wael Academy"
+      data-subject="Philosophie · التواصل و الأنظمة الرمزية" data-watermark="Wael Academy" data-pagefind-body><nav class="wa-nav" data-pagefind-ignore><a href="../index.html">→ الرجوع إلى فهرس الفلسفة</a></nav>
+
+<!-- single full-page diagonal watermark, bottom-left → top-right (repeats on every page) -->
+<div class="wm" aria-hidden="true"><span>WAEL&nbsp;ACADEMY</span></div>
+
+<div class="flow colored">
+<div class="cover"><div class="badge">◉ Wael Academy · Philosophie</div><h1>التواصل و الأنظمة الرمزية</h1><div class="grule"></div><div class="sub">اللغة والتواصل</div><div class="auth"><div class="credit">المؤلّف / المصدر : <span class="who">المصدر غير مذكور في الوثيقة</span> <span class="tg cor">إصلاح</span><span class="tg sec">الفلسفة · باكالوريا آداب</span> <a href="https://drive.google.com/file/d/1KFv9xcs908cvUlyQa9Xwtxi9PayIvVsj/view">↗ IMG_1163.JPG</a> <a href="https://drive.google.com/file/d/1TZHrgFSGN4TQg5cW9Z8U5co29gL9rBqk/view">↗ IMG_1164.JPG</a> <a href="https://drive.google.com/file/d/17Vt73GM8-2DYUIu2xOdxSLdEvsz3cS9C/view">↗ IMG_1165.JPG</a> <a href="https://drive.google.com/file/d/1mWb5x1Uy46l9PiU1aUI1A5yIO1tRu_Cr/view">↗ IMG_1166.JPG</a> <a href="https://drive.google.com/file/d/12aoiD-jy9Qdb5bJixBlr2rmIGU8kxDli/view">↗ IMG_1167.JPG</a> <a href="https://drive.google.com/file/d/19xF56eKx4LOE47JHvn-2Dwo-K3d2vTUi/view">↗ IMG_1168.JPG</a> <a href="https://drive.google.com/file/d/1qs2RFlJmMvGGjE_MGDaYou5BeWIqwImr/view">↗ IMG_1169.JPG</a> <a href="https://drive.google.com/file/d/1EK7mSM_YB0_mmM4dSKAvb6ja2GH66_lf/view">↗ IMG_1170.JPG</a> <a href="https://drive.google.com/file/d/16UIEArfId2RYYXV8X5p968919Et94bJr/view">↗ IMG_1171.JPG</a> <a href="https://drive.google.com/file/d/16Ly4WXMXESd8u1BuWrXOCQm82ZqlSGOs/view">↗ IMG_1172.JPG</a> <a href="https://drive.google.com/file/d/1R9j5N7Bnsc_q7T1TMY6rP85QOm0UgMJb/view">↗ IMG_1173.JPG</a> <a href="https://drive.google.com/file/d/1qu7qsCZh-93pXh-hvi_0DY_bLJblipbI/view">↗ IMG_1174.JPG</a></div></div><div class="copies" data-pagefind-ignore><b>نسخ هذا الملف في الدرايفات (12)</b><ul><li><a href="https://drive.google.com/file/d/1KFv9xcs908cvUlyQa9Xwtxi9PayIvVsj/view">Mohamed Ali Ben Abdallah · Bac lettres › الفلسفة / الإنساني بين الوحدة و الكثرة / التواصل و الأنظمة الرمزية</a></li><li><a href="https://drive.google.com/file/d/1TZHrgFSGN4TQg5cW9Z8U5co29gL9rBqk/view">Mohamed Ali Ben Abdallah · Bac lettres › الفلسفة / الإنساني بين الوحدة و الكثرة / التواصل و الأنظمة الرمزية</a></li><li><a href="https://drive.google.com/file/d/17Vt73GM8-2DYUIu2xOdxSLdEvsz3cS9C/view">Mohamed Ali Ben Abdallah · Bac lettres › الفلسفة / الإنساني بين الوحدة و الكثرة / التواصل و الأنظمة الرمزية</a></li><li><a href="https://drive.google.com/file/d/1mWb5x1Uy46l9PiU1aUI1A5yIO1tRu_Cr/view">Mohamed Ali Ben Abdallah · Bac lettres › الفلسفة / الإنساني بين الوحدة و الكثرة / التواصل و الأنظمة الرمزية</a></li><li><a href="https://drive.google.com/file/d/12aoiD-jy9Qdb5bJixBlr2rmIGU8kxDli/view">Mohamed Ali Ben Abdallah · Bac lettres › الفلسفة / الإنساني بين الوحدة و الكثرة / التواصل و الأنظمة الرمزية</a></li><li><a href="https://drive.google.com/file/d/19xF56eKx4LOE47JHvn-2Dwo-K3d2vTUi/view">Mohamed Ali Ben Abdallah · Bac lettres › الفلسفة / الإنساني بين الوحدة و الكثرة / التواصل و الأنظمة الرمزية</a></li><li><a href="https://drive.google.com/file/d/1qs2RFlJmMvGGjE_MGDaYou5BeWIqwImr/view">Mohamed Ali Ben Abdallah · Bac lettres › الفلسفة / الإنساني بين الوحدة و الكثرة / التواصل و الأنظمة الرمزية</a></li><li><a href="https://drive.google.com/file/d/1EK7mSM_YB0_mmM4dSKAvb6ja2GH66_lf/view">Mohamed Ali Ben Abdallah · Bac lettres › الفلسفة / الإنساني بين الوحدة و الكثرة / التواصل و الأنظمة الرمزية</a></li><li><a href="https://drive.google.com/file/d/16UIEArfId2RYYXV8X5p968919Et94bJr/view">Mohamed Ali Ben Abdallah · Bac lettres › الفلسفة / الإنساني بين الوحدة و الكثرة / التواصل و الأنظمة الرمزية</a></li><li><a href="https://drive.google.com/file/d/16Ly4WXMXESd8u1BuWrXOCQm82ZqlSGOs/view">Mohamed Ali Ben Abdallah · Bac lettres › الفلسفة / الإنساني بين الوحدة و الكثرة / التواصل و الأنظمة الرمزية</a></li><li><a href="https://drive.google.com/file/d/1R9j5N7Bnsc_q7T1TMY6rP85QOm0UgMJb/view">Mohamed Ali Ben Abdallah · Bac lettres › الفلسفة / الإنساني بين الوحدة و الكثرة / التواصل و الأنظمة الرمزية</a></li><li><a href="https://drive.google.com/file/d/1qu7qsCZh-93pXh-hvi_0DY_bLJblipbI/view">Mohamed Ali Ben Abdallah · Bac lettres › الفلسفة / الإنساني بين الوحدة و الكثرة / التواصل و الأنظمة الرمزية</a></li></ul></div></div>
+<section class="chapter"><div class="chapdiv"><div class="cn">المحور</div><h2>اللغة والتواصل</h2></div>
+<!-- NOTE: one book for 12 files of the Drive folder "الفلسفة / الإنساني بين الوحدة و الكثرة / التواصل و الأنظمة الرمزية" (photo), in file order -->
+<div class="exh"><span class="idx">درس</span><h2>التواصل و الأنظمة الرمزية</h2>
+  <div class="qrcard"><div class="qrt">فيديو الدرس</div><div class="qrslot"><img src="qr/2021.svg" alt="QR"></div></div></div>
+<div class="credit">المؤلّف / المصدر : <span class="who">المصدر غير مذكور في الوثيقة</span> <span class="tg cor">إصلاح</span><span class="tg sec">الفلسفة · باكالوريا آداب</span> <a href="https://drive.google.com/file/d/1KFv9xcs908cvUlyQa9Xwtxi9PayIvVsj/view">↗ IMG_1163.JPG</a> <a href="https://drive.google.com/file/d/1TZHrgFSGN4TQg5cW9Z8U5co29gL9rBqk/view">↗ IMG_1164.JPG</a> <a href="https://drive.google.com/file/d/17Vt73GM8-2DYUIu2xOdxSLdEvsz3cS9C/view">↗ IMG_1165.JPG</a> <a href="https://drive.google.com/file/d/1mWb5x1Uy46l9PiU1aUI1A5yIO1tRu_Cr/view">↗ IMG_1166.JPG</a> <a href="https://drive.google.com/file/d/12aoiD-jy9Qdb5bJixBlr2rmIGU8kxDli/view">↗ IMG_1167.JPG</a> <a href="https://drive.google.com/file/d/19xF56eKx4LOE47JHvn-2Dwo-K3d2vTUi/view">↗ IMG_1168.JPG</a> <a href="https://drive.google.com/file/d/1qs2RFlJmMvGGjE_MGDaYou5BeWIqwImr/view">↗ IMG_1169.JPG</a> <a href="https://drive.google.com/file/d/1EK7mSM_YB0_mmM4dSKAvb6ja2GH66_lf/view">↗ IMG_1170.JPG</a> <a href="https://drive.google.com/file/d/16UIEArfId2RYYXV8X5p968919Et94bJr/view">↗ IMG_1171.JPG</a> <a href="https://drive.google.com/file/d/16Ly4WXMXESd8u1BuWrXOCQm82ZqlSGOs/view">↗ IMG_1172.JPG</a> <a href="https://drive.google.com/file/d/1R9j5N7Bnsc_q7T1TMY6rP85QOm0UgMJb/view">↗ IMG_1173.JPG</a> <a href="https://drive.google.com/file/d/1qu7qsCZh-93pXh-hvi_0DY_bLJblipbI/view">↗ IMG_1174.JPG</a></div>
+
+<!-- file: IMG_1163 -->
+
+
+<p class="para">الدلالة السيميولوجيّة (علم الدلالة والمعنى)</p>
+<p class="subhead t-red">التواصل والأنظمة الرمزيّة</p>
+<p class="para">إنّ الإنسان كائن <span class="t-blue">المعيّة</span> بامتياز أي أنّه كائن <span class="t-blue">علائقي</span> وهذا ما يؤكده هايدغر.</p>
+<!-- PROOFREAD: 2021 part1 p01 — "هايدغر" (name written small, letters unclear) -->
+<p class="para">← <span class="t-blue">التواصل</span>: وهو علاقة بين طرفين أو أكثر، صفة <u>إنسانيّة</u> بامتياز أي تحتاج هذه العمليّة التواصل <u>تفاعلا</u><br>يتمثّل في الإبلاغ والإخبار والتبليغ وهي صفة <u>لسانيّة فطريّة</u> في الإنسان بل يحتاجه.</p>
+<!-- PROOFREAD: 2021 part1 p01 — "بل يحتاجه" (end of line unclear) -->
+<p class="para">← <span class="t-blue">الأنظمة الرمزيّة</span>: وهي وسائط <u>مصطنعة</u> من قبل الإنسان بغية التواصل وهي عمليّة هدف الماء في المادّة<br>ومنها <u>الدلالة</u>. إنّها الوسيلة التواصليّة بين الأنا والآخر يحتاجها الإنسان لإثبات دوره كسيّد على العالم.<br>وتعتبر هذه الأنظمة متعدّدة: ← لساني: اللغة.<br>← أنثروبولوجي: المقدّس والأسطورة.<br>← السيميولوجي: الصورة.</p>
+<!-- PROOFREAD: 2021 part1 p01 — "هدف الماء في المادّة" (words after "عمليّة" unclear) -->
+<p class="para">⇐ الإنسان كائن رامز لأنّ إبداع الإنسان للرمز هو إثبات لوجوده في الكون وبسط نفوذه والسيطرة على الطبيعة.<br>فهو الخطّ الفاصل بين الإنسان والحيوان أي البعد البيولوجي والطبيعي الوجودي.<br>فعالم الإنسان ليس العالم البيولوجي العضوي بل هو العالم المتميّز بصفة الترميز.<br>والرمز هو فعل منح الدلالة والأشياء بالمعاني والإنسان من الثالث الطبيعيّة أي أنّه الحلقة الثالثة / أي<br>الحلقة العضويّة الوسيطة.</p>
+<!-- PROOFREAD: 2021 part1 p01 — "لأنّ إبداع" / "وبسط نفوذه" / "والأشياء بالمعاني" / "من الثالث الطبيعيّة" / "الوسيطة" (handwriting unclear) -->
+<p class="para">⇐ توسيع ذاكرة الإنسان من خلال سلسلة رمزيّة تلحق بها الإنسان فهو بصدد إنجاز عالم جديد وواقع ذاتي.</p>
+<p class="para">⇐ الرمز من فعل خالق للإنسان وهو خارج عن العالم الموضوعي، المادّي، الطبيعي والتجريبي.</p>
+<!-- PROOFREAD: 2021 part1 p01 — "تلحق بها" (unclear) -->
+<!-- file: IMG_1164 -->
+
+
+<p class="subhead t-blue">في تعدد الوسائط الرمزية كفعل تواصلي لإثبات قيمة الإنسان وقدرته وفاعليته.</p>
+<table>
+<tr><th><span class="t-red">الرمز اللساني : اللغة.</span></th><th><span class="t-red">الرمز الأنثروبولوجي : المقدس والأسطورة.</span></th><th><span class="t-red">الرمز السيميولوجي : الصورة.</span></th></tr>
+<tr><td>اللغة وسيط بين : الإنسان وذاته.<br>الإنسان والعالم.<br>الإنسان والآخر<br>فاللغة منزلة أنطولوجية فهي<br>الإنسان في الإنسان، هي قادرة على<br>استيفاء حقيقة الذات فهي ليست قولا<br>مافي الوجود أو تعبيرا على الفكر بل هي الفكر<br>ذاته والوجود عينه.<br>⇐ العالم الحق هو العالم اللغوي أين يقوم<br>الإنسان <span class="t-blue">باستبدال الأشياء المادية بعلامات</span><br><span class="t-blue">ورموز لسانية</span> خاصة به.<br>وينقسم الرمز اللساني إلى<br><span class="t-red">اللغة:</span> هي القدرة على التعبير والتواصل من<br>خلال طاقة التفكير الرمزي أي بعث<br>الحياة في العالم ووعيه للوجود.<br><span class="t-red">اللسان:</span> تجلي اللغة في كثرة الألسن، وهي<br>طريقة المجتمع في التواصل فهي هوية<br>وخصوصية ثقافية.<br><span class="t-red">الكلام:</span> هي طريقة الفرد في استعمال اللسان.<br>⇐ اللغة إنسانية صرفة.<br>إنّ اللغة كوسيط بين الذات وذاتها<br>تنفي السمو الماهوي للإنسان وإكتمال<br>الذات بذاتها.<br><span class="t-blue">↲ البعد التواصلي للإنية.<br>↲ اللغة أداة تواصل وحوار وتفاهم.<br>↲ الإنتقال من العالم الطبيعي الوحشي العام<br>إلى عالم الإنساني أي اللغة تواصل وتجاوز</span></td>
+<td>• <span class="t-green">الأسطورة:</span> هي أولى محاولات الإنسان<br>في إقامة علاقة مع الكون أي العالم<br>عبر محاولة <span class="t-red">فهمه وتفسيره وتأويله.</span><br>↲ رغبة الإنسان في الكشف والوجود رفضا<br>لكل أشكال العشوائية.<br>والأسطورة تتجاوز المعطى المرئي<br>المحسوس المباشر ببعث وجود<br>لا مرئي خيالي بهدف التفسير السببي.<br>⇐ الأسطورة نظام تفسيري للعالم ومرد<br>الكثرة والكل إلى نظام الوحدة.<br>• <span class="t-green">المقدس:</span><br>هو خاصية كونية لازمة الإنسان منذ<br>الأزل ⇐ <span class="t-blue">حاجة متأصلة في الإنسان.</span><br>والمقدس هو تلك الحالة من الخضوع<br>والإجلال لقوة مطلقة تخضع الإنسان.<br>إن المقدس ليس مبدأ تفسيري للكون.<br>يتجلى المقدس من خلال طقوس دينية<br><span class="t-blue">⇐ توحد الإنسان بالإنسان من خلال جمع جميع<br>الأفراد والأجناس تحت شعائر دينية واحدة<br>ونظرة تفسيرية كلية شمولية للكون والوجود.</span><br>إن المقدس هو الوصل مع عالم مجهول<br>غير مرئي مستور لا ينتمي لوجودنا<br>المدنس الفاني الدنيوي والزائف.<br>ما يدفع الإنسان لـ:<br>+ <span class="t-red">وظيفة تفسيرية</span>: تفسير<br>الإنسان لأصل الوجود.<br>+ <span class="t-red">وظيفة عملية</span>: العمل على تحقيق</td>
+<td>• إن الصورة حضور في تاريخ الإنسان<br>منذ الأزل في عصوره المختلفة<br>ولكن خاصة في عصرنا اليوم وما يسمى<br><span class="t-green">مجتمع المشهد، عصر الصورة، عصر الشاشة،<br>الفيسبوك، سناب</span><br><span class="t-red">↲</span> هو مجتمع الفرجة.<br><span class="t-red">↲</span> لأن إدراك الحقيقة يكون عبر إدراك<br><span class="t-green">المرئي ومعاينة الواقع معاينة حية بصرية.</span><br><span class="t-red">*</span> التسليم بالحقائق المطلقة.<br><span class="t-red">•</span> مع اختلاف التباين البشري تأتي<br>الصورة لتوحد الإنسان:<br>+ في العصر البدائي: تحقق الوظيفة<br>التواصلية بين البشر عبر منظومة الفن<br>للتعبير والتسجيل حيثيات الواقع عبر<br>الحفريات والنقوش واللغات القائمة<br>على الكهوف كالصينية والعبرية وغيرها.<br>+ في العصر الحالي: هي تأسيس للتواصل<br>بين مختلف الثقافات والعقائد<br>والعادات بين مختلف الأقليات في<br>العالم.<br><span class="t-red">↲ العالم أضحى قرية متصلة</span><br>لا نعني بالصورة التكتلات العولمية<br>والتقنية بل هي <span class="t-green">رؤية شاملة للعالم</span><br>عبر فهمه وإعادة تشكيله كما<br>أنها اكتشاف للآخر وانفتاح على<br>مختلف الثقافات والحضارات.</td></tr>
+</table>
+<!-- PROOFREAD: 2022 part1 p01 — title line: "كفعل تواصلي لإثبات قيمة" (h2 above still holds the old sideways reading) -->
+<!-- PROOFREAD: 2022 part1 p01 — column 1: "استيفاء", "مافي الوجود أو تعبيرا على الفكر", "طاقة التفكير الرمزي", "تنفي السمو الماهوي للإنسان وإكتمال", "الوحشي العام", "إلى عالم الإنساني أي اللغة تواصل وتجاوز" -->
+<!-- PROOFREAD: 2022 part1 p01 — column 2: "ومرد", "الكثرة والكل", "كونية لازمة", "ليس مبدأ", "جمع جميع", "عالم مجهول", "والزائف", "تحقيق" (end of cell, word may continue) -->
+<!-- PROOFREAD: 2022 part1 p01 — column 3: "حضور في تاريخ", "الفيسبوك، سناب", "حية بصرية", "التباين البشري", "منظومة الفن", "حيثيات", "القائمة", "الكهوف", "تأسيس", "العالم أضحى قرية متصلة", "التكتلات العولمية" -->
+<!-- file: IMG_1165 -->
+
+
+<!-- NOTE: entirely handwritten page in three columns (read right to left); transcribed column by column -->
+<p class="subhead t-navy"><span class="t-blue">الأصل الوجود.</span></p>
+<!-- PROOFREAD: 2023 part1 p01 — "الأصل الوجود" small blue heading, reading uncertain -->
+<p class="para">إن الوجود دائم التغير وينفي هذا القول بتنوع واختلاف الثقافات ونمط العيش عند مختلف المجتمعات ورفض القول بوحدانية ثقافة ما أو التفاضل بين الألسن .</p>
+<!-- PROOFREAD: 2023 part1 p01 — "وينفي هذا القول" uncertain -->
+<p class="para">⇐ إن التعدد اللساني يعبر عن الوجود الإنساني .</p>
+<p class="para">⇐ اللغة محدد جوهري وانبثاق الوجود الإنساني .</p>
+<p class="para">⇐ اللغة ليست مجرد نقل فكري بل هي الفكر عينه .</p>
+<p class="para">⇐ اللغة مسكن الكينونة بالتعبير الهيدغري .</p>
+<p class="para">أصل الوجود الإنساني وكشف عن هاجس المعنى أي المآتي والمآل .</p>
+<p class="para">فيستمد الإنسان قيمه وسلوكه بالعودة إلى المقدس لكونه المؤسسة الاجتماعية الأخلاقية <span class="t-red">فيحاكي الإنسان المسلك الإلهي</span> .</p>
+<p class="para">⇐ إن المقدس يمنح الإنسان منزلة أنطولوجية فينفي عنه الوجود العبثي .</p>
+<p class="para">⇐ للمقدس أهمية ومكانة أنطولوجية لتحديد وظيفة الإنسان بالكون تماما كالعلم فلا تفاضل بينهما فكلاهما يشكلان عالما يضفي معنى وجودي للإنسان ويمنحه تفسيرا سببيا .</p>
+<p class="para">• إن نظام الصورة تثبيت الآني وحضور دائم في خضم التاريخ</p>
+<p class="para">← هي تفوق <span class="t-red">رمزي</span> على الموت .</p>
+<p class="para">← تثبيت الآني وجعله متمثلا من زاوية الوجود .</p>
+<!-- PROOFREAD: 2023 part1 p01 — "من زاوية الوجود" uncertain -->
+<p class="para">← إن الصورة هي رغبة في مغالبة الموت ورغبة في الخلود والتخليد .</p>
+<p class="para">← إن الصورة أداة تواصل وتواصل</p>
+<!-- PROOFREAD: 2023 part1 p01 — "أداة تواصل وتواصل" first word after أداة uncertain -->
+<p class="para">← الصورة إرساء لإرادة الإنسان وشاهد على كينونته في الزمان والتاريخ</p>
+<!-- PROOFREAD: 2023 part1 p01 — "وشاهد على كينونته في الزمان" uncertain -->
+<p class="para">← إن الصورة انفتاح على الآني المختلف .</p>
+<p class="para">← إن عصر اليوم هو عصر الصورة بامتياز .</p>
+<!-- file: IMG_1166 -->
+
+
+<p class="subhead t-red">- الوسائط الرمزية بنى مستقلة : -<br>- تمارس سلطة بنيوية ورمزية -</p>
+<p class="para">⇐ إن المقاربات الفلسفية ذهبت إلى أن الوسائط الرمزية هي تعبير عن البعد التواصلي للإنسان وأنها سلاحه في الكون لخلق عالمه المخالف للطبيعة الخام الوحشية عبر بعث المعنى في الوجود تعبيرا عن قدرته وأساس سلطته .</p>
+<p class="para">⇐ إلا أن المقاربات البنيوية المنظومات الرمزية ، تأتي لتهدم هذا التصور فتعتبر الوسائط الرمزية بنى مستقلة بذاتها لها وجودها الموضوعي سابقا دونما إرادة منبثقة عن الإنسان وهي تصبح لعبته وتشكل فكره قدرته التنظيمية السببية . <span class="t-green">وهي تفوق علمي .</span></p>
+<!-- PROOFREAD: 2024 part1 p01 — "المنظومات" (after البنيوية), "دونما إرادة", "وهي تصبح لعبته وتشكل فكره" uncertain -->
+<table>
+<tr><th><span class="t-red">البعد اللساني :</span></th><th><span class="t-red">~ البعد الأنثروبولوجي ~</span></th><th><span class="t-red">~ البعد السيميولوجي ~</span></th></tr>
+<tr><td>
+<p class="para">تكف اللغة عن أن تكون قدرة تواصلية لتصبح أداة هيمنة و سلطة وتشييء وموضعة وإقصاء وصف الكون هو كون بنيوي أي أن اللغة تنطوي في بنيتها سلطانا على ما يعطلها عن وظيفتها التواصلية ، فتصبح محوا للذات وانصهارها في كلي لساني وكأن ذات الإنسان مغتربة ضائعة .</p>
+<!-- PROOFREAD: 2024 part1 p01 — "تكف اللغة عن", "وموضعة", "وصف الكون هو كون", "سلطانا على ما يعطلها عن" uncertain -->
+<p class="para">← إن اللغة ونسقها تتكون من العلامة اللسانية .</p>
+<ul class="dash">
+<li><span class="t-red">دال</span> : صوت<br>تحمله في كيفية موسيقى نغم المتكلم المونولوج .</li>
+<li><span class="t-red">مدلول</span> : المفهوم<br>المعنى الماهوي .</li>
+</ul>
+<!-- PROOFREAD: 2024 part1 p01 — دال / مدلول branch: "صوت", "تحمله في كيفية موسيقى نغم", "المعنى الماهوي" uncertain -->
+</td><td>
+<p class="para">إن البنيوية إثبات لاستقلال الرمز الأنثروبولوجي كبنية رمزية في الثقافات ، فبيان ما أصبحت الأسطورة والمقدس <span class="t-red">شرط وجود الإنسان .</span></p>
+<!-- PROOFREAD: 2024 part1 p01 — "إثبات" is written as an insertion between the lines (position uncertain); "فبيان" uncertain -->
+<p class="para">إن تجربة الإنسان الدينية والمثل العليا التي وظفها في الأسطورة إن هي إلا انعكاس لمعاناته مضطهدة في بعدها المثالي .</p>
+<!-- PROOFREAD: 2024 part1 p01 — "لمعاناته مضطهدة" uncertain -->
+<p class="para">• تقدم الأسطورة والدين الوجود الإنساني هو وجود مقدس وتطبيقه أوجب التفكير عنها .</p>
+<!-- PROOFREAD: 2024 part1 p01 — "وتطبيقه أوجب" uncertain -->
+<p class="para">• إن الدين والأسطورة أصبحت من "فلسفات" موت الإنسان . • في أقصى أشكال اغتراب الإنسان .</p>
+<p class="para">• إن البعد الأنثروبولوجي يبعث شقا في العالم الإنساني ليحدث ثنائية في</p>
+<!-- PROOFREAD: 2024 part1 p01 — "يبعث شقا" uncertain -->
+</td><td>
+<p class="para">• إن الصورة استحضار لعالم السحر ووهمه . لـ ممارسة بنيوية الهدم والإيهام ، بتعميمه الشيء .</p>
+<!-- PROOFREAD: 2024 part1 p01 — column title "السيميولوجي" and "لـ ممارسة بنيوية الهدم والإيهام ، بتعميمه" uncertain -->
+<p class="para">⇐ مهما كانت الصورة بليغة فإنها عاجزة عن تمثيل الواقع : <span class="t-green">الواقع ← حي .<br>الصورة ← جامدة .</span></p>
+<p class="para">⇐ الصورة تجريبية لا تعكس الحقيقة .</p>
+<p class="para">• إن الصورة في طرحها لفكرة تفرضه مباشرة ودفعة واحدة على الإنسان فيتقبلها دون التفكير فيها أو تحليلها ونقدها .</p>
+<p class="para">⇐ إن الصورة تلغي البعد التعبيري .</p>
+<!-- PROOFREAD: 2024 part1 p01 — "تلغي البعد التعبيري" uncertain -->
+<p class="para">⇐ الصورة شل للفكر .</p>
+<p class="para">• يتعلق الإنسان بصورته المثالية فينسى جوانبه الأخرى ويصبح محاكيا للمثالية</p>
+</td></tr>
+</table>
+<!-- file: IMG_1167 -->
+
+
+<!-- NOTE: entirely handwritten page in three columns (read right to left); transcribed column by column -->
+<p class="para">⇐ إن اللغة ملتبسة بنا التباسا .</p>
+<!-- PROOFREAD: 2025 part1 p01 — "ملتبسة بنا التباسا" uncertain -->
+<p class="para">⇐ إن اللغة لا تقول الذات ولا تعبر عن الآخر ولا العالم .</p>
+<p class="para">⇐ إن اللغة لا خارج لها تتكلم الإنسان .</p>
+<p class="para">في ثنائية المقدس والمدنس ، المحبوب والمحظور والممنوع المحرم . فتتحقق الذات الإنسانية وتنشأ وظيفته الوجودية .</p>
+<!-- PROOFREAD: 2025 part1 p01 — "المحبوب" and "وظيفته الوجودية" uncertain -->
+<p class="para"><span class="t-red">+</span> بالعودة إلى العلاقة القائمة بين المقدس والمجتمع بوصفه ممارسة نجد أن المقدس يستمد قوته من الشعور الاجتماعي ببعض الأشكال الرمزية ولكن غايتها التواصل بل الإخضاع والتحكم والإخضاع .</p>
+<!-- PROOFREAD: 2025 part1 p01 — "ببعض الأشكال الرمزية ولكن" uncertain -->
+<p class="para">← إن البعد الأنثروبولوجي ليس سلطة الإنسان في الكون بل هو سلطة تمارس عليه .</p>
+<p class="para">← إن البعد المقدس والأسطوري تحمل قوة تأثير وإخضاع للإنسان .</p>
+<p class="para">ومعنى ، فتصبح حقيقة الإنسان وواقعه من باب الوهم والصورة وبذلك لا تصبح حقيقة وواقعا</p>
+<p class="para">⇐ الصورة سلطة تسلب الإنسان هويته .</p>
+<!-- PROOFREAD: 2025 part1 p01 — "تسلب الإنسان" second word uncertain -->
+<!-- file: IMG_1168 -->
+
+
+<p class="subhead t-gold">- التوظيف الإيديولوجي للوسائط الرمزية -</p>
+<p class="para">• <span class="t-red">البعد اللساني :</span> لكل لغة لسان ، واللسان هو البعد الأنثروبولوجي للغة ، فهو مؤسسة اجتماعية وسنن من القيم التي تُفرض على الأفراد . وكل لسان محكوم بجملة من القوانين تضعها مجموعة للتحكم بالأغلبية حسب مصالح حاكمة .</p>
+<!-- PROOFREAD: 2026 part1 p01 — "وسنن من القيم التي تفرض" uncertain -->
+<p class="para">لـ كل لسان هو انعكاس لحضارة مجتمع أو فكر معين يمثل سلطة رقابة .</p>
+<!-- PROOFREAD: 2026 part1 p01 — "لحضارة" uncertain -->
+<p class="para">لـ اللسان ينبع من الذين لهم الغلبة والهيمنة ، فهو ظاهرة إلزامية ، قهرية ، فاشية . وإن اللسان بطابعه فاشيستي ، هو فعل الإكراه والجبر فالإنسان أسير لما هو موجود سابقا في بنية اللسان أي أنه يكرس <span class="t-green">للاغتراب الاستلابي</span> أي تكريس الاغتراب وعدم الوعي به .</p>
+<!-- PROOFREAD: 2026 part1 p01 — "فاشيستي", "فالإنسان أسير", "للاغتراب الاستلابي" uncertain -->
+<p class="para">لـ إن اللغة سلطة تستغل وتوظف في السلطة الاجتماعية والسياسية .</p>
+<p class="para">لـ غايتها الإخضاع والتوجيه والقمع . فالتعصب ورفض الاختلاف والإقرار بالأحكام المسبقة والإيمان بالحقيقة المطلقة هي ما تأتي في اللغة فتجعل منها أداة توجيه الشعوب .</p>
+<!-- PROOFREAD: 2026 part1 p01 — "والإقرار" and "هي ما تأتي في اللغة" uncertain -->
+<p class="para">⇐ إن سلطة الخطاب تستمد من المخاطب لا الخطاب ذاته .</p>
+<p class="para">⇐ إن اللغة تحت رحمة سلطة معينة ووجهة أدلجها .</p>
+<!-- PROOFREAD: 2026 part1 p01 — "ووجهة أدلجها" uncertain -->
+<p class="para">• <span class="t-red">البعد الأنثروبولوجي :</span></p>
+<p class="para">لا طالما كان البعد الأنثروبولوجي موضوع نزاع وشقاء .</p>
+<p class="para">لـ هو موضوع اختلاف توجبه الصراعات الدينية التي توجهها طبقة اجتماعية عليا .</p>
+<!-- PROOFREAD: 2026 part1 p01 — "توجبه" uncertain -->
+<p class="para">إن التعصب الديني هو تسميم للأفكار ودفعهم نحو الاقتتال</p>
+<p class="para">• <span class="t-red">الدين عائق للتواصل مع العالم :</span> + إرجاع الظواهر الطبيعية <span class="t-green">لقوى ماورائية ما يمنع الإنسان من تفسيرها وفهمها .</span></p>
+<p class="para">+ منع الناس من فهم <span class="t-green">وبلوغ الحقيقة خوفا من التمرد والخروج عن سلطة المنظمة الدينية .</span></p>
+<p class="para">+ أصبح الدين عاملا لتحمل الآلام والمظالم والأوضاع السيئة بدعوى الكفر المعاصي والخروج عن الطاعة الإلهية .</p>
+<!-- PROOFREAD: 2026 part1 p01 — "بدعوى الكفر" uncertain -->
+<p class="para">• <span class="t-red">الدين عائق للتواصل بين الذات وذاتها :</span> <span class="t-green">• التعصب الديني :</span> تكريس صورة نمطية للشخصية السوية تنفي ميولاتها ورغباتها وتكبتها <span class="t-green">⇐ عدم التكيف مع الواقع .</span> + الزهد في الحياة وملذاتها طلبا لعالم خيالي آخر مفارق .</p>
+<p class="para">• <span class="t-red">الدين عائق تواصلي مع الآخر :</span> أصبح الدين حالة من التعصب الجماعي فيصبح مذهب جماعة حق ومذهب الآخر باطلا <span class="t-green">+</span> الاقتتال مع الآخر كونه لا يتقاسم نفس المذهب والمرجعية الدينية + إن الدين أصبح رفضا للآخر الحضاري المختلف ما يؤجج الصراعات والتصادم .</p>
+<!-- PROOFREAD: 2026 part1 p01 — "الحضاري" uncertain -->
+<!-- file: IMG_1169 -->
+
+
+<p class="subhead t-red">• البعد السيميولوجي :</p>
+<!-- PROOFREAD: 2027 part1 p01 — heading "السيميولوجي" uncertain -->
+<p class="para">+ إن الصورة تعيق التواصل فهي أداة ناجعة لتضليل العقول وتوجيه الشعوب :</p>
+<p class="para">لـ <span class="t-green">مدى انفتاح الصورة على الواقع :</span> إن مستخدمي الصورة يشوهون الواقع ويحجبون الحقيقة .</p>
+<p class="para">لـ اختزال الفكر في مشهد يصبح نمطي ، فيصبح الفكر <span class="t-green">عاجزا</span> عن التحرر والخروج عن الثنائية التي وضعتها الصورة له .</p>
+<p class="para">⇐ <span class="t-green">تجاهل الحقيقة وتشويه الوعي .</span> اختزال العناصر العربية في صورة الشهوة والفوضى والعبارة الساذجة . ← هذه يؤمنها من قبل العرب أنفسهم .</p>
+<!-- PROOFREAD: 2027 part1 p01 — "العناصر", "الشهوة", "والعبارة الساذجة", "هذه يؤمنها" uncertain -->
+<p class="para">تكريس سلطة الرجل الأبيض كونه البطل ومصدر الحضارة والتحضر ورمز الفكر والعقل .</p>
+<!-- PROOFREAD: 2027 part1 p01 — "الحضارة والتحضر" uncertain -->
+<p class="para">+ إن الصورة وسيلة <span class="t-red">المجتمع الرأسمالي</span> في إنتاج صور مثالية وتكريس نمط عيش <span class="t-red">استهلاكي</span> :</p>
+<p class="para">لـ بتعبير ماركوز إن الصورة هي عملية خلق الوعي الاستهلاكي السعيد .</p>
+<p class="para">لـ إن الصورة أصبحت وسيلة المؤسسات المالية لتعبئة جيوبها عبر بيع أسطورة السعادة :</p>
+<p class="para">لـ شراء واستهلاك منتج معين هو ما سيجعل المستهلك سعيدا .</p>
+<p class="para">لـ يتم استخدام الصورة كوسيلة لكسب ثقة المشاهد فالصورة <span class="t-red">تنتج المعرفة وتكونها .</span></p>
+<p class="para">لـ جعل الطبقات المسحوقة في ضرب من التصديق بالمساواة بينها وبين مستغليها في نظام رأسمالي لتصبح هذه الطبقات تكريسا للنظام .</p>
+<p class="para">لـ إن الصورة محاولة لتكريس صور مثالية ونماذج وهمية فهي <span class="t-red">تحجب العالم :</span></p>
+<p class="para">لـ تشويه وتشييء صورة المرأة وسلعنتها للترويج لمختلف المنتجات .</p>
+<p class="para">لـ ما تقدمه الصورة التلفزيونية عن نمط العيش العائلي الأمريكي المثالي .</p>
+<p class="para">← الصورة حمالة لإغراءات ورغبات تضفي عليها المشاهد طابعا حسيا .</p>
+<!-- PROOFREAD: 2027 part1 p01 — "طابعا حسيا" uncertain -->
+<p class="para">← إن الصورة هي الحجة الأقوى في ظل النظام العنكبوتي الآلي فأصبحنا نتجاهل خطابات الحقيقة وننكر المبادئ والقيم ولكن لا يمكننا إنكار الصورة أو المرئي .</p>
+<!-- PROOFREAD: 2027 part1 p01 — "النظام العنكبوتي الآلي" and "أو المرئي" uncertain -->
+<p class="para">← الصورة : إيديولوجيا بل إيديولوجيتنا . هي حمالة لجملة من المفارقات : تجعلنا نفكر كي لا نرى العالم ، الصورة في فكر نمطي وهي عائق التفكير والمعرفة ، الصورة إقصاء العقل وإنكاره وفصام منه .</p>
+<p class="para">← إن الصورة تنطلق من الأفكار التي تحقق أهدافنا وتشغلنا كي لا تجعلنا نفكر .</p>
+<!-- PROOFREAD: 2027 part1 p01 — "أهدافنا وتشغلنا" uncertain -->
+<!-- file: IMG_1170 -->
+
+
+<!-- NOTE: entirely handwritten page; blue highlighter over two words of the handwriting left out -->
+<p class="subhead t-navy"><span class="t-red">الخضوع للصورة يؤدي إلى مخاطر</span></p>
+<p class="para">← معرفية : إلغاء العقل المنتج على الصورة + تغييب المنهج القائم على الاستدلال والشك + الاعتماد على معارف عامة لا عقلية (الحكي) + تغييب النزعة النقدية التحليلية + العجز عن إدراك الحقيقة .</p>
+<!-- PROOFREAD: 2028 part1 p01 — "إلغاء العقل المنتج" and "(الحكي)" uncertain -->
+<p class="para">← أخلاقية : فرض نموذج أخلاقي معمم طامس للاختلاف + تشييئ مفهوم السعادة وحصرها في الاستهلاك فتصبح السعادة <span class="t-red">انفعالية</span> لا روحية .</p>
+<!-- PROOFREAD: 2028 part1 p01 — pink word "انفعالية" uncertain -->
+<p class="para">+ المساواة في الاستهلاك لتغييب المساواة القانونية الاجتماعية .</p>
+<p class="subhead t-navy">⇐ <span class="t-red">التوظيف الإيديولوجي للوسائط الرمزية :</span></p>
+<p class="para">اعتبار الوسائل التواصلية الحديثة وسائط للغزاء .</p>
+<!-- PROOFREAD: 2028 part1 p01 — "للغزاء" uncertain -->
+<p class="para">← الوسائط هي أدوات توظف أيديولوجيا وفق <span class="t-red">عقل أداتي</span> لغزو الناس وتكرس الاستعمار التواصلي</p>
+<!-- PROOFREAD: 2028 part1 p01 — "لغزو الناس وتكرس الاستعمار التواصلي" uncertain -->
+<p class="para">← وسائل الاتصال تصنع غباء مبرمج يعدم الفكر ويستنزف العقل .</p>
+<p class="subhead t-navy">• ممكنات التحرر</p>
+<p class="para">+ تصحيح الخطأ المتمثل في اعتماد الحداثة على البعد التقني الأداتي عبر إرساء العقل التواصلي .</p>
+<p class="para">+ اعتبار الحداثة متعددة الأوجه : <span class="t-red">عقلية علمية + تواصلية</span> .</p>
+<p class="para">+ استبدال الفاعلية الاستراتيجية (ارتباط التواصل بالمصلحة والمنفعة والحجة القوة والعنف والهيمنة) بالفاعلية التواصلية أي الحقيقة بينذاتية ليست ملكا لأحد .</p>
+<p class="para">← الاعتماد على الحوار + حجة الأقوى + الثقة والصدق + نسبية الحقيقة + الصلاحية والمعيارية .</p>
+<p class="para">← ترسيخ مبدأ إتيقا الحوار .</p>
+<!-- PROOFREAD: 2028 part1 p01 — "ترسيخ مبدأ إتيقا الحوار" uncertain -->
+<p class="para">⇐ كلما كنا على وعي بكيفية توظيف المنظومات الرمزية كلما تحرر الإنسان من المغالطة والعنف .</p>
+<!-- file: IMG_1171 -->
+
+
+<p class="subhead t-red">أقوال ومقاربات في التواصل والأنظمة الرمزية .</p>
+<p class="para"><span class="t-red">• الإنسان كائن رامز :</span></p>
+<p class="para"><span class="t-red">كاسيرر :</span> "أصبح الإنسان لا يرى شيئا ولا يعرف شيئا إلا بواسطة هذه الأشياء المصطنعة ."</p>
+<p class="para"><span class="t-red">كاسيرر :</span> "وصف الأداة العجيبة التي يملكها الإنسان وحده ، تحول الحياة الإنسانية كلها ."</p>
+<p class="para"><span class="t-red">غوسدورف :</span> "إن الإنسان يتكلم العالم ولا يتعلم العالم ."</p>
+<p class="para"><span class="t-red">غوسدورف :</span> "ليس اللغة المعزولة في القضية إلا تجريدا ."</p>
+<!-- PROOFREAD: 2029 part1 p01 — "في القضية" uncertain -->
+<p class="para"><span class="t-red">بنفنيست :</span> "إن الملكة الرمزية هي أعمق خصائص الكائن البشري ."</p>
+<p class="para">• <span class="t-red">التعميم : المقاربة الوظيفية :</span> تعريف الإنسان من خلال طبيعته الرمزية <span class="t-red">"إرنست كاسيرر"</span></p>
+<!-- PROOFREAD: 2029 part1 p01 — "التعميم" (first pink heading word) uncertain -->
+<p class="para">* <span class="t-red">المقاربة الوجدانية :</span> أصل الإنسان هو الطبيعة إحساسا ووجدانا <span class="t-red">"جان جاك روسو"</span> "إن الإنسان الذي يتأمل حيوان قد فسد"</p>
+<p class="para">* <span class="t-red">المقاربة الميتافيزيقية :</span> التعريف الماهوي المجرد المتعالي</p>
+<p class="para">• الأنظمة الرمزية كوسيلة تواصلية :</p>
+<p class="para">بنفنيست : "يكون أنا من يقول أنا ."</p>
+<!-- PROOFREAD: 2029 part1 p01 — "يكون أنا من يقول أنا" uncertain -->
+<p class="para">بنفنيست : "ليس التفكير شيئا غير هذه القدرة على إنشاء تمثلات للأشياء ."</p>
+<!-- PROOFREAD: 2029 part1 p01 — "غير هذه القدرة" uncertain -->
+<p class="para">بارط : "إن اللسان نسق اجتماعي ومؤسسة من القيم ."</p>
+<p class="para">موانغ : "نحن متحدون باللغة مختلفون بالألسن ."</p>
+<!-- PROOFREAD: 2029 part1 p01 — name "موانغ" uncertain -->
+<p class="para">هوسرل : "إن الثقافات تعابير جماعية تحدث بشكل مباشر دون وعي أو تعقل تام ."</p>
+<!-- PROOFREAD: 2029 part1 p01 — name "هوسرل" and "بشكل مباشر دون وعي أو" uncertain -->
+<p class="para">• التعميم : حقيقة الإنسان البيذاتي ← الوجود داخل المجموعة .</p>
+<!-- PROOFREAD: 2029 part1 p01 — "البيذاتي" uncertain -->
+<p class="para">علم الحيوان مع فون فريش : اللغات الحيوانية التواصلية دون اللغة الإنسانية .</p>
+<p class="para">روجي كايوا : "يثير المقدس لدى الإنسان نفس الإحساس الذي تثيره النار لدى الطفل هو الرغبة في الإشتعال والخوف من الاحتراق ."</p>
+<p class="para">روجي كايوا : "إن الإنسان الذي يستدعي تاريخ المقدس يقيم ويحيى بالقرب من الآلهة أي في العمق وفي المعنى "</p>
+<!-- PROOFREAD: 2029 part1 p01 — "يستدعي" and "يقيم" uncertain -->
+<p class="para">روجي كايوا : "إن الإنسان اللاديني ينحدر من سلالة الإنسان الديني ."</p>
+<p class="para">ريتشارد مارت : "إن المجتمعات والثقافات مهما كانت معقدة هيآت مدونة دينية وروحية ."</p>
+<!-- PROOFREAD: 2029 part1 p01 — name "ريتشارد مارت" and "هيآت مدونة" uncertain -->
+<p class="para">غرودي : "ثمة بين العلم والأسطورة تشبه في الوظيفة فكلاهما يمثل سبيلا إلى العالم الأسباب المتخفي والممتزج بعالم الوقائع المحسوسة ."</p>
+<!-- PROOFREAD: 2029 part1 p01 — name "غرودي", "ثمة", "العالم" uncertain -->
+<p class="para">آلياد : "هو رواية طقوسية تروي كيف حدث شيء ما ."</p>
+<!-- PROOFREAD: 2029 part1 p01 — "طقوسية" uncertain -->
+<p class="para">آلياد : "لا يصير الإنسان إنسانا حقيقيا إلا بالتوافق مع الأساطير ومحاكاة الآلهة ."</p>
+<p class="para">آلياد : "أعلى نظام الفكر والعمل تشترك في إعتناقه جماعة من الناس ."</p>
+<!-- file: IMG_1172 -->
+
+
+<!-- NOTE: entirely handwritten page; partial words of another sheet visible at the right edge (cut) left out -->
+<p class="subhead t-navy">• الدين : أسطورة جلجامش :</p>
+<!-- PROOFREAD: 2030 part1 p01 — "جلجامش" uncertain -->
+<p class="para">* الأسطورة فوق التشكيك .</p>
+<!-- PROOFREAD: 2030 part1 p01 — whole line "* الأسطورة فوق التشكيك" uncertain -->
+<p class="para">والأساطير الإغريقية : فالملحمة ملحمة الأبطال (أين يعد الإنسان ذاته في مهمة وجودية أمام قوى تخرج عن نطاق عالمه ، فيتجلى انتصارات الإنسان فالملحمة مع هيراكليس تمثل مستعصية للتضحية بذاته في مهماته الاثني عشر الوجودية من قتل أسد نيميا وهيدرا الأفعى وإبادة طيور ستيمفاليس الآكلة للبشر .</p>
+<!-- PROOFREAD: 2030 part1 p01 — "فيتجلى" , "تمثل مستعصية" , "نيميا" , "ستيمفاليس" uncertain -->
+<p class="para">لا ننسى كذلك أسطورة أطلس لحمله قبة السماء على كتفيه إثر مشاركته في حرب الجبابرة التي دامت 12 سنة ضد الأولمبيين لإثبات كل طرف بأحقيته في التحكم بالكون .</p>
+<p class="para">• الأديان : البوذية : نسبة لمؤسسها غوتاما بوذا التي تعمل في تعاليمها المحبة والسلام وضرورة التعامل بالحسنى وترك البغض والمال . فمن وصايا بوذا " لا تقضي على حياة حي ، لا تسرق ولا تغتصب ، لا تكذب ولا تتنا ولا تسكرا لا تزن ... "</p>
+<!-- PROOFREAD: 2030 part1 p01 — "تعمل في تعاليمها" , "ولا تتنا ولا تسكرا" uncertain -->
+<!-- file: IMG_1173 -->
+
+
+<p class="para">• الأنظمة الرمزية كسلطة ووسيلة إخضاع .</p>
+<p class="para">بارط : "اللغة سلطة تشريعية ، اللسان قانونها ."</p>
+<p class="para">بارط : "أنا مرغم على أن أضع نفسي كفاعل قبل أن أعبر عن الفعل الذي لن يكون سوى صفة تحمل علي ."</p>
+<!-- PROOFREAD: 2031 part1 p01 — "تحمل علي" uncertain -->
+<p class="para">فوكو : "أفترض أن إنتاج الخطاب في كل مجتمع هو في نفس الوقت إنتاج مراقب ."</p>
+<p class="para">كلود حجاج : "اللسان من الممتلكات السياسية وكل سياسة لسانية تتدخل في لعبة السلطة وتدعمها ."</p>
+<p class="para">• التعميم : اللغات : ← اللغة الوسيطة : إدماج الغير العاقل معاملة الأنثى المؤنث : صفة التأنيث = غير عاقل .</p>
+<!-- PROOFREAD: 2031 part1 p01 — "إدماج الغير العاقل معاملة الأنثى المؤنث" uncertain -->
+<p class="para">لـ العقل يمثل مكانة المرأة في المجتمعات العربية .</p>
+<!-- PROOFREAD: 2031 part1 p01 — "العقل يمثل مكانة" uncertain -->
+<p class="para">لـ اللغة الفرنسية : اختزال الأنوثة في فعل الكلام : الوعي علة متمثل في كينونة متكلمة .</p>
+<!-- PROOFREAD: 2031 part1 p01 — "الفرنسية", "الوعي علة متمثل" uncertain -->
+<p class="para">المقاربة السوسيولوجية : نظرية بورديو صاحب المونولوجيات " أي ينطق المخاطب بالكلام ويصبح الكلام مقدسا .</p>
+<!-- PROOFREAD: 2031 part1 p01 — "صاحب المونولوجيات" uncertain -->
+<p class="para">الفلسفة : • فوكو في كتاب نظام الخطاب : اللغة هي تمثيل لمبلغ نفوذ السلطة أي أن اللغة أصبحت مجال لتحقيق سلطة قمع ومنع وضبط .</p>
+<!-- PROOFREAD: 2031 part1 p01 — "تمثيل لمبلغ نفوذ" uncertain -->
+<p class="para">• كلود حجاج : إن اللغة تقبل التأويل وسوء الفهم والتباس الكلمة .</p>
+<p class="para">• المقاربة الوجودية : إن التواصل هو الهيمنة والتسلط ونفي الآخر .</p>
+<p class="para">" إن القوى التي يخضع إليها الإنسان ما هي إلا مخلوقات عقله ."</p>
+<p class="para"><span class="t-red">لوكراس :</span> "لا تستطيع التقوى في أن يظهر المرء في كل لحظة مرتديا حجابا متوجها نحو حجر من كل معبد ولا في أن ينحني حتى يمس التراب بخشوع ."</p>
+<!-- PROOFREAD: 2031 part1 p01 — name "لوكراس" and "مرتديا حجابا متوجها نحو حجر" uncertain -->
+<p class="para"><span class="t-red">لوكراس :</span> "كم أصبحت شقيا باعتقادي أن الآلهة هي أسباب مثل هذه النتائج وأن لها مثل هذا الغضب الشرير . كم من آهات سيبثونها لأنفسكم وكم من آلام أحدثتموها لنا وكم من دموع ستذرفها أحفادنا ."</p>
+<!-- PROOFREAD: 2031 part1 p01 — "سيبثونها لأنفسكم" uncertain -->
+<p class="para"><span class="t-red">مونتسكيو :</span> تمنى من الله أن يستأصل منها أي الحقد وأن أعيش على طريقته بإرادتي ."</p>
+<!-- PROOFREAD: 2031 part1 p01 — Montesquieu line: "تمنى من الله أن يستأصل منها أي الحقد وأن أعيش على طريقته بإرادتي" largely uncertain -->
+<p class="para">• <span class="t-red">التعميم : الحروب الدينية : + الحروب الصليبية :</span> هي جملة من الحملات الصليبية إنطلقت في القرن الثاني عشر قام بها الأوروبيون للسيطرة على الأراضي المقدسة كالقدس وصلت عدد ضحاياها 3 مليون متخفى إضافة لتعذيبهم واستيلائهم على أراضي خاصة للعامة والتامة مع <span class="t-red">مذبحة راينلاند</span> وهي سلسلة من المجازر بحق اليهود ارتكبها الألمان المسيحيون ولعبت دورا معامع <span class="t-red">الهولوكوست</span> لتتم إبادة 6 مليون يهودي أوروبي تحت شعار الصليب .</p>
+<!-- PROOFREAD: 2031 part1 p01 — "متخفى", "للعامة والتامة", "ولعبت دورا معامع" uncertain -->
+<p class="para"><span class="t-red">+ الفتوحات الإسلامية :</span> هي غزوات قام بها العرب تحت راية الإسلام لاتخاذها بعث دولة عرب حضارية تعرفها كالصين أين تم القضاء على 400 مليون صندوسي ثم نبعهم كذلك في شمال إفريقيا التي دامت لمدة 70 سنة أين تم سبي واستعباد سكان المنطقة من قبل العرب المسلمين وغنموا أموالهم وثرواتهم</p>
+<!-- PROOFREAD: 2031 part1 p01 — "لاتخاذها بعث دولة عرب حضارية تعرفها", "صندوسي", "نبعهم كذلك" uncertain -->
+<p class="para"><span class="t-red">+ مذبحة سان بارتيلمي :</span> وهي مذبحة حدثت بفرنسا تم في تقصدها ج</p>
+<!-- PROOFREAD: 2031 part1 p01 — last line ends unfinished; "تم في تقصدها ج" uncertain -->
+<!-- file: IMG_1174 -->
+
+
+<!-- NOTE: entirely handwritten page -->
+<p class="para">30 ألف بروتستانتي في باريس بأمر كنيسة الكاثوليك تحت أوامر الملك شارل التاسع خوفا من انتشار البروتستانتية .</p>
+<p class="para">• <span class="t-red">عقوبات الآلهة في الأساطير الدينية :</span> كانت الآلهة أساسا في جميع الأساطير تتدخل في صراعات ضد البشرية فتسلط عليهم العقوبات ومنها : <span class="t-red">• عقاب الآلهة أثينا لميدوسا لأن رفضت من الأثينا أن يغتصبها إله البحار بوسايدن .</span></p>
+<!-- PROOFREAD: 2032 part1 p01 — "ضد البشرية" , "لأن رفضت من الأثينا" uncertain -->
+
+</section>
+
+</div>
+</body>
+</html>

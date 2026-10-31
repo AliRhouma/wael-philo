@@ -1,0 +1,670 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<title>Wael Academy — Philosophie · DC 2 — lycée pilote sousse dc</title>
+<script>
+  window.MathJax = {
+    tex: { inlineMath: [['\\(','\\)']], displayMath: [['\\[','\\]']] },
+    chtml: { fontURL: 'https://cdn.jsdelivr.net/npm/mathjax@3/es5/output/chtml/fonts/woff-v2', matchFontHeight: true },
+    startup: { typeset: true }
+  };
+</script>
+<script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js" async></script>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Sora:wght@400;500;600;700;800&family=Cairo:wght@400;500;600;700;800;900&family=Tajawal:wght@400;500;700;800&family=JetBrains+Mono:wght@400;500;600;700&display=swap');
+:root{
+  /* ===== Wael Academy palette — MAIN ACCENT = green-teal gradient #0FAB8F → #067360 ===== */
+  --bg:#fff; --panel:#f2f8f8; --hair:#e6e6e9; --hair2:#d6d6db;
+  --fg:#0f2a31;        /* body text (and +/− signs) */
+  --fg2:#3f5b62;       /* softer text */
+  --fg3:#7c959b;       /* muted (footer) */
+  --blue:#067360;      /* deep accent — small numbers, borders, watermark, accent equations */
+  --blue-dark:#045260; /* titles & wordmarks (also the balance colour) */
+  --teal:#0fab8f;      /* bright accent end */
+  --loop:#0d9c82;      /* logo-loop helper */
+  --orange:#067360;    /* kicker/category labels (gold retired → deep teal) */
+  --red:#f5322f;       /* EXERCISE CHIPS ONLY — never for emphasis */
+  --cream:#e6f3f4; --blue-soft:#e6f3f4;  /* pale teal — callout fill + table sub-row fill */
+  --blue-line:#cde7e4; /* hairline */
+  --sub-ink:#045260;   /* table sub-row text */
+  --grad:linear-gradient(148deg,#0fab8f 0%,#0d9c82 52%,#067360 100%);
+  --mono:'JetBrains Mono',monospace; --latin:'Sora',sans-serif; --ar:'Cairo',sans-serif; --arb:'Tajawal',sans-serif;
+}
+*{box-sizing:border-box;margin:0;padding:0;}
+body{font-family:var(--latin);color:var(--fg);background:#e4e4e7;padding:28px 0;
+     -webkit-print-color-adjust:exact;print-color-adjust:exact;}
+html[dir="rtl"] body{font-family:var(--arb);}
+
+/* ===== brand watermark: REAL text (crisp), full-bleed, repeats per page ===== */
+.wm{position:fixed;inset:0;z-index:0;pointer-events:none;display:flex;
+    align-items:center;justify-content:center;overflow:hidden;
+    -webkit-print-color-adjust:exact;print-color-adjust:exact;}
+.wm span{font-family:var(--mono);font-weight:800;font-size:76.8pt;letter-spacing:.16em;
+    color:var(--blue);opacity:.06;white-space:nowrap;transform:rotate(-54deg);}  /* single diagonal: bottom-left → top-right */
+.wm.mono span{color:#000;opacity:.05;}
+
+/* ===== continuous flow stream (no page border) ===== */
+.flow{width:210mm;margin:0 auto;background:transparent;color:var(--fg);
+      padding-block:16mm 18mm;padding-inline:23mm 14mm;position:relative;}   /* spiral gutter: inline-start(=spine) 23mm / outer 14mm — dir-aware; print margins set in render_flow.py */
+@media screen{ .flow{background:#fff;box-shadow:0 10px 40px rgba(0,0,0,.16);} }
+.flow>*{position:relative;z-index:1;}
+.flow p,.flow li,.flow .data,.flow .note,.flow .ex{break-inside:auto;}
+.flow .fig,.flow figure,.flow img,.flow svg.figsvg,.flow table,.flow tr,.flow .chapdiv,.flow .exh,.flow .qrcard,.flow .meta{break-inside:avoid;}
+.flow h1,.flow h2,.flow h3,.flow .exh,.flow .subhead,.flow .chapdiv{break-after:avoid;}
+.flow img,.flow svg.figsvg{max-width:100%;height:auto;}
+.flow figcaption,.flow .figcap{display:none;}          /* rule 3: no figure captions */
+
+/* ===== front matter + chapters each start on a fresh page ===== */
+.flow .cover{break-after:page;}        /* cover alone on page 1 */
+.flow .toc{break-after:page;}          /* Sommaire alone on the next page */
+.flow .chapter{break-before:page;}
+.flow .chapter:first-of-type{break-before:auto;}
+
+/* ===== cover ===== */
+.cover{padding:14mm 0 8mm;border-bottom:2px solid var(--blue);margin-bottom:6mm;}
+.cover .badge{font-family:var(--mono);font-size:8.5pt;letter-spacing:.28em;text-transform:uppercase;color:var(--orange);margin-bottom:10px;}
+.cover h1{font-family:var(--latin);font-weight:800;font-size:34pt;line-height:1.03;letter-spacing:-.025em;color:var(--blue-dark);}
+.cover .grule{width:120px;height:5px;border-radius:5px;background:var(--grad);margin:14px 0;}
+.cover .sub{font-family:var(--mono);font-size:10pt;letter-spacing:.14em;text-transform:uppercase;color:var(--teal);}
+.cover .auth{font-size:11pt;color:var(--fg2);margin-top:6px;font-weight:600;}
+
+/* ===== table of contents ===== */
+.toc{margin:2mm 0 4mm;}
+.toc h2{font-family:var(--latin);font-weight:800;font-size:15pt;color:var(--blue-dark);margin-bottom:4mm;}
+.toc .trititle{font-family:var(--mono);font-size:8pt;letter-spacing:.2em;text-transform:uppercase;color:var(--orange);margin:4mm 0 2mm;}
+.toc ol{list-style:none;}
+.toc li{display:flex;align-items:baseline;gap:8px;font-size:10pt;padding:2.2px 0;color:var(--fg);line-height:1.4;}
+.toc li .n{font-family:var(--mono);font-weight:700;font-size:9pt;color:var(--blue);min-width:26px;}
+.toc li .dots{flex:1;border-bottom:1px dotted var(--hair2);transform:translateY(-3px);}
+
+/* ===== chapter divider band ===== */
+.chapdiv{margin:0 0 5mm;padding:6mm 16px 5mm;border-radius:12px;background:var(--grad);
+    -webkit-print-color-adjust:exact;print-color-adjust:exact;}   /* green-filled chapter band */
+.chapdiv .cn{font-family:var(--mono);font-size:8.5pt;font-weight:700;letter-spacing:.24em;text-transform:uppercase;color:rgba(255,255,255,.82);margin-bottom:5px;}
+.chapdiv h2{font-family:var(--latin);font-weight:800;font-size:17pt;line-height:1.1;letter-spacing:-.015em;color:#fff;}
+/* conclusion block — same green-filled look as the chapter band */
+.conclusion{background:var(--grad);border-radius:12px;padding:6mm 16px;margin:5mm 0;color:#fff;break-inside:avoid;
+    -webkit-print-color-adjust:exact;print-color-adjust:exact;}
+.conclusion .ck{font-family:var(--mono);font-size:8.5pt;font-weight:700;letter-spacing:.24em;text-transform:uppercase;color:rgba(255,255,255,.82);margin-bottom:6px;}
+.conclusion h3{font-family:var(--latin);font-weight:800;font-size:13pt;line-height:1.2;color:#fff;margin-bottom:4px;}
+.conclusion p,.conclusion li{font-size:10.4pt;line-height:1.7;color:#fff;}
+.conclusion b,.conclusion strong{color:#fff;font-weight:700;}
+
+/* ===== unit header (lesson/exercise) + QR emplacement ===== */
+.exh{display:flex;align-items:center;gap:11px;margin:6mm 0 3mm;}
+.exh .idx{font-family:var(--mono);font-size:9pt;font-weight:600;color:#fff;background:var(--grad);
+    border-radius:6px;padding:4px 11px;letter-spacing:.08em;text-transform:uppercase;
+    -webkit-print-color-adjust:exact;print-color-adjust:exact;}
+.exh .idx.ex{background:var(--red);}   /* exercise chip = red */
+.exh h2{font-family:var(--latin);font-size:14pt;font-weight:700;letter-spacing:-.01em;color:var(--blue-dark);}
+.exh .qrcard{margin-inline-start:auto;flex:0 0 auto;display:flex;flex-direction:column;align-items:center;gap:3px;width:26mm;}
+.qrcard .qrt{font-family:var(--mono);font-size:6.5pt;letter-spacing:.1em;text-transform:uppercase;color:var(--teal);text-align:center;}
+.qrcard .qrslot{width:24mm;height:24mm;padding:1.5mm;background:#fff;border:1px solid var(--blue-line);border-radius:8px;display:flex;align-items:center;justify-content:center;}
+.qrcard .qrslot img,.qrcard .qrslot svg{width:100%;height:100%;display:block;}
+
+/* sub-exercise label when one file holds several exercices */
+.exsub{font-family:var(--latin);font-weight:800;font-size:11.5pt;color:var(--blue-dark);margin:5mm 0 2.5mm;padding-bottom:3px;border-bottom:2px solid var(--blue-line);}
+
+/* ===== text blocks ===== */
+.lead{font-size:11pt;line-height:1.7;margin:2mm 0 3mm;color:var(--fg);}
+.para{font-size:10.6pt;line-height:1.7;margin:2mm 0 2.5mm;color:var(--fg);}
+.consigne{font-size:10.4pt;line-height:1.6;margin:1mm 0 2mm;color:var(--fg);font-style:italic;}
+.subhead{font-family:var(--latin);font-weight:800;font-size:12pt;letter-spacing:-.01em;color:var(--blue-dark);margin:5mm 0 2.5mm;}
+/* emphasis — green accent = .t-blue/.t-green ; balance = .t-navy ; red = SECONDARY accent (.t-red) on titles + a few words */
+.t-blue{color:var(--blue);font-weight:600;} .t-navy{color:var(--blue-dark);font-weight:700;}
+.t-red{color:var(--red);font-weight:600;} .t-green{color:var(--teal);font-weight:600;} .t-gold{color:var(--orange);font-weight:600;}
+.subhead.t-red{color:var(--red);font-weight:800;}   /* red Roman-numeral section title (I, II, …) — keeps subhead weight */
+/* highlighter marks — a soft colour wash behind a key word (agent picks green or red per what balances the page) */
+.hl-green,.hl-red{border-radius:3px;padding:.02em .24em;font-weight:600;box-decoration-break:clone;-webkit-box-decoration-break:clone;
+    -webkit-print-color-adjust:exact;print-color-adjust:exact;}
+.hl-green{background:rgba(15,171,143,.20);color:var(--blue-dark);}   /* green highlight */
+.hl-red{background:rgba(245,50,47,.13);color:#c0261f;}               /* red highlight  */
+
+.data{background:var(--blue-soft);border:1px solid var(--blue-line);border-inline-start:4px solid var(--blue);
+    border-radius:8px;padding:11px 16px;margin:3mm 0;font-size:10pt;line-height:1.65;color:var(--fg2);}
+.data b{color:var(--fg);font-weight:700;}
+.note{border:1px dashed var(--hair2);border-radius:9px;padding:11px 16px;margin:4mm 0;background:var(--panel);}
+.note .kicker{font-family:var(--mono);font-size:7.5pt;letter-spacing:.18em;color:var(--orange);display:block;margin-bottom:5px;}
+.note .nb{font-size:10pt;line-height:1.7;color:var(--fg2);} .note b{color:var(--fg);}
+.ex:not(.idx){background:var(--blue-soft);border:1px solid var(--blue-line);border-inline-start:3px solid var(--blue);
+    border-radius:7px;padding:7px 11px;font-size:9.6pt;line-height:1.6;color:var(--fg2);margin:2mm 0;}   /* :not(.idx) so it never hits the exercise chip (which is .idx.ex) */
+.ex .extag{display:inline-block;font-family:var(--latin);font-weight:800;font-size:7.6pt;color:var(--blue-dark);background:#fff;
+    border:1px solid var(--blue);border-radius:5px;padding:1px 9px;margin-inline-end:7px;vertical-align:middle;text-transform:uppercase;letter-spacing:.06em;}
+
+/* ===== lists ===== */
+ol.q{list-style:none;counter-reset:q;margin:1mm 0 2mm;}
+ol.q>li{counter-increment:q;position:relative;padding-inline-start:30px;margin-bottom:2.5mm;font-size:10.4pt;line-height:1.6;}
+ol.q>li::before{content:counter(q);position:absolute;inset-inline-start:0;top:1px;width:21px;height:21px;background:var(--grad);color:#fff;
+    border-radius:50%;font-family:var(--mono);font-size:9pt;font-weight:600;display:flex;align-items:center;justify-content:center;
+    -webkit-print-color-adjust:exact;print-color-adjust:exact;}
+ol.sub{list-style:none;counter-reset:s;margin:4px 0 0;padding-inline-start:2px;border-inline-start:1px solid var(--blue-line);}
+ol.sub li{counter-increment:s;position:relative;padding:2.5px 0 2.5px 26px;font-size:10.1pt;line-height:1.55;}
+ol.sub li::before{content:counter(s,lower-alpha)".";position:absolute;inset-inline-start:10px;top:2.5px;font-family:var(--mono);font-size:9pt;font-weight:600;color:var(--teal);}
+ol.qn{list-style:none;counter-reset:qn;margin:1mm 0 2mm;}
+ol.qn>li{counter-increment:qn;position:relative;padding-inline-start:26px;margin-bottom:2.2mm;font-size:10.4pt;line-height:1.55;}
+ol.qn>li::before{content:counter(qn)".";position:absolute;inset-inline-start:0;top:0;font-family:var(--mono);font-size:9.5pt;font-weight:700;color:var(--blue);}
+ul.b{list-style:none;margin:1mm 0 2mm;} ul.b>li{position:relative;padding-inline-start:22px;margin-bottom:2.4mm;font-size:10.4pt;line-height:1.6;}
+ul.b>li::before{content:"";position:absolute;inset-inline-start:3px;top:8px;width:8px;height:8px;border-radius:50%;background:var(--grad);
+    -webkit-print-color-adjust:exact;print-color-adjust:exact;}
+ul.dash{list-style:none;margin:1mm 0 2mm;} ul.dash>li{position:relative;padding-inline-start:20px;margin-bottom:1.8mm;font-size:10.4pt;line-height:1.6;}
+ul.dash>li::before{content:"–";position:absolute;inset-inline-start:2px;top:0;color:var(--fg);font-weight:700;}  /* dash / +/− signs = body colour */
+.flow ul.opts{list-style:none;margin:4px 0 3px;padding-inline-start:16px;}
+.flow ul.opts li{padding:2px 0;font-size:10.2pt;line-height:1.5;color:var(--fg);}
+
+/* ===== figures / tables ===== */
+.fig{margin:3mm 0;} .fig svg.figsvg{display:block;margin:0 auto;background:#fff;max-width:100%;height:auto;}
+.photo{display:block;margin:3mm auto;border-radius:8px;border:1px solid var(--hair);max-width:100%;}
+.figrow{display:flex;flex-wrap:wrap;gap:9px;justify-content:center;margin:3mm auto;max-width:190mm;}
+.flow .figrow img{border-radius:7px;border:1px solid var(--hair);height:46mm;width:auto;max-width:none;object-fit:cover;}
+.schemarow{display:flex;gap:16px;align-items:flex-start;flex-wrap:wrap;margin:2mm 0;}
+.schemarow .col-txt{flex:1 1 90mm;min-width:80mm;} .schemarow .col-fig{flex:0 0 78mm;} .schemarow .col-fig .fig{margin:0;}
+.flow table{border-collapse:collapse;width:100%;margin:3mm 0;font-size:9.8pt;line-height:1.5;}
+.flow table th,.flow table td{border:1px solid var(--blue-line);padding:6px 10px;text-align:start;vertical-align:top;}
+.flow table th{background:var(--grad);color:#fff;font-family:var(--latin);font-weight:700;font-size:9.4pt;
+    -webkit-print-color-adjust:exact;print-color-adjust:exact;}
+.flow table tr:nth-child(even) td{background:var(--blue-soft);color:var(--sub-ink);}   /* sub-row: #E6F3F4 / #045260 */
+
+mjx-container{color:var(--fg) !important;font-weight:400 !important;font-size:1.0em !important;}
+.eq-hi mjx-container,mjx-container.eq-hi{color:var(--blue) !important;}   /* accent (green) equation — highlight a key result; balance with plain math */
+.eq-red mjx-container,mjx-container.eq-red{color:var(--red) !important;}  /* red accent equation / symbol — complements the green .eq-hi */
+
+/* ===== per-file books: credit line, copies list, figures at their size ===== */
+.credit{display:flex;flex-wrap:wrap;align-items:center;gap:5px;margin:-1mm 0 3.5mm;font-size:9.4pt;color:var(--fg2);}
+.credit .who{font-weight:700;color:var(--blue-dark);}
+.credit .tg{font-family:var(--mono);font-size:7.2pt;letter-spacing:.04em;border-radius:5px;padding:1px 7px;line-height:1.6;
+    border:1px solid var(--blue-line);color:var(--blue);background:#fff;-webkit-print-color-adjust:exact;print-color-adjust:exact;}
+.credit .tg.sec{background:var(--blue-dark);border-color:var(--blue-dark);color:#fff;}
+.credit .tg.cor{background:#fff;border-color:var(--red);color:var(--red);}
+.credit a{color:var(--fg3);font-family:var(--mono);font-size:7pt;text-decoration:none;}
+.cover .auth .credit{margin:4mm 0 0;}
+.cover .copies{margin-top:5mm;font-size:8.6pt;color:var(--fg2);}
+.cover .copies ul{list-style:none;margin:2mm 0 0;padding:0;columns:2;}
+.cover .copies a{color:var(--fg3);text-decoration:none;font-size:8pt;}
+.flow figure.fig{text-align:center;}
+.flow figure.fig img{max-height:60mm;width:auto;max-width:70%;display:inline-block;}
+
+/* chapter tag on each part of a multi-chapter book (the book keeps the original order of the file) */
+.chtag{display:inline-block;margin:5mm 0 2mm;padding:1mm 3mm;border-radius:2mm;background:#eef3fb;border:1px solid #c9d6ea;
+  color:#1f3a6b;font-size:9pt;font-weight:700}
+.chtag span{color:#6b7f9e;font-weight:600;margin-inline-end:1.5mm}
+
+@media print{ body{background:#fff;padding:0;} .flow{width:auto;max-width:none;margin:0;padding:0;} }
+@page{size:A4;}   /* margins come from render_flow.py — do NOT set them here */
+</style>
+<meta data-pagefind-filter="type[content]" content="فرض">
+<meta data-pagefind-filter="resource[content]" content="المعهد النموذجي بسوسة">
+<meta data-pagefind-meta="n[content]" content="2209">
+<meta data-pagefind-meta="title[content]" content="DC 2 — lycée pilote sousse dc">
+<meta data-pagefind-filter="chapter[content]" content="فروض ومواضيع (عدّة محاور)">
+<meta data-pagefind-filter="chapter[content]" content="العلم بين الحقيقة والنمذجة">
+<meta data-pagefind-filter="chapter[content]" content="الخصوصية والكونية">
+<meta data-pagefind-filter="chapter[content]" content="الإنية والغيرية">
+<meta data-pagefind-filter="chapter[content]" content="الفن والدين">
+<meta data-pagefind-filter="section[content]" content="باكالوريا رياضيات"><style>.qrcard{display:none!important}.wa-nav{position:sticky;top:0;z-index:50;background:#045260;padding:10px 18px;font-family:Cairo,sans-serif;direction:rtl}.wa-nav a{color:#fff;text-decoration:none;font-weight:700}@media print{.wa-nav{display:none}}</style>
+</head>
+
+<body dir="rtl" lang="ar"
+      data-brand="Wael Academy" data-handle="@WaelAcademy"
+      data-tagline="في تُرابنا.. مغامرة بمغامرة"
+      data-phone="+216 50 40 40 42" data-site="waeldocuments.com"
+      data-cta="سجل معانا وأقرى عن بعد مع منصة Wael Academy"
+      data-subject="Philosophie · DC 2 — lycée pilote sousse dc" data-watermark="Wael Academy" data-pagefind-body><nav class="wa-nav" data-pagefind-ignore><a href="../index.html">→ الرجوع إلى فهرس الفلسفة</a></nav>
+
+<!-- single full-page diagonal watermark, bottom-left → top-right (repeats on every page) -->
+<div class="wm" aria-hidden="true"><span>WAEL&nbsp;ACADEMY</span></div>
+
+<div class="flow colored">
+<div class="cover"><div class="badge">◉ Wael Academy · Philosophie</div><h1>DC 2 — lycée pilote sousse dc</h1><div class="grule"></div><div class="sub">فروض ومواضيع (عدّة محاور)</div><div class="auth"><div class="credit">المؤلّف / المصدر : <span class="who">المعهد النموذجي بسوسة — الأستاذة :نجيبة بن جازية · المعهد النموذجي بسوسة — ن جازية (name cut by the page edge) · المعهد النموذجي بسوسة — الأستاذة : نجيبة بن جازية</span> <span class="tg">فرض مراقبة</span><span class="tg cor">إصلاح</span><span class="tg sec">الفلسفة · باكالوريا رياضيات</span> <a href="https://drive.google.com/file/d/1WxqNtKfvCXkR7URqUFkiWYOsQIYn3zSc/view">↗ Lycée Pilote Sousse - DC 2 2016 (+Corrigé).pdf</a> <a href="https://drive.google.com/file/d/1xWY1v00vY4zoe8VYssPlBLbqMsw-MmC7/view">↗ Lycée Pilote Sousse - DC 2 2017 (+Corrigé).pdf</a> <a href="https://drive.google.com/file/d/1tCC1FWDD7JWOmsX_N59Nq-P0oPpzDEuR/view">↗ Lycée Pilote Sousse - DC 2 2018 (+Corrigé).pdf</a> <a href="https://drive.google.com/file/d/1uv5kol9USaBdoHUhfOtyEyzDGqX_xrny/view">↗ Lycée Pilote Sousse - DC 2 2020 (+Corrigé).pdf</a></div></div><div class="copies" data-pagefind-ignore><b>نسخ هذا الملف في الدرايفات (20)</b><ul><li><a href="https://drive.google.com/file/d/1WxqNtKfvCXkR7URqUFkiWYOsQIYn3zSc/view">Iyed Hasnaoui · bac 2024 › Nouveau dossier / Philosphie / Devoirs / 2eme Trimestre / DC 2</a></li><li><a href="https://drive.google.com/file/d/1BzXSpQw4IBReErl7QGZDdthgz-JoZFkx/view">Emna bac maths 2025 · Drive de Emna (Bac maths) › Philosphie / Devoirs / 2eme Trimestre / DC 2</a></li><li><a href="https://drive.google.com/file/d/1Sx9R3yzeqsxOWpXzkdwRXjVawx5WZWz5/view">Mohamed aziz saideni lycee Farhat Hached bizertebac 2026 · BAC MATH 2026 MOHAMED AZIZ SAIDENI › TOUT 2026 / Philosphie / Devoirs / 2eme Trimestre / DC 2</a></li><li><a href="https://drive.google.com/file/d/1vLqfDcj1i_A9yeqLz5mnQhVU0JFdrHcb/view">chahredine thamri · Chahredine thamri › Chahredine Thamri / mes documents / philosophie / Philosphie / Devoirs / 2eme Trimestre / DC 2</a></li><li><a href="https://drive.google.com/file/d/1jWfBOOIsyldrIe4hWEmxTipcaoLndqZG/view">Mohamed Ahmed Zahi · Bac Math Zahi 2024/2025 › Philo / Devoirs / 2ème trimestre / Contrôles</a></li><li><a href="https://drive.google.com/file/d/1xWY1v00vY4zoe8VYssPlBLbqMsw-MmC7/view">Iyed Hasnaoui · bac 2024 › Nouveau dossier / Philosphie / Devoirs / 2eme Trimestre / DC 2</a></li><li><a href="https://drive.google.com/file/d/17ublrHamZaC91jIssaCH9xvPllT5Q0Xz/view">Emna bac maths 2025 · Drive de Emna (Bac maths) › Philosphie / Devoirs / 2eme Trimestre / DC 2</a></li><li><a href="https://drive.google.com/file/d/1SxPZF15iJx83lpPBAY8Q89glUz2Ij53b/view">Mohamed aziz saideni lycee Farhat Hached bizertebac 2026 · BAC MATH 2026 MOHAMED AZIZ SAIDENI › TOUT 2026 / Philosphie / Devoirs / 2eme Trimestre / DC 2</a></li><li><a href="https://drive.google.com/file/d/1S0m1KdXsUXj2sjo-Yp6qSE7JCOBRzXrV/view">chahredine thamri · Chahredine thamri › Chahredine Thamri / mes documents / philosophie / Philosphie / Devoirs / 2eme Trimestre / DC 2</a></li><li><a href="https://drive.google.com/file/d/1ISlEXoUKoNwKeNkFniz1mtSgrn-5sIqu/view">Mohamed Ahmed Zahi · Bac Math Zahi 2024/2025 › Philo / Devoirs / 2ème trimestre / Contrôles</a></li><li><a href="https://drive.google.com/file/d/1tCC1FWDD7JWOmsX_N59Nq-P0oPpzDEuR/view">Iyed Hasnaoui · bac 2024 › Nouveau dossier / Philosphie / Devoirs / 2eme Trimestre / DC 2</a></li><li><a href="https://drive.google.com/file/d/12i1h4DwzCVyQQB_asPcx8d0SsZdgD87_/view">Emna bac maths 2025 · Drive de Emna (Bac maths) › Philosphie / Devoirs / 2eme Trimestre / DC 2</a></li><li><a href="https://drive.google.com/file/d/1EdZ73aCDKUlb8PBjwA6wFvoTYVU90vNT/view">Mohamed aziz saideni lycee Farhat Hached bizertebac 2026 · BAC MATH 2026 MOHAMED AZIZ SAIDENI › TOUT 2026 / Philosphie / Devoirs / 2eme Trimestre / DC 2</a></li><li><a href="https://drive.google.com/file/d/1LMtx-1tiZTxpN9BsQ5wq631rWTYolN9v/view">chahredine thamri · Chahredine thamri › Chahredine Thamri / mes documents / philosophie / Philosphie / Devoirs / 2eme Trimestre / DC 2</a></li><li><a href="https://drive.google.com/file/d/1XEuyOceQ8XYDK_JBnUnit8mqxO8zHKIf/view">Mohamed Ahmed Zahi · Bac Math Zahi 2024/2025 › Philo / Devoirs / 2ème trimestre / Contrôles</a></li><li><a href="https://drive.google.com/file/d/1uv5kol9USaBdoHUhfOtyEyzDGqX_xrny/view">Iyed Hasnaoui · bac 2024 › Nouveau dossier / Philosphie / Devoirs / 2eme Trimestre / DC 2</a></li><li><a href="https://drive.google.com/file/d/1fRjpUvbVQs-ZtDskDOlzx-MJwDzMrUVQ/view">Emna bac maths 2025 · Drive de Emna (Bac maths) › Philosphie / Devoirs / 2eme Trimestre / DC 2</a></li><li><a href="https://drive.google.com/file/d/1lS3OctO6OILmW-epWtH61mv_-8Zj2TAp/view">Mohamed aziz saideni lycee Farhat Hached bizertebac 2026 · BAC MATH 2026 MOHAMED AZIZ SAIDENI › TOUT 2026 / Philosphie / Devoirs / 2eme Trimestre / DC 2</a></li><li><a href="https://drive.google.com/file/d/1y8Li9q0bjjKOtwwRxsozMg9iQaHduQ2I/view">chahredine thamri · Chahredine thamri › Chahredine Thamri / mes documents / philosophie / Philosphie / Devoirs / 2eme Trimestre / DC 2</a></li><li><a href="https://drive.google.com/file/d/1eHpJNU68Tqw96ZLrarsgeEpqkqqVienZ/view">Mohamed Ahmed Zahi · Bac Math Zahi 2024/2025 › Philo / Devoirs / 2ème trimestre / Contrôles</a></li></ul></div></div>
+<section class="chapter">
+<div class="chtag"><span>المحور</span> فروض ومواضيع (عدّة محاور)</div>
+<!-- SOURCE: المعهد النموذجي بسوسة — الأستاذة :نجيبة بن جازية · المعهد النموذجي بسوسة — ن جازية (name cut by the page edge) · المعهد النموذجي بسوسة — الأستاذة : نجيبة بن جازية -->
+<!-- NOTE: one book for 4 files of the Drive folder "Nouveau dossier / Philosphie / Devoirs / 2eme Trimestre / DC 2" (series), in file order -->
+<div class="exh"><span class="idx ex">فرض</span><h2>DC 2 — lycée pilote sousse dc</h2>
+  <div class="qrcard"><div class="qrt">فيديو الدرس</div><div class="qrslot"><img src="qr/2209.svg" alt="QR"></div></div></div>
+<div class="credit">المؤلّف / المصدر : <span class="who">المعهد النموذجي بسوسة — الأستاذة :نجيبة بن جازية · المعهد النموذجي بسوسة — ن جازية (name cut by the page edge) · المعهد النموذجي بسوسة — الأستاذة : نجيبة بن جازية</span> <span class="tg">فرض مراقبة</span><span class="tg cor">إصلاح</span><span class="tg sec">الفلسفة · باكالوريا رياضيات</span> <a href="https://drive.google.com/file/d/1WxqNtKfvCXkR7URqUFkiWYOsQIYn3zSc/view">↗ Lycée Pilote Sousse - DC 2 2016 (+Corrigé).pdf</a> <a href="https://drive.google.com/file/d/1xWY1v00vY4zoe8VYssPlBLbqMsw-MmC7/view">↗ Lycée Pilote Sousse - DC 2 2017 (+Corrigé).pdf</a> <a href="https://drive.google.com/file/d/1tCC1FWDD7JWOmsX_N59Nq-P0oPpzDEuR/view">↗ Lycée Pilote Sousse - DC 2 2018 (+Corrigé).pdf</a> <a href="https://drive.google.com/file/d/1uv5kol9USaBdoHUhfOtyEyzDGqX_xrny/view">↗ Lycée Pilote Sousse - DC 2 2020 (+Corrigé).pdf</a></div>
+
+<!-- file: Lycée Pilote Sousse - DC 2 2016 (+Corrigé) -->
+
+
+<div class="exsub">Lycée Pilote Sousse - DC 2 2016 (+Corrigé)</div>
+
+<div class="chtag"><span>المحور</span> العلم بين الحقيقة والنمذجة</div>
+
+<p class="subhead t-red"><b>القسم الأوّل :</b></p>
+<p class="para"><b>التمرين الأوّل :</b> قيل " بقدر ماتتقدّم التقنيات يتراجع التأمّل"</p>
+<p class="consigne">اكشف عن إحدى ضمنيات هذا القول .</p>
+<p class="para"><b>التمرين الثاني :</b> حدّد دلالة النموذج في سياق القول التالي :" لكلّ نموذج دور تصوّري وتمثلي لنسق يرتكز على لغة رياضية "</p>
+<p class="subhead t-navy"><b>التمرين الثالث : النصّ</b></p>
+<p class="para">أعتبر النظريّات العلميّة اختراعات إنسانية هي بمثابة شباك نصنعها بأنفسنا لنصطاد بها العالَم : فهي اختراعات تختلف لامحالة عن إبداعات الشعراء ، وحتّى عن اختراعات التقنيين . إذ ليست النظرية أداة فحسب . فما نطلبه هو الحقيقة . ونحن نختبر نظرياتنا لنقصي ما كان منها غير صحيح . وإنّنا لنتوصّل هكذا إلى تحسين نظرياتنا ، حتّى بما هي أدوات ، وذلك من خلال استنباط شباك تتلاءم شيئا فشيئا مع مهمّة اصطياد أسماكنا ، أي العالم الواقعي ولكنّها مع ذلك لا تكون قطّ أدوات كاملة ، بل هي شباك عقليّة نحن صنعناها وينبغي ألاّ ننخدع فنحملها على أنّها تمثّل يستوفي كلّ جوانب العالم الواقعيّ ، حتّى وإن كانت هذه النظريات باهرة النجاح أو بدا لنا أنّها تعطينا ممتازة مقاربات للواقع .</p>
+<p class="para">كارل بوبر " الكون المفتوح "</p>
+<!-- PROOFREAD: 2209 part1 p01 — author line is handwritten: "كارل بوبر " الكون المفتوح "" ; "ممتازة مقاربات" word order as seen (hand correction on "مقاربات") -->
+<p class="consigne">أجب عن الأسئلة التالية انطلاقا من النصّ :</p>
+<p class="consigne">__ صغ الإشكالية التي يعالجها الكاتب في النصّ .</p>
+<p class="consigne">_حلل الحجة التي وظفها الكاتب للدفاع عن أطروحته .</p>
+<p class="consigne">_حدّد دلالة الحقيقة العلمية مبرزا قيمتها الإبستمولوجية .</p>
+<p class="subhead t-red"><b>القسم الثاني :</b> يختار التلميذ (ة) أحد السؤالين ليحرّر في شأنه محاولة في حدوْد ثلاثين سطرا :</p>
+
+<div class="chtag"><span>المحور</span> الخصوصية والكونية</div>
+
+<p class="para">السؤال الأوّل : هل يُعد الدفاع عن الخصوصيّة زمن العولمة ضربا من الو هم ؟</p>
+
+<div class="chtag"><span>المحور</span> العلم بين الحقيقة والنمذجة</div>
+
+<p class="para">السؤال الثاني : إذا كان العلم لا يكتشف حقائق نهائيّة بل يبني نماذج تقريبيّة هل يؤدي ذلك إلى التشكيك في قيمته ؟</p>
+<!-- PROOFREAD: 2209 part1 p01 — end of second question is handwritten: "هل يؤدي ذلك إلى التشكيك في قيمته ؟" -->
+<div class="exsub">الإصلاح</div>
+<!-- PROOFREAD: 2209 part1 p02 — whole page is faint handwriting; best reading below -->
+<p class="para">إصلاح فرض المراقبة الثاني</p>
+<p class="para">القسم الأول : 1) التمرين الأول</p>
+<p class="para">قيل: " بقدر ما تتقدم التقنيات يتراجع التأمل "</p>
+<p class="para">الضمنيات : - سلم هذا القول بتطور العقلانية العلمية في اتجاه براغماتي يهتم فيه بالفعل والتحكم والسيطرة بواسطة التقنيات وذلك على حساب التأمل النظري</p>
+<ul class="dash">
+<li>يفترض القول ضمنيا التصور الجديد للعلم في علاقته بالتقنية حيث كان العلم للعلم والمعرفة للمعرفة إلا أنه تحول إلى مجرد وسيلة تستخدمها التقنية والاقتصاد</li>
+</ul>
+<ul class="b">
+<li>يدعو هذا القول ضمنيا إلى عدم تهميش مطلب التأمل والنظر في الحقيقة الكلية .</li>
+</ul>
+<p class="para">التمرين الثاني : تحديد دلالة النموذج : " لكل نموذج دور تصوري وتمثلي لنسق يرتكز على لغة رياضية "</p>
+<p class="para">يتحدد النموذج في سياق هذا القول كتمثل لنسق واقعي سواء كان ذهنيا أو ماديا حيث يمكن من فهم الكائن وتصور بنيته وآليات اشتغاله . والنموذج ليس نسخة تحاكي الكائن وتطابقه وإنما هو تركيب للكائن المركب يقوم استنادا إلى رموز وقواعد رياضية . فالنموذج هو نسق من الرموز والعلاقات التي تنتظم يثيويا وتتم صورنتها وهذا ما يكشف عن البعد التركيبي للنموذج في علاقة ببعده الدلالي (التصور والفهم)</p>
+<p class="para">يمكن تدعيم هذا التحديد المفهوم من خلال أمثلة لنماذج تمت صياغتها في شكل معادلات رياضية : قانون الجاذبية / نيوتن ( ...... )</p>
+<!-- PROOFREAD: 2209 part1 p02 — "يثيويا" / "قانون الجاذبية / نيوتن" uncertain -->
+<p class="para">التمرين الثالث : نص كارل بوبر :</p>
+<p class="para">1) صياغة اشكالية النص : ماهي النظريات العلمية ؟ هل تمثل أدوات كاملة تستطيع الواقع وتمدنا بمقاربات ممتازة وحقائق نهائية مطابقة له ؟ أم هي ابتكارات عقلية تمثل الواقع على نحو افتراضي وتقبل اختبار مدى صلاحيتها وملاءمتها له وفق منهج التكذيب والتعديل تطلع لإدراك اليقين دون أن تدعي استكماله ؟</p>
+<p class="para">2) توضيح الحجة التي وظفها الكاتب للدفاع عن أطروحته :</p>
+<p class="para">للدفاع عن أطروحته استخدم الكاتب الحجاج بواسطة المماثلة حيث ماثل بين النظريات العلمية وشباك الصيد للبرهنة على الطابع الإنشائي للعلم ونسبية الحقائق العلمية والطابع الوقتي والتقريبي للنماذج العلمية حيث تعجز هذه النظريات عن الإحاطة بكل جوانب الواقع مثلما تعجز شباك الصيد عن الإمساك بكل الأسماك وهذا يستدعي تطويرها بشكل تدريجي ملاءمة لأهدافها كذلك بالنسبة للنظريات العلمية التي تقيّم استنادا إلى معايير الصلاحية والملاءمة</p>
+<!-- PROOFREAD: 2209 part1 p02 — "تستطيع الواقع" / "تطلع لإدراك" / "تطويرها بشكل تدريجي ملاءمة" uncertain -->
+<!-- PROOFREAD: 2209 part1 p03 — faint handwriting; best reading below -->
+<p class="para">3) دلالة الحقيقة العلمية وقيمتها الإبستمولوجية</p>
+<p class="para">تمثل الحقيقة مطلبا علميا وإذا كانت عامة تعني مطابقة الفكر للأشياء ومطابقة الفكر للواقع ، فإنها في سياق النص ترتبط ببناء النظرية العلمية بمعزل عن الواقع وتفيد الصلاحية والملاءمة ولا تعني المطابقة . فالعلم لا يبني حقائق نهائية ومطلقة وإنما يبدع نماذج أي تمثلات قابلة للإختبار والتعديل والتكذيب . فالحقيقة العلمية تقع ضمن أفق معرفي تستحضر الممكن والنسبي والخاطئ والإحتمالي ويكون الجهد العلمي تخضيعها للخطأ وهذا ما يضفي على الحقيقة العلمية الطابع النسبي .</p>
+<p class="para">القيمة الإبستمولوجية لهذا المعنى</p>
+<p class="para">يكشف هذا المعنى عن خصوصية الخطاب العلمي بما هو خطاب عقلاني مفتوح يحتكم إلى نمذجة بنائية / استباقية تجعل من المعرفة العلمية مشروعا ومغامرة استكشافية لامتناهية . كما ساهم في تجديد وتطوير بنية العقل العلمي : فكلما تم استكشاف الواقع تطورت بنية الذهن وكلما تجددت المعرفة تغيرت أشكال الفعل في الواقع وأثبتت نجاعة على المستوى العملي .</p>
+<!-- PROOFREAD: 2209 part1 p03 — "بمعزل عن الواقع" / "تخضيعها للخطأ" / "بنية الذهن" uncertain -->
+<!-- PROOFREAD: 2209 part1 p04 — faint handwriting; best reading below -->
+<p class="para">السؤال : إذا كان <u>العلم</u> لا يكتشف <u>حقائق نهائية</u> بل يبني <u>نماذج تقريبية</u> فهل يعني ذلك <u>التشكيك في قيمته</u> ؟</p>
+<p class="para"><u>اللحظة الأولى</u> : التمهيد : يمكن الإنطلاق من الموقف العلموي أو الوضعي الذي يعتبر العلم مصدر اليقين المطلق وتنسيب هذا الموقف من خلال الإشارة إلى بناء العلم لنماذج تقريبية قابلة للتكذيب والتعديل .</p>
+<p class="para"><u>صياغة الإشكالية</u> : فبأي معنى نفهم انعدام الحقائق النهائية و المطلقة في العلم واستخدامه لنماذج تقريبية ؟ هل يمثل هذا التوجه علامة قصور وفشل تدعو للزهد في العلم أم أنه تأكيد لخصوصية العقلانية العلمية البنائية المفتوحة التي تحتكم إلى مطلب الصلاحية والملاءمة والفعالية</p>
+<p class="para">اللحظة الثانية : 1) توضيح دلالة العلم بما هو بناء لنماذج وليس اكتشافا لحقائق نهائية</p>
+<ul class="b">
+<li>تحديد معنى العلم في سياق استخدامه للنمذجة كأداة ضرورية وتوضيح دلالة النمذجة وتحديد دلالة الحقيقة النهائية كحدين متقابلين .</li>
+<li>توضيح الطابع التقريبي للنماذج بالرجوع إلى :
+<ul class="dash">
+<li>عدم مطابقتها للواقع ( تبني انطلاقا من الترابط الجدلي بين الافتراضي والواقعي )</li>
+<li>قابليتها للتكذيب والمراجعة والتعديل</li>
+<li>تعدد النماذج للكائن الواحد باختلاف منظومة الأوليات ( نماذج الذرة مثلا )</li>
+</ul></li>
+</ul>
+<p class="para">2) مبررات التشكيك في العلم بالرجوع إعراضه عن مطلب الحقيقة النهائية واعتماده لنماذج تقريبية</p>
+<ul class="dash">
+<li>حاجة الفكر إلى معرفة مطابقة للواقع</li>
+<li>الطابع الإختزالي للنماذج وعجزها عن معرفة الأشياء في ذاتها</li>
+<li>تهميش تاريخية الكائن ومقاربته كميا</li>
+<li>تقد استراتيجيا الإيهام</li>
+<li>عجز العلم عن إدراك الكلي ( كلية الواقع - كلية الإنسان ...... )</li>
+</ul>
+<p class="para"><u>تخلص</u> هل يمكن لهذه المؤاخذات أن تنزع عن العلم القيمة المعرفية والجدوى ؟</p>
+<p class="para">3) تأكيد قيمة العلم بالرجوع إلى طابعه الإحتمالي ودفاعه عن الحقيقة النسبية وابتكاره لنماذج تقريبية :</p>
+<ul class="dash">
+<li>الطابع التقريبي للنماذج يكشف عن نسبية اليقين العلمي ولا تلغيه كليا</li>
+<li>النمذجة تكشف عن الطابع الإستكشافي للعلم بما هو مشروع ومغامرة استكشاف الواقع اللامتناهي التركيب</li>
+<li>تقريبية النماذج تختزل نمط التوجه الجديد للعلم بما هو توجه بنائي لا تقدر فيه الحقيقة وفق معيار المطابقة بل بالرجوع إلى الصلاحية والملاءمة والفعالية</li>
+<li>الطابع التقريبي مظهر من مظاهر الإنفتاح والتطور</li>
+<li>الطابع التقريبي للنماذج لا يهدد قدرة العلم على السيطرة والتحكم بل تساهم في تأويج الفعل من خلال صياغة تمثلات احتمالية تسمح بالتوقع والإستباق والمراقبة . [ يمكن استحضار أمثلة من مجالات علمية مختلفة ]</li>
+</ul>
+<!-- PROOFREAD: 2209 part1 p04 — "تقد استراتيجيا الإيهام" / "تختزل نمط" uncertain -->
+<!-- PROOFREAD: 2209 part1 p05 — faint handwriting; "تأويج الفعل" / "صياغة" uncertain -->
+<p class="para">اللحظة الثالثة : الإنتهاء إلى عدم امكان التشكيك في قيمة العلم واعتبار نماذجه التقريبية مظهر من مظاهر تميزه واختلافه عن معارف أخرى تبنى انغلاقات ورؤى مغلقة [ الدين - الفلسفة الميتافيزيقية - الأسطورة ) وتأكيد حاجتنا لهذه النماذج وهذا ما يحصننا من الزهد في العلم أو ادانته وعدم السقوط في دغمائية وتقنية مطلقة</p>
+<!-- PROOFREAD: 2209 part1 p05 — "انغلاقات" / "دغمائية وتقنية مطلقة" uncertain -->
+<!-- file: Lycée Pilote Sousse - DC 2 2017 (+Corrigé) -->
+
+<div class="chtag"><span>المحور</span> فروض ومواضيع (عدّة محاور)</div>
+
+<div class="exsub">Lycée Pilote Sousse - DC 2 2017 (+Corrigé)</div>
+<!-- NOTE: highlighter marks and diagonal copy-shop stamp are left out -->
+<p class="subhead t-red"><u>القسم الأوّل:</u></p>
+
+<div class="chtag"><span>المحور</span> الإنية والغيرية</div>
+
+<p class="subhead t-navy">التمرين الأوّل:</p>
+<p class="para">قيل : " الآخر ليس بالضرورة البعيد جغرافيا ، أو صاحب العداء التاريخي أو التنافس الدائم ، إذ يمكن للذات أن تنقسم على نفسها و يحارب بعضها البعض الآخر "</p>
+<p class="consigne">ما هي المسلمة الضمنية التي يقوم عليها هذا الإقرار ؟</p>
+
+<div class="chtag"><span>المحور</span> الفن والدين</div>
+
+<p class="subhead t-navy">التمرين الثاني :</p>
+<p class="para">قيل " إنني لا أعتقد أنه سيأتي يوم يمكن أن يوجد فيه دين واحد و يمكن أيضا أن نعتبر بمعنى ما أنه لا يوجد حتى اليوم إلا دين أساسي واحد "</p>
+<p class="consigne">قدّم حجة تثبت من خلالها وجاهة هذا الموقف .</p>
+
+<div class="chtag"><span>المحور</span> الخصوصية والكونية</div>
+
+<p class="subhead t-navy">التمرين الثالث : النصّ</p>
+<p class="para">إنّ ضرورة المحافظة على تنوّع الثقافات ، في عالم مهدّد بالرتابة و التماثل ، لم تغب بالتأكيد عن تقدير المؤسسات الدولية . إنّها تدرك أنه لا يكفي لبلوغ الهدف ، أن نتعاطف مع تقاليد محليّة و أن نمنح ثقتنا في الأزمنة المنقضية . إنّ ما يتعيّن المحافظة عليه هو ظاهرة التنوّع و ليس المضمون التاريخي الذي أعطاه له كلّ عصر إذ لا يمكن لأي عصر بعد انقضائه ، أن يضمن دوام المضمون .</p>
+<p class="para">يجب إذن الإصغاء إلى السنابل و هي تنمو ،و حفز الطاقات الكامنة ،و إيقاظ كلّ نزعات العيش معا التي يزخر بها التاريخ ، وعلينا كذلك أن نكون مستعدّين ، دون شعور بالمفاجأة و دون نفور ودون تمرّد ، لتقبّل كلّ ما يمكن أن تحمله صيغ التعبير الاجتماعية الجديدة هذه من أشياء لم نألفها . ليس التسامح موقفا تأمليا ، نعفو بمقتضاه عمّا مضى و عمّا هو قائم . إنّه موقف نشيط يجعلنا نتوّقع ما يريد أن يكون و نفهمه و نشجعه . إنّ المطلب الوحيد الذي نستطيع أن ندعو إليه في هذا المضمار ، هو أن يتحقق هذا التنوّع بأشكال مختلفة بحيث يساهم كلّ شكل في جعل الأشكال الأخرى أكثر سخاء .</p>
+<p class="para"><b>كلود ليفي شتراوس : " العرق و التاريخ "</b></p>
+<p class="consigne">أجب عن الأسئلة التالية انطلاقا من النصّ</p>
+<p class="consigne">_ ماهي الإشكالية التي يطرحها الكاتب ؟</p>
+<p class="consigne">_ ماهي شروط إمكان " العيش معا " في نظر الكاتب ؟</p>
+<p class="consigne">حدّد رهان النصّ .</p>
+<p class="subhead t-red">القسم الثاني :</p>
+<p class="consigne">يختار التلميذ (ة) أحد السؤالين ليحرّر في شأنه محاولة في حدود ثلاثين سطرا :</p>
+<p class="para">السؤال الأوّل : هل من معنى للهويّة في غياب الآخر الثقافي ؟</p>
+
+<div class="chtag"><span>المحور</span> الفن والدين</div>
+
+<p class="para">السؤال الثاني : هل يمكن الالتزام بالمقدّس الديني دون السقوط في التعصّب ؟</p>
+<div class="exsub">الإصلاح</div>
+<!-- PROOFREAD: 2210 part1 p02 — handwritten correction (with highlighter); best reading below -->
+<p class="para">إصلاح فرض المراقبة رقم 2 .</p>
+
+<div class="chtag"><span>المحور</span> الإنية والغيرية</div>
+
+<p class="para">I) <u>القسم الأوّل</u> :</p>
+<p class="para">1) <u>التمرين الأوّل</u> : قيل " الآخر ليس بالضرورة البعيد جغرافيا أو صاحب العداء التاريخي أو التنافس الدائم ، إذ يمكن للذات أن تنقسم على نفسها و يحارب بعضها البعض الآخر "</p>
+<p class="para">المسلمات الضمنية التي يقوم عليها هذا الإقرار :</p>
+<ul class="b">
+<li>يفترض هذا القول مقاربة الهوية كهوية مركبة لا تتكون من خلال مطابقة الذات لذاتها وإنما تتشكل بواسطة الآخر ومن خلاله ليبرز " الأنا " و " الغير " كعنصرين محايثة للهوية : هو هو وغير هو .</li>
+<li>يستبعد هذا القول ضمنيا المواقف التي تتمثل الهوية استنادا إلى مقولتي الوحدة والتجانس مقصيا وجود الأنا ضمن المتعدد والمختلف</li>
+<li>يسلم ضمنيا بديناميكية الهوية وقابليتها للتغير والتطور بالرجوع إلى وحدة وصراع أضدادها</li>
+<li>يدعو هذا القول ضمنيا إلى عدم مقاربة الذات في علاقتها بالآخر وفق مبدأ الثالث المرفوع " والإحتكام إلى مبدأ التناقض و وفق المنطق الجدلي</li>
+</ul>
+
+<div class="chtag"><span>المحور</span> الفن والدين</div>
+
+<p class="para">2) <u>التمرين الثاني</u> : قيل " إنني لا أعتقد أنه سيأتي يوم يمكن أن يوجد فيه دين واحد ويمكن أيضا أن نعتبر بمعنى ما أنه لا يوجد حتى اليوم إلا دين أساسي واحد "</p>
+<p class="para">يمكن اعتماد أساليب حجاجية مختلفة ( الحجاج بالمثال - المقارنة - المماثلة - الإستقراء ... ) المهم هو ابراز كونية الدين من خلال خصوصيته أي وحدة الدين " الدين واحد " وإن تعددت الرموز المقدسة ويمكن البرهنة على هذه الوحدة انطلاقا من وجود ثوابت مشتركة بين الأديان المختلفة أ بالرجوع إلى منزلته ووظيفته في حياة البشر وهو ما يمكن البرهنة عليه والحجة وتدعيمها استنادا إلى معطيات علمية سوسيولوجية ( دوركايم ) أو نفسية أو انتروبولوجية . كما يمكن ترجيحها فلسفيا بالرجوع إلى الحاجة الإنسانية المشتركة للدين ( مثلا ربانيون ) وحاجة الإنسان ...</p>
+<!-- PROOFREAD: 2210 part1 p02 — second exercise answer heavily uncertain: "وهو ما يمكن البرهنة عليه والحجة" / "( مثلا ربانيون ) وحاجة الإنسان" -->
+
+<div class="chtag"><span>المحور</span> الخصوصية والكونية</div>
+
+<p class="para">3) <u>التمرين الثالث</u> : نص كلود ليفي شتراوس</p>
+<p class="para">* <u>صياغة الإشكالية</u> : كيف يمكن الحفاظ على تنوع الثقافات ؟ هل يتم ذلك من خلال التمسك بجذورنا والإنشداد إلى مضامينها التاريخية فحسب ؟ أم ينبغي تقبّل وفهم كل الفروق والإبداعات التي يحملها الآخر الثقافي ضمانا للعيش معا ضمن أفق إنساني كوني يتبنى على قيمة التسامح ؟</p>
+<p class="para">* <u>شروط إمكان العيش معا</u> :</p>
+<ul class="dash">
+<li>الإنفتاح على الآخر الثقافي في إطار التمسك بالأصالة وعدم نسيان الجذور</li>
+<li>احترام الإبداعات الإنسانية رغم اختلافاتها وعدم السقوط في التعصب الثقافي</li>
+<li>فهم الجديد كآخر حقيقي ومتميز ومقاربته مقاربة تاريخية ايجابية وعلائقية للذات</li>
+<li>تنسيب قيمة التسامح متجاوزا تشجيع الإبداع وعدم التقوقع وعدم التمركز على الذات</li>
+<li>المراهنة على التنوع كقيمة سخية ومثمرة .</li>
+</ul>
+<!-- PROOFREAD: 2210 part1 p02 — "تنسيب قيمة التسامح متجاوزا" / "وعلائقية للذات" uncertain -->
+<!-- PROOFREAD: 2210 part1 p03 — handwriting; best reading below -->
+<p class="para">* رهان النص : المكسب النظري : يكسبنا الحق وعيا بقيمة التنوع وهذا متحررنا من مطلب التماثل والتوحد بما هو ضرب من الكونية الزائفة والعقيمة .</p>
+<p class="para">المكسب العملي : يؤهلنا للتعايش والحوار والتسامح والتحصن من التعصب والعنف الذي يهدد التواصل بين الأفراد والجمعات .</p>
+<!-- PROOFREAD: 2210 part1 p03 — "يكسبنا الحق" / "وهذا متحررنا" / "الجمعات" uncertain -->
+<p class="para">II) القسم الثاني : السؤال الأول : هل من معنى للهوية في غياب الآخر الثقافي ؟</p>
+<p class="para"><u>اللحظة الأولى</u> : التمهيد : انطلاقا من جدل قائم اليوم يدور حول مسألة الهوية والمدفوع بالموقف للحديث عن " أزمة الهوية " وخطورة انسلاخ الأفراد ومجموعات عن هويتهم مقابل تبني هويات أخرى ناهيك إلى الإنتساب إلى الاحول ورفض الآخر خوفا من ضياع الهوية .</p>
+<!-- PROOFREAD: 2210 part1 p03 — "التمهيد" is boxed on the page; "والمدفوع بالموقف" / "ناهيك إلى الإنتساب إلى الاحول" / "خوفا من ضياع" uncertain -->
+<p class="para">صياغة الإشكالية : فهل أن معنى الهوية وتأصيلها بما هي خصوصية تفترض القطع مع الهويات الأخرى والإقامة خارج أفق الكونية أم أن الهوية تبنى في ظل التفاعل بين الخصوصي والكوني وتتطور بفعل المثاقفة ؟</p>
+<!-- PROOFREAD: 2210 part1 p03 — "صياغة الإشكالية" is boxed on the page; "وتأصيلها" uncertain -->
+<p class="para"><u>اللحظة الثانية</u> : 1) مفترضات القول بإمكان تحديد الهوية بمعزل عن الآخر الثقافي :</p>
+<ul class="b">
+<li>تمثل الهوية وفق مقولة التجانس والتماثل</li>
+<li>الهوية تعطى وتتشكل بالرجوع إلى الإرث الإجتماعي والموروث الثقافي</li>
+<li>الهوية خصوصية مغلقة محلية</li>
+<li>هوية منغلقة على ذاتها ترفض الآخر خوفا من أن يقتلعها من جذورها</li>
+</ul>
+<!-- PROOFREAD: 2210 part1 p03 — "خصوصية مغلقة محلية" / "يقتلعها من جذورها" uncertain -->
+<p class="para">تبعات هذا الموقف : مظاهر الأزمة</p>
+<ul class="dash">
+<li>امكان الشعور بالتفوق ( المركزية الثقافية )</li>
+<li>السقوط في هوس الهوية وما يترتب عنه من تعصب وكراهية</li>
+<li>تغييب دور الفرد في اختيار هويته وإمكان تحرره من الموروث الثقافي</li>
+<li>تحول الهوية إلى سجن قاتل</li>
+</ul>
+<!-- PROOFREAD: 2210 part1 p03 — "تبعات" / "وما يترتب عنه" / "وإمكان تحرره" uncertain -->
+<p class="para">التخلص : هذه النتائج تستدعي البحث عن شروط إمكان تطوير الهوية واستكمال معانيها ضمن أفق انساني كوني يستحضر ضرورة الآخر المكافئ</p>
+<!-- PROOFREAD: 2210 part1 p03 — "التخلص" / "يستحضر ضرورة الآخر المكافئ" uncertain -->
+<p class="para">2) في أن التواصل مع الآخر الثقافي يستكمل الهوية بإثرائها وتطويرها</p>
+<!-- PROOFREAD: 2210 part1 p03 — "بإثرائها وتطويرها" uncertain -->
+<ul class="dash">
+<li>تحديد معنى الآخر الثقافي بما هو تعبير عن كثرة وتعدد الهوية الإنسانية وما يترتب عنه من اقرار بحقيقة التنوع والإنسجام بحق الوجود</li>
+<li>تحديد الهوية بما هي أفق متعدد العناصر يتفاعل فيه الإنتماء والانساني النفسي والإجتماعي والتاريخي [ استحضار موقف ادغار موران ]</li>
+<li>الهوية ليست محلية ضيقة بقدر ما هي انسانية كونية حقوقية</li>
+</ul>
+<!-- PROOFREAD: 2210 part1 p03 — "والإنسجام بحق الوجود" / "يتفاعل فيه الإنتماء والانساني النفسي" / "كونية حقوقية" uncertain -->
+<!-- PROOFREAD: 2210 part1 p04 — handwriting; best reading below -->
+<ul class="dash">
+<li>استبعاد الآخر الثقافي يسمح بالتفاعل معه وإعادة تشكيل الهوية بواسطته - تدعيم هذه الحجة بالرجوع إلى دور المثاقفة في تطوير هويات ثقافية مختلفة</li>
+<li>الهوية التراكمية تسمح للأنا بالإنفتاح على ثقافات أخرى وتبنّي بعض قيمها [ موقف ميشال سار ]</li>
+</ul>
+<p class="para">⇐ الإستخلاص التفاعل الجدلي بين الهوية والغيرية في علاقة بالآخر الثقافي</p>
+<ul class="b">
+<li><u>اللحظة الثالثة</u> : الإنتهاء إلى موقف يؤكد الطابع المركب للهوية بما هي هوية متجددة تتفاعل مع الآخر الثقافي لا كعدو وغريب وإنما كشريك يساهم في تأصيل الهوية الإنسانية الكونية دون تهديد للخصوصية بل ضمن أفق انساني يحتمي على الإلتزام بالقيم الكونية .</li>
+</ul>
+<p class="para">بيان قيمة هذا الموقف : إن مقاربة الهوية في بعدها التركيبي والمتنوع يحمي الهويات من التقوقع والإنغلاق وتؤهل الأفراد والمجموعات المتنوعة للحوار والتسامح .</p>
+
+<div class="chtag"><span>المحور</span> الفن والدين</div>
+
+<p class="para">السؤال الثاني : هل يمكن الإلتزام بالمقدس الديني دون السقوط في التعصب ؟</p>
+<p class="para"><u>اللحظة الأولى</u> : التمهيد : يمكن التمهيد انطلاقا من واقع المجتمعات وتاريخها الذي يكشف عن تعامل الأديان الذي أدى إلى التفرقة عوضا عن التآخي والعنف عوضا عن الحوار والإعتراف ثم تأويل هذه الحالة وفق بعض المقاربات - بالرجوع إلى اقتران التدين بالتعصب .</p>
+<p class="para">صياغة الإشكالية : فهل يؤول التقيد بالمقدس الديني ضرورة إلى الإنغلاق على الذات ورفض الآخر المختلف أم يمكن للهوية الدينية أن تتفاعل ايجابيا مع الهويات المفارقة لها وتتعايش معها ضمن فضاء انساني أساسه التسامح ؟</p>
+<p class="para"><u>اللحظة الثانية</u> : 1) ارتباط المقدس الديني بالتعصب :</p>
+<ul class="dash">
+<li>تحديد دلالة المقدس الديني والكشف عن تجلياته رموزه وطقوسه</li>
+<li>تحديد دلالة الإلتزام الديني بما هو تقيد كلي بتعاليمه وتكريس قواعدها عن ادراك للكلي المطلق الثابت واللامتناهي</li>
+<li>ارتباط الإعتقاد الديني بالتعصب : نبذ وإقصاء المغاير - من حيث كونه فكر مغلق يتعالى عن التاريخ - يقترن بالمركزية الثقافية العقائدية ويحصل على هوية دينية مختلفة كل ذاتها مطلقة يتخذ اضطهاد الآخر المختلف الحد السقوط في العنف</li>
+<li>اقتران المقدس بالعنف [ يمكن توظيف مقاربة رينيه جيرار ]</li>
+</ul>
+<p class="para">يمكن تدعيم هذه الحجج بأمثلة من الواقع وبالرجوع إلى مقاربة فولتير لظاهرة التعصب</p>
+<!-- PROOFREAD: 2210 part1 p04 — "استبعاد الآخر الثقافي" / "يحتمي" / "ويحصل على هوية دينية مختلفة كل ذاتها مطلقة يتخذ" / "الحد السقوط" uncertain -->
+<!-- PROOFREAD: 2210 part1 p05 — handwriting; best reading below -->
+<p class="para">التخلص التساؤل عن حدود هذا الإقتران من خلال الإشارة إلى التناقض بين ما يفترضه الإلتزام من وعي واختيار مسؤول ومفترقات التعصب كحالة لاواعية تغيب العقل ولا تحترم الكرامة الإنسانية .</p>
+<p class="para">2) في أن الإلتزام الديني لا يقود ضرورة إلى التعصب وإنما يؤهل الذات للتحصن من مخاطره :</p>
+<ul class="dash">
+<li>تحديد معنى الإلتزام بالمقدس بما هو اختيار يعبر عن وعي بالوحدة ويقترن بالمسؤولية إزاء الإنسانية ككل</li>
+<li>توضيح البعد الإيتيقي للإلتزام الديني الذي يفترض الإيمان بمبادئ وقيم أخلاقية كونية كالفضيلة والخير الكلي والتسامح وما تفترضه هذه القيم من تكريس للتعايش</li>
+<li>البرهنة على امكان التحصن من التعصب في حالة تمثل الهوية الدينية كبعد من أبعاد الهوية الإنسانية المركبة والتي تجمع بين مقومات متعددة ومنها على سبيل المثال يتقاطع فيها الديني باللاديني م الخصوصي الجنسي والجماعي ...</li>
+<li>البرهنة على امكانية التحصن من التعصب في حالة تحرر المتدين من وهم التمحور والتفوق ومقاربة ذاته والعالم انطلاقا من روح نقدية تستمد من الفلسفة والتفلسف عامة [ توظيف موقف فولتير ]</li>
+</ul>
+<p class="para"><u>اللحظة الثالثة</u> : استخلاص موقف نهائي يبرز مفهوم حرية الإلتزام بالمقدس الديني من حيث هي تجربة وجدانية وروحية تحافظ على الهوية وتحميها من الإنغلاق ويؤهلها إلى احترام الهويات الأخرى إلا أن الوعي بكونية هذه التجربة والبراهنة على وحدة الإنسانية في إطار الإختلاف وتعدد تمثلاتها للمقدس وتنوع رموزها الدينية من شأنه أن يجنب الإنسان داء التعصب وما يؤول إليه من عنف ويؤهل الثقافات المتعددة للحوار الإيجابي والتواصل المثمر بينها .</p>
+<!-- PROOFREAD: 2210 part1 p05 — "التخلص التساؤل" / "ومفترقات" / "يتقاطع فيها الديني باللاديني م الخصوصي الجنسي والجماعي" / "مفهوم حرية" uncertain -->
+<!-- file: Lycée Pilote Sousse - DC 2 2018 (+Corrigé) -->
+
+<div class="chtag"><span>المحور</span> فروض ومواضيع (عدّة محاور)</div>
+
+<div class="exsub">Lycée Pilote Sousse - DC 2 2018 (+Corrigé)</div>
+<p class="para">تجريبية</p>
+<!-- PROOFREAD: 2211 part1 p01 — header left cell cut by the page edge: only "ن جازية" / "تجريبية" visible -->
+<!-- NOTE: highlighter marks and diagonal copy-shop stamp are left out -->
+<p class="subhead t-red"><b>القسم الأول:</b></p>
+
+<div class="chtag"><span>المحور</span> الخصوصية والكونية</div>
+
+<p class="subhead t-navy"><i><u>التمرين الأول :</u></i></p>
+<p class="para">قيل :" كلّ المجتمعات جزئية و لكن أفراد مختلف المجتمعات يمكنهم تحقيق الاعتراف المتبادل و التعلّم المتبادل فيما بينهم"</p>
+<p class="consigne">ما هي المسلّمة الضمنية التي يفترضها هذا القول ؟</p>
+
+<div class="chtag"><span>المحور</span> الإنية والغيرية</div>
+
+<p class="subhead t-navy"><i><u>التمرين الثاني :</u></i></p>
+<p class="para">قيل : "إن ما أخشاه ليس آخر يختلف عنّي بل آخر يهدّد كرامتي"</p>
+<p class="consigne">قدّم حجّة تثبت بها وجاهة هذا الموقف .</p>
+
+<div class="chtag"><span>المحور</span> الخصوصية والكونية</div>
+
+<p class="subhead t-navy"><i><u>التمرين الثالث :</u></i><b><u>النص</u></b></p>
+<p class="para">هناك وسواس يسود عصرنا الذي أُشبع تواصلا. إنّه وسواس انطواء كلّ منّا، و انعزاله في أرضه، أي فيما يُحقّق اختلافه، و أعني هُويّته الخاصّة. إنّه الحلم بالتجذّر في فضاء منعزل. بيد أنّ هناك في الوقت نفسه إلحاحا في الدعوة إلى وحدة الإنسان، بل في الدعوة إلى استرجاع يقين طبيعة بشرية،</p>
+<p class="para">و أعني هوّية كونية للإنسان، و إنّ في شكل ذاتية متعالية. إنّ جدلية هذه الحركة المزدوجة تنتمي إلى إشكالية التمركز العرقي [...]. إنّ التمركز العرقي، هو الحكم المُسبق الذي عن طريقه تعتقد جماعة بشريّة بأنّ الإنسانية تنتهي عند حدود القبيلة أو المجموعة اللغوية، و أحيانا عند حدود القرية، إلى حدّ أنّ العديد من السكّان الذين يُوسمون بأنّهم بدائيون يُطلقون على أنفسهم إسما يعني البشر، و أحيانا يعني "الطيّبون"، و"المُمتازون"، و "الكامِلون"، ممّا يترتّب عنه أنّ القبائل الأخرى و المجموعات و القرى الأخرى، لا تتمتّع بتلك الفضائل، أو أنّها لا تنتمي إلى الطبيعة البشريّة، و هي مُكوّنة من "الأشرار"، و من "قرده الأرض." إنّ العلاج ضدّ هذا الموقف هو أن نعمّم فكرة الطبيعة البشرية، و نقول بوحدة الإنسان و قيمه.</p>
+<p class="para">جان ماري بونوَا</p>
+<p class="para">من مقال "أوجه الهوية"</p>
+<p class="consigne">أجب عن الأسئلة التالية انطلاقا من النصّ :</p>
+<p class="consigne">_صغ إشكالية النصّ بدقة .</p>
+<p class="consigne">حدّد دلالة الكونية في سياق النصّ .</p>
+<p class="consigne">_ما هو رهان النصّ؟</p>
+<p class="subhead t-red">القسم الثاني :</p>
+<p class="consigne">يختار التلميذ (ة) أحد السؤالين ليحرّر في شأنه محاولة في حدود ثلاثين سطرا :</p>
+
+<div class="chtag"><span>المحور</span> الإنية والغيرية</div>
+
+<p class="para">السؤال الأوّل : هل تعد الاختلافات مصدر عداوة ؟</p>
+
+<div class="chtag"><span>المحور</span> الفن والدين</div>
+
+<p class="para">السؤال الثاني : هل يمكن الحكم على الديانات الأخرى انطلاقا من تمثلنا للمقدّس الديني ؟</p>
+<div class="exsub">الإصلاح</div>
+<!-- PROOFREAD: 2211 part1 p02 — handwritten correction; best reading below -->
+<p class="para">إصلاح فرض المراقبة الثاني في الفلسفة</p>
+
+<div class="chtag"><span>المحور</span> الخصوصية والكونية</div>
+
+<p class="para">I) القسم الأول</p>
+<p class="para">التمرين الأول : قيل : " إن كل المجتمعات جزئية ولكن أفراد مختلف المجتمعات يمكنهم تحقيق الاعتراف المتبادل والتعلم المتبادل فيما بينهم "</p>
+<ul class="dash">
+<li>يسلم هذا القول ضمنيا بكونية الخصوصية و بوحدة البشرة</li>
+<li>يتأسس هذا القول على مبدأ التثاقف</li>
+<li>يستبعد التراتب التفاضلي للمجتمعات الإنسانية</li>
+</ul>
+
+<div class="chtag"><span>المحور</span> الإنية والغيرية</div>
+
+<p class="para">التمرين الثاني : قيل " إن ما أخشاه ليس آخر يختلف عني بل آخر يهدد كرامتي "</p>
+<p class="para">لبناء حجة تثبت وجاهة هذا الموقف يمكن توظيف أساليب حجاجية مختلفة ( المقارنة . المماثلة . الحجاج بالخلف . الإستقراء ..... ) المهم هو البرهنة على قيمة الإختلاف الذي لا يهدد التواصل وإنما يجعله مثمرا ، والتأكيد مقابل ذلك على خطورة اللقاء بالآخر المختلف الذي لا يحترم كرامة الإنسان وهذا ما يفترض تأسيس التواصل على قيم كونية تحصن الإنسان من خطورة الآخر</p>
+<p class="para">. يمكن توضيح خطر اللقاء بالآخر الثقافي الذي يسعى لتعميم نموذج ثقافي يهدد كرامة الإنسان وكرامته ويسلب الأفراد خصوصيتهم ويمكن في هذا السياق استحضار العولمة كمهدد للتواصل</p>
+
+<div class="chtag"><span>المحور</span> الخصوصية والكونية</div>
+
+<p class="para">التمرين الثالث : نص بونوا :</p>
+<p class="para">صياغة الإشكالية : بأي معنى نفهم الهوية ؟ هل تفيد المغايرة المطلقة والخصوصية التي تجعلها جماعة بشرية منغلقة على ذاتها ومتعالية بما هي التمركز العرقي ؟ أم تتخذ بعدا كونيا لتكون هوية كلية شاملة لكل البشر تعمم فكرة الطبيعة البشرية وتتأسس ضمن أفق انساني مشترك ؟</p>
+<p class="para">أو</p>
+<p class="para">إشكالية ثانية : كيف يمكن للجماعات الإنسانية مواجهة الإفراط في التواصل اليوم ؟ هل يكون ذلك من خلال إنغلاقها واستسلامها لهوس الهوية الذي يحتل التمركز العرقي أم ينبغي عليها تأصيل هويتها الكونية وتأكيدها الوحدة الإنسانية في مستوى الطبيعة ومن مستوى القيم المشتركة ؟</p>
+<p class="para">2) تحديد دلالة الكونية سياقيا :</p>
+<p class="para">تعني الكونية الكلي في مستوى أنتروبولوجي وايتيقي إذ تعني وحدة الإنسانية بما هي معطى ومطلب في الآن نفسه : فالكوني ثابت للوجود الإنساني الذي يتبنى على صفات ومعاني مشتركة بين كل البشر مما يجعله وحدة طبيعية بيولوجية تفترض تعميم فكرة الطبيعة البشرية بما هي استعدادات عضوية وذهنية متأصلة في الذوات البشرية كما تكشف عن اللغة والتكوين الثقافي .</p>
+<p class="para">وتمثل الكونية مطلبا أي أنها أفق ايتيقي يجمع البشر على مستوى غايات</p>
+<!-- PROOFREAD: 2211 part1 p02 — "البشرة" / "وكرامته" / "يحتل" / "يتبنى على" / "كما تكشف عن" uncertain -->
+<!-- PROOFREAD: 2211 part1 p03 — handwriting; best reading below -->
+<p class="para">ومعاني ومبادئ وقيم كالحرية والكرامة والعدالة وتكمن قيمة هذا المطلب في تحرير الأفراد والجماعات من الإنغلاق ومن النظرة العدائية والإقصائية للآخر الثقافي ( التمركز العرقي وهوس الهوية )</p>
+<p class="para">إن الكونية هي الصفة المطلوبة للهوية كهوية كونية .</p>
+<p class="para">3) رهان النص : يكسبنا النص وعيا بمخاطر الإنغلاق والتمركز العرقي والثقافي ويحررنا من وهم التعالي والتفوق واستبعاد الآخر ويؤهلنا عمليا للتواصل مع الآخر كمختلف ونسبيه والتمسك بمطلب الوحدة والكونية</p>
+
+<div class="chtag"><span>المحور</span> الإنية والغيرية</div>
+
+<p class="para">II) القسم الثاني : السؤال : هل تعد الإختلافات مصدر عداوة ؟</p>
+<p class="para">اللحظة الأولى : التمهيد : يمكن التمهيد انطلاقا من الوضع الإنساني الذي تسوده نزاعات وخلافات أزلية متعددة الأشكال تحول دون توافق الأفراد فيما بينهم وتكشف من مشاعر العداء والكراهية بينهم ، ومقاربة هذه الخلافات بما هي نتاج الإختلافات</p>
+<p class="para">صياغة الإشكالية : فإلى أي مدى يمكن ارجاع العداوة بين الناس إلى الفروقات القائمة بينهم ؟ ألا تمثل الإختلافات حالة حتمية ومتميزة لا تفرز العداوة والحروب وإنما يمكن أن تتحول إلى قيمة تؤسس الصداقة وتراهن على الحوار والوفاق بين الأفراد والمجموعات ؟</p>
+<p class="para">اللحظة الثانية : 1) في أن الإختلافات تتحدد كفروقات تحدث تمييز أو تولد عداوة :</p>
+<ul class="dash">
+<li>توضيح معنى الإختلاف ومظاهره في مستوى حياة الأفراد</li>
+<li>تحديد معنى الإختلاف بما هو مغايرة تفترض القول بعدم وجود مساواة</li>
+<li>توضيح حقيقة الإختلافات التي تبرز في مستوى عضوي / جنسي وفكري / ذهني ، عقائدي / ثقافي / عرقي وجنسي ......</li>
+<li>بيان مساهمة هذه الإختلافات في التمييز والتفرقة والمفاضلة وما يؤول إليه ذلك من صراعات وتصادم كشف عن مشاعر عدائية</li>
+<li>استخلاص مساهمة الإختلافات في بعض الوضعيات في انتاج علاقات عدائية بين الأفراد وظهور أشكال رفض وإقصاء للآخر المختلف .</li>
+<li>وبيان كيفية إدانة هذه الإختلافات بحثا عن حلول فلسفية أو عملية تتجاوز الإختلافات وتكرس الوحدة والتجانس بين الأفراد .</li>
+</ul>
+<p class="para">التخلص : فهل يمكن اعتبار العلاقات العدائية كنتيجة لإدانة الإختلافات والبحث عن كيفية تجاوزها ؟</p>
+<p class="para">2) في أن الإختلافات لا تنتج عداوة وإنما تؤسس التواصل وتضمن الحرية والتسامح :</p>
+<ul class="dash">
+<li>بيان إمكانية النظر إلى الآخر المختلف كصديق لا كعدو .</li>
+</ul>
+<!-- PROOFREAD: 2211 part1 p03 — "ونسبيه" / "ومتميزة" / "تحدث تمييز" / "كشف عن" uncertain -->
+<!-- PROOFREAD: 2211 part1 p04 — handwriting; best reading below -->
+<ul class="dash">
+<li>بيان حتمية الإختلافات وقيمتها والتشكيك في الحلول التي تدعي تجاوز الإختلاف كالحل الفلسفي الميتافيزيقي ( ارجاع الكثرة إلى الوحدة )</li>
+<li>البرهنة على امكانية التعايش في ظل الإختلافات وذلك من خلال إعادة النظر إلى الإختلاف كحق وكقيمة مثمرة ( توظيف الدلالة الأنثروبولوجية للإختلاف )</li>
+<li>بيان حقيقة العداوة التي لا تعود إلى الإختلافات وإنما حتميتها الطبيعة العدوانية للإنسان [ هوبس : " الإنسان شرير بطبعه "</li>
+<li>الكشف عن وجود أسباب أخرى تنتج العداوة والكراهية مثل انعدام العدالة الإجتماعية وانتهاك حقوق الإنسان .</li>
+</ul>
+<p class="para">اللحظة الثالثة :</p>
+<p class="para">استخلاص المعنى الحقيقي للإختلافات كحالة تميز الوجود الإنساني وتساهم في اثرائه وتطويره وكقيمة تضمن وحدة الإنسانية ولا تهددها كما لا تنشر المشاعر العدائية وإنما تضمن التعايش السلمي وبيان قيمة هذا الموقف الذي يحررنا من إدانة الآخر المختلف ووهم المساواة المطلقة والتماثل ويؤهلنا عمليا لقبول الإختلافات وصيانتها ضمانا للتنوع والتفاعل الإيجابي والسلمي .</p>
+<!-- PROOFREAD: 2211 part1 p04 — "حتميتها" uncertain -->
+<!-- file: Lycée Pilote Sousse - DC 2 2020 (+Corrigé) -->
+
+<div class="chtag"><span>المحور</span> فروض ومواضيع (عدّة محاور)</div>
+
+<div class="exsub">Lycée Pilote Sousse - DC 2 2020 (+Corrigé)</div>
+<p class="para">القسم : الرابعة رياضيات</p>
+<!-- NOTE: highlighter marks and diagonal copy-shop stamp are left out -->
+<p class="subhead t-red"><b>القسم الأوّل :</b></p>
+
+<div class="chtag"><span>المحور</span> الخصوصية والكونية</div>
+
+<p class="para"><b>التمرين الأوّل</b> :قيل : " يقود التسامح غير المشروط إلى اختفاء التسامح نفسه "</p>
+<p class="consigne">قدّم حجة تدافع بها عن وجاهة هذا الموقف .</p>
+
+<div class="chtag"><span>المحور</span> الإنية والغيرية</div>
+
+<p class="para"><b>التمرين الثاني</b>: قيل " إنّ ارتقاء الإنسان بحقّ إلى مستوى الإنسانية يتمثّل في أن يكون دائما وبصورة متجددة قادرا على الإصغاء إلى الآخر ".</p>
+<p class="consigne">اكشف عن المسلمة الضمنية لهذا القول .</p>
+
+<div class="chtag"><span>المحور</span> الخصوصية والكونية</div>
+
+<p class="subhead t-navy"><b>التمرين الثالث : النصّ</b></p>
+<p class="para">كيف نكتسب ثقافة ؟ في المعنى الأنثربولوجي هناك عناصر نرثها مثل مكان ولادتنا و لغة آباءنا و بعض تصرفاتنا و عاداتنا . ولكن بالتأكيد لاّ يعتبر هذا كافيا ليصبح أحدنا شخصا مثقفا . ففي الواقع ما أن تنغلق ثقافة على نفسها حتى تختنق وتموت . إنّ الثقافة وانطلاقا من نقطة معيّنة هي اختراع لطريق يقودنا خطوة خطوة من مكان قريب إلى مكان أبعد منها .</p>
+<p class="para">إنّ الطريق من ثقافة إلى أخرى مزروع بالعوائق ومن الصعب علينا أن نلتقي بالآخر الذي لا يكون في أغلب الأحيان الشخص الذي تصورناه . ولا يكون سهلا علينا دائما الولوج إلى لغته وعاداته ومعتقداته . إنّما يمكننا في هذا المسار أن نشعر بانجذاب تجاهه، وأن نكتشف عادات غريبة عنّا . ولكن إذا حاولنا أن نحدّد الثقافة فعلا ، فإنّها تعني شيئين من جهة أنّها تتميّز بعملية التثاقف أي" السفر" الذي يتيح من مكان قريب إلى سكان أبعد أن نلتقي بالآخر . ومن جهة أخرى تبنى الثقافة على قرار خاص بالفرد حين يقرّر :"كلا أنا لا أنتمي إلى هذه الثقافة " .(...) هل هناك أجمل من الصناعات التقليدية البرازيلية ؟ أو هل هناك أعظم من رقة الثقافة ونعومتها ؟ . ليس للثقافة حدود، فهي قابلة للاختراق.</p>
+<p class="para">ميشال سار " هل الثقافة مهدّدة ؟"</p>
+<p class="consigne">أجب عن الأسئلة التالية انطلاقا من النصّ :</p>
+<p class="consigne">_ صغ إشكالية النصّ بدقة .</p>
+<p class="consigne">_حدّد دلالة الثقافة في سياق النصّ</p>
+<p class="consigne">_ استخرج رهان النصّ .</p>
+<p class="subhead t-red"><b>القسم الثاني :</b></p>
+<p class="consigne">يختار التلميذ أحد السؤالين ليحرّر في شأنه محاولة في حدود ثلاثين سطرا :</p>
+
+<div class="chtag"><span>المحور</span> الفن والدين</div>
+
+<p class="para">السؤال الأوّل : هل تعدّ التجربة الرمزية الدينية مجالا للتواصل أم هي تجربة في عسر التواصل؟</p>
+
+<div class="chtag"><span>المحور</span> الخصوصية والكونية</div>
+
+<p class="para">السؤال الثاني : هل ينبغي أن نخشى الآخر الثقافي ؟</p>
+<div class="exsub">الإصلاح</div>
+<!-- PROOFREAD: 2212 part1 p02 — handwritten correction; best reading below -->
+<p class="para">إصلاح فرض المراقبة 2 .</p>
+
+
+<p class="para">التمرين الأول : قيل " يقود التسامح غير المشروط إلى اختفاء التسامح نفسه "</p>
+<p class="para">تقديم حجة تدافع من خلالها عن وجاهة هذا القول</p>
+<p class="para">* بقدر ما تتضمن قيمة التسامح بقدر ما تحذر من الإفراط والمغالاة في التسامح وعدم الوعي بتبعاتها الخطيرة ، ذلك عندما تتجاوز حدود الإعتراف بحق الإختلاف والإصغاء إلى الآخر على أساس مبدأ الخصوصية والتنوع ضمن فضاء كوني ينتظم على أساس ايتيقي جوهره الكرامة والحرية حيث أن تجاهل هذه الأسس والضوابط يحول التسامح إلى انسلاخ ثقافي وتبعية وضياع للهوية في مستوى ثقافي وتحول الذوات إلى أشياء ( التشيئة ) وتجنيد في مستوى بيذاتي</p>
+<p class="para">* حجة الإستدلال لاستكمال التسامح كفضيلة : لا افراط ولا تفريط : توسط حالتين قصوتين ( تطرف ) : التعصب و اللامبالاة</p>
+<p class="para">* حجة تستند إلى تشخيص الواقع اليوم كواقع معولم لا يحترم فيه الخصوصيات ويشجع التثاقف الثقافات المهيمنة دون رقابة القيم ويتم التسامح مع كل النماذج السائدة لتفتقد قيمة التسامح المعنى وتختفي ليسود الإنحلال والتحرر الجنسي " على حد تعبير بوبريان "</p>
+
+<div class="chtag"><span>المحور</span> الإنية والغيرية</div>
+
+<p class="para">التمرين الثاني : قيل : إن ارتقاء الإنسان بحق إلى مستوى الإنسانية يتمثل في أن يكون دائما وبصورة متجددة قادرا على الإصغاء إلى الآخر "</p>
+<p class="para">المسلمات الضمنية</p>
+<ul class="dash">
+<li>يسلم القول ضمنيا بأن الكوني مطلب بيني ولا يعطى : فالإنسانية بما هو كونية لا تتأسس إلا ضمن أفق بيثقافي تواصلي وانفتاحي</li>
+<li>يستبعد القول ضمنيا الإنغلاق الثقافي ويدين " هوس الهوية " كعائق يحول دون ادراك انسانية الإنسان</li>
+<li>يفترض القول استبعاد المعنى الميتافيزيقي للكلي كإنية منغلقة على ذاتها ويقر بضرورة انفتاح الإنية على الغيرية</li>
+<li>يبنى القول على فهم الإنساني كوحدة جدلية وديناميكية تجمع الذات بالغير والخاص بالآخر الثقافي</li>
+<li>يقر القول ضمنيا بأولوية الإنفتاح والتثاقف كشرط من شروط اكتمال وحدة الإنسانية وتأصيل الإنساني على مبدأ الإختلاف والحوار</li>
+</ul>
+<!-- PROOFREAD: 2212 part1 p02 — "بقدر ما تتضمن" / "وتجنيد في مستوى بيذاتي" / "حجة الإستدلال لاستكمال" / "ويشجع التثاقف" / "بوبريان" / "مطلب بيني" uncertain -->
+<!-- PROOFREAD: 2212 part1 p03 — handwriting; best reading below -->
+
+<div class="chtag"><span>المحور</span> الخصوصية والكونية</div>
+
+<p class="para">السؤال : هل ينبغي أن نخشى الآخر الثقافي ؟</p>
+<p class="para"><u>اللحظة الأولى</u> :</p>
+<p class="para"><u>التمهيد</u> : يمكن الإنطلاق من حالة يعيشها العالم المعاصر نُعبّر عنها بتصادم الحضارات والتي أنتجت مواقف سلبية بخصوص انفتاح الثقافات على بعضها البعض وإدانة الآخر الثقافي بتهمة الغزو الثقافي والهيمنة الإستعمارية</p>
+<p class="para"><u>صياغة الإشكالية</u> : فإلى أي مدى يمكن التوجس من اللقاء بالآخر الثقافي باعتباره لقاء قاتل ؟ ألا ينبغي التحرر من هوس الهوية لنتواصل مع الآخر الثقافي بما هو مثيلنا المختلف " الذي يمنحنا وعيا بخصوصيتنا ويساهم في تأصيل قيمنا المشتركة ضمن أفق انساني كوني ؟</p>
+<p class="para">اللحظة الثانية :</p>
+<p class="para">1) في أن الآخر الثقافي مدعاة للخوف :</p>
+<ul class="dash">
+<li>تحديد دلالة " الآخر الثقافي " كمعنى يفهم في سياق أنثروبولوجي ومغيرا لمجموعة اثنية خصوصية مختلفة عن مجموعتنا على مستوى العرق واللغة وكامل المقومات الثقافية ( الدين ، الفن ، العادات ، القيم ... )</li>
+<li>وبيان امكان مواجهة هذه الخصوصية بالرفض والخوف .</li>
+<li>مبررات الخوف من الآخر الثقافي</li>
+<li>تطلع الآخر للسيطرة على ثقافتنا بحكم شعوره بالمركزية الثقافية التي تجسدت تاريخيا وفي المرحلة المعاصرة ( القرن العشرين ) في الحركة الإستعمارية</li>
+<li>الإنشداد إلى الخصوصية والإنغلاق الثقافي الذي يمكن أن يقودنا إلى السقوط في " هوس الهوية " وما يفترضه من رفض الإنفتاح على الآخر الثقافي</li>
+<li>حالة الإنفتاح والإفراط في التواصل التي أنتجتها العولمة ولدت ردود أفعال مشحونة بالعداوة والخوف من الثقافات الأخرى وذلك بكونها تقود إلى طمس الهوية والإنسلاخ الثقافي وموت الثقافات المحلية</li>
+</ul>
+<p class="para">⇐ استخلاص امكان رفض التواصل في ظل مقاربة الآخر الثقافي كعدو وكغريب وما يؤول إليه ذلك من انغلاق وعنف و ... اعراض عن الكوني وما يفترضه من وعي بوحدة الثقافات الإنسانية .</p>
+<p class="para">2) حتمية وقيمة التواصل مع الآخر الثقافي</p>
+<ul class="dash">
+<li>ضرورة التحرر من المقاربات السلبية للآخر الثقافي باعتبارها أحكام مسبقة مبنية على سوء فهم للهوية والخصوصية .</li>
+<li>مقاربة الآخر الثقافي اعتمادا على مقولة التشارك والتقاسم والوحدة في إطار الإختلاف والتنوع [ مقاربة كلود ليفي استراوس ]</li>
+</ul>
+<!-- PROOFREAD: 2212 part1 p03 — "ومغيرا لمجموعة" / an illegible word before "اعراض" (written as "و ...") uncertain -->
+<!-- PROOFREAD: 2212 part1 p04 — handwriting; best reading below -->
+<ul class="dash">
+<li>فهم علاقة الثقافات ببعضها البعض ضمن أفق كوني ايتيقي مشترك يغذي الشعور بالوحدة في ظل الكثرة وكثرة الواحد [ مقاربة ادغار موران ]</li>
+<li>تثمين قبول الآخر الثقافي والتواصل معه في إطار التثاقف ورصد مكاسبه : الوعي بالخصوصية والشعور بالتفوق - بدرجة ما - المساهمة في تقدم الإنسانية وتطورها [ مقاربة كلود ليفي ستراوس للفروقات بما هي ولودة ومثمرة ] .</li>
+</ul>
+<p class="para"><u>اللحظة الثالثة</u> :</p>
+<p class="para">استخلاص موقف يبرز الأسس الوهمية واللامعقولة للخوف من الآخر الثقافي وتأكيد ضرورة التواصل معه وبناء حوار ولقاء غير قاتل مشروط بقواعد وقيم تضمن التعايش والإقامة ضمن فضاء كوني انساني حق</p>
+<p class="para">بيان قيمة هذا الموقف على مستوى النظري والعملي :</p>
+<p class="para"><u>نظريا</u> تحررنا من الأوهام التي تغذي النزعات العدوانية والعنصرية وعمليا يقودنا إلى الإلتزام بقيمة التسامح وتجسيد الإنفتاح والتفاعل الإيجابي مع الثقافات الأخرى وتأصيل المواطنة العالمية</p>
+
+</section>
+
+</div>
+</body>
+</html>

@@ -1,0 +1,889 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<title>Wael Academy — Philosophie · الإنية والغيرية</title>
+<script>
+  window.MathJax = {
+    tex: { inlineMath: [['\\(','\\)']], displayMath: [['\\[','\\]']] },
+    chtml: { fontURL: 'https://cdn.jsdelivr.net/npm/mathjax@3/es5/output/chtml/fonts/woff-v2', matchFontHeight: true },
+    startup: { typeset: true }
+  };
+</script>
+<script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js" async></script>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Sora:wght@400;500;600;700;800&family=Cairo:wght@400;500;600;700;800;900&family=Tajawal:wght@400;500;700;800&family=JetBrains+Mono:wght@400;500;600;700&display=swap');
+:root{
+  /* ===== Wael Academy palette — MAIN ACCENT = green-teal gradient #0FAB8F → #067360 ===== */
+  --bg:#fff; --panel:#f2f8f8; --hair:#e6e6e9; --hair2:#d6d6db;
+  --fg:#0f2a31;        /* body text (and +/− signs) */
+  --fg2:#3f5b62;       /* softer text */
+  --fg3:#7c959b;       /* muted (footer) */
+  --blue:#067360;      /* deep accent — small numbers, borders, watermark, accent equations */
+  --blue-dark:#045260; /* titles & wordmarks (also the balance colour) */
+  --teal:#0fab8f;      /* bright accent end */
+  --loop:#0d9c82;      /* logo-loop helper */
+  --orange:#067360;    /* kicker/category labels (gold retired → deep teal) */
+  --red:#f5322f;       /* EXERCISE CHIPS ONLY — never for emphasis */
+  --cream:#e6f3f4; --blue-soft:#e6f3f4;  /* pale teal — callout fill + table sub-row fill */
+  --blue-line:#cde7e4; /* hairline */
+  --sub-ink:#045260;   /* table sub-row text */
+  --grad:linear-gradient(148deg,#0fab8f 0%,#0d9c82 52%,#067360 100%);
+  --mono:'JetBrains Mono',monospace; --latin:'Sora',sans-serif; --ar:'Cairo',sans-serif; --arb:'Tajawal',sans-serif;
+}
+*{box-sizing:border-box;margin:0;padding:0;}
+body{font-family:var(--latin);color:var(--fg);background:#e4e4e7;padding:28px 0;
+     -webkit-print-color-adjust:exact;print-color-adjust:exact;}
+html[dir="rtl"] body{font-family:var(--arb);}
+
+/* ===== brand watermark: REAL text (crisp), full-bleed, repeats per page ===== */
+.wm{position:fixed;inset:0;z-index:0;pointer-events:none;display:flex;
+    align-items:center;justify-content:center;overflow:hidden;
+    -webkit-print-color-adjust:exact;print-color-adjust:exact;}
+.wm span{font-family:var(--mono);font-weight:800;font-size:76.8pt;letter-spacing:.16em;
+    color:var(--blue);opacity:.06;white-space:nowrap;transform:rotate(-54deg);}  /* single diagonal: bottom-left → top-right */
+.wm.mono span{color:#000;opacity:.05;}
+
+/* ===== continuous flow stream (no page border) ===== */
+.flow{width:210mm;margin:0 auto;background:transparent;color:var(--fg);
+      padding-block:16mm 18mm;padding-inline:23mm 14mm;position:relative;}   /* spiral gutter: inline-start(=spine) 23mm / outer 14mm — dir-aware; print margins set in render_flow.py */
+@media screen{ .flow{background:#fff;box-shadow:0 10px 40px rgba(0,0,0,.16);} }
+.flow>*{position:relative;z-index:1;}
+.flow p,.flow li,.flow .data,.flow .note,.flow .ex{break-inside:auto;}
+.flow .fig,.flow figure,.flow img,.flow svg.figsvg,.flow table,.flow tr,.flow .chapdiv,.flow .exh,.flow .qrcard,.flow .meta{break-inside:avoid;}
+.flow h1,.flow h2,.flow h3,.flow .exh,.flow .subhead,.flow .chapdiv{break-after:avoid;}
+.flow img,.flow svg.figsvg{max-width:100%;height:auto;}
+.flow figcaption,.flow .figcap{display:none;}          /* rule 3: no figure captions */
+
+/* ===== front matter + chapters each start on a fresh page ===== */
+.flow .cover{break-after:page;}        /* cover alone on page 1 */
+.flow .toc{break-after:page;}          /* Sommaire alone on the next page */
+.flow .chapter{break-before:page;}
+.flow .chapter:first-of-type{break-before:auto;}
+
+/* ===== cover ===== */
+.cover{padding:14mm 0 8mm;border-bottom:2px solid var(--blue);margin-bottom:6mm;}
+.cover .badge{font-family:var(--mono);font-size:8.5pt;letter-spacing:.28em;text-transform:uppercase;color:var(--orange);margin-bottom:10px;}
+.cover h1{font-family:var(--latin);font-weight:800;font-size:34pt;line-height:1.03;letter-spacing:-.025em;color:var(--blue-dark);}
+.cover .grule{width:120px;height:5px;border-radius:5px;background:var(--grad);margin:14px 0;}
+.cover .sub{font-family:var(--mono);font-size:10pt;letter-spacing:.14em;text-transform:uppercase;color:var(--teal);}
+.cover .auth{font-size:11pt;color:var(--fg2);margin-top:6px;font-weight:600;}
+
+/* ===== table of contents ===== */
+.toc{margin:2mm 0 4mm;}
+.toc h2{font-family:var(--latin);font-weight:800;font-size:15pt;color:var(--blue-dark);margin-bottom:4mm;}
+.toc .trititle{font-family:var(--mono);font-size:8pt;letter-spacing:.2em;text-transform:uppercase;color:var(--orange);margin:4mm 0 2mm;}
+.toc ol{list-style:none;}
+.toc li{display:flex;align-items:baseline;gap:8px;font-size:10pt;padding:2.2px 0;color:var(--fg);line-height:1.4;}
+.toc li .n{font-family:var(--mono);font-weight:700;font-size:9pt;color:var(--blue);min-width:26px;}
+.toc li .dots{flex:1;border-bottom:1px dotted var(--hair2);transform:translateY(-3px);}
+
+/* ===== chapter divider band ===== */
+.chapdiv{margin:0 0 5mm;padding:6mm 16px 5mm;border-radius:12px;background:var(--grad);
+    -webkit-print-color-adjust:exact;print-color-adjust:exact;}   /* green-filled chapter band */
+.chapdiv .cn{font-family:var(--mono);font-size:8.5pt;font-weight:700;letter-spacing:.24em;text-transform:uppercase;color:rgba(255,255,255,.82);margin-bottom:5px;}
+.chapdiv h2{font-family:var(--latin);font-weight:800;font-size:17pt;line-height:1.1;letter-spacing:-.015em;color:#fff;}
+/* conclusion block — same green-filled look as the chapter band */
+.conclusion{background:var(--grad);border-radius:12px;padding:6mm 16px;margin:5mm 0;color:#fff;break-inside:avoid;
+    -webkit-print-color-adjust:exact;print-color-adjust:exact;}
+.conclusion .ck{font-family:var(--mono);font-size:8.5pt;font-weight:700;letter-spacing:.24em;text-transform:uppercase;color:rgba(255,255,255,.82);margin-bottom:6px;}
+.conclusion h3{font-family:var(--latin);font-weight:800;font-size:13pt;line-height:1.2;color:#fff;margin-bottom:4px;}
+.conclusion p,.conclusion li{font-size:10.4pt;line-height:1.7;color:#fff;}
+.conclusion b,.conclusion strong{color:#fff;font-weight:700;}
+
+/* ===== unit header (lesson/exercise) + QR emplacement ===== */
+.exh{display:flex;align-items:center;gap:11px;margin:6mm 0 3mm;}
+.exh .idx{font-family:var(--mono);font-size:9pt;font-weight:600;color:#fff;background:var(--grad);
+    border-radius:6px;padding:4px 11px;letter-spacing:.08em;text-transform:uppercase;
+    -webkit-print-color-adjust:exact;print-color-adjust:exact;}
+.exh .idx.ex{background:var(--red);}   /* exercise chip = red */
+.exh h2{font-family:var(--latin);font-size:14pt;font-weight:700;letter-spacing:-.01em;color:var(--blue-dark);}
+.exh .qrcard{margin-inline-start:auto;flex:0 0 auto;display:flex;flex-direction:column;align-items:center;gap:3px;width:26mm;}
+.qrcard .qrt{font-family:var(--mono);font-size:6.5pt;letter-spacing:.1em;text-transform:uppercase;color:var(--teal);text-align:center;}
+.qrcard .qrslot{width:24mm;height:24mm;padding:1.5mm;background:#fff;border:1px solid var(--blue-line);border-radius:8px;display:flex;align-items:center;justify-content:center;}
+.qrcard .qrslot img,.qrcard .qrslot svg{width:100%;height:100%;display:block;}
+
+/* sub-exercise label when one file holds several exercices */
+.exsub{font-family:var(--latin);font-weight:800;font-size:11.5pt;color:var(--blue-dark);margin:5mm 0 2.5mm;padding-bottom:3px;border-bottom:2px solid var(--blue-line);}
+
+/* ===== text blocks ===== */
+.lead{font-size:11pt;line-height:1.7;margin:2mm 0 3mm;color:var(--fg);}
+.para{font-size:10.6pt;line-height:1.7;margin:2mm 0 2.5mm;color:var(--fg);}
+.consigne{font-size:10.4pt;line-height:1.6;margin:1mm 0 2mm;color:var(--fg);font-style:italic;}
+.subhead{font-family:var(--latin);font-weight:800;font-size:12pt;letter-spacing:-.01em;color:var(--blue-dark);margin:5mm 0 2.5mm;}
+/* emphasis — green accent = .t-blue/.t-green ; balance = .t-navy ; red = SECONDARY accent (.t-red) on titles + a few words */
+.t-blue{color:var(--blue);font-weight:600;} .t-navy{color:var(--blue-dark);font-weight:700;}
+.t-red{color:var(--red);font-weight:600;} .t-green{color:var(--teal);font-weight:600;} .t-gold{color:var(--orange);font-weight:600;}
+.subhead.t-red{color:var(--red);font-weight:800;}   /* red Roman-numeral section title (I, II, …) — keeps subhead weight */
+/* highlighter marks — a soft colour wash behind a key word (agent picks green or red per what balances the page) */
+.hl-green,.hl-red{border-radius:3px;padding:.02em .24em;font-weight:600;box-decoration-break:clone;-webkit-box-decoration-break:clone;
+    -webkit-print-color-adjust:exact;print-color-adjust:exact;}
+.hl-green{background:rgba(15,171,143,.20);color:var(--blue-dark);}   /* green highlight */
+.hl-red{background:rgba(245,50,47,.13);color:#c0261f;}               /* red highlight  */
+
+.data{background:var(--blue-soft);border:1px solid var(--blue-line);border-inline-start:4px solid var(--blue);
+    border-radius:8px;padding:11px 16px;margin:3mm 0;font-size:10pt;line-height:1.65;color:var(--fg2);}
+.data b{color:var(--fg);font-weight:700;}
+.note{border:1px dashed var(--hair2);border-radius:9px;padding:11px 16px;margin:4mm 0;background:var(--panel);}
+.note .kicker{font-family:var(--mono);font-size:7.5pt;letter-spacing:.18em;color:var(--orange);display:block;margin-bottom:5px;}
+.note .nb{font-size:10pt;line-height:1.7;color:var(--fg2);} .note b{color:var(--fg);}
+.ex:not(.idx){background:var(--blue-soft);border:1px solid var(--blue-line);border-inline-start:3px solid var(--blue);
+    border-radius:7px;padding:7px 11px;font-size:9.6pt;line-height:1.6;color:var(--fg2);margin:2mm 0;}   /* :not(.idx) so it never hits the exercise chip (which is .idx.ex) */
+.ex .extag{display:inline-block;font-family:var(--latin);font-weight:800;font-size:7.6pt;color:var(--blue-dark);background:#fff;
+    border:1px solid var(--blue);border-radius:5px;padding:1px 9px;margin-inline-end:7px;vertical-align:middle;text-transform:uppercase;letter-spacing:.06em;}
+
+/* ===== lists ===== */
+ol.q{list-style:none;counter-reset:q;margin:1mm 0 2mm;}
+ol.q>li{counter-increment:q;position:relative;padding-inline-start:30px;margin-bottom:2.5mm;font-size:10.4pt;line-height:1.6;}
+ol.q>li::before{content:counter(q);position:absolute;inset-inline-start:0;top:1px;width:21px;height:21px;background:var(--grad);color:#fff;
+    border-radius:50%;font-family:var(--mono);font-size:9pt;font-weight:600;display:flex;align-items:center;justify-content:center;
+    -webkit-print-color-adjust:exact;print-color-adjust:exact;}
+ol.sub{list-style:none;counter-reset:s;margin:4px 0 0;padding-inline-start:2px;border-inline-start:1px solid var(--blue-line);}
+ol.sub li{counter-increment:s;position:relative;padding:2.5px 0 2.5px 26px;font-size:10.1pt;line-height:1.55;}
+ol.sub li::before{content:counter(s,lower-alpha)".";position:absolute;inset-inline-start:10px;top:2.5px;font-family:var(--mono);font-size:9pt;font-weight:600;color:var(--teal);}
+ol.qn{list-style:none;counter-reset:qn;margin:1mm 0 2mm;}
+ol.qn>li{counter-increment:qn;position:relative;padding-inline-start:26px;margin-bottom:2.2mm;font-size:10.4pt;line-height:1.55;}
+ol.qn>li::before{content:counter(qn)".";position:absolute;inset-inline-start:0;top:0;font-family:var(--mono);font-size:9.5pt;font-weight:700;color:var(--blue);}
+ul.b{list-style:none;margin:1mm 0 2mm;} ul.b>li{position:relative;padding-inline-start:22px;margin-bottom:2.4mm;font-size:10.4pt;line-height:1.6;}
+ul.b>li::before{content:"";position:absolute;inset-inline-start:3px;top:8px;width:8px;height:8px;border-radius:50%;background:var(--grad);
+    -webkit-print-color-adjust:exact;print-color-adjust:exact;}
+ul.dash{list-style:none;margin:1mm 0 2mm;} ul.dash>li{position:relative;padding-inline-start:20px;margin-bottom:1.8mm;font-size:10.4pt;line-height:1.6;}
+ul.dash>li::before{content:"–";position:absolute;inset-inline-start:2px;top:0;color:var(--fg);font-weight:700;}  /* dash / +/− signs = body colour */
+.flow ul.opts{list-style:none;margin:4px 0 3px;padding-inline-start:16px;}
+.flow ul.opts li{padding:2px 0;font-size:10.2pt;line-height:1.5;color:var(--fg);}
+
+/* ===== figures / tables ===== */
+.fig{margin:3mm 0;} .fig svg.figsvg{display:block;margin:0 auto;background:#fff;max-width:100%;height:auto;}
+.photo{display:block;margin:3mm auto;border-radius:8px;border:1px solid var(--hair);max-width:100%;}
+.figrow{display:flex;flex-wrap:wrap;gap:9px;justify-content:center;margin:3mm auto;max-width:190mm;}
+.flow .figrow img{border-radius:7px;border:1px solid var(--hair);height:46mm;width:auto;max-width:none;object-fit:cover;}
+.schemarow{display:flex;gap:16px;align-items:flex-start;flex-wrap:wrap;margin:2mm 0;}
+.schemarow .col-txt{flex:1 1 90mm;min-width:80mm;} .schemarow .col-fig{flex:0 0 78mm;} .schemarow .col-fig .fig{margin:0;}
+.flow table{border-collapse:collapse;width:100%;margin:3mm 0;font-size:9.8pt;line-height:1.5;}
+.flow table th,.flow table td{border:1px solid var(--blue-line);padding:6px 10px;text-align:start;vertical-align:top;}
+.flow table th{background:var(--grad);color:#fff;font-family:var(--latin);font-weight:700;font-size:9.4pt;
+    -webkit-print-color-adjust:exact;print-color-adjust:exact;}
+.flow table tr:nth-child(even) td{background:var(--blue-soft);color:var(--sub-ink);}   /* sub-row: #E6F3F4 / #045260 */
+
+mjx-container{color:var(--fg) !important;font-weight:400 !important;font-size:1.0em !important;}
+.eq-hi mjx-container,mjx-container.eq-hi{color:var(--blue) !important;}   /* accent (green) equation — highlight a key result; balance with plain math */
+.eq-red mjx-container,mjx-container.eq-red{color:var(--red) !important;}  /* red accent equation / symbol — complements the green .eq-hi */
+
+/* ===== per-file books: credit line, copies list, figures at their size ===== */
+.credit{display:flex;flex-wrap:wrap;align-items:center;gap:5px;margin:-1mm 0 3.5mm;font-size:9.4pt;color:var(--fg2);}
+.credit .who{font-weight:700;color:var(--blue-dark);}
+.credit .tg{font-family:var(--mono);font-size:7.2pt;letter-spacing:.04em;border-radius:5px;padding:1px 7px;line-height:1.6;
+    border:1px solid var(--blue-line);color:var(--blue);background:#fff;-webkit-print-color-adjust:exact;print-color-adjust:exact;}
+.credit .tg.sec{background:var(--blue-dark);border-color:var(--blue-dark);color:#fff;}
+.credit .tg.cor{background:#fff;border-color:var(--red);color:var(--red);}
+.credit a{color:var(--fg3);font-family:var(--mono);font-size:7pt;text-decoration:none;}
+.cover .auth .credit{margin:4mm 0 0;}
+.cover .copies{margin-top:5mm;font-size:8.6pt;color:var(--fg2);}
+.cover .copies ul{list-style:none;margin:2mm 0 0;padding:0;columns:2;}
+.cover .copies a{color:var(--fg3);text-decoration:none;font-size:8pt;}
+.flow figure.fig{text-align:center;}
+.flow figure.fig img{max-height:60mm;width:auto;max-width:70%;display:inline-block;}
+
+/* chapter tag on each part of a multi-chapter book (the book keeps the original order of the file) */
+.chtag{display:inline-block;margin:5mm 0 2mm;padding:1mm 3mm;border-radius:2mm;background:#eef3fb;border:1px solid #c9d6ea;
+  color:#1f3a6b;font-size:9pt;font-weight:700}
+.chtag span{color:#6b7f9e;font-weight:600;margin-inline-end:1.5mm}
+
+@media print{ body{background:#fff;padding:0;} .flow{width:auto;max-width:none;margin:0;padding:0;} }
+@page{size:A4;}   /* margins come from render_flow.py — do NOT set them here */
+</style>
+<meta data-pagefind-filter="type[content]" content="درس">
+<meta data-pagefind-filter="resource[content]" content="BAC.org.tn">
+<meta data-pagefind-meta="n[content]" content="1329">
+<meta data-pagefind-meta="title[content]" content="الإنية والغيرية">
+<meta data-pagefind-filter="chapter[content]" content="الإنية والغيرية">
+<meta data-pagefind-filter="chapter[content]" content="العلم بين الحقيقة والنمذجة">
+<meta data-pagefind-filter="chapter[content]" content="القيم: الأخلاق والدولة">
+<meta data-pagefind-filter="section[content]" content="باكالوريا علوم تجريبية"><style>.qrcard{display:none!important}.wa-nav{position:sticky;top:0;z-index:50;background:#045260;padding:10px 18px;font-family:Cairo,sans-serif;direction:rtl}.wa-nav a{color:#fff;text-decoration:none;font-weight:700}@media print{.wa-nav{display:none}}</style>
+</head>
+
+<body dir="rtl" lang="ar"
+      data-brand="Wael Academy" data-handle="@WaelAcademy"
+      data-tagline="في تُرابنا.. مغامرة بمغامرة"
+      data-phone="+216 50 40 40 42" data-site="waeldocuments.com"
+      data-cta="سجل معانا وأقرى عن بعد مع منصة Wael Academy"
+      data-subject="Philosophie · الإنية والغيرية" data-watermark="Wael Academy" data-pagefind-body><nav class="wa-nav" data-pagefind-ignore><a href="../index.html">→ الرجوع إلى فهرس الفلسفة</a></nav>
+
+<!-- single full-page diagonal watermark, bottom-left → top-right (repeats on every page) -->
+<div class="wm" aria-hidden="true"><span>WAEL&nbsp;ACADEMY</span></div>
+
+<div class="flow colored">
+<div class="cover"><div class="badge">◉ Wael Academy · Philosophie</div><h1>الإنية والغيرية</h1><div class="grule"></div><div class="sub">الإنية والغيرية</div><div class="auth"><div class="credit">المؤلّف / المصدر : <span class="who">www.BAC.org.tn · Bac.org.tn · Page: BAC-TUNISIE · Tél: 28 355 106 / 53 371 502 · وثيقة من اعداد الأستاذ: عبد القادر البادري · جذاذة العلم بين الحقيقة و النمذجة — الأستاذة ريم السالمي رويس — المعهد النموذجي المنزه الثامن 2020 (Mme ROUIS) · Prof Ayadi Chokri</span> <span class="tg sec">الفلسفة · باكالوريا علوم تجريبية</span> <a href="https://drive.google.com/file/d/15yuPAZIRs6UAmIQouJwZIv_QtGK42DUY/view">↗ الإنية والغيرية</a></div></div><div class="copies" data-pagefind-ignore><b>نسخ هذا الملف في الدرايفات (1)</b><ul><li><a href="https://drive.google.com/file/d/15yuPAZIRs6UAmIQouJwZIv_QtGK42DUY/view">Dhia Bouguerra · TakiAcademy › فلسفة</a></li></ul></div></div>
+<section class="chapter">
+<div class="chtag"><span>المحور</span> الإنية والغيرية</div>
+<!-- SOURCE: www.BAC.org.tn · Bac.org.tn · Page: BAC-TUNISIE · Tél: 28 355 106 / 53 371 502 · وثيقة من اعداد الأستاذ: عبد القادر البادري · جذاذة العلم بين الحقيقة و النمذجة — الأستاذة ريم السالمي رويس — المعهد النموذجي المنزه الثامن 2020 (Mme ROUIS) · Prof Ayadi Chokri -->
+<!-- NOTE: 1329 — handwritten course notes; "Scanned with CamScanner" app watermark on every page omitted; handwritten page numbers omitted -->
+<div class="exh"><span class="idx">درس</span><h2>الإنيّة و الغيريّة</h2>
+  <div class="qrcard"><div class="qrt">فيديو الدرس</div><div class="qrslot"><img src="qr/1329.svg" alt="QR"></div></div></div>
+<div class="credit">المؤلّف / المصدر : <span class="who">www.BAC.org.tn · Bac.org.tn · Page: BAC-TUNISIE · Tél: 28 355 106 / 53 371 502 · وثيقة من اعداد الأستاذ: عبد القادر البادري · جذاذة العلم بين الحقيقة و النمذجة — الأستاذة ريم السالمي رويس — المعهد النموذجي المنزه الثامن 2020 (Mme ROUIS) · Prof Ayadi Chokri</span> <span class="tg sec">الفلسفة · باكالوريا علوم تجريبية</span> <a href="https://drive.google.com/file/d/15yuPAZIRs6UAmIQouJwZIv_QtGK42DUY/view">↗ الإنية والغيرية</a></div>
+<!-- page p01 -->
+<p class="para"><span class="t-red">الغيريّة ≠ الإنيّة.</span></p>
+<p class="subhead t-red">المفاهيم :</p>
+<p class="subhead t-navy">الإنيّة</p>
+<p class="para">هي ماهية الإنسان وحقيقته وما يكون به الإنسان إنسانا وهي في هذا السياق إنية تأسست بشرطها لا تقوم إلا على الوعي، هي إنية متجوهرة متعالية، حميمية مطلقة ومعزولة عن العالم والآخرين</p>
+<!-- PROOFREAD: 1329 part1 p01 — "تأسست بشرطها لا تقوم إلا على الوعي" -->
+<p class="subhead t-navy">الغيريّة</p>
+<p class="para">هي كل ما ليس أنا أي الآخر المختلف هي جهة كل ما هو مغاير للإنية ولا يتوقف عليه وجودها أنطولوجيا (وجوديا) ووعيها بذاتها معرفيا.</p>
+<p class="subhead t-red">المسلّمات</p>
+<p class="para">أسبقية الماهية على الوجود : أي أن الإنسان ماهيته وحقيقته قبل أن يوجد في جسد وفي عالم ومع آخرين.</p>
+<p class="para"><span class="t-red">الحجج :</span> الفصل بين الإنية والغيرية يستمد شرعيته من اختزال الإنية في الوعي أو النفس في مقابل إقصاء الجسد والعالم والتاريخ والغير من دائرة الإنية</p>
+<!-- PROOFREAD: 1329 part1 p01 — "إقصاء" -->
+<p class="para"><span class="t-red">الوعي ≠ الجسد</span></p>
+<p class="para"><span class="t-red">وعي متجوهر :</span> اختزال الإنية في الوعي يعني أن الجسد كحواسه وغرائزه وامتداده الفيزيائي هو غيرية وكثرة وآخر سلبي. على المستوى المعرفي . معرفة حقيقة الذات هو نتيجة لعمل النفس وحدها وهي ليست في حاجة لوساطة الجسد والأمثلة على ذلك</p>
+<!-- page p02 -->
+<!-- NOTE: 1329 part1 p02 — a cut-off line from another sheet at the top edge ("- الآخر شرط …") omitted -->
+<p class="subhead t-navy">أفلاطون</p>
+<p class="para"><span class="t-red">«المعرفة كامنة في النفس»</span> في مقابل إعتبار النفس مصدرا للمعرفة الخالصة والأفكار السليمة يعتبر الجسد مصدر الأخطاء يقول <span class="t-red">«إن النفس لا تخطئ مالم يعكر صفوها الجسد»</span></p>
+<p class="subhead t-navy">ديكارت</p>
+<p class="para">يعتبر أيضا الوعي أو النفس مبدأ كل معرفة فهو وعي مساوي لذاته موضوعه الوحيد هو الوعي فالكوجيتو ليس سوى إكتشاف الفكر لذاته اكتشافا مباشرا دون وسائط، الجسد ليس وسيطا معرفيا فالجسد ليس مصدر للمعرفة اليقينية فحسب ديكارت <span class="t-red">«نعلم بالتجربة أن الحواس تخدعنا في ملابسات عديدة وليس من الحكمة أن نثق في من خدعنا ولو مرة»</span></p>
+<p class="para">على المستوى الأنطولوجي : وجود الإنسان في العالم لا يتوقف على وجوده في جسد فهو وجود متجوهر أي قائم الذات دون جسد والفرق بين الوعي والجسد هو فرق أنطولوجي.</p>
+<p class="para">أنطولوجيا : علم الوجود</p>
+<p class="para">والأمثلة على ذلك :</p>
+<p class="subhead t-navy">أفلاطون</p>
+<p class="para">وجود الإنسان الحقيقي والجوهري هو وجوده كنفس أمّا الجسد فهو وجود عرضي مؤقت النفس هي مابه يستمرّ الإنسان في الوجود في حين أنّ الجسد زائل وفاني.</p>
+<p class="subhead t-navy">ديكارت</p>
+<p class="para">جعل الجسد جوهرا وليس عرضا ولكنه أبقى على الوعي كمحدّد للوجود اذ يقول <span class="t-red">«لو توقفت عن التفكير لتوقفت عن الوجود»</span> لأنه اعتبره موضوع أي <span class="t-red">«جزء من عالم»</span> ولا يمكن التفكير فيه من ناحية الذات. تقول ديكارت في الفصل بين الذات والموضوع <span class="t-red">«إن الأنا أي النفس متميزة تمام التميز عن الجسد»</span></p>
+<!-- PROOFREAD: 1329 part1 p02 — "تقول ديكارت" -->
+<!-- page p03 -->
+<p class="para"><span class="t-red">الوعي ≠ العالم</span></p>
+<p class="para">وعي متعالي : إنفصال الإنية عن الجسد هو إنفصال عن العالم المادي : الوعي بالذات لا يشترط وعي بعالمها أفلاطون <span class="t-red">بحجته</span> الإقرار بالأسبقيّة الأنطولوجيّة للنفس على وجودها في جسد العالم الحسي.</p>
+<p class="para"><span class="t-red">الوعي ≠ التاريخ.</span></p>
+<p class="para">وعي مطلق : وعي الإنسان بذاته مستقل عن حركة وصيرورة التاريخ هو الزمن الذي يوجد فيه الإنسان ويعيش فيه تجاربه وأفعاله في العالم.</p>
+<p class="para">⇐ وبما أنّ الجسد والعالم غيريّة ملقاة بها خارج أسوار الإنية فإن الوعي ثابت ومطلق لأنّه طبيعي وخارج حركة التاريخ.</p>
+<p class="para"><span class="t-red">الوعي ≠ الغير.</span></p>
+<p class="para">وعي معزول : إدراك الإنسان لحقيقته لا يتوقف على الغير أي الآخر الإنساني. الغير عدو وغريب وغير ضروري معرفيا لمعرفة الذات وإثبات وجودها الأنطولوجي ولا لتحقيق سعادتها أخلاقيا.</p>
+<p class="para"><span class="t-red">الوعي ≠ اللاوعي</span></p>
+<p class="para">وعي مغرور يدعي الاكتمال : الفلسفات الميتافيزيقية لا تعترف بالغرائز وتسلم باكتمال الوعي وبأنه كل الحياة النفسيّة</p>
+<p class="subhead t-navy">ديكارت</p>
+<p class="para"><span class="t-red">«لا تقوم إلا على الوعي»</span> وهذا يعني أنّ الانسان يعي بكل ذاته وأنه حرّ وواعي مسؤول وكلّ أفكاره وأفعاله صادرة عن إرادة فهو يسود ذاته ويتحكّم فيها</p>
+<!-- NOTE: 1329 part1 p03 — a partly hidden line from the next sheet at the bottom edge ("فلا أعرف ذاتي …") omitted -->
+<!-- page p04 -->
+<p class="subhead t-red">على المستوى الأخلاقي :</p>
+<p class="para">سعادة الإنسان وحريته وفضيلته أي كماله الأخلاقي هو كمال النفس وحده، أما الجسد عند أفلاطون فهو رمز الرذيلة</p>
+<p class="para">⇐ تتمثل الإنيّة في النفس كجوهر غير مادي متعالي عن الجسم ففي كل الأحوال يشعر الإنسان بوجوده ولا يغفل عن إنيّته لأن الشعور بالإنيّة لا يقتضي وسائط جسميّة . إدراك الإنية إدراك حدسي مباشر + الانسان ثنائية نفس في جسد فالجسد مجرّد حامل أو وعاء أو أداة للنفس.</p>
+<p class="para">النفس والجسد من طبيعتين مختلفتين والجسد آلة للنفس فالجسد عاجز على أن يتحرّك بمفرده فهو أعمى ، علاقة النفس بالجسد هي علاقة عرضيّة مؤقتة وهي علاقة إستعمال وتحكّم أي علاقة حاكم بمحكوم أو أمر بمأمور</p>
+<p class="subhead t-red">يميز ديكارت بين الجسم والنفس :</p>
+<table>
+<tr><th>الجسم (ديكارت)</th><th>النفس (ديكارت)</th></tr>
+<tr><td>جوهر مادي ، مركب من مواد وعناصر آلة تتحرك وفق قوانين دقيقة وهو لا يدرك بل يدرك بفضل الوعي ، فهو لاوعي فيه وخال من الرمزيّة والتعبيريّة</td><td>جوهر مفكر ، بسيط غير مركب مجرّدة وحدة مكتملة ، قدرة على الوعي وعلى معرفة ذاتها دون وسيط.</td></tr>
+</table>
+<!-- NOTE: 1329 part1 p04 — a partly hidden line from another sheet at the bottom edge ("… على كلّ ما هو خارجي") omitted -->
+<!-- page p05 -->
+<!-- NOTE: 1329 part1 p05 — top edge shows the header of a printed sheet underneath ("www.BAC.org.tn  Bac.org.tn  28.355.186 / 53.371.502  الإنية والغيرية 36") — not part of the notes -->
+<p class="para">«إنية منغلقة تعود على ذاتها مباشرة : إنية متمركزة على ذاتها كوحدة لا تنقسم مكتملة ومنفصلة عن الغير في حين أن الجسد يرتهن للعالم والآخر.</p>
+<p class="para">⇐ انتهى الموقف المتعالي إلى جملة من المخاطر والاحراجات أهمها :</p>
+<ul class="dash">
+<li>إقامة الثنائية المتعالية للنفس على الجسد</li>
+<li>إعتبار الجسد مجرد عرض رغم أن ديكارت إعتبر الجسد شيئا من أشياء العالم.</li>
+<li>نفي علاقة الإنية بالتاريخ</li>
+<li>إفتراض أن إنيتي ثابتة وأن الأنا متطابقة مع نفسها وأنّ الإنسان سيد على ذاته</li>
+<li>إعتبار أنني أبقى أنا ذاتي وأفكر بنفس الطريقة في كل العصور والأمكنة</li>
+<li>استبعاد الآخر من انيتي. ⇐ إقصاء الغيرية تؤسس تطاول بالانسان لا حرمة به</li>
+</ul>
+<!-- PROOFREAD: 1329 part1 p05 — "⇐ إقصاء الغيرية تؤسس تطاول بالانسان لا حرمة به" (red, squeezed) -->
+<p class="para"><span class="t-red">الغيريّة = إنيّة</span></p>
+<p class="subhead t-navy">الإنية</p>
+<p class="para">الإنية في هذا السياق هي إنية مركبة متعددة الأبعاد ومتكثرة تحمل في ذاتها الاختلاف والغيرية وتتحدد بالتطابق وبالاختلاف هي إنية متجسدة تتحدد بوضعيتها في العالم وبعلاقتها بالغير وبتجاربها المتطورة في التاريخ وبمحاولتها مكبوتاتها ولاوعيها</p>
+<!-- PROOFREAD: 1329 part1 p05 — "وبمحاولتها مكبوتاتها" -->
+<p class="subhead t-navy">الغيرية</p>
+<p class="para">الغيرية في هذا السياق هي الآخر لكن الآخر الكامن داخل الأنا ، وهي الاختلاف الكامل داخل الهوية وهي الغيرية كجزء من الإنية</p>
+<!-- page p06 -->
+<p class="para">لأنه ليس مجرّد موضوع وإنّما هو ذاتي ، إنه ذاكرتي انفتاحي على العالم وهو المحدّد لمواقفي وأفعالي واختياراتي ردود أفعالي إنه تعبيرية خاصة ورمزية مكثفة.</p>
+<!-- PROOFREAD: 1329 part1 p06 — first words of lines 2-3 cut at the page edge ("انفتاحي", "ردود") -->
+<p class="para">يرفض ميرلوبونتي مفهوم الجسد الموضوعي الذي يدرك الجسد كشيء أو كمجموعة وظائف حيوية أو كموضوع ≠ ويتبنى مفهوم الجسد الخاص الذي هو جسدي كما أعيشه من داخله ومن خلاله وهو منظورية خاصة.</p>
+<p class="para">⇐ هناك تلازم بين الذاتي والجسدي أي أنا وعي متجسد وجسد واعي أي وحدة وعدم انفصال إنيتي منفتحة على الغير</p>
+<p class="para"><span class="t-red">الوعي = العالم.</span></p>
+<p class="para">الوعي قصدي إذا كان الكوجيتو الديكارتي كوجيتو بلا كوجيتاتو أي بلا موضوع فإنه من أجل ذلك ينقده ميرلوبونتي ليستبدل الذات المتعالية لا شيء إلا بقصد</p>
+<p class="para">الوعي عالم الأنا ووضعيتها حتى يدركها.</p>
+<!-- PROOFREAD: 1329 part1 p06 — faint words "لا شيء إلا بقصد" and the end of the line "الذات المتعالية …" barely legible -->
+<ul class="dash">
+<li>الانسان يتحدد بعالمه فإنية الإنسان عالمية إذ لا انسان دون العالم.</li>
+<li>إنسان دون عالم يسقط في العدم وعالم دون إنسان يسقط في العبث.</li>
+<li>الإنسان لا يقيم مع العالم علاقة وحيدة بل علاقات متعددة غنية بالمعاني ثرية بالدلالات كثيفة المعاني وفي كل مرة يدرك جانبا من العالم.</li>
+<li>علاقة الانسان بالعالم هي التي تنسج إنيته</li>
+</ul>
+<!-- page p07 -->
+<p class="para"><span class="t-red">الوعي = التاريخ.</span></p>
+<p class="para">وعي تاريخي : إستبدال وعي مطلق ثابت، طبيعي بوعي تاريخي.</p>
+<p class="para">تجاوز الإعتقاد المثالي بأن الانسان كائن وعيه طبيعي ومعطى</p>
+<p class="subhead t-navy">ماركس</p>
+<p class="para">« الوعي نتاج اجتماعي »</p>
+<p class="para">« ليس وعي البشر هو الذي يحدد وجودهم بل وجودهم هو الذي يحدد وعيهم »</p>
+<ul class="dash">
+<li>الوعي ليس معطى ومبدأ سابق للوجود بل نتاج ظروف اجتماعية ، اقتصادية.</li>
+<li>ليس وعي الناس هو الذي يحدد وجودهم بل إنّ وجودهم الاقتصادي والاجتماعي هو الذي يحدد وعيهم</li>
+<li>الوعي انعكاس مباشر لوجودنا المادي</li>
+<li>الوعي ليس مستقلا ولا متعاليا بل هو مرآة لواقعنا الاقتصادي والاجتماعي.</li>
+</ul>
+<p class="para">⇐ ليس للانسان ماهية ثابتة ومطلقة والوعي ليس ملكة أو معطى بل نتاج وضعية والإنية تاريخيّة</p>
+<p class="para"><span class="t-red">الوعي = اللاوعي</span></p>
+<p class="para">وعي متواضع : طرقت الفلسفة باب اللاوعي مع ظهور علم النفس التحليلي مع فرويد.</p>
+<ul class="dash">
+<li>الانسان كائن لا واعي + النفس لا تعكس حقيقة الانسان.</li>
+<li>الانسان جهاز نفسي يتكون من مناطق ومبادئ في حالة صراع</li>
+</ul>
+<!-- PROOFREAD: 1329 part1 p07 — last words cut at the page edge ("علم النفس", "في حالة صراع") -->
+<!-- page p08 -->
+<p class="subhead t-red">① الإنية والغيرية «موضوع شامل»</p>
+<p class="para">الموضوع.</p>
+<p class="para">لقل الجهاز النفسي</p>
+<!-- PROOFREAD: 1329 part1 p08 — diagram label at the right edge, cut: "لقل الجهاز النفسي …" -->
+<ul class="b">
+<li>← الأنا الأعلى (القيم المجتمعية)</li>
+<li>← الأنا</li>
+<li>← الهو (الجانب الغرائزي)</li>
+</ul>
+<p class="para">اللاوعي · العالم الخارجي</p>
+<p class="para">اللاوعي هو الغيرية المحايثة والآخر داخل الأنا ، آخر يتسع الوعي ليشمله ويتصالح معه . اللاوعي يعطي معنى لثغرات الوعي ويوسع دائرته في نفس الوقت الذي يشكل جرحا نفسيا له ويجبره على التواضع ← الوعي محدود بسيكولوجيا .</p>
+<p class="para">← الإنية لا تتمثل في الوعي بل الوعي مجرّد صفة من صفاته او قشرة أو سطح وقناع</p>
+<ul class="dash">
+<li>سلوك الإنسان عبارة عن كبت وحرمان فهو إعلاء وتصعيد وتحويل للطاقة في انشطة كالفن والحلم .</li>
+</ul>
+<p class="para"><span class="t-red">الوعي بالأنا = الغير.</span></p>
+<ul class="dash">
+<li>وعي بيذاتي : الوعي بالأنا يستوجب الوعي بالآخر الانساني والاعتراف به.</li>
+<li>لا تتحقق الانية في العزلة أي لا تتحقق بمعزل على العلاقة البيذاتية مع الغير.</li>
+<li>الوعي ليس معطى بل اكتساب تدريجي في علاقته بالغير.</li>
+<li>الوعي ليس مستقلا بل في علاقة بالمختلف</li>
+<li>الانسان يعيش صراعا مع الآخر من أجل انتزاع قيمة وأثناء الصراع تتشكل الانية</li>
+</ul>
+<!-- page p09 -->
+<ul class="dash">
+<li>الآخر شرط وجود الذات .</li>
+<li>الآخر شرط الوعي بالذات . أنا أتحدد بنظرة الغير لي.</li>
+</ul>
+<p class="para"><span class="t-red">أمثلة.</span></p>
+<p class="para">هابرماس · روسو · ميرلوبونتي</p>
+<p class="para">الوعي بالأنا يستوجب الإعتراف بالآخر ، ماسمّاه "هابرماس" بالإعتراف البيذاتي والصداقة في نظر روسو كعلاقة مشاركة في أفق بيذاتي مشترك يحقق فيه الانسان ذاته. فأسست علاقة الأنا بالغير الرأفة كإحساس ينتج من الأنانية وأكد ميرلوبونتي على ان التعاطف مع الآخر شرط لتحقيق الذات.</p>
+<!-- PROOFREAD: 1329 part1 p09 — "أنا أتحدد بنظرة الغير لي" and "فأسست علاقة الأنا بالغير الرأفة" -->
+<p class="subhead t-red">خاتمة :</p>
+<p class="para">إنيتي ليست قدرا والانسان لا يوجد ذاتا بل يصبح كذلك وإنيتي لا تتشكل نهائيا لأنّ الأنا مشروع منفتح على المستقبل وأختار ما أكون وأنشد حريتي</p>
+<!-- page p10 -->
+<p class="subhead t-red">① الإنية والغيرية «موضوع شامل»</p>
+<p class="para"><span class="t-red">الموضوع :</span> هل يمكن أن أكون إنسانا دون الآخر.</p>
+<p class="para">لعل التأمل في البعد الأنطولوجي (الوجودي) للإنسان ندرك من خلاله، أنّه كائن الوعي بإمتياز، لا يسكن المكان ولا يستقرّ في الزمان ، هاجسه في ذلك أن يبني ذاته ويعلي صرحه (مجده) حتى يكون جديرا بصفة إنسان ويحقق استعلاءه ويجذّر كيانه في العالم . فهل أنّ ذلك يتحقق بمعزل عن العالم بإنطوائه على ذاته محتقرا تحقيره للآخر أم أنّ معرفة الذات وتحقق الانسان يستوجب توسط الآخر؟ هل أنّ الآخر عائق يحول دون تحقق الماهية أم هو شريك في تأسيس الانسان ؟</p>
+<p class="para">لعلّ جملة هذه الاشكاليات تحيل على الطابع الاشكالي للسؤال الذي يطالبنا بالبحث في علاقة الانسان بالآخر. ذلك أنّ التثبّت في مضمون السؤال يكشف لنا امكانية تحقق كينونة الانسان من عدمها بمعزل عن الآخر.</p>
+<p class="para">الآخر هو اللاأنا ، المغاير ، المختلف ، المضاد إذ نصنّف الآخر كجسد أو تاريخ أو كلاوعي وكبقية البشر أي الغير . ومادام الآخر مجرّد غيريّات تتسم بتباين ملامح طبيعة الانسان فإنّ ذلك يعني أن استبعاد الآخر صار لزوما لتتحدد الانسان ككائن واع تقوم طبيعته على الفكر حيث تكتفي الذات بذاتها وتتصور الآخر مغايرا لها ومختلفا عنها وهو إعتقاد يضخّم من حضور الذات مقابل تحقير الآخر وتهميشه . فأنا فلأعرف ذاتي يجب أن أنفصل على كلّ ماهو خارجي</p>
+<!-- PROOFREAD: 1329 part1 p10 — "محتقرا تحقيره للآخر", "لتتحدد الانسان", "فأنا فلأعرف" -->
+<!-- page p11 -->
+<p class="para">طالما عالم الغيرية يمثل عائقا وعلّة للوعي وبالتالي يشكل تهديدا لتحقيق الوعي. فالوعي بالذات هو وظيفة تأمّلية حدسية ، استبطانية مباشرة يدخل ولوج عالم الغيرية هو الخوف في الصراع والتسلط والقهر اذا تتحدد الانية بإقصاء الغيرية لتكون الانسان انسانا دون آخر <span class="t-red">«إني جوهر كلّ ماهيته وطبيعته لا تقوم إلا على الفكر ولا تتعلق بأي شيء مادي»</span> ممّا يعني أن الإنية معتزة بما المتميزعن الجسم والعالم فهي لا تعيش نفسها كجسم ولا تعتبر العالم لتكون إنية متعالية ، مطلقة ، جوهرها الفكر وغيرها عرض فهي لا تحتاج لوسائط بل تتحقق داخل قلعة الأنا في عملية إستبطانية تلفظ ترفض كل غيرية فالإنسان انسان بفضل الوعي ما الآخر إلا موضوع غريب ودوني . لكن هل يحضر الآخر في هذا المعنى الدوني المتسم بالسلبية الخاضع للإقصاء والإيديولوجيا التهميش؟ أليس في التعالي عن العالم جهل بالإنسان ووعي بعالم مادام الوعي هو الأصل وعي بشيء ما؟ أليست تحديد الانية واثباتها يستوجب استحضار الآخر؟ أليست علاقة الانسان بالآخر هي التي تؤسس إنيته؟ وبالفعل فإنّ اعتبار الآخر عائقا قد يؤدي إلى الوقوع في عزلة أنطولوجية لا يمكن معها تحقيق وعي فعلي بالإنية ، فعلى الانسان أن يستفيق من غروره وصلفه وهو ما يستوجب التحرر من وهم الأنانة عبر توسيع الكوجيتو بإنفتاحه على سواه واعترافه بالآخر . إن التجربة الحياتية أثبتت أن الانسان لا يمكن أن يكون منغلقا على ذاته ومتمحورا في ذاته فهو ليس جوهرا ثابتا بل مشروعا قابلا للتحقق يكسب تجاربه في العالم ليكون وعيا قصديا نتاج تجربة معينة عبر وساطة الجسد حيث تتحقق الذات كوعي خاص كتجربة خاصة عبر جسد خاص بمثلما ، يعبّر عنها فهو شاهد على العالم.</p>
+<!-- PROOFREAD: 1329 part1 p11 — dense, partly cut handwriting; doubtful readings: "يدخل ولوج", "معتزة بما المتميزعن", "ولا تعتبر العالم", "تلفظ ترفض", "الخاضع للإقصاء والإيديولوجيا التهميش", "ووعي بعالم", "بمثلما" -->
+<!-- page p12 -->
+<p class="para"><span class="t-red">«جسدي يبدأ العالم»</span> على قول ميرلوبونتي ، إن لكل إدراك للعالم كما يبدو لها ضمن علاقة فينومينولوجية تعيش في عالم وفي ذهنها عالم تحدده فيحددها إذ حتى نقول أنا العالم ، على إعتبار أنّه رؤيتها الخاصة للأشياء وفي خضم الصراع مع الآخر تكتشف الذات ذاتها في علاقة بيذاتية أي ضمن علاقات اجتماعية تستوجب حضور الأنا الآخر لتثبت تواصلية تحكمي بجماعتي ، فاعلة ومنفعلة ، مرنة متحركة على استعداد للإعتراف بالآخر الذي يعترف بها أيضا فالبيذاتية تعني أننا نفكر معا أو نتحاور معا فحسب بل نفكر وجها لوجه كما أشار ليفيناس في هذه المواجهة ندرك أن الغير وسيط بين الذات وطريق العودة إليها في آن ، مجال لإكتشاف نقص فيها وطريق امتلائها ، كشف لخارطة وجود الأنا التي لا ترسمها الذات بذاتها بل وضع الذات ضمن نسيج المجتمعي هو ما يحددها . ليس ثمة عقاب أقسى من أن يعيش الانسان وحيدا في الجنة بيد أنّ الجحيم الحقيقي هو العزلة عن الآخر . فتتحرر الذات من عالمها الضمن ذاتي مدركة أن وعيها بذاتها يقتضي خارجا وانفتاحا على عالم الآخرية على عالم يؤسسها ذات اجتماعية تاريخية بإعتبار أنها تتحدد بإعتبارها تتحدد عبر فعلها بماهو حدث داخل الزمن أي ضمن تاريخ حيث تكون علاقة الانية به تلازمية ، داخلية ضرورية اذ لا يمكن للشك ان يتسرب إلى حقيقة أن بناء التاريخ هو بناء الذات فالانسان على قول ماركس <span class="t-red">«هو الكائن الوحيد الذي يصنع ذاته في نفس الوقت الذي يصنع فيه تاريخيّة»</span> حيث تتحدد الماهية تباعا للمعيش</p>
+<!-- PROOFREAD: 1329 part1 p12 — first letters of every line cut at the right page edge; doubtful: "إذ حتى نقول", "تواصلية تحكمي بجماعتي", "أننا نفكر معا" (negation possibly cut), "الضمن ذاتي", "خارجا", "الآخرية" -->
+<!-- page p13 -->
+<p class="para">وفي ذلك إقرار بأسبقية الوجود عن الماهية ودحض لجوهرية الانية ليكون الانسان في تحقق دائم لا يستقر ، أي سعي متواصل يدفعه نقصه الدائم نقص يدفعه للتطوّر . فالانسان لا يولد إنسانا بل يصبح كذلك . إنه يضطلع بمهمة تحققه فهو من وضع ذاته لينطلق وعيه متأثرا فينتهي مؤثرا . <span class="t-red">«إنه حركة أفعاله بالضبط»</span> على قول غرامشي . فالوعي إذن هو أفق مفتوح للدلالة والفعل حسب موازنة بين ما ترغب فيه الذات وما تعقله اي بين دوافعها وميولاتها وبين قوانين مجتمعها قد تكون مراوحة بين رغبات وعي تفعل فيها وأخرى لاواعية تنفعل بها وتترجمها في سلوكات تجد مبرراتها في رغبات دفينة مكبوتة في أنا عميق ، فلم نعد نفكّر بعد فرويد كما كنا نفكّر قبله إذ لم تعد إنية الانسان تتمثل في وحدتها وشفافيتها بل في كثرتها وتركيبتها حيث تحولت الانية إلى مسرح لصراع داخلي بين قوى تتجاذبها مطالب متناقضة يديره <s>مطلب</s> الأنا بدبلوماسيته فتحول الوعي إلى صفة بعد أن كان جوهرا وثابتا لتصير مهمّته وغايته الأسمى الحفاظ على الانسان في الإنسان .</p>
+<p class="para">نستخلص إذن أنّه لا معنى للإنسان خارج فضاء الآخر ولا قيمة للإنساني خارج دائرة الكلّي . فالإنية مركّبة موحدة لكثرة هائلة وكلّ متعدد الأبعاد إنها بنية تنتظم وفق روابط متشابكة لتبقى كينونة الانسان تعبيرا عن الحياة بما هي قلق ومغامرة وبما هي فعل وممارسة فتتجاوز الرؤية الثبوتية إلى رؤية متحرّكة فالانسان فلا أنا دون غير . وانسان دون عالم يسقط في العدم ولا عالم دون تاريخ ولا تاريخ دون زمن ولو أردنا معرفة الذات حقّ المعرفة <s>يجب</s> علينا إدراك عمق الذات وتركيبها</p>
+<!-- PROOFREAD: 1329 part1 p13 — doubtful: "فهو من وضع ذاته", "رغبات وعي", "فالانسان فلا أنا" -->
+<!-- page p14 -->
+<!-- NOTE: 1329 part1 p14 — printed answer sheet (header/footer www.BAC.org.tn, stamp, diagonal watermark omitted) filled in by hand; sheet page number "36" omitted -->
+<p class="subhead t-red">الإنية والغيرية</p>
+<p class="para"><b><u>الموضوع : ما مشروعية اعتبار " الأنا أفكر " أساس القول " بالإنية " ؟</u></b></p>
+<p class="para"><b>المقدمة :</b> يتنزل مشكل الإنية والغيرية في سياق اهتمام الفلسفة بسؤالها المركزي : «ما الإنسان ؟» وإذا ما سلمنا بأن الإنسان هو أساس الدلالة وغايتها القصوى ، فإنّ التساؤل عمّا يحدد الإنسان يصبح من البديهيات ، هذا فضلا عمّا يشهده من التباس في واقعنا المعاصر يرتبط بعجز الذوات عن تمييز بعضها من بعض وذلك بسبب التقارب والتماثل والتشابك الحاصل بين الأفراد والمجموعات ، فما أحوجنا والحال هذه العودة الى ذواتنا لنحددها على قدر من البيان والوضوح ولنتساءل :</p>
+<p class="para">ما دلالة الإنية ؟ وما هي شروط تحققها ؟ هل تقوم على سلطة الأنا أفكر أم أن هذه السلطة هي أبعد من أن تشكل أساس القول بالإنية لخضوعها الى سلط أخرى تحكمها ؟ ألا يؤدي اختزال الإنية في التفكير الى نفي الغيرية ؟ أليست الغيرية هي ما أحتاجه لأكون إنيتي وإثبات وجودي ؟</p>
+<!-- PROOFREAD: 1329 part1 p14 — small dense handwriting under a watermark; doubtful: "الحاصل بين الأفراد", "ما أحتاجه لأكون إنيتي" -->
+<p class="para"><b><u>الجوهر :</u></b></p>
+<p class="para">لقد علمنا <u>جيل دولوز</u> أن الفلسفة انشغال مفهومي بالأساس لهذا علينا أن نقف عند <u>دلالة "الأنا أفكر"</u> على اعتبار أنها أساس القول بالإنية وجوهرها ، وهي لا تفيد القدرة على التفكير والإدراك فحسب بل أنها ما ترسم معالم وجودنا وما به تتحدد الذاتية ، في حين أن <u>الإنية</u> تفيد ذلك المنطوق اللفظي المستخلص من الناسخ الحرفي "إنّ" ومن ضمير المتكلم "أنا" وفق ما يؤكده "الفارابي" في كتابه "الحروف" ، ولهذا تقوم "الإنية" على معنى الثبات والرسوخ والتأكيد وتحيل على ماهية الوجود الذاتي بكل ما يحمله من وعي وإدراك وتمثل وحرية واكتمال واستقلالية.</p>
+<p class="para">جلي / تبين إذن أن العلاقة تلازمية بين "الأنا أفكر" و"الإنية" وهو تلازم يؤسس الذات على الفكر ويثبت وجودها في آن ، فما هي مبررات هذا التلازم ؟ وما مشروعية اختزال الإنية في "الأنا أفكر" ؟</p>
+<p class="para">ديكارت <u>* مبرر أنطولوجي :</u> ليس "الأنا أفكر" خاصية مميزة للإنسان فحسب بل هي المعبرة عن وجوده على نحو مميز ولذلك يطلق على الديكارتية " فلسفة الذات " والمقصود <u>بالذات</u> تلك "النفس العاقلة" كجوهر بسيط غير مركب من عناصر المادة هي ذات مفكرة "تشكل وحدة كلية مستقلة بسيطة لا تنقسم وفي استغناء تام عن الغير بما هو كثرة حسية وتغير وتركيب ، فالإنية قائمة بذاتها وليست عرضا من أعراض الجسم *</p>
+<!-- PROOFREAD: 1329 part1 p14 — doubtful: "أنها ما ترسم معالم", "جلي / تبين", "مستقلة بسيطة" -->
+<div class="data">
+<p class="para">المعاني :</p>
+<ul class="b">
+<li>التاريخ</li>
+<li>الجسد</li>
+<li>الذات</li>
+<li>العالم</li>
+<li>اللاوعي</li>
+<li>الوعي</li>
+<li>والأيضا</li>
+<li>الأنا</li>
+<li>الآخر</li>
+<li>البيذاتية</li>
+</ul>
+<p class="para">* يقول ديكارت : " منذ الأمر بين الناس كالتي أدير بين الأشجار وكأنما أصواتهم خرير المياه "</p>
+<p class="para">أنطولوجيا Logos / Ontos علم الوجود</p>
+</div>
+<!-- PROOFREAD: 1329 part1 p14 — margin column, tiny handwriting: "والأيضا", the Descartes quotation, "Logos / Ontos" -->
+<!-- page p15 -->
+<p class="para">إنّ الإنية مع ديكارت تبدو مجردة متعالية مكتفية بذاتها هي ضرب من "الأنا وحدي" أي ضربا من التفكير الذاتي الذي يتخذ شكل حدس عقلي يتوجه الى ماهو كوني لأنه قائم على استعمال العقل ومؤمن بفعالية الوعي الأنطولوجية "أنا أفكر اذن أنا موجود" . (إنية عاقلة ومتأملة)</p>
+<p class="para"><u>* مبرر قيمي :</u> يتوافق هذا الموقف الديكارتي مع منظور آخر هو الأفلاطوني رغم استعاضة ديكارت عن عالم المثل بعالم العقل ، فالنفس في المرجعية الأفلاطونية ماهية الإنسان ومحدده الوحيد وقد كان سقراط رمز الفيلسوف الحقيقي لدى "أفلاطون" بموقفه في احتقار الجسمية وكل متعلقاتها من حواس وغرائز "إن النفس تحتقر الجسد" أيما احتقار وهي نفس تطمح بذلك التعالي عن شوائب الغريزة والأهواء والتسامي عن تضليل الحواس وخداعها ؛ التزاما بالحكمة والفضيلة التي لا تربطها إلا بالنفس المفارقة والمستقلة تماما عن الجسد .</p>
+<div class="data"><p class="para">تكمن المشروعية إذن في الإقرار بأن ماهية الإنسان كامنة في النفس باعتبارها كيانا مكتملا ، مكتف بذاته ، جوهرا بسيطا لا ينقسم ولا يفنى بل هي تهب الحياة والحركة للجسد باعتباره "غيرا" إذ يقول أفلاطون في محاورة "النواميس" : "النفس مبدأ الحركة وهي متقدمة عن الجسد زمانا وتسبقه وهي تقوده وتأمره بينما الجسد يطيع" .</p></div>
+<p class="para"><u>* مبرر معرفي :</u> الأنا أفكر أساس القول بالإنية</p>
+<p class="para">ان الإقرار بأن "الأنا أفكر" هو أساس الإقرار بالإنية" لا يجد مشروعيته داخل الديكارتية والأفلاطونية فحسب بل يستند الى مرجعيات أصيلة في الفكر الفلسفي تمتد الى "الفارابي" و"ابن سينا" الذي يقربان اثبات الإنية لا يستند الى الغيرية ولا يستدعي وجود وحضور " الخارجيات " ويقصد بها العالم والفضاء وأعضاء الجسد ، فالتفكير أي الوعي هو التفكير في الإنية منظورا اليها من جهة نفيها واستبعادها الغيرية .</p>
+<p class="para">ذلك أن معرفة الذات لذاتها ووعيها بإنيتها لا يستوجب توسط الجسد والعالم بل يستدعي التخلص من الجسد والإعراض عن العالم ورجوع النفس الى ذاتها تفحصا في إنيتها وقد مثل <u>"برهان الرجل الطائر"</u> اثباتا للإنية حيث أن الإنسان لوجرّد ذاته من كل ما يتصل بها من المدركات الخارجية ورجع الى ذاته الحقيقية فإنه يدرك بالحدس * إنه ليس جسما ولا شيئا حالا في الجسم <u>وإنما هو ذات روحانية تدرك نفسها بنفسها بغير واسطة الحواس</u> والتخيل ؛ <u>إنه إثبات للهوية دون حاجة الى الغيرية</u> مما يعني ان الإنية مستقلة تمام الاستقلال عن الجسم وعن العالم فهي لا تفسد بفساد الجسم ولا تتغير بتغير العالم .</p>
+<div class="data">
+<p class="para">الأنا ≠ الإنسان</p>
+<p class="para">يقول أفلاطون : " بسبب الجسد نكون عبيدا في خدمته وبسببه نتكاسل عن التفلسف " .</p>
+<p class="para">يقول أفلاطون " إذا أردنا ان نعرف شيئا ما معرفة خالصة ، يجب علينا ان ننفصل عن الجسد وان ننظر الى الأشياء في ذاتها وبالنفس ذاتها " .</p>
+<p class="para">* الحدس : هو المعرفة المباشرة دون واسطة " هو سرعة الانتقال من معلوم الى مجهول " على حد عبارة ابن سينا .</p>
+</div>
+<!-- PROOFREAD: 1329 part1 p15 — small handwriting under a watermark; doubtful: "يتوجه الى ماهو كوني", "التي لا تربطها إلا", "الذي يقربان", "أيما احتقار", margin notes -->
+<!-- page p16 -->
+<!-- NOTE: 1329 part1 p16 — handwritten marks "903", "15" on the printed sheet omitted -->
+<p class="para"><b>الموضوع : هل في الانفتاح على اللاوعي تهديد للإنية؟</b></p>
+<p class="subhead t-red">المقدمة</p>
+<p class="subhead t-navy">التمهيد</p>
+<p class="para">*الكشف عن التوتر بين الاعتقاد في البداهة الظاهرية لتحديد الانية انطلاقا من الوعي وبين ما يكشفه الواقع النفسي والسلوكي من خضوع الانية لمجموعة من القوى والمسارات اللاواعية</p>
+<p class="para">*(أ و من) بيان ن كيف أن الإنسان يمثل الموضوع المركزي للفلسفة بل الأكثر إحراجا لما يحمله هذا الكائن من أبعاد متناقضة ومن اقتدارات واعية ولا واعية</p>
+<p class="para">(تعتبر مكونات الحياة النفسية احدى أهم المواضيع التي حاول العلماء والفلاسفة تحديدها، فالفكر الفلسفي منذ القديم يصر على أن الإنسان حيوان عاقل معتبرا اياه مصدرا للمعرفة، وإذا كان بإمكانه ان يعقل أو يدرك محيطه الطبيعي فمن الأحرى والأولى أن يدرك ذاته. فكل ما هو نفسي شعوري وليس هناك حياة نفسية خارج الوعي إلا الحياة الفيزيولوجية، فكل ما يحدث في النفس يخضع لسيطرة الشعور ولا يمثل غير ذلك وبالتالي فما لا نشعر به يعتبر غير موجود. وعلى هذا الأساس تكونت نزعة تصر على المطابقة بين الوعي والنفس إلا أنه وبولادة علم النفس التحليلي تظهر فرضية اللاشعور أو اللاوعي معلنة بذلك رفض هذه المطابقة التي تحصر كل ما هو نفسي وتجعله في متناول الوعي والشعور)</p>
+<p class="subhead t-red">الاشكالية</p>
+<p class="para">•أي مصير للإنية بعد اكتشاف اللاوعي؟ هل يشكل الانفتاح على اللاوعي خطرا على الإنية أم مثل مصدر ثرائها وخصوصيتها وإعادة تأسيس لها؟ هل يؤدي الإقرار باللاوعي إلى الحط من قيمة الوعي أم أنه على العكس من ذلك مناسبة لمراجعته و تعميق مفهومه في ضوء علاقته باللاوعي؟ أين انعكاس لذلك على تصورنا لماهية الإنسان ونوعية حضوره في العالم ؟ فما هي دلالة الإنية ؟وماذا نعني باللاوعي؟</p>
+<p class="subhead t-red">جوهر المقال</p>
+<p class="subhead t-navy">لحظة أولى:</p>
+<p class="para"><b>أ:تحديد دلالة الانية وطبيعتها</b> : بما هي ما يجعل كائنا ما هو هو لا آخر</p>
+<p class="para">• تتحدد الانية بما هي قدرة الإنسان على إثبات وجود الأنا بخاصية معينة تميزه عن الأشياء والغير . هو مفهوم فلسفي قديم معناه تحقق الوجود العيني ومعناه قريب من معنى الهوية ،فهي ما يتحدد به وجود الشيء فيكون حقيقته و قوامه.إنية الإنسان هي ما يكون به الإنسان إنسانا الانية بهذا المعنى ترتبط بما هو جوهري في الإنسان أي بما هو ثابت لا يلحقه تغير، وقائم بذاته بحيث لا يحتاج في تحديد حقيقته أو لإثبات وجوده إلى غيره</p>
+<p class="para">•الانية تحيل إلى الذات الواعية التي تستطيع تمثل ذاتها باعتبارها هي بمنأى عن التحولات التي قد تطرأ على الجسد والعالم .</p>
+<p class="para">• الانية فلسفيا تحيل إلى الذات الواعية الحرة و المسؤولة تجاه الذات وتجاه الآخر سواء أكانت في الفلسفة الكلاسيكية أو الفلسفة المعاصرة ديكارت. الإنية ذات (وعي،إرادة ،حرية)جوهر مفكر و يتحقق "الوعي بالذات" من خلال عودة الذات على ذاتها، "أنا أفكر أنا موجود"ف الكوجيتو يثبت نفسه بنفسه دونما حاجة لأي واسطة بل إن إثبات وجود الذات يقتضي بداية ضرورة إستفراغ الذات من كل ما هو خارج الذات عن طريق الشك .يتعين الإنسان إذن بما هو أنا تعي ذاتها بذاتها في استقلال وتعال عن كل "الخارجات"سواء كان الجسد أو العالم أو بقية الناس. أما الفلسفة المعاصرة فإنها تشدد على مقولة الوعي وترى مع الفينومينولوجيا وبالخصوص مع مارلوبونتي بأن الوعي ،الذي به يكون الإنسان إنسانا لا يمكن أن يتحقق خارج إطار المعيش وتجربتنا الفعلية داخل العالم من خلال ما تنسجه من علاقات مع الأشياء كما مع الأخرين،إذ أن كل وعي هو وعي بشيء ما .يستوجب إذن تحقق الوعي بما هو شرط تحقق الإنساني في الإنسان إدراكا للعالم إدراكا تنشئه الذات من خلال ما تعيشه من تجارب داخله.</p>
+<!-- PROOFREAD: 1329 part1 p16 — faint print under watermark/stamps; doubtful: "(أ و من) بيان ن", "أين انعكاس لذلك" -->
+<!-- page p17 -->
+<p class="para"><b>ب- تحديد دلالة اللاوعي بماهو عمق نفسي خفي ومحدد لما يطفو على سطح الوعي</b></p>
+<p class="para">*يكشف التحليل النفسي الحياة النفسية في أغلبها لاشعورية /لاواعية/واللاوعي: يمثل مجموع الرغبات التي قام الأنا بكبتها ودفعها لعمق الحياة النفسية تحت تأثير الأنا الأعلى.و تقوم الحياة النفسية على أساس الصراع بين الهو من جهة والانا الأعلى من جهة ثانية وهي وضعية تجعل من وضعية الأنا وضعية بائسة نظرا لأنه يكون من المستحيل بالنسبة للانا أن يوفق بين المطالب المتناقضة بين الهو والانا</p>
+<p class="para">• يعلن التحليل النفسي أن اللاوعي هو حقيقة الإنسان و أنّ الوعي زيف ، لا هو "أصل" أو "مبدأ" و لا هو السيد و لا هو الامر ، و إنما هو نتاج ثانوي لما هو أعمق منه. بذلك ينضمّ فرويد إلى ماركس و نيتشه فيكوّن ثلاثتهم مجموعة الفلاسفة الذين يسميهم ريكور "فلاسفة الظنّة" ، فمنذ ماركس و نيتشه و فرويد بدأ الشك في الوعي مع ماركس "الوعي نتاج اجتماعي" ، فليست حركة الفكر سوى حركة المادة منعكسة في الذهن البشري ، و "ليس وعي البشر هو الذي يحدد كينونتهم ، بل كينونتهم التاريخية هي التي تحدد وعيهم" ، أمّا الوعي الذي يعتقد أنه متعال على شروط إنتاجه المادية فهو وعي زائف كما يكشف عن ذلك التحليل الاقتصادي . مع نيتشه الوعي هو وسيلة الجسد الذي هو حقيقة الإنسان و جوهره و المبدع الحقيقي لقيمه،ولذلك فإنّ الوعي الذي يدّعي الاستعلاء على الجسد و احتقاره هو وعي مريض ، مرضه يدعو إلى التشكك فيه و إلى البحث في أصله وفصله ، وهو ما قام به نيتشه في كل فلسفته بالاعتماد على المنهج الجينيالوجي و أما مع فرويد فإنّ الطعنة الثالثة للكبرياء الإنسانية تكشف عن أنّ "الأنا لم يعد سيدا حتى في بيته" و أن "الوعي" لا يعدو أن يكون سوى جملة من الأعراض تعبر عن صراعات الإنسان الدفينة و تتطلب تأويلا يُحلّ المعنى الباطني لهذه الأعراض محل المعنى الظاهر</p>
+<p class="para">•اللاوعي راود الفلاسفة منذ القديم ولم يأخذ بعده التأسيسي إلا مع فرويد</p>
+<p class="para">•بيان كيف أن اللاشعور يتكون منذ الطفولة الأولى بموجب عملية الكبت الناتجة عن تصادم الدوافع الممنوعة مع قوى القمع</p>
+<p class="para"><b>ج- تبعات الانفتاح على اللاوعي : اللاوعي تهديد للانية</b></p>
+<ul class="b">
+<li>تفجير الذات فبعد ان كانت لدى ديكارت جوهرا بسيطا ووحدة نفسية واضحة ومتميزة تدرك ذاتها بذاتها ،انقسمت و تفتت</li>
+<li>لم تعد الانية حرة ومسؤولة عن أقوالها وأفعالها بل اصبحت خاضعة لحتميات تتحكم فيها دون وعي منها</li>
+<li>تمزيق الكوجيتو وفقدان الذات لمركزيتها</li>
+<li>إنية متألمة متصارعة متأزمة</li>
+<li>غدت الإنية في حالة جهل بذاتها</li>
+<li>الإقرار بزيف الوعي مما يشير الى ثورة على فلسفات الوعي فالتحليل النفسي يرج رجة هائلة فلاسفة الوعي لأنه يشككهم في ما يعتبرونه "الأصل و الأساس" أي الوعي ، و هو بذلك يهدّ كل المشروع الفلسفي القائم منذ ديكارت على إمكانية الشك في كلّ شيء إلا في الوعي بما هو حقيقة أوّلية و أساس ثابت للفلسفة. فليس للعالم من معنى في نظر الفينومينولوجيين إلا بالنسبة إلى الإنسان بما هو كائن واع يستهدفه عن طريق القصدية و يكسبه معنى و دلالة . و ما يميز الإنسان في نظر الوجوديين انه ذات واعية محكوم عليها بالحرية و بتحمل مسؤولية وجودها ما دام "الوجود يسبق الماهية" بالنسبة إلى الإنسان . و لا يدرس الهيجليون الجدد اللغة بمعزل عن قضايا الوعي و الدلالة متأثرين في ذلك بهيجل الذي كان هو نفسه أحد أكبر فلاسفة الوعي . أما المختصين في الدراسات ذات المنحى اللغوي فهم أولائك الفلاسفة الذين ينتمون الى التقليد الديكارتي يعتبرون مثل ديكارت أن اللغة ميزة إنسانية لأن الإنسان وحده يملك العقل و الوعي و القصد ؛ فكما يقول ديكارت : "الببغاء يقلد كلام الإنسان ، و لكنه لا يملك لغة لأنه لا يملك العقل و لا الوعي و لا القصد</li>
+</ul>
+<p class="para">⟸ يمكن القول ان مفهوم اللاوعي احدث "رجة" في كل الإرث الفلسفي وأعلن عن "موت الإنسان "</p>
+<p class="subhead t-navy">لحظة ثانية:</p>
+<p class="para">أ. لا يعتبر اللاوعي طعنا للانية وقتلا لها بل هو إعلان عن ولادة حقيقة جديدة لها (إنية مركبة )قائمة على "جدلية الوعي واللاوعي ،القوة والهشاشة "على حد عبارة بول ريكور ،مما يعني مراجعة التصور التقليدي لماهية الإنسان</p>
+<!-- NOTE: 1329 part1 p17 — handwritten page marks "91", "16" omitted -->
+<!-- PROOFREAD: 1329 part1 p17 — faint print under watermark; doubtful: "أما المختصين في الدراسات ذات المنحى اللغوي فهم أولائك", "يهدّ كل المشروع" -->
+<!-- page p18 -->
+<p class="para">إلى أيّ مدى يمكن إنشاء أنتروبولوجيا جديدة تقوم على جدلية الوعي و اللاوعي وتقرّ في الآن نفسه بهشاشة الإنسان و مسؤوليته . في نظر ريكور لا تناقض بين التحليل النفسي و الحرية . يقول ريكور : " ما يريده فرويد هو أن يوسّع المريض مجال وعيه بامتلاك المعنى الذي كان غريبا عنه ، و أن يحيا بكيفية أفضل ، و أن يكون أكثر حرّية ، و إن أمكن أكثر سعادة"</p>
+<p class="para">ب-الانفتاح على اللاوعي إثراء للإنية و إغناء لها</p>
+<p class="para">ج-أصبحت الإنية أكثر تواضعا من خلال اعترافها بالغيرية(الجسد/الرغبة) وإقرارها بالكثرة .</p>
+<p class="para">د- مراجعة مفهوم الوعي في علاقته باللاوعي : كيف عليّ أن أعيد التفكير في مفهوم الوعي حتى يتسع ليستوعب داخله الاخر الذي هو اللاوعي . و بالفعل فإنّ ريكور لا ينظر إلى اللاوعي على أنه نقيض الوعي بل على أنه الاخر الذي بإمكان الوعي أن يتسع فيستوعبه . يقول ريكور : "التحليل النفسي ممكن كعودة إلى الوعي ، لأنّ اللاوعي من جهة ما متجانس مع الوعي ؛ إنه بالنسبة إليه الأخر النسبي و ليس مطلقا الأخر و يقول أيضا: "ليس بإمكان التحليل النفسي أن يصنع أيّ شيء بلاوعي غير قابل للمعرفة"</p>
+<p class="subhead t-navy">لحظة ثالثة:الحسم</p>
+<p class="para">أ-دعوة الفلسفة إلى إعادة النظر في مفاهيمها وتصوراتها حسب كشوفات التحليل النفسي حتى تساير الفلسفة العلم</p>
+<p class="para">ب- بيان أهميّة الوساطة في معرفة الإنسان لنفسه : لا يعرف الإنسان نفسه مباشرة بل مرورا بعدّة وساطات : اللاوعي ، إرادة القوّة ، العوامل الاقتصادية ...من هنا نتجاوز الفلسفة الانعكاسية كما تأسست منذ ديكارت .</p>
+<p class="para">ج-لا يمكن اختزال الانية الإنسانية في بعد واحد أو في حد واحد الحقيقة الإنسانية خصبة ومتنوعة</p>
+<p class="para">د- الدفاع عن الحرية الإنسانية و الفعالية الإنسانية حتى في حال الإقرار بوجود اللاوعي</p>
+<p class="para">ه- لا يحطّم الإقرار باللاوعي حقيقة الإنسان بقدر ما يؤسس لحقيقة أشمل و أعمق</p>
+<p class="subhead t-red">الخاتمة</p>
+<p class="para">يمكن استخلاص أنه: في مراجعة مفهوم الإنية ورصد منزلتها في ظل حضور اللاوعي تطلّ عليها وإقرار بتاريخيتها نظرا لكونها مشروع يتحقق باستمرار.</p>
+<!-- PROOFREAD: 1329 part1 p18 — "تطلّ عليها" (faint) -->
+<!-- NOTE: 1329 part1 p18 — box "وثيقة من اعداد الأستاذ: عبد القادر البادري" kept in SOURCE; handwritten marks "92", "17" omitted -->
+<!-- page p19 -->
+
+<div class="chtag"><span>المحور</span> العلم بين الحقيقة والنمذجة</div>
+
+<!-- NOTE: 1329 part1 p19 — close-up photo, tilted; the lines are cut on both sides -->
+<p class="subhead t-red">العلم بين الحقيقة و النّمذجة</p>
+<p class="para">… المعاصر بالنما…</p>
+<p class="para">…س النّماذج" ← قيمة النّمذجة في عملية التفكير + ارتباط فعل التفكير …</p>
+<p class="para">… القرن التاسع عشر.</p>
+<p class="para">… جديدة.</p>
+<!-- PROOFREAD: 1329 part1 p19 — line fragments cut at the photo edges -->
+<!-- page p20 -->
+<p class="subhead t-red">المحور - II - العلم بين الحقيقة والنمذجة -</p>
+<ul class="dash">
+<li>يندرج التفكير في مسألة العلم في إطار مراجعة نقديّة للفكر الاحادي ولإنجازات العلم، هذه المراجعة تستعيد مكانا لوعي مسؤول أو يتبنى المسؤوليّة أي الوعي بضرورة التحكّم في التقدّم التكنولوجي والتطوّر العلمي المؤذن بجرّ الانسانية إلى مزيد من الكوارث مراجعة تستعيد مكانة الانسان ومكانة القيم.</li>
+<li>يدرك الجميع أنّ غاية العلم هي خدمة الانسان وبالتالي تحقيق أحلامه وضمان سعادته، فهي تتجلّى ذلك انطلاقا معا. فحقّقه العلم في مختلف المجالات على اعتبار أن ظهوره مثل لحظة فارقة في تاريخ الانسان من جهة كونه قد دفع بالعقل إلى حدوده القصوى في عمليات التفسير أو الفهم أو البناء ممّا أفضى إلى تقديم معارف نظريّة تتميّز بالتماسك والمنطقيّة ← هذا ما جعل الانسان يراهن عليه ويؤمن بقدرته على فكّ ألغاز وأسرار العالم ، فهو لا يكف عن الحراك ← إنّه يبرهن على تطوّره وحركيّته من خلال إعلانه الدائم على تجاوز أزماته حتى يبقى "شابا" على الدوام كما يقول غاستون باشلار.</li>
+</ul>
+<p class="para"><span class="t-red">لكن ماهي التحوّلات الابيستيمولوجيّة التي حدثت في العلم المعاصر والتي حتّمت النمذجة؟ وبأي معنى نفهم أن العلم القائم على النمذجة قد أحدث انعراجا ابيستيمولوجيا في مسار العلم؟ ← ماهي مبرّرات هذا التحوّل من طلب الحقيقة إلى بناء النماذج</span></p>
+<ul class="dash">
+<li>ما طرأ على بنية الذكاء الانساني من تغيرات عميقة.</li>
+<li>ما طرأ على العلوم من ثورات خاصة في مجالي الرياضيات والفيزياء قد دفع إلى الاقرار بأنّه <span class="t-red">"لم نعد نفكّر بعد انشطاين مثلما كنا نفكّر قبله" فاليري .</span></li>
+<li>ولادة مباحث علميّة جديدة (السيبرنيطيقا - علم الذكاء الاصطناعي - علوم الاعلاميّة)</li>
+<li>تطوّر نظريات التواصل والمعلومات التي لا يمكن التعبير عنها إلا من خلال تمثلات رمزيّة اصطناعيّة إفتراضيّة.</li>
+<li>الوعي بالطابع المركّب للظواهر وظهور اختصاصات علميّة متداخلة.</li>
+<li>الاعلان عن التداخل والتفاعل بين الذات العارفة والموضوع والتشكيك في الاعتقاد السائد القائل بأن العلم وصف وتحديد وكشف موضوعي.</li>
+</ul>
+<p class="para"><span class="t-red">← كشف تاريخ العلم وما طوره عن تجربة الانسان في فكّ ألغاز العالم من حوله وبما أنّ الواقع يزداد غموضا والتباسا كلّما اقتربنا منه ، ابتدع العقل العلمي لنفسه طريقة تخرق بها حجب الغموض إلى حدّ أصبح معه ممكنا ترجمة الرّموز واقعيا وصياغة الواقع رمزيا.</span></p>
+<p class="para">ومن هنا تم الاقرار بأنّ العلم يتطوّر من خلال انتاج وصناعة وانشاء نماذج يتم تداولها فنحن <span class="t-red">"لا نفكّر إلا على أساس نماذج" فاليري</span></p>
+<p class="para"><span class="t-red">فما النمذجة؟ كيف ، لماذا ومن أجل ماذا تبنى وتتصوّر النماذج؟ هل يمكن النظر للنمذجة بما هي امتداد للعقلانية الكلاسيكية أم هي إعلان عن براديغم جديد مغاير في مبادئه ، معاييره ونتائجه؟</span></p>
+<!-- PROOFREAD: 1329 part1 p20 — doubtful: "فهي تتجلّى ذلك انطلاقا معا. فحقّقه العلم", "وما طوره" -->
+<!-- page p21 -->
+<p class="para">ما علاقة النموذج بالواقع؟ هل يعدّ النموذج مجرّد انعكاس لواقع معطى أم أنّ انشاء لواقع لا يتحقق إلا بالقطع مع الواقع المعطى؟</p>
+<p class="para">إذا كان النموذج يتحدّد في إطار العلاقة المتداخلة والجدليّة بين البعد التركيبي والبعد الدلالي والبعد البراغماتي ، فما المقصود بهذه الابعاد؟</p>
+<p class="para">- ما صلة النموذج بالتجربة؟ هل تفهم التجربة بما هي تجربة خبريّة أم بما هي تجربة إفتراضية اصطناعيّة؟</p>
+<p class="para">هل من موضوعيّة في النمذجة والحال أن علاقة الذات العارفة بموضوع المعرفة لم تعد محايدة؟ ← الا يدفعنا استبدال الموضوعيّة بمفهوم التفاعلية إلى تأكيد الطابع التيليولوجي للعلم؟</p>
+<p class="para">هل تعلن هذه العودة عن تحقيق ضرب من المصالحة بين الواقع العلمي والواقع الانساني أم هي اعلان عن علاقة عضويّة بين العلم ورأس المال بمقتضاها تحلّ النجاعة محلّ الحقيقة وتحلّ التحكم محلّ التفسير؟</p>
+<p class="para">الا يدفعنا هذا الاعلان إلى التشكيك في الطابع العلمي للنمذجة؟</p>
+<p class="para">هل نحن مدعوون اليوم إلى الانتصار للنمذجة بدل الحقيقة؟</p>
+<p class="para">وهل من معنى لخطاب لم تعدّ تعدّ الحقيقة منه مطلبا؟</p>
+<p class="subhead t-red">رهانات المسألة :</p>
+<ul class="dash">
+<li>الكشف عن الطابع البنائي للعقل العلمي في علاقته بالواقع والحقيقة.</li>
+<li>تجاوز النظر للواقع على أنّه بسيط والوعي بطابعه المركب ← التأكيد على قدرة التفكير السيستيمي في مواجهة مشاكل الوقائع المركبة.</li>
+<li>الكشف عن الطابع التيليولوجي للعلم والوعي بمنزلة الغايات في المعرفة العلميّة .</li>
+<li>التأكيد على المسؤولية المشتركة لرجل العلم والدولة والقيم.</li>
+</ul>
+<p class="para">← بيان ما يلفّ الحديث عن النمذجة من لبس وتظنن من جهة علاقتها بما هو ايديولوجي.</p>
+<!-- PROOFREAD: 1329 part1 p21 — "أنّ انشاء لواقع", "تجربة خبريّة", "لم تعدّ تعدّ" -->
+<!-- NOTE: 1329 part1 p21 — the whole page is written in red/pink ink; lower half shows only see-through from the reverse side -->
+<!-- page p22 -->
+<p class="para"><b>أبعاد النموذج :</b> البعد التركيبي : تحديد البنية + إختيار اللغة التي يتم بها التعبير عن النموذج.</p>
+<p class="para">البعد الدلالي : إختبار النموذج .</p>
+<p class="para">البعد التداولي : تحديد الأهداف التي يصبو إليها .</p>
+<p class="para"><b>معايير النموذج :</b> القدرة على الفهم والتفسير - التوقع - التحكّم - التبسيط - الفعل الفاعلية ← النجاعة - قابليته للاستعمال .</p>
+<p class="subhead t-red">① البعد التركيبي : يتعلق بالبعد الصوري / النظري للنموذج .</p>
+<p class="para">- ← بالمعايير المنطقية التي ينبغي توفّرها في النموذج في مرحلة البناء إذ يكشف مسار اشتغال العقل العلمي عن بناء <span class="t-red">لأنساق رمزيّة.</span></p>
+<p class="para"><span class="t-red">النموذج = بناء - تمثل - تصوّر ← إنّه بنية أي نسق رمزي يبنيه الباحث لكي يفسّر الظواهر</span> ← أكثر الموضوعات العلميّة هي تصوّرات حدسيّة خيالية يبنيها العقل والمنهج.</p>
+<p class="para"><span class="t-red">البنية :</span> تمثل كلّ منظما عناصره مترابطة فيما بينها بواسطة قانون عام ← كلّ عنصر يكتسب معناه في علاقته بالعنصر اللاحق والسابق = حذف عنصر يكشف عن خلل في البنية ويؤدي إلى تغييرها.</p>
+<ul class="dash">
+<li>لقد تنوّعت طرق التعبير عن البنية ← عن النموذج ← ممّا يعني أنّ <span class="t-red">الترييض</span> لم يعد شرطا أساسيا في العلم بل أصبح إمكانية أو طريقة من بين طرق أخرى.</li>
+<li>لغة العلم اليوم <span class="t-red">الكميوميّة</span> : التعبير بإعتماد رموز رياضية. / <span class="t-red">شبه الكميوميّة</span> : التعبير بإعتماد لغة عادية - رسوم بيانية - تصاميم والمحافظة على روح الرّياضيات .</li>
+</ul>
+<p class="para">← بما أنّ النموذج هو ما يسمح للواقع بأن يكون قابلا للدراسة ، للتناول وللمعرفة فإنّ ذلك يتمّ عبر : <span class="t-red">الأكسمة</span> : وهي اعتماد نظام الأوليات - أي الانطلاق من مقدمات أو فرضيات يعتمدها الرياضي في البرهنة وتكون النتيجة إمتدادا منطقيا لما وضعه في المقدمة .</p>
+<p class="para"><span class="t-red">← الصورنة : يصاغ كل نموذج حسب فالبزار في لغة صوريّة إلى حدّ ما.</span> عبر الانتقال بالشيء من وجوده العيني إلى وجوده المجرّد : إفراغه من محتواه الحسيّ - المادي - الملموس . ← تحويل ظواهر الطبيعة إلى صياغات رياضية ← توحيد رموز العلم.</p>
+<p class="para">- <span class="t-red">النموذج = بنية تصاغ بلغة دقيقة + مبسطة.</span></p>
+<p class="para">← لا تحيل على واقع مباشر بل على واقع افتراضي ممّا يساعد على فهم الظواهر وتبسيطها .</p>
+<p class="para">- تبقى بناءات المعرفة غير قادرة على أن تستهدف الواقع بشكل كليّ</p>
+<p class="para">← العلماء يركّبون الواقع عبر خلق منظومة من الرّموز تعبّر عن الواقع</p>
+<p class="para"><b>معايير صلاحيّة البعد التركيبي :</b></p>
+<ul class="dash">
+<li><span class="t-red">التماسك :</span> أن يكون النموذج متسلسلا أي لا يتضمّن عناصر متناقضة .</li>
+<li><span class="t-red">الاشباع :</span> لا يحتاج إلى استخدام عناصر من خارج النسق .</li>
+</ul>
+<!-- PROOFREAD: 1329 part1 p22 — "حسب فالبزار" (name), "الكميوميّة" -->
+<!-- page p23 -->
+<p class="para"><span class="t-red">ما النمذجة ؟ ← تحيل على الابيستيمولوجيا البنائيّة ويردّ هذا التيار …</span></p>
+<ul class="b">
+<li>بناء وابتكار وخلق لنماذج تسمح بفهم الواقع</li>
+<li>آلية بنائيّة منفتحة تخضع لتحديثات ومراجعات متتالية يتداخل فيها الابيستيمولوجي بالتيليولوجي</li>
+</ul>
+<p class="para">- لا يهتم العالم بالبحث في الموجود وإنما يبحث عن ما ليس موجودا " " " عن الحقيقة بإعتبار أنه لم يعد معرفة لأجل المعرفة بل أصبح معرفة لأجل النجاح في مشروع.</p>
+<p class="para"><span class="t-red">ما النموذج ؟</span> إنّ تحديد دلالة النموذج تقتضي تمييزه عن دلالات تبدو مجاورة لكنّها مغايرة .</p>
+<p class="para">النموذج :</p>
+<ul class="b">
+<li><span class="t-red">ليس صورة حسيّة</span> لأنّه ليس نسخة للواقع.</li>
+<li><span class="t-red">ليس المثال الأفلاطوني</span> لأنه يمثل تحقق عياني بدلا من أن يكون فكرة قابلة للتحقق ← إنّه تمثل عقلاني لأجسام واقعيّة متعيّنة</li>
+<li><span class="t-red">ليس المثل الأعلى</span> لأنّه لا … للنموذج النماذج - يقبل النمو التعديل - الاضافة - الالغاء.</li>
+<li>ليس براديغم لأنه ليس منظومة أفكار ومبادئ ومعايير علميّة تتفق عليها جماعة علميّة .</li>
+</ul>
+<!-- PROOFREAD: 1329 part1 p23 — diagram text cut at the left page edge ("لأنّه لا …", "يقبل النمو…") -->
+<p class="para">← النموذج : <span class="t-red">هو كل تمثل لنسق واقعي سواء كان ماديّا أو ذهنيا يتم التعبير عنه بأشكال متعددة ، في شكل ألفاظ أو تصاميم أو رسوم بيانية أو رموز رياضية - فاليزار -</span></p>
+<ul class="dash">
+<li>إنّه نسق تصوّري (Virtuel) لنسق واقعي .</li>
+<li>إنّه صورة تقريبيّة للشيء وهو وسيط فكري لذلك فهو ليس انعكاسا للواقع وإنّما ما ينوب عنه. إنّه " وسيط نفوّض له وظيفة المعرفة" سوزان باشلار</li>
+<li>إنّه شيء ما لأجل شيء ما ← <span class="t-red">يساعدنا النموذج على بيان ما يبدو عليه الشيء وكيف يشتغل وما هي القوانين التي حكمت إنتاجه</span></li>
+</ul>
+<p class="para">← إنّه حلّ لمشكل مطروح سواء كان نظريا أو تقنيا ← إنّه بناء لأفكار لأجل المعرفة + الفعل .</p>
+<p class="para">← <span class="t-red">إنّه علامة على انتصار العقل .</span></p>
+<p class="para">← <span class="t-red">إنّه ليس مجرّد خيال أو ترف فكري أو ملهاة للعقل بإعتبار أنّ له منزلة عملية تطبيقية تسمح له بأن يكون فاعلا وناجحا وقادرا على تحقيق غايات .</span></p>
+<p class="para"><span class="t-red">" إنّ النمذجة هي هذه القدرة العجيبة على إنتاج المعنى " لوموانيو.</span></p>
+<!-- PROOFREAD: 1329 part1 p23 — "فاليزار" vs "فالبزار" (name spelled differently on p22) -->
+<!-- page p24 -->
+<ul class="dash">
+<li><span class="t-red">التمام :</span> كامل العناصر</li>
+<li><span class="t-red">الاستقلال :</span> لا يتضمن عناصر تحتاج إلى أن نستخدمها من عناصر أخرى خارج النسق .</li>
+<li><span class="t-red">القطع :</span> يتضمن تمشيا برهانيا يسمح بالحكم على قضيّة ما بالصواب أو الخطأ .</li>
+</ul>
+<p class="subhead t-red">② البعد الدلالي : <span>يرتبط بالنسق الذي يتمّ تمثله وبالتالي تحيل على الجانب التأويلي والمعنى الخاص بالواقع كنسق .</span></p>
+<p class="para">← ليس للواقع دلالة في حدّ ذاته بل يسعى المنمذج إلى إعطاءه دلالة .</p>
+<p class="para">← ليس النموذج واقعا ولا صورة فوتوغرافية له ولكنّه تصوّر وتمثل وتأويل معيّن لهذا الواقع .</p>
+<p class="para">← لا يقتصر دور العلم على توضيح ووصف وقائع راهنة بل هو هدف عوّل إلى افتراض وجود وقائع أخرى وهو ما يحيلنا على مفهوم <span class="t-red">الافتراضي ← المجرّد - المنشأ .</span></p>
+<p class="para">← إنّه الشرط الضروري لتمثل الواقع وفهمه .</p>
+<p class="para"><span class="t-red">باشلار : " الواقع لا يشار إليه وإنّما يبرهن عليه "</span></p>
+<p class="para">بما أنّ كل نموذج هو تأويل وتمثل لظاهرة ما ذاتيا فإنّه توجد بين المنمذج والنموذج علاقة تفاعلية - <span class="t-red">ذاتية فهو يتضمّن أفكار ورؤيته وتصوّره للواقع</span></p>
+<p class="para">وبما أنّه لا وجود لنموذج نهائي يدّعي قدرته على استيعاب الواقع في كليته فهو <span class="t-red">كشبكة صيد لا تكون قادرة على استيعاب كل أسماك البحر على حدّ قول كارل بوبر .</span> فإن تنمذج الواقع هو أن ننتقي ونستخلص بعض المعطيات المتعلقة بواقع ما لا أن نحول الواقع في كليته وإنّما أن نختزل بعض معطيات الواقع بالنظر إلى هدف ما أو مشروع ما وهو ما تحيل على <span class="t-red">استراتيجيا الاهمال / الاغفال -</span> وغايتها تبسيط الظاهرة وتيسير فهمها وايجاد حلّ لها .</p>
+<p class="para"><span class="t-red">هذه الاستراتيجيا تقوم على :</span> - التركيز على عنصر / جزء واهمال بقيّة العناصر .</p>
+<p class="para">- الاضافة / الحذف ← العلم ابداع وانشاء لواقع جديد .</p>
+<p class="para">↓ الاهمال متحقّق من أجل الاهتمام بوضعيّة معينة بمعنى أن تبسيط الظاهرة يقتضي ارجاعها الى وضعيّة أكثر بساطة = يتم ذلك عن طريق فعل الافتراض والتخيّل حتى يتمكن من تصوّر نموذج أكثر فاعلية إذ يتمثل دور العلم في : <span class="t-red">تفسير المرئي المعقّد باللامرئي البسيط " بيران .</span></p>
+<p class="para">← الابتعاد عن الواقع هو الشرط الاساسي لفهم الواقع وتفسيره ، نحن اليوم إزاء نماذج لا حصر لها فكامل تفسير الواقع حسب افتراضات أصحابها . وحتى لا يبقى هذا الواقع مجرّد خيال لابدّ من إختباره ← ضرورة إخضاعه للتجربة بإعتبار أنّه لا قيمة لنموذج مالم يكن تعبيرا عن واقع ولا قيمة لنموذج مالم يكن قادرا على تحقيق الفاعلية والنجاح في مشروع</p>
+<p class="para">← لا يجب أن نفهم التجربة على معنى خبري وإنّما على معنى <span class="t-red">التمثيل الاصطناعي</span> وبما أنّنا إزاء تجارب مصطنعة ، مفتعلة إفتراضية فإن ذلك يؤكد قابلية</p>
+<!-- PROOFREAD: 1329 part1 p24 — doubtful: "هدف عوّل إلى افتراض", "فإن تنمذج الواقع", "فكامل تفسير الواقع", "بيران" -->
+<!-- page p25 -->
+<p class="para">النموذج للتعديل - المراجعة - المرونة وحتّى القابليّة للدّحض وهو تحديدا ما يميّز واقع البحث العلمي وقدرته على انتاج نماذج جديدة .</p>
+<p class="para">- <span class="t-red">النمذجة = تختزل = تضيف وتنقص وتبسّط بهدف انشاء نموذج وفق الغاية</span> ← النموذج الأكثر ملاءمة هو الأكثر استجابة لحاجيات <span class="t-red">المجتمع</span> .</p>
+<p class="para">← هذا الأمر يدفعنا إلى الاقرار بأنّ النموذج <span class="t-red">نظريّة موجهة نحو الفعل</span> إذ المهمّ هو فاعلية النظريّة ← يشترط في النظريّة أن تكون <span class="t-red">ملائمة للواقع</span> .</p>
+<p class="para">معايير صلاحيّة البعد الدلالي :</p>
+<ul class="dash">
+<li>خصوبة النموذج أو قدرته على توليد نماذج جديدة</li>
+<li>قابليته للتخطئة - المرونة - البساطة .</li>
+</ul>
+<p class="subhead t-red">③ البعد التيليولوجي : التداولي = البراغماتي = النّفعي = الغائي .</p>
+<ul class="dash">
+<li>يتعلّق بالأهداف التي تحكم انتاج النموذج .</li>
+<li>بما أنّ النموذج مشروع فإنّ كل منمذج ينطلق من قناعة مسبقة تتمثل في أنّه سينجح في حلّ لغز أو مشكل لم يتجرّأ أحد قبله على حلّه = الصلاحيّة العمليّة</li>
+<li>لا قيمة لنموذج مالم يكن فاعلا : <span class="t-red">أنا أفهم - أنا أنجز إذن أنا فاعل</span></li>
+</ul>
+<p class="para">← يشبه <span class="t-red">كارل بوبر</span> النماذج العلمية بالكائنات الحيّة المتنافسة التي يكون فيها البقاء للأصلح ، فالنماذج ليست لها قيمة في ذاتها وإنّما قيمتها في نتائجها وما تحققه من نجاح في حلّ مشكل علمي مطروح .</p>
+<p class="para">يرتبط النموذج بجملة من الأهداف :</p>
+<ul class="dash">
+<li>تمثيل لكيفيّة اشتغال نسق ما بغرض معرفته والتحكم فيه ← نجاح النموذج هو نجاح المنمذج الذي رسم أهداف ذاتيّة = مشروع خاص .</li>
+<li>تأكيد العلاقة بين المنتج والمستهلك : تكمن قيمة النموذج في مدى قدرته على أن يكون مقبولا من قبل الجميع : لابدّ أن يؤثر في الجميع حتى يتحوّل إلى معرفة لا تقبل الشكّ .</li>
+<li>نجاح النموذج هو بالتالي نجاح المموّلين - الدولة - رجال الأعمال - المؤسسات العسكريّة ...</li>
+</ul>
+<p class="para"><span class="t-red">وبالتالي بما أنّ النموذج يحرص على تحقيق النجاعة والعلاقيّة والملاءمة فإنّ استعماله يكون بهدف حلّ المشاكل الصعبة : تمثل الانساق المركبة الغير قابلة للفهم -</span></p>
+<p class="para">معايير صلاحيّة البعد التداولي :</p>
+<ul class="dash">
+<li><span class="t-red">الفهم - الفعل - التحكم (نظريا وعمليا)</span></li>
+<li><span class="t-red">النجاعة - الربح :</span> ليست النجاعة نظريّة فحسب بل هي عمليّة أيضا تعبّر عن تفاعل متواصل بين المعرفة والممارسة ← كل حلّ نظري علمي تكون له تبعات</li>
+<li>في حلّ مشكل علمي تقني واجتماعي واقتصادي ..</li>
+</ul>
+<!-- PROOFREAD: 1329 part1 p25 — "العلاقيّة" (probably "الفاعلية"), "رسم أهداف ذاتيّة" -->
+<!-- page p26 -->
+<p class="para"><span class="t-red">… القول إنّ النمذجة تعبّر عن مظاهر تطوّر العقل العلمي المعاصر : ← عقل مبدع - متطور - مبتكر - مخترع يعمل بإستمرار على حل مجمل المشكلات الانسانية حتى تصبح الحياة أكثر سهولة ورفاهية . بمعنى أن النمذجة هي ما انفكّ يثبت منزلته الابيستيمولوجيّة في العلم ← إن كنا نروم ابداع أشياء جديدة وكنّا أكثر جرأة وأكثر يقينا بما نفعل فإنّنا نكون أكثر قدرة على تطوير معارفنا في إتجاه الاقتراب من الواقع أكثر فأكثر.</span></p>
+<p class="para"><span class="t-red">← إنّ الاقرار بأنّ النموذج مشروع من أجل الفهم + الفعل هو تأكيد لقدرة العلم على تمثل العالم وتأويله والانخراط في أفق عقلاني يتجاوز كل أشكال اليقين ويسمح للنموذج بالانفتاح على آفاق لا محدودة ← إنّه مغامرة تتيح له فهم العالم بتمثلات مختلفة وبشكل حرّ.</span></p>
+<p class="para">هذا التطوّر يدفعنا إلى النظر في التحوّلات التي حصلت في العلم عندما أصبح يبنى عبر النماذج وبالتالي تحديد <span class="t-red">القيمة الابيستيمولوجيّة للنمذجة</span> .</p>
+<table>
+<tr><th>النمذجة التحليليّة (التصوّر الوضعي) - Le positivisme -</th><th>النمذجة السيستيميّة (التصوّر البنائي) - Le constructivisme -</th></tr>
+<tr><td>- براديغم الكون المنحوت " الاكتشاف</td><td>- براديغم الكون المبني " الانشاء والخلق والاستكشاف.</td></tr>
+<tr><td>العلم : معرفة لأجل المعرفة</td><td>العلم : معرفة لأجل النجاح في مشروع</td></tr>
+<tr><td>* <span class="t-red">الواقع :</span> معطى - محسوس راهن - ماثل أمام الذات العارفة.</td><td>* <span class="t-red">الواقع :</span> مبني - منشأ - مصنوع - افتراضي هو نتاج لفاعليّة العقل والخيال بما أنّ الظواهر لا متناهية في التركيب والتعقيد فإنّه لا يتم التعامل معها بشكل مباشر = لا يصف العلم الواقع وإنّما يمثله : <span class="t-red">"لا شيء معطى كل شيء مبني" باشلار .</span></td></tr>
+<tr><td>* <span class="t-red">المنهج :</span> تجريبي ← التفسير : ردّ الظاهرة إلى أسبابها الموضوعيّة ربط الأسباب بالنتائج ربطا محكما .</td><td>* <span class="t-red">المنهج :</span> فرضي - استنتاجي ← الفهم - التأويل البحث عن امكانيات متعدّدة لتمثل ظاهرة ما ← هناك توجه نحو الواقع واستهداف له وبناء حقائق ضمن تأويلات تتناسل بتناسل الأوليات التي انطلق منها المنمذج .</td></tr>
+<tr><td>* <span class="t-red">الموضوعيّة :</span> الحياد المطلق - الاستقلاليّة . ← فصل بين الذات والموضوع</td><td>* <span class="t-red">العلاقة التفاعليّة :</span> تداخل بين المنمذج ومشروعه ← وصل بين الذات والموضوع .</td></tr>
+</table>
+<!-- PROOFREAD: 1329 part1 p26 — first line cut at the top edge ("… القول"); "ما انفكّ يثبت منزلته" -->
+<!-- page p27 -->
+<table>
+<tr><td>* <span class="t-red">الحقيقة :</span> التطابق بين الفكر والواقع لا حتميّة - تأكيديّة - مطلقة يعتقد الوضعيون أن الحقيقة كمبدأ ثاوية في العمق الانطولوجي للواقع ولهذا تكون مهمة العلم هي التفسير أي الكشف عن الحقيقة<br>← <span class="t-red">معيارها : المطابقة</span></td><td>* <span class="t-red">الفاعليّة :</span> لا معنى لنموذج … أو خاطئ = الحقيقي هو الفعل أصبحت الحقيقة تقوم على مبادئ … فهي حكم مرن يقبل المراجعة وليس نهائيا ومطلقا .<br><span class="t-red">" يكمن الحقيقي ببساطة فيما يكون مفيدا لـ… - وليام جايمس -</span><br>← <span class="t-red">معيارها : الملاءمة</span><br><span class="t-red">" أن نعرف وأن نفكّر لا يعني ذلك أن نتوصّل إلى حقيقة مطلقة اليقين وإنّما أن نتحاور مع اللا… - موران -</span></td></tr>
+<tr><td>- يقوم العلم على تقديم نظريات مجرّدة .<br>- النماذج هي صور حسيّة تعمل على تبسيط النظريّة<br>- اختزال عمل الذكاء العلمي في الانصات إلى الطبيعة وكأنّ ما يهمّ رجل العلم هو استخراج كنوز الطبيعة فحسب .</td><td>يقوم العلم على تقديم نظريات موجهة نحو الفعل = مجموعة من الأفكار التي تطلب الفاعلية . وفي ذلك انقاذ للفكر العلمي من تحنيط المبادئ ← القطع مع النماذج المطلقة باعتبار أنّها تعتبر للرّوح العلمي ← إنّها بمثابة الانحراف الابيستيمولوجي المثمر ← الاشتغال على الافتراض والتخيّلي من شأنه أن يحوّل " اللاراهن " إلى " راهن ".<br>← تعلّق العلم برهانات عملية هو خيار عقلاني ينحت ابيستيمولوجيا بنائية قادرة على تصميم انتصار الانسان داخل العالم.</td></tr>
+<tr><td>← <span class="t-red">العمل على تقديم نماذج دقيقة دون فاعلية</span></td><td>← <span class="t-red">العمل على تقديم نماذج غير مكتملة لكنّها ذات فاعليّة .</span></td></tr>
+</table>
+<!-- PROOFREAD: 1329 part1 p27 — left column cut at the page edge ("لا معنى لنموذج …", "مبادئ …", "مفيدا لـ…", "مع اللا…"); "تعتبر للرّوح العلمي", "تصميم انتصار" -->
+<p class="para"><span class="t-red">لقد أحدثت النمذجة انعراجا ابيستيمولوجيا أو ثورة على البراديغم الكلاسيكي بمقتضاها تم بناء الواقع رمزيا والتحكم فيه بواسطة ما ينتجه من نماذج ← كثيرة هي الوضعيات التي كشفت عن سيطرة العلم على الغموض ووضع حدّ للعقلانيّة المغلقة لكنّه لم يأخذ بعين الاعتبار المشكلات الانسانية وهو ما أفرز مراكمة للمآسي ← كشفت بعض الوضعيات الراهنة عن توظيفات لاإنسانية تحوّلت بمقتضاها كل أحلام الانسانية إلى مجرّد كوابيس .</span></p>
+<p class="para"><span class="t-red">فما هي أهمّ استتباعات هذا التحوّل على العلم وعلى الانسان ؟</span></p>
+<!-- page p28 -->
+<p class="para"><span class="t-red">… معاتيا من خلال مماثلتها خارجيا للكشف عن مدى تطابقها أو من خلال مواجهتها بنماذج أخرى ← نحن اليوم أمام عملية تصنيع واختراع لبرامج اعلامية متطورة تدفعنا إلى أن نقارب ونواجه النماذج بعضها البعض .</span></p>
+<p class="subhead t-red">مشكل الحقيقة :</p>
+<p class="para">إنّ تعثر العلم في سعيه لكشف الحقيقة وتمكّن لغزيّة الواقع لا يعدّ مأخذا حقيقيا لأنّ التعثر قد يكون دليل بحث وسعي وراء الحقيقة وإنّما ما نعيبه على العلم حقّا هو التخلي عن طلب الحقيقة إذ ما الذي سيبقى في خطاب لم تعد فيه الحقيقة قيمة تطلب إذ قيمة العلم والمعرفة العلمية لا تكمن في ادراكها وإنّما في نشدانها ← تعدد الانساق المعرفية ← تكثر الحقائق ← غياب اليقين ضروري لتشكيل العلم لكن فقدان اليقين سيجعل الانسان ريبيا وهو ما يعني أن العلم قد ضاعف قلق الانسان ودفعه إلى عودة لا وعية لا مطورة ← الانسان لم يكتفي بالمنفعة .</p>
+<p class="para">- بما أن النمذجة تحكمها غايات وأهداف المنمذج فإنّ ذلك يدفعنا إلى رصد الاحراجات التالية : <span class="t-red">تسلّل الذات إلى العمل العلمي يعتبر عائقا ابيستيمولوجيا في العلم.</span></p>
+<ul class="dash">
+<li><span class="t-red">ارتباط النموذج بغايات المنمذج من شأنه أن يقصي كل موضوعية .</span></li>
+<li><span class="t-red">تأكيد الصلاحية النسبيّة للنموذج وقبوله حسب الملاءمة وتحقيقه للغايات التي ينشدها تجعل من العلم مجرّد صنعة يصنعها العلماء .</span></li>
+</ul>
+<p class="para">لئن عبّر الانسان عن رغبته في معرفة القوانين المتحكمة في الظواهر عندما نادى بضرورة انقاذ الظواهر من الفوضى واضفاء النظام عليها بواسطة الذكاء الانساني من أجل استعمالها لصالحه حتى يتمكّن من المحافظة على حياته وتخفف من آلامه وتحسين ظروف عيشه فإنّ التطوّرات التقنية قد فاقت في تصوّرها كل الحدود وتحوّلت إلى خطر يهدّد وجود الانسان <span class="t-red">إذ تسيطر على العلم نزعة سيبرنيطيقية أي تحكميّة طالت كل شيء بدءا بالحاجات الماديّة للانسان وصولا إلى تركيبته الجينيّة .</span></p>
+<p class="para"><span class="t-red">← كل شيء في الانسان وحول الانسان يخضع للتحكم والتسيير وفق برامج خاصة تصنعها جهات معينة وفقا لغايات معينة</span></p>
+<p class="para"><span class="t-red">وبالتالي إلى من يمكننا ردّ الاستتباعات الخطيرة للعلم ؟</span></p>
+<p class="para"><span class="t-red">هل بإمكاننا الحديث عن رهان ايتيقي انساني لممارسة البحث العلمي ؟</span></p>
+<p class="para">في بداية القرن 20 كنا نحمل العالم جزء من المسؤولية عن المخاطر التي تنتج عن اكتشافه (انشطاين والقنبلة النوويّة) لكننا اليوم ومع اقرارنا بأنّ النمذجة مشروع لا يتحقق إلا بتحالف وتعاون عدّة أطراف علميّة (مهندسون ، تقنيون ...) لم نعد قادرين على التخفيف من حدّة التجريم الاخلاقي للعالم خاصّة وأن المنمذج يكون منذ البداية على علم بمشروعه وغاياته كما أنّه لا يعمل بشكل منفرد بل يعمل ضمن فريق يتحمّل معه جزء من المسؤولية ←</p>
+<p class="para">← يكشف واقع تقدم العلم عن غلبة المصالح الاقتصادية والسياسيّة والعسكريّة على شروط وممارسات انتاج النماذج ممّا يعكس</p>
+<!-- PROOFREAD: 1329 part1 p28 — first line cut at the top edge ("معاتيا"); doubtful: "إلى عودة لا وعية لا مطورة", "لم يكتفي بالمنفعة" -->
+<!-- page p29 -->
+<p class="para">أجبر العلم منذ أواخر القرن 19 على مراجعة مسلّماته ومساءلة مبادئه والنظر في امكانيات تغيير شروطه ممّا أفضى إلى الاقرار ببنيته الديناميكية بماهي بنية متغيرة ومنفتحة على الحقيقة وغير قادرة على امتلاكها لكن ذلك لا يحول دون التساؤل عن مدى ملاءمة النمذجة كنمط من أنماط المعرفة العلمية وكطريقة من طرق العلم باحترام الشروط التي وضعها العلم لنفسه ليتميّز عن بقية المنتجات الثقافية للعقل البشري كالفلسفة الأسطورة - الدين...</p>
+<p class="para">لقد أراد العلم منذ بدايته أن يقدم أنساقا معرفية تسعى لكشف حقائق الأشياء أي كيفية اشتغالها لأنّ الانسان تحكم سيطرته وسيادته على الطبيعة فيذلل حدود المجهول ويوفّر لنفسه إطار المعيشة يكون من صنعه - تحقق هذا الحلم كان مرهونا بمدى قدرة العلم على الارتباط بإنسانية الانسان .</p>
+<p class="para"><span class="t-red">فهل يهدف واقع البحث العلمي إلى تحقيق مصالحة بين الواقع العلمي والواقع الانساني أم أنّه إعلان عن علاقة عضويّة بالعقل الاداتي تجعل من النجاعة بدل الحقيقة ومن التحكم بدل التفسير القيمة الأسمى للعلم ؟</span></p>
+<p class="subhead t-red">مشكل الاختزاليّة :</p>
+<p class="para">يؤكد <span class="t-red">سيلفان أورو</span> أن النموذج لا يقدم حقيقة الواقع وإنّما يقدّم صورة مبسّطة مختزلة عمّا يريد دراسته من الواقع ، فهو تمثيل مبسّط لكن لا يمكن الخلط بينه وبين الواقع بمعنى آخر ليس النموذج الشيء الذي يمثله بل هو على الدّوام أكثر أو أقل منه كما أنّه لا يحتفظ من الظاهرة التي ينمذجها إلا بما نحتاج إليه في نمذجتها وهذا ما أكده <span class="t-red">باسكال نوفال</span> عندما نعت النمذجة بكونها <span class="t-red">استراتيجيا إهمال .</span></p>
+<p class="para">← اعتماد الاهمال كإستراتيجيا لا يعدّ حدّا من حدود النموذج وإنّما الحدّ يكمن في استتباعات هذا القول وهذا يعني أنّه علينا أن نميّز بين معنى الاستراتيجيا التي تكشف ذكاء المنمذج وتهدية الاهمال ومعنى الاختزالية التي تكشف عيبا في النموذج فالملاحظ المبتكر أو منتج النماذج لا يعكس الواقع أي رؤيته للواقع ← تنتهي هذه الاستراتيجيا إلى التلاعب بالواقع وتفتيت وحدته <span class="t-red">بحيث لا يمكن للنمذجة أن توفّر صورة من الواقع كما هو في حقيقته بقدر ما توفّر تمثلا تحتاج إلى تأويل .</span></p>
+<p class="subhead t-red">مشكل التاريخيّة :</p>
+<p class="para">لا تعبّر النمذجة عن الصورة الأمثل في العلم ولا هي دليل كماله واكتماله بقدر ماهي دليل افتقار النماذج في لحظة ما لكل قيمة ← إذا كانت تاريخية العلم بحاجة شرط التطوّر فإن تاريخية الاد من لحظات الطموح البشري ← إذا كانت المشاريع تعبّر عن لحظة تاريخية الابيستيمولوجيّة ← كلّ تغيّر في المشكل يعني ضرورة تجاوز الحلّ والبحث عن حلول أخرى أكثر قدرة على تجسيم مشاريع وطموحات البشر . فإنّ تغيرا في المشاريع يفقد النماذج التي تم انشاؤها كل قيمة ← مواجهتنا لصلاحيّة النماذج تكشف لنا أنّها نسبيّة أي أنّ العلم لا يقدّم نماذج نهائية بل نماذج ذات صلاحيّة محدودة يتم ضبطها وإعادة هيكلتها أو التخلّي عنها</p>
+<!-- PROOFREAD: 1329 part1 p29 — doubtful: "لأنّ الانسان تحكم", "وتهدية الاهمال", "بحاجة شرط التطوّر فإن تاريخية الاد" (line order in the last paragraph unclear) -->
+<!-- page p30 -->
+<p class="para">… الهوة التي تفصل بين العلم والوجود الحقيقي للبشر.</p>
+<p class="para"><span class="t-red">← لا بدّ من الاقرار إذن بأن النمذجة ليست طريقة علمية وانما طريقة تستعمل العلم على حدّ تعبير نيكولا بولوبا بإعتبار أنّها منغرسة في رهانات تابعة لجهات غير علمية ولئن بدت متماسكة في بنيتها وصارمة في لغتها إلا أنّها تعكس الصورة البرجوازيّة للعلم التي تطل على وجه الملاءمة علاقتها العضويّة برأس المال : ← افتقاد العلم لإستقلالية .. يجعلنا أمام عقلانية تبرّر السيطرة والهيمنة والاضطهاد لتستحيل العقلانية لا عقلانية والتعقّل جنونا والذكاء غباء مادام العلم قد تحوّل إلى خطاب يعالج مشاكل جزئيّة وينتج تمثلات في مكاتب الخبراء والمهندسين ورجال الأعمال و... بغاية الفعل والتحكم دون قراءة للعواقب أو المخاطر التي تنجر عن هوس المصلحة والمنفعة والنجاعة والتحكم .</span></p>
+<p class="para"><span class="t-red">← تحوّل العلم إلى أداة سيطرة أدّى إلى العمل على إختصاء الحريّة = تشديد الرقابة على الانسان عبر أدوات مضادة أدت إلى فصل الانسان عن عالمه (تدمير الطبيعة ...)</span></p>
+<p class="para">← إجمالا يمكن القول بأنّ النمذجة تعمل على الدّوام على حلّ مشكلات الانسان وهذا ما يؤكد أهميتها وهو ما يجعلنا نقرّ بأنها مهما كانت تحيد عن مساراتها الاصلية ومهما وقعت في الوحشية تبقى ناجعة لكن بما أن العلم قد تحوّل بفضل التكنولوجيا إلى مجرّد أداة تحكّم وسيطرة فإننا لا نستطيع الحدّ من قوّته ولا التراجع إلى الوراء بل كل ما نستطيعه هو أن ننتصب أمامه وفي داخله ضميرا ينبهه كلّما غفل ويذكّره كلّما نسي أنّه مجرّد أداة في يد الانسان لتحقيق أهدافه ولا يمكن أن يكون أبدا غاية في حدّ ذاته .</p>
+<p class="para">لهذا يؤكد <span class="t-red">موران</span> على ضرورة التخلّي عن البراديغم التبسيطي واستبداله ببراديغم الفكر المركب وهذا لا يعني التخلّي الكلّي عن التبسيط والاختزال بل تنسيبهما ضمن مسار ابيستيمولوجي يشتغل على التركيب والتوحيد والتأليف ← علينا القطع مع العقلانية القطاعية الموغلة في الاختصاص إلى عقلانية مركبة وبنائية كفيلة بالتصدّي إلى العقلنة العمياء بحيث يكون العلم أكثر خصوبة وفاعلية ونجاعة في تعامله مع الواقع .</p>
+<p class="para"><span class="t-red">← لا بدّ من الاقرار في النهاية بأنّ التحرّر من الذكاء الأعمى رهين تحميل المسؤولية لرجال العلم لأنّ الأمر يتعلق " بذكاء البؤس المريض " الذي آل إلى استعباد الانسان ، لهذا فإن خلاص الانسانية يقتضي التفكير في نمذجة بديلة تخضع العلم لرقابة القيم وذلك عبر توجيه جهود العلماء نحو ماهو انساني في الانسان .</span></p>
+<!-- PROOFREAD: 1329 part1 p30 — first word cut at the top-right edge; doubtful: "نيكولا بولوبا", "إختصاء الحريّة", "التي تطل على وجه الملاءمة" -->
+<!-- page p31 -->
+<p class="subhead t-red"><u>شواهد : العلم بين الحقيقة والنمذجة</u></p>
+<ul class="b">
+<li><u>النموذج</u> : « تمثل لنسق واقعي مهما كان شكل التمثل » - فاليزار -</li>
+<li>« لا شيء معطى ، كل شيء مبني » - باشلار -</li>
+<li>« يكمن الحقيقي ببساطة فيما يكون مفيدا لفكرنا » - ويليام جايمس -</li>
+<li>« أن نعرف وأن نفكر لا يعني ذلك أن نتوصل إلى حقيقة مطلقة اليقين وإنما أن نتحاور مع اللا يقين » - موران -</li>
+<li>« استراتيجيا الإهمال / سياسة الإخفاء » - باسكال نوفال -</li>
+<li>« إن النمذجة ليست طريقة علمية وإنما طريقة تستعمل العلم » - نيكولا بولو -</li>
+<li>« لم نعد نفكر بعد اينشطاين مثلما كنا نفكر قبله » - فاليري -</li>
+<li>« إننا لا نفكر إلا على أساس النماذج » - فاليري -</li>
+<li><u>النموذج</u> : « وسيط نفوض له وظيفة المعرفة » - سوزان باشلار -</li>
+<li><u>يصاغ كل نموذج</u> : « في لغة صورية إلى حدّ ما » - فاليزار -</li>
+</ul>
+<!-- NOTE: 1329 part1 p31 — "Scanné avec CamScanner" watermark and see-through from the reverse side omitted -->
+<!-- page p32 -->
+<ul class="b">
+<li>« الواقع لا يشار إليه وإنما يبرهن عليه » - باشلار -</li>
+<li>النموذج : « كشبكة صيد لا تكون قادرة على استيعاب كل أسماك البحر » - كارل بوبار -</li>
+<li>« تفسير المرئي المعقد باللا مرئي البسيط » - بيران -</li>
+<li>« يشبّه - كارل بوبار - النماذج العلمية بالكائنات الحيّة المتنافسة التي يكون فيها البقاء للأصلح »</li>
+<li>« إن ما يقوله العلم عن الواقع لا يستطيع أي نمط من المـ… أن يقدمه لنا » - قرانجي -</li>
+<li>« يعتبر أرسطو - أن الطبيعة كائن متنفس وأن كل شيء في الطبيعة يسير باتجاه غاية »</li>
+<li>« العلم حتمي أو لا يكون » - كلود برنار -</li>
+<li>« عندما أدخل المخبر أترك إيماني داخل حجرة الملابس » - باستور -</li>
+</ul>
+<p class="para">« الموضوعية هي الفصل بين الذات والموضوع ، بين الوقائع والقيم ، بين الوسائل والغايات » - هابرماس -</p>
+<!-- PROOFREAD: 1329 part1 p32 — word cut at the left edge ("أي نمط من المـ…"), "حجرة الملابس" cut -->
+<!-- page p33 -->
+<ul class="b">
+<li>« الظواهر الكهرومغناطيسية تتسم بعبارة بضرب من الفوضى » - ميزنبورغ -</li>
+<li>« لقد ظللنا خلال معظم التاريخ الانساني نقف موقف المتفرج على رقص الطبيعة الجميل ، أما اليوم فنحن على أعقاب عصر جديد لن نظل فيه مجرد متفرجين سلبيين بل نشارك بشكل إيجابي في تصميم رقصاتها » - ميتشيوكانو -</li>
+<li>« النمذجة اصطناع رمزي انخرطت فيه البشرية منذ نشأتها » - لوموانيو -</li>
+<li>النموذج ليس المثال الأفلاطوني لأنه ليس : " الصورة المثلى التي تمثلت عليها الموجودات "</li>
+<li>« إن النمذجة هي هذه القدرة العجيبة على إنتاج المعنى » - لوموانيو -</li>
+<li>« أنا أفهم إذن أنا أجسد » - لادريار -</li>
+<li>« الارتفاع من الواقعة إلى الفكرة ثم النزول من الفكرة إلى الواقعة » - سوزان باشلار -</li>
+<li>« العلم لا يفكر » - هيدڤر -</li>
+<li>« تحل الفوضى في كل مكان إذا لم يعد للمسؤولية مكان » - غوستاف ليون -</li>
+<li>« العلم إنشاءات عقلية حرّة » - أينشطاين -</li>
+<li>« لا يجب أن نسمي علما إلا مجموع الوصفات التي تكلل بالنجاح » - فاليري -</li>
+</ul>
+<!-- PROOFREAD: 1329 part1 p33 — "تتسم بعبارة بضرب", "ميزنبورغ", "تمثلت عليها", "أنا أجسد" -->
+<!-- NOTE: 1329 part1 p33 — corner of another printed sheet at the top edge omitted -->
+<!-- page p34 -->
+<ul class="b">
+<li>« النموذج هو نسق شيء ما من أجل شيء ما » - بولو -</li>
+<li>« نتخذ كل قراراتنا انطلاقا من النماذج » - فورستار -</li>
+<li>« النمذجة أداة لتحقيق المصالح » - بولو -</li>
+<li>« لم تتم طرد الذات من الموضوع » - إدغار موران -</li>
+<li>« الواقع حسي ومعطى » - روبير بلانشي -</li>
+<li>« العلم أعمى » - أينشطاين -</li>
+<li>« العلم بلا ضمير » - موران -</li>
+</ul>
+<!-- page p35 -->
+<!-- NOTE: 1329 part1 p35 — printed sheet with a large "Mme ROUIS" watermark across it and highlighter marks (omitted); footer "Page 4 جذاذة العلم بين الحقيقة و النمذجة" kept in SOURCE -->
+<!-- PROOFREAD: 1329 part1 p35 — re-read at full size (1653x2339): the print is tiny and blurred and the "…" gaps sit under the diagonal "Mme ROUIS" watermark letters or in blurred spots; no gap could be filled with certainty, so every "…" stays. A higher-resolution scan or a zoomed crop is needed for: النموذج "كل تمثل …"; البراديغم "مخبر … البحث"; الموضوع (classic); المنهج (classic); التمشي العلمي (both columns); الغايات (contemporary); النتائج (contemporary); حدود النمذجة (classic) -->
+<p class="subhead t-red">العلم بين الحقيقة و النّمذجة</p>
+<div class="data">
+<p class="para"><b>النظرية:</b> بناء نظري يسمح بتفسير ظواهر الواقع وحوادثه بمعرفة قوانين عملها و التعبير عنها في قواعد رياضية تشكل حقيقة الظاهرة(علاقات سبب-نتيجة) من أجل التوقع منها // أو هي بذلك نظام من النظريات أو الأنساق المعرفية.</p>
+<p class="para"><b>الحقيقة:</b> هي تطابق النظرية وصياغاتها الرياضية مع الواقع المدروس</p>
+<p class="para"><b>الواقع:</b> هو بنية من العناصر المادية (معطى) و ما يتعلق بها من تأثيرات</p>
+<p class="para"><b>النمذجة التحليلية:</b> هي معالجة مخبرية لظواهر باعتماد منهج تجريبي يمكّن من معرفة حقيقتها و التعبير عنها في قواعد أو قوانين رياضية.</p>
+<p class="para"><b>النمذجة النسقية/السيستيمية:</b> … و هي إعادة بناء نظام عمل الظواهر أو النسق الواقعي في نسق اصطناعي افتراضي أو نموذج رياضي يعبر عن حقيقته.</p>
+<p class="para"><b>الإكتشاف:</b> هو البحث التجريبي عن حقيقة أصلية و ثابتة للظواهر المدروسة.</p>
+<p class="para"><b>العلم إكتشاف حقيقة النسق الواقعي (معطى)</b></p>
+</div>
+<div class="data">
+<p class="para"><b>النموذج:</b> كل تمثل … لنسق واقعي سواء كان ذهنيا أو ماديا، يتم التعبير عنه بلغة رمزية(هندسية أو رياضية أو مفهومية أو مادية في التصميم أو غيرها)</p>
+<p class="para"><b>النمذجة:</b> تمشي منهجي و تمثل افتراضي للواقع في أنساق نظرية أو تقنية تمثل سيناريوهات خاصة بمشروع تكون قابلة للتحقق/لتطبيقها للفهم أو التحكم.</p>
+<p class="para"><b>النسق أو البنية:</b> تمثل العلاقات المنطقية بين عناصر و متغيرات تحكمها قواعد تكون تركيبة لنسق واقعي معطى كما بنسق افتراضي مركب.</p>
+<p class="para"><b>البراديغم:</b> نموذج إرشادي/منهج مقاربة الموضوع وفق بناء نسقي و يتكون من معايير و مفاهيم اتفق عليها مجموعة علمية أو مخبر … البحث و الحكم.</p>
+<p class="para"><b>الإختزال/التبسيط:</b> استراتيجيا الإهمال أي عملية انتقاء العناصر الضرورية الصورية</p>
+<p class="para"><b>الإستكشاف:</b> تتبع نظام تحولات الواقع بالتأويل وفق رؤية النماذج وأهدافه</p>
+<p class="para"><b>العلم استكشاف للواقع بتأويله في نماذج (افتراضي)</b></p>
+</div>
+<table>
+<tr><th>العلم حسب</th><th>العلم الكلاسيكي أو النمذجة التحليلية</th><th>العلم المعاصر أو النمذجة النسقية / السيستيمية</th></tr>
+<tr><td>الموضوع</td><td>… معطى ومحسوس حسب روبير بلانشي أو هو الطبيعة أي الظواهر بما هي … العلم في بحثها عن … انتظامها الذاتي (ج بيليه).</td><td>الواقع الافتراضي المتخيّل و هو نسق طبيعي معقد حسب ادغار موران: يعود التعقيد فيه إلى تداخل الأنساق المتفاعلة (ماكروفيزياء و ميكروفيزياء) و إلى الصدفة أي التحول المفاجئ للظاهرة.</td></tr>
+<tr><td>المنهج</td><td>منهج تجريبي أو استقرائي يقوم على وصف الظواهر الحسية و تحليلها مخبريا باعتماد … تقنية دقيقة … الظاهرة و التعبير عنها بكميات … و هو يقوم حسب … على:<br>1.الملاحظة المخبرية باعتماد …<br>2. الفرضية بما هي استباق نظري للنتيجة …<br>3.التجريب بقيس العناصر و الوضعيات و … في المتغيرات<br>4.الاستنتاج ثم التعميم بصياغة الظاهرة في … علمية و معادلات نظرية تشكل بتماسكها النظرية العلمية.</td><td>منهج أكسيومي و هو منهج رياضي منطقي يسمح ببناء أو تركيب النماذج أي النمذجة بالتمثيل الإختزالي للنسق الواقعي أو التبسيط (باستعمال ما يسميه باسكال نوفال استراتيجيا الإهمال) أي إعادة تركيبه خياليا باعتماد صورنة(أي صياغة صورية في رموز رياضية) و هو ما يشكل البعد التركيبي يقوم على: 1.وضع المسلمات الضرورية (الفرضيات + المبرهنات / القواعد) 2. استخلاص الاستنتاجات المنطقية باعتماد برهنة رياضية تشترط التعبير برموز رياضية أو متغيرات تمكن من بناء نماذج نظرية رياضية(معادلات/نصوص نظرية/أو تأويلات) أو نماذج رقمية (صور+جداول احصاء+منحنيات)/أو نماذج تقنية (تصميمات هندسية+مجسمات...) لذلك يقول لوموانيو"إنا ما … تسمية هذا المنهج البديل الذي ندعي هنا إحلاله محل التجريب أحيانا دون شك: النمذجة"بانشاء نماذج تكون حسب (انشتاين)"إبداعات فكرية حرة"</td></tr>
+<tr><td>التمشي العلمي</td><td>التفسير لاكتشاف ما يسميه لوموانيو"الحقائق النهائية" الثابتة مخبريا … حقائق الواقع في النمذجة الكلاسيكية هي حسب … كنوز تكتشفها "فهي متخفية داخل الواقع وعلى الباحث إظهارها في …" التفسير حسب قرانجي هو تحديد علاقة السبب بالنتيجة داخل الظاهرة و ترجمتها في قاعدة رياضية // أو هو حسب الكسندر كويري تنظيم الملاحظات و التجارب المخبرية لصياغة القواعد الرياضية العامة أو قوانين الظواهر لذلك يقول ادغار موران "أن الموضوعات الموجودة و المستقلة عن الذات قد يكون بالمستطاع وصفها و تفسيرها" البحث العلمي هو تمشي منطقي يقوم على تنظيم معطيات التجربة المخبرية بتحديد علاقة السبب و النتيجة في نظرية تكون بها حسب كويري "طريقة في الربط بين وقائع تبدو بمعزل عن بعضها البعض"</td><td>… الظاهرة … أو الموضوع أي استكشاف الواقع بتتبع نسق تحولاته اعتمادا على … متغيرات (شروط) النسق العلمي من جهة و توظيفاته العملية في مشروع … الدراسات و هو ما يسمح … بالقول "لا يجب أن تسمى علما إلا … التي تكلل بالنجاح" … النمذجة تعمل على تأويل الواقع باعتماد فرضيات من … فهي تستعمل العلم و لا تتوقف عنده بل توظفه في التطبيق التكنولوجي … في دراسة نظام عمل الظاهرة في الواقع أثناء اشتغالها و التعبير عنها في رموز رياضية أو متغيرات … متغيرات الدخول (variables d'entrées) … متغيرات الخروج (sorties) … لذلك يقول بول فاليري "إننا لا نفكر إلا من خلال نماذج" … من "النمذجة النسقية" … تطبيقاتها التقنية داخل سيناريوهات … لكل مشروع.</td></tr>
+<tr><td>الغايات</td><td>1. اكتشاف الحقيقة (نظريا) ببيان تطابق النظرية مع الظواهر المدروسة بترجمة قوانين عمل الظواهر في الواقع إلى نظريات وقواعد رياضية<br>2.الموضوعية(عمليا) و هي الواقعية العلمية التي تشترط حياد الباحث في التفسير بإقصاء الذاتية(عند وضع الفرضيات) من جهة + ومن جهة ثانية إقصاء الغايات العملية للباحث أي توظيفات النظرية في الواقع من أجل المصلحة( كالتطبيقات التكنولوجية داخل مشروع )</td><td>1. الفهم: من جهة البعد الدلالي … (لا حقيقة يقينية) … حيث يكون النموذج حسب …<br>2.النجاعة: من جهة البعد التداولي التطبيقي … تتحدد قيمة المعنى بمدى نجاعته أي فاعليته في حل مشكل … اقتصادي أو سياسي أو غيره و يقول نيكولا بولو "النمذجة … لتحقيق المصالح …"</td></tr>
+<tr><td>النتائج</td><td>نظريات تدعي الموضوعية أي أنساق نظرية و معادلات رياضية أو قواعد عامة لتفسير الواقع لا تهتم سوى بما يسميه لوموانيو "المعرفة-موضوع" يقول ادغار موران " لقد تم طرد الذات من الموضوع"</td><td>نظريات احتمالية أو أنساق افتراضية قابلة للتطبيق التكنولوجي … تصلح له النماذج في علاقة بمكاتب الدراسات و قرارات التكنوقراطيين … لوموانيو بين المعرفة-موضوع إلى المعرفة-مشروع … توظيفاته العملية لفهم الواقع و التحكم فيه لذلك يقول فورستار "نتخذ كل قراراتنا انطلاقا من النماذج"</td></tr>
+<tr><td>معايير الصلاحية</td><td>التحقق التجريبي داخل المخبر من سلامة الملاحظة العلمية و سلامة الفرضيات التي تسمح بها و قيمتها في استنتاج حل لمشكل في الواقع / اختبار التماسك المنطقي بين المسلمات و النتائج تمشي البرهنة / الملاءمة أو التناسب بين النظرية و الواقع</td><td>يميز روني توم بين معايير الصلاحية المنطقية (النظرية) و الصلاحية التجريبية (في الواقع)<br>1-من جهة البعد التركيبي: التماسك المنطقي و الإشباع (أو عدم اعتماد متغيرات خارجية)<br>2-من جهة البعد الدلالي: القابلية للدحض(قابلية التحول) و المرونة (التلاؤم مع نماذج جديدة)<br>3. من جهة البعد التداولي: النجاعة (الفعالية المحققة لغايات المشروع) و الليونة(قابلية التغير)</td></tr>
+<tr><td>حدود النمذجة</td><td>نظريا:حسب لوموانيو إن تقادم القواعد العلمية تشهد على … العلماء بإدعاء امتلاكهم لحقائق ثابتة و موضوعية في حين أنها حسب انشتاين حقائق نسبية أي نماذج افتراضية تستند إلى فرضيات خيالية للباحث "…"<br>جهة التحقق التجريبي: يلاحظ روني توم أن كثافتها باهتة</td><td>الحدود الإبستيمولوجية: 1.الإختزالية: أي تعبر عن جزء من الواقع و رؤية نظر المنمذج 2.التاريخية: صلاحية النموذج مؤقتة 3.الأنظمة التقنية: العلم صناعة و هو فهم من أجل التحكم.<br>الحدود القيمية: 1. مطلب الحقيقة و هو حسب موران "أن نتحاور دائما مع اللايقين" 2.مشكل المعنى: شكل التأويل الذاتي/النفعي 3.المسؤولية: مشكل التوظيف اللاإنساني و مطلب تحمل السياسيين مسؤولية إيتيقية</td></tr>
+</table>
+<!-- page p36 -->
+<!-- NOTE: 1329 part1 p36 — Bac.org.tn answer sheet (header/footer, stamps, watermark omitted), handwritten; sheet number "50" omitted -->
+<p class="subhead t-red">باب: العلم بين الحقيقة والنمذجة</p>
+<p class="para"><b><u>الموضوع</u> : هل أن تعدّد النماذج في العلم يفضي الى التشكيك في قيمته ؟</b></p>
+<p class="para"><u><b>المقدمة :</b></u></p>
+<p class="para"><u>التمهيد</u> : إنّ ما يميز حركة الفكر العلمي المعاصر هو ما يشهده من تحولات كبرى ومتلاحقة في مستوى المبادئ والقوانين وتعدّد النظريات والنماذج التي ينتجها ، وقد مثل هذا الوضع مجالا لتقويمات بلغت من التباين حدّ التعارض التناقض ، <u>فالبعض يرى</u> في تعدد النظريات والنماذج العلمية مظهرا سلبيا يبرر التظنن على قيمته في حين يرى <u>آخرون</u> أنه مظهر إيجابي يعزز تطور العلم ويمثل شرط تقدمه .</p>
+<p class="para"><u>الإشكالية</u> : ما هي منزلة النماذج في العلم ؟ هل أن كثرتها وتعددها ما يدعو ضرورة الى اتخاذ موقف سلبي يستند الى التظنن على قدرته ، ويضعف نفسه ... أم أنه وضع يستجيب لمقتضيات تطوره وإثرائه ؟ وهل أن هذا التعدد في النماذج العلمية يستجيب لحاجات معرفية أم أن تعدده ليستجيب لحاجات خارجة عن العلم ؟</p>
+<p class="para"><u><b>الجوهر :</b></u></p>
+<p class="para"><u>امكانية أولى : في مبررات القول بأن تعدّد النماذج في العلم يفضي الى التشكيك في قيمته</u></p>
+<ul class="dash">
+<li>إن هذا الموقف هو حيث طبيعته يرتاب من تعدد النماذج في العلم ويرفض تكثرها ويقول بأحادية النموذج العلمي والحقيقة .</li>
+<li>يحمل هذا الموقف دلالة وضعية كلاسيكية حيث يعتبر أن العلم منتج للحقيقة وقائم على مبدأ الموضوعية والنزاهة والحياد والمطابقة (العلم = اليقين)</li>
+</ul>
+<p class="para">* فما هي مفترضات هذا الحكم ؟</p>
+<ul class="dash">
+<li>تمثل <u>الواقع</u> كواقع مباشر ومعطى موضوعي قابل للملاحظة والتجريب والتحكم</li>
+<li>إعتبار <u>العقل</u> ملكة وجوهرا يحتوي على مبادئ … فطرية وثابتة .</li>
+<li>الإعتقاد في أن <u>الحقائق</u> التي يكتشفها / يدركها العلم مطلقة ونهائية وتتصف بالموضوعية .</li>
+<li>تمثل <u>الموضوعية</u> كقيمة علمية تقوم على الحياد أي استقلالية الأحكام التي تصدرها الذات العارفة حول الموضوعات وتبعا لذلك الإقرار بإمكانية الفصل بين الملاحِظ والملاحَظ بين الدارس والمدروس ، بين الذات العارفة وموضوعات المعرفة .</li>
+</ul>
+<p class="para">⇐ يمكن اختزال هذه المفترضات في آلية اشتغال تقوم على <u>منطق الهوية الموحدة</u> والنسق المغلق أو عقلانية الإطار بتعبير كارل بوبر ، سواء تعلق الأمر بتمثل الحقيقة العلمية أو تمثل الواقع ، أو تمثل العقل ، أو تمثل قيمة الموضوعية .</p>
+<!-- PROOFREAD: 1329 part1 p36 — handwriting under watermark; doubtful: "ويضعف نفسه ...", "أم أن تعدده ليستجيب", "هو حيث طبيعته", "مبادئ … فطرية" -->
+<!-- page p37 -->
+<p class="para">← هذه المفترضات تبرّر منها العقلانية العلمية الكلاسيكية (القرن 17 . 18) والابستيمولوجيا الوضعية [الوثوقية العلمية] .</p>
+<p class="para">← إستنادا الى هذا المنطق في التفكير يتم رفض تعدد النماذج واعتباره ترجمة لعجز العلم وقصوره على بلوغ معرفة يقينية تفضي بدورها الى عجز يتصل بالتحكم في الظواهر المدروسة والفعل فيها .</p>
+<p class="para">← يبدو أن هذه العقلانية لم تكن قادرة على استيعاب تعقد الواقع العلمي ، وهذا ما أفضى الى انتاج معقولية جديدة تقوم على منطق مغاير هو <u>منطق الهوية المركبة</u> والقول بضرورة تعدد النماذج في العلم كواقعة تفرضها مستجدات العلم ومستلزمات تطوره .</p>
+<p class="para"><u>امكانية ثانية : في مبررات القول بأن تعدد النماذج في العلم لا يفضي الى التشكيك في قيمته</u></p>
+<ul class="dash">
+<li>إن عجز العلم الكلاسيكي على استيعاب الظواهر اللامتناهية في الصغر والكبر وأساسا اللامتناهية في التركيب (عالم ما تحت الذرة مثلا) والتي لا تخضع للتفسير وللتوقع وللحتمية وللموضوعية هو الذي يبرر ظهور دور النمذجة</li>
+<li>إن النموذج كفكرة ظهر بتطور نظريات التواصل والمعلوماتية والتي أحدثت قطيعة مع علوم المادة والطاقة ، وهذه الظواهر المعلوماتية والعلوم التواصلية لا يمكن التعبير عنها إلا من خلال تمثلات رمزية والتي لا يمكن أن تكتسب مشروعيتها من خلال مطابقتها للتجربة وللواقع وإنما من خلال تمثلات اصطناعية افتراضية .</li>
+</ul>
+<p class="para"><u>فما هي مفترضات هذا الحكم ؟</u></p>
+<ul class="dash">
+<li>تحديد الدلالة المعاصرة للنموذج بما هو تمثل ذهني أو مادي لظاهرة أو قطاع من الظواهر ، يمكن التعبير عنه بتصاميم مجسمة أو رسوم بيانية أو في صور رياضية ، تعتمد كأداة لفهم الواقع ، وفق خصائص الظاهرة أو الظواهر المدروسة . &lt;تعريف فاليزار&gt;</li>
+<li>تعتمد النمذجة <u>كلغة</u> إنشاء وافتراض أنظمة وأوليات ومفاهيم وقوانين تعبر عن البنية العلائقية والمنطقية المتناسقة والدقيقة للموضوع وتتخذ هذه البنية شكل صياغة صورية أكسيومية مكتملة ، أو تمثلات مادية أو رقمية يقول <u>باسكال نوفال</u> "لكل نموذج دور تصوري وتمثلي لنسق يرتكز على لغة رياضية" . (البعد التركيبي) .</li>
+<li>أن النموذج مشروع من أجل <u>الفهم</u> أي هو القدرة على تمثل العالم وتأويله والانخراط في أفق عقلاني يتجاوز أشكال اليقين ويسمح للنموذج بالانفتاح على آفاق لا محدودة إبداعية ابتكارية : إنها مغامرة ومجازفة لا تشتت العقل ولا تنمطه بل تتيح له امكان فهم العالم بتمثلات مختلفة وبشكل حر دون السقوط في الإرتجال والعشوائية . <u>يقول برونو جارسون</u> " إننا بالنمذجة لا نرى العالم كما هو وإنما نتمثله " (البعد الدلالي)</li>
+</ul>
+<p class="para">ينقلنا البعد التداولي للنمذجة من فعل التخيل الى مجال <u>الممارسة</u> ليصبح النموذج نظرية موجهة نحو الفعل ولتتحول النماذج الى وسائل سيطرة وتحكم وهو ما يعني ارتباط النشاط العلمي بالمجال التقني والسيبرنيطيقي</p>
+<!-- PROOFREAD: 1329 part1 p37 — handwriting under watermark, right edge cut; doubtful: "تبرّر منها", "قطاع من الظواهر" -->
+<!-- page p38 -->
+<p class="para">يقول <u>هربرت سيمون</u> " لقد نقلت الحواسيب نظم الرموز من الجنة الأفلاطونية للمثل الى عالم خبري للسيرورات الواقعية المتحققة من طرف آلات ومن طريق هذه الأدمغة ، أو بالاشتراك بالعملين معا " (البعد التداولي)</p>
+<p class="para">← إستنادا الى هذا التصور المتصل بأبعاد النمذجة العلمية وآليات اشتغالها يمكن استخلاص خصوصية العقلانية العلمية المعاصرة ومقوماتها وشروط امكانها ويمكن ارجاعها الى :</p>
+<ul class="dash">
+<li>إعتبار <u>العقل</u> نشاطا وفعالية نظرية وتخيلية مبدعة للمفاهيم وللنظريات والبناءات الأكسيومية بل إنه فن ابتكار النماذج وصنعها وتصميمها . يقول <u>"لوموانيو"</u> " إن النمذجة هي هذه القدرة العجيبة على إنتاج المعنى "</li>
+<li>إعتبار <u>الحقائق</u> وفق قول <u>"بول فاليري"</u> " أشياء نصنعها لا أشياء نكتشفها ، إنها بناءات وليست كنوزا " مما يعني نفي أن تكون المعرفة التي يوفرها النموذج العلمي يقينية ومطلقة ، بل هي معرفة نسبية مرتبطة بالنموذج ، وهي تتغير بتغيره . كما يعني أنه لا وجود لنموذج علمي واحد وكوني بل توجد <u>نماذج مؤقتة</u> ومتعددة ومتمايزة بحسب المجالات العلمية ونوعية الظواهر المدروسة ، وهي متعددة حتى داخل نفس الاختصاص العلمي الواحد ، وتضطلع النماذج بوظائف مختلفة تعطي للتعدد مبرراته فالنموذج قد يضطلع بوظيفة معرفية أو بوظيفة ترقيعية أو بوظيفة تعيين القرار الذي ينبغي اتخاذه .</li>
+<li>لا تقوم <u>الموضوعية</u> العلمية على الفصل بين الذات والموضوع ، بل تقوم على القول بتداخلهما وتفاعلهما لتتحوّل الى معيار لا يقوم على التطابق بل يقوم على تقويم الأهداف الوظيفية المعلنة لكل نموذج .</li>
+<li>إستبدال المطابقة بالملاءمة / عدم الاعتقاد في وجود تطابق تام بين نظام الفكر ونظام الواقع / رسم الحدود الابستيمولوجية بين <u>النظرية والنموذج</u> : فإذا كان فعل <u>التنظير</u> يسعى الى صلات محدّدة بالواقع فإن <u>فعل النمذجة</u> يقطع هذه الصلة ويقترب من المخيلة ، والحقيقة أن كل نموذج يعبر عن تصوّر صاحب النموذج للواقع وليس تصويرا للواقع . فتمثيل الظاهرة يمكن أن تعطيها ما لا نهاية له من النماذج وكل نموذج له صلاحيته الخاصة به بحسب ذوق . يقول <u>"بيار غريكو"</u> " إن النموذج لا يقدم للفكر إلا ممكنات " .</li>
+</ul>
+<p class="para">⇐ إن هذه المفترضات تنقلنا من منطق الهوية الموحدة الى <u>منطق الهوية المركبة</u> كما تنقلنا من العلم كنسق مغلق وكإطار الى العلم كنسق مفتوح وكإبداع .</p>
+<p class="para">⇐ تنقلنا النمذجة من الزوج المفهومي "علم - موضوع" الى الزوج المفهومي "علم - مشروع" مما يعني نفي أن تكون المعرفة التي يوفرها النموذج العلمي يقينية ومطلقة بل هي معرفة <u>افتراضية مرتبطة بالمنمذج لا بالواقع</u> .</p>
+<p class="para">⇐ إن تعدد النماذج في العلم لا يفضي ضرورة الى التشكيك في قيمته ، بل إنه يعبر عن حركيته ويمثل شرطا لتطوّره وإثرائه لكن لا ينبغي أن نتجاهل ما يمكن أن يثيره هذا التعدد من إشكاليات ، فتعدد النماذج يتجاوز أحيانا ارادة العلماء ليرتبط باعتبارات سياسية واقتصادية وايديولوجية .</p>
+<!-- PROOFREAD: 1329 part1 p38 — handwriting under watermark; doubtful: "بالعملين معا", "بوظيفة ترقيعية", "بحسب ذوق", "تعطيها" -->
+<!-- NOTE: 1329 part1 p38 — sheet numbers "52", "3", "53" omitted -->
+<!-- page p39 -->
+
+<div class="chtag"><span>المحور</span> القيم: الأخلاق والدولة</div>
+
+<!-- NOTE: 1329 part1 p39 — tilted close-up photo; lines cut at the photo edges; faint text showing through from the back of the sheet omitted -->
+<p class="subhead t-red">الدولة: السيادة والمواطنة</p>
+<p class="para">… ذي نشرع للبحث في الشان السياسي عامة وفي الدولة خاصة؟</p>
+<p class="para">… ل من الدولة مُشكلا فلسفيا؟</p>
+<p class="para">… ة مبررات أهمها:</p>
+<p class="para">… حالة غياب الدولة يميل إلى العودة إلى طبيعته التي تتميز بالشر، فالا…</p>
+<p class="para">… كونية، حرب الكُل ضدّ الكل لذلك يحتاج الإنسان …</p>
+<!-- PROOFREAD: 1329 part1 p39 — every line is cut by the photo edge (start of lines on the right, end of the last two lines on the left); "ذي نشرع", "ل من الدولة", "ة مبررات" are word ends only; a blue letter cut at the right edge beside the first line not typed -->
+
+<!-- page p40 -->
+<p class="subhead t-red"><u>شواهد : الدولة : السيادة والمواطنة</u></p>
+<ul class="b">
+<li><u>فيخته</u> : " إن المواطنة هي ما به تسمو الانسانية نحو الأخلاقية والحريّة ولكن يشترط هذا فقط مرور الانسان عبر الدّولة "</li>
+<li><u>ريكور</u> : " إن المواطنة هي عتبة الانسانية "</li>
+<li><u>فوكو</u> : " السلطة ظاهرة ترافق الفرد منذ طفولته باعتبار أنه ينشأ ويتعوّد على الطاعة والخضوع لأهله "</li>
+<li><u>ماركس</u> : يعتبر السلطة هي سلطة رأس المال</li>
+<li><u>فرويد</u> : يعتبر السلطة منحصرة في الهو والأنا الأعلى</li>
+<li><u>فوكو</u> : السلطة تتخلل كل أنحاء المجتمع</li>
+<li><u>فوكو</u> أبدع مفهوم " ميكروفيزياء السلطة " والتي تقوم على تقنيات لا حد لها وتعمل على التخفي أكثر من الظهور</li>
+<li><u>ماكيافيلي</u> : يجب أن يقيم الأمير سياسته على القوة والترهيب .</li>
+<li><u>ماكيافيلي</u> : " الحكام هم وزراء الإلاه " ، " طاعة الحاكم من طاعة الإلاه "</li>
+<li><u>هوبز</u> : انطلق هوبز من فرضية حالة الطبيعة حيث يمتلك الإنسان الحق قدر امتلاكه للقوة (الفيزيائية + العقل الحسابي)</li>
+<li><u>هوبز</u> : " الإنسان ذئب للانسان "</li>
+</ul>
+<!-- PROOFREAD: 1329 part1 p40 — "ميكروفيزياء" written "ميكروفيزياء/ميدروفيزياء" -->
+<!-- page p41 -->
+<ul class="b">
+<li><u>هوبز</u> : " إذا رغب اثنان في نفس الشيء ولم يكن ممكنا تقاسمه تحولا إلى أعداء "</li>
+<li><u>هوبز</u> : " العهود بدون سيف ليست سوى كلمات لا قدرة لها بتاتا على المحافظة على حياة الإنسان "</li>
+<li><u>الكواكبي</u> : " الخوف يصنع الاستبداد "</li>
+<li><u>المادة ② لاعلان حقوق الانسان</u> : " هدف كل تجمع سياسي هو المحافظة على حقوق الانسان الطبيعية الدائمة "</li>
+<li><u>سبينوزا</u> : " ليست السيادة نفيا للحق بل هي ما يضمنه "</li>
+<li><u>سبينوزا</u> : " الناس لا يولدون مواطنين بل يتربّون على المواطنة "</li>
+<li><u>سبينوزا</u> : " إن الغاية القصوى من تأسيس الدولة ليست السيادة أو ارهاب الناس .. بل هي تحرير الانسان من الخوف .. فالحرية هي الغاية الحقيقية من قيام الدولة "</li>
+<li><u>سبينوزا</u> : " ليست غاية الدّولة تحويل النّاس إلى آلات صمّاء وإنما الحفاظ عليهم ككائنات عاقلة "</li>
+<li><u>روسو</u> : " من يتنازل عن حريته يتنازل عن إنسانيته ولا يفعل ذلك سوى الأبله ولا يمكن أن يكون شعب بأكمله من البلهاء "</li>
+<li><u>روسو</u> : " إن الشعب المحكوم بقوانين لا بدّ أن يكون هو واضعها "</li>
+<li><u>روسو</u> : طاعة القوانين التي نسنّها بأنفسنا هي حريّة "</li>
+</ul>
+<!-- page p42 -->
+<ul class="b">
+<li><u>روسو</u> : " ولدت الحرية يوم ولد القانون "</li>
+<li><u>روسو</u> : " إذا منح كل واحد نفسه للمجموعة فإنه لم يمنح نفسه لأحد "</li>
+<li><u>روسو</u> : " يكون الشعب حرّا حينما لا يرى في من يحكمه إنسانا بل وسيلة للقانون "</li>
+<li><u>روسو</u> : " لا أعتقد أن الديمقراطية سليمة دون قوانين "</li>
+<li><u>ماركس</u> : يعتبر الدولة ما كانت لتظهر لو لم تظهر في المجتمع مصالح متعارضة ومتضاربة .</li>
+<li><u>باكونين</u> : " الدولة وحش مفترس يعيش على قرابين بشرية "</li>
+<li><u>بول ريكور</u> : " يتواطأ عنف الواحد وعنف الجميع في صورة فاسدة ، فريدة ، في صورة آثمة يكونانها ويتعهدانها "</li>
+<li><u>كانط</u> : " المواطن ابن العالم "</li>
+<li><u>كاستلاس</u> : " على البشر أن يكونوا قادرين على ممارسة حقوقهم من جهة كونهم كائنات بشرية وليس من جهة كونهم كائنات قوميّة "</li>
+<li><u>لوك</u> : " البشر يولدون متساوين في الحرية التامة "</li>
+<li><u>ماركس</u> : " الدولة هي ثمرة التناقضات الطبقية المتناحرة ومظاهرها "</li>
+<li><u>روسو</u> : " الإنسان خيّر بطبعه "</li>
+</ul>
+<!-- PROOFREAD: 1329 part1 p42 — "وعنف الجميع" (written "وحُبن الجميع"?) -->
+
+</section>
+
+</div>
+</body>
+</html>

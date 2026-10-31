@@ -1,0 +1,395 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<title>Wael Academy — Philosophie · الأخلاق الخير و السعادة</title>
+<script>
+  window.MathJax = {
+    tex: { inlineMath: [['\\(','\\)']], displayMath: [['\\[','\\]']] },
+    chtml: { fontURL: 'https://cdn.jsdelivr.net/npm/mathjax@3/es5/output/chtml/fonts/woff-v2', matchFontHeight: true },
+    startup: { typeset: true }
+  };
+</script>
+<script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js" async></script>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Sora:wght@400;500;600;700;800&family=Cairo:wght@400;500;600;700;800;900&family=Tajawal:wght@400;500;700;800&family=JetBrains+Mono:wght@400;500;600;700&display=swap');
+:root{
+  /* ===== Wael Academy palette — MAIN ACCENT = green-teal gradient #0FAB8F → #067360 ===== */
+  --bg:#fff; --panel:#f2f8f8; --hair:#e6e6e9; --hair2:#d6d6db;
+  --fg:#0f2a31;        /* body text (and +/− signs) */
+  --fg2:#3f5b62;       /* softer text */
+  --fg3:#7c959b;       /* muted (footer) */
+  --blue:#067360;      /* deep accent — small numbers, borders, watermark, accent equations */
+  --blue-dark:#045260; /* titles & wordmarks (also the balance colour) */
+  --teal:#0fab8f;      /* bright accent end */
+  --loop:#0d9c82;      /* logo-loop helper */
+  --orange:#067360;    /* kicker/category labels (gold retired → deep teal) */
+  --red:#f5322f;       /* EXERCISE CHIPS ONLY — never for emphasis */
+  --cream:#e6f3f4; --blue-soft:#e6f3f4;  /* pale teal — callout fill + table sub-row fill */
+  --blue-line:#cde7e4; /* hairline */
+  --sub-ink:#045260;   /* table sub-row text */
+  --grad:linear-gradient(148deg,#0fab8f 0%,#0d9c82 52%,#067360 100%);
+  --mono:'JetBrains Mono',monospace; --latin:'Sora',sans-serif; --ar:'Cairo',sans-serif; --arb:'Tajawal',sans-serif;
+}
+*{box-sizing:border-box;margin:0;padding:0;}
+body{font-family:var(--latin);color:var(--fg);background:#e4e4e7;padding:28px 0;
+     -webkit-print-color-adjust:exact;print-color-adjust:exact;}
+html[dir="rtl"] body{font-family:var(--arb);}
+
+/* ===== brand watermark: REAL text (crisp), full-bleed, repeats per page ===== */
+.wm{position:fixed;inset:0;z-index:0;pointer-events:none;display:flex;
+    align-items:center;justify-content:center;overflow:hidden;
+    -webkit-print-color-adjust:exact;print-color-adjust:exact;}
+.wm span{font-family:var(--mono);font-weight:800;font-size:76.8pt;letter-spacing:.16em;
+    color:var(--blue);opacity:.06;white-space:nowrap;transform:rotate(-54deg);}  /* single diagonal: bottom-left → top-right */
+.wm.mono span{color:#000;opacity:.05;}
+
+/* ===== continuous flow stream (no page border) ===== */
+.flow{width:210mm;margin:0 auto;background:transparent;color:var(--fg);
+      padding-block:16mm 18mm;padding-inline:23mm 14mm;position:relative;}   /* spiral gutter: inline-start(=spine) 23mm / outer 14mm — dir-aware; print margins set in render_flow.py */
+@media screen{ .flow{background:#fff;box-shadow:0 10px 40px rgba(0,0,0,.16);} }
+.flow>*{position:relative;z-index:1;}
+.flow p,.flow li,.flow .data,.flow .note,.flow .ex{break-inside:auto;}
+.flow .fig,.flow figure,.flow img,.flow svg.figsvg,.flow table,.flow tr,.flow .chapdiv,.flow .exh,.flow .qrcard,.flow .meta{break-inside:avoid;}
+.flow h1,.flow h2,.flow h3,.flow .exh,.flow .subhead,.flow .chapdiv{break-after:avoid;}
+.flow img,.flow svg.figsvg{max-width:100%;height:auto;}
+.flow figcaption,.flow .figcap{display:none;}          /* rule 3: no figure captions */
+
+/* ===== front matter + chapters each start on a fresh page ===== */
+.flow .cover{break-after:page;}        /* cover alone on page 1 */
+.flow .toc{break-after:page;}          /* Sommaire alone on the next page */
+.flow .chapter{break-before:page;}
+.flow .chapter:first-of-type{break-before:auto;}
+
+/* ===== cover ===== */
+.cover{padding:14mm 0 8mm;border-bottom:2px solid var(--blue);margin-bottom:6mm;}
+.cover .badge{font-family:var(--mono);font-size:8.5pt;letter-spacing:.28em;text-transform:uppercase;color:var(--orange);margin-bottom:10px;}
+.cover h1{font-family:var(--latin);font-weight:800;font-size:34pt;line-height:1.03;letter-spacing:-.025em;color:var(--blue-dark);}
+.cover .grule{width:120px;height:5px;border-radius:5px;background:var(--grad);margin:14px 0;}
+.cover .sub{font-family:var(--mono);font-size:10pt;letter-spacing:.14em;text-transform:uppercase;color:var(--teal);}
+.cover .auth{font-size:11pt;color:var(--fg2);margin-top:6px;font-weight:600;}
+
+/* ===== table of contents ===== */
+.toc{margin:2mm 0 4mm;}
+.toc h2{font-family:var(--latin);font-weight:800;font-size:15pt;color:var(--blue-dark);margin-bottom:4mm;}
+.toc .trititle{font-family:var(--mono);font-size:8pt;letter-spacing:.2em;text-transform:uppercase;color:var(--orange);margin:4mm 0 2mm;}
+.toc ol{list-style:none;}
+.toc li{display:flex;align-items:baseline;gap:8px;font-size:10pt;padding:2.2px 0;color:var(--fg);line-height:1.4;}
+.toc li .n{font-family:var(--mono);font-weight:700;font-size:9pt;color:var(--blue);min-width:26px;}
+.toc li .dots{flex:1;border-bottom:1px dotted var(--hair2);transform:translateY(-3px);}
+
+/* ===== chapter divider band ===== */
+.chapdiv{margin:0 0 5mm;padding:6mm 16px 5mm;border-radius:12px;background:var(--grad);
+    -webkit-print-color-adjust:exact;print-color-adjust:exact;}   /* green-filled chapter band */
+.chapdiv .cn{font-family:var(--mono);font-size:8.5pt;font-weight:700;letter-spacing:.24em;text-transform:uppercase;color:rgba(255,255,255,.82);margin-bottom:5px;}
+.chapdiv h2{font-family:var(--latin);font-weight:800;font-size:17pt;line-height:1.1;letter-spacing:-.015em;color:#fff;}
+/* conclusion block — same green-filled look as the chapter band */
+.conclusion{background:var(--grad);border-radius:12px;padding:6mm 16px;margin:5mm 0;color:#fff;break-inside:avoid;
+    -webkit-print-color-adjust:exact;print-color-adjust:exact;}
+.conclusion .ck{font-family:var(--mono);font-size:8.5pt;font-weight:700;letter-spacing:.24em;text-transform:uppercase;color:rgba(255,255,255,.82);margin-bottom:6px;}
+.conclusion h3{font-family:var(--latin);font-weight:800;font-size:13pt;line-height:1.2;color:#fff;margin-bottom:4px;}
+.conclusion p,.conclusion li{font-size:10.4pt;line-height:1.7;color:#fff;}
+.conclusion b,.conclusion strong{color:#fff;font-weight:700;}
+
+/* ===== unit header (lesson/exercise) + QR emplacement ===== */
+.exh{display:flex;align-items:center;gap:11px;margin:6mm 0 3mm;}
+.exh .idx{font-family:var(--mono);font-size:9pt;font-weight:600;color:#fff;background:var(--grad);
+    border-radius:6px;padding:4px 11px;letter-spacing:.08em;text-transform:uppercase;
+    -webkit-print-color-adjust:exact;print-color-adjust:exact;}
+.exh .idx.ex{background:var(--red);}   /* exercise chip = red */
+.exh h2{font-family:var(--latin);font-size:14pt;font-weight:700;letter-spacing:-.01em;color:var(--blue-dark);}
+.exh .qrcard{margin-inline-start:auto;flex:0 0 auto;display:flex;flex-direction:column;align-items:center;gap:3px;width:26mm;}
+.qrcard .qrt{font-family:var(--mono);font-size:6.5pt;letter-spacing:.1em;text-transform:uppercase;color:var(--teal);text-align:center;}
+.qrcard .qrslot{width:24mm;height:24mm;padding:1.5mm;background:#fff;border:1px solid var(--blue-line);border-radius:8px;display:flex;align-items:center;justify-content:center;}
+.qrcard .qrslot img,.qrcard .qrslot svg{width:100%;height:100%;display:block;}
+
+/* sub-exercise label when one file holds several exercices */
+.exsub{font-family:var(--latin);font-weight:800;font-size:11.5pt;color:var(--blue-dark);margin:5mm 0 2.5mm;padding-bottom:3px;border-bottom:2px solid var(--blue-line);}
+
+/* ===== text blocks ===== */
+.lead{font-size:11pt;line-height:1.7;margin:2mm 0 3mm;color:var(--fg);}
+.para{font-size:10.6pt;line-height:1.7;margin:2mm 0 2.5mm;color:var(--fg);}
+.consigne{font-size:10.4pt;line-height:1.6;margin:1mm 0 2mm;color:var(--fg);font-style:italic;}
+.subhead{font-family:var(--latin);font-weight:800;font-size:12pt;letter-spacing:-.01em;color:var(--blue-dark);margin:5mm 0 2.5mm;}
+/* emphasis — green accent = .t-blue/.t-green ; balance = .t-navy ; red = SECONDARY accent (.t-red) on titles + a few words */
+.t-blue{color:var(--blue);font-weight:600;} .t-navy{color:var(--blue-dark);font-weight:700;}
+.t-red{color:var(--red);font-weight:600;} .t-green{color:var(--teal);font-weight:600;} .t-gold{color:var(--orange);font-weight:600;}
+.subhead.t-red{color:var(--red);font-weight:800;}   /* red Roman-numeral section title (I, II, …) — keeps subhead weight */
+/* highlighter marks — a soft colour wash behind a key word (agent picks green or red per what balances the page) */
+.hl-green,.hl-red{border-radius:3px;padding:.02em .24em;font-weight:600;box-decoration-break:clone;-webkit-box-decoration-break:clone;
+    -webkit-print-color-adjust:exact;print-color-adjust:exact;}
+.hl-green{background:rgba(15,171,143,.20);color:var(--blue-dark);}   /* green highlight */
+.hl-red{background:rgba(245,50,47,.13);color:#c0261f;}               /* red highlight  */
+
+.data{background:var(--blue-soft);border:1px solid var(--blue-line);border-inline-start:4px solid var(--blue);
+    border-radius:8px;padding:11px 16px;margin:3mm 0;font-size:10pt;line-height:1.65;color:var(--fg2);}
+.data b{color:var(--fg);font-weight:700;}
+.note{border:1px dashed var(--hair2);border-radius:9px;padding:11px 16px;margin:4mm 0;background:var(--panel);}
+.note .kicker{font-family:var(--mono);font-size:7.5pt;letter-spacing:.18em;color:var(--orange);display:block;margin-bottom:5px;}
+.note .nb{font-size:10pt;line-height:1.7;color:var(--fg2);} .note b{color:var(--fg);}
+.ex:not(.idx){background:var(--blue-soft);border:1px solid var(--blue-line);border-inline-start:3px solid var(--blue);
+    border-radius:7px;padding:7px 11px;font-size:9.6pt;line-height:1.6;color:var(--fg2);margin:2mm 0;}   /* :not(.idx) so it never hits the exercise chip (which is .idx.ex) */
+.ex .extag{display:inline-block;font-family:var(--latin);font-weight:800;font-size:7.6pt;color:var(--blue-dark);background:#fff;
+    border:1px solid var(--blue);border-radius:5px;padding:1px 9px;margin-inline-end:7px;vertical-align:middle;text-transform:uppercase;letter-spacing:.06em;}
+
+/* ===== lists ===== */
+ol.q{list-style:none;counter-reset:q;margin:1mm 0 2mm;}
+ol.q>li{counter-increment:q;position:relative;padding-inline-start:30px;margin-bottom:2.5mm;font-size:10.4pt;line-height:1.6;}
+ol.q>li::before{content:counter(q);position:absolute;inset-inline-start:0;top:1px;width:21px;height:21px;background:var(--grad);color:#fff;
+    border-radius:50%;font-family:var(--mono);font-size:9pt;font-weight:600;display:flex;align-items:center;justify-content:center;
+    -webkit-print-color-adjust:exact;print-color-adjust:exact;}
+ol.sub{list-style:none;counter-reset:s;margin:4px 0 0;padding-inline-start:2px;border-inline-start:1px solid var(--blue-line);}
+ol.sub li{counter-increment:s;position:relative;padding:2.5px 0 2.5px 26px;font-size:10.1pt;line-height:1.55;}
+ol.sub li::before{content:counter(s,lower-alpha)".";position:absolute;inset-inline-start:10px;top:2.5px;font-family:var(--mono);font-size:9pt;font-weight:600;color:var(--teal);}
+ol.qn{list-style:none;counter-reset:qn;margin:1mm 0 2mm;}
+ol.qn>li{counter-increment:qn;position:relative;padding-inline-start:26px;margin-bottom:2.2mm;font-size:10.4pt;line-height:1.55;}
+ol.qn>li::before{content:counter(qn)".";position:absolute;inset-inline-start:0;top:0;font-family:var(--mono);font-size:9.5pt;font-weight:700;color:var(--blue);}
+ul.b{list-style:none;margin:1mm 0 2mm;} ul.b>li{position:relative;padding-inline-start:22px;margin-bottom:2.4mm;font-size:10.4pt;line-height:1.6;}
+ul.b>li::before{content:"";position:absolute;inset-inline-start:3px;top:8px;width:8px;height:8px;border-radius:50%;background:var(--grad);
+    -webkit-print-color-adjust:exact;print-color-adjust:exact;}
+ul.dash{list-style:none;margin:1mm 0 2mm;} ul.dash>li{position:relative;padding-inline-start:20px;margin-bottom:1.8mm;font-size:10.4pt;line-height:1.6;}
+ul.dash>li::before{content:"–";position:absolute;inset-inline-start:2px;top:0;color:var(--fg);font-weight:700;}  /* dash / +/− signs = body colour */
+.flow ul.opts{list-style:none;margin:4px 0 3px;padding-inline-start:16px;}
+.flow ul.opts li{padding:2px 0;font-size:10.2pt;line-height:1.5;color:var(--fg);}
+
+/* ===== figures / tables ===== */
+.fig{margin:3mm 0;} .fig svg.figsvg{display:block;margin:0 auto;background:#fff;max-width:100%;height:auto;}
+.photo{display:block;margin:3mm auto;border-radius:8px;border:1px solid var(--hair);max-width:100%;}
+.figrow{display:flex;flex-wrap:wrap;gap:9px;justify-content:center;margin:3mm auto;max-width:190mm;}
+.flow .figrow img{border-radius:7px;border:1px solid var(--hair);height:46mm;width:auto;max-width:none;object-fit:cover;}
+.schemarow{display:flex;gap:16px;align-items:flex-start;flex-wrap:wrap;margin:2mm 0;}
+.schemarow .col-txt{flex:1 1 90mm;min-width:80mm;} .schemarow .col-fig{flex:0 0 78mm;} .schemarow .col-fig .fig{margin:0;}
+.flow table{border-collapse:collapse;width:100%;margin:3mm 0;font-size:9.8pt;line-height:1.5;}
+.flow table th,.flow table td{border:1px solid var(--blue-line);padding:6px 10px;text-align:start;vertical-align:top;}
+.flow table th{background:var(--grad);color:#fff;font-family:var(--latin);font-weight:700;font-size:9.4pt;
+    -webkit-print-color-adjust:exact;print-color-adjust:exact;}
+.flow table tr:nth-child(even) td{background:var(--blue-soft);color:var(--sub-ink);}   /* sub-row: #E6F3F4 / #045260 */
+
+mjx-container{color:var(--fg) !important;font-weight:400 !important;font-size:1.0em !important;}
+.eq-hi mjx-container,mjx-container.eq-hi{color:var(--blue) !important;}   /* accent (green) equation — highlight a key result; balance with plain math */
+.eq-red mjx-container,mjx-container.eq-red{color:var(--red) !important;}  /* red accent equation / symbol — complements the green .eq-hi */
+
+/* ===== per-file books: credit line, copies list, figures at their size ===== */
+.credit{display:flex;flex-wrap:wrap;align-items:center;gap:5px;margin:-1mm 0 3.5mm;font-size:9.4pt;color:var(--fg2);}
+.credit .who{font-weight:700;color:var(--blue-dark);}
+.credit .tg{font-family:var(--mono);font-size:7.2pt;letter-spacing:.04em;border-radius:5px;padding:1px 7px;line-height:1.6;
+    border:1px solid var(--blue-line);color:var(--blue);background:#fff;-webkit-print-color-adjust:exact;print-color-adjust:exact;}
+.credit .tg.sec{background:var(--blue-dark);border-color:var(--blue-dark);color:#fff;}
+.credit .tg.cor{background:#fff;border-color:var(--red);color:var(--red);}
+.credit a{color:var(--fg3);font-family:var(--mono);font-size:7pt;text-decoration:none;}
+.cover .auth .credit{margin:4mm 0 0;}
+.cover .copies{margin-top:5mm;font-size:8.6pt;color:var(--fg2);}
+.cover .copies ul{list-style:none;margin:2mm 0 0;padding:0;columns:2;}
+.cover .copies a{color:var(--fg3);text-decoration:none;font-size:8pt;}
+.flow figure.fig{text-align:center;}
+.flow figure.fig img{max-height:60mm;width:auto;max-width:70%;display:inline-block;}
+
+/* chapter tag on each part of a multi-chapter book (the book keeps the original order of the file) */
+.chtag{display:inline-block;margin:5mm 0 2mm;padding:1mm 3mm;border-radius:2mm;background:#eef3fb;border:1px solid #c9d6ea;
+  color:#1f3a6b;font-size:9pt;font-weight:700}
+.chtag span{color:#6b7f9e;font-weight:600;margin-inline-end:1.5mm}
+
+@media print{ body{background:#fff;padding:0;} .flow{width:auto;max-width:none;margin:0;padding:0;} }
+@page{size:A4;}   /* margins come from render_flow.py — do NOT set them here */
+</style>
+<meta data-pagefind-filter="type[content]" content="درس">
+<meta data-pagefind-filter="resource[content]" content="المصدر غير مذكور">
+<meta data-pagefind-meta="n[content]" content="1943">
+<meta data-pagefind-meta="title[content]" content="الأخلاق الخير و السعادة">
+<meta data-pagefind-filter="chapter[content]" content="القيم: الأخلاق والدولة">
+<meta data-pagefind-filter="section[content]" content="باكالوريا رياضيات"><style>.qrcard{display:none!important}.wa-nav{position:sticky;top:0;z-index:50;background:#045260;padding:10px 18px;font-family:Cairo,sans-serif;direction:rtl}.wa-nav a{color:#fff;text-decoration:none;font-weight:700}@media print{.wa-nav{display:none}}</style>
+</head>
+
+<body dir="rtl" lang="ar"
+      data-brand="Wael Academy" data-handle="@WaelAcademy"
+      data-tagline="في تُرابنا.. مغامرة بمغامرة"
+      data-phone="+216 50 40 40 42" data-site="waeldocuments.com"
+      data-cta="سجل معانا وأقرى عن بعد مع منصة Wael Academy"
+      data-subject="Philosophie · الأخلاق الخير و السعادة" data-watermark="Wael Academy" data-pagefind-body><nav class="wa-nav" data-pagefind-ignore><a href="../index.html">→ الرجوع إلى فهرس الفلسفة</a></nav>
+
+<!-- single full-page diagonal watermark, bottom-left → top-right (repeats on every page) -->
+<div class="wm" aria-hidden="true"><span>WAEL&nbsp;ACADEMY</span></div>
+
+<div class="flow colored">
+<div class="cover"><div class="badge">◉ Wael Academy · Philosophie</div><h1>الأخلاق الخير و السعادة</h1><div class="grule"></div><div class="sub">القيم: الأخلاق والدولة</div><div class="auth"><div class="credit">المؤلّف / المصدر : <span class="who">المصدر غير مذكور في الوثيقة</span> <span class="tg">درس</span><span class="tg sec">الفلسفة · باكالوريا رياضيات</span> <a href="https://drive.google.com/file/d/1AhhMUbZ0UEzSSR-3XlarpuR6kO5z7Yqq/view">↗ الأخلاق الخير و السعادة.pdf</a></div></div><div class="copies" data-pagefind-ignore><b>نسخ هذا الملف في الدرايفات (1)</b><ul><li><a href="https://drive.google.com/file/d/1AhhMUbZ0UEzSSR-3XlarpuR6kO5z7Yqq/view">Anas Saïd · IDEAL BAC MATH(Anas Saïd) › Philo / Mr Chebbi / الدروس</a></li></ul></div></div>
+<section class="chapter"><div class="chapdiv"><div class="cn">المحور</div><h2>القيم: الأخلاق والدولة</h2></div>
+<!-- NOTE: handwritten course; highlighted/coloured headings rendered as colour spans -->
+<div class="exh"><span class="idx">درس</span><h2>الأخلاق: الخير والسّعادة</h2>
+  <div class="qrcard"><div class="qrt">فيديو الدرس</div><div class="qrslot"><img src="qr/1943.svg" alt="QR"></div></div></div>
+<div class="credit">المؤلّف / المصدر : <span class="who">المصدر غير مذكور في الوثيقة</span> <span class="tg">درس</span><span class="tg sec">الفلسفة · باكالوريا رياضيات</span> <a href="https://drive.google.com/file/d/1AhhMUbZ0UEzSSR-3XlarpuR6kO5z7Yqq/view">↗ الأخلاق الخير و السعادة.pdf</a></div>
+<ul class="b">
+<li><span class="t-gold">الأخلاق</span>: منظومة قيم: الحكم على الأفعال و الأشخاص انطلاقا من ثنائيّة الخير والشّرّ</li>
+<li><span class="t-red"><u>إشكاليّة أساس الحكم الأخلاقي</u></span>: هل أنّ معيار أخلاقيّة الفعل نسبيّ ؟ أم أنّه يوجد معيار كونيّ يحدّد الأخلاقيّة ؟</li>
+<li><span class="t-red"><u>مشكل العلاقة بين البرغماتي و الإيتيقي</u></span>: الوجود الإنسانيّ يتضمّن توتّرا بين غائيّة هذا الوجود (طلب السّعادة) وبين تداخل الأنطولوجي و الإيتيقي في الوجود الانساني: وجود الإنسان يتميّز عن وجود سائر الموجودات بأنّه وجود تنظّمه قيم أخلاقيّة</li>
+</ul>
+<p class="para">⇐ يتضمّن هذا التّوتّر إذا إشكاليّة العلاقة بين مفهومي الخير و السّعادة: هل يوجد تعارض بين مفهوم السّعادة و الخير في دلالته الأخلاقيّة ؟ وإن كان هذا التّعارض ظاهريّا، فماهي الشّروط التي تضمن أن يكون طلب السّعادة متناغما مع ضرورة احترام الخير في دلالته الأخلاقيّة ؟</p>
+<ul class="b">
+<li><span class="t-gold"><u>القيم الأخلاقيّة</u></span>: التّسليم بقيمة هذه القيم: هذه المسلّمة الضّمنيّة يمكن مساءلتها نقديّا:<br>هل أنّ كلّ قيمة أخلاقيّة هي قيمة فعليّة ؟</li>
+</ul>
+<p class="subhead t-navy"><u>إيتيقا السّعادة</u>:</p>
+<p class="para">الإيتيقا تعني فنّ الوجود، وهو فنّ يُراهن على تحقيق مطلب السّعادة</p>
+<p class="para">⇐ مفهوم الإيتيقا يتضمّن مفهوم السّعادة.</p>
+<p class="para"><span class="t-gold"><u>الإشكاليّة التي تطرحها الإيتيقا</u></span>: أيّ نمط من الوجود يضمن تحقّق مطلب السّعادة ؟ كيف أكون سعيدا ؟ هل تقتضي السّعادة تحقيق اللّذة و إرضاء حاجات الإنسان الماديّة ؟ أم أنّها تقتضي وجودا عقلانيّا يُجسّد الفضيلة والحكمة ؟</p>
+<p class="subhead t-red"><u>السّعادة بما هي امتلاك</u>:</p>
+<p class="para">ماذا يجب أن يكون لي حتّى أصبح سعيدا ؟</p>
+<p class="para">⇐ <span class="t-gold"><u>تحديد نفعي مادّي للسّعادة</u></span>: السّعادة تتحدّد انطلاقا من الغياب لا انطلاقا من الحضور: السّعادة تتحدّد انطلاقا من امتلاك ما ليس لنا. ما يترتّب عن هذا التّحديد للسّعادة:</p>
+<ul class="b">
+<li><span class="t-green"><u>نسبيّة فكرة السّعادة</u></span>: كلّ فرد يحدّد سعادته الخاصّة انطلاقا ممّا يفتقد إليه.<br>فالمريض يرى سعادة في الصّحة والشّفاء، والفقير في المال والثّروة</li>
+<li><span class="t-green"><u>استحالة تحقّق السّعادة</u></span>: ما نرغب فيه ونعتقد أنّه يحقّق سعادتنا يفقد قيمته بمجرّد تحقيقه، فإشباع الرّغبة يُلغي قيمة المرغوب فيه.</li>
+<li>حصر مطلب السّعادة في المتطلّبات الماديّة يُمكن أن يتضمّن تهديدا للأخلاقيّة، أي يمكن أن يجعلنا نتبنّى القاعدة التي تعتبر أنّ الغاية تبرّر الوسيلة، ممّا ينتج عنه تعارض مفهوم السّعادة مع مفهوم الخير في دلالته الأخلاقيّة</li>
+</ul>
+<p class="subhead t-red"><u>السّعادة بما هي تجسيد للوجود العقلانيّ الأخلاقيّ</u>:</p>
+<p class="para"><u>ارتباط مفهوم السّعادة بمفهوم الكينونة</u>:</p>
+<p class="para">⇐ تغيّر في طريقة التّساؤل عن شروط تحقّق السّعادة: كيف يجب أن أكون حتّى أكون سعيدا؟</p>
+<p class="para">⇐ <u>رهان هذا التّساؤل</u>: • عقلانيّة فكرة السّعادة</p>
+<ul class="b">
+<li>تجاوز نسبيّة السّعادة في التّجارب الشّخصيّة و الارتقاء بمطلب السّعادة نحو ماهو كونيّ</li>
+<li>حلّ التّعارض بين مفهوم السّعادة والخير في دلالته الأخلاقيّة</li>
+</ul>
+<p class="subhead t-red"><u>محاولات عقلنة فكرة السّعادة</u>:</p>
+<ul class="b">
+<li><span class="t-gold"><u>المحاولة الأرسطيّة</u></span>:</li>
+</ul>
+<p class="para"><span class="t-green"><u>السّعادة</u></span>: الخير الأسمى، أي الخير الّذي يُطلب لذاته، لا لغاية أخرى</p>
+<p class="para">⇐ السّعادة هي الغاية القصوى التي لايمكن أن تكون وسيلة لأيّ غاية أخرى</p>
+<p class="para"><span class="t-green"><u>شروط تحقّق السّعادة</u></span>:</p>
+<ul class="b">
+<li><span class="t-red"><u>شرط أساسيّ إيتيقيّ</u></span>: الفضيلة، التي ترتبط بالوجود العقلاني المجسّد للحكمة والاعتدال والوسطيّة</li>
+<li><span class="t-red"><u>شروط ثانويّة مكمّلة</u></span>: شروط ماديّة</li>
+</ul>
+<p class="para">⇐ السّعادة بالمعنى الأرسطي تتجاوز نسبيّة المقاصد الماديّة لكي ترتبط بالفضيلة، بماهي من ناحية الوجود العقلاني ومن ناحية أخرى الوجود المجسّد للأخلاقيّة</p>
+<ul class="b">
+<li><span class="t-gold"><u>المحاولة الرّواقيّة</u></span>:</li>
+</ul>
+<p class="para"><span class="t-green"><u>التّساؤل عن مصادر الشّقاء</u></span>: يرجع إلى عدم التّوافق بين إرادة الإنسان ونظام الوجود: الشّقاء لاينتج عن الأشياء أو الأحداث بل عن عدم توافقها مع إرادتنا</p>
+<p class="para">⇐ السّعادة تقتضي التّوافق بين إرادة الانسان ونظام الوجود: "العيش في توافق مع الطّبيعة"</p>
+<p class="para"><span class="t-green"><u>شروط تحقيق هذا التّوافق</u></span>:</p>
+<ul class="b">
+<li><span class="t-red"><u>الأشياء التي أمرها بيدنا</u></span>: إذا لم تتوافق مع إرادتنا، فبإمكاننا تغييرها في اتّجاه تحقيق هذا التّوافق المنشود</li>
+<li><span class="t-red"><u>الأشياء التي ليس لنا عليها سلطان</u></span>: عندما يتعذّر علينا تغيير العالم فإنّه مدعو إلى أن يغيّر ذاته حتّى تتوافق مع العالم، أي أن يغيّر طريقته في تأويل العالم</li>
+</ul>
+<p class="para">⇐ السّعادة بهذا المعنى إذا لا ترتبط إذا بحاجياتنا الماديّة بقدر ماترتبط بعقلنة وجودنا أي عقلنة علاقتنا بالعالم</p>
+<ul class="b">
+<li><span class="t-gold"><u>المحاولة الأبيقوريّة</u></span>:</li>
+</ul>
+<p class="para"><span class="t-red">" اللّذة هي بداية الحياة السّعيدة ومنتهاها "</span></p>
+<p class="para"><span class="t-green"><u>ربط مفهوم السّعادة بثنائيّة اللّذة و الألم</u></span>: خاصيّة مشتركة بين كلّ الكائنات الحيّة: النّفور من الألم والسّعي إلى تحقيق اللّذة</p>
+<p class="para">⇐ السّعادة: غياب كلّ مصادر الألم – تحقيق لذّة دائمة</p>
+<ul class="b">
+<li>إذا كان مفهوم اللّذة يُحيل إلى البعد الغريزي في الإنسان، فكيف يمكن تنزيل التّصوّر الأبيقوري للسّعادة في إطار محاولات عقلنتها؟</li>
+</ul>
+<p class="para">← يتجاوز " أبيقور" هذا الإحراج عبر التّدقيقات التّالية:</p>
+<ul class="b">
+<li>مفهوم اللّذة لاينحصر في البعد الحسّي الغريزي، فاللّذة ترتبط بالمجال العقلي المعرفيّ الأخلاقيّ، ممّا يعني أنّها ترتبط بغياب الاضطراب في الجسد والنّفس</li>
+<li>تحقيق اللّذة لايجب أن يتعارض مع مقتضيات الوجود الأخلاقيّ، لذلك اعتبر أنّه لايعني باللّذة لذّة الفساق</li>
+<li>إخضاع ثنائيّة اللّذة والألم إلى الحساب العقليّ الّذي يقتضي أن نتجنّب اللّذة التي تكون مصدر ألم، وأن نتحمّل الألم الّتي يكون مصدر لذّة</li>
+</ul>
+<p class="para">⇐ <span class="t-gold"><u>ماهو مشترك بين هذه المحاولات الفلسفيّة</u></span>:</p>
+<ul class="b">
+<li>تجاوز ربط فكرة السّعادة بفكرة الامتلاك، أي بفكرة إرضاء الحاجات الماديّة</li>
+<li>ربط السّعادة بوجود عقلانيّ يجسّد الحكمة و الفضيلة، فالوجود الأخلاقيّ هو إذن شرط إمكان تحقّق السّعادة</li>
+</ul>
+<p class="subhead t-red"><u>من إيتيقا السّعادة إلى أخلاق الواجب</u>:</p>
+<p class="subhead t-red"><u>نقد إيتيقا السّعادة</u>:</p>
+<ul class="b">
+<li><span class="t-gold"><u>التّساؤل عن إمكانيّة تحقّق مطلب السّعادة</u></span>:</li>
+</ul>
+<p class="para"><u>كيف أكون سعيدا ؟</u>: مسلّمة ضمنيّة: تحقيق السّعادة ممكن</p>
+<p class="para">≠</p>
+<p class="para"><u>هل السّعادة ممكنة ؟</u>: التّشكيك في المسلّمة الضّمنيّة التي انبنت عليها إيتيقا السّعادة</p>
+<ul class="b">
+<li><span class="t-gold"><u>التّساؤل عن مشروعيّة ربط الأخلاقيّة بمطلب السّعادة</u></span>: هل يجوز اعتبار الأخلاق مجرّد وسيلة لتحقيق غاية السّعادة؟</li>
+</ul>
+<p class="subhead t-red"><u>التّساؤل عن حدود تحقّق مطلب السّعادة</u>:</p>
+<ul class="b">
+<li>السّعادة عند "كانت" ترتبط بالرّغبة والتّخيّل لا بالعقل، فهي ما نرغب فيه، وهي نوع من الكمال الّتي نتخيّله دون أن نكون قادرين على تجسيده فعليّا في الواقع</li>
+</ul>
+<p class="para"><span class="t-red">" فرويد ": " لم يدخل في خطّة الخلق أن يكون الإنسان سعيدا "</span></p>
+<ul class="b">
+<li>استحالة السّعادة ليست استحالة عرضيّة بل هي مرتبطة بنظام الوجود، أي بعلاقة الإنسان بذاته وبالعالم، لذلك يُرجع " فرويد" هذه الاستحالة إلى توتّر ثلاثيّ الأبعاد:</li>
+<li><span class="t-gold"><u>توتّر في علاقة الإنسان بجسده</u></span>: المرض/ التّعب ومختلف اضطرابات الجسد وحتميّة فنائه يعيق إمكانيّة تحقّق السّعادة</li>
+<li><span class="t-gold"><u>توتّر في علاقة الإنسان بالطّبيعة</u></span>: علاقة الإنسان بقوى الطّبيعة قائمة على الصّراع وعلى إرادة التّحكّم، التي هي مصدر شقاء ومعاناة إنسانيّة</li>
+<li><span class="t-gold"><u>توتّر في علاقة الإنسان بالحضارة</u></span>: يعتبر فرويد أنّ الحضارة تقوم على الكبت والإخضاع الدّائم للغرائز لذلك فهي تتعارض مع مبدأ اللّذة الّتي يحكم الـ "هو"</li>
+</ul>
+<p class="para">⇐ مايمكن تحقيقه عبر تطوّر الوجود الإنسانيّ إذا ليس السّعادة بل تقليص مصادر الشّقاء</p>
+<ul class="b">
+<li><span class="t-gold"><u>السّعادة والرّفاه</u></span>: تنبني المجتمعات الاستهلاكيّة المعاصرة على نوع من الخلط المقصود بين مفهوم السّعادة ومفهوم الرّفاه، إذ تُريد إيهام البشر أنّ تحقيق الرّفاه يضمن تحقيق السّعادة، ففكرة السّعادة إذن أصبحت تُوظّف توظيفا اقتصاديّا لخلق حاجات متناهية وإدخال البشر سجن ثقافة استهلاكيّة تخلق الحاجات أكثر ممّا ترضيها. إنّ هذا التّداخل بين السّعادة والرّفاه ينفي من فكرة السّعادة كلّ دلالة أو مرجعيّة أخلاقيّة</li>
+</ul>
+<!-- PROOFREAD: 1943 part1 p04 — "إذ تُريد إيهام" / "وإدخال البشر" (handwriting uncertain) ; "حاجات متناهية" as written -->
+<!-- PROOFREAD: 1943 part1 p06 — blank space left in the handwriting after "اعتبر" (name missing on page) -->
+<!-- PROOFREAD: 1943 part1 p07/p08 — blank spaces left in the handwriting ("هو خاصيّة … للفعل", "فهناك إذا … في المنفعة", "التّعامل … مع القيم") -->
+<p class="subhead t-red"><u>مشروعيّة ربط الأخلاقيّة بمطلب السّعادة</u>:</p>
+<ul class="b">
+<li>اعتبار الأخلاق وسيلة لتحقيق السّعادة يتضمّن تصوّرا غائيّا نفعيّا للأخلاق: أخلاقيّة زائفة</li>
+</ul>
+<p class="para">← عندما تكون الأخلاق مجرّد وسيلة لتحقيق غاية نفعيّة فإنّها تكون أخلاقا زائفة، إذ أنّها لاتجسّد احتراما فعليّا للأخلاق، فكلّ تصوّر غائيّ للأخلاق يُفسد الأخلاقيّة. فالتّاجر الّذي لايغشّ في تجارته من أجل جلب الحرفاء أي من أجل مقاصد نفعيّة يُوهم بأنّ مظهر سلوكه يبدو أخلاقيّا، إلاّ أنّ المبدأ المحدّد لهذا السّلوك ليس أخلاقيّا</p>
+<p class="para">⇐ • <span class="t-gold"><u>العقل الأخلاقيّ</u></span>: عقل يجسّد احترام الواجب الأخلاقيّ: فكرة الواجب</p>
+<p class="para">• <span class="t-gold"><u>العقل البرجماتي</u></span>: عقل يحكمه إمّا تحقيق المنفعة أو تجنّب الضّرر: مطلب السّعادة</p>
+<p class="para">⇐ تحقيق الأخلاقيّة يقتضي القطع مع العقل البرغماتي، أي يقتضي تجاوز ربط الأخلاق بمطلب السّعادة وإعادة تنزيلها في إطار إشكاليّة الواجب</p>
+<p class="subhead t-red"><u>الأخلاق وفكرة الواجب</u>:</p>
+<ul class="b">
+<li><span class="t-gold"><u>الأساس الميتافيزيقي لفكرة الواجب</u></span>:</li>
+</ul>
+<p class="para"><span class="t-red">" كانت ": " من كلّ مايمكن أن يوجد في العالم أوحتّى خارج العالم، ليس هناك ما يمكن اعتباره خيرًا، دون تحفّظ، سوى الإرادة الخيّرة "</span></p>
+<p class="para">⇐ مايحدّد أخلاقيّة الفعل ليس مظهره ولا غايته بل المبدأ الّذي يتأسّس عليه، فأخلاقيّة الفعل لايحدّدها مايمكن أن نراه بل ما لايُمكننا رؤيته: الإرادة الخيّرة: هي <u>إرادة الفعل عن احترام للواجب</u></p>
+<p class="para">← <span class="t-green"><u>الفعل المُطابق للواجب</u></span>: عندما يكون الفعل محكوما بمقاصد نفعيّة فإنّه يمكن أن ينطابق مع الواجب دون أن يُجسّد احتراما فعليّا للواجب</p>
+<p class="para">← <span class="t-green"><u>الفعل عن احترام للواجب</u></span>: لكي يكون الفعل أخلاقيّا، لايمكن أن يتطابق مع الواجب بل يجب في نفس الوقت أن يُنجز عن احترام للواجب</p>
+<p class="para"><span class="t-red">مثال</span>: التّاجر الّذي لايغشّ في تجارته من أجل جلب الحرفاء أوخوفا من المُراقبة الاقتصاديّة قد تصرّف بصورة مطابقة للواجب دون أن يتصرّف عن احترام للواجب، لذلك حتّى وإن كان مظهر فعله يبدو أخلاقيّا فإنّ مبدأه لايتأسّس على احترام للواجب</p>
+<p class="para"><u>إشكاليّة</u>: إذا كان الفعل الأخلاقيّ هوالّذي تحدّده إرادة الفعل عن احترام للواجب، فإنّ التّساؤل الّذي يقتضيه فهم هذا الإقرار: ماذا نعني بالواجب، وما الّذي يجعله جديرا بالاحترام ؟</p>
+<p class="para"><span class="t-gold"><u>الواجب</u></span>: <span class="t-green"><u>أوامر شرطيّة</u></span>: الأوامر التي تكون مشروطة بتحقيق منفعة "افعل.. لكي تحصل" أوتجنّب ضرر "كن خيّرا لكي تتجنّب العقاب الإلهي"</p>
+<p class="para">⇐ الأوامر الشّرطيّة بما أنّها مشروطة بثنائيّة المنفعة والضّرر فإنّها لاتجسّد احترام الواجب، لذا فهي لاتحدّد المعنى الحقيقيّ للواجب الأخلاقيّ</p>
+<p class="para"><span class="t-green"><u>أمر قطعيّ</u></span>: لا يكون مشروطا بمقاصد نفعيّة، بل يكون مجسّدا لضرورة احترام الواجب في حدّ ذاته.</p>
+<p class="para">⇐ يحدّد "كانت" الواجب الأخلاقيّ على أنّه أمر قطعيّ يمليه العقل على الإرادة الواجب الأخلاقيّ عند "كانت" يُعدّ التزاما وليس إلزاما، لذلك لا يكون احترام الواجب الأخلاقيّ مناقضا للحريّة بل مجسّدا لها.</p>
+<p class="para">⇐ احترام الواجب هو احترام للعقل، فما يجعل الواجب جديرا بالاحترام هو أنّه يجسّد ماهو عقلانيّ في الانسان، فاحترام الواجب هو احترام للعقل وهو احترام للإنسانيّة. هذا البعد الإنسانويّ للواجب الأخلاقيّ هو الّذي جعل "كانت" يُعبّر عنه من خلال مبدأ كونيّ: <span class="t-red">" تصرّف بشكل يجعلك تُعامل الإنسانيّة في شخصك وشخص الآخرين كغاية لا كمجرّد وسيلة "</span></p>
+<ul class="b">
+<li><span class="t-gold"><u>المقاربة السّوسيولوجيّة لمسألة الواجب</u></span>:</li>
+</ul>
+<p class="para">← المقاربة الميتافيزيقيّة: مقاربة تبحث في <u>أساس</u> الواجب</p>
+<p class="para">الأساس الميتافيزيقي: المبدأ المتعالي عن عالم التّجربة، أي العالم الماديّ المحكوم بالمقاصد الماديّة النّفعيّة</p>
+<p class="para">← المقاربة السّوسيولوجيّة: تبحث في <u>أصل</u> الواجب</p>
+<ul class="b">
+<li>المقاربة السّوسيولوجيّة للواجب تتجاوز البحث الميتافيزيقي في مبدأ كونيّ مجرّد لكي تتقصّى أصل الواجب في نظام العلاقات الاجتماعيّة، فالأخلاق من منظور علم الاجتماع ظاهرة اجتماعيّة تُفسّر كما تُفسّر الظّواهر الطّبيعيّة (أي بالاستناد إلى فكرة السّببيّة، أي إرجاع الظّاهرة إلى أسبابها)</li>
+</ul>
+<p class="para">⇐ انطلاقا من هذه المقاربة السّوسيولوجيّة اعتبر "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;" أنّ الواجب الأخلاقيّ ليس مبدأ عقليّا يمليه العقل على الإرادة بقدر ماهو سلطة يُمليها الضّمير الاجتماعيّ على الضّمير الفرديّ</p>
+<p class="subhead t-red"><u>الأخلاق والمنفعة</u>:</p>
+<p class="para"><u>الإشكاليّة</u>: إلى أيّ حدّ يجوز الإقرار بوجود تعارض بين النّفعيّ والأخلاقيّ ؟ أي هل تقتضي الأخلاقيّة التّعالي عن كلّ غائيّة نفعيّة أم أنّه من الممكن تجاوز التّعارض الظّاهريّ بين النّفعيّ والأخلاقيّ؟ وإن كان تجاوز هذا التّعارض ممكنا، فأيّ شروط يجب أن تتضمّنها فكرة المنفعة حتّى لاتتعارض مع مقتضيات الوجود الأخلاقيّ</p>
+<ul class="b">
+<li><span class="t-gold"><u>في مبرّرات القول بالتّعارض بين النّفعيّ والأخلاقيّ</u></span>: الواجب الأخلاقيّ كما حدّده "كانت": الواجب باعتباره أمرا قطعيّا هو واجب لاتحكمه مقاصد نفعيّة</li>
+</ul>
+<p class="para">⇐ الأوامر الشّرطيّة: أوامر مشروطة بمقاصد نفعيّة تجعلنا في إطار أخلاقيّة زائفة، فهي تُجسّد فكرة التّطابق مع الواجب دون أن تجسّد فكرة احترام الواجب لذلك كأنّها لاأخلاقيّة حتّى وإن بدت أخلاقيّة</p>
+<p class="para">⇐ الأخلاقيّة كما يحدّدها "كانت" تقتضي إذا فصل الفعل عن كلّ غائيّة نفعيّة.</p>
+<ul class="b">
+<li><span class="t-gold"><u>تجاوز التّعارض بين النّفعيّ و الأخلاقيّ</u></span>: يتضمّن هذا النّقد اعتراضين أساسيّين:</li>
+<li>التّصوّر "الكانطي" للواجب الأخلاقيّ، عندما نقيمه من النّاحية الصّوريّة يبدو عقلانيّا ومتناسقا منطقيّا، إلاّ أنّ المشكل الّذي يطرحه لايتعلّق ببنيته المنطقيّة بل بمدى قابليّته للتّجسيد واقعيّا، فإذا كان الواقع الإنسانيّ محكوم بمقاصد نفعيّة، فكيف يمكن تصوّر فعل أخلاقيّ متعال عن المنفعة، ففلسفة "كانت" الأخلاقيّة تبقى فلسفة شكلانيّة أي أنّها مجرّدة اهتمّت بالجانب المنطقيّ وأهملت قابليّة هذا التّصوّر الواجب أن يتجسّد واقعيّا</li>
+<li>إذا كان النّفعيّ هو خاصيّة &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; للفعل الإنساني وإذا كان من غير الممكن فصل الفعل عن الغايات النّفعيّة، فإنّ المشكل الّذي يجب أن تطرحه الأخلاق هو كيف يمكن أن نُجسّد النّفعيّ أساس الأخلاقيّة، أي أيّ تصوّر للمنفعة يجعلها تجسّد الأخلاقيّة ولاتتعارض معها</li>
+<li><span class="t-gold"><u>المنفعة</u></span>: <span class="t-green"><u>الكمّ</u></span>: المنفعة لاتتعارض مع الأخلاقيّة عندما ترتبط بمنفعة أكبر عدد ممكن من البشر البعد الكمّيّ لاينحصر في عدد من يستفيدون من هذه المنفعة، بل يرتبط أيضا بمدى كثافتها واستمراريّتها في الزّمن.</li>
+</ul>
+<p class="para">⇐ هذا التّحديد الكمّيّ للمنفعة يجعل المنفعة الضّيّقة والفرديّة المجسّدة للأنانيّة مناقضة لمقتضيات الوجود الأخلاقيّ</p>
+<p class="para">⇐ هذا التّحديد الكمّيّ للمنفعة يتضمّن تداخلا بين مجالي الأخلاق والسّياسة، فمسؤوليّة الدّولة هي تحقيق المصلحة العامّة، أي تحقيق خير أكبر عدد ممكن من البشر</p>
+<p class="para"><span class="t-green"><u>الكيف</u></span>: يجب أن نتجاوز حصر المنفعة في المتطلّبات الجسديّة والحسيّة للارتقاء بمفهوم المنفعة إلى مستوى ماهو فكريّ، أي مايرتبط بحاجاتنا الفكريّة والوجدانيّة فهناك إذا &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; في المنفعة</p>
+<p class="subhead t-red"><u>مساءلة قيمة القيم الأخلاقيّة</u>:</p>
+<ul class="b">
+<li><u>التّعامل</u> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <u>مع القيم الأخلاقيّة</u>: التّسليم بهذه القيم وعدم مُساءلتها نقديّا</li>
+<li><span class="t-green"><u>في الفكر العامّيّ</u></span>: عادة مايضفي طابع القداسة على القيم الأخلاقيّة فيخضع إلى سلطتها آليّا دون أن ينقدها أو يتساءل عن قيمتها، فهو إذا يخشى كلّ انفصال عن القيم السّائدة خوفا من ردّة فعل المجتمع</li>
+<li><span class="t-green"><u>في الفكر الفلسفيّ</u></span>: يعتبر "نيتشه" أنّ الفلاسفة رغم أنّهم يدّعون الفكر النّقديّ، فإنّهم يجسّدون في تعاملهم مع المسألة الخُلقيّة نوعا من الوثوقيّة اللاّواعية. ففلسفة "كانت" رغم أنّها تسمّى فلسفة نقديّة، فإنّها لم تنقد فعليّا الأخلاق بل اكتفت بالبحث في أسسها ومبادئها. لذلك اعتبر "نيتشه" أنّ التّأسيس الكانطيّ للأخلاق لم يتجاوز مستوى التّبرير العقليّ للقيم المسيحيّة التي تربّى عليها "كانت"</li>
+<li><span class="t-gold"><u>التّعامل النّقدي مع القيم الأخلاقيّة</u></span>: تجاوز تأسيس القيم وإنشاء فكر نقديّ يتساءل عن قيمة القيم الأخلاقيّة. فالفيلسوف الحقيقيّ عند "نيتشه" لا يجب أن يكتفي بتأسيس القيم بل يجب أن يشكّك في قيمتها وأن يكون قادرا على إبداع قيم جديدة. إنّ إرادة التّحرّر هذه هي التي عبّر عنها "نيتشه": <span class="t-red">" الإنسان الحرّ كائن لاأخلاقيّ "</span></li>
+</ul>
+<p class="subhead t-red"><u>القيم والتّاريخ</u>:</p>
+<ul class="b">
+<li><span class="t-gold"><u>البنية الفوقيّة</u></span>: كلّ ما ينتمي إلى مجال الوعي (الأخلاق)</li>
+<li><span class="t-gold"><u>البنية التّحتيّة</u></span>: الواقع الماديّ التّاريخيّ</li>
+</ul>
+<p class="para">← تنزيل القيم الأخلاقيّة في إطار البنية الفوقيّة التي تعدّ انعكاس لوضعيّة تاريخيّة مخصوصة ينفي عند "ماركس" الاعتقاد في إطلاقيّة القيم الأخلاقيّة بماهي نتاج لوضعيّة تاريخيّة معيّنة، ممّا يعني نسبيّة هذه القيم وقابليّتها للتّغيّر عبر الزّمن، ويعني في نفس الوقت ارتباط القيم الأخلاقيّة بالتّناقضات الطّبقيّة وصراع المصالح</p>
+<p class="para">← القيم الأخلاقيّة يمكن أن تكون مجرّد أقنعة تخفي مصالح وصراع طبقيّ</p>
+<p class="para"><span class="t-red"><u>مثال</u></span>: الواجب الأخلاقيّ الّذي يدعو الإنسان إلى أن لا يسرق يبدو قيمة أخلاقيّة مطلقة. إلا أنّ ظهور هذه القاعدة ارتبط تاريخيّا بظهور الملكيّة الخاصّة. ففي مجتمع تزول فيه الملكيّة الخاصّة لايصبح لهذا الواجب الأخلاقيّ أيّ قيمة أو معنى</p>
+<p class="subhead t-red"><u>النّقد الجينالوجي للأخلاق</u>:</p>
+<ul class="b">
+<li><span class="t-gold"><u>نقد علاقتنا بالقيم الأخلاقيّة</u></span>: عندما نبحث في أصل القيم وآليّات تكوّنها، يمكن أن نتبيّن أنّها ليست شيئا آخر سوى سلطة العادات. فالأخلاق بهذا المعنى هي السّلطة التي يُمارسها الماضي على الحاضر بهذا المعنى تجسّد الأخلاق منطق القطيع أو مايسمّيه " نيتشه "بـ" أخلاق العبيد".<br>هذا الفكر القطيعيّ يُدين التّمرّد والاختلاف واللاّتموضع. فصفة الأخلاقيّة هي صفة إقصائيّة تُدين كلّ محاولة للإستقلاليّة. انطلاقا من ذلك، اعتبر نيتشه أنّ الأخلاق تتعارض مع الحرّيّة، فإذا كانت الحريّة تقتضي الاستقلاليّة والتّمرّد فإنّ الأخلاق عندما تخضعنا لسلطة العادات تنفي حرّيّتنا لذلك لاتتحقّق الحريّة إلاّ بالتّمرّد على الأخلاقيّة السّائدة، ولعلّ ذلك ماقصده <span class="t-red">" نيتشه " عندما أقرّ " الإنسان الحرّ كائن لاأخلاقيّ "</span></li>
+<li><span class="t-gold"><u>نقد مضمون القيم</u></span>: عندما نعود إلى الجذور السّقراطيّة الأفلاطونيّة للفكر الأخلاقيّ، نتبيّن أنّ تاريخ القيم الأخلاقيّة انبنى على حكم مسبق ميتافيزيقيّ لاهوتيّ: هو اعتبار الجسد و الرّغبة واللّذة مصادر للرّذيلة لذلك أصبحنا نتصوّر أنّ الأخلاقيّة تقتضي " إماتة الجسد". انطلاقا من ذلك اعتبر "نيتشه أنّ الأخلاق بهذا المعنى تجسّد نزعة مرضيّة معادية للجسد وللحياة، لذلك يدعو" نيتشه" إلى تجاوز هذه النّزعة المرضيّة وإلى إنشاء قيم جديدة تمجّد الجسد والقوّة وتتجاوز كلّ تعامل تحقيريّ مع الجسد</li>
+</ul>
+
+</section>
+
+</div>
+</body>
+</html>

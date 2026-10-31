@@ -1,0 +1,338 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<title>Wael Academy — Philosophie · الدولة</title>
+<script>
+  window.MathJax = {
+    tex: { inlineMath: [['\\(','\\)']], displayMath: [['\\[','\\]']] },
+    chtml: { fontURL: 'https://cdn.jsdelivr.net/npm/mathjax@3/es5/output/chtml/fonts/woff-v2', matchFontHeight: true },
+    startup: { typeset: true }
+  };
+</script>
+<script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js" async></script>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Sora:wght@400;500;600;700;800&family=Cairo:wght@400;500;600;700;800;900&family=Tajawal:wght@400;500;700;800&family=JetBrains+Mono:wght@400;500;600;700&display=swap');
+:root{
+  /* ===== Wael Academy palette — MAIN ACCENT = green-teal gradient #0FAB8F → #067360 ===== */
+  --bg:#fff; --panel:#f2f8f8; --hair:#e6e6e9; --hair2:#d6d6db;
+  --fg:#0f2a31;        /* body text (and +/− signs) */
+  --fg2:#3f5b62;       /* softer text */
+  --fg3:#7c959b;       /* muted (footer) */
+  --blue:#067360;      /* deep accent — small numbers, borders, watermark, accent equations */
+  --blue-dark:#045260; /* titles & wordmarks (also the balance colour) */
+  --teal:#0fab8f;      /* bright accent end */
+  --loop:#0d9c82;      /* logo-loop helper */
+  --orange:#067360;    /* kicker/category labels (gold retired → deep teal) */
+  --red:#f5322f;       /* EXERCISE CHIPS ONLY — never for emphasis */
+  --cream:#e6f3f4; --blue-soft:#e6f3f4;  /* pale teal — callout fill + table sub-row fill */
+  --blue-line:#cde7e4; /* hairline */
+  --sub-ink:#045260;   /* table sub-row text */
+  --grad:linear-gradient(148deg,#0fab8f 0%,#0d9c82 52%,#067360 100%);
+  --mono:'JetBrains Mono',monospace; --latin:'Sora',sans-serif; --ar:'Cairo',sans-serif; --arb:'Tajawal',sans-serif;
+}
+*{box-sizing:border-box;margin:0;padding:0;}
+body{font-family:var(--latin);color:var(--fg);background:#e4e4e7;padding:28px 0;
+     -webkit-print-color-adjust:exact;print-color-adjust:exact;}
+html[dir="rtl"] body{font-family:var(--arb);}
+
+/* ===== brand watermark: REAL text (crisp), full-bleed, repeats per page ===== */
+.wm{position:fixed;inset:0;z-index:0;pointer-events:none;display:flex;
+    align-items:center;justify-content:center;overflow:hidden;
+    -webkit-print-color-adjust:exact;print-color-adjust:exact;}
+.wm span{font-family:var(--mono);font-weight:800;font-size:76.8pt;letter-spacing:.16em;
+    color:var(--blue);opacity:.06;white-space:nowrap;transform:rotate(-54deg);}  /* single diagonal: bottom-left → top-right */
+.wm.mono span{color:#000;opacity:.05;}
+
+/* ===== continuous flow stream (no page border) ===== */
+.flow{width:210mm;margin:0 auto;background:transparent;color:var(--fg);
+      padding-block:16mm 18mm;padding-inline:23mm 14mm;position:relative;}   /* spiral gutter: inline-start(=spine) 23mm / outer 14mm — dir-aware; print margins set in render_flow.py */
+@media screen{ .flow{background:#fff;box-shadow:0 10px 40px rgba(0,0,0,.16);} }
+.flow>*{position:relative;z-index:1;}
+.flow p,.flow li,.flow .data,.flow .note,.flow .ex{break-inside:auto;}
+.flow .fig,.flow figure,.flow img,.flow svg.figsvg,.flow table,.flow tr,.flow .chapdiv,.flow .exh,.flow .qrcard,.flow .meta{break-inside:avoid;}
+.flow h1,.flow h2,.flow h3,.flow .exh,.flow .subhead,.flow .chapdiv{break-after:avoid;}
+.flow img,.flow svg.figsvg{max-width:100%;height:auto;}
+.flow figcaption,.flow .figcap{display:none;}          /* rule 3: no figure captions */
+
+/* ===== front matter + chapters each start on a fresh page ===== */
+.flow .cover{break-after:page;}        /* cover alone on page 1 */
+.flow .toc{break-after:page;}          /* Sommaire alone on the next page */
+.flow .chapter{break-before:page;}
+.flow .chapter:first-of-type{break-before:auto;}
+
+/* ===== cover ===== */
+.cover{padding:14mm 0 8mm;border-bottom:2px solid var(--blue);margin-bottom:6mm;}
+.cover .badge{font-family:var(--mono);font-size:8.5pt;letter-spacing:.28em;text-transform:uppercase;color:var(--orange);margin-bottom:10px;}
+.cover h1{font-family:var(--latin);font-weight:800;font-size:34pt;line-height:1.03;letter-spacing:-.025em;color:var(--blue-dark);}
+.cover .grule{width:120px;height:5px;border-radius:5px;background:var(--grad);margin:14px 0;}
+.cover .sub{font-family:var(--mono);font-size:10pt;letter-spacing:.14em;text-transform:uppercase;color:var(--teal);}
+.cover .auth{font-size:11pt;color:var(--fg2);margin-top:6px;font-weight:600;}
+
+/* ===== table of contents ===== */
+.toc{margin:2mm 0 4mm;}
+.toc h2{font-family:var(--latin);font-weight:800;font-size:15pt;color:var(--blue-dark);margin-bottom:4mm;}
+.toc .trititle{font-family:var(--mono);font-size:8pt;letter-spacing:.2em;text-transform:uppercase;color:var(--orange);margin:4mm 0 2mm;}
+.toc ol{list-style:none;}
+.toc li{display:flex;align-items:baseline;gap:8px;font-size:10pt;padding:2.2px 0;color:var(--fg);line-height:1.4;}
+.toc li .n{font-family:var(--mono);font-weight:700;font-size:9pt;color:var(--blue);min-width:26px;}
+.toc li .dots{flex:1;border-bottom:1px dotted var(--hair2);transform:translateY(-3px);}
+
+/* ===== chapter divider band ===== */
+.chapdiv{margin:0 0 5mm;padding:6mm 16px 5mm;border-radius:12px;background:var(--grad);
+    -webkit-print-color-adjust:exact;print-color-adjust:exact;}   /* green-filled chapter band */
+.chapdiv .cn{font-family:var(--mono);font-size:8.5pt;font-weight:700;letter-spacing:.24em;text-transform:uppercase;color:rgba(255,255,255,.82);margin-bottom:5px;}
+.chapdiv h2{font-family:var(--latin);font-weight:800;font-size:17pt;line-height:1.1;letter-spacing:-.015em;color:#fff;}
+/* conclusion block — same green-filled look as the chapter band */
+.conclusion{background:var(--grad);border-radius:12px;padding:6mm 16px;margin:5mm 0;color:#fff;break-inside:avoid;
+    -webkit-print-color-adjust:exact;print-color-adjust:exact;}
+.conclusion .ck{font-family:var(--mono);font-size:8.5pt;font-weight:700;letter-spacing:.24em;text-transform:uppercase;color:rgba(255,255,255,.82);margin-bottom:6px;}
+.conclusion h3{font-family:var(--latin);font-weight:800;font-size:13pt;line-height:1.2;color:#fff;margin-bottom:4px;}
+.conclusion p,.conclusion li{font-size:10.4pt;line-height:1.7;color:#fff;}
+.conclusion b,.conclusion strong{color:#fff;font-weight:700;}
+
+/* ===== unit header (lesson/exercise) + QR emplacement ===== */
+.exh{display:flex;align-items:center;gap:11px;margin:6mm 0 3mm;}
+.exh .idx{font-family:var(--mono);font-size:9pt;font-weight:600;color:#fff;background:var(--grad);
+    border-radius:6px;padding:4px 11px;letter-spacing:.08em;text-transform:uppercase;
+    -webkit-print-color-adjust:exact;print-color-adjust:exact;}
+.exh .idx.ex{background:var(--red);}   /* exercise chip = red */
+.exh h2{font-family:var(--latin);font-size:14pt;font-weight:700;letter-spacing:-.01em;color:var(--blue-dark);}
+.exh .qrcard{margin-inline-start:auto;flex:0 0 auto;display:flex;flex-direction:column;align-items:center;gap:3px;width:26mm;}
+.qrcard .qrt{font-family:var(--mono);font-size:6.5pt;letter-spacing:.1em;text-transform:uppercase;color:var(--teal);text-align:center;}
+.qrcard .qrslot{width:24mm;height:24mm;padding:1.5mm;background:#fff;border:1px solid var(--blue-line);border-radius:8px;display:flex;align-items:center;justify-content:center;}
+.qrcard .qrslot img,.qrcard .qrslot svg{width:100%;height:100%;display:block;}
+
+/* sub-exercise label when one file holds several exercices */
+.exsub{font-family:var(--latin);font-weight:800;font-size:11.5pt;color:var(--blue-dark);margin:5mm 0 2.5mm;padding-bottom:3px;border-bottom:2px solid var(--blue-line);}
+
+/* ===== text blocks ===== */
+.lead{font-size:11pt;line-height:1.7;margin:2mm 0 3mm;color:var(--fg);}
+.para{font-size:10.6pt;line-height:1.7;margin:2mm 0 2.5mm;color:var(--fg);}
+.consigne{font-size:10.4pt;line-height:1.6;margin:1mm 0 2mm;color:var(--fg);font-style:italic;}
+.subhead{font-family:var(--latin);font-weight:800;font-size:12pt;letter-spacing:-.01em;color:var(--blue-dark);margin:5mm 0 2.5mm;}
+/* emphasis — green accent = .t-blue/.t-green ; balance = .t-navy ; red = SECONDARY accent (.t-red) on titles + a few words */
+.t-blue{color:var(--blue);font-weight:600;} .t-navy{color:var(--blue-dark);font-weight:700;}
+.t-red{color:var(--red);font-weight:600;} .t-green{color:var(--teal);font-weight:600;} .t-gold{color:var(--orange);font-weight:600;}
+.subhead.t-red{color:var(--red);font-weight:800;}   /* red Roman-numeral section title (I, II, …) — keeps subhead weight */
+/* highlighter marks — a soft colour wash behind a key word (agent picks green or red per what balances the page) */
+.hl-green,.hl-red{border-radius:3px;padding:.02em .24em;font-weight:600;box-decoration-break:clone;-webkit-box-decoration-break:clone;
+    -webkit-print-color-adjust:exact;print-color-adjust:exact;}
+.hl-green{background:rgba(15,171,143,.20);color:var(--blue-dark);}   /* green highlight */
+.hl-red{background:rgba(245,50,47,.13);color:#c0261f;}               /* red highlight  */
+
+.data{background:var(--blue-soft);border:1px solid var(--blue-line);border-inline-start:4px solid var(--blue);
+    border-radius:8px;padding:11px 16px;margin:3mm 0;font-size:10pt;line-height:1.65;color:var(--fg2);}
+.data b{color:var(--fg);font-weight:700;}
+.note{border:1px dashed var(--hair2);border-radius:9px;padding:11px 16px;margin:4mm 0;background:var(--panel);}
+.note .kicker{font-family:var(--mono);font-size:7.5pt;letter-spacing:.18em;color:var(--orange);display:block;margin-bottom:5px;}
+.note .nb{font-size:10pt;line-height:1.7;color:var(--fg2);} .note b{color:var(--fg);}
+.ex:not(.idx){background:var(--blue-soft);border:1px solid var(--blue-line);border-inline-start:3px solid var(--blue);
+    border-radius:7px;padding:7px 11px;font-size:9.6pt;line-height:1.6;color:var(--fg2);margin:2mm 0;}   /* :not(.idx) so it never hits the exercise chip (which is .idx.ex) */
+.ex .extag{display:inline-block;font-family:var(--latin);font-weight:800;font-size:7.6pt;color:var(--blue-dark);background:#fff;
+    border:1px solid var(--blue);border-radius:5px;padding:1px 9px;margin-inline-end:7px;vertical-align:middle;text-transform:uppercase;letter-spacing:.06em;}
+
+/* ===== lists ===== */
+ol.q{list-style:none;counter-reset:q;margin:1mm 0 2mm;}
+ol.q>li{counter-increment:q;position:relative;padding-inline-start:30px;margin-bottom:2.5mm;font-size:10.4pt;line-height:1.6;}
+ol.q>li::before{content:counter(q);position:absolute;inset-inline-start:0;top:1px;width:21px;height:21px;background:var(--grad);color:#fff;
+    border-radius:50%;font-family:var(--mono);font-size:9pt;font-weight:600;display:flex;align-items:center;justify-content:center;
+    -webkit-print-color-adjust:exact;print-color-adjust:exact;}
+ol.sub{list-style:none;counter-reset:s;margin:4px 0 0;padding-inline-start:2px;border-inline-start:1px solid var(--blue-line);}
+ol.sub li{counter-increment:s;position:relative;padding:2.5px 0 2.5px 26px;font-size:10.1pt;line-height:1.55;}
+ol.sub li::before{content:counter(s,lower-alpha)".";position:absolute;inset-inline-start:10px;top:2.5px;font-family:var(--mono);font-size:9pt;font-weight:600;color:var(--teal);}
+ol.qn{list-style:none;counter-reset:qn;margin:1mm 0 2mm;}
+ol.qn>li{counter-increment:qn;position:relative;padding-inline-start:26px;margin-bottom:2.2mm;font-size:10.4pt;line-height:1.55;}
+ol.qn>li::before{content:counter(qn)".";position:absolute;inset-inline-start:0;top:0;font-family:var(--mono);font-size:9.5pt;font-weight:700;color:var(--blue);}
+ul.b{list-style:none;margin:1mm 0 2mm;} ul.b>li{position:relative;padding-inline-start:22px;margin-bottom:2.4mm;font-size:10.4pt;line-height:1.6;}
+ul.b>li::before{content:"";position:absolute;inset-inline-start:3px;top:8px;width:8px;height:8px;border-radius:50%;background:var(--grad);
+    -webkit-print-color-adjust:exact;print-color-adjust:exact;}
+ul.dash{list-style:none;margin:1mm 0 2mm;} ul.dash>li{position:relative;padding-inline-start:20px;margin-bottom:1.8mm;font-size:10.4pt;line-height:1.6;}
+ul.dash>li::before{content:"–";position:absolute;inset-inline-start:2px;top:0;color:var(--fg);font-weight:700;}  /* dash / +/− signs = body colour */
+.flow ul.opts{list-style:none;margin:4px 0 3px;padding-inline-start:16px;}
+.flow ul.opts li{padding:2px 0;font-size:10.2pt;line-height:1.5;color:var(--fg);}
+
+/* ===== figures / tables ===== */
+.fig{margin:3mm 0;} .fig svg.figsvg{display:block;margin:0 auto;background:#fff;max-width:100%;height:auto;}
+.photo{display:block;margin:3mm auto;border-radius:8px;border:1px solid var(--hair);max-width:100%;}
+.figrow{display:flex;flex-wrap:wrap;gap:9px;justify-content:center;margin:3mm auto;max-width:190mm;}
+.flow .figrow img{border-radius:7px;border:1px solid var(--hair);height:46mm;width:auto;max-width:none;object-fit:cover;}
+.schemarow{display:flex;gap:16px;align-items:flex-start;flex-wrap:wrap;margin:2mm 0;}
+.schemarow .col-txt{flex:1 1 90mm;min-width:80mm;} .schemarow .col-fig{flex:0 0 78mm;} .schemarow .col-fig .fig{margin:0;}
+.flow table{border-collapse:collapse;width:100%;margin:3mm 0;font-size:9.8pt;line-height:1.5;}
+.flow table th,.flow table td{border:1px solid var(--blue-line);padding:6px 10px;text-align:start;vertical-align:top;}
+.flow table th{background:var(--grad);color:#fff;font-family:var(--latin);font-weight:700;font-size:9.4pt;
+    -webkit-print-color-adjust:exact;print-color-adjust:exact;}
+.flow table tr:nth-child(even) td{background:var(--blue-soft);color:var(--sub-ink);}   /* sub-row: #E6F3F4 / #045260 */
+
+mjx-container{color:var(--fg) !important;font-weight:400 !important;font-size:1.0em !important;}
+.eq-hi mjx-container,mjx-container.eq-hi{color:var(--blue) !important;}   /* accent (green) equation — highlight a key result; balance with plain math */
+.eq-red mjx-container,mjx-container.eq-red{color:var(--red) !important;}  /* red accent equation / symbol — complements the green .eq-hi */
+
+/* ===== per-file books: credit line, copies list, figures at their size ===== */
+.credit{display:flex;flex-wrap:wrap;align-items:center;gap:5px;margin:-1mm 0 3.5mm;font-size:9.4pt;color:var(--fg2);}
+.credit .who{font-weight:700;color:var(--blue-dark);}
+.credit .tg{font-family:var(--mono);font-size:7.2pt;letter-spacing:.04em;border-radius:5px;padding:1px 7px;line-height:1.6;
+    border:1px solid var(--blue-line);color:var(--blue);background:#fff;-webkit-print-color-adjust:exact;print-color-adjust:exact;}
+.credit .tg.sec{background:var(--blue-dark);border-color:var(--blue-dark);color:#fff;}
+.credit .tg.cor{background:#fff;border-color:var(--red);color:var(--red);}
+.credit a{color:var(--fg3);font-family:var(--mono);font-size:7pt;text-decoration:none;}
+.cover .auth .credit{margin:4mm 0 0;}
+.cover .copies{margin-top:5mm;font-size:8.6pt;color:var(--fg2);}
+.cover .copies ul{list-style:none;margin:2mm 0 0;padding:0;columns:2;}
+.cover .copies a{color:var(--fg3);text-decoration:none;font-size:8pt;}
+.flow figure.fig{text-align:center;}
+.flow figure.fig img{max-height:60mm;width:auto;max-width:70%;display:inline-block;}
+
+/* chapter tag on each part of a multi-chapter book (the book keeps the original order of the file) */
+.chtag{display:inline-block;margin:5mm 0 2mm;padding:1mm 3mm;border-radius:2mm;background:#eef3fb;border:1px solid #c9d6ea;
+  color:#1f3a6b;font-size:9pt;font-weight:700}
+.chtag span{color:#6b7f9e;font-weight:600;margin-inline-end:1.5mm}
+
+@media print{ body{background:#fff;padding:0;} .flow{width:auto;max-width:none;margin:0;padding:0;} }
+@page{size:A4;}   /* margins come from render_flow.py — do NOT set them here */
+</style>
+<meta data-pagefind-filter="type[content]" content="ملخّص">
+<meta data-pagefind-filter="resource[content]" content="المصدر غير مذكور">
+<meta data-pagefind-meta="n[content]" content="1960">
+<meta data-pagefind-meta="title[content]" content="الدولة">
+<meta data-pagefind-filter="chapter[content]" content="القيم: الأخلاق والدولة">
+<meta data-pagefind-filter="section[content]" content="باكالوريا علوم الإعلامية"><style>.qrcard{display:none!important}.wa-nav{position:sticky;top:0;z-index:50;background:#045260;padding:10px 18px;font-family:Cairo,sans-serif;direction:rtl}.wa-nav a{color:#fff;text-decoration:none;font-weight:700}@media print{.wa-nav{display:none}}</style>
+</head>
+
+<body dir="rtl" lang="ar"
+      data-brand="Wael Academy" data-handle="@WaelAcademy"
+      data-tagline="في تُرابنا.. مغامرة بمغامرة"
+      data-phone="+216 50 40 40 42" data-site="waeldocuments.com"
+      data-cta="سجل معانا وأقرى عن بعد مع منصة Wael Academy"
+      data-subject="Philosophie · الدولة" data-watermark="Wael Academy" data-pagefind-body><nav class="wa-nav" data-pagefind-ignore><a href="../index.html">→ الرجوع إلى فهرس الفلسفة</a></nav>
+
+<!-- single full-page diagonal watermark, bottom-left → top-right (repeats on every page) -->
+<div class="wm" aria-hidden="true"><span>WAEL&nbsp;ACADEMY</span></div>
+
+<div class="flow colored">
+<div class="cover"><div class="badge">◉ Wael Academy · Philosophie</div><h1>الدولة</h1><div class="grule"></div><div class="sub">القيم: الأخلاق والدولة</div><div class="auth"><div class="credit">المؤلّف / المصدر : <span class="who">المصدر غير مذكور في الوثيقة</span> <span class="tg sec">الفلسفة · باكالوريا علوم الإعلامية</span> <a href="https://drive.google.com/file/d/1fWvPza4A1h_hszRDmDHK2QsRBW8x7se-/view">↗ الدولة.pdf</a></div></div><div class="copies" data-pagefind-ignore><b>نسخ هذا الملف في الدرايفات (1)</b><ul><li><a href="https://drive.google.com/file/d/1fWvPza4A1h_hszRDmDHK2QsRBW8x7se-/view">Hamza · Résumé 4SI (By HamZa A&#x27;y) › Philosophie</a></li></ul></div></div>
+<section class="chapter"><div class="chapdiv"><div class="cn">المحور</div><h2>القيم: الأخلاق والدولة</h2></div>
+<div class="exh"><span class="idx">ملخّص</span><h2>الدولة : السيادة والمواطنة</h2>
+  <div class="qrcard"><div class="qrt">فيديو الدرس</div><div class="qrslot"><img src="qr/1960.svg" alt="QR"></div></div></div>
+<div class="credit">المؤلّف / المصدر : <span class="who">المصدر غير مذكور في الوثيقة</span> <span class="tg sec">الفلسفة · باكالوريا علوم الإعلامية</span> <a href="https://drive.google.com/file/d/1fWvPza4A1h_hszRDmDHK2QsRBW8x7se-/view">↗ الدولة.pdf</a></div>
+<!-- PROOFREAD: 1960 part1 p01 — the letter ذ is printed as a broken glyph ("!") in "ه!ه" (×2) and "ال!ي"; typed as shown -->
+<table>
+<tr><th><span class="t-red"><u>في التلازم بين السيادة والمواطنة : النظام الديمقراطي نموذجا</u></span></th><th><span class="t-red"><u>في التعارض بين السيادة والمواطنة الاستبداد نمواجا</u></span></th></tr>
+<tr>
+<td>
+<p class="subhead t-red">1- معني السيادة</p>
+<p class="para">يبنى مع السيادة على علاقة الدولة بالسلطة من زاوية ← <span class="t-blue">التفريق بين السلطة والأشخاص</span> أي ان السلطة هي سلطة الدولة مادامت الدولة فكرة أي دولة المؤسسات وعلوية القانون</p>
+<p class="para">← <span class="t-blue">استقلالية السيادة</span>: الحرية في التحكم في السلطة دون تدخل اجنبي</p>
+<ul class="b"><li>في هذه الحالة تصبح الدولة مدنية تكون السلطة فيها معقلنة أي سلطة القانون</li></ul>
+<p class="subhead t-red">2- معنى المواطنة</p>
+<p class="para">تحقق المواطنة في ظل دولة مدنية مادامت كمفهوم تحيل الى الحقوق المدنية داخل دولة تضمن الحقوق</p>
+<p class="para">قبل الدولة : عرفت ه!ه الفترة <span class="t-gold">بالحالة الطبيعية</span> بما هي فترة الفوضى وقانون الغاب حيث <span class="t-gold">الحق الطبيعي على غرار الحرية المطلقة</span></p>
+<p class="para"><span class="t-blue">← الخروج من الحالة الطبيعة تطلب عقد اجتماعي بين الافراد ينص على التنازل عن <u>الحق الطبيعي</u> و<u>الخضوع للدولة</u> وفي هذه الحالة أصبح الإنسان مواطنا</span></p>
+<p class="subhead t-red">3 الديمقراطية باعتبارها النظام المناسب ال!ي يضمن المواطنة</p>
+<table>
+<tr><td>اعتبار ان الديمقراطية هي دولة <u>العقل أي</u> دولة <u>المؤسسات والقانون</u> حيث الحرية والمساواة<br>يقول رسو :" <span class="t-green">ولدت الحرية يوم ولد القانون</span></td><td>اعتبار أنها إحالة إلى حكم الأغلبية أو السيادة الشعبية التي تكون فيها السلطة للشعب عبر التمثيل السياسي</td><td>دولة مبنية على التعدد والصراعات الفكرية التي تجعل الديمقراطية مركبة يمكن ان تضمن حقوق الاقليات</td></tr>
+</table>
+<p class="para">← أن الدفاع عن الديمقراطية ناتج أساسا عن كونها دولة مدنية يمكن إن تجعل الحقوق ممكنة</p>
+<p class="subhead t-red">3- المواطن والطاعة</p>
+<p class="para">يحيل معنى الطاعة الى معنى الامتثال للقانون ← الطاعة ضرب من الالتزام الحر الذي لا يتعارض مع الحرية بل يؤسسها</p>
+<table>
+<tr><td>طاعة الدولة ليست طاعة الأشخاص وإنما يطيع الإنسان نفسه مادام يطيع القانون الذي ساهم في وضعه:" <span class="t-green">يقول روسو من يهب نفسه للجميع فانه لا يهب نفسه لأحد"</span></td><td>طاعة الدولة من بنود العقد الاجتماعي وهي تحمي الإنسان من الحالة الطبيعية أي من مخاطر الحرية المطلقة فهي تستبدل الفوضى بالنظام</td><td>طاعة لا تحقق المصلحة الخاصة وإنما تحقق المصلحة العامة وإذا تحققت ه!ه المصلحة تتحقق المصلحة الخاصة:" <span class="t-green">المواطن هو من ينفذ بناءا على أوامر الحاكم أفعال تحقق المصلحة العامة سبينوزا</span></td></tr>
+</table>
+<p class="subhead t-red">/4 عنف الدولة باعتباره عنف شرعي</p>
+<p class="para">العنف ← قوة الدولة والقوة إما داخلية تحتك الدولة فيها العنف وحق العقاب او قوة خارجية او قوة ردعية دفاعية</p>
+<p class="para"><span class="t-gold">← يقول ترو سكي كل دولة تقوم على القوة ← لو لم يجود عنف يزول مفهوم الدولة ولا تبقى إلا الفوضى</span></p>
+</td>
+<td>
+<p class="subhead t-red">- 1 معنى السيادة</p>
+<p class="para">السيادة الاستبدادية ← هي الدولة التي تكون فيها السلطة متجسدة أي مرتبطة بالنفوذ الشخصي ما دامت مرتبطة بالتسلط ← <span class="t-gold">يسمى هذا النظام نظام الحكم المطلق</span></p>
+<p class="para"><span class="t-gold">← في العصر الراهن عرف الاستبداد بفكرة الكليانية حيث الحزب الواحد الذ يسخر كل اجهزة الدولة في خدمته</span></p>
+<p class="subhead t-red">2- الاستبداد والعبودية</p>
+<p class="para">في النظام الاستبدادي لا نتحدث عن مواطنة للأسباب التالية---- الدولة ليست مدنية <span class="t-red">+</span> انعدام الحقوق <span class="t-red">+</span> حالة الخوف التي يكون عليها الإنسان داخل الدولة الاستبدادية</p>
+<p class="para">€← العبودية هي الصفة مميزه في النظام الاستبدادي</p>
+<p class="para"><span class="t-red">---------*←</span> غياب الحرية مثل حرية التفكير والحق في المشاركة في الحياة السياسية.....</p>
+<p class="para">------------← الخوف الذي يكون عليه الإنسان جراء الجهل وكذلك الخوف من عقاب الحاكم:" <span class="t-green">والحال أن العوام يذبحون أنفسهم بأيديهم بسبب الخوف الناتج عن الجهل" الكواكبي</span></p>
+<p class="subhead t-red">الاستبداد والخضوع الأعمى</p>
+<p class="para">الضوع ----------------← إلزام ← سلب للحرية</p>
+<ul class="b">
+<li>هو خضوع للأشخاص أي خضوع لأهواء الحاكم</li>
+<li>خضوع ناتج عن خوف من القمع</li>
+<li>خضوع لا يحقق المصلحة العامة وإنما يحقق المصلحة الفردية حيث يحصل تفاوت طبقي حاد</li>
+</ul>
+<p class="para">-</p>
+<p class="subhead t-red">- الاستبداد والعنف غير الشرعي</p>
+<p class="para">القوة مبنية على الإفراط حيث تتحول الى ضرب من الاستقواء ويعود ذلك إلى:</p>
+<ul class="b">
+<li>عنف يتعارض مع الحق فهو مرتبط بنزوات الحاكم وميولاته وهو لا يحتكم الى أي</li>
+</ul>
+</td>
+</tr>
+<tr>
+<td>
+<p class="para">| عنف الدولة عنف شرعي للأسباب التالية</p>
+<table>
+<tr><td>عنف لا يتعارض مع الحق بل هو مسوغ له مادام عنف يشرعه القانون ال!ي التزم المواطن باحترامه<br><span class="t-green">يقول بيردو :" ظهر مع ظهور الدولة نوع من العنف له سمة الشرعية"</span></td><td>عنف يجنبنا الحالة الطبيعية أي يؤسس للنظام بدل الفوضى فهو مقوم من مقومات الإكراه الضروري الذي يحفظ السلم الاجتماعي</td><td>عنف يحمي المصلحة العامة أي مؤسسات الدولة والأملاك الخاصة ويحافظ على استمرارية الدولة وامنها من خلال التصدي لاي عدوان خارجي</td></tr>
+</table>
+<p class="subhead t-red">/5 في حدود النظام الديمقراطي</p>
+<ul class="b">
+<li>الديمقراطية تتعارض مع الطبيعة الشريرة للإنسان مادام الإنسان :" <span class="t-green">شرير بطبعه على حد تعبير هوبز</span> وبالتالي فان النظام الاستبداد يكون انجع في تجنب هذه الطبيعة</li>
+<li>ما يلام على الديمقراطية هو شكلية القوانين أي ان القانون هو حبر على ورق او جعل لحماية مصلحة الأغنياء وهذا ا نراه في التحالف بين الديمقراطية والرأسمالية التي أفضت الى ازمة تمثيل سياسي</li>
+<li>الديمقراطية استبداد ناعم وترتبط بالتسلط وبالأخص تسلط الأغلبية على الأقلية مما يؤدي الي أقليات مضطهدة</li>
+</ul>
+</td>
+<td>
+<p class="para">شرعية قانونية</p>
+<ul class="b">
+<li>عنف مبنى على التخويف والإفراط وهو ضرب من الإذلال او التعامل اللانساني مع الإنسان</li>
+<li>عنف يبرر الطبقية مادام لا يخدم المصلحة العامة وإنما يحرص مصلحة فئة قليلة</li>
+</ul>
+<p class="subhead t-red">5 في ضرورة مقاومة الاستبداد</p>
+<p class="para">المقاومة= نوع من التصدي والعصيان السلمي <span class="t-red">←</span> المقاومة يمكن ان تكون مباشرة عبر الاحتجاج والثورة السلمية <span class="t-red">←</span> يمكن ان تكون غير مباشرة عبر الثقافة الإنسانية مثل دور الأدب والفلسفة والفنون في فضح الاستبداد</p>
+<p class="subhead t-red">لماذا نقاوم؟</p>
+<ul class="dash">
+<li>دفاعا عن مدنية الدول والمواطنة</li>
+<li>تجنبا لإذلال الاستبداد</li>
+</ul>
+<p class="subhead t-red">ماهي شروط المقاومة؟</p>
+<ul class="dash">
+<li>السلمية حتى لا نعود الى الفوضى</li>
+<li>الوعي</li>
+</ul>
+<p class="subhead t-red">ماهي الانزلاقات الخطيرة للمقاومة؟</p>
+<ul class="dash">
+<li>قد ترتط بالجل ← عنف <span class="t-red">+</span> فوضى<span class="t-red">+</span> حروب أهلية<span class="t-red">+</span> عودة الى الحالة الطبيعية</li>
+<li>ينجر عن المقاومة انتقال من استبداد الدولة الى استبداد الشعب: الشعب اقوى من الدولة← ضعف الدولة<span class="t-red">+</span> عجز <span class="t-red">+</span> استعمار خارجي</li>
+</ul>
+</td>
+</tr>
+</table>
+<p class="subhead t-navy">المواطنة العالمية: من الحقوق النسبية الى الحقوق المطلقة</p>
+<table>
+<tr><th>المواطنة العالمية: المعنى الأسباب الشروط</th><th>حدود المواطنة العالمية</th></tr>
+<tr>
+<td>
+<p class="para">المواطنة العالمية هي تجاوز لفكرة المواطن المحلي لان الحقوق هنا لا تتجاوز فكرة البلد الواحد اما المواطنة العالمية فترتبط أساسا بالإنسانية حيث الحقوق المطلقة وهي حلم وتطلع الى واقع سياسي افضل يؤدي الى اتقاد دول العالم في ظل سيادة عالمية</p>
+<p class="subhead t-red">أسباب الحاجة الى المواطنة العالمية</p>
+<p class="para">_ <span class="t-green">مشكل العنصرية</span>: أي ان التواصل الكوني بين البشر تعطل جراء ادعاءات عرقية ورفض للاختلاف مما افضي الى توتر عالمي وانتشار التعصب ورفض الاختلاف</p>
+<p class="para">_ <span class="t-green">الهجرة</span> : عرفت بعض دول العالم تطورا في جميع الميادين مما أدى الى تنامي ظاهرة الهجرة التي خلفت انتماءات متعددة داخل الدولة الواحدة</p>
+<p class="subhead t-red">شروط تحقق المواطنة العالمية:</p>
+<p class="para">_ ان تكون كل الدول ديمقراطية تؤمن بمدنية الدولة وحق الشعوب في تقرير مصيرها وبالتالي تتسع الحقوق لتبلغ درجة العالمية</p>
+<p class="para">_ تجاوز مشكل الانتماء والقبول بالاختلاف والاعتراف بثقافة الاخر ودوره في تطور الحضارة الإنسانية <span class="t-red">" يقول كستيلاس يلزمنا نموذج مواطنة عالمية جديد يراعي مشكل الانتماء"</span></p>
+<p class="para">_ اتفاقيات بين الدول تقوم على شراكة فعلية فكرية واقتصادية وسياسية تلغي عراقيل التنقل وتجعل الأرض وطنا للجميع</p>
+</td>
+<td>
+<p class="para">المواطنة العالمية تتعارض مع الواقع السياسي العالمي حيث الاستبداد والعبودية مما افضى الى تحالفات إقليمية واقتصادية بين أنظمة شيوعية وأخرى ديمقراطية</p>
+<p class="para">_مشكل الانتماء يظل عائقا امام وحدة البشرية في ظل واقع غلب علية التعصب ورفض الاختلاف</p>
+<p class="para">_الواقع الرأسمالي أدى الى صراعات اقتصادية أدت الى</p>
+<p class="para"><span class="t-gold">توسع استعماري أفقد بعض الدول سيادتها وبالتالي لا تتحقق المواطنة العالمية وبعض الدول تعاني من الاستعمار</span></p>
+<p class="para"><span class="t-gold">_ انتشار ثقافة الاستهلاك عوض المواطنة من مواطنة في الحقوق الى مواطنة عالمية في الاستهلاك</span></p>
+<p class="para"><span class="t-gold">_ المواطنة العالمية مرتبطة بالدول القوية التي يمكنها حماية حقوق مواطنيها خارج الدولة في حين تعجز الدول الضعيفة عن ذلك</span></p>
+</td>
+</tr>
+</table>
+
+</section>
+
+</div>
+</body>
+</html>

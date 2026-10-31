@@ -1,0 +1,530 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<title>Wael Academy — Philosophie · philo</title>
+<script>
+  window.MathJax = {
+    tex: { inlineMath: [['\\(','\\)']], displayMath: [['\\[','\\]']] },
+    chtml: { fontURL: 'https://cdn.jsdelivr.net/npm/mathjax@3/es5/output/chtml/fonts/woff-v2', matchFontHeight: true },
+    startup: { typeset: true }
+  };
+</script>
+<script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js" async></script>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Sora:wght@400;500;600;700;800&family=Cairo:wght@400;500;600;700;800;900&family=Tajawal:wght@400;500;700;800&family=JetBrains+Mono:wght@400;500;600;700&display=swap');
+:root{
+  /* ===== Wael Academy palette — MAIN ACCENT = green-teal gradient #0FAB8F → #067360 ===== */
+  --bg:#fff; --panel:#f2f8f8; --hair:#e6e6e9; --hair2:#d6d6db;
+  --fg:#0f2a31;        /* body text (and +/− signs) */
+  --fg2:#3f5b62;       /* softer text */
+  --fg3:#7c959b;       /* muted (footer) */
+  --blue:#067360;      /* deep accent — small numbers, borders, watermark, accent equations */
+  --blue-dark:#045260; /* titles & wordmarks (also the balance colour) */
+  --teal:#0fab8f;      /* bright accent end */
+  --loop:#0d9c82;      /* logo-loop helper */
+  --orange:#067360;    /* kicker/category labels (gold retired → deep teal) */
+  --red:#f5322f;       /* EXERCISE CHIPS ONLY — never for emphasis */
+  --cream:#e6f3f4; --blue-soft:#e6f3f4;  /* pale teal — callout fill + table sub-row fill */
+  --blue-line:#cde7e4; /* hairline */
+  --sub-ink:#045260;   /* table sub-row text */
+  --grad:linear-gradient(148deg,#0fab8f 0%,#0d9c82 52%,#067360 100%);
+  --mono:'JetBrains Mono',monospace; --latin:'Sora',sans-serif; --ar:'Cairo',sans-serif; --arb:'Tajawal',sans-serif;
+}
+*{box-sizing:border-box;margin:0;padding:0;}
+body{font-family:var(--latin);color:var(--fg);background:#e4e4e7;padding:28px 0;
+     -webkit-print-color-adjust:exact;print-color-adjust:exact;}
+html[dir="rtl"] body{font-family:var(--arb);}
+
+/* ===== brand watermark: REAL text (crisp), full-bleed, repeats per page ===== */
+.wm{position:fixed;inset:0;z-index:0;pointer-events:none;display:flex;
+    align-items:center;justify-content:center;overflow:hidden;
+    -webkit-print-color-adjust:exact;print-color-adjust:exact;}
+.wm span{font-family:var(--mono);font-weight:800;font-size:76.8pt;letter-spacing:.16em;
+    color:var(--blue);opacity:.06;white-space:nowrap;transform:rotate(-54deg);}  /* single diagonal: bottom-left → top-right */
+.wm.mono span{color:#000;opacity:.05;}
+
+/* ===== continuous flow stream (no page border) ===== */
+.flow{width:210mm;margin:0 auto;background:transparent;color:var(--fg);
+      padding-block:16mm 18mm;padding-inline:23mm 14mm;position:relative;}   /* spiral gutter: inline-start(=spine) 23mm / outer 14mm — dir-aware; print margins set in render_flow.py */
+@media screen{ .flow{background:#fff;box-shadow:0 10px 40px rgba(0,0,0,.16);} }
+.flow>*{position:relative;z-index:1;}
+.flow p,.flow li,.flow .data,.flow .note,.flow .ex{break-inside:auto;}
+.flow .fig,.flow figure,.flow img,.flow svg.figsvg,.flow table,.flow tr,.flow .chapdiv,.flow .exh,.flow .qrcard,.flow .meta{break-inside:avoid;}
+.flow h1,.flow h2,.flow h3,.flow .exh,.flow .subhead,.flow .chapdiv{break-after:avoid;}
+.flow img,.flow svg.figsvg{max-width:100%;height:auto;}
+.flow figcaption,.flow .figcap{display:none;}          /* rule 3: no figure captions */
+
+/* ===== front matter + chapters each start on a fresh page ===== */
+.flow .cover{break-after:page;}        /* cover alone on page 1 */
+.flow .toc{break-after:page;}          /* Sommaire alone on the next page */
+.flow .chapter{break-before:page;}
+.flow .chapter:first-of-type{break-before:auto;}
+
+/* ===== cover ===== */
+.cover{padding:14mm 0 8mm;border-bottom:2px solid var(--blue);margin-bottom:6mm;}
+.cover .badge{font-family:var(--mono);font-size:8.5pt;letter-spacing:.28em;text-transform:uppercase;color:var(--orange);margin-bottom:10px;}
+.cover h1{font-family:var(--latin);font-weight:800;font-size:34pt;line-height:1.03;letter-spacing:-.025em;color:var(--blue-dark);}
+.cover .grule{width:120px;height:5px;border-radius:5px;background:var(--grad);margin:14px 0;}
+.cover .sub{font-family:var(--mono);font-size:10pt;letter-spacing:.14em;text-transform:uppercase;color:var(--teal);}
+.cover .auth{font-size:11pt;color:var(--fg2);margin-top:6px;font-weight:600;}
+
+/* ===== table of contents ===== */
+.toc{margin:2mm 0 4mm;}
+.toc h2{font-family:var(--latin);font-weight:800;font-size:15pt;color:var(--blue-dark);margin-bottom:4mm;}
+.toc .trititle{font-family:var(--mono);font-size:8pt;letter-spacing:.2em;text-transform:uppercase;color:var(--orange);margin:4mm 0 2mm;}
+.toc ol{list-style:none;}
+.toc li{display:flex;align-items:baseline;gap:8px;font-size:10pt;padding:2.2px 0;color:var(--fg);line-height:1.4;}
+.toc li .n{font-family:var(--mono);font-weight:700;font-size:9pt;color:var(--blue);min-width:26px;}
+.toc li .dots{flex:1;border-bottom:1px dotted var(--hair2);transform:translateY(-3px);}
+
+/* ===== chapter divider band ===== */
+.chapdiv{margin:0 0 5mm;padding:6mm 16px 5mm;border-radius:12px;background:var(--grad);
+    -webkit-print-color-adjust:exact;print-color-adjust:exact;}   /* green-filled chapter band */
+.chapdiv .cn{font-family:var(--mono);font-size:8.5pt;font-weight:700;letter-spacing:.24em;text-transform:uppercase;color:rgba(255,255,255,.82);margin-bottom:5px;}
+.chapdiv h2{font-family:var(--latin);font-weight:800;font-size:17pt;line-height:1.1;letter-spacing:-.015em;color:#fff;}
+/* conclusion block — same green-filled look as the chapter band */
+.conclusion{background:var(--grad);border-radius:12px;padding:6mm 16px;margin:5mm 0;color:#fff;break-inside:avoid;
+    -webkit-print-color-adjust:exact;print-color-adjust:exact;}
+.conclusion .ck{font-family:var(--mono);font-size:8.5pt;font-weight:700;letter-spacing:.24em;text-transform:uppercase;color:rgba(255,255,255,.82);margin-bottom:6px;}
+.conclusion h3{font-family:var(--latin);font-weight:800;font-size:13pt;line-height:1.2;color:#fff;margin-bottom:4px;}
+.conclusion p,.conclusion li{font-size:10.4pt;line-height:1.7;color:#fff;}
+.conclusion b,.conclusion strong{color:#fff;font-weight:700;}
+
+/* ===== unit header (lesson/exercise) + QR emplacement ===== */
+.exh{display:flex;align-items:center;gap:11px;margin:6mm 0 3mm;}
+.exh .idx{font-family:var(--mono);font-size:9pt;font-weight:600;color:#fff;background:var(--grad);
+    border-radius:6px;padding:4px 11px;letter-spacing:.08em;text-transform:uppercase;
+    -webkit-print-color-adjust:exact;print-color-adjust:exact;}
+.exh .idx.ex{background:var(--red);}   /* exercise chip = red */
+.exh h2{font-family:var(--latin);font-size:14pt;font-weight:700;letter-spacing:-.01em;color:var(--blue-dark);}
+.exh .qrcard{margin-inline-start:auto;flex:0 0 auto;display:flex;flex-direction:column;align-items:center;gap:3px;width:26mm;}
+.qrcard .qrt{font-family:var(--mono);font-size:6.5pt;letter-spacing:.1em;text-transform:uppercase;color:var(--teal);text-align:center;}
+.qrcard .qrslot{width:24mm;height:24mm;padding:1.5mm;background:#fff;border:1px solid var(--blue-line);border-radius:8px;display:flex;align-items:center;justify-content:center;}
+.qrcard .qrslot img,.qrcard .qrslot svg{width:100%;height:100%;display:block;}
+
+/* sub-exercise label when one file holds several exercices */
+.exsub{font-family:var(--latin);font-weight:800;font-size:11.5pt;color:var(--blue-dark);margin:5mm 0 2.5mm;padding-bottom:3px;border-bottom:2px solid var(--blue-line);}
+
+/* ===== text blocks ===== */
+.lead{font-size:11pt;line-height:1.7;margin:2mm 0 3mm;color:var(--fg);}
+.para{font-size:10.6pt;line-height:1.7;margin:2mm 0 2.5mm;color:var(--fg);}
+.consigne{font-size:10.4pt;line-height:1.6;margin:1mm 0 2mm;color:var(--fg);font-style:italic;}
+.subhead{font-family:var(--latin);font-weight:800;font-size:12pt;letter-spacing:-.01em;color:var(--blue-dark);margin:5mm 0 2.5mm;}
+/* emphasis — green accent = .t-blue/.t-green ; balance = .t-navy ; red = SECONDARY accent (.t-red) on titles + a few words */
+.t-blue{color:var(--blue);font-weight:600;} .t-navy{color:var(--blue-dark);font-weight:700;}
+.t-red{color:var(--red);font-weight:600;} .t-green{color:var(--teal);font-weight:600;} .t-gold{color:var(--orange);font-weight:600;}
+.subhead.t-red{color:var(--red);font-weight:800;}   /* red Roman-numeral section title (I, II, …) — keeps subhead weight */
+/* highlighter marks — a soft colour wash behind a key word (agent picks green or red per what balances the page) */
+.hl-green,.hl-red{border-radius:3px;padding:.02em .24em;font-weight:600;box-decoration-break:clone;-webkit-box-decoration-break:clone;
+    -webkit-print-color-adjust:exact;print-color-adjust:exact;}
+.hl-green{background:rgba(15,171,143,.20);color:var(--blue-dark);}   /* green highlight */
+.hl-red{background:rgba(245,50,47,.13);color:#c0261f;}               /* red highlight  */
+
+.data{background:var(--blue-soft);border:1px solid var(--blue-line);border-inline-start:4px solid var(--blue);
+    border-radius:8px;padding:11px 16px;margin:3mm 0;font-size:10pt;line-height:1.65;color:var(--fg2);}
+.data b{color:var(--fg);font-weight:700;}
+.note{border:1px dashed var(--hair2);border-radius:9px;padding:11px 16px;margin:4mm 0;background:var(--panel);}
+.note .kicker{font-family:var(--mono);font-size:7.5pt;letter-spacing:.18em;color:var(--orange);display:block;margin-bottom:5px;}
+.note .nb{font-size:10pt;line-height:1.7;color:var(--fg2);} .note b{color:var(--fg);}
+.ex:not(.idx){background:var(--blue-soft);border:1px solid var(--blue-line);border-inline-start:3px solid var(--blue);
+    border-radius:7px;padding:7px 11px;font-size:9.6pt;line-height:1.6;color:var(--fg2);margin:2mm 0;}   /* :not(.idx) so it never hits the exercise chip (which is .idx.ex) */
+.ex .extag{display:inline-block;font-family:var(--latin);font-weight:800;font-size:7.6pt;color:var(--blue-dark);background:#fff;
+    border:1px solid var(--blue);border-radius:5px;padding:1px 9px;margin-inline-end:7px;vertical-align:middle;text-transform:uppercase;letter-spacing:.06em;}
+
+/* ===== lists ===== */
+ol.q{list-style:none;counter-reset:q;margin:1mm 0 2mm;}
+ol.q>li{counter-increment:q;position:relative;padding-inline-start:30px;margin-bottom:2.5mm;font-size:10.4pt;line-height:1.6;}
+ol.q>li::before{content:counter(q);position:absolute;inset-inline-start:0;top:1px;width:21px;height:21px;background:var(--grad);color:#fff;
+    border-radius:50%;font-family:var(--mono);font-size:9pt;font-weight:600;display:flex;align-items:center;justify-content:center;
+    -webkit-print-color-adjust:exact;print-color-adjust:exact;}
+ol.sub{list-style:none;counter-reset:s;margin:4px 0 0;padding-inline-start:2px;border-inline-start:1px solid var(--blue-line);}
+ol.sub li{counter-increment:s;position:relative;padding:2.5px 0 2.5px 26px;font-size:10.1pt;line-height:1.55;}
+ol.sub li::before{content:counter(s,lower-alpha)".";position:absolute;inset-inline-start:10px;top:2.5px;font-family:var(--mono);font-size:9pt;font-weight:600;color:var(--teal);}
+ol.qn{list-style:none;counter-reset:qn;margin:1mm 0 2mm;}
+ol.qn>li{counter-increment:qn;position:relative;padding-inline-start:26px;margin-bottom:2.2mm;font-size:10.4pt;line-height:1.55;}
+ol.qn>li::before{content:counter(qn)".";position:absolute;inset-inline-start:0;top:0;font-family:var(--mono);font-size:9.5pt;font-weight:700;color:var(--blue);}
+ul.b{list-style:none;margin:1mm 0 2mm;} ul.b>li{position:relative;padding-inline-start:22px;margin-bottom:2.4mm;font-size:10.4pt;line-height:1.6;}
+ul.b>li::before{content:"";position:absolute;inset-inline-start:3px;top:8px;width:8px;height:8px;border-radius:50%;background:var(--grad);
+    -webkit-print-color-adjust:exact;print-color-adjust:exact;}
+ul.dash{list-style:none;margin:1mm 0 2mm;} ul.dash>li{position:relative;padding-inline-start:20px;margin-bottom:1.8mm;font-size:10.4pt;line-height:1.6;}
+ul.dash>li::before{content:"–";position:absolute;inset-inline-start:2px;top:0;color:var(--fg);font-weight:700;}  /* dash / +/− signs = body colour */
+.flow ul.opts{list-style:none;margin:4px 0 3px;padding-inline-start:16px;}
+.flow ul.opts li{padding:2px 0;font-size:10.2pt;line-height:1.5;color:var(--fg);}
+
+/* ===== figures / tables ===== */
+.fig{margin:3mm 0;} .fig svg.figsvg{display:block;margin:0 auto;background:#fff;max-width:100%;height:auto;}
+.photo{display:block;margin:3mm auto;border-radius:8px;border:1px solid var(--hair);max-width:100%;}
+.figrow{display:flex;flex-wrap:wrap;gap:9px;justify-content:center;margin:3mm auto;max-width:190mm;}
+.flow .figrow img{border-radius:7px;border:1px solid var(--hair);height:46mm;width:auto;max-width:none;object-fit:cover;}
+.schemarow{display:flex;gap:16px;align-items:flex-start;flex-wrap:wrap;margin:2mm 0;}
+.schemarow .col-txt{flex:1 1 90mm;min-width:80mm;} .schemarow .col-fig{flex:0 0 78mm;} .schemarow .col-fig .fig{margin:0;}
+.flow table{border-collapse:collapse;width:100%;margin:3mm 0;font-size:9.8pt;line-height:1.5;}
+.flow table th,.flow table td{border:1px solid var(--blue-line);padding:6px 10px;text-align:start;vertical-align:top;}
+.flow table th{background:var(--grad);color:#fff;font-family:var(--latin);font-weight:700;font-size:9.4pt;
+    -webkit-print-color-adjust:exact;print-color-adjust:exact;}
+.flow table tr:nth-child(even) td{background:var(--blue-soft);color:var(--sub-ink);}   /* sub-row: #E6F3F4 / #045260 */
+
+mjx-container{color:var(--fg) !important;font-weight:400 !important;font-size:1.0em !important;}
+.eq-hi mjx-container,mjx-container.eq-hi{color:var(--blue) !important;}   /* accent (green) equation — highlight a key result; balance with plain math */
+.eq-red mjx-container,mjx-container.eq-red{color:var(--red) !important;}  /* red accent equation / symbol — complements the green .eq-hi */
+
+/* ===== per-file books: credit line, copies list, figures at their size ===== */
+.credit{display:flex;flex-wrap:wrap;align-items:center;gap:5px;margin:-1mm 0 3.5mm;font-size:9.4pt;color:var(--fg2);}
+.credit .who{font-weight:700;color:var(--blue-dark);}
+.credit .tg{font-family:var(--mono);font-size:7.2pt;letter-spacing:.04em;border-radius:5px;padding:1px 7px;line-height:1.6;
+    border:1px solid var(--blue-line);color:var(--blue);background:#fff;-webkit-print-color-adjust:exact;print-color-adjust:exact;}
+.credit .tg.sec{background:var(--blue-dark);border-color:var(--blue-dark);color:#fff;}
+.credit .tg.cor{background:#fff;border-color:var(--red);color:var(--red);}
+.credit a{color:var(--fg3);font-family:var(--mono);font-size:7pt;text-decoration:none;}
+.cover .auth .credit{margin:4mm 0 0;}
+.cover .copies{margin-top:5mm;font-size:8.6pt;color:var(--fg2);}
+.cover .copies ul{list-style:none;margin:2mm 0 0;padding:0;columns:2;}
+.cover .copies a{color:var(--fg3);text-decoration:none;font-size:8pt;}
+.flow figure.fig{text-align:center;}
+.flow figure.fig img{max-height:60mm;width:auto;max-width:70%;display:inline-block;}
+
+/* chapter tag on each part of a multi-chapter book (the book keeps the original order of the file) */
+.chtag{display:inline-block;margin:5mm 0 2mm;padding:1mm 3mm;border-radius:2mm;background:#eef3fb;border:1px solid #c9d6ea;
+  color:#1f3a6b;font-size:9pt;font-weight:700}
+.chtag span{color:#6b7f9e;font-weight:600;margin-inline-end:1.5mm}
+
+@media print{ body{background:#fff;padding:0;} .flow{width:auto;max-width:none;margin:0;padding:0;} }
+@page{size:A4;}   /* margins come from render_flow.py — do NOT set them here */
+</style>
+<meta data-pagefind-filter="type[content]" content="درس">
+<meta data-pagefind-filter="resource[content]" content="امتحانات وطنية (وزارة التربية)">
+<meta data-pagefind-meta="n[content]" content="2335">
+<meta data-pagefind-meta="title[content]" content="philo">
+<meta data-pagefind-filter="chapter[content]" content="محور غير محدّد">
+<meta data-pagefind-filter="chapter[content]" content="الإنية والغيرية">
+<meta data-pagefind-filter="chapter[content]" content="العلم بين الحقيقة والنمذجة">
+<meta data-pagefind-filter="chapter[content]" content="القيم: الأخلاق والدولة">
+<meta data-pagefind-filter="section[content]" content="باكالوريا علوم تجريبية"><style>.qrcard{display:none!important}.wa-nav{position:sticky;top:0;z-index:50;background:#045260;padding:10px 18px;font-family:Cairo,sans-serif;direction:rtl}.wa-nav a{color:#fff;text-decoration:none;font-weight:700}@media print{.wa-nav{display:none}}</style>
+</head>
+
+<body dir="rtl" lang="ar"
+      data-brand="Wael Academy" data-handle="@WaelAcademy"
+      data-tagline="في تُرابنا.. مغامرة بمغامرة"
+      data-phone="+216 50 40 40 42" data-site="waeldocuments.com"
+      data-cta="سجل معانا وأقرى عن بعد مع منصة Wael Academy"
+      data-subject="Philosophie · philo" data-watermark="Wael Academy" data-pagefind-body><nav class="wa-nav" data-pagefind-ignore><a href="../index.html">→ الرجوع إلى فهرس الفلسفة</a></nav>
+
+<!-- single full-page diagonal watermark, bottom-left → top-right (repeats on every page) -->
+<div class="wm" aria-hidden="true"><span>WAEL&nbsp;ACADEMY</span></div>
+
+<div class="flow colored">
+<div class="cover"><div class="badge">◉ Wael Academy · Philosophie</div><h1>philo</h1><div class="grule"></div><div class="sub">محور غير محدّد</div><div class="auth"><div class="credit">المؤلّف / المصدر : <span class="who">الجمهوريّة التّونسيّة — وزارة التّربية — الإدارة العامّة للمرحلة الإعداديّة والتّعليم الثّانوي — إدارة بيداغوجيا ومواصفات المرحلة الإعداديّة والتّعليم الثّانوي</span> <span class="tg sec">الفلسفة · باكالوريا علوم تجريبية</span> <a href="https://drive.google.com/file/d/1OlaKaBOtvN5itKph2ccFjlkuA2nR3Len/view">↗ philo.pdf</a></div></div><div class="copies" data-pagefind-ignore><b>نسخ هذا الملف في الدرايفات (1)</b><ul><li><a href="https://drive.google.com/file/d/1OlaKaBOtvN5itKph2ccFjlkuA2nR3Len/view">Ons chograni · BAC SC ONSSSS › philo</a></li></ul></div></div>
+<section class="chapter">
+<div class="chtag"><span>المحور</span> محور غير محدّد</div>
+<!-- SOURCE: الجمهوريّة التّونسيّة — وزارة التّربية — الإدارة العامّة للمرحلة الإعداديّة والتّعليم الثّانوي — إدارة بيداغوجيا ومواصفات المرحلة الإعداديّة والتّعليم الثّانوي -->
+<div class="exh"><span class="idx">درس</span><h2>برامج الفلسفة</h2>
+  <div class="qrcard"><div class="qrt">فيديو الدرس</div><div class="qrslot"><img src="qr/2335.svg" alt="QR"></div></div></div>
+<div class="credit">المؤلّف / المصدر : <span class="who">الجمهوريّة التّونسيّة — وزارة التّربية — الإدارة العامّة للمرحلة الإعداديّة والتّعليم الثّانوي — إدارة بيداغوجيا ومواصفات المرحلة الإعداديّة والتّعليم الثّانوي</span> <span class="tg sec">الفلسفة · باكالوريا علوم تجريبية</span> <a href="https://drive.google.com/file/d/1OlaKaBOtvN5itKph2ccFjlkuA2nR3Len/view">↗ philo.pdf</a></div>
+<p class="para"><b>الجمهوريّة التّونسيّة<br>وزارة التّربية<br>الإدارة العامّة للمرحلة الإعداديّة والتّعليم الثّانوي<br>إدارة بيداغوجيا ومواصفات المرحلة الإعداديّة والتّعليم الثّانوي</b></p>
+<p class="subhead t-red">برامج<br>الفلسفة</p>
+<p class="subhead t-navy"><b>السّنة الثّالثة والسّنة الرّابعة<br>من التّعليم الثّانوي</b></p>
+<p class="para"><b>سبتمبر 2006</b></p>
+<p class="subhead t-red">الفهرس</p>
+<table>
+<tr><td><b>منزلة المادّة</b></td><td>03</td></tr>
+<tr><td><b>برامج الفلسفة في التّعليم الثّانوي</b></td><td>04</td></tr>
+<tr><td><b>برنامج السّنوات الثّالثة من التّعليم الثّانوي</b></td><td></td></tr>
+<tr><td>مقدّمة</td><td>06</td></tr>
+<tr><td>شعبة الآداب</td><td>07</td></tr>
+<tr><td>بقيّة الشّعب</td><td>09</td></tr>
+<tr><td><b>برنامج السّنوات الرّابعة من التّعليم الثّانوي</b></td><td></td></tr>
+<tr><td>مقدّمة</td><td>12</td></tr>
+<tr><td>شعبة الآداب</td><td>13</td></tr>
+<tr><td>بقيّة الشّعب</td><td>15</td></tr>
+<tr><td><b>القائمة الرّسميّة للآثار الفلسفيّة</b></td><td>17</td></tr>
+</table>
+<div class="exsub">منزلة المادّة</div>
+<p class="subhead t-navy"><b>رسالة الفلسفة من رسالة المدرسة :</b></p>
+<p class="para">تصدّرت "رسالة التّربية" القانون التّوجيهي للتّربية والتّعليم المدرسي لتعلن من البدء أنّ مطلوب المدرسة الأقصى هو تنمية ما هو إنسانيّ في الإنسان، بإيقاظ مؤهّلاته وتنمية شخصيّته بأبعادها الخلقيّة والوجدانيّة والعقليّة وتسليحه بما يكفل وعيه بذاته وبالآخر. لذلك راهنت "مدرسة الغد" على تكوين "عقول مفكّرة بدل حشو الأدمغة"، عقول قادرة على تجاوز "حبّ البقاء إلى حسن البقاء" بفضل إذكاء الاقتدار لدى النّاشئة حتّى يفلحوا في حياة</p>
+<p class="para">نشيطة تعي بالعمل قيمة وبالتّنظيم المدني الحقوقي خيارا، يستلهم من قوّة القوانين شرعيّة تُخْرِجُ الشّأن الإنسانيّ من دائرة المزاج إلى حكم العقل.</p>
+<p class="para">إنّ توجّها من هذا القبيل هو الّذي نزّل الفلسفة <b>مقاما</b> مرموقا في الهيكلة الجديدة للتّعليم الثّانوي، فعمّم تدريسها منذ السّنة الثّالثة، إيمانا بدورها الفاعل في تجسيم هذه الرّسالة.</p>
+<p class="para">وإذا كانت المقاصد الكبرى للنّظام التّربوي قد انضوت جميعها تحت عبارة "<b>رسالة التّربية</b>" فإنّ ذلك ليدلّ على أنّ التّربية أمانة لايحملها المربّون إلاّ إذا لاقت لديهم إيمانا وحماسا يرفع العمل إلى منزلة النّضال النّبيل يستصغر العناء الفردي ويضفي على الفعل التّربوي معنى.</p>
+<p class="para">إنّ الفلسفة بما يحفل به تاريخها وأنساقها من اهتمام بالإنسان وبالفضاء الّذي يعيش فيه لهي جديرة بالاضطلاع بمهمّة تنمية قدرة النّاشئة على التّفكير وتكوين شخصيّاتهم بشكل متوازن وتسليحهم نظريّا وعمليّا بما به تستقيم "حياتهم النّشيطة" استقامة القادر على العمل والفاعل في الفضاء المدني. والفلسفة بهذا الّذي تقدّم، تتعاضد مع سائر الموادّ الأخرى لتدعيم الإحساس بالانتماء للإنسانيّة لدى النّاشئة مع تبصيرهم بأهميّة الانفتاح على رحابة الفضاء الحضاريّ الإنسانيّ.</p>
+<p class="para">إنّ ما نالته الفلسفة من مقام مرموق في المنظومة التّربويّة ليبعث على التّفاؤل بمستقبل الأجيال القادمة في الوقت الّذي يُضاعف من حجم المسؤوليّة الملقاة على عاتق كلّ مهتمّ بالشّأن الفلسفيّ إنْ تدريسا أو تأطيرا أو متابعة. لذلك فلا خيار سوى كسب الرّهان، رهان الفلسفة ورهان الإنسان في آن.</p>
+<div class="exsub">برامج الفلسفة في التّعليم الثّانوي</div>
+<p class="para">يرمي تدريس الفلسفة في السّنوات الثّالثة والرّابعة من التّعليم الثّانوي إلى :</p>
+<ul class="dash">
+<li>تمكين التّلميذ من التمرّس بالحريّة بفضل ممارسة التّفكير من خلال أعمال كبار الفلاسفة والمفكّرين.</li>
+<li>تمكين التّلميذ من فهم أفضل وتأويل أعمق لما يعرف سلفا، والوعي بذلك وعيا أوضح وأشمل.</li>
+<li>تحرير التّلميذ من قوالب الآراء المتداولة ومن سيطرة الأحكام المتسرّعة.</li>
+<li>إعداد التّلميذ إعدادا يمكّنه من تحصين نفسه تحصينا يربّيه على التبصّر في الحكم والثّقة في النّفس والثّبات على المبدأ دون سقوط في الوثوقيّة، والاعتدال في الموقف والتّسامح في التّعامل دون سقوط في التّبعيّة.</li>
+<li>مساعدة التّلميذ على الارتقاء ذاتيّا من وضع اللاّمبالاة إلى موقف واع يسند اختياراته فكرا وسلوكا، ويحمله على الإبداع ويقيه التّسطيح الفكري والوجداني والاستسلام إلى المجهود الأدنى.</li>
+</ul>
+<div class="exsub">السّنوات الثّالثة من التّعليم الثّانوي</div>
+<div class="exsub">برنامج الفلسفة بالسّنوات الثّالثة من التّعليم الثّانوي</div>
+<p class="para">يهدف تدريس الفلسفة في السّنوات الثّالثة من التّعليم الثّانوي إلى :</p>
+<ul class="dash">
+<li>التّمهيد لدراسة هذه المادّة في السّنة الرّابعة، والتّرغيب فيها بتحسيس التّلميذ بأهميّة المساءلة الفلسفيّة في أهمّ السّجلات التي يحيل إليها وبالنّظر إلى أهمّ المرجعيّات التي يستوجبها.</li>
+<li>إيجاد موقف تساؤلي لدى التّلميذ ينطلق من الدّهشة ويقود إلى صياغة أسئلة تستدعي منه استخدام جملة من المسارات الفكريّة، ضمن تمشّ مبنيّ يساعد على التقدّم في حلّ هذه الإشكاليّات حيث يكتسب القدرة على التّمييز بين المسائل والمفاهيم ومستوياتها.</li>
+<li>مساعدة التّلميذ على الانتقال من التّجربة العفويّة للحياة إلى التّفكير، وذلك ببيان أنّ في الحياة نفسها ما يحملنا على ذلك التّفكير.</li>
+<li>مساعدة التّلميذ على إدراك العلاقة الوطيدة القائمة بين الفلسفة وسائر المعارف الأخرى باعتبار أنّ كلاّ منها يعبّر بطرقه المخصوصة عن مختلف التّجارب الإنسانيّة المتّصلة بعلاقة الفرد بذاته وبالآخرين، ويكون ذلك بالنّهل من النّصوص الفلسفيّة على وجه الخصوص والنّصوص الإبداعيّة عموما إضافة إلى سندات أخرى( سمعيّة بصريّة، رقميّة...)</li>
+</ul>
+<div class="exsub">شعبة الآداب</div>
+<p class="subhead t-red"><b>إضاءات حول البرنامج</b></p>
+<p class="para">يشتمل برنامج الفلسفة في السّنة الثّالثة على عنوان واحد هو "مطلب التّفكير : من اليوميّ إلى الفلسفيّ " يتفرّع في حركة أولى أفقيّة إلى معان هي بمثابة الموادّ الّتي يبني الأستاذ من خلالها الدّرس، فيشتغل عليها اشتغالا يراعي تجاورها وتباينها ووجوه تقاطعها وتموقعها في المجال الإشكالي المعني الذي تثيره المسألة. ويتفرّع في حركة ثانية عموديّة إلى مسائل.</p>
+<p class="para">إنّ الوعي بهذه الحركة المزدوجة في وجهيها الأفقي والعمودي ليمثّل <b>شرطا</b> لبناء دروس متدرّجة ومنسجمة ومترابطة، وضامنا لتنمية القدرة على تأليف يقي التّدريس من التفكّك والتّفتت.</p>
+<table>
+<tr><th>العنوان</th><th>مطلب التّفكير : من اليومـيّ إلى الفلسفـيّ</th></tr>
+</table>
+<table>
+<tr><th>عناوين المسائل</th><th>المعاني</th></tr>
+<tr><td><b>I- اليومـيّ</b></td><td>الدّعاية – الرّأي السّائد - الوثوقيّة – الوهم</td></tr>
+<tr><td><b>II- مقتضيات التّفكير</b><br><b>1- في الوعي بالمغالطات</b></td><td>أشباه المشاكل – الحجاج الباطل – الخلط بين المقولات المنطقيّة – المفارقة.</td></tr>
+<tr><td><b>2- إجرائيّات التّفكير</b></td><td>الأشكلة – التّأسيس – التّعريف – الحجاج – الدّحض.</td></tr>
+<tr><td><b>3- إيتيقا التّفكير</b></td><td>التّعقّل – الحوار - النّقد</td></tr>
+<tr><td><b>III- تجربة الالتزام : شخصيّات فكريّة</b></td><td>الاستقلاليّة – الإيديولوجيا – الشّجاعة - المسؤوليّة</td></tr>
+<tr><td><b>VI- دراسة مسترسلة لأثر فلسفيّ</b></td><td>انظر القائمة المصاحبة</td></tr>
+</table>
+<p class="subhead t-navy"><b>I- اليومي :</b></p>
+<p class="para">أوّل مسألة يكتشف التّلميذ من خلالها درس الفلسفة فيتعرّف إلى اليومي الّذي كان يحياه دون أن يفكر فيه. وإنّ تقريب الدّرس من معيش التّلميذ واختيار بَدْءٍ من هذا القبيل لَهُوَ مراهنة على كسب الفوز بردم الهوّة المفتعلة بين التّفلسف والحياة. بهذا يقع تنبيه التّلميذ إلى معيشه حتّى يفهمه ويعيه على غير ما كان يفعل سابقا أملا في استكشاف الرّابط القائم بين المعيش والتّفكير.</p>
+<p class="subhead t-navy"><b>II- مقتضيات التّفكير :</b></p>
+<p class="para">إنّ المقصد الّذي صيغ على أساسه العنوان الأوّل، لا يمكن أن يتحقق على نحو انطباعيّ ومرتجل، فالفهم والتّحليل والنّقد التي بها يُطْلَبُ التّفكير تستدعي اقتدارا يقوم على احترام ما في التّفكير الفلسفي من صرامة، وتُعِدُّ التّلميذ للكشف عمّا في بعض التّمثّلات والآراء والخطابات من أغاليط وتحدّد إجرائيّات التّفكير السّليم. وعلى هذا الأساس جاءت المسألة الثّانية "مقتضيات التّفكير" متفرّعة إلى ثلاثة عناصر :</p>
+<p class="para"><b>1- الوعي بالمغالطات :</b></p>
+<p class="para">هو عنصر يتمّ فيه تنبيه التّلاميذ إلى ما يمكن أن يعتري التّفكير من عيوب، فيكون هذا الوعي لحظة تفكير في بعض مظاهر سوء استعمال العقل، تقدّم للتّلميذ من خلالها الأدوات التي يصبح بمقتضاها قادرا على كشف المغالطات.</p>
+<p class="para"><b>2- إجرائيّات التّفكير :</b></p>
+<p class="para">هي إجرائيّات يستعيض بها التّلميذ عن المغالطات والأخطاء بقواعد ومسارات يتمرّس عليها حتّى يستقيم تفكيره ويُحْسِنُ استعمال عقله. وهي مناسبة يكتشف التّلميذ من خلالها أنّ للتّفلسف مقتضيات لا بدّ من معرفتها وحذقها والتّدرّب على حسن استعمالها، شأنه في ذلك شأن أيّ علم له خصوصيّات بها يتميّز عمّا سواه. وإذا كان لا بدّ للمتعلّم أن يتمرّس على ما هو مجرّد وصوري في التّفكير، فإنّ ذلك لا يستوعب إلاّ باعتماد أمثلة عينيّة تؤكّد له أنّ التّفكير مهما كان صوريّا فهو يبقى تفكيرا في شيء ما، تفكيرا قابلا لاحتواء الواقع بمختلف تلويناته.</p>
+<p class="para"><b>3- إيتيقا التّفكير</b> :</p>
+<p class="para">إنّ هذه المقتضيات الضّروريّة لا تُطّلبُ لذاتها ولا تشتغل بمعزل عن إطار قيميّ، لهذا جاءت "إيتيقا التّفكير" عنصرا ثالثا في هذه المسألة الثّانية لبيان الأفق الإنساني الّذي يمكن أن نتصوّره للتّفكير، أفق يحلّ فيه التّعقّل محلّ الانفعال، والحوار محلّ الإرغام، والنّقد محلّ التّسليم والتّعصب.</p>
+<p class="subhead t-navy"><b>III - تجربة الالتزام : شخصيّات فكريّة :</b></p>
+<p class="para">إنّ ترغيب التّلميذ في الفلسفة وتدريبه على آليّات الحوار للتّحرّر من سلطان التّعصّب، والمراهنة على تحويل التّفلسف شأنا شخصيا يشتغل به اشتغالا دائما بصرف النّظر عن ظرفيّات التّعليم والتّقويم، هو الدّافع الرّئيسي لاختيار مسألة "تجربة الالتزام" يتعرّف فيها التّلميذ إلى شخصيّات يستلهم من سيرهم أشكال الرّبط بين الفكر والممارسة، وتُفْسَحُ أمامه الطّريق للنّظر في وجاهة الالتزام، وجاهة تقاس بمدى قدرة الفرد على التّوجّه نحو الكونيّة ضمن فعل يحوّل الفكرة إلى موقف ويضفي على الحياة الشّخصيّة معنى يرقى بها إلى الكونيّة. يتمّ كلّ ذلك من خلال شخصيّات تكشف للدّارس جدّيّة الالتزام وصدقه وتذهب بالتّجربة الفلسفية إلى أقصاها.</p>
+<p class="subhead t-navy"><b>VI- الدّراسة المسترسلة لأثر فلسفيّ</b> :</p>
+<p class="para">هي ركن إجباريّ في البرنامج وفرصة للتّلميذ كي يتتبّع فيها ومن خلالها معالجة قضيّة فلسفيّة، تعوّده على التّفكير مع الفلاسفة وتدرّبه على شروط الاختلاف معهم فيتدعّم الإقبال على المطالعة الفلسفيّة لديه ويستعدّ بمقتضى كلّ ذلك إلى السّنة الرّابعة التي يعمّق فيها وعيه بالقضايا الفلسفيّة.</p>
+<div class="exsub">بقيّة الشّعب</div>
+<p class="subhead t-red"><b>إضاءات حول البرنامج</b></p>
+<p class="para">يشتمل برنامج الفلسفة في السّنوات الثّالثة على عنوان واحد هو "مطلب التّفكير : من اليوميّ إلى الفلسفيّ" يتفرّع في حركة أولى أفقيّة إلى معان هي بمثابة الموادّ التي يبني الأستاذ من خلالها الدّرس، فيشتغل عليها اشتغالا يراعي تجاورها وتباينها ووجوه تقاطعها وتموقعها في المجال الإشكاليّ المعني الذي تثيره المسألة. ويتفرّع في حركة ثانية عموديّة إلى مسائل.</p>
+<p class="para">إنّ الوعي بهذه الحركة المزدوجة في وجهيها الأفقي والعمودي ليمثّل شرطا لبناء دروس متدرّجة ومنسجمة ومترابطة وضامنا لتنمية القدرة على تأليف يقي التّدريس من التفكّك والتّفتت.</p>
+<table>
+<tr><th>العنوان</th><th>مطلب التّفكير : من اليوميّ إلى الفلسفيّ</th></tr>
+</table>
+<table>
+<tr><th>عناوين المسائل</th><th>المعاني</th></tr>
+<tr><td><b>I- اليومـيّ</b></td><td>الدّعاية – الرّأي السّائد – الوهم.</td></tr>
+<tr><td><b>II- مقتضيات التّفكير</b><br><b>1- في الوعي بالمغالطات</b></td><td>أشباه المشاكل – الحجاج الباطل – الخلط بين المقولات المنطقيّة.</td></tr>
+<tr><td><b>2- إجرائيّات التّفكير</b></td><td>الأشكلة – التّعريف – الحجاج – الدّحض.</td></tr>
+<tr><td><b>III- تجربة الالتزام : شخصيّات فكريّة</b></td><td>الاستقلاليّة – الحوار – الشّجاعة – المسؤوليّة – النّقد.</td></tr>
+</table>
+<p class="subhead t-navy"><b>I- اليوميّ :</b></p>
+<p class="para">أوّل مسألة يكتشف التّلميذ من خلالها درس الفلسفة فيتعرّف إلى اليوميّ الّذي كان يحياه دون أن يفكّر فيه. إنّ تقريب الدّرس من معيش التّلميذ واختيار بَدْءٍ من هذا القبيل لَهُوَ مراهنة على كسب الفوز بردم الهوّة المفتعلة بين التّفلسف والحياة. بهذا يقع تنبيه التّلميذ إلى معيشه حتّى يفهمه ويعيه على غير ما كان يفعل سابقا، أملا في استكشاف الرّابط القائم بين المعيش والتّفكير.</p>
+<p class="subhead t-navy"><b>II- مقتضيات التّفكير :</b></p>
+<p class="para">إنّ المقصد الّذي صيغ على أساسه العنوان الأوّل، لا يمكن أن يتحقق على نحو انطباعي ومرتجل، فالفهم والتّحليل والنّقد التي بها يُطّلبُ التّفكير تستدعي اقتدارا يقوم على احترام ما في التّفكير الفلسفي من صرامة وتُعِدُّ التّلميذ للكشف عمّا في بعض التّمثّلات والآراء والخطابات من أغاليط وتحدّد إجرائيّات التّفكير السّليم. وعلى هذا الأساس جاءت المسألة الثّانية "مقتضيات التّفكير" متفرّعة إلى عنصرين :</p>
+<p class="para"><b>1- الوعي بالمغالطات</b> :</p>
+<p class="para">هو عنصر يتمّ فيه تنبيه التّلاميذ إلى ما يمكن أن يعتري التّفكير من عيوب فيكون هذا الوعي لحظة تفكير في بعض مظاهر سوء استعمال العقل، تقدّم للتّلميذ من خلالها الأدوات التي يصبح بمقتضاها قادرا على كشف المغالطات.</p>
+<p class="para"><b>2- اجرائيّات التّفكير :</b></p>
+<p class="para">هي إجرائيّات يستعيض بها التّلميذ عن المغالطات والأخطاء بقواعد ومسارات يتمرّس عليها حتّى يستقيم تفكيره ويحسن استعمال عقله. وهي مناسبة يكتشف التّلميذ من خلالها أنّ للتّفلسف مقتضيات لا بدّ من معرفتها وحذقها والتّدرّب على حسن استعمالها، شأنه في ذلك شأن أيّ علم له خصوصيّات بها يتميّز عمّا سواه.</p>
+<p class="subhead t-navy"><b>III - تجربة الالتزام : شخصيّات فكريّة :</b></p>
+<p class="para">إنّ ترغيب التّلميذ في الفلسفة والمراهنة على تحويل التّفلسف شأنا شخصيّا يشتغل به اشتغالا دائما بصرف النّظر عن ظرفيّات التّعليم والتّقويمّ هو الدّافع الرّئيسي لاختيار مسألة "تجربة الالتزام" يتعرّف فيها التّلميذ إلى شخصيّات يستلهم من سِيَرِهِمْ أشكال الرّبط بين الفكر والممارسة وتُفْسَحُ أمامه الطّريق للنّظر في وجاهة الالتزام، وجاهة تقاس بمدى قدرة الفرديّ على التّوجّه نحو الكونيّة ضمن فعل يحوّل الفكرة إلى موقف ويضفي على الحياة الشّخصيّة معنى يرقى بها إلى الكونيّة. يتمّ كلّ ذلك من خلال شخصيّات تكشف للدّارس جدّية الالتزام وصدقه، وتذهب بالتّجربة الفلسفيّة إلى أقصاها.</p>
+<div class="exsub">السّنوات الرّابعة من التّعليم الثّانوي</div>
+<div class="exsub">برامج الفلسفة بالسّنوات الرّابعة من التّعليم الثّانوي</div>
+<p class="para"><b>يهدف تدريس الفلسفة إلى :</b></p>
+<ul class="dash">
+<li>ضمان تكوين التّلميذ تكوينا متماسكا متوازنا تتكافأ فيه المعارف والمهارات والمواقف بما يكفل للمتعلّم اكتساب منهج في التّفكير والعمل.</li>
+<li>جعل التّلميذ ملمّا بجملة من المسائل الفلسفيّة منزّلة في إشكاليّات تتمّ بلورتها انطلاقا من أعمال كبار الفلاسفة والمفكرّين التي تُنْتَقى انتقاء يعكس خصوصيّة الفكر الفلسفي في تنوّعه ووحدته معا.</li>
+<li>تمكين التّلميذ من خلال دراسة تلك المسائل من تمثّل وجيه لأهمّ التحوّلات التّاريخية التي يشهدها الفكر الفلسفي في وجوه طرحه للمسائل وسبل تحسّس الإجابة عنها، بحيث يتمّ تبصير التّلاميذ بارتباط التّساؤل الفلسفيّ بمختلف التحوّلات التي تشهدها المعرفة الإنسانيّة مفاهيم وقيما وممارسات دون الانزلاق في السّرد التّاريخيّ.</li>
+</ul>
+<p class="para"><b>يهدف تدريس الفلسفة بالسّنة الرّابعة من التّعليم الثّانوي إلى جعل التّلميذ قادرا على :</b></p>
+<ul class="dash">
+<li>التّحليل من خلال النّصّ الفلسفيّ والتّعبير تعبيرا فنيّا سليما عن الإشكاليّة التي يطرحها وتَبَيُّن طرق الاستدلال فيه.</li>
+<li>التّأليف وإعادة استخدام المعارف المكتسبة والتصرّف فيها وفق ما تقتضيه معالجة المسائل الفلسفيّة من خلال رصد الإشكاليّات وتحديد دلالات المفاهيم وإقامة العلاقة بينها.</li>
+<li>التّعبير عن الأفكار بدقة ووضوح وذلك بتدريبه على أساليب الكتابة الفلسفيّة بما تقتضيه من تحكّم في طرق الاستدلال ووجاهة في استعمال المفاهيم.</li>
+</ul>
+<p class="para"><b>المطلوب من تدريس الفلسفة بالسّنة الرّابعة من التّعليم الثّانوي أن يعين التّلميذ ليصبح مستعدّا :</b></p>
+<ul class="dash">
+<li>للتّحصيل الذاتي سعيا إلى تنمية ملكاته وبناء شخصيّته والاضطلاع بنفسه.</li>
+<li>للتّحاور والتّداول في كلّ المسائل التي تعرض له دون تشبّث مبدئيّ بموقف مسبّق منها.</li>
+<li>للاعتراف بالآخر وبحقّه في الاختلاف وتقدير ما يمكن أن يقدّمه من مساهمات في إثرائه.</li>
+<li>للتّنازل عن موقفه وتبنّي موقف مغاير متى أدرك وجاهته واقتنع به.</li>
+</ul>
+<div class="exsub">شعبـة الآداب</div>
+<p class="subhead t-red"><b>إضاءات حول البرنامج</b></p>
+<p class="para">يشتمل برنامج الفلسفة في شعبة الآداب على ثلاثة عناوين، هي تفريعات لفضاء إشكاليّ مداره مطلب الكلّي – الكونيّ- يمثّل كلّ عنوان من هذه العناوين حقلا إشكاليّا يتفرّع إلى مسائل تحيل كلّ واحدة منها على جملة من "المعاني" يُشتغل عليها اشتغالا يراعي تجاورها وتباينها ووجوه تقاطعها وتموقعها في المجال الإشكاليّ المعنيّ، على نحو يضمن تنمية قدرة المتعلّم على الارتقاء بالمعاني من الكلمة إلى المفهوم، ومن السّؤال إلى المشكل، بما يتيح في الأخير بناء الدّروس على نحو يضمن تدرّجها وترابطها ووحدتها.</p>
+<p class="para">على هذا الأساس يتفرّع البرنامج إلى العناوين التّالية :</p>
+<table>
+<tr><th>عناوين المسائل</th><th>المعاني</th></tr>
+<tr><td><b>I- الإنساني بين الكثرة والوحدة :</b><br><b>1- الإنيّة والغيريّة</b></td><td>التّاريخ – الجسد – الذات – العالم – اللاوعي – الوعي.</td></tr>
+<tr><td><b>2- التّواصل والأنظمة الرّمزيّة</b></td><td>الآخر – الصّورة – اللّغة – الوساطة- المقدّس.</td></tr>
+<tr><td><b>3- الخصوصيّة والكونيّة</b></td><td>الاختلاف – العالمي – العولمي – الهويّة – الكلّي.</td></tr>
+<tr><td><b>II- العلم بين الحقيقة والنّمذجة :</b><br><b>1- أبعاد النّمذجة</b><br>أ - البعد التّركيبي</td><td>الأكسمة – البنية – التّرييض – الصّورنة</td></tr>
+<tr><td>ب – البعد الدّلالي</td><td>الافتراضي – القانون – الملائم - النّظريّة - الواقعي.</td></tr>
+<tr><td>ج – البعد التّداولي</td><td>التّفسير – التّحقيق – الفهم – النّجاعة.</td></tr>
+<tr><td><b>2- النّمذجة ومطلب الحقيقة</b><br>أ- الحدود الابستيمولوجيّة</td><td>الاختزاليّة – التّاريخيّة – الأنظمة التّقنيّة.</td></tr>
+<tr><td>ب – الحدود الفلسفيّة</td><td>الحقيقة – المسؤوليّة – المعنى.</td></tr>
+<tr><td><b>III – القيم بين النّسبي والمطلق :</b><br><b>1- العمل : النّجاعة والعدالة</b></td><td>الاغتراب – الإنصاف – التّحرّر – السّوق – المال – المنفعة.</td></tr>
+<tr><td><b>2- الدّولة : السّيادة والمواطنة</b></td><td>الحقّ – الدّيمقراطيّة – السّلطة – العنف – المقاومة – المواطن العالمي.</td></tr>
+<tr><td><b>3- الأخلاق :الخير والسّعادة</b></td><td>الحريّة – الرّفاه – الفضيلة – الواجب.</td></tr>
+<tr><td><b>4- الفنّ :الجمال والحقيقة</b></td><td>الإبداع – التّذوّق – المحاكاة.</td></tr>
+<tr><td><b>VI-دراسة مسترسلة لأثر فلسفي :</b></td><td>انظر القائمة المصاحبة</td></tr>
+</table>
+
+<div class="chtag"><span>المحور</span> الإنية والغيرية</div>
+
+<p class="subhead t-navy"><b>I- الإنسانيّ بين الكثرة والوحدة :</b></p>
+<p class="para">وهي المسألة التّي يحصل فيها للمتعلّم الوعي بحاجته إلى التّعرّف على ما هو إنسانيّ في كلّ إنسان، أي تقصّي طبيعة العلاقة (تناظر، تكامل، تقابل، تحايث...)</p>
+<ul class="dash">
+<li>بين بعدي الوجود الإنسانيّ الإنيّة والغيريّة</li>
+<li>بين ذاتيّة الفرد ولا ذاتيّة الأنظمة الرّمزيّة</li>
+<li>بين انشداد الفرد إلى خصوصيّته وانفتاحه على تنوّع أنماط الوجود الإنساني الممكنة من جهة، ونشدان الكونيّ من جهة أخرى.</li>
+</ul>
+
+<div class="chtag"><span>المحور</span> العلم بين الحقيقة والنمذجة</div>
+
+<p class="subhead t-navy"><b>II العلم بين الحقيقة والنّمذجة</b> :</p>
+<p class="para">تتمحور هذه المسألة حول النّمذجة العلميّة باعتبارها التّمشّي المشترك بين مختلف الحقول العلميّة والمميّز لها عن أشكال الخطاب الأخرى، وتتعلّق بمنزلة النّموذج العلميّ المزدوجة بين انشداده إلى مرجع خارجي عنه وسعيه إلى بناء واقع مستحدث، أي بين ضرورة تلزم النّموذج، ومواضعة موسومة بالتّعدّد والنّسبية.</p>
+<p class="para">ذلك ما يبرّر تفصيل القول في النّمذجة العلميّة على جهات ثلاث (تركيبيّة ودلاليّة وتداوليّة) تتصادى مع توتّرات ايبستمولوجيّة ثلاثة :</p>
+<ul class="dash">
+<li>توتّر بين تمثيل الظّواهر باللّغة الطّبيعيّة وتمثيلها بواسطة أنظمة رمزيّة اصطناعيّة.</li>
+<li>توتّر بين معطيات التّجربة العيانيّة ومقتضيات الإنشاءات التّجريديّة.</li>
+<li>توتّر بين معرفة نظريّة مطلوبة لذاتها وإرادة نجاعة التّحكّم في الظّواهر.</li>
+</ul>
+<p class="para">إنّ مقاربة الممارسة العلميّة بواسطة النّمذجة تتيح لنا قراءة نقديّة للإنتاج المعرفيّ العلميّ تمكّن من تجاوز تشتّت حقوله، ومن تقصّي حدوده الايبستيمولوجيّة والفلسفيّة.</p>
+
+<div class="chtag"><span>المحور</span> القيم: الأخلاق والدولة</div>
+
+<p class="subhead t-navy"><b>III - القيم بين النّسبيّ والمطلق :</b></p>
+<p class="para">إنّ التّفكير في الممارسات العمليّة، يستوجب منّا اليوم الرّبط بين ما يقتضيه واقع تنوّع القيم التي تستند إليها هذه الممارسات من نسبيّة، وما يستوجبه تواجدها من توق إلى الكونيّة.</p>
+<p class="para">إنّ الوعي بهذه الحركة المزدوجة هو ما يوجّه التّفكير الفلسفي إلى بلورة :</p>
+<ul class="dash">
+<li>التّوتّر القائم بين مقتضى النّجاعة ومطلب العدالة.</li>
+<li>التّوتّر بين قيمتي السّيادة والمواطنة.</li>
+<li>التّوتّر بين الخير بما هو قيمة مطلقة والسّعادة بما هي مطلب ذاتيّ.</li>
+<li>التّوتّر بين قيمتي الجمال والحقيقة في الممارسة الفنيّة.</li>
+</ul>
+
+<div class="chtag"><span>المحور</span> محور غير محدّد</div>
+
+<p class="subhead t-navy"><b>VI - الدّراسة المسترسلة لأثر فلسفيّ :</b></p>
+<p class="para">إنّ الدّراسة المسترسلة مسألة وجوبيّة، وهي مناسبة لوضع تفكير المتعلّم في اتّصال مباشر بالتّفكير الحيّ والمتنامي لفيلسوف يحدّد دواعي تفكيره في مشكل فلسفيّ ويبني تفرّعاته من خلال الاشتغال إشكاليّا على جملة من المعاني ويحاجج على أطروحات ويحاور ويدحض أطروحات وأفاقا فكريّة أخرى، ويبلور رهانات فلسفيّة... فيتعلّم التّلميذ الإصغاء إلى الفلاسفة ويختبر شروط فهم تفكيرهم في أصالته، وشروط محاورتهم والاختلاف معهم، فيدعم بذلك ما كان قد بدأه في السّنة الثّالثة ويكسب رهان الجمع بين تفكيره الشّخصيّ والتّفكير مع الآخر، فيغنم غنما يقوّي قدرته على بناء حكم مؤسّس.</p>
+<div class="exsub">بقيّة الشّعب</div>
+<p class="subhead t-red"><b>إضاءات حول البرنامج</b></p>
+<p class="para">يشتمل برنامج الفلسفة في الشّعب العلميّة والاقتصاديّة على ثلاثة عناوين، هي تفريعات لفضاء إشكاليّ مداره مطلب الكلّي –الكوني- يمثّل كلّ عنوان من هذه العناوين حقلا إشكاليّا يتفرّع إلى مسائل تحيل كلّ واحدة منها على جملة من "المعاني" يُشتغل عليها اشتغالا يراعي تجاورها وتباينها وتقاطعها وتموقعها الدّيناميكي في المجال الإشكاليّ المخصوص، على نحو يضمن تنمية قدرة المتعلّم على الارتقاء بالمعاني من الكلمة إلى المفهوم، ومن السّؤال إلى المشكل، بما يتيح في الأخير بناء الدّروس على نحو يضمن تدرّجها وترابطها ووحدتها.</p>
+<p class="para">على هذا الأساس يتفرّع البرنامج إلى العناوين التّالية :</p>
+<table>
+<tr><th>عناوين المسائل</th><th>المعاني</th></tr>
+<tr><td><b>I- الإنسانيّ بين الكثرة والوحدة :</b><br><b>1- الإنيّة والغيريّة</b></td><td>التّاريخ – الجسد – الذات – اللاوعي – الوعي.</td></tr>
+<tr><td><b>2- الخصوصيّة والكونيّة</b></td><td>الآخر – الاختلاف – التّواصل – الصّورة – المقدّس – الهويّة.</td></tr>
+<tr><td><b>II- العلم بين الحقيقة والنّمذجة :</b><br><b>1- أبعاد النّمذجة</b><br>أ- البعد التّركيبيّ</td><td>الأكسمة – البنية – التّرييض – الصّورنة.</td></tr>
+<tr><td>ب – البعد الدّلاليّ</td><td>الافتراضيّ – الملائم – الواقعيّ - القانون- النّظريّة.</td></tr>
+<tr><td>ج – البعد التّداوليّ</td><td>التّفسير – التّحقيق – الفهم – النّجاعة.</td></tr>
+<tr><td><b>2- النّمذجة ومطلب الحقيقة</b><br>أ- الحدود الابستيمولوجيّة</td><td>الاختزاليّة – التّاريخيّة – الأنظمة التّقنيّة.</td></tr>
+<tr><td>ب – الحدود الفلسفيّة</td><td>الحقيقة – المسؤوليّة – المعنى.</td></tr>
+<tr><td><b>III – القيم بين النّسبي والمطلق :</b><br><b>1- الدّولة :السّيادة والمواطنة</b></td><td>الحقّ – الدّيمقراطيّة – السّلطة – العدالة – المواطن العالميّ.</td></tr>
+<tr><td><b>2- الأخلاق : الخير والسّعادة</b></td><td>الحرّيّة – الرّفاه – الفضيلة – الواجب – المنفعة.</td></tr>
+</table>
+
+<div class="chtag"><span>المحور</span> الإنية والغيرية</div>
+
+<p class="subhead t-navy"><b>I- الإنسانيّ بين الكثرة والوحدة :</b></p>
+<p class="para">وهي المسألة التّي يحصل فيها للمتعلّم الوعي بحاجته إلى التّعرّف إلى ما هو إنسانيّ في كلّ إنسان، أي تقصّي طبيعة العلاقة (تناظر، تكامل، تقابل، تحايث...)</p>
+<ul class="dash">
+<li>بين بُعْدَيْ الوجود الإنسانيّ : الإنية والغيريّة.</li>
+<li>بين انشداد الفرد إلى خصوصيّته وانفتاحه على تنوّع أنماط الوجود الإنسانيّ الممكنة من جهة، ونشدان الكونيّ من جهة أخرى.</li>
+</ul>
+
+<div class="chtag"><span>المحور</span> العلم بين الحقيقة والنمذجة</div>
+
+<p class="subhead t-navy"><b>II - العلم بين الحقيقة والنّمذجة :</b></p>
+<p class="para">تتمحور هذه المسألة حول النّمذجة العلميّة باعتبارها التّمشّي المشترك بين مختلف الحقول العلميّة والمميّز لها عن أشكال الخطاب الأخرى، وتتعلّق بمنزلة النّموذج العلميّ المزدوجة بين انشداد إلى مرجع خارجيّ عنه وسعيه إلى بناء واقع مستحدث، أي بين ضرورة تلزم النّموذج، ومواضعة موسومة بالتّعدّد والنّسبيّة.</p>
+<p class="para">ذلك ما يبرّر تفصيل القول في النّمذجة العلميّة على جهات ثلاث (تركيبيّة، دلاليّة وتداوليّة) تتصادى مع توتّرات ايبستمولوجيّة ثلاثة :</p>
+<ul class="dash">
+<li>توتّر بين تمثيل الظّواهر باللّغة الطّبيعيّة وتمثيلها بواسطة أنظمة رمزيّة اصطناعيّة.</li>
+<li>توتّر بين معطيات التّجربة العيانيّة ومقتضيات الإنشاءات التّجريديّة.</li>
+<li>توتّر بين معرفة نظريّة مطلوبة لذاتها وإرادة نجاعة التّحكم في الظّواهر.</li>
+</ul>
+<p class="para">إنّ مقاربة الممارسة العلميّة بواسطة النّمذجة تتيح لنا قراءة نقديّة للإنتاج المعرفيّ العلميّ تمكّن من تجاوز تشتّت حقوله، ومن تقصّي حدوده الإيبستيمولوجيّة والفلسفيّة.</p>
+
+<div class="chtag"><span>المحور</span> القيم: الأخلاق والدولة</div>
+
+<p class="subhead t-navy"><b>III- القيم بين النّسبيّ والمطلق :</b></p>
+<p class="para">إنّ التّفكير في الممارسات، يستوجب منّا اليوم الرّبط بين ما يقتضيه واقع تنوّع القيم التّي تستند إليها هذه الممارسات من نسبيّة، وما يستوجبه تواجدها من توق للكونيّة.</p>
+<p class="para">إنّ الوعي بهذه الحركة المزدوجة هو ما يوجّه التّفكير الفلسفيّ إلى بلورة :</p>
+<ul class="dash">
+<li>التّوتّر بين قيمتي السّيادة والمواطنة.</li>
+<li>التّوتّر بين الخير بما هو قيمة مطلقة والسّعادة بما هي مطلب ذاتيّ.</li>
+</ul>
+
+<div class="chtag"><span>المحور</span> محور غير محدّد</div>
+
+<div class="exsub">القائمة الرّسميّة للآثار الفلسفيّة</div>
+<p class="subhead t-navy">السّنة الثّالثة</p>
+<table>
+<tr><th>ع/ر</th><th>المؤلّف</th><th>عنوان الأثر</th></tr>
+<tr><td>01</td><td><b>ابن طفيل</b></td><td>حيّ بن يقظان</td></tr>
+<tr><td>02</td><td><b>الغزالي</b></td><td>محكّ النّظر</td></tr>
+<tr><td>03</td><td><b>ابن رشد</b></td><td>مناهج الأدلّة</td></tr>
+<tr><td>04</td><td><b>أفلاطون</b></td><td>لاكـــاس</td></tr>
+<tr><td>05</td><td><b>أفلاطون</b></td><td>أوتيـدام</td></tr>
+<tr><td>06</td><td><b>أفلاطون</b></td><td>ميـــنون</td></tr>
+<tr><td>07</td><td><b>أفلاطون</b></td><td>في الشّجاعة</td></tr>
+<tr><td>08</td><td><b>أفلاطون</b></td><td>دفاعا عن سقراط</td></tr>
+<tr><td>09</td><td><b>باسكال</b></td><td>خــواطر</td></tr>
+<tr><td>10</td><td><b>روسّو</b></td><td>في أصل اللامساواة بين البشر</td></tr>
+<tr><td>11</td><td><b>كانط</b></td><td>ما الأنوار ؟</td></tr>
+<tr><td>12</td><td><b>فرويد</b></td><td>مستقبل وهم</td></tr>
+<tr><td>13</td><td><b>سارتر</b></td><td>الوجوديّة مذهب إنساني</td></tr>
+</table>
+<p class="subhead t-navy">السّنة الرّابعة</p>
+<table>
+<tr><th>ع/ر</th><th>المؤلّف</th><th>عنوان الأثر</th></tr>
+<tr><td>01</td><td><b>أفلاطون</b></td><td>الجمهوريّة ( 4، 5، 6، 7 )</td></tr>
+<tr><td>02</td><td><b>أفلاطون</b></td><td>قورجياس</td></tr>
+<tr><td>03</td><td><b>أرسطو</b></td><td>السّياسة ( باب من الأبواب )</td></tr>
+<tr><td>04</td><td><b>أرسطو</b></td><td>أخلاق نيقوماخوس</td></tr>
+<tr><td>05</td><td><b>أبيقور</b></td><td>رسالة إلى مينيسي</td></tr>
+<tr><td>06</td><td><b>الكندي</b></td><td>رسالة في دفع الأحزان</td></tr>
+<tr><td>07</td><td><b>مسكويه</b></td><td>تهذيب الأخلاق</td></tr>
+<tr><td>08</td><td><b>الغزالي</b></td><td>ميزان العمل</td></tr>
+<tr><td>09</td><td><b>الغزالي</b></td><td>معيار العلم</td></tr>
+<tr><td>10</td><td><b>الفارابي</b></td><td>رسالة آراء أهل المدينة الفاضلة</td></tr>
+<tr><td>11</td><td><b>الفارابي</b></td><td>كتاب السّياسة المدنيّة</td></tr>
+<tr><td>12</td><td><b>الفارابي</b></td><td>إحصاء العلوم ( الفصل 5 )</td></tr>
+<tr><td>13</td><td><b>ابن باجة</b></td><td>تدبير المتوحّد</td></tr>
+<tr><td>14</td><td><b>ابن رشد</b></td><td>فصل المقال</td></tr>
+<tr><td>15</td><td><b>ابن خلدون</b></td><td>المقدّمة ( بعض فصولها )</td></tr>
+<tr><td>16</td><td><b>ديكارت</b></td><td>مقالة الطّريقة</td></tr>
+<tr><td>17</td><td><b>ديكارت</b></td><td>تأمّلات ميتافيزيقيّة</td></tr>
+<tr><td>18</td><td><b>بسكال</b></td><td>مقدّمة لرسالة حول الخلاء</td></tr>
+<tr><td>19</td><td><b>سبينوزا</b></td><td>رسالة في السّياسة</td></tr>
+<tr><td>20</td><td><b>سبينوزا</b></td><td>رسالة في إصلاح الفهم</td></tr>
+<tr><td>21</td><td><b>لوك</b></td><td>في التّسامح</td></tr>
+<tr><td>22</td><td><b>هيوم</b></td><td>بحث في الفهم البشري</td></tr>
+<tr><td>23</td><td><b>روسّو</b></td><td>في العقد الاجتماعي</td></tr>
+<tr><td>24</td><td><b>روسّو</b></td><td>رسالة في أصل اللغات</td></tr>
+<tr><td>25</td><td><b>كانط</b></td><td>أسس ميتافيزيقا الأخلاق ( 1 )</td></tr>
+<tr><td>26</td><td><b>كانط</b></td><td>تأمّلات في التّربية</td></tr>
+<tr><td>27</td><td><b>كانط</b></td><td>مشروع سلم دائمة</td></tr>
+<tr><td>28</td><td><b>كانط</b></td><td>الدّين في حدود العقل</td></tr>
+<tr><td>29</td><td><b>كانط</b></td><td>مقدّمة الطّبعة 2 لنقد العقل الخالص</td></tr>
+<tr><td>30</td><td><b>ميل</b></td><td>في الحريّة</td></tr>
+<tr><td>31</td><td><b>ميل</b></td><td>في استعباد النّساء</td></tr>
+<tr><td>32</td><td><b>هيقل</b></td><td>العقل في التّاريخ</td></tr>
+<tr><td>33</td><td><b>كونت</b></td><td>مقال في الرّوح الوضعي</td></tr>
+<tr><td>34</td><td><b>كونت</b></td><td>دروس في الفلسفة الوضعيّة (الدّرسان الأوّل والثّاني)</td></tr>
+<tr><td>35</td><td><b>ماركس</b></td><td>مخطوطات 1844</td></tr>
+<tr><td>36</td><td><b>انقلز</b></td><td>ضدّ ديهرنق</td></tr>
+<tr><td>37</td><td><b>نيتشه</b></td><td>جينيالوجيا الأخلاق</td></tr>
+<tr><td>38</td><td><b>فرويد</b></td><td>قلق في حضارة</td></tr>
+<tr><td>39</td><td><b>م. فيبر</b></td><td>العالم والسّياسي</td></tr>
+<tr><td>40</td><td><b>برغسون</b></td><td>منبعا الأخلاق والدّين</td></tr>
+<tr><td>41</td><td><b>راسل</b></td><td>مسائل فلسفيّة</td></tr>
+<tr><td>42</td><td><b>انشتاين/اينفلد</b></td><td>تطوّر الأفكار في الفيزياء</td></tr>
+<tr><td>43</td><td><b>كاسيرار</b></td><td>مقال في الإنسان</td></tr>
+<tr><td>44</td><td><b>مرلوبونتي</b></td><td>تقريظ الفلسفة</td></tr>
+<tr><td>45</td><td><b>بشلار</b></td><td>نشوء الفكر العلميّ</td></tr>
+<tr><td>46</td><td><b>ل. ستروس</b></td><td>العرق والتّاريخ</td></tr>
+<tr><td>47</td><td><b>مونو</b></td><td>المصادفة والضّرورة</td></tr>
+<tr><td>48</td><td><b>فوكو</b></td><td>المراقبة والعقاب</td></tr>
+<tr><td>49</td><td><b>ريكور</b></td><td>التّاريخ والحقيقة</td></tr>
+<tr><td>50</td><td><b>ج.غ.غرانجي</b></td><td>العقل</td></tr>
+</table>
+
+
+</section>
+
+</div>
+</body>
+</html>

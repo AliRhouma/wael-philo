@@ -1,0 +1,450 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<title>Wael Academy — Philosophie · الإنيّة الغيريّة 1</title>
+<script>
+  window.MathJax = {
+    tex: { inlineMath: [['\\(','\\)']], displayMath: [['\\[','\\]']] },
+    chtml: { fontURL: 'https://cdn.jsdelivr.net/npm/mathjax@3/es5/output/chtml/fonts/woff-v2', matchFontHeight: true },
+    startup: { typeset: true }
+  };
+</script>
+<script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js" async></script>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Sora:wght@400;500;600;700;800&family=Cairo:wght@400;500;600;700;800;900&family=Tajawal:wght@400;500;700;800&family=JetBrains+Mono:wght@400;500;600;700&display=swap');
+:root{
+  /* ===== Wael Academy palette — MAIN ACCENT = green-teal gradient #0FAB8F → #067360 ===== */
+  --bg:#fff; --panel:#f2f8f8; --hair:#e6e6e9; --hair2:#d6d6db;
+  --fg:#0f2a31;        /* body text (and +/− signs) */
+  --fg2:#3f5b62;       /* softer text */
+  --fg3:#7c959b;       /* muted (footer) */
+  --blue:#067360;      /* deep accent — small numbers, borders, watermark, accent equations */
+  --blue-dark:#045260; /* titles & wordmarks (also the balance colour) */
+  --teal:#0fab8f;      /* bright accent end */
+  --loop:#0d9c82;      /* logo-loop helper */
+  --orange:#067360;    /* kicker/category labels (gold retired → deep teal) */
+  --red:#f5322f;       /* EXERCISE CHIPS ONLY — never for emphasis */
+  --cream:#e6f3f4; --blue-soft:#e6f3f4;  /* pale teal — callout fill + table sub-row fill */
+  --blue-line:#cde7e4; /* hairline */
+  --sub-ink:#045260;   /* table sub-row text */
+  --grad:linear-gradient(148deg,#0fab8f 0%,#0d9c82 52%,#067360 100%);
+  --mono:'JetBrains Mono',monospace; --latin:'Sora',sans-serif; --ar:'Cairo',sans-serif; --arb:'Tajawal',sans-serif;
+}
+*{box-sizing:border-box;margin:0;padding:0;}
+body{font-family:var(--latin);color:var(--fg);background:#e4e4e7;padding:28px 0;
+     -webkit-print-color-adjust:exact;print-color-adjust:exact;}
+html[dir="rtl"] body{font-family:var(--arb);}
+
+/* ===== brand watermark: REAL text (crisp), full-bleed, repeats per page ===== */
+.wm{position:fixed;inset:0;z-index:0;pointer-events:none;display:flex;
+    align-items:center;justify-content:center;overflow:hidden;
+    -webkit-print-color-adjust:exact;print-color-adjust:exact;}
+.wm span{font-family:var(--mono);font-weight:800;font-size:76.8pt;letter-spacing:.16em;
+    color:var(--blue);opacity:.06;white-space:nowrap;transform:rotate(-54deg);}  /* single diagonal: bottom-left → top-right */
+.wm.mono span{color:#000;opacity:.05;}
+
+/* ===== continuous flow stream (no page border) ===== */
+.flow{width:210mm;margin:0 auto;background:transparent;color:var(--fg);
+      padding-block:16mm 18mm;padding-inline:23mm 14mm;position:relative;}   /* spiral gutter: inline-start(=spine) 23mm / outer 14mm — dir-aware; print margins set in render_flow.py */
+@media screen{ .flow{background:#fff;box-shadow:0 10px 40px rgba(0,0,0,.16);} }
+.flow>*{position:relative;z-index:1;}
+.flow p,.flow li,.flow .data,.flow .note,.flow .ex{break-inside:auto;}
+.flow .fig,.flow figure,.flow img,.flow svg.figsvg,.flow table,.flow tr,.flow .chapdiv,.flow .exh,.flow .qrcard,.flow .meta{break-inside:avoid;}
+.flow h1,.flow h2,.flow h3,.flow .exh,.flow .subhead,.flow .chapdiv{break-after:avoid;}
+.flow img,.flow svg.figsvg{max-width:100%;height:auto;}
+.flow figcaption,.flow .figcap{display:none;}          /* rule 3: no figure captions */
+
+/* ===== front matter + chapters each start on a fresh page ===== */
+.flow .cover{break-after:page;}        /* cover alone on page 1 */
+.flow .toc{break-after:page;}          /* Sommaire alone on the next page */
+.flow .chapter{break-before:page;}
+.flow .chapter:first-of-type{break-before:auto;}
+
+/* ===== cover ===== */
+.cover{padding:14mm 0 8mm;border-bottom:2px solid var(--blue);margin-bottom:6mm;}
+.cover .badge{font-family:var(--mono);font-size:8.5pt;letter-spacing:.28em;text-transform:uppercase;color:var(--orange);margin-bottom:10px;}
+.cover h1{font-family:var(--latin);font-weight:800;font-size:34pt;line-height:1.03;letter-spacing:-.025em;color:var(--blue-dark);}
+.cover .grule{width:120px;height:5px;border-radius:5px;background:var(--grad);margin:14px 0;}
+.cover .sub{font-family:var(--mono);font-size:10pt;letter-spacing:.14em;text-transform:uppercase;color:var(--teal);}
+.cover .auth{font-size:11pt;color:var(--fg2);margin-top:6px;font-weight:600;}
+
+/* ===== table of contents ===== */
+.toc{margin:2mm 0 4mm;}
+.toc h2{font-family:var(--latin);font-weight:800;font-size:15pt;color:var(--blue-dark);margin-bottom:4mm;}
+.toc .trititle{font-family:var(--mono);font-size:8pt;letter-spacing:.2em;text-transform:uppercase;color:var(--orange);margin:4mm 0 2mm;}
+.toc ol{list-style:none;}
+.toc li{display:flex;align-items:baseline;gap:8px;font-size:10pt;padding:2.2px 0;color:var(--fg);line-height:1.4;}
+.toc li .n{font-family:var(--mono);font-weight:700;font-size:9pt;color:var(--blue);min-width:26px;}
+.toc li .dots{flex:1;border-bottom:1px dotted var(--hair2);transform:translateY(-3px);}
+
+/* ===== chapter divider band ===== */
+.chapdiv{margin:0 0 5mm;padding:6mm 16px 5mm;border-radius:12px;background:var(--grad);
+    -webkit-print-color-adjust:exact;print-color-adjust:exact;}   /* green-filled chapter band */
+.chapdiv .cn{font-family:var(--mono);font-size:8.5pt;font-weight:700;letter-spacing:.24em;text-transform:uppercase;color:rgba(255,255,255,.82);margin-bottom:5px;}
+.chapdiv h2{font-family:var(--latin);font-weight:800;font-size:17pt;line-height:1.1;letter-spacing:-.015em;color:#fff;}
+/* conclusion block — same green-filled look as the chapter band */
+.conclusion{background:var(--grad);border-radius:12px;padding:6mm 16px;margin:5mm 0;color:#fff;break-inside:avoid;
+    -webkit-print-color-adjust:exact;print-color-adjust:exact;}
+.conclusion .ck{font-family:var(--mono);font-size:8.5pt;font-weight:700;letter-spacing:.24em;text-transform:uppercase;color:rgba(255,255,255,.82);margin-bottom:6px;}
+.conclusion h3{font-family:var(--latin);font-weight:800;font-size:13pt;line-height:1.2;color:#fff;margin-bottom:4px;}
+.conclusion p,.conclusion li{font-size:10.4pt;line-height:1.7;color:#fff;}
+.conclusion b,.conclusion strong{color:#fff;font-weight:700;}
+
+/* ===== unit header (lesson/exercise) + QR emplacement ===== */
+.exh{display:flex;align-items:center;gap:11px;margin:6mm 0 3mm;}
+.exh .idx{font-family:var(--mono);font-size:9pt;font-weight:600;color:#fff;background:var(--grad);
+    border-radius:6px;padding:4px 11px;letter-spacing:.08em;text-transform:uppercase;
+    -webkit-print-color-adjust:exact;print-color-adjust:exact;}
+.exh .idx.ex{background:var(--red);}   /* exercise chip = red */
+.exh h2{font-family:var(--latin);font-size:14pt;font-weight:700;letter-spacing:-.01em;color:var(--blue-dark);}
+.exh .qrcard{margin-inline-start:auto;flex:0 0 auto;display:flex;flex-direction:column;align-items:center;gap:3px;width:26mm;}
+.qrcard .qrt{font-family:var(--mono);font-size:6.5pt;letter-spacing:.1em;text-transform:uppercase;color:var(--teal);text-align:center;}
+.qrcard .qrslot{width:24mm;height:24mm;padding:1.5mm;background:#fff;border:1px solid var(--blue-line);border-radius:8px;display:flex;align-items:center;justify-content:center;}
+.qrcard .qrslot img,.qrcard .qrslot svg{width:100%;height:100%;display:block;}
+
+/* sub-exercise label when one file holds several exercices */
+.exsub{font-family:var(--latin);font-weight:800;font-size:11.5pt;color:var(--blue-dark);margin:5mm 0 2.5mm;padding-bottom:3px;border-bottom:2px solid var(--blue-line);}
+
+/* ===== text blocks ===== */
+.lead{font-size:11pt;line-height:1.7;margin:2mm 0 3mm;color:var(--fg);}
+.para{font-size:10.6pt;line-height:1.7;margin:2mm 0 2.5mm;color:var(--fg);}
+.consigne{font-size:10.4pt;line-height:1.6;margin:1mm 0 2mm;color:var(--fg);font-style:italic;}
+.subhead{font-family:var(--latin);font-weight:800;font-size:12pt;letter-spacing:-.01em;color:var(--blue-dark);margin:5mm 0 2.5mm;}
+/* emphasis — green accent = .t-blue/.t-green ; balance = .t-navy ; red = SECONDARY accent (.t-red) on titles + a few words */
+.t-blue{color:var(--blue);font-weight:600;} .t-navy{color:var(--blue-dark);font-weight:700;}
+.t-red{color:var(--red);font-weight:600;} .t-green{color:var(--teal);font-weight:600;} .t-gold{color:var(--orange);font-weight:600;}
+.subhead.t-red{color:var(--red);font-weight:800;}   /* red Roman-numeral section title (I, II, …) — keeps subhead weight */
+/* highlighter marks — a soft colour wash behind a key word (agent picks green or red per what balances the page) */
+.hl-green,.hl-red{border-radius:3px;padding:.02em .24em;font-weight:600;box-decoration-break:clone;-webkit-box-decoration-break:clone;
+    -webkit-print-color-adjust:exact;print-color-adjust:exact;}
+.hl-green{background:rgba(15,171,143,.20);color:var(--blue-dark);}   /* green highlight */
+.hl-red{background:rgba(245,50,47,.13);color:#c0261f;}               /* red highlight  */
+
+.data{background:var(--blue-soft);border:1px solid var(--blue-line);border-inline-start:4px solid var(--blue);
+    border-radius:8px;padding:11px 16px;margin:3mm 0;font-size:10pt;line-height:1.65;color:var(--fg2);}
+.data b{color:var(--fg);font-weight:700;}
+.note{border:1px dashed var(--hair2);border-radius:9px;padding:11px 16px;margin:4mm 0;background:var(--panel);}
+.note .kicker{font-family:var(--mono);font-size:7.5pt;letter-spacing:.18em;color:var(--orange);display:block;margin-bottom:5px;}
+.note .nb{font-size:10pt;line-height:1.7;color:var(--fg2);} .note b{color:var(--fg);}
+.ex:not(.idx){background:var(--blue-soft);border:1px solid var(--blue-line);border-inline-start:3px solid var(--blue);
+    border-radius:7px;padding:7px 11px;font-size:9.6pt;line-height:1.6;color:var(--fg2);margin:2mm 0;}   /* :not(.idx) so it never hits the exercise chip (which is .idx.ex) */
+.ex .extag{display:inline-block;font-family:var(--latin);font-weight:800;font-size:7.6pt;color:var(--blue-dark);background:#fff;
+    border:1px solid var(--blue);border-radius:5px;padding:1px 9px;margin-inline-end:7px;vertical-align:middle;text-transform:uppercase;letter-spacing:.06em;}
+
+/* ===== lists ===== */
+ol.q{list-style:none;counter-reset:q;margin:1mm 0 2mm;}
+ol.q>li{counter-increment:q;position:relative;padding-inline-start:30px;margin-bottom:2.5mm;font-size:10.4pt;line-height:1.6;}
+ol.q>li::before{content:counter(q);position:absolute;inset-inline-start:0;top:1px;width:21px;height:21px;background:var(--grad);color:#fff;
+    border-radius:50%;font-family:var(--mono);font-size:9pt;font-weight:600;display:flex;align-items:center;justify-content:center;
+    -webkit-print-color-adjust:exact;print-color-adjust:exact;}
+ol.sub{list-style:none;counter-reset:s;margin:4px 0 0;padding-inline-start:2px;border-inline-start:1px solid var(--blue-line);}
+ol.sub li{counter-increment:s;position:relative;padding:2.5px 0 2.5px 26px;font-size:10.1pt;line-height:1.55;}
+ol.sub li::before{content:counter(s,lower-alpha)".";position:absolute;inset-inline-start:10px;top:2.5px;font-family:var(--mono);font-size:9pt;font-weight:600;color:var(--teal);}
+ol.qn{list-style:none;counter-reset:qn;margin:1mm 0 2mm;}
+ol.qn>li{counter-increment:qn;position:relative;padding-inline-start:26px;margin-bottom:2.2mm;font-size:10.4pt;line-height:1.55;}
+ol.qn>li::before{content:counter(qn)".";position:absolute;inset-inline-start:0;top:0;font-family:var(--mono);font-size:9.5pt;font-weight:700;color:var(--blue);}
+ul.b{list-style:none;margin:1mm 0 2mm;} ul.b>li{position:relative;padding-inline-start:22px;margin-bottom:2.4mm;font-size:10.4pt;line-height:1.6;}
+ul.b>li::before{content:"";position:absolute;inset-inline-start:3px;top:8px;width:8px;height:8px;border-radius:50%;background:var(--grad);
+    -webkit-print-color-adjust:exact;print-color-adjust:exact;}
+ul.dash{list-style:none;margin:1mm 0 2mm;} ul.dash>li{position:relative;padding-inline-start:20px;margin-bottom:1.8mm;font-size:10.4pt;line-height:1.6;}
+ul.dash>li::before{content:"–";position:absolute;inset-inline-start:2px;top:0;color:var(--fg);font-weight:700;}  /* dash / +/− signs = body colour */
+.flow ul.opts{list-style:none;margin:4px 0 3px;padding-inline-start:16px;}
+.flow ul.opts li{padding:2px 0;font-size:10.2pt;line-height:1.5;color:var(--fg);}
+
+/* ===== figures / tables ===== */
+.fig{margin:3mm 0;} .fig svg.figsvg{display:block;margin:0 auto;background:#fff;max-width:100%;height:auto;}
+.photo{display:block;margin:3mm auto;border-radius:8px;border:1px solid var(--hair);max-width:100%;}
+.figrow{display:flex;flex-wrap:wrap;gap:9px;justify-content:center;margin:3mm auto;max-width:190mm;}
+.flow .figrow img{border-radius:7px;border:1px solid var(--hair);height:46mm;width:auto;max-width:none;object-fit:cover;}
+.schemarow{display:flex;gap:16px;align-items:flex-start;flex-wrap:wrap;margin:2mm 0;}
+.schemarow .col-txt{flex:1 1 90mm;min-width:80mm;} .schemarow .col-fig{flex:0 0 78mm;} .schemarow .col-fig .fig{margin:0;}
+.flow table{border-collapse:collapse;width:100%;margin:3mm 0;font-size:9.8pt;line-height:1.5;}
+.flow table th,.flow table td{border:1px solid var(--blue-line);padding:6px 10px;text-align:start;vertical-align:top;}
+.flow table th{background:var(--grad);color:#fff;font-family:var(--latin);font-weight:700;font-size:9.4pt;
+    -webkit-print-color-adjust:exact;print-color-adjust:exact;}
+.flow table tr:nth-child(even) td{background:var(--blue-soft);color:var(--sub-ink);}   /* sub-row: #E6F3F4 / #045260 */
+
+mjx-container{color:var(--fg) !important;font-weight:400 !important;font-size:1.0em !important;}
+.eq-hi mjx-container,mjx-container.eq-hi{color:var(--blue) !important;}   /* accent (green) equation — highlight a key result; balance with plain math */
+.eq-red mjx-container,mjx-container.eq-red{color:var(--red) !important;}  /* red accent equation / symbol — complements the green .eq-hi */
+
+/* ===== per-file books: credit line, copies list, figures at their size ===== */
+.credit{display:flex;flex-wrap:wrap;align-items:center;gap:5px;margin:-1mm 0 3.5mm;font-size:9.4pt;color:var(--fg2);}
+.credit .who{font-weight:700;color:var(--blue-dark);}
+.credit .tg{font-family:var(--mono);font-size:7.2pt;letter-spacing:.04em;border-radius:5px;padding:1px 7px;line-height:1.6;
+    border:1px solid var(--blue-line);color:var(--blue);background:#fff;-webkit-print-color-adjust:exact;print-color-adjust:exact;}
+.credit .tg.sec{background:var(--blue-dark);border-color:var(--blue-dark);color:#fff;}
+.credit .tg.cor{background:#fff;border-color:var(--red);color:var(--red);}
+.credit a{color:var(--fg3);font-family:var(--mono);font-size:7pt;text-decoration:none;}
+.cover .auth .credit{margin:4mm 0 0;}
+.cover .copies{margin-top:5mm;font-size:8.6pt;color:var(--fg2);}
+.cover .copies ul{list-style:none;margin:2mm 0 0;padding:0;columns:2;}
+.cover .copies a{color:var(--fg3);text-decoration:none;font-size:8pt;}
+.flow figure.fig{text-align:center;}
+.flow figure.fig img{max-height:60mm;width:auto;max-width:70%;display:inline-block;}
+
+/* chapter tag on each part of a multi-chapter book (the book keeps the original order of the file) */
+.chtag{display:inline-block;margin:5mm 0 2mm;padding:1mm 3mm;border-radius:2mm;background:#eef3fb;border:1px solid #c9d6ea;
+  color:#1f3a6b;font-size:9pt;font-weight:700}
+.chtag span{color:#6b7f9e;font-weight:600;margin-inline-end:1.5mm}
+
+@media print{ body{background:#fff;padding:0;} .flow{width:auto;max-width:none;margin:0;padding:0;} }
+@page{size:A4;}   /* margins come from render_flow.py — do NOT set them here */
+</style>
+<meta data-pagefind-filter="type[content]" content="درس">
+<meta data-pagefind-filter="resource[content]" content="Taki Academy">
+<meta data-pagefind-meta="n[content]" content="1334">
+<meta data-pagefind-meta="title[content]" content="الإنيّة الغيريّة 1">
+<meta data-pagefind-filter="chapter[content]" content="الإنية والغيرية">
+<meta data-pagefind-filter="section[content]" content="باكالوريا رياضيات"><style>.qrcard{display:none!important}.wa-nav{position:sticky;top:0;z-index:50;background:#045260;padding:10px 18px;font-family:Cairo,sans-serif;direction:rtl}.wa-nav a{color:#fff;text-decoration:none;font-weight:700}@media print{.wa-nav{display:none}}</style>
+</head>
+
+<body dir="rtl" lang="ar"
+      data-brand="Wael Academy" data-handle="@WaelAcademy"
+      data-tagline="في تُرابنا.. مغامرة بمغامرة"
+      data-phone="+216 50 40 40 42" data-site="waeldocuments.com"
+      data-cta="سجل معانا وأقرى عن بعد مع منصة Wael Academy"
+      data-subject="Philosophie · الإنيّة الغيريّة 1" data-watermark="Wael Academy" data-pagefind-body><nav class="wa-nav" data-pagefind-ignore><a href="../index.html">→ الرجوع إلى فهرس الفلسفة</a></nav>
+
+<!-- single full-page diagonal watermark, bottom-left → top-right (repeats on every page) -->
+<div class="wm" aria-hidden="true"><span>WAEL&nbsp;ACADEMY</span></div>
+
+<div class="flow colored">
+<div class="cover"><div class="badge">◉ Wael Academy · Philosophie</div><h1>الإنيّة الغيريّة 1</h1><div class="grule"></div><div class="sub">الإنية والغيرية</div><div class="auth"><div class="credit">المؤلّف / المصدر : <span class="who">Taki Academy — SILVER — www.takiacademy.com — 73.832.000</span> <span class="tg sec">الفلسفة · باكالوريا رياضيات</span> <a href="https://drive.google.com/file/d/1oc4K8_lgU3UJ7e_kk3Whyiy2_15n7Fjm/view">↗ الإنيّة الغيريّة 1.pdf</a></div></div><div class="copies" data-pagefind-ignore><b>نسخ هذا الملف في الدرايفات (1)</b><ul><li><a href="https://drive.google.com/file/d/1oc4K8_lgU3UJ7e_kk3Whyiy2_15n7Fjm/view">Eya Masmoudi · Bac math 2026 › فلسفة / الإنية و الغيرية</a></li></ul></div></div>
+<section class="chapter"><div class="chapdiv"><div class="cn">المحور</div><h2>الإنية والغيرية</h2></div>
+<!-- SOURCE: Taki Academy — SILVER — www.takiacademy.com — 73.832.000 -->
+<div class="exh"><span class="idx">درس</span><h2>الإنيّة والغيريّة</h2>
+  <div class="qrcard"><div class="qrt">فيديو الدرس</div><div class="qrslot"><img src="qr/1334.svg" alt="QR"></div></div></div>
+<div class="credit">المؤلّف / المصدر : <span class="who">Taki Academy — SILVER — www.takiacademy.com — 73.832.000</span> <span class="tg sec">الفلسفة · باكالوريا رياضيات</span> <a href="https://drive.google.com/file/d/1oc4K8_lgU3UJ7e_kk3Whyiy2_15n7Fjm/view">↗ الإنيّة الغيريّة 1.pdf</a></div>
+<p class="subhead t-red">الفلسفة</p>
+<p class="para">القسم باكالوريا شعب علميّة</p>
+<p class="para">المحور الإنيّة والغيريّة</p>
+<div class="data">
+<p class="subhead t-navy"><span class="t-blue">I.	فى إثبات تعالى الإنية على الغيرية: الإنفصال وعدم الإتصال بين الأنا والغير:</span></p>
+<p class="para">عن سؤال ما لإنسان؟ أو عن سؤال من أكون؟ يوجد على الأقل منهجين فى فهم ذواتنا وهما:</p>
+<p class="para">المنهج الميتافيزيقى ≠ المنهج الواقعى</p>
+</div>
+<table>
+<tr><th><span class="t-blue">المنهج الميتافيزيقى</span></th><th>≠</th><th><span class="t-blue">المنهج التاريخى الواقعى</span></th></tr>
+<tr><td><ul class="b">
+<li>عن سؤال هو النظر إلى الإنسان من زاوية الماهية واعتبار أنّ الإنسان جوهر ثابت يتحدّد نهائيًا أى تفسير الإنسان وفق منهج أحادى البعد. يرى الإنسان من زاوية وحيدة وثابتة + منهج يقر بوجود حقيقة نهائية فيسقط فى التعميم والتحديد فى حين ان كلّ تعميم هو تعتيم وكلّ تحديد للإنسان هو نفى له ليبنتيز <span dir="ltr">Leibniz</span></li>
+<li>منهج لا ينتج معرفة فعليّة بالإنسان بل هو جهل به. نحن نريد أن نفهم ذواتنا وأن نقيم فيها غير أنّ الرؤية الميتافيزقية تجعلنا خارج ذواتنا وبمعزل عن كل واقع</li>
+</ul></td><td></td><td><ul class="b">
+<li>هو النظر إلى الإنسان كما هو لا كما يجب أن يكون أى فهم الإنسان فى وضعيّة وداخل التاريخ والواقع (+) منهج يقر بأنّ الإنسان صفة عكس ماهية حدث وليس ثابت وظاهرة وليس حقيقة.</li>
+<li>اختلاف وليس تماثل أو تطابق منهج نقدى يتجاوز كلّ دغمائية منفتح على التجربة وعلى الزمن.</li>
+<li>ومنخرط فى علاقة مع الاخر متجذّر فى عالمه</li>
+</ul>
+<p class="para"><span class="t-blue">منهج واقعى يؤدى إلى معرفة الإنسان ويسمح لنا بالتعرف على ذواتنا ويمكننا من الإقامة داخل أنفسنا.</span></p></td></tr>
+</table>
+<div class="data">
+<p class="subhead t-navy"><span class="t-blue">نتيجة:</span></p>
+<ul class="b">
+<li>الإنسان إمّا أن يفسّر نهائيا أو مطلقا داخل منهج ميتافيزيقى أو يفهم أو يؤول داخل منهج المنهج التاريخى نسبى تقريبى وينظر للإنسان فى علاقة بالغير.</li>
+<li>المنهج الميتافيزيقى يقرّ بتعالى الإنية على الغيريّة أى عدم حاجة الانا بالغير فى إثباتها لذاتها وكأئنى وحيد فى العالم. كيف نفهم التصوّر الميتافيزيقى للإنية؟</li>
+</ul>
+</div>
+<p class="subhead t-navy"><span class="t-blue">النفس جوهر روحانى</span></p>
+<ul class="b">
+<li>الإنسان كائن ينفرد بالقدرة على الشعور بذاته أى هو الكائن الوحيد الذى يمتلك إحساس بذاته. الإنسان له القدرة على إدراك وجوده وإثبات هذا الوجود. فكيف تدرك الذات ذاتها <span class="t-blue">كإحساس أو كشعور</span>؟</li>
+<li>إنّ الذات تدرك ذاتها <span class="t-blue">مباشرة</span> دون وسائط خارجيّة مثل الجسم والعالم والآخر.</li>
+</ul>
+<p class="para"><span class="t-blue">الذات تدرك ذاتها كنفس متعالية على كل غير. تتمثل الإنية فى النفس كجوهر غير مادى متعالى على الجسم والعالم والآخر فى كل الأحوال يشعر الإنســان بوجوده ولا يغفل عن إنيّته.</span></p>
+<!-- CROP: 1334 1 5 0.07 0.23 0.37 0.76 1334_p05_man -->
+<figure class="fig"><img src="https://wael-philo.b-cdn.net/figs/1334/1334_p05_man.png" alt=""></figure>
+<p class="subhead t-navy"><span class="t-blue">النفس جوهر روحانى</span></p>
+<ul class="b">
+<li>الشعور بالإنيّة لا يقتضى وسائط جسميّة والجسد مجرّد وعاء للنفس أو هو حامل أو مقلّ للنفس.</li>
+</ul>
+<p class="para"><span class="t-blue">إدراك الإنيّة هو إدراك حدسى مباشر الحدس يعنى إدراك دون تجربة أو برهان.</span></p>
+<p class="para"><span class="t-blue">الإنسان ثنائيّة متعالية للنفس على الجسد والجسد أداة للنفس يتحرّك بأوامرها فهو عاجز عن الحركة بمفرده.</span></p>
+<ul class="b">
+<li>الإنسان ثنائيّة : نفس فى جسد</li>
+</ul>
+<p class="para">النفس والجسد من طبيعتين مختلفتين فالنفس هى الإنيّة والجسد غيريّة والنفس عارفة فى حين الجسد أعمى إلى درجة انّ أفلاطون ينظر إلى الجسد كعائق معرفى يحول دون إدراك الحقيقة وعائق أخلاقى يحول دون تأسيس الفضيلة.</p>
+<p class="para"><span class="t-blue">علاقة النفس بالجسد علاقة عرضيّة مؤقتة وهى علاقة استعمال وتحكم، علاقة حاكم بمحكوم أو آمر بمأمور.</span></p>
+<p class="para"><span class="t-blue">إنيّة منغلقة، حدسيّة ، تعود على ذاتها مباشرة، إنيّة متمركزة حول أناها كوحدة لا تنقسم مكمّلة ومنفصلة عن الغير.</span></p>
+<p class="subhead t-navy"><span class="t-blue">الإنيّة بماهى ذات وعية : ديكارت</span></p>
+<ul class="b">
+<li>إذا كان أفلاطون وابن سينا يعتبران أنّ الإنيّة شعورا فإن ديكارت يرجعها إلى التفكير لأنّ الشعور لا حجّة علية أمّا التفكير فيمكن البرهنة عليه فكيف يبرهن ديكارت على التفكير كجوهر لإنيّة الإنسان؟</li>
+<li>لإثبات من أكون ولمعرفة من أنا؟</li>
+<li>معرفة حقيقة الذات تقتضى ممارسة فكريّة قوامها الشك لأنّ للفكر حجّته فأمّا الشعور ففاقد للحجّة.</li>
+</ul>
+<p class="para"><span class="t-blue">التفكير هو الخاصيّة المميّزة للإنسان. التفكير يدلّ على كلّ حالات الوعى.</span></p>
+<p class="para"><span class="t-blue">الإنيّة منغلقة رافضة للغير مستقلة ومكتفية بذاتها مباشرة دون وسائط.</span></p>
+<p class="para"><span class="t-blue">يرفض الحدس الشعورى ليؤسّس للحدس الفكرى أى فى الحالتين تظلّ الإنيّة حدسيّة.</span></p>
+<p class="subhead t-navy"><span class="t-blue">الإنيّة بماهى ذات وعية : ديكارت</span></p>
+<ul class="b">
+<li>يعتبر ديكارت أنّ الحدس مجرّد جسم أو هو موضوع <span dir="ltr">(objet)</span> مدرَك وليس مُدرك فهو يدرَك من خارجه كموضوع دراسة وليس ذاتا إذ لست جسدى بل لى جسد فجسدى جسم كسائر الأجسام والمواضيع لكنّه يتحرّك بمفرده.</li>
+</ul>
+<p class="para"><span class="t-blue">إذا كان أفلاطون ثمّ إبن سينا يجعلان من الجسد لا شىء، عدم، معدوم فإنّ ديكارت ينظر له كشىء أى ينقل الجسد من حالة المعدوم إلى حالة المعلوم من حالة اللاشىء إلى حالة الشىء.</span></p>
+<ul class="b">
+<li>ديكارت يكسب الجسد واقعية لكنّها مجرّد واقعيّة فيزيائية ستسمح بدراسته علميّا أى ستفتح المجال أمام جسد التطبيب أو جسد التشريح أى يؤسس ديكارت لدراسة علمية أو موضوعية تحرّر الجسد من ميتافيزيقة تقليدية لكنّها تجذره فى ميتافيزيقة تجعل النفس مركزا ذات بعد وحيد وتجعل من الجسد مجرد موضوع قابل للدراسة من خارجة ومتميز سلبا عن النفس</li>
+</ul>
+<p class="para"><span class="t-blue">إنتهى الموقف المتعال إلى جملة من المخاطر</span></p>
+<p class="subhead t-navy"><span class="t-blue">الإنيّة بماهى ذات وعية : ديكارت</span></p>
+<p class="para"><span class="t-blue">انتهت الميتافيزيقى إلى جملة من الإحراجات أهمّها:</span></p>
+<ul class="b">
+<li>إعتبار الجسد مجرّد عرض رغم الترفيع النسبى من قبل ديكارت.</li>
+<li>نفى علاقة الإنيّة بالواقع والتاريخ</li>
+<li>إفتراض أنّ إنيّتى ثابتة</li>
+<li>الأنا متطابقة مع نفسها</li>
+<li>الإنسان سيد على ذاته</li>
+<li>استبعاد الآخر من إنيّتى.</li>
+<li>إنكار اللاوعى لكن هل فى إقصاء الغيريّة ما يؤسس للمعرفة بالإنسان أم لجهل به؟</li>
+</ul>
+<!-- CROP: 1334 1 9 0.06 0.22 0.30 0.73 1334_p09_descartes -->
+<figure class="fig"><img src="https://wael-philo.b-cdn.net/figs/1334/1334_p09_descartes.png" alt=""></figure>
+<p class="subhead t-red">فى جدليّة الإنيّة والغيريّة : الإتصال وعدم الإنفصال بين الأنا والغير</p>
+<p class="subhead t-navy"><span class="t-blue">1.	فى محايثة الذات للجسد أو الذات المتجسّدة: مورلو بونتى</span></p>
+<p class="para">يستبعد مورلو بونتى موقفين وهما الآليّة والمثاليّة.</p>
+<p class="para">لا أحد من الموقفين يشفى الغليل إذ كلّ منهما يؤدّى إلى جهل بالإنسان ويبقيانا خارج ذواتنا.</p>
+<p class="para"><span class="t-blue">فمن يكون الإنسانى إذن؟</span></p>
+<p class="subhead t-red">فى جدليّة الإنيّة والغيريّة : الإتصال وعدم الإنفصال بين الأنا والغير</p>
+<p class="para">يقدم مورلو بونتى موقفا مستحدثا وهو الفنمنولوجيا أو الظاهرية أو القصديّة إذ:</p>
+<ul class="b">
+<li>الإنسان نمط وجود خاص جدّا، وجود قصدّى.</li>
+<li>الإنسان هو جسده إذ انا جسدى والإنسان يعى إنيّته ذاتا متجسّدة فى العالم.</li>
+<li>الإنسان إنسان العالم والعالم عالم الإنسان إذ إنسان دون عالم يسقط فى العدم وعالم دون إنسان يسقط فى العبث إذ الإنسان وجود فى العالم.</li>
+<li>الإنسان وعى متجسّد أو جسد واع فى العالم.</li>
+</ul>
+<p class="para"><b>←</b> يتحدّد الإنسان كمفارقة أى هو 3 وحدات لحقل وحيد: جسدى – وعيى – عالمى</p>
+<!-- CROP: 1334 1 12 0.08 0.15 0.39 0.81 1334_p12_merleauponty -->
+<figure class="fig"><img src="https://wael-philo.b-cdn.net/figs/1334/1334_p12_merleauponty.png" alt=""></figure>
+<p class="para"><b><span class="t-blue">الإنية</span></b></p>
+<ul class="dash">
+<li><span class="t-blue">وعيى</span></li>
+<li><span class="t-blue">عالمى</span></li>
+<li><span class="t-blue">جسدى</span></li>
+</ul>
+<p class="subhead t-red">ديكارت فى جدليّة الإنيّة والغيريّة : الإتصال وعدم الإنفصال بين الأنا والغير</p>
+<p class="para">يشتغل المنهج الفينمولوجى وفق معاينة أو تجربة معيشة أى منهج واقعى.</p>
+<ul class="dash">
+<li>علاقتى بالعالم ليست علاقة أحادية بل هى علاقة ثريّة بالمعانى غنيّة بالدلالات مليئة بالمقاصد إذ فى كل مرّة أقصد شيئا ما من العالم.</li>
+</ul>
+<p class="para">كلّ لقاء مع العالم ومع الآخر هو لقاء مختلف ممّا يؤكد أنّ إنيّتى <span class="t-blue">إختلاف</span> وتعدّد ممّا يكشف عن أنّ الأنا أفكر ليس إلاّ بعدا من أبعاد علاقتى بالعالم وهذه العلاقة يوجّهها جسدى فأنا أعرف جسدى كما أعيشه من داخله ومن خلاله خلاف للمنهج التأملى الذى يدرك الجسد من خارجه.</p>
+<table>
+<tr><th><span class="t-blue">الجسد لا شيئ</span></th><th><span class="t-blue">الجسد شيئ</span></th><th><span class="t-blue">لكل شىء ذاتى جسدى</span></th></tr>
+<tr><td><p class="para">أفلاطون وابن سينا</p>
+<ul class="b">
+<li>الجسد مجرد عرض وهو عائق معرفى وأخلاقى يحول دون إدراكنا لذواتنا.</li>
+<li>يعطل فعل معرفة الذا لذلتها يتحرك الجسد بأوامر من النفس</li>
+</ul></td><td><p class="para">ديكارت</p>
+<ul class="b">
+<li>الجسد مجرّد جسم مثل سائر الأجسام فهو آلة دقيقة محكومة بقوانين صارمة يدرَك من ارجه كجسم إنّه مجرّد موضوع دراسة وهو ليس ذاتا يكتسب واقعيّة لكنّها مجرّد واقعيّة فيزيائية فهو يتحرّك بأوامر من النفس لكنّه يتحرّك أيضا بأوامر خاصّة به وقوانينه.</li>
+</ul></td><td><ul class="b">
+<li>جسدى هو جسد خاص أو جسد ذاتى. الجسد الخاص هو جسدى منظور إليه من زاوية ذاتية غير قابل للموضوعية العلمية أى جسدى كما أعيشه وأحياه من الدّاخل (+) حاضر بإستمرار فى مجال الإدراك (+) شرط تواصلى مع الآخرين وهو المحدّد لرؤيتى للعالم ولمواقفى واختياراتى وأفعالى وردود أفعالى إنّه تعبيريّة خاصّة ومنظوريّة كثيفة المعنى والدّلالة.</li>
+</ul></td></tr>
+</table>
+<p class="subhead t-red">ديكارت فى جدليّة الإنيّة والغيريّة : الإتصال وعدم الإنفصال بين الأنا والغير</p>
+<ul class="b">
+<li>يشتغل المنهج الفينمولوجى وفق معاينة أو تجربة معيشة أى منهج واقعى.</li>
+<li>علاقتى بالعالم ليست علاقة أحادية بل هى علاقة ثريّة بالمعانى غنيّة بالدلالات مليئة بالمقاصد إذ فى كل مرّة أقصد شيئا ما من العالم.</li>
+<li>كلّ لقاء مع العالم ومع الآخر هو لقاء مختلف ممّا يؤكد أنّ إنيّتى إختلاف وتعدّد ممّا يكشف عن أنّ الأنا أفكر ليس إلاّ بعدا من أبعاد علاقتى بالعالم وهذه العلاقة يوجّهها جسدى فأنا أعرف جسدى كما أعيشه من داخله ومن خلاله خلاف للمنهج التأملى الذى يدرك الجسد من خارجه.</li>
+</ul>
+<p class="subhead t-red">ديكارت فى جدليّة الإنيّة والغيريّة : الإتصال وعدم الإنفصال بين الأنا والغير</p>
+<ul class="b">
+<li>جسدى شرط لقائى بالعالم وبالآخر.</li>
+<li>توحيد الفكر ى بالمادى.</li>
+<li>هناك تلازم / محايثة بين الذاتى والجسدى</li>
+<li>إنيّة الإنسان عالميّة أى لا قيمة للإنسان دون عالم.</li>
+<li>الإنسان موجود مع الآخرين فأنا لست وحيدا فى العالم بل أنا كائن تواصلى وإنيّتى منفتحة على الغير.</li>
+<li>لا يوجد وعى بل حالات وعى ممّا يعنى أن الوعى قصدى.</li>
+<li>لقاء الإنسان بالأشياء لقاء مختلف</li>
+<li>جسدى ليس مُدرَكٌ بل مُدْركٌ أيضا</li>
+</ul>
+<p class="subhead t-navy"><span class="t-blue">فى تاريخية الذات الواعية: ماركس + انجلز</span></p>
+<ul class="b">
+<li>الوعى نتاج إجتماعى تاريخى واقعى أى هناك أسبقية للوجود الواقعى على الوعى.</li>
+<li>كيان البشر إنّما سيرورة الحياة الواقعية، الإنية نتاج واقع مادى وسياق العلاقات الاجتماعية . الوعى هو جملة الأفكار والتمثلات والتصورات التى ينتجها الإنسان عن وجوده وعن ذاته وعن عالمه.</li>
+<li>إنّ فلسفة التشكيك (ماركس) أو أقطاب الظنة أو كاشفى الأقنعة أو فلاسفة الرجة يكشفون أنّ: الوعى إنبثاق وانعكاس وارتباط مشروط ومباشر بالوجود المادى أى أنّ أفكارنا مشروطة بعلاقات الإنتاج وعلاقاتنا الاجتماعية.</li>
+</ul>
+<p class="subhead t-navy"><span class="t-blue">فى تاريخية الذات الواعية: ماركس + انجلز</span></p>
+<ul class="b">
+<li>هناك علاقة جدليّة بين الواقع والفكر إذ الشروط المادية هى التى تحدد الوعى وتكيفه وللوعى قدرة على التأثير فى وجودنا لكن هذه الجدلية تبقى محكومة دائما بأسبقيّة العامل المادى على العامل الفكرى من حيث الأهميّة والفاعلية.</li>
+<li>تنفى المادية التاريخية تعالى الوعى واستقلاليته فأفكار الناس إنعكاس للواقع المادى المحكوم بمصالح طبقية متخفية إذ هناك تبعية للوعى إزاء الواقع</li>
+<li>تاريخ الإنية تاريخ اقتصادى + رفض وجود ماهية انسانية وكونية</li>
+</ul>
+<p class="subhead t-navy"><span class="t-blue">فى تاريخية الذات الواعية: ماركس + انجلز</span></p>
+<ul class="b">
+<li>ليس وعى الناس هو الذى يحدد وجودهم، بل إنّ وجودهم الإجتماعى والإقتصادى هو الذى يحدد وعيهم.</li>
+<li>الوعى ليس مستقلا ولا منعزلا ولا مباشر ولا حدسيا بل هو انعكاس شرطى للنشاط المادى</li>
+<li>نمط الوجود هو الذى يشكل نمط الوعى أى توجد حتمية إجتماعية. يقول ماركس: "الإنسان حصيلة علاقاته الإجتماعية".</li>
+</ul>
+<p class="subhead t-red">في جدليّة الوعي واللاوعي:</p>
+<div class="data">
+<p class="para">المراجعة النقدية لدلالة الإنية:</p>
+<p class="para">سيغموند فرويد</p>
+<p class="para">ما منزلة اللاشعور فى تحديد الإنيّة؟</p>
+</div>
+<p class="subhead t-red">فى جدليّة الوعى واللاوعى</p>
+<ul class="b">
+<li>ليس الوعى ماهية الحياة النفسية ولا يشكل كليّا بالنسبة للإنسان بل هو صفة غيابها أكثر من حضورها.</li>
+<li>إنّ التحليل النفسى يكشف عن: إختفاء ماهو حيوانى خلف ووراء الإنسانى.</li>
+</ul>
+<p class="para">يقول فرويد: "<span class="t-blue">الإنسان ذئب شرس ولكن هذه الشراسة تظل فى انتظار ما يثيرها</span>".</p>
+<ul class="b">
+<li>وراء الذات الواعية يختفى اللاوعى</li>
+<li>رفض اعتبار الإنسان جوهرا عاقلا</li>
+<li>إنشاء مفاهيم علمية حول الإنسان.</li>
+</ul>
+<!-- CROP: 1334 1 21 0.62 0.12 0.90 0.84 1334_p21_wolf -->
+<figure class="fig"><img src="https://wael-philo.b-cdn.net/figs/1334/1334_p21_wolf.png" alt=""></figure>
+<p class="subhead t-red">فى جدليّة الوعى واللاوعى</p>
+<ul class="b">
+<li>فى حالة <span class="t-blue">العجز</span>، تصاب الذات بإختلالات وتظهر تجليات غير سويّة.</li>
+<li>الإنيّة مركبة.</li>
+<li>الإنسان لا يوجد إنسان بل يصبح كذلك.</li>
+<li>أوسع الأقسام الحياة النفسية لا واعية</li>
+<li>الحياة النفسية قائمة على الصراع.</li>
+<li>الذات مجزأة أو هى وحدة مشقوقة أو ممزقة.</li>
+</ul>
+<p class="subhead t-red">فى جدليّة الوعى واللاوعى</p>
+<ul class="b">
+<li>اللاشعور: هو المجموع الديناميكى للرغبات المكبوتة والذكريات المنسية والتى لا تتجلى بشكل مباشر فى مستوى الوعى، بل تظهر بشكل لا واع ولا إرادى فى زلات اللسان والنسيان والهفوات والحلم والسلوك الحركى واللفظى وفى الأفعال والمهن والفنون.</li>
+<li>اللاشعور مفهوم كونى وكلى: الإنسان جغرافية نفسية الذات تكشف عنه كميدان حرب.</li>
+</ul>
+<!-- CROP: 1334 1 23 0.10 0.29 0.36 0.84 1334_p23_iceberg -->
+<figure class="fig"><img src="https://wael-philo.b-cdn.net/figs/1334/1334_p23_iceberg.png" alt=""></figure>
+<p class="subhead t-red">فى جدليّة الوعى واللاوعى</p>
+<ul class="b">
+<li>الذات ليست منسجمة ولا بسيطة ولا موحّدة بل هى ممزقة.</li>
+<li>أوجد حيث لا أفكر و أفكر حيث لا أوجد.</li>
+<li>ما حدث هو إزاحة مركزيّة الوعى واستبدالها بمركزيّة اللاوعى أى اكتشاف اللاوعى أو اللاشعور ليس تحطيما للوعى بل تعديل إذ يظل الوعى نورا يضىء لنا السبيل ما حدث هو تغير فى معنى الإنيّة.</li>
+</ul>
+<p class="subhead t-navy"><span class="t-blue">من الذاتيّة إلى البيذاتيّة أو غير شرط لتشكل الإنية : هيغل</span></p>
+<ul class="b">
+<li>الوعى بالذات يستوجب الوعى بالآخر. الإنسان يكتشف ذاته فى العالم ومع الآخر أى فى علاقة بالمغاير.</li>
+<li>الوعى ليس معطى بل مطلب واكتساب تدريجى فى التاريخ. الإنسان يدخل فى صراع مع الآخر من أجل الرغبة ويشتدّ الصّراع حين يتعلق بالرّغبة فى الرّغبة الأخرى التى تخفى معنى أكثر أصالة وهو الرّغبة فى انتزاع قيمة الاعتراف.</li>
+<li>الإنسان يسعى إلى انتزاع إعتراف به لا كشىء بل كذات وأثناء الصراع يكتشف الإنسان ذاته.</li>
+</ul>
+<p class="para">نحن نتحوّل من حالة <span class="t-blue">يقين</span> بالذات إلى حقيقة <span class="t-blue">الذات</span></p>
+<table>
+<tr><th>(-)</th><th>(+)</th></tr>
+<tr><td><ul class="b">
+<li>اعتبار الذات معطى</li>
+<li>الوعى المباشر</li>
+<li>إدراك وهمى</li>
+<li>الذات تتطابق مع ذاتها</li>
+</ul></td><td><ul class="b">
+<li>ما تدركه الذات حول ذاتها فى علاقة بالآخر وبعد مواجهة</li>
+</ul></td></tr>
+</table>
+<p class="subhead t-navy"><span class="t-blue">من الذاتيّة إلى البيذاتيّة أو غير شرط لتشكل الإنيّة : هيغل</span></p>
+<ul class="b">
+<li>تتكوّن لدى الذات صورة حقيقة حول ذاتها بعد الخوض والغوص فى سعة الحياة ولقاء المختلف.</li>
+</ul>
+<p class="para"><span class="t-blue">← إنّ الأنا سابقة على التفكير إنّ الإنيّة اكتشاف نتيجة مسار وتجربة فى الحياة</span></p>
+<p class="para"><span class="t-blue">← الوعى بالذات يتجاوز الإحساس أو الشعور بالذات.</span></p>
+<p class="para"><span class="t-blue">← الذات تغترب لكى تتحرّر.</span></p>
+<p class="para"><span class="t-blue">← الغيريّة أساس للإنيّة وشرط لها.</span></p>
+<p class="subhead t-red">الخاتمة:</p>
+<div class="conclusion"><p>يتوضح أنّ إنيّتى مركبة من الأنا والأخر وأنّ لا إنيّة دون غيريّة وأنّ الذات مشروع ومسار يتحقق فى الزمن وفى علاقة بالمختلف والمغايّر ويتبيّن أنّ إنيّتى محدودة ومشروطة بالعالم والواقع وتتشكل داخل الرموز وهى مفارقة بين متانقضات وهى موحّدة رغم تكاثرها ورهانها التحرّر، إذ أنّ إنيّتى تعنى حرّيتى.</p></div>
+<!-- CROP: 1334 1 28 0.54 0.25 0.94 0.71 1334_p28_head -->
+<figure class="fig"><img src="https://wael-philo.b-cdn.net/figs/1334/1334_p28_head.png" alt=""></figure>
+
+</section>
+
+</div>
+</body>
+</html>

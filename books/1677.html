@@ -1,0 +1,1067 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<title>Wael Academy — Philosophie · الوجيز رابعة ثانوي</title>
+<script>
+  window.MathJax = {
+    tex: { inlineMath: [['\\(','\\)']], displayMath: [['\\[','\\]']] },
+    chtml: { fontURL: 'https://cdn.jsdelivr.net/npm/mathjax@3/es5/output/chtml/fonts/woff-v2', matchFontHeight: true },
+    startup: { typeset: true }
+  };
+</script>
+<script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js" async></script>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Sora:wght@400;500;600;700;800&family=Cairo:wght@400;500;600;700;800;900&family=Tajawal:wght@400;500;700;800&family=JetBrains+Mono:wght@400;500;600;700&display=swap');
+:root{
+  /* ===== Wael Academy palette — MAIN ACCENT = green-teal gradient #0FAB8F → #067360 ===== */
+  --bg:#fff; --panel:#f2f8f8; --hair:#e6e6e9; --hair2:#d6d6db;
+  --fg:#0f2a31;        /* body text (and +/− signs) */
+  --fg2:#3f5b62;       /* softer text */
+  --fg3:#7c959b;       /* muted (footer) */
+  --blue:#067360;      /* deep accent — small numbers, borders, watermark, accent equations */
+  --blue-dark:#045260; /* titles & wordmarks (also the balance colour) */
+  --teal:#0fab8f;      /* bright accent end */
+  --loop:#0d9c82;      /* logo-loop helper */
+  --orange:#067360;    /* kicker/category labels (gold retired → deep teal) */
+  --red:#f5322f;       /* EXERCISE CHIPS ONLY — never for emphasis */
+  --cream:#e6f3f4; --blue-soft:#e6f3f4;  /* pale teal — callout fill + table sub-row fill */
+  --blue-line:#cde7e4; /* hairline */
+  --sub-ink:#045260;   /* table sub-row text */
+  --grad:linear-gradient(148deg,#0fab8f 0%,#0d9c82 52%,#067360 100%);
+  --mono:'JetBrains Mono',monospace; --latin:'Sora',sans-serif; --ar:'Cairo',sans-serif; --arb:'Tajawal',sans-serif;
+}
+*{box-sizing:border-box;margin:0;padding:0;}
+body{font-family:var(--latin);color:var(--fg);background:#e4e4e7;padding:28px 0;
+     -webkit-print-color-adjust:exact;print-color-adjust:exact;}
+html[dir="rtl"] body{font-family:var(--arb);}
+
+/* ===== brand watermark: REAL text (crisp), full-bleed, repeats per page ===== */
+.wm{position:fixed;inset:0;z-index:0;pointer-events:none;display:flex;
+    align-items:center;justify-content:center;overflow:hidden;
+    -webkit-print-color-adjust:exact;print-color-adjust:exact;}
+.wm span{font-family:var(--mono);font-weight:800;font-size:76.8pt;letter-spacing:.16em;
+    color:var(--blue);opacity:.06;white-space:nowrap;transform:rotate(-54deg);}  /* single diagonal: bottom-left → top-right */
+.wm.mono span{color:#000;opacity:.05;}
+
+/* ===== continuous flow stream (no page border) ===== */
+.flow{width:210mm;margin:0 auto;background:transparent;color:var(--fg);
+      padding-block:16mm 18mm;padding-inline:23mm 14mm;position:relative;}   /* spiral gutter: inline-start(=spine) 23mm / outer 14mm — dir-aware; print margins set in render_flow.py */
+@media screen{ .flow{background:#fff;box-shadow:0 10px 40px rgba(0,0,0,.16);} }
+.flow>*{position:relative;z-index:1;}
+.flow p,.flow li,.flow .data,.flow .note,.flow .ex{break-inside:auto;}
+.flow .fig,.flow figure,.flow img,.flow svg.figsvg,.flow table,.flow tr,.flow .chapdiv,.flow .exh,.flow .qrcard,.flow .meta{break-inside:avoid;}
+.flow h1,.flow h2,.flow h3,.flow .exh,.flow .subhead,.flow .chapdiv{break-after:avoid;}
+.flow img,.flow svg.figsvg{max-width:100%;height:auto;}
+.flow figcaption,.flow .figcap{display:none;}          /* rule 3: no figure captions */
+
+/* ===== front matter + chapters each start on a fresh page ===== */
+.flow .cover{break-after:page;}        /* cover alone on page 1 */
+.flow .toc{break-after:page;}          /* Sommaire alone on the next page */
+.flow .chapter{break-before:page;}
+.flow .chapter:first-of-type{break-before:auto;}
+
+/* ===== cover ===== */
+.cover{padding:14mm 0 8mm;border-bottom:2px solid var(--blue);margin-bottom:6mm;}
+.cover .badge{font-family:var(--mono);font-size:8.5pt;letter-spacing:.28em;text-transform:uppercase;color:var(--orange);margin-bottom:10px;}
+.cover h1{font-family:var(--latin);font-weight:800;font-size:34pt;line-height:1.03;letter-spacing:-.025em;color:var(--blue-dark);}
+.cover .grule{width:120px;height:5px;border-radius:5px;background:var(--grad);margin:14px 0;}
+.cover .sub{font-family:var(--mono);font-size:10pt;letter-spacing:.14em;text-transform:uppercase;color:var(--teal);}
+.cover .auth{font-size:11pt;color:var(--fg2);margin-top:6px;font-weight:600;}
+
+/* ===== table of contents ===== */
+.toc{margin:2mm 0 4mm;}
+.toc h2{font-family:var(--latin);font-weight:800;font-size:15pt;color:var(--blue-dark);margin-bottom:4mm;}
+.toc .trititle{font-family:var(--mono);font-size:8pt;letter-spacing:.2em;text-transform:uppercase;color:var(--orange);margin:4mm 0 2mm;}
+.toc ol{list-style:none;}
+.toc li{display:flex;align-items:baseline;gap:8px;font-size:10pt;padding:2.2px 0;color:var(--fg);line-height:1.4;}
+.toc li .n{font-family:var(--mono);font-weight:700;font-size:9pt;color:var(--blue);min-width:26px;}
+.toc li .dots{flex:1;border-bottom:1px dotted var(--hair2);transform:translateY(-3px);}
+
+/* ===== chapter divider band ===== */
+.chapdiv{margin:0 0 5mm;padding:6mm 16px 5mm;border-radius:12px;background:var(--grad);
+    -webkit-print-color-adjust:exact;print-color-adjust:exact;}   /* green-filled chapter band */
+.chapdiv .cn{font-family:var(--mono);font-size:8.5pt;font-weight:700;letter-spacing:.24em;text-transform:uppercase;color:rgba(255,255,255,.82);margin-bottom:5px;}
+.chapdiv h2{font-family:var(--latin);font-weight:800;font-size:17pt;line-height:1.1;letter-spacing:-.015em;color:#fff;}
+/* conclusion block — same green-filled look as the chapter band */
+.conclusion{background:var(--grad);border-radius:12px;padding:6mm 16px;margin:5mm 0;color:#fff;break-inside:avoid;
+    -webkit-print-color-adjust:exact;print-color-adjust:exact;}
+.conclusion .ck{font-family:var(--mono);font-size:8.5pt;font-weight:700;letter-spacing:.24em;text-transform:uppercase;color:rgba(255,255,255,.82);margin-bottom:6px;}
+.conclusion h3{font-family:var(--latin);font-weight:800;font-size:13pt;line-height:1.2;color:#fff;margin-bottom:4px;}
+.conclusion p,.conclusion li{font-size:10.4pt;line-height:1.7;color:#fff;}
+.conclusion b,.conclusion strong{color:#fff;font-weight:700;}
+
+/* ===== unit header (lesson/exercise) + QR emplacement ===== */
+.exh{display:flex;align-items:center;gap:11px;margin:6mm 0 3mm;}
+.exh .idx{font-family:var(--mono);font-size:9pt;font-weight:600;color:#fff;background:var(--grad);
+    border-radius:6px;padding:4px 11px;letter-spacing:.08em;text-transform:uppercase;
+    -webkit-print-color-adjust:exact;print-color-adjust:exact;}
+.exh .idx.ex{background:var(--red);}   /* exercise chip = red */
+.exh h2{font-family:var(--latin);font-size:14pt;font-weight:700;letter-spacing:-.01em;color:var(--blue-dark);}
+.exh .qrcard{margin-inline-start:auto;flex:0 0 auto;display:flex;flex-direction:column;align-items:center;gap:3px;width:26mm;}
+.qrcard .qrt{font-family:var(--mono);font-size:6.5pt;letter-spacing:.1em;text-transform:uppercase;color:var(--teal);text-align:center;}
+.qrcard .qrslot{width:24mm;height:24mm;padding:1.5mm;background:#fff;border:1px solid var(--blue-line);border-radius:8px;display:flex;align-items:center;justify-content:center;}
+.qrcard .qrslot img,.qrcard .qrslot svg{width:100%;height:100%;display:block;}
+
+/* sub-exercise label when one file holds several exercices */
+.exsub{font-family:var(--latin);font-weight:800;font-size:11.5pt;color:var(--blue-dark);margin:5mm 0 2.5mm;padding-bottom:3px;border-bottom:2px solid var(--blue-line);}
+
+/* ===== text blocks ===== */
+.lead{font-size:11pt;line-height:1.7;margin:2mm 0 3mm;color:var(--fg);}
+.para{font-size:10.6pt;line-height:1.7;margin:2mm 0 2.5mm;color:var(--fg);}
+.consigne{font-size:10.4pt;line-height:1.6;margin:1mm 0 2mm;color:var(--fg);font-style:italic;}
+.subhead{font-family:var(--latin);font-weight:800;font-size:12pt;letter-spacing:-.01em;color:var(--blue-dark);margin:5mm 0 2.5mm;}
+/* emphasis — green accent = .t-blue/.t-green ; balance = .t-navy ; red = SECONDARY accent (.t-red) on titles + a few words */
+.t-blue{color:var(--blue);font-weight:600;} .t-navy{color:var(--blue-dark);font-weight:700;}
+.t-red{color:var(--red);font-weight:600;} .t-green{color:var(--teal);font-weight:600;} .t-gold{color:var(--orange);font-weight:600;}
+.subhead.t-red{color:var(--red);font-weight:800;}   /* red Roman-numeral section title (I, II, …) — keeps subhead weight */
+/* highlighter marks — a soft colour wash behind a key word (agent picks green or red per what balances the page) */
+.hl-green,.hl-red{border-radius:3px;padding:.02em .24em;font-weight:600;box-decoration-break:clone;-webkit-box-decoration-break:clone;
+    -webkit-print-color-adjust:exact;print-color-adjust:exact;}
+.hl-green{background:rgba(15,171,143,.20);color:var(--blue-dark);}   /* green highlight */
+.hl-red{background:rgba(245,50,47,.13);color:#c0261f;}               /* red highlight  */
+
+.data{background:var(--blue-soft);border:1px solid var(--blue-line);border-inline-start:4px solid var(--blue);
+    border-radius:8px;padding:11px 16px;margin:3mm 0;font-size:10pt;line-height:1.65;color:var(--fg2);}
+.data b{color:var(--fg);font-weight:700;}
+.note{border:1px dashed var(--hair2);border-radius:9px;padding:11px 16px;margin:4mm 0;background:var(--panel);}
+.note .kicker{font-family:var(--mono);font-size:7.5pt;letter-spacing:.18em;color:var(--orange);display:block;margin-bottom:5px;}
+.note .nb{font-size:10pt;line-height:1.7;color:var(--fg2);} .note b{color:var(--fg);}
+.ex:not(.idx){background:var(--blue-soft);border:1px solid var(--blue-line);border-inline-start:3px solid var(--blue);
+    border-radius:7px;padding:7px 11px;font-size:9.6pt;line-height:1.6;color:var(--fg2);margin:2mm 0;}   /* :not(.idx) so it never hits the exercise chip (which is .idx.ex) */
+.ex .extag{display:inline-block;font-family:var(--latin);font-weight:800;font-size:7.6pt;color:var(--blue-dark);background:#fff;
+    border:1px solid var(--blue);border-radius:5px;padding:1px 9px;margin-inline-end:7px;vertical-align:middle;text-transform:uppercase;letter-spacing:.06em;}
+
+/* ===== lists ===== */
+ol.q{list-style:none;counter-reset:q;margin:1mm 0 2mm;}
+ol.q>li{counter-increment:q;position:relative;padding-inline-start:30px;margin-bottom:2.5mm;font-size:10.4pt;line-height:1.6;}
+ol.q>li::before{content:counter(q);position:absolute;inset-inline-start:0;top:1px;width:21px;height:21px;background:var(--grad);color:#fff;
+    border-radius:50%;font-family:var(--mono);font-size:9pt;font-weight:600;display:flex;align-items:center;justify-content:center;
+    -webkit-print-color-adjust:exact;print-color-adjust:exact;}
+ol.sub{list-style:none;counter-reset:s;margin:4px 0 0;padding-inline-start:2px;border-inline-start:1px solid var(--blue-line);}
+ol.sub li{counter-increment:s;position:relative;padding:2.5px 0 2.5px 26px;font-size:10.1pt;line-height:1.55;}
+ol.sub li::before{content:counter(s,lower-alpha)".";position:absolute;inset-inline-start:10px;top:2.5px;font-family:var(--mono);font-size:9pt;font-weight:600;color:var(--teal);}
+ol.qn{list-style:none;counter-reset:qn;margin:1mm 0 2mm;}
+ol.qn>li{counter-increment:qn;position:relative;padding-inline-start:26px;margin-bottom:2.2mm;font-size:10.4pt;line-height:1.55;}
+ol.qn>li::before{content:counter(qn)".";position:absolute;inset-inline-start:0;top:0;font-family:var(--mono);font-size:9.5pt;font-weight:700;color:var(--blue);}
+ul.b{list-style:none;margin:1mm 0 2mm;} ul.b>li{position:relative;padding-inline-start:22px;margin-bottom:2.4mm;font-size:10.4pt;line-height:1.6;}
+ul.b>li::before{content:"";position:absolute;inset-inline-start:3px;top:8px;width:8px;height:8px;border-radius:50%;background:var(--grad);
+    -webkit-print-color-adjust:exact;print-color-adjust:exact;}
+ul.dash{list-style:none;margin:1mm 0 2mm;} ul.dash>li{position:relative;padding-inline-start:20px;margin-bottom:1.8mm;font-size:10.4pt;line-height:1.6;}
+ul.dash>li::before{content:"–";position:absolute;inset-inline-start:2px;top:0;color:var(--fg);font-weight:700;}  /* dash / +/− signs = body colour */
+.flow ul.opts{list-style:none;margin:4px 0 3px;padding-inline-start:16px;}
+.flow ul.opts li{padding:2px 0;font-size:10.2pt;line-height:1.5;color:var(--fg);}
+
+/* ===== figures / tables ===== */
+.fig{margin:3mm 0;} .fig svg.figsvg{display:block;margin:0 auto;background:#fff;max-width:100%;height:auto;}
+.photo{display:block;margin:3mm auto;border-radius:8px;border:1px solid var(--hair);max-width:100%;}
+.figrow{display:flex;flex-wrap:wrap;gap:9px;justify-content:center;margin:3mm auto;max-width:190mm;}
+.flow .figrow img{border-radius:7px;border:1px solid var(--hair);height:46mm;width:auto;max-width:none;object-fit:cover;}
+.schemarow{display:flex;gap:16px;align-items:flex-start;flex-wrap:wrap;margin:2mm 0;}
+.schemarow .col-txt{flex:1 1 90mm;min-width:80mm;} .schemarow .col-fig{flex:0 0 78mm;} .schemarow .col-fig .fig{margin:0;}
+.flow table{border-collapse:collapse;width:100%;margin:3mm 0;font-size:9.8pt;line-height:1.5;}
+.flow table th,.flow table td{border:1px solid var(--blue-line);padding:6px 10px;text-align:start;vertical-align:top;}
+.flow table th{background:var(--grad);color:#fff;font-family:var(--latin);font-weight:700;font-size:9.4pt;
+    -webkit-print-color-adjust:exact;print-color-adjust:exact;}
+.flow table tr:nth-child(even) td{background:var(--blue-soft);color:var(--sub-ink);}   /* sub-row: #E6F3F4 / #045260 */
+
+mjx-container{color:var(--fg) !important;font-weight:400 !important;font-size:1.0em !important;}
+.eq-hi mjx-container,mjx-container.eq-hi{color:var(--blue) !important;}   /* accent (green) equation — highlight a key result; balance with plain math */
+.eq-red mjx-container,mjx-container.eq-red{color:var(--red) !important;}  /* red accent equation / symbol — complements the green .eq-hi */
+
+/* ===== per-file books: credit line, copies list, figures at their size ===== */
+.credit{display:flex;flex-wrap:wrap;align-items:center;gap:5px;margin:-1mm 0 3.5mm;font-size:9.4pt;color:var(--fg2);}
+.credit .who{font-weight:700;color:var(--blue-dark);}
+.credit .tg{font-family:var(--mono);font-size:7.2pt;letter-spacing:.04em;border-radius:5px;padding:1px 7px;line-height:1.6;
+    border:1px solid var(--blue-line);color:var(--blue);background:#fff;-webkit-print-color-adjust:exact;print-color-adjust:exact;}
+.credit .tg.sec{background:var(--blue-dark);border-color:var(--blue-dark);color:#fff;}
+.credit .tg.cor{background:#fff;border-color:var(--red);color:var(--red);}
+.credit a{color:var(--fg3);font-family:var(--mono);font-size:7pt;text-decoration:none;}
+.cover .auth .credit{margin:4mm 0 0;}
+.cover .copies{margin-top:5mm;font-size:8.6pt;color:var(--fg2);}
+.cover .copies ul{list-style:none;margin:2mm 0 0;padding:0;columns:2;}
+.cover .copies a{color:var(--fg3);text-decoration:none;font-size:8pt;}
+.flow figure.fig{text-align:center;}
+.flow figure.fig img{max-height:60mm;width:auto;max-width:70%;display:inline-block;}
+
+/* chapter tag on each part of a multi-chapter book (the book keeps the original order of the file) */
+.chtag{display:inline-block;margin:5mm 0 2mm;padding:1mm 3mm;border-radius:2mm;background:#eef3fb;border:1px solid #c9d6ea;
+  color:#1f3a6b;font-size:9pt;font-weight:700}
+.chtag span{color:#6b7f9e;font-weight:600;margin-inline-end:1.5mm}
+
+@media print{ body{background:#fff;padding:0;} .flow{width:auto;max-width:none;margin:0;padding:0;} }
+@page{size:A4;}   /* margins come from render_flow.py — do NOT set them here */
+</style>
+<meta data-pagefind-filter="type[content]" content="ملخّص">
+<meta data-pagefind-filter="resource[content]" content="For more visit bac-tunisia.blogspot.com or fb">
+<meta data-pagefind-meta="n[content]" content="1677">
+<meta data-pagefind-meta="title[content]" content="الوجيز رابعة ثانوي">
+<meta data-pagefind-filter="chapter[content]" content="العلم بين الحقيقة والنمذجة">
+<meta data-pagefind-filter="chapter[content]" content="الإنية والغيرية">
+<meta data-pagefind-filter="chapter[content]" content="اللغة والتواصل">
+<meta data-pagefind-filter="chapter[content]" content="الخصوصية والكونية">
+<meta data-pagefind-filter="chapter[content]" content="العمل: النجاعة والعدالة">
+<meta data-pagefind-filter="chapter[content]" content="القيم: الأخلاق والدولة">
+<meta data-pagefind-filter="chapter[content]" content="الفن والدين">
+<meta data-pagefind-filter="chapter[content]" content="المنهجية">
+<meta data-pagefind-filter="section[content]" content="باكالوريا علوم تجريبية"><style>.qrcard{display:none!important}.wa-nav{position:sticky;top:0;z-index:50;background:#045260;padding:10px 18px;font-family:Cairo,sans-serif;direction:rtl}.wa-nav a{color:#fff;text-decoration:none;font-weight:700}@media print{.wa-nav{display:none}}</style>
+</head>
+
+<body dir="rtl" lang="ar"
+      data-brand="Wael Academy" data-handle="@WaelAcademy"
+      data-tagline="في تُرابنا.. مغامرة بمغامرة"
+      data-phone="+216 50 40 40 42" data-site="waeldocuments.com"
+      data-cta="سجل معانا وأقرى عن بعد مع منصة Wael Academy"
+      data-subject="Philosophie · الوجيز رابعة ثانوي" data-watermark="Wael Academy" data-pagefind-body><nav class="wa-nav" data-pagefind-ignore><a href="../index.html">→ الرجوع إلى فهرس الفلسفة</a></nav>
+
+<!-- single full-page diagonal watermark, bottom-left → top-right (repeats on every page) -->
+<div class="wm" aria-hidden="true"><span>WAEL&nbsp;ACADEMY</span></div>
+
+<div class="flow colored">
+<div class="cover"><div class="badge">◉ Wael Academy · Philosophie</div><h1>الوجيز رابعة ثانوي</h1><div class="grule"></div><div class="sub">العلم بين الحقيقة والنمذجة</div><div class="auth"><div class="credit">المؤلّف / المصدر : <span class="who">For more visit bac-tunisia.blogspot.com or fb.com\mybac2015 · حمادي البرواقي أستاذ مبرز في الفلسفة · كنوز للنشر و التوزيع</span> <span class="tg sec">الفلسفة · باكالوريا علوم تجريبية</span> <a href="https://drive.google.com/file/d/1IWlQ2g8Djpe5pQFxFLwcoUl0IdsGX3t2/view">↗ الوجيز رابعة ثانوي.pdf</a></div></div><div class="copies" data-pagefind-ignore><b>نسخ هذا الملف في الدرايفات (2)</b><ul><li><a href="https://drive.google.com/file/d/1IWlQ2g8Djpe5pQFxFLwcoUl0IdsGX3t2/view">BAC SCIENCE — Drive 1: Bac Science (Pilote Sousse docs) · Bac 2027 › Parascolaires bac science</a></li><li><a href="https://drive.google.com/file/d/1YT0Mecd1iVlNj4olP1E3lIU2Qy2uOMb-/view">Jihed Rezgani · Bac Info › Philo</a></li></ul></div></div>
+<section class="chapter">
+<div class="chtag"><span>المحور</span> العلم بين الحقيقة والنمذجة</div>
+<!-- SOURCE: For more visit bac-tunisia.blogspot.com or fb.com\mybac2015 · حمادي البرواقي أستاذ مبرز في الفلسفة · كنوز للنشر و التوزيع -->
+<div class="exh"><span class="idx">ملخّص</span><h2>الوجيز في الفلسفة</h2>
+  <div class="qrcard"><div class="qrt">فيديو الدرس</div><div class="qrslot"><img src="qr/1677.svg" alt="QR"></div></div></div>
+<div class="credit">المؤلّف / المصدر : <span class="who">For more visit bac-tunisia.blogspot.com or fb.com\mybac2015 · حمادي البرواقي أستاذ مبرز في الفلسفة · كنوز للنشر و التوزيع</span> <span class="tg sec">الفلسفة · باكالوريا علوم تجريبية</span> <a href="https://drive.google.com/file/d/1IWlQ2g8Djpe5pQFxFLwcoUl0IdsGX3t2/view">↗ الوجيز رابعة ثانوي.pdf</a></div>
+
+
+<!-- p01 (cover) -->
+<p class="subhead t-red">الوجيز</p>
+<p class="subhead t-navy">في الفلسفة</p>
+<p class="para">لتلاميذ البكالوريا</p>
+<p class="para">4</p>
+<p class="para">شعب الآداب و الرياضيات و العلوم التجريبية و التقنية والإعلامية و شعبة الإقتصاد والتصرف</p>
+<ul class="b">
+<li>ملخصات الدروس</li>
+<li>معاني الدروس</li>
+<li>منهجية المقال الفلسفي و تحليل النص</li>
+<li>نماذج على شاكلة إمتحان الباكلوريا مع إصلاح شامل و مفصل</li>
+<li>مقالات محررة خاصة بشعب الآداب</li>
+</ul>
+<p class="para">حمادي البرواقي<br>أستاذ مبرز في الفلسفة</p>
+<p class="para">كنوز للنشر و التوزيع</p>
+<!-- NOTE: p01 background decorative names (أرسطو، ديكارت، نيتشه، كانط) and publisher logo not transcribed -->
+<!-- p02 -->
+<p class="subhead t-red">الفهرس</p>
+<!-- PROOFREAD: 1677 part1 p02 — "حوصلة" first letter partly cut by the right page edge on the first 8 lines -->
+<table>
+<tr><td>حوصلة محور الإنية و الغيرية</td><td>6</td></tr>
+<tr><td>حوصلة محور التواصل و الأنظمة الرمزية</td><td>8</td></tr>
+<tr><td>حوصلة محور الخصوصية و الكونية</td><td>12</td></tr>
+<tr><td>حوصلة محور العلم بين الحقيقة و النمذجة</td><td>14</td></tr>
+<tr><td>حوصلة محور العمل: النجاعة و العدالة</td><td>17</td></tr>
+<tr><td>حوصلة محور الدولة: السيادة و المواطنة</td><td>20</td></tr>
+<tr><td>حوصلة محور الأخلاق: الخير و السعادة</td><td>22</td></tr>
+<tr><td>حوصلة محور الفن: الجمال و الحقيقة</td><td>24</td></tr>
+<tr><td>معاني محور الإنية و الغيرية</td><td>28</td></tr>
+<tr><td>معاني محور التواصل و الأنظمة الرمزية</td><td>30</td></tr>
+<tr><td>معاني محور الخصوصية و الكونية</td><td>31</td></tr>
+<tr><td>معاني محور العلم بين الحقيقة و النمذجة</td><td>33</td></tr>
+<tr><td>معاني محور العمل: النجاعة و العدالة</td><td>35</td></tr>
+<tr><td>معاني محور الدولة: السيادة و المواطنة</td><td>36</td></tr>
+<tr><td>معاني محور الأخلاق: الخير و السعادة</td><td>38</td></tr>
+<tr><td>معاني محور الفن: الجمال و الحقيقة</td><td>39</td></tr>
+<tr><td>منهجية موضوع في صيغة سؤال</td><td>41</td></tr>
+<tr><td>اختبار حول محور الإنية و الغيرية (الشعب العلمية)</td><td>46</td></tr>
+<tr><td>اختبار حول محور التواصل و الأنظمة الرمزية (شعبة آداب)</td><td>50</td></tr>
+<tr><td>اختبار حول محور الخصوصية و الكونية (شعبة آداب)</td><td>54</td></tr>
+<tr><td>اختبار حول محور الخصوصية و الكونية (الشعب العلمية)</td><td>60</td></tr>
+<tr><td>اختبار حول محور العلم بين الحقيقة و النمذجة (شعبة آداب)</td><td>64</td></tr>
+<tr><td>اختبار حول محور العلم بين الحقيقة و النمذجة (الشعب العلمية)</td><td>67</td></tr>
+<!-- p03 -->
+<tr><td>اختبار حول محور العمل: النجاعة و العدالة (شعبة آداب)</td><td>72</td></tr>
+<tr><td>اختبار حول محور الدولة: السيادة و المواطنة (شعبة آداب)</td><td>75</td></tr>
+<tr><td>اختبار حول محور الدولة: السيادة و المواطنة (الشعب العلمية)</td><td>81</td></tr>
+<tr><td>اختبار حول محور الأخلاق: الخير و السعادة (شعبة آداب)</td><td>85</td></tr>
+<tr><td>اختبار حول محور الأخلاق: الخير و السعادة (الشعب العلمية)</td><td>88</td></tr>
+<tr><td>اختبار حول محور الفن: الجمال و الحقيقة (شعبة آداب)</td><td>92</td></tr>
+<tr><td>الفهرس</td><td>95</td></tr>
+</table>
+<!-- p04 -->
+<div class="exsub">نافذة<br>مختصرات الدّروس</div>
+<!-- p05 -->
+
+<div class="chtag"><span>المحور</span> الإنية والغيرية</div>
+
+<p class="subhead t-red">حوصلة محور : الإنية والغيريّة</p>
+<p class="para"><b>الإشكالية الأساسية للمحور : ما الأنا ؟ هل هي ذات منطوية على ذاتها ومتعالية على الغير أم أنها ذات منخرطة في العالم ومترابطة مع الغير؟</b></p>
+<p class="para"><b>الإجابة الأولى: الأناهي ذات منطوية على ذاتها ومتعالية على الغير:</b> سعى الفلاسفة إلى البحث في ماهية الإنسان أي في ما ترَد إليه حقيقته فعزفوه كذات غير جسمانية وبالتالي ذات روحانية عارفة وفاضلة تتعالى في صفاتها عن الجسم وتتخذ منه غيراً أي أخر غريباً عنها في الأصل وفي المصير فهي سماوية المصدر وهو ترابي وأرضي وهي خالدة وهو فاسد وزائل. هذه النظرة التي يتقاسمها فلاسفة اليونان وفلاسفة العرب مثل ابن طفيل وابن سينا سيكسبها الفيلسوف الفرنسي "ديكارت" بعداً معرفياً حينما يجعل من "الأنا شيئاً مفكراً أي روح أو ذهن أو عقل يشك ويتصور ويثبت وينفي ويريد ولا يريد ويتخيل و يحَس". وهذه الحقيقة هي من الوضوح والتميز والبداهة ما يرتقي بها إلى مرتبة اليقين والذي صاغه "ديكارت" من خلال الكوجيتو : "أنا أفكر إذن أنا موجود "، وبهذا المعنى ترَد إنية الإنسان أي ماهيته وجوهر وجوده إلى ذات أو نفس واعية بذاتها كمتعالية عن الجسد بما هو جوهر متحيز مكانياً أي جوهر ممتد ومتعالية عن العالم وعن موجوداته .</p>
+<p class="para"><b>الإجابة الثانية : الأناهي ذات منخرطة في العالم ومترابطة مع الغير:</b></p>
+<p class="para">يؤكد الفيلسوف الفرنسي "موريس مرلوبونتي" أحد أعلام الفلسفة الظاهراتية وهي فلسفة تدعو إلى العودة إلى الظواهر ودراستها كما تبدو لنا ، ان الإنسان ألقي به في هذا العالم الذي يتضمن البشر والطبيعة وبقية الكائنات . وكل ذات تقصد بوعيها الأخرين وأشياء العالم لتدركها . فلا انفصال بين الوعي وبين العالم ولا بين الوعي وبين الجسد بما أن "كل حالة وعي هي وعي بشيء ما" وكل وعي هو وعي مجسد وكل جسد هو جسد واع". وبذلك تختفي غرابة العالم وغربة الجسد عن الوعي لتلتحم الأنا الواعية مع الجسد ومع العالم ، بيد أن هذه الذات محكومة في وعيها وفي تواصلها مع العالم ومع الاخرين بصيرورة <!-- p06 --> تاريخية تعكس تاريخ تطور علاقة الذات بالغير - الأخر من جهة وتاريخ تطور علاقة الذات بذاتها ونضجها من جهة ثانية وهو ما عبر عنه "فرويد" من خلال مفهوم "اللاوعي" بما هو خزان للغرائز وللميولات وللرغبات المكبوتة منذ الطفولة في باطن الحياة النفسية للأفراد ، وهي مكبوتات ستحدد مستقبل ذوات أولئك الافراد إن ستكون سوية أو لا سوية .</p>
+<!-- PROOFREAD: 1677 part1 p05 — "فعزفوه" (as printed?), "ترَد", "سيكسبها" readings -->
+<p class="para"><b>الإجابة الثالثة : الأناهي ذات لا يستقيم وجودها إلا بحوار فاعل مع الغير الأخر:</b></p>
+<p class="para">يبيّن الفيلسوف الفرنسي : "إيمانويل ليفيناس" أن الأناهي ذات تشترط في وجودها حضور الأخر بما هو تجربة أساسية ينتفي خارجها كل معنى ، وهو يحمل الأنا على احترامه وبدونه لا تعرف الأنا منزلتها ، وتبعاً لذلك يؤسس "ليفينياس" للعلاقة البينذاتية والتي تعبر عن تبادل المسؤولية بين الأنا والاخر .</p>
+<!-- p07 -->
+
+<div class="chtag"><span>المحور</span> اللغة والتواصل</div>
+
+<p class="subhead t-red">حوصلة محور : التواصل والأنظمة الرّمزيّة</p>
+<p class="para">الإشكالية العامة للمحور : أية علاقة ممكنة بين التواصل والأنظمة الزمزية؟ هل تحقق الأنظمة الزمزية التواصل الفعلي والحقيقي بين البشر أم أنها تعجز عن ذلك لمحدودية في بنيتها أو لتوظيفها إيديولوجيا ؟</p>
+<p class="para">الإجابة الأولى : تحقق الأنظمة الزمزية التواصل الفعلي والحقيقي بين البشر :</p>
+<p class="para">تفيد الأنظمة الرمزية أنساقا من الزموز والعلامات أي مجموعات مترابطة ومتداخلة من الزموز. والزمز هو شيء مادي يوحي بفكرة مجرّدة يجمع حول دلالتها أفراد مجموعة بشرية معينة، كقولنا : الميزان يرمز إلى العدالة، وتبعا لذلك فإنّ الأنظمة الزمزية تتضمن دوالا تشير إلى مدلولات وغايتها تحقيق التّواصل بين البشر أي تحقيق التّفاهم بينهم بما أن عبارة التّواصل مشتقة من الوصل التي تفيد الزبط، فإن يتواصل النّاس فيما بينهم، ذلك يعني أن يترابطوا ويتفاهموا عبر وسيط رمزي أي عبر علامة أو دالّ يتّفقون حول دلالة أو معنى مخصوص له، وفي هذا الإطار تمثّل اللغة أحد الأنظمة الزمزية أو الوسائط التي تحقق التّفاهم بين النّاس، فاللغة هي منظومة أو بنية من الزموز والعلامات والأسماء والكلمات والإشارات التي تواضع حولها البشر لتضمن لهم التّفاهم عبر التعبير عن رغباتهم وحاجياتهم وأفكارهم لبعضهم البعض. في هذا السياق يقول "ابن جنّي" مؤكدا الطابع الاصطلاحي والاتفاقي والاجتماعي للغة :"إنما الأصل في اللغة المواضعة"، وتبدو اللغة في نظر علماء الألسنية -وهم علماء ينتسبون إلى علم إنساني ينشغل بدراسة موضوعيّة للغة وهو علم الألسنية- خاصية إنسانية بامتياز إذ ينفرد بها الإنسان ويتميز بها عن الحيوان لأنّ لغة الإنسان تتقوّم عند "اميل بنفينيست" بالحوار وبالقدرة اللامحدودة على التعبير عن الغريزي وعن الفكري وعن العاطفي وعن القيمي وبقابليتها لازدواجية التمفصل أو للتحليل ولإعادة التركيب في حين أن التواصل الحيواني ينحصر في الأصوات والإشارات والحركات المعبّرة عن الحاجيات الغريزيّة، وهذا التواصل لا يقوم على الحوار ويشكل وحدة صمّاء لا تقبل التجزئة، وبهذا المعنى تتحقق ذاتية وانسانية الإنسان باللغة وفي اللغة، يقول ""بنفينيست"": "يكون أنا من <!-- p08 --> يقول أنا".</p>
+<p class="para">ثم انّ اللغة بقدرتها اللامحدودة على التعبير هي شرط لكلّ تواصل اجتماعي أي هي شرط لوجود المجتمع وهو ما بيّنه "موريس مرلوبونتي"، فكما يقول "بنفينيست":"تقول اللغة الكثير بالقليل" أي تعبّر عن معاني عديدة بعدد محدود من الوحدات الصوتيّة والدّلالية، وهكذا تضمن اللغة بما هي نظام رمزي تواصلي تفرّد الإنسان عن الحيوان فهو كما بيّن "ديكارت" كائن العقل والوعي والإرادة والإبداع والخلق المتجدّد، وهو إبداع يتجلّى من خلال تعدّد أنظمته الزمزيّة والتواصليّة .</p>
+<p class="para">وتبدو الأسطورة من أقدم المنظومات الزمزية بما هي حكاية ورواية تروي بدايات الإنسان والكون مستندة إلى أبطال خارقين كالآلهة، وغايتها تفسير المرئيّ باللامرئي أي أن غايتها معرفيّة، فالأسطورة إذن مثلت وسيطا رمزيا وتواصليا لدى الإنسان البدائي وتحديدا بين البدائيين فيما بينهم، وبينهم وبين العالم وما فيه من موجودات ولذلك عدّت الأسطورة رؤية للعالم من وجهة نظر الإنسان البدائي، أي عدّت تمثّلا موحّدا ومنسجما للعالم وللقوى الخفية التي تحرّكه، وفي هذا الإطار تتميز الأسطورة عن الخرافة بأنّ هذه الأخيرة لا تعدو أن تكون مجرّد رواية وحكاية غايتها العبرة الأخلاقيّة . فالأسطورة إذن مثلت عند الإنسان البدائي ما يمثله العلم اليوم عند الإنسان المعاصر .</p>
+<p class="para">والأسطورة في بعدها الاعتقادي ليست سوى شكلا من أشكال المقدس الدّيني بما أنها تروي بطش وجبروت الآلهة "زمن البدايات"، إلاّ أنّ الدّين كاعتقاد في المقدس مثّل بدوره نظاما رمزيا مستقلاً بذاته . فماهية كلّ دين من الأديان تكمن في المقدّس . والمقدّس هو كلّ قوّة خفيّة يعزو إليها الإنسان نعمه ومحنه، فيشعر نحوها بالإجلال والإكبار والخوف والهلع، أي يشعر نحوها بالإقبال والزغبة من جهة وبالخوف وبالزهبة من جهة ثانية فيتوسّل لرضانها شعائر وعبادات وطقوس تقرّبه منها، وفي هذا الإطار يميز المؤمن بين المقدّس والمدنّس الذي يشير إلى ما هو أرضي وفان مقابل ما هو سماوي وخالد وفاضل، وبذلك يؤدّي الدّين في نظر ""فرويد" وظيفة معرفيّة ونفسيّة وأخلاقيّة و يحقق عند "دوركايم" تماسك المجتمع</p>
+<p class="para">ويبدو أنّ المقدّس قد اتّخذ اليوم أشكالا مغايرة فنحن نشهد حضارة تهيمن عليها الفرجة والصورة سواء كانت صورة فوتوغرافيّة أو صورة متلفزة أو صورة سينماتوغرافيّة إذ <!-- p09 --> نجحت في تقريب المسافات بين الشّعوب والثقافات واقتصدت الجهد ونقلت أحداث الواقع بيسر وبسرعة وحققت وسيطا جماهيريا ممتازا ومتميزا، وقدّمت بالتالي رؤية جمالية معاصرة للعالم .</p>
+<p class="para">الإجابة الثّانية : لا تحقق الأنظمة الزمزيّة إلاّ تواصلا محدودا بين البشر :</p>
+<p class="para">تبدو اللغة في نظر الفيلسوف الفرنسي "هنري برقسون" محدودة في تحقيق التواصل بين البشر لأنها تقوم على أساس كلمات وعبارات هي بمثابة الملصقات الجامدة، والحجب السميكة التي تحول دوننا ودون مشاهدة ورؤية الواقع والنّفاذ إليه والوقوف على حقيقته، فالواقع الإنساني عند "برقسون" تحكمه الحركة الدّائمة والمتدفقة والمتجدّدة أي يحكمه زمن الدّيمومة المعيش والذي يعبّر عن نبض الحياة لا زمن القيس والحساب الزياضي الجامد ولذلك تعجز اللغة في نظر "برقسون" عن التعبير عن فيض مشاعرنا وانفعالاتنا الوجدانية الأمر الذي دعاه إلى الاستعاضة عنها بالفنّ بما هو لغة تعبيريّة متحرّرة من كلّ القيود وهو ما دعا إليه الفيلسوف الألماني "نيتشه" أيضا، عندما بيّن أنّ كلّ اعتقاد في اللغة هو اعتقاد في الوهم، فنحن في نظره توهمنا أنّ وراء كلّ فعل فاعل نحوي وبالتالي لغوي هو "الأنا" في حين أنّ الفاعل الحقيقي ليس الأنا أو العقل أو الذات أو الوعي بل هو الجسد وما يحمله من طاقات حيويّة وما يعبّر عنه من إرادة قوّة وإرادة حقيقة وارادة حياة، فالحقائق التي تعبّر عنها من خلال اللغة ليست عند "نيتشه" ليست إلاّ أوهاما نسينا أنها كذلك .</p>
+<p class="para">ثم إنّ الدّين بما يضفيه على تجربة الإنسان من طابع القداسة في صلته بالآخر وبالعالم قد يعبّر عن حاجة نفسيّة وبالتالي تبرز محدوديته مقارنة بالعلم في الجانب المعرفي، إذ لا يقدر الدين على تقديم تفسيرات موضوعية قابلة للتحقق التجريبي للإنسان وللكون تضاهي نجاحات العلم بمختلف اختصاصاته في ذلك المجال .</p>
+<p class="para">ومن جهة أخرى تبرز محدودية الصورة عند الفيلسوف الفرنسي المعاصر "ريجيس دبراي" في عدم نقلها للواقع نقلا أمينا، إمّا لخضوعها لتقنيات يجعل من حرصها على الإخراج الشكلي الجميل للواقع غاية بدل تصويره كما هو، وإمّا لتوظيفات ايديولوجية لغاية تبرير سيطرة سياسية أو اقتصادية أو عسكرية أو فكرية أو ثقافية... وهو ما يتطلب ضرورة حسب "ريجيس دبراي" نقد الصورة للتفطن الى حدودها ومخاطرها .</p>
+<!-- p10 -->
+<p class="para">الإجابة الثالثة : بالزغم من محدودية الأنظمة الزمزية في تحقيق التّواصل بين البشر فإنها تظلّ ضروريّة :</p>
+<p class="para">إذا كانت اللغة محدودة في ضمان التواصل بين الناس، إما لاستنادها إلى عبارات جامدة لا تعبّر عن الوجدان المتحرّك حسب "برقسون" وإما لاعتمادها الإخفاء والتمويه حسب "نيتشه"، فإنّها تظلّ ضروريّة في حياة الإنسان إذ بها تتحقق إنسانيته، فهي كما يقول "هيدقير" :"مسكن الوجود ومأواه"، ثم إنّ نقد اللغة بإبراز حدودها في تحقيق التواصل البشري لا يتمّ إلاّ من خلال اللغة .</p>
+<p class="para">وإذا كانت الصّورة اليوم هي الوسيط الزمزي الغالب والمهيمن على أشكال التواصل البشري الأخرى، الأمر الذي جعل حضارتنا الزاهنة توصف بحضارة الصّورة أو حضارة المشهد والفرجة، وإذا كانت للصّورة حدودا فذلك لا يعني البتّة الدّعوة إلى التخلّي عن مكاسبها في تسيير التواصل الإنساني بل إنّ إبراز محدوديتها يرمي إلى التحرّر من سلطتها لتحرير الطاقات الإبداعيّة للإنسان في مجالها .</p>
+<p class="para">هكذا أصبح الإنسان وهو يتواصل مع غيره من خلال أنظمة رمزية متعدّدة وعلى حدّ عبارة "ارنست كاسيرر" :"حيوانا رامزا" .</p>
+<!-- p11 -->
+
+<div class="chtag"><span>المحور</span> الخصوصية والكونية</div>
+
+<p class="subhead t-red">حوصلة محور : الخصوصية والكونية</p>
+<p class="para">الإشكالية الأساسية للمحور : ما الخصوصية ؟ هل هي هوية متجانسة ومنغلقة على ذاتها أم هي هوية منفتحة على التعدد وعلى التنوع وعلى الكونية ؟</p>
+<p class="para">الإجابة الأولى : الخصوصية هي هوية متجانسة ومنغلقة على ذاتها : تشير الخصوصية إلى كل هوية تميز فرداً معيناً أو شعباً ما ، وتعبر هذه الهوية عن "الأفق الذي بداخله يمكننا اتخاذ مواقف إزاء ما هو خير وجدير ورائع وصالح " . وتتحدد هوية البشر في نظر الفيلسوف الأمريكي المعاصر "تشارلز تايلور" من خلال التزام معين أخلاقي أو روحي وبواسطة الامة او التراث الثقافي الذي ينتمون إليه ، وهذه الهوية هي التي تمثل خصوصية شعب وثقافة وحضارة ما ، ومن أجل الحفاظ على هذه الخصوصية الثقافية والحضارية وتحصينها وحمايتها من الاندثار او الذوبان في خصوصيات أخرى تتمسك بعض الشعوب بتقاليدها وبعاداتها وبتراثها إلى حد الانغلاق والانطواء على الذات .</p>
+<p class="para">الإجابة الثانية: الخصوصية هي هوية منفتحة على التعدد وعلى التنوع وعلى الكونية:</p>
+<p class="para">يبدو أن التصور الثبوتي والسكوني والمنغلق للهوية الوطنية والقومية يقودنا إلى العديد من المخاطر التي تهدد استقرار المجتمع ومن هذه المخاطر نذكر التعصب للرأي وللعرق وللجنس وللدّين وللغة ... وما قد يؤدي إليه من إقصاء ورفض وتعنيف للأخر المختلف، والحال أن الإنسانية تلتقي في قيم كونية لعل أبرزها قيمة العقل ، هذه الملكة الإنسانية التي نتفطن إليها حينما نتأمل في أعماق أنفسنا ، وهي التي نستشيرها ... ونهتدي بها جميعاً على حد عبارة "مالبرانش" وهو ما يشرع لإرساء حوار فاعل وخصب وبناء بين الثقافات، بقدر ما يتمسك فيه أبناء الثقافات بيقين أصالتهم بقدر ما يعترفون فيه بوحدة العقل الإنساني ، كما يبين ذلك "كلود ليفي شتراوس" . وها إننا اليوم نشهد تواصلاً إنسانياً كونياً لا نظير له جنده المقدس بما هو مجال لتوحد رمزي بين البشر ومجال يحضر فيه الإيمان <!-- p12 --> الديني الذي يصنف الواقع الإنساني إلى مقدسات ومدنسات ثم إن التواصل والتفاهم والتحاور الكوني الإنساني تجاوز اليوم لغة العلامة والرمز والكلمة ليصبح تواصلاً لا محدودا في الزمان والمكان عبر حضارة الصورة مثل الصورة المتلفزة والصورة السنماتوغرافية وبذلك غد العالم بمثابة القرية الصغيرة المنفتحة على التعدد والتنوع والتجدد والثراء .</p>
+<p class="para">الإجابة الثالثة: الخصوصية هي هوية منفتحة على كونية لا تخلو من مخاطر التوظيف الإيديولوجي: يعدد الفيلسوف الفرنسي المعاصر "بول ريكور" مزايا الحضارة الكونية في قدرتها على تجميع النوع البشري عبر العلم ومكتسباته العقلانية وتطبيقاته التقنية الناجعة والنافعة عالمياً وعبر تطوير تقنية سياسية واحدة تتمثل في الديمقراطية ومن خلال تنظيم إداري عقلاني واقتصاد كوني تحكمه تقنية علمية كونية ونشر التعلم والثقافة والرفاه والتسلية والإعلام وثقافة استهلاك عالمية ، ولكن هذه المزايا والخصائص لا تجعل من الحضارة الكونية خيراً كلياً لأنها قد تهدد الخصوصيات والثقافات القومية والنواة الإبداعية فيها فضلا عن سلبيات ثقافة الاستهلاك بما تنشره من قيم رديئة ، بل إن مكاسب الحضارة الكونية مثل الصورة أصبحت توظف سلبياً كما بين ذلك "ريجيس دوبراي" ، وظهر مفهوم "الحضارة العالمية " كمفهوم إيديولوجي لتبرير هيمنة الحضارة الغربية على الحضارات الأخرى وهو ما سينتهي بها في نظر "هنتنغتون" إلى الضدام الحضاري القائم على أساس الفروق الثقافية .</p>
+<!-- p13 -->
+
+<div class="chtag"><span>المحور</span> العلم بين الحقيقة والنمذجة</div>
+
+<p class="subhead t-red">حوصلة محور : العلم بين الحقيقة والنمذجة</p>
+<p class="para">الإشكالية الاساسية للمحور: ما هي خصوصية الحقيقة العلمية ؟ هل هي معرفة موضوعية تكتشف أم هي معرفة - مشروع تبنى ؟</p>
+<p class="para">الإجابة الاولى : الحقيقة العلمية هي معرفة موضوعية تكتشف:</p>
+<p class="para">يرجع "الكسندر كويري" نشأة العلم الحديث إلى ثورة فكرية تميزت بسمتين هما: تحطيم الكوسموس أو الكون المترابط والمتفاضل كما تصوره اليونان ، وبالتالي توحيد الكون وجودياً باثبات التماثل بين الظواهر الفلكية السماوية وبين الظواهر الأرضية الطبيعية، وتوحيده معرفياً بتعميم المنهج العلمي في دراسة صنفي الظواهر السماوية والارضية . أما السمة الثانية للثورة العلمية فتتمثل في ترييض أي هندسة المكان بما أن الطبيعة - كما يقول "قاليلي" اصبحت كتاباً كتبت حروفه من الأعداد الحسابية ومن الأشكال الهندسية . وتبعاً لذلك كان العلم الحديث يطمح إلى اكتشاف حقيقة الكون أي إلى الكشف عن القوانين المتحكمة فيه لتسخيرها لمصلحة الإنسان . وكان منهج العلم تفسيريا .</p>
+<p class="para">الإجابة الثانية: الحقيقة العلمية هي معرفة - مشروع تبنى استناداً إلى نماذج علمية : أصبح العلم يبني معارفه وحقائقه انطلاقاً من نماذج علمية محددة . والنموذج العلمي لا يفيد المثال أو الشيء في ذاته الذي تسعى الموجودات الارضية إلى التشبه به نحو ما ذهب إليه أفلاطون كما لا يعني أيضاً القدوة التي يحتذى حذوها ، بل هو عبارة على بناء خيالي مجرد نفهم به واقعاً ما . وتبعاً لذلك فإن النمذجة العلمية هي تمثيل تبسيطي وتقريبي لواقع معين قصد فهمه وتأويله واستخدامه والاستفادة منه .وبهذا المعنى فإن النمذجة العلمية تتميز ببعد تركيبي يتمثل في التمثل أو التصور أو البناء الحدسي الخيالي والمجرد الذي يبنيه رجل العلم عن الواقع المدروس وهذا التمثل المجرد للواقع يتم من خلال لغة رياضية ورمزية . كما تختص النمذجة العلمية أيضاً ببعد دلالي يتضمن المعطيات الواقعية التي سيدرسها <!-- p14 --> و يفهمها و يتأولها العالم استنادا الى اللغة الرمزية الرياضية ويحاول التلاؤم معها ثم ان للنمذجة العلمية بعداً تداولياً أو براقماتياً يعكس الطابع النفعي للمعرفة العلمية اليوم، بما ان رجل العلم يستخدم المعارف التي ينمذجها نفعيا ويستفيد منها عملياً ، ذلك لا يعني أن العلماء المحدثين امثال : " ديكارت " ، "باسكال " و " نيوتن " لم ينمذجوا أي لم ينطلقوا في فهمهم للواقع من تمثلات علمية محددة ، فلقد اعتمد "نيوتن " مثلاً النموذج الآلي عندما فسر حركة الظواهر الطبيعية مستنداً إلى نموذج الساعة ، ولكن هؤلاء العلماء إنشدوا إلى تصور موضوعي للحقيقة سخروا مباحثهم للكشف عنها ، خلافاً لعلماء اليوم الذين انشغلوا ببناء المعرفة لغاية العمل . وهكذا تتميز النمذجة العلمية بالصورنة أي باعتماد تمثلات صورية شكلية ومجردة للواقع ، كما تختص أيضاً بالاكسمة أي باعتماد فرضيات او أوليات أو مواضعات دون البرهنة عليها ثم بناء استنتاجات منطقية . وتتميز كذلك بالترييض او استخدام لغة رمزية ورياضية ، وتتميز فضلاً عن ذلك بالبنية أي باعتماد تصور ترابطي للواقع يعتبر عناصره وظواهره مترابطة ومتعاضدة في بنية او تركيبة او نسق واحد . ونجد النمذجة العلمية تبني واقعاً افتراضياً لا واقعاً فعلياً وتقدم تمثلات لا تتطابق مع الواقع بل تسعى إلى التلاؤم معه لأنها لا تعتقد في وجود حقيقة موضوعية يحرص رجل العلم على الكشف عنها . ولا يبحث العالم عن تفسير الواقع أي عن القوانين المتحكمة فيه والتحقق من فرضياته العلمية عبر التجربة بل يحاول فهم الواقع والاستفادة عملياً من ذلك الفهم والتأويل .</p>
+<p class="para">الإجابة الثالثة :الحقيقة العلمية هي معرفة مشروع محدودة :</p>
+<p class="para">امام النجاحات الباهرة للنمذجة العلمية و ما حققته من نجاعة عملية اي من استخدامات نافعة في شتى المجالات شهدت هذه النمذجة قراءات نقدية ابرزت حدودها الابستمولوجية كتوضيح طابعها الاختزالي بما أن العالم وهو يدرس ظواهره يركز على بعض الأبعاد و يهمل اخرى وهو ما اصطلح عليه "نافال " "باستراتجية الاغفال " او الاهمال فلقد اهمل نيوتن مثلا في تحديده لمفهوم القوة كل الابعاد التي لا تخضع للقيس و للتكميم و ابقى على الخصائص الكمية المتمثلة في الكتلة و في التسارع . كما تم ابراز الحدود الفلسفية للنمذجة العلمية و التي تعكس اهمالها لمعنى الوجود الانساني و للحقيقة و للقيم وللمسؤولية الاخلاقية و اختزال <!-- p15 --> الانسان في بعد عملي نفعي اداتي و براقماتي كما ان ما لها من التوظيفات الايديولوجية ما يشكك في حياديتها و نزاهتها و طموحها الى توحيد الانسانية في مطلب كلي هو مطلب العلم الناجع و النافع .</p>
+<!-- p16 -->
+
+<div class="chtag"><span>المحور</span> العمل: النجاعة والعدالة</div>
+
+<p class="subhead t-red">حوصلة محور العمل : النجاعة والعدالة</p>
+<p class="para">الإشكالية العامة للمحور : ما العمل ؟ هل هو نشاط إنساني ينشد النجاعة والمردودية ولا ينشغل بما قد يؤدّي إليه من اغتراب أم هو نشاط بقدر حرصه على النجاعة بقدر حرصه على العدالة بين البشر ؟</p>
+<p class="para">الإجابة الأولى : العمل خاصيّة إنسانية صرف مطلوبها التحرّر :</p>
+<p class="para">يفيد العمل كلّ نشاط إنساني عضلي وذهني يحوّل المادّة الخام إلى ثروات يتمّ تبادلها بين البشر. وبهذا المعنى يقوم العمل على الوعي وهو ما يجعله خاصيّة إنسانيّة صرف. وفي هذا الإطار يميز "أرسطو" بين الفعل بما هو نشاط حيواني غايته تحقيق الضرورات البيولوجيّة، وبين العمل بما هو نشاط إنساني يتجاوز البيولوجي والغريزي ليحقّق غايات نفسيّة وفكريّة تمكّن الإنسان من إثبات وجوده وخلق كيانه، إذ العمل كما بيّن "ماركس" هو الذي يجعل الإنسان كائنا نوعيا، لأنّ الإنسان إذ يعمل في الطبيعة فهو يسعى إلى خلقها من جديد ومن ثمّة إلى إعادة خلق ذاته، في حين أنّ الحيوان لا يغيّر من خلال نشاطه الطبيعة بل يكتفي باشباع حاجياته ضمانا لبقائه، لعلّ ذلك ما جعل "برقسون" يميز الإنسان عن الحيوان بالذّكاء وبالقدرة على اختراع الأدوات وبالإبداعات اللاّ محدودة، فالإنسان الصانع (<span dir="ltr"><b>homo Faber</b></span>) حسب "برقسون" سابق في وجوده الإنسان العاقل (<span dir="ltr"><b>homo sapiens</b></span>) وعليه فإنّ الإنسان -في نظر "كانط"- هو الحيوان الوحيد الذي يجب عليه أن يعمل "لأنّ العمل هو الذي يرقى بالإنسان إلى مرتبة الحياة الإنسانية أي يحرّره من مملكة الضرورة فيصبح جديرا بإنسانيته وينتقل إلى مملكة الإنسان التي تحكمها الحريّة". وبهذا المعنى "يحرّرنا العمل -كما يقول "فولتير"- من آفات ثلاث وهي : الحاجة والقلق والرّذيلة".</p>
+<p class="para">الإجابة الثانية : العمل نشاط إنساني قد يؤدّي إلى الاغتراب بسبب النجاعة:</p>
+<p class="para">تطور العمل عبر التاريخ البشري ليشهد مع الثورة الصناعيّة في أوروبا أشكالا <!-- p17 --> جديدة تعتمد التقسيم التقني بغرض تنمية الإنتاج وضمان ربح أوفر وهو ما يعرف "بالتيلرة" إلاّ أنّ هذا التقسيم التقني للعمل بقدر ما له من إيجابيات مثل الزيادة المذهلة في الإنتاج وتحقيق سيطرة الإنسان على المادّة فإنّ له سلبيّات ومخاطر لعلّ أهمها أنّ العلاقات الإنسانيّة تحوّلت إلى مجرّد علاقات تقنيّة فقد فيها العمل جوهره وقيمته الاجتماعيّة وهو ما يبيّنه عالم الاجتماع الفرنسي "إميل دوركايم"، معنى ذلك أنّ العمل أصبح منصرفا أكثر فأكثر إلى النّجاعة أي إلى المردوديّة والإنتاج مهما كان الشكل ومهما كان الثمن وإن هدّد ذلك العدالة الاجتماعيّة أي المساواة بين النّاس من خلال التوزيع العادل للخيرات والثروات، وهو ما كرّسته الفوارق الطبقيّة والملكيّة الخاصّة لوسائل الإنتاج، في هذا الإطار يبيّن "ماركس" أنّ العمل فقد قيمته الإنسانيّة وأصبح مجالا للاغتراب وللتشيؤ الإنساني بدل أن يكون مجالا للتحرّر من أسر الطبيعة ومن قيود الحاجة. فالاغتراب النّاتج عن العمل يأخذ عند "ماركس" وجهين: اغتراب داخل العمل إذ يصبح العامل عبدا للآلة فيقتصر دوره ضمن ما يعرف بالعمل المفتّت - على جزء من عمليّة الإنتاج يكرّره يوميّا فيفقد قدرته الإبداعيّة، واغتراب خارج العمل يشعر به العامل عندما يعجز عن اقتناء منتوجه الباهض الثمن فيصبح إنتاجه غريبا عنه .</p>
+<p class="para">الإجابة الثالثة : العمل مجال للتحرّر الإنساني شرط الوعي بتوظيفاته اللاّإنسانيّة:</p>
+<p class="para">بيّن "هيقل" من خلال جدليّة السيّد والعبد، أنّ العمل هو الذي يحقّق إنسانيّة الإنسان ويحرّره من قيود التبعيّة والعبوديّة، فالعبد أفضل من السيّد لأنّه يعمل وينتج في حين أنّ السيد لا يعمل ولا ينتج ولذلك يجازف العبد بحياته ويغامر بها من أجل استعادة حريته عبر نشاطه الواعي والمنتج أي عبر عمله . ولكنّ هذا البعد الإيجابي للعمل من الصعب تحقيقه في ظلّ نظام اقتصادي يحرص على نماء الثروة وزيادة الإنتاج وربح الوقت وهو النّظام الزأسمالي دون اهتمام بالقيم الأخلاقيّة والإنسانيّة وخاصّة دون اعتبار للعدالة الاجتماعيّة والاقتصاديّة أي للمساواة بين الأفراد من خلال توزيع الثروة والمداخيل على نحو متكافئ، ولذلك ينقد "جون راولس" في كتابه "نظريّة في العدالة" التوجّه اللاّإنساني للعمل مبرزا ضرورة تمتّع كلّ شخص بحقوقه وحرياته الأساسيّة وتساويه مع الجميع في <!-- p18 --> توزيع المنافع الاقتصاديّة والاجتماعيّة دون أن يتناقض ذلك مع نجاعة العمل أي مع مردوديته وقدرته على الإنتاج الوفير، وبذلك يمكننا أن نجمع في إطار العمل بين النجاعة والعدالة، بل إنّ "العدالة من غير النجاعة لا تعني شيئا، والنّجاعة من غير العدالة لا تعني شيئا أيضا" على حدّ تعبير "إيريك فايل"، معنى ذلك أنّ الإنسان العامل يسعى وفق مبدأ النّجاعة إلى وفرة الإنتاج خدمة لمصالحه، وهو يطالب من جهة ثانية بجزء عادل من الإنتاج الاجتماعي وهو ما يعرف بالإنصاف الذي يتمثّل في احترام ما يحصل عليه كلّ فرد وفي توزيع الإنتاج بين البشر توزيعا متكافئا يراعي التكافؤ في الفرص والحظوظ وفي الجهد الذي يبذله كلّ فرد، وبذلك يتحوّل العمل من مجرّد جهد مقرف مسبّبا للملل وللزوتين وللاغتراب والتشيؤ إلى مجال للخلق والإبداع ولتحقيق إنسانيّة الإنسان .</p>
+<!-- p19 -->
+
+<div class="chtag"><span>المحور</span> القيم: الأخلاق والدولة</div>
+
+<p class="subhead t-red">حوصلة محور : الدولة : السيادة والمواطنة</p>
+<p class="para">الإشكالية الاساسية للمحور : ماالمقصود بسيادة الدولة وأي منزلة للمواطنة فيها ؟ هل تستبعد سيادة الدولة المواطنة أم أنها تشترطها وتاتلف معها ؟ وهل من معنى للحديث اليوم عن سيادة وطنية للدولة في ظل العولمة ؟</p>
+<p class="para">الإجابة الأولى : تقوم سيادة الدولة على استبعاد للمواطنة :</p>
+<p class="para">تفيد الدولة في معناها العام ذلك التنظيم السياسي والإداري والمؤسساتي الذي ينظم العلاقات بين الأفراد في إطار رقعة جغرافية محددة ، إلا أن هذا التعريف يقتضي في نظر بعض المفكرين التضحية بالمواطنة أي بحقوق وحريات الافراد لفائدة غاية قصوى تتمثل في ضمان أمن وسلم كل الافراد ، وهو ما ذهب إليه الفيلسوف الانقليزي "توماس هوبس" عندما برر السلطة المطلقة للحاكم او لصاحب السيادة بالطبيعة العدوانية للإنسان والتي تستوجب ممارسة القوة والسلطة اللامحدودة لتجنب تلك العدوانية المهددة لاستقرار المجتمع، ولعل ذلك ما يشرع في نظر "ماكيافيلي " استناد الحاكم أو الأمير إلى كل أشكال السلطة من قوة ومكر وخداع ...</p>
+<p class="para">نستنتج أن هذا التصور للدولة يستبعد المواطنة ويجعل من سيادتها وسلطتها مطلقة وكليانية بل واستبدادية تقوم على ثنائية الراعي والرعية .</p>
+<p class="para">الإجابة الثانية : تقوم سيادة الدولة على تآلف مع المواطنة :</p>
+<p class="para">أصبحت سيادة الدولة تفيد شرعيتها المستمدة من خضوع المواطنين وطاعتهم لقوانينها شرط أن تحافظ تلك القوانين على حقوقهم وحرياتهم ، وبهذا المعنى تفيد المواطنة مشاركة الافراد - كمواطنين - مشاركة فاعلة حرة ومسؤولة في الشأن السياسي للدولة بما هو شان عام ، وهو ما يتجلى مع نموذج الدولة الديموقراطية التي تفوض فيها السلطة المطلقة للشعب عبر نواب ينتخبهم إرادياً ليشرعوا قوانين لا تتعارض مع حرياتهم لأنها تعبر عن إرادتهم وهو ما بينه روسو من خلال الدولة البرلمانية الديمقراطية القائمة على عقد اجتماعي <!-- p20 --> قوامه الاتفاق والتفاهم والتشارك لا الطاعة والخضوع لأن "من يتنازل عن حريته يتنازل عن إنسانيته ". وهو ما نجده أيضاً عند "سبينوزا" حينما يعتبر أن غاية الدولة القائمة على العقل تتمثل في ضمان الحرية وخاصة حرية التعبير والتفكير والمعتقد وهو تصور "جون لوك " الذي يؤكد أن الدولة الديمقراطية هي دولة الحقوق والحريات ودولة حكم الاغلبية ودولة حرية الملكية الخاصة ، ودولة ينفصل فيها المجتمع المدني ويستقل عن مؤسسات الدولة ليراقبها دفاعاً عن حقوقه .</p>
+<p class="para">الإجابة الثالثة: لا سيادة ضيقة للدولة ولا مواطنة محددة بوطن مخصوص : يبدو أن طموحات الدولة الديمقراطية لحل مفارقة السلطة من جهة والحق من جهة ثانية بقدر ما نجحت في تجاوز الاستبداد ومصالحة الإنسان مع قيمه الاصلية بقدر ما تواجه تحديات من ضمنها ما يتعلق بمسالة حقوق الإنسان ، فلقد بين "كارل ماركس " في كتابه "المسألة اليهودية " أن حقوق الإنسان هي في جوهرها حقوق الإنسان البورجوازي الاناني والمنطوي على ذاته والتي تدافع عن مصالحه الشخصية كحرية الملكية والامن ، ومن الصعوبات ايضاً نذكر مسألة العدالة التي يفترض أن الدولة الديمقراطية تسعى إلى تحقيقها في جميع المجالات أي إلى تحقيق المساواة التامة بين كل المواطنين ، ولكن مفهوم العدالة يظل مفهوماً ميتافيزيقيا اي ماورائيا كما سبق أن نبهنا إلى ذلك أرسطو واستبدله بمفهوم الإنصاف الذي يحيل إلى تكافؤ الفرص والحظوظ دون نفي للفوارق الطبيعية بين البشر ، وهذا الإنصاف تجد الدولة اليوم صعوبات في تحقيقه لتداخل المصالح .ثم ان الحديث عن سيادة الدولة الوطنية التقليدية اليوم أصبح محل تساؤل أمام ظهور مفهوم العولمة بما هو كسر للحدود الجغرافية والسياسية والثقافية والحقوقية والقانونية بين الدول مثل ظهور اتحادات بين دول ومنظمات دولية حقوقية وقانونية ... كما انه لم يعد من الممكن الحديث عن المواطن التقليدي أمام ظهور مفهوم المواطن العالمي الجديد في زمن الهجرة .</p>
+<p class="para">( يمكن للمواطن اليوم أن يحمل أكثر من جنسية وأن يكون له أكثر من انتماء وطني) .</p>
+<!-- p21 -->
+<p class="subhead t-red">حوصلة محور : الأخلاق : الخير والسعادة</p>
+<p class="para">الإشكالية الأساسية للمحور : ما الأخلاق ؟ وما علاقتها بالخير؟ وإذا كان الفعل البشري الأخلاقي ينشد إلى قيمة الخير ، فما الذي يبرر هذا الميل لفعل الخير ؟ هل نفعل الخير لذاته أي لأنه واجب أخلاقي أم أننا نفعل الخير لغاية ولنتيجة تتمثل في تحقيق السعادة؟</p>
+<p class="para">الإجابة الأولى: تتمثل غاية الفعل الاخلاقي في بلوغ السعادة:</p>
+<p class="para">تفيد الأخلاق في معناها العام منظومة من القيم تنظم العلاقات بين الأفراد في إطار المجتمع الواحد ومدار هذه القيم قيمتي الخير والسعادة ، فالخير هو كل سلوك نمدحه ونرغب فيه لأنه يزكي أي يطهر النفس ، والشر هو كل سلوك نستقبحه ونسعى إلى تجنبه لأنه يدنس النفس . ونحن نميل إلى الخير في نظر " سقراط " لأننا نرغب في بلوغ السعادة فنحن لا نفعل الشر إلا عن جهل . ولكن افلاطون يبين أن فعل الشر يرتبط بالمعرفة وإن كانت غاية الأخلاق متمثلة أيضاً في السعادة . وهذه السعادة عند ارسطو هي:" الخير الأسمى " أي الخير الذي يطلب لذاته شرط التحلي بالفضيلة الاخلاقية . والفضيلة في نظره هي حالة وسطى بين حدين متباعدين . وهو توسط يميل إلى الاعتدال أو العدل فلا إفراط فيه ولا تفريط كالشجاعة مثلاً هي قيمة أخلاقية فضلى تتوسط حدين متناقضين هما الجبن والتهور .</p>
+<p class="para">إلا أن مفهوم السعادة يصبح عند أبيقور مرتبطاً باللذة الحسية والنفسية لأن الخير هو ما يجلب اللذة للجسم من احساسات حسية والشر هو ما يتسبب في الالم للجسم من إحساسات سيئة . والسعادة أو الأتاراكسيا هي حالة من التوازن تغيب فيها الآلام عن الجسم والاضطرابات عن النفس . وسنجد هذا التصور عند فلاسفة الأخلاق النفعية مثل الفيلسوف الإنقليزي " جون ستيوارت ميل " الذي يعتبر المنفعة أساس الأخلاق لأن الإنسان يعيش ثنائية اللذة والالم والسعادة والبؤس .</p>
+<p class="para">ولكن مفهوم السعادة يبدو مفهوما نسبياً وصعب التحقيق لأن الحياة الإنسانية كما بين فرويد تواجه العديد من العراقيل لعل أبرزها المرض والشيخوخة .</p>
+<!-- p22 -->
+<p class="para">الإجابة الثانية: تتمثل غاية الفعل الأخلاقي في الواجب:</p>
+<p class="para">ينطلق كانط من إبراز أن فكرة السعادة هي فكرة تخيلية نسبية لا يمكن أن نتخذها غاية للفعل الأخلاقي ولذلك ميز بين صنفين من الأفعال البشرية هما : الفعل الشرطي الذي يطلب نتيجة وغاية والفعل أو الأمر القطعي الذي يطلب الخير لذاته لأنه واجب اوجبه العقل ، وتبعاً لذلك فإن إنسانية الإنسان لا تتحقق إلا بالامتثال للواجب الأخلاقي الكلي والكوني والمطلق ، ولا تعارض عند " كانط " بين حرية الإنسان وبين خضوعه للواجب وللقانون الأخلاقي لأن ذلك الواجب مصدره الإرادة الطيبة للإنسان، وبالتالي ففي خضوعه للواجب يخضع لإرادته .</p>
+<p class="para">لكن الواجب الأخلاقي في نظر " دوركايم " أساسه سلطة المجتمع فهو عبارة عن أوامر ونواهي تنظم العلاقات الاجتماعية وتلزم أفراد المجموعة بالخضوع لها . بل إن هذا الواجب يصبح في نظر " نيتشه " مجرد علامة على الضعف والجبن ورفض للحياة لأنه يقوم على الانقياد والاتباع ، ولذلك يصنف نيتشه الاخلاق إلى اخلاق العبيد والضعفاء أو أخلاق الاتباع ، والى أخلاق الأسياد والأقوياء أو أخلاق الإبداع والشجاعة والإقبال على الحياة .</p>
+<p class="para">وتغدو الأخلاق في نظر ماركس انعكاساً للواقع الطبقي للأفراد بما أن لكل طبقة اجتماعية قيمها واخلاقها الخاصة بها، ولعل هذا التصورهوالذي يجعل من الحرية الاخلاقية محل تساؤل وهي حرية سيدافع عنها برقسون عندما يميز بين الأخلاق المنغلقة وهي الاخلاق السائدة في المجتمع وبين الاخلاق المفتوحة وهي أخلاق المبدعين والعباقرة والتي يسميها أخلاق النداء مثل أخلاق القديسين والفلاسفة .</p>
+<p class="para">الإجابة الثالثة : تتمثل غاية الفعل الأخلاقي اليوم في بلوغ سعادة جديدة:</p>
+<p class="para">يبدو أننا اليوم نعيش ظاهرة جديدة يسميها بول ريكور بديمقراطية الاستهلاك اي حق مواطني كل العالم في استهلاك أي منتوج ، وهو ما يبشر ربما بتحقيق رفاه وتقدم بشري في شتى مجالات الحياة ، وما قد يؤدي إليه ذلك من سعادة جديدة ، إلا أن هذه السعادة أصبحت محل تظنن وتشكك امام ما يوجه اليوم من نقد لمؤسسات الإشهار والدعاية وكشف لما تخفيه من توظيفات إيديولوجية تجعل من الإنسان لا قيمة في ذاته بل موضوعا للترويج واستهلاك قيم متعددة ، ولذلك أصبحت مفاهيم الخير والعدل والسعادة ... مفاهيم غامضة .</p>
+<!-- p23 -->
+
+<div class="chtag"><span>المحور</span> الفن والدين</div>
+
+<p class="subhead t-red">حوصلة محور : الفن : الجمال والحقيقة</p>
+<p class="para">الإشكالية العامّة للمحور : هل يمكن الجمع بين الجمال والحقيقة في العمل الفنّي ؟</p>
+<p class="para">الإجابة الأولى :لا يمكن الجمع بين الجمال والحقيقة في العمل الفنّي :</p>
+<p class="para">يشير الفنّ إلى كلّ نشاط إنساني غايته إبداع الجمال، والجمال هو كلّ تناسق في الألوان أو الأصوات أو الحركات أو الكلمات غرضه إحداث نشوة حسيّة ونفسيّة في المتقبل والفن بهذا المعنى أي بما هو نشاط يرتبط بالجمال يميز الإنسان عن الحيوان لأنه يعبّر عن الإبداع والخلق والموهبة فضلا عن المعرفة الدقيقة بتقنيات العمل الفنّي المخصوص ولذلك اعتبر "كانط" أن خلية النّحل وهي تنتج الشهد المتقن الضنع لا تنتج عملا فنيا لأنّ نشاطها ذاك لم ينبع عن حريّة أي لم يتم بصفة اختياريّة واعية وعقليّة، في حين أن النّشاط الإنساني الذي يستخرج من قطعة الخشب منحوتا ما، فهو ينتج عملا فنيا لأنّه تجاوز الغريزة والطبيعة، وتبعا لذلك فإنّ الفنّ هو عمل إنساني يعكس مهارة إنسانيّة وإبداعا وخلقا يفسّران خلود الآثار الفنيّة الجميلة مقارنة بالآثار الطبيعيّة الجميلة التي لا تصمد أمام صروف الدّهر . وعندما بحث فلاسفة اليونان في علاقة العمل الفنّي بالحقيقة أكّدوا تباعد المجالين نظرا إلى أن الفنّ حسب "أفلاطون" مرتبط بالمحسوس والحقيقة عنده تطلب بالعقل وهو ما انتهى إليه الفيلسوف في ترقيه وجدله الصّاعد نحوها، وهو جدل تحرّر من الظلال والمحسوسات ليعانق المثل والأفكار والحقائق في ذاتها . وفي هذا السّياق يعرّف "أفلاطون" الفنّ بقوله :"هو محاكاة المحاكاة" أي تقليد لجمال الطبيعة الذي يقلّد بدوره جمال عالم المثل والسّماء . وغير بعيد عن هذا التصوّر ما قاله "أرسطو" عندما يعرّف الفنّ بقوله :"هو محاكاة للطّبيعة" معنى ذلك أنّ الفنّ عنده لا يرتقي إلى قول الحقيقة لأنّ هذه الأخيرة لا نطلبها إلاّ عبر تأمّل نظري عقلي صرف.</p>
+<p class="para">الإجابة الثانية : يمكن الجمع في العمل الفنّي بين الجمال والحقيقة :</p>
+<!-- p24 -->
+<p class="para">منذ الثورة الصناعيّة الأوروبيّة، تحوّلت معايير الحكم الجمالي من الموضوع الخارجي أو الطبيعة إلى الذات المبدعة والذات المتقبّلة للعمل الفنّي، ولم يعد بالإمكان الحديث عن شيء جميل بذاته، وهو ما يبيّنه "كانط" بقوله :"إنّ الجمال الطّبيعي هو تمثّل شيء جميل، أما الجمال الفنّي فهو تمثّل جميل لشيء"، وتبعا لذلك أصبح العمل الفنّي ينمّ عن قدرة إبداعيّة لدى الفنّان تصل إلى حدّ العبقريّة، فغدا بإمكاننا الجمع بين الفن والحقيقة لأنّ العمل الفنّي الجميل في نظر "هيقل" لا يكتسب جماليته من الشكل التعبيري الجميل فحسب بل وخاصّة من محتوياته الزمزيّة ومن تعبيره عن الحقيقة، فالفنّ عند "هيقل" يبلغ عبره الإنسان أرقى أشكال الوعي أي الوعي المطلق لأنّه "يخاطب الزوح وان كانت خرساء" ولعلّ أهرامات الفراعنة المصريّة بما هي أعمال فنيّة خالدة أبرز تجسيد لما يحمله العمل الفنّي من رموز وأفكار تدعو إلى التدبّر العقلي . وقد بيّن "برقسون" أنّ محدوديّة اللغة في التعبير عن مشاعرنا وعواطفنا وعن حقيقة الواقع هي التي دفعت بالإنسان إلى البحث عن ملاذ أمين وجده في الفن بما هو ابداع خصب ومتجدّد وخلاق يعبّر عن الديمومة الإنسانيّة في ثراءها وتجدّدها وتدفقها . بل إنّ الفنّ عند "نيتشه" يصبح منقذ الإنسان من أوهامه ومن اعتقاده في امتلاك الحقيقة، وهو اعتقاد مردّه اعتقاد وهمي في اللغة التي تقوم على حقيقة الذّات العاقلة والواعية والفاعلة، في حين أنّ الفاعل الحقيقي هو الجسد، وما له من طاقات حيويّة، فالفنّ إذن يعبّر عن الجسد أي عن الأنا الكامن وعن الحقيقة الثاوية التي أخفاها العقل وتناساها الوعي في لعبتهما من أجل البقاء، لذلك يقول "نيتشه" :"لنا الفنّ كي لا تميتنا الحقيقة" .</p>
+<p class="para">الإجابة الثالثة : الفنّ مجال للجمال وللحقيقة وللحلم :</p>
+<p class="para">عندما نبحث في علاقة العمل الفنّي بالجمال من جهة وبالحقيقة من جهة ثانية فاننا نجد أنفسنا أمام مبحث علاقة الفن بالواقع وهو ما حاول أن يبيّنه "ماركس" من خلال تفسيره للوحة الموناليزا للفنّان الإيطالي "ليونار دي فنشي"، إذ يصوّر الزسام في نظر "ماركس"، صورة المرأة البرجوازيّة في عصره، وبذلك يرجع "ماركس" الإنتاج الفنّي إلى الواقع الاجتماعي والاقتصادي للفنّان، ولكنّ "فرويد" يجعل من الفنّ تعبيرا عن المكبوتات النفسيّة للفنّان، إذ هو تجسيد لآليّة نفسيّة وهي آليّة التصعيد أو التحويل أو الإعلاء . والأمر كهذا، يبدو الفنّ عند "ماركوز" مجالا للتحرّر من قيود الواقع ومن ضغوطاته ليعبّر من خلاله الفنّان عن حلمه وعن <!-- p25 --> تخطّيه للشّروط الموضوعيّة للواقع . وهكذا، أصبح الفنّ لا مجرّد رؤية ذاتيّة تعكس تمثّل الفنّان لواقعه أو تعبّر عن هواجس وآمال وأحلام وطموحات مجتمعه فحسب، بل وكذلك رؤية إنسانيّة بقدر ذاتيتها أي بقدر انشدادها إلى ذات الفنّان بقدر موضوعيتها أي بقدر تعبيرها عن هواجس الإنسانيّة جمعاء وهو ما تجسّد من خلال الأعمال الخالدة في شتّى الحقول الفنيّة شعرا وأدبا وموسيقى ورسما و نحتا ومسرحا وسينما ... فلا زلنا إلى اليوم ننتشي ونلتذّ ونفكّر ونتأوّل ديوان "المتنبي" الشعري مثلا، وديوان "رامبو" ومسرحيّة "في انتظار قودو" لـ"بيكيت"، وسمفونيات "بتهوفن" ولوحات "فون قوق" وأعمال "هيتشكوك" ...</p>
+<p class="para">لعلّ ذلك ما يجعلنا نردّد مع "أندري مالرو" :"الفنّ للإنسان" .</p>
+<!-- p26 -->
+<div class="exsub">نافذة<br>معاني الدّروس</div>
+<!-- p27 -->
+
+<div class="chtag"><span>المحور</span> الإنية والغيرية</div>
+
+<p class="subhead t-red">معاني محور: الإنية والغيرية</p>
+<p class="para">1 . <b>الإنية</b> : هي عبارة مشتقة من الأنا وتحمل على وجهين :<br>
+- الأنا بما هي جوهر وماهية للوجود الإنساني ترادفها عبارات الذات والنفس والعقل والتي تتقابل ( تتضاد ) مع عبارات : الغير والجسد والحواس والعالم .<br>
+- الأنا بما هي قدرة على الوعي والإدراك والمعرفة عبر عنها ديكارت من خلال الكوجيتو: أنا أفكر إذن أنا موجود .</p>
+<p class="para">2 . <b>الغيرية</b>: هي عبارة مشتقة من الغير وهو يفيد المغاير للأنا أو المختلف معها وهو الآخر بإطلاق أي الآخر كجسد والآخر كبقية البشر .</p>
+<p class="para">3 . <b>التاريخ</b>: يقال على أوجه عدة ، وهو في سياق مسألة الانية والغيرية يخص الوقائع والأحداث الفردية والاجتماعية التي تنشأ في إطارها وتتطور العلاقة بين الأنا والآخر .</p>
+<p class="para">4 . <b>الجسد</b>: يقال على معنيين : الجسد بما هو جسم أو بدن أي بما هو شيء متحيز في المكان وله أبعاد أو امتداد ( الطول والعرض و العمق ) - والجسد بما هو منظومة رمزية تتوسط علاقتنا بالعالم لفهمه وإدراكه والتواصل معه ، وفي هذا السياق يميز "مرلوبونتي" بين مفهوم الجسد الخاص الذي يعتبره قوام وجودي الفردي والحميمي بما هو شعور وإحساس ووجدان ووعي وتفكير وخيال و بما هو حاس ومحسوس ، ومفهوم الجسد الموضوع الذي يعتبره جسداً قابلاً للملاحظة الخارجية اي بما هو جسد الآخرين: كجسد التشريح ( الجثة ، جسد الفُرجة ) .</p>
+<p class="para">5 . <b>الذات</b>: تحيل الذات عند ديكارت الى الأنا بما هي شيء مفكر ، وبما هي نفس واعية تتعقل ذاتها بذاتها وتثبت وجود العالم .</p>
+<p class="para">6 . <b>اللاوعي</b>: هو فرضية علمية بنى عليها فرويد نظريته في الجهاز النفسي، واللاوعي أو الهو هو أهم وأقدم منطقة في حياتنا النفسية وتتضمن مكبوتاتنا من الغرائز والميولات والدوافع والرغبات التي ستحدد مستقبل شخصية الفرد من جهة سوانها وتوازنها أو لا سوانها ولا توازنها وعن اللاوعي تنشأ وتتطور منطقة الوعي أو الأنا والتي تعبر عن الجانب الواعي والإرادي من الحياة النفسية للفرد التي تتضمن أيضاً منطقة ثالثة هي الأنا الأعلى أو <!-- p28 --> مرآة المجتمع الباطنية بما فيها من موانع وأوامر ونواهي .</p>
+<p class="para">7. <b>الوعي</b>: يفيد حالة تمثل وإدراك وهو مرادف للأنا وللذات وللنفس عند ديكارت ، وهو جزء متطور عن اللاوعي عند فرويد ولا يعبر إلا عن سطح الإنسان .</p>
+<!-- p29 -->
+
+<div class="chtag"><span>المحور</span> اللغة والتواصل</div>
+
+<p class="subhead t-red">معاني محور: التواصل والأنظمة الرمزيّة</p>
+<p class="para">1 . التواصل : يفيد التفاهم بين البشر عبر الحوار وتبليغ أفكارهم ورغباتهم ومشاعرهم لبعضهم البعض.</p>
+<p class="para">2 . الأنظمة الزمزية : جمع نظام رمزي وهو يشير إلى نسق أو منظومة مترابطة من الزموز، والزمز هو شيء ماديّ يوحي بفكرة ودلالة مجرّدة فالحمام مثلا رمز للسّلم.</p>
+<p class="para">3 . الآخر : يشير إلى المختلف مع الأنا من أشياء ماديّة وحيوان ونبات وبقيّة البشر، ونميز عادة بين الآخر وبين الغير الذي يدلّ على الشخص الآخر.</p>
+<p class="para">4 . الصورة : في سياق مسألة التواصل والأنظمة الزمزيّة تشير الصّورة إلى نظام رمزي أي إلى وسيط تواصلي بين البشر يقوم على المشهد الحسي البصري والسّمعي وعلى الفرجة.</p>
+<p class="para">5 . اللغة : هي بنية أو منظومة من الزموز والعلامات والأسماء والكلمات والإشارات والتي تخضع لقواعد مخصوصة وهي من إبداع الإنسان ليحقق بها تواصله مع غيره، وفي معناها المخصوص تفيد اللغة القدرة على التعبير اللفظي أي القدرة على الكلام.</p>
+<p class="para">6 . الوساطة : في سياق مسألة التواصل والأنظمة الزمزيّة، تفيد الوساطة الجسر الواصل بين البشر من أنظمة رمزيّة أي من دوال لها مدلولات كالوساطة الشفويّة أو الكلام والوساطة المكتوبة والوساطة السمعيّة والوساطة المرئيّة ...</p>
+<p class="para">7 . المقدّس : كلّ قوّة خفيّة يحمل إليها المؤمن بها كلّ صفات القوّة والنّفوذ والبطش والجبروت والقدرة المطلقة، ويمثّل المقدّس ماهية وجوهر وحقيقة الدّين. ويتقابل المقدّس مع المدنّس أي مع الأرضي الفاني.</p>
+<!-- p30 -->
+
+<div class="chtag"><span>المحور</span> الخصوصية والكونية</div>
+
+<p class="subhead t-red">معاني محور: الخصوصية والكونية</p>
+<p class="para">1 . الآخر: هو المغاير للأنا والمختلف عنها في العرق والجنس والدين والموروث الثقافي ... وبهذا المعنى يحيل الآخر الى الثقافة المغايرة لثقافة الأنا الخصوصية ، ولكن هذا الاختلاف والتغاير لا ينفي إمكانية الالتقاء في بعض الخصائص .</p>
+<p class="para">2 . الاختلاف: التعدد والتنوع ، وفي السياق الثقافي والحضاري يفيد الاختلاف تعدد الثقافات الإنسانية وتمايزها عن بعضها البعض .</p>
+<p class="para">3 . التواصل: التفاهم والتحاور والتشارك بين الأفراد وبين الشعوب وبين الثقافات ويتم هذا التواصل من خلال اللغة والمقدس والصورة .</p>
+<p class="para">4 . الصّورة: هي تجسيد مرئي وحسي لفكرة مجردة وأصبحت اليوم تمثل أهم وسيلة للتواصل البشري لطابعها المجرد واللا محدود والعمومي والمتجدد والخلاق مثل الصورة السينماتوغرافية .</p>
+<p class="para">5 . المقدس: هو كل موضوع جدير بالإجلال وغالباً ما ينسب المقدس إلى الدين ليحيل إلى قوة فوقية إليها نعزو نعمنا ومحننا وإياها نطلب العون والتوفيق ونقابل بينها وبين المدنس الأرضي الفاني والزائل ولكن المقدس اليوم أصبح يتخذ أشكالاً عديدة تشمل مجالات العلم والأخلاق ...</p>
+<p class="para">6 . الهوية: هي الأفق الذي يعبر الفرد من خلاله عن خصائصه المميزة له وعن مواقف خاصة به ، وهي عبارة عن التزام روحي أخلاقي يعبر عن انتماء لموروث ثقافي معين ، وبهذا المعنى تحيل الهوية إلى مفهوم الخصوصية الثقافية والحضارية .</p>
+<p class="para">7 . التسامح: هو رفض العنف والإقصاء والتعصب واستبعاد الأخر وذلك من خلال الاعتراف بحقه في الاختلاف معنا وحقه في التعبير عن آراءه ومواقفه بحرية تامة.</p>
+<p class="para">8 . الثقافة والحضارة: تفيد الثقافة في معناها العام مكتسبات الإنسان وما يضيفه إلى الطبيعة بما هي مادة خام من جهد نافع وإبداع خلاق وهي تشمل الجوانب المعرفية والعلمية والعادات والتقاليد واللغة والدين والتاريخ... ونجد بعض التمييزات العلمية بين الثقافة والحضارة تجعل من الثقافة متضمنة لما هو فكري وروحي وتجعل من الحضارة <!-- p31 --> متضمنة لما هو مادي وتقني، ولكننا نجد أيضاً استعمالات للمفهومين في نفس المعنى أي بما هما متقابلان مع الطبيعة .</p>
+<p class="para">9 . اللغة: هي منظومة من الرموز والمصطلحات والعلامات التي وضعها المجتمع لتحقيق التواصل بين أفراده .</p>
+<p class="para">10 . الحوار: في معناه العام هو التخاطب بين طرفين أو أكثر ، وفي المجال الحضاري يفيد التواصل والتفاهم السلمي بين الثقافات المختلفة والقائم على الاعتراف المتبادل بينها .</p>
+<p class="para">11 . العالمي: نسبة إلى العالم وهو مفهوم يشير اليوم إلى الثقافات والحضارات المختلفة والى الشعوب والدول التي أصبحت تتواصل فيما بينها تواصلاً لا محدوداً ويسيرا إلى درجة تشبيه العالم المترامي الأطراف بالقرية الصغيرة .</p>
+<p class="para">12 . العولمى والعولمة: هو مفهوم جديد يعبر عن كسر الحدود الجغرافية والثقافية والسياسية والاقتصادية ... بين الشعوب والدول عبر وسائل الاتصال والتواصل المعاصرة ، وهو مفهوم ايديولوجي ( براقماتي. نفعي ) يستخدم لتبرير هيمنة حضارة وثقافة معينة على الحضارات والثقافات الأخرى .</p>
+<p class="para">13 . الكلي والكوني: هو مفهوم فلسفي يشير إلى المطلق والواحد الذي يتقابل مع النسبي والمتعدد ، وهو مطلب الفلسفة منذ نشأتها الأولى إذ سعت ولا تزال إلى توحيد الإنسانية رغم ما بينها من فروقات عديدة في فكرة أو معنى أو قيمة واحدة .</p>
+<p class="subhead t-red">معاني محور: العلم بين الحقيقة والنمذجة</p>
+<p class="para">1 . <b>الأكسمة</b>: الانطلاق من أكسيومات أو أوليات أو فرضيات مجردة وخيالية لا يبرهن عليها العالم وإن كان يتخذها منطلقا لاستنتاجاته ولبناء نسقه العلمي .</p>
+<p class="para">2 . <b>البنية</b>: هي تركيبة منطقية مجردة تجعل من عناصر الواقعة المدروسة مترابطة ومتداخلة لا يمكن الفصل بينها .</p>
+<p class="para">3 . <b>الترييض</b>: استخدام لغة رمزية رياضية في البحث العلمي .</p>
+<p class="para">4 . <b>الصورنة</b>: اعتماد لغة رياضية مجردة تخلو من المحتويات الواقعية والمضامين لفائدة العلاقات الصورية أي الشكلية بين عناصر واقع ما .</p>
+<p class="para">5 . <b>الافتراضي</b>: ينطلق العالم المنمذج اليوم من واقع افتراضي أي من واقع من بناء حدسه الخيالي المجرد وهو واقع مجاله الممكن وليس واقعاً فعلياً .</p>
+<p class="para">6 . <b>الملائم</b>: لا يهتم العالم اليوم بتطابق نظريته مع الواقع لأنه لا يعتقد في وجود حقيقة موضوعية بل يهتم بمدى تلاؤم أي انسجام نسقه العلمي مع واقع معين .</p>
+<p class="para">7 . <b>الواقعية</b>: ما هو راهن ومعطى وهو يتقابل مع الممكن والافتراضي .</p>
+<p class="para">8 . <b>القانون</b>: القاعدة الملزمة ، وفي المجال العلمي هو معادلة رمزية رياضية تعبر عن العلاقات الثابتة بين الظواهر وهو يشير في سياق النمذجة إلى العلاقات بين معطيات ومتغيرات النسق .</p>
+<p class="para">9 . <b>النظرية</b>: نسق مترابط من القوانين العلمية يعبر عن تصور مخصوص الواقع .</p>
+<p class="para">1 0 . <b>التفسير</b>: رد الظواهر إلى أسبابها وقوانينها ومبادئها المتحكمة فيها أي إرجاع المرئي إلى اللامرئي .</p>
+<p class="para">1 1 . <b>التحقيق</b>: التحقق من صحة الفرضيات العلمية أي امتحان صحتها عبر التجربة العلمية .</p>
+<p class="para">1 2 . <b>الفهم</b>: أو التأويل هو منهج علمي لدراسة الواقع يستند إلى خلفية تميز كل ظاهرة بخصائص نوعية تجعلها متفردة ، ولذلك استخدم هذا المنهج في دراسة الظواهر الإنسانية وأصبح اليوم غرضاً للنمذجة العلمية بدلاً من التفسير الذي استخدمه العلماء المحدثون لاعتقادهم في وجود حقيقة علمية تكتشف</p>
+<p class="para">1 3 . <b>النجاعة</b>: المردودية والمنفعة والمصلحة وفي هذا المعنى يهتم العلم اليوم بصلاحية بناءاته النظرية لا بتطابقها مع الواقع .</p>
+<p class="para">1 4 . <b>الاختزالية</b>: يسميها " نافال " باستراتيجية الإغفال أو الإهمال وهي تقوم على الاهتمام بعناصر وإهمال أخرى في دراسة واقعة ما ( كاهتمام نيوتن مثلاً في تحديده لمفهوم القوة بمفهومين فحسب هما الكتلة والتسارع لقابليتهما للتكميم)</p>
+<p class="para">1 5 . <b>التاريخية</b>: نسبة إلى التاريخ وفي سياق النمذجة العلمية يعاب على الأنساق العلمية اليوم استنادها إلى نموذج علمي ظهر في مرحلة تاريخية معينة ولكنه ليس صالحاً لكل الأزمان، وهو ما قد يوقعنا في مفهوم ايديولوجي هو مفهوم نموذج النماذج</p>
+<p class="para">1 6 . <b>الأنظمة التقنية</b>: في سياق النمذجة العلمية تبرز محدودية الانساق العلمية في استنادها إلى أنظمة تقنية محددة كأنظمة السيبارنيطيقا أو علم المراقبة والإعلام الذي يهدف إلى معرفة التنظيم أو الأنساق وقيادتها ، وما قد يؤدي إليه من إهمال لخصائص الإنسان من وعي وإرادة حرة وتفكير إلى درجة أن الذكاء الإنساني أصبح يصنع تقنياً من خلال دراسة النظام العصبي والتحكم فيه وتجسيده</p>
+<p class="para">1 7 . <b>الحقيقة</b>: تفيد معنيين:</p>
+<p class="para">- التطابق بين الحكم والواقع وهو معنى يقوم على تصور لحقيقة تكتشف</p>
+<p class="para">- الانسجام المنطقي بين معطيات النسق أي بين الأوليات والنتائج وهو تصور لحقيقة تبنى ويبدو أن هذا المعنى من شأنه أن يغيب الأبعاد القيمية والوجودية للإنسان</p>
+<p class="para">1 8 . <b>المسؤولية</b>: هي نمط من الالتزام الأخلاقي والإنساني من خلال الاستعداد التام والارادي لتحمل تبعات أفعالنا ، وفي سياق النمذجة العلمية تبرز محدودية العلم اليوم في غياب هذه المسؤولية إذا ما تم توظيفه براقماتيا ( نفعيا ) خدمة لمصالح ضيقة</p>
+<p class="para">1 9 . <b>المعنى</b> : يقال على الفهم المتجدد والمتنوع والخصب لتجربة الإنسان الثرية والمتعددة الأبعاد وهو ما يتعرض اليوم لتهديد من قبل النمذجة العلمية التي تجعل من العلم معرفة غايتها الفعل والعمل والنجاعة فحسب .</p>
+
+<div class="chtag"><span>المحور</span> العمل: النجاعة والعدالة</div>
+
+<p class="subhead t-red">معاني محور "العمل : النجاعة والعدالة"</p>
+<p class="para">1 - <b>العمل</b> : كلّ نشاط إنساني عضلي وفكري واع وغائيّ يحوّل الطبيعة والمادّة الخام إلى قيمة نافعة اجتماعيا يتمّ تداولها بين البشر</p>
+<p class="para">2 - <b>النجاعة</b> : تفيد المردوديّة والمصلحة والحرص على وفرة الإنتاج استنادا إلى التقسيم التقني للعمل وربح الوقت .</p>
+<p class="para">3 - <b>العدالة</b> : يعرّفها "أرسطو" "بالفضيلة التامّة" التي تعني منح كلّ ذي حقّ حقّه، ولكنّ هذا المعنى الأخلاقي تحوّل مع النظام الاقتصادي الراسمالي المعاصر ليفيد توزيع الثروات والمنافع الاقتصاديّة والاجتماعيّة وفق ما تقتضيه المصلحة العموميّة وهو ما يؤدي إلى بعض التفاوت بين البشر بسبب التفاوت في الجهد المبذول وفي القدرات وفي الإمكانيات العضلية والذهنيّة والفكرية بين الأفراد</p>
+<p class="para">4 - <b>الإنصاف</b> : هو شعور طبيعي لدى الإنسان بما هو عادل ويتمثّل في احترام ما يحصل عليه الأفراد احتراما تامّا، ويرتبط الإنصاف بالمساواة والتكافؤ في الفرص والحظوظ.</p>
+<p class="para">5 - <b>الاغتراب</b> : أو الاستيلاب : يفيد الوضعيّة أو الحالة التي يشعر فيها الإنسان بفقدانه لذاته وهو ما نجده لدى العامل في إطار النظام الاقتصادي الرّأسمالي حيث يصبح غريبا عن نفسه، منفصلا عن إنتاجه ومستنزفا لطاقاته العضليّة والذّهنيّة بدل تنميتها .</p>
+<p class="para">6 - <b>التحرّر</b> : هو مسار إنساني يتحدّد بنشاطه وجهده الدّؤوب نحو التخلّص من القيود والضرورات، وهو ما يجسّده العمل كنشاط يحرّر الإنسان من قيود الطّبيعة وضروراتها ومن قيود المجتمع</p>
+<p class="para">7 - <b>السّوق</b> : فضاء يجمع بين أغراض وغايات مختلفة ومتنوّعة حيث يتّجه فيه الأفراد نحو تحقيق منافع معيّنة، و يخضع اقتصاد السّوق إلى قانون العرض والطلب، ويقوم على المال بما هو قطاع حيوي من قطاعات الحياة الاقتصاديّة</p>
+<p class="para">8 - <b>المنفعة</b> : ما يستفيده الفرد من عمله ونشاطه العضوي والذّهني وترتبط المنفعة بما يملكه الفرد وما يستهلكه</p>
+
+<div class="chtag"><span>المحور</span> القيم: الأخلاق والدولة</div>
+
+<p class="subhead t-red">معاني محور "الدولة: السيادة والمواطنة"</p>
+<p class="para">1 . <b>السلطة</b> : كل علاقة بين طرفين أو أكثر تقوم على القوة ، والقوة هي القدرة على التأثير في الأشياء والأشخاص ، ويصنف "ماكس فيبر" السلطة إلى : سلطة تقليدية تشمل الموروث الاجتماعي ، وسلطة كاريزمانية إلهامية فردية ، وسلطة قانونية تتجسد من خلال الدولة .</p>
+<p class="para">2 . <b>السيادة</b>: تنسب إلى سلطة الدولة وهيبتها ونفوذها على المواطنين واستقلاليتها وذلك من خلال طاعة قوانينها وتشريعاتها .</p>
+<p class="para">3 . <b>المواطنة</b>: نسبة إلى المواطن وهو فرد ينتمي إلى وطن محدد ويفيد مشاركته في الشأن السياسي العام وبهذا المعنى تشترط سيادة الدولة أي طاعة المواطنين لقوانينها المواطنة .</p>
+<p class="para">4 . <b>الحرية</b>: الفعل الإرادي أو تصرف الفرد وفق مشيئته الذاتية . وفي الحقل السياسي تشير إلى مشاركة المواطن في الشؤون العامة عبر الانتخاب مثلاً .</p>
+<p class="para">5 . <b>الحق</b>: يقال على أوجه عديدة مثل الحق الطبيعي وهو الحق الذي يشترك فيه كل البشر بحكم اشتراكهم في الطبيعة الإنسانية مثل الحق في البقاء والحياة .</p>
+<p class="para">والحق الإلهي وهو الذي يستند إلى تصور ديني يقوم على خلفية خلافة الحاكم للإله على الأرض ويوجب على الرعية بحكم هذا الحق طاعته .</p>
+<p class="para">والحق المدني ( أو الوضعي ) وهو الذي وضعته وشرعته دساتير الدول و يجوز للمواطنين المطالبة به .</p>
+<p class="para">6 . <b>الديمقراطية</b>: تفيد في معناها العام سلطة الشعب المطلقة وهي شكل من أشكال الحكم السياسي يعترف بالحقوق والحريات الأساسية للمواطنين وبمشاركتهم الفاعلة في الشأن السياسي العام .</p>
+<p class="para">7 . <b>العدالة</b>: هي المساواة التامة والمطلقة بين الأفراد وهي مساواة لا واقعية لأن الواقع يشهد وجود تفاوت بينهم لذلك نتحدث عن العدالة بمعنى الإنصاف أي التكافؤ في الفرص والحظوظ .</p>
+<p class="para">8 . <b>القانون</b>: القاعدة الملزمة للمواطنين وهو يحدد الحقوق والواجبات .</p>
+<p class="para">9 . <b>العنف</b> : هو ممارسة للقوة ونجد "بول ريكور" يميز بين "عنف شرعي" في إطار القانون تحتكره الدولة و " عنف لا شرعي " أو فائض العنف يتجاوز القوانين ويمارسه الأفراد .</p>
+<p class="para">1 0 . <b>المواطن العالمي</b>: هو مفهوم جديد يفيد تمتع فرد ما بأكثر من جنسية ومن انتماء لدولة ولوطن ولثقافة . وهو ما تجسده الأقليات في بعض المجتمعات بحكم الهجرة .</p>
+<p class="subhead t-red">معاني محور "الأخلاق : الخير والسعادة"</p>
+<p class="para">1 . <b>الفضيلة</b>: تفيد في معناها العام الخير وعند أرسطو هي حالة توسط بين حدين متباعدين يسميها اعتدالاً لا إفراط فيه ولا تفريط .</p>
+<p class="para">2 . <b>الخير</b>: هو كل سلوك محمود ومرغوب فيه وهو مطلب الفعل الأخلاقي .</p>
+<p class="para">3 . <b>السعادة</b>: هي حالة من التوازن النفسي ومن غياب الكدر وراحة البال وهي الخير الأسمى عند فلاسفة السعادة أي الخير الذي يطلب لذاته .</p>
+<p class="para">4 . <b>المنفعة</b>: الغاية والنتيجة وتفيد عند فلاسفة الأخلاق النفعية اللذة الحسية والعقلية التي نحصلها من خلال التزامنا الأخلاقي .</p>
+<p class="para">5 . <b>الواجب</b>: الفعل الأخلاقي الذي يُطلب لذاته لا لنتيجة أو منفعة معينة .</p>
+<p class="para">6 . <b>الحرية</b>: الفعل الصادر عن إرادتنا والمعبر عن مشيئتنا .</p>
+<p class="para">7 . <b>الرفاه</b>: مفهوم اقتصادي يفيد حالة من اليسر الاقتصادي من خلال التمتع بالقيم والمنتجات الاستهلاكية المتاحة .</p>
+
+<div class="chtag"><span>المحور</span> الفن والدين</div>
+
+<p class="subhead t-red">معاني محور "الفن : الجمال والحقيقة"</p>
+<p class="para">1 - <b>الفنّ</b> : كلّ نشاط إنساني غرضه إبداع الجمال والنشوة الجمالية في المتقبل .</p>
+<p class="para">2 - <b>الجمال</b> : كلّ تناسق وتناغم في الألوان أو الأصوات أو الحركات أو الكلمات... هدفه إحداث النشوة واللذة الجمالية ولكنّ الجمال اليوم أصبح لا يكمن ضرورة في النّظام والتناسق، بل قد يتجسّد من خلال الفوضى وهو ما يعرف بجمال القبح .</p>
+<p class="para">3 - <b>الحقيقة</b> : كلّ تطابق بين الحكم والواقع .</p>
+<p class="para">ولكنّ مفهوم الحقيقة اليوم أصبح مرتبطا بالتّماسك المنطقي الداخلي بين الفرضيات والنتائج أو الاستنتاجات .</p>
+<p class="para">4 - <b>التذوّق</b> : يحيل في سياق مسألة "الفن" إلى معايير الحكم الجمالي أي كيفيّة تقييم الأعمال الفنيّة والتي تخضع إلى تذوّق المتقبل لها أي إلى التذاذه وانتشائه الحسّي والنّفسي .</p>
+<p class="para">5 - <b>النشوة</b> : حالة شعوريّة نفسيّة يشعر فيها المتقبل للعمل الفنّي بالالتذاذ والتّفاعل الوجداني الإيجابي معه .</p>
+<p class="para">6 - <b>الإبداع</b> : يحيل إلى معاني الابتكار والخلق والصنع والتجديد ولعلّ ذلك ما جعل بعض المفكّرين يماثلون بين الفنّان وبين الإله في صفة الخلق والإبداع، بيد أنّ الإله يبدع ويخلق الموجودات، في نظرهم من عدم، في حين أنّ الفنّان يبدع ويخلق عمله الفنّي انطلاقا من مادّة يعيد صياغتها وتشكيلها وتقديمها في شكل جميل .</p>
+<p class="para">7 - <b>المحاكاة</b> : التقليد والاتباع وفي سياق مسألة الفنّ تشير إلى اعتقاد الفنان في جمال الطّبيعة الموضوعي وبالتالي يتمثّل دوره في نقل ذلك الجمال للاخرين بمحاكاة أشياء الطّبيعة .</p>
+
+<div class="chtag"><span>المحور</span> المنهجية</div>
+
+<p class="subhead t-red">نافذة</p>
+<p class="subhead t-red">اختبارات حول مسائل البرنامج</p>
+<p class="subhead t-navy">(نماذج لامتحان البكالوريا مع إصلاحها)</p>
+<p class="subhead t-red">منهجية الموضوع في صيغة سؤال</p>
+<p class="subhead t-navy">(خاص بشعبة الآداب)</p>
+<p class="subhead t-navy">I - العمل التحضيري :</p>
+<p class="para">1 - تحديد مجال الموضوع أي المحور الذي يتنزّل في إطاره</p>
+<p class="para">2 - تحديد المفاهيم سياقيا</p>
+<p class="para">3 - تحديد أطروحة الموضوع بالإجابة عن السؤال.</p>
+<p class="para">4 - تحديد الأطروحة المستبعدة للموضوع أي الإجابة التي نستبعدها</p>
+<p class="para">5 - صياغة الإشكالية العامة للموضوع : ما هو أو ما هي + المفهوم الرئيسي للموضوع؟</p>
+<p class="para">+ هل + الأطروحة المستبعدة الموضوع + أم + الأطروحة ؟</p>
+<p class="para">6 - تفريع إشكالية الموضوع :</p>
+<p class="para">- إذا افترضنا أنّ + الأطروحة المستبعدة للموضوع + فهل يعني ذلك أن + استنتاج ؟</p>
+<p class="para">- وإذا أمكننا القول أن + أطروحة الموضوع + فهل يؤدي ذلك إلى + استنتاج ؟</p>
+<p class="para">7 - تحديد عناصر التحليل والنقاش والمرجعيات :</p>
+<p class="para">أ- العنصر الأول : الأطروحة المستبعدة .</p>
+<p class="para">ب - العنصر الثاني : الأطروحة</p>
+<p class="para">ت- العنصر الثالث : النقاش : مكاسب وحدود الأطروحة</p>
+<p class="para">8 - تحديد رهانات النظر في إشكالية الموضوع : مثال : إنّ ما هو في ميزان النّظر في إشكالية هذا الموضوع يتمثّل في رهانات نظريّة تدعونا إلى إعادة تعقل مفهوم ... ورهانات عملية تحفزنا على التحرر من قيود ...</p>
+<p class="subhead t-navy">II - التخطيط :</p>
+<p class="para">1 - المقدّمة :</p>
+<ul class="dash">
+<li>تمهيد</li>
+<li>طرح الإشكالية العامة للموضوع وتفريعها</li>
+<li>طرح رهانات النظر في إشكالية الموضوع</li>
+</ul>
+<p class="para">2 - الجوهر :</p>
+<p class="para">التذكير بالموضوع المطروح وابراز ضمنياته : مثال : يتساءل موضوعنا عن ... وهو يفترض الضمنيات التالية ...</p>
+<ul class="dash">
+<li>تحليل العنصر الأوّل أي الأطروحة المستبعدة</li>
+<li>تحليل العنصر الثاني : أي الاطروحة</li>
+<li>النقاش : مكاسب الأطروحة وحدودها</li>
+</ul>
+<p class="para">3 - الخاتمة :</p>
+<p class="para">حوصلة تاليفية لأهم نتائج التحليل + النقاش وإجابة صريحة عن سؤال الموضوع .</p>
+<p class="subhead t-navy">III - الإنجاز :</p>
+
+<div class="chtag"><span>المحور</span> الإنية والغيرية</div>
+
+<p class="para"><b>الموضوع</b> : هل الجسد آخر ؟</p>
+<p class="para">(خاص بشعبة الآداب)</p>
+<p class="para"><b>التحرير</b> :</p>
+<p class="para">عادة ما نعرف الإنسان استنادا إلى ثنائية النّفس والجسد فنجعل من النّفس مقوما أساسيا لماهيته ونقصي الجسد من مجال اهتمامنا ونسمه بالغريب وبالآخر، ولكن ارتباط الجسد بما هو ضروري وحياتي يدفعنا إلى مراجعة هذا الموقف السلبي : فهل الجسد آخر وغريب أم أنه قد يصبح قواما لوجودنا ؟ وإذا افترضنا أنّ الجسد لا يعدو أن يكون سوى آخر فهل يعني ذلك أنّ التفلسف يقتضي الإعراض عنه ؟ وإذا أمكننا القول أنّ الجسد قوام لوجودنا فهل يؤدي ذلك إلى إعادة الاعتبار له ومن ثمة إلى مصالحة الفلسفي العقلي مع الجسدي الحسّي ؟ والى أيّ مدى يصحّ القول أنّ الجسد مقوّم لوجودنا ؟</p>
+<p class="para">إنّ ما نراهن عليه من خلال النّظر في إشكالية هذا الموضوع يتعلق بمراجعة مفهوم الجسد ومنزلته من الوجود الإنساني وفي إبراز ضرورة تحرزه من لعنة النّفس الماورائية .</p>
+<p class="para">يتساءل موضوعنا إن كان الجسد يمثل آخرا وهو يفترض الضمنيات التالية :</p>
+<p class="para">- أنّ النّفس هي ماهية الإنسان وحقيقة وجوده .</p>
+<p class="para">- أنّ الجسد عرض زائل يحيل إلى الدنس و الرذيلة وما على النّفس إذا ما رامت الحقيقة إلاّ أن تسعى إلى التخلّص منه .</p>
+<p class="para">هذه الضمنيات لا يمكن امتحان مدى صحّتها إلاّ بعد تحديد مفهوم الجسد . فما دلالة الجسد؟</p>
+<p class="para">يفيد الجسد معاني عديدة تبعا لاختلاف السجلاّت الفلسفيّة والعلميّة ولكنه بإمكاننا إرجاع هذه المعاني تاريخيا إلى معنيين : الأوّل يرادف الجسم أو البدن بما هو شيء متحيز مكانيا أي يحتلّ مكانا محدّدا و يخضع لأبعاده من طول وعرض وعمق، في حين أنّ المعنى الثاني يفيد كلّ ما يتعلّق بالإنسان من فكر وعقل وخيال وإحساس وشعور ويبدو أنّ المعنى الأوّل هو الذي ينسجم مع مرادفته بالآخر لأنّ عبارة الآخر تقال مقارنة "بالأنا"، وتبعا لذلك فالآخر هو المختلف والمغاير والمباين "للأنا" والأنا بهذا المعنى تشير إلى حقيقة وجودي الثابتة مهما طرأ على وجودي من متغيّرات ومن أحوال وهو ما عبّر عنه الفلاسفة منذ القدم بمفهوم الإنية، فإنّيتي عند "ابن سينا" هي جوهر وجودي، ذلك الذي أستشعره دوما وإن كنت معلّقا في الفضاء أي حتى وإن غاب إحساسي بأعضائي الجسميّة، والإنية عند "ابن طفيل هي الذات السماويّة الخالدة والفاضلة واللاّجسميّة، ولقد سبق أن ردّ "أفلاطون" الماهية الإنسانية إلى النّفس الماورائيّة العاقلة، ودعا الفيلسوف إلى الزهد في رغباته الجسديّة وإلى الإعراض عنها وإلى الانصراف إلى التأمل العقلي الصرف، أوليست الفلسفة عنده لا تعدو أن تكون "تدربا على الموت" أي تدربا على إماتة الشهوات الجسدية، ولئن حاول " ديكارت في القرن السابع عشر، متأثرا بتقدم العلم والميكانيكا تحديدا، أن يهتمّ نسبيا بالجسد، فإنّ منزلته عنده لم تبرح منزلة الآلة والأداة التي تسيّرها النّفس، إذ يقول "أنا في جسدي مثل الربّان في سفينته" وتبعا لذلك يردّ "ديكارت" ماهيته وجوهر وجوده وانيته إلى الذات الواعية والمفكّرة، فما كان للأنا أن توجد حسب "ديكارت" لو لم تثبت أنها تفكّر. وهكذا يكون الجسد ضمن هذا التقليد المثالي الفلسفي والعقلاني الذي يعلي من شأن العقل على حساب الحسّ، آخرا وغريبا، وهي غرابة سيستنكرها "سبينوزا" عندما يطلق على حدّ عبارة "جيل دولوز" صرخته الشهيرة :"لا أحد يعلم إلى اليوم والحق يقال قدرات الجسد"، هذه الصرخة تعلن بداية مصالحة الفلسفة مع الجسد وإعادة الاعتبار له، فلم يعد الإنسان مع "سبينوزا" ثنائية من نفس وجسد بل أصبح وحدة بما أنّ "النّفس والجسد شيء واحد" وانّما نميز بينهما من جهة الصفات فعندما نصف الإنسان من جهة فكره نستخدم عبارة النّفس، وعندما نصفه من جهة امتداده أي من جهة حضوره المكاني نستخدم عبارة الجسد ولكنّنا في الحالتين نتحدّث عن جوهر واحد وعن موجود واحد هو الإنسان لا عن وحدة بين جوهرين متفاضلين كما تصوّر ذلك "ديكارت" . هذا الأخير بقدر حرصه على التوحيد بين النفس والجسد بقدر حرصه على التمييز بينهما خلافا لـ "سبينوزا" الذي جعل من "الإنسان رغبة في الحفاظ على البقاء وفي اعتراف الأخرين بماهيته" وهي رغبة جسدية . وبذلك تصالح الإنسان مع حواسه وغرائزه وخياله وفكره وعقله وهو ما عبّر عنه "سبينوزا" في كتابه "الأخلاق" بقوله :"الانسان يفكّر".</p>
+<p class="para">هكذا إذن انخرط الإنسان في العالم بوعيه وجسده لأنّه في نظر "مرلوبونتي" لا يتقوّم إلاّ كجسد خاصّ أي كجسد حاسّ ومحسوس أي كشعور ووجدان وعقل وتفكير وخيال وغرائز... تنبض دوما بالحياة والتجدّد معبّرة عن حميميّة الذات، وما الجسد بمعنى الجسم والبدن الحسّي والمكاني إلاّ جسدا موضوعا تختلف منظوريتي إليه، فقد يكون جسد الفرجة أو جسد الشاشة أو جسد العيادة أو جسد الجثّة... وفي هذه الحالات كلّها هو الجسد الآخر المغاير لي . أما إنّيتي وجوهر وجودي وحميميّتي فهي جسدي الخاص الذي لا أكون ولا أوجد في غيابه، بل إنّ الجسد يرتقي عند "نيتشه" إلى مرتبة "العقل الأكبر" الباني للحضارات، فهو مصدر كلّ طاقة حيويّة وكلّ إرادة سواء كانت "إرادة القوّة" أو "إرادة الحقيقة" أو "إرادة الحياة"، وما الإعراض عن الجسد عنده إلاّ علامة ضعف ومرض ورفض للحياة .</p>
+<p class="para">أن نعتبر الجسد آخر ذلك يعني أن نعلي من شأن العقلي على الحسّي، وأن نجعل من الوجود الإنساني وجودا ثنائيا، وهو ما دحضته العلوم المعاصرة، مثل علم النّفس التحليلي مع "فرويد" الذي أثبت تداخل النّفسي مع البيولوجي فهذا التصور الثنائي يؤدي إلى اغتراب الإنسان عن وجوده ومن ثمّة فإنّ المصالحة مع الجسد هي في جوهرها مصالحة الإنسان مع ذاته ومع كيانه .</p>
+<p class="subhead t-red">اختبار حول محور: الإنية والغيرية</p>
+<p class="subhead t-navy">(خاص بالشعب العلمية)</p>
+<div class="exsub">التمرين الأول: - ( 2ن )</div>
+<p class="para">قيل: " الإنسان كائن وهب وعياً وفكرا بمعنى انه بما هو عليه ومهما كانت طريقة وجوده يمثل كائناً لذاته " عن الكتاب المدرسي للشعب العلمية</p>
+<p class="consigne">المطلوب: حدد ضمنيات هذا الموقف .</p>
+<p class="para">ملاحظة: الضمنية هي ما يفترضه الموقف دون أن يعلن عنه وهي التي تؤسس وجاهته أي قيمته وأهميته .</p>
+<p class="para"><b>الإجابة</b>:</p>
+<p class="para">يفترض هذا الموقف الضمنيات التالية:</p>
+<p class="para">- ان الإنسان يتميز عن الكائنات الأخرى وخاصة عن الحيوان بالوعي والتفكير .</p>
+<p class="para">- ان الإنسان هو كائن نوعي يوجد لذاته فيتأملها ويفكر فيها ولا يقتصر وجوده على الوجود المباشر الذي تختص به أشياء الطبيعة .</p>
+<div class="exsub">التمرين الثاني: - ( 2ن )</div>
+<p class="para">ما دلالة الجسد الخاص؟ (عن الكتاب المدرسي للشعب العلمية)</p>
+<p class="para">ملاحظة: يتعلق هذا السؤال بتحديد دلالة مفهوم معين وتقتضي الإجابة عن هذا النمط من السؤال استبعاد دلالة سابقة للمفهوم ( دلالة سائدة ومتداولة مثلاً ) واختيار مرجعية نظرية لاعتمادها في التحديد وإبراز الطابع الاجرائي للمفهوم على اعتبار أن دلالته تسمح بحل مشكل ما .</p>
+<p class="para"><b>الإجابة</b>:</p>
+<p class="para">تشير عبارة " الجسد " عادة إلى الجسم وما يتضمنه من اعضاء بيولوجية ومن خلايا فزيولوجية وبهذا المعنى يحيل الجسد إلى الجانب الحسي والزائل في الإنسان والذي يتقابل مع جوهر وجوده والمتمثل في النفس ، إلا أن الفلسفة المعاصرة تسمو بمفهوم الجسد لتجعل منه قوام الوجود الإنساني وهو ما عبر عنه " موريس مرلوبونتي " من خلال مفهوم "الجسد الخاص " الذي يدل على حميمية الإنسان وعلى نبض وجوده بما يتضمنه من إحساس وشعور وخيال وتفكير ... فلا يمكن لأي منا ان ينفصل عن جسده الخاص لأننا منخرطين في العالم بوعينا المجسد وبجسدنا الواعي ونتواصل مع موجوداته ومع الاخرين كأجساد موضوعية قابلة للملاحظة من خلال جسدنا الخاص .</p>
+<div class="exsub">التمرين الثالث:</div>
+<p class="para">الاشتغال على نص فلسفي</p>
+<div class="note"><div class="nb">
+<p class="para">متى كان لنا أجساد وما دامت أنفسنا متورطة مع هذا الشيء الخبيث ، فإننا لن نحصل على مطلوبنا بالقدر الكافي والحال أن ما نطلبه هو الحقيقة ... ثم ان الجسد لا يجلب في الواقع آلاف المتاعب بموجب ضروريات الحياة فحسب ، ولكن قد تطرأ أيضاً بعض الأمراض . وهي تمثل بالنسبة إلينا عقبات جديدة تعترض سعينا للحقيقة .</p>
+<p class="para">من يملؤنا بهذا القدر بألوان الحب والرغبات والخوف وشتى الخيالات والترهات التي لا تحصى غير الجسد فلا تأتينا منه بالفعل أي فكرة سليمة ولو مرة واحدة . أنظر إلى الحروب والفتن والمعارك ليس لها من باعث غير الجسد ومطالبه . فامتلاك الخيرات هو السبب الاصلي لجميع الحروب، وإذا كنا مدفوعين إلى تحصيل الخيرات، فإن ذلك بسبب الجسد الذي يجعل منا عبيداً في خدمته .</p>
+<p class="para">أفلاطون: " محاورة الفيدون " . (عن الكتاب المدرسي للشعب العلمية)</p>
+</div></div>
+<p class="consigne">المطلوب :</p>
+<p class="consigne">أ) استخرج الأطروحة التي يدافع عنها الكاتب في نصه؟ ( 2ن)</p>
+<p class="consigne">ب) ابحث عن حجة يعتمدها الكاتب لاثبات أطروحته ، بين وجاهتها وحدودها . ( 2ن)</p>
+<p class="consigne">ج ) ابرز ضمنيات موقف الكاتب من الجسد ( 2ن)</p>
+<p class="para"><b>الاجوبة</b>:</p>
+<p class="para">أ . يؤكد أفلاطون في نصه أن الجسد قاصر عن بلوغ الحقيقة مطلوب الفلسفة .</p>
+<p class="para">ب . يعتمد الكاتب حججا واقعية للتشنيع بالجسد ولابراز وضاعته ومن هذه الحجج نذكر ارتباطه بالأمراض وبالانفعالات وبالميولات الهدامة ، إلا أن هذه الحجة تفقد وجاهتها إذا اعتبرنا الجسدي والنفسي متداخلان إلى حد التماهي .</p>
+<p class="para">ج . يقوم موقف الكاتب من الجسد على فرضية سمو النفس ورفعتها معرفيا وانطولوجياً وأخلاقياً فهي تعد جوهر الوجود الإنساني وما الجسد إلا عرض زائل يتوجب على النفس أن تتخلص من لواحقه وأدرانه الحسية إذا ما رامت تحصيل الحقيقة . وبين ما في هذا الموقف من إعلاء من شأن العقلي والفكري على حساب الحسي والخيالي .</p>
+<div class="exsub">التمرين الرابع:</div>
+<p class="consigne">أجب بالاختيار عن أحد السؤالين التاليين في فقرة لا تتجاوز الثلاثين ( 3 0 ) سطراً:</p>
+<p class="consigne">1 . هل من تطابق بين وعيي بذاتي وحقيقة ذاتي؟ ( 1 0ن)</p>
+<p class="consigne">2 . هل تكفي عبارة "أنا أفكر" لمعرفة ذاتي؟</p>
+<p class="para"><b>الإجابة</b>:</p>
+<p class="para">- تتضمن الفقرة المراحل التالية:</p>
+<p class="para">أ . مرحلة بناء المشكل: وفيها نبين ما يبرر معالجة هذا السؤال ونشير إلى أهميته ونستخلص مشكلاً فلسفياً نصوغه بوضوح . مثال: السؤال الثاني هل تكفي عبارة "أنا أفكر" لمعرفة ذاتي؟</p>
+<p class="para">ب . مرحلة بناء المشكل: يبدو أن ما يتميز به واقعنا الراهن من هيمنة للنجاعة ولثقافة الاستهلاك ومن اختزال لماهية الإنسان في البعد الاستهلاكي ما يشرع لنا البحث من جديد في مفهوم الذات وما يجعل من عبارة "أنا أفكر" من الجدة بمكان ما يبرر تحليل أبعادها وإبراز وجاهتها والوقوف عند حدودها .</p>
+<p class="para">فبأي معنى إذن تتقوم معرفتي بذاتي بالتفكير؟ وهل تكفي عبارة " أنا أفكر " لمعرفة ذاتي أم ان تلك المعرفة تقتضي استحضار معاني أخرى شأن العمل والابداع ...؟</p>
+<p class="para">ج . مرحلة بلورة الجواب:</p>
+<p class="para">- ابين دلالة "أنا أفكر" . ( بالرجوع إلى المرجعية الديكارتية مثلاً )</p>
+<p class="para">- استدل على وجاهة هذا التعريف للذات الإنسانية ( بتقديم حجج وأمثلة نظرية وواقعية) .</p>
+<p class="para">- أبرز حدود تلك الوجاهة ( من خلال الكشف عن ضمنية أو استتباع أو تناقض مع الواقع) .</p>
+<p class="para">- أستحضر معاني أخرى تثري معرفتي بذاتي ( العمل ، الإبداع الفني ... ) .</p>
+<p class="para">- أستدل على وجاهتها .</p>
+<p class="para">د . مرحلة الاستخلاص:</p>
+<p class="para">- استخلص الموقف النهائي .</p>
+<p class="para">- أشير إلى قيمته .</p>
+
+<div class="chtag"><span>المحور</span> اللغة والتواصل</div>
+
+<p class="subhead t-red">اختبار حول محور : التواصل والأنظمة الرمزية</p>
+
+<div class="chtag"><span>المحور</span> المنهجية</div>
+
+<p class="subhead t-navy">منهجية الموضوع في صيغة قولة (خاص بشعبة الآداب)</p>
+<p class="subhead t-navy">I- العمل التحضيري :</p>
+<p class="para">1 - تحديد مجال الموضوع أي المحور أو المحاور التي يتنزّل في إطارها</p>
+<p class="para">2 - تحديد مفاهيم الموضوع سياقيا .</p>
+<p class="para">3 - تحديد أطروحة الموضوع أي الموقف الذي تدافع عنه القولة</p>
+<p class="para">4 - تحديد الأطروحة المستبعدة للموضوع أي الموقف الذي تستبعده القولة</p>
+<p class="para">5 - صياغة الإشكالية العامة للموضوع : ما هو أو ما هي + المفهوم الرئيسي للموضوع؟ + هل + الأطروحة المستبعدة للموضوع + أم + أطروحة الموضوع؟</p>
+<p class="para">6 - تفريع إشكالية الموضوع :</p>
+<p class="para">- إذا افترضنا أنّ + الأطروحة المستبعدة للموضوع + فهل يعني ذلك أنّ + استنتاج ؟</p>
+<p class="para">- وإذا أمكننا القول أنّ + أطروحة الموضوع + فهل يؤدي ذلك إلى + استنتاج ؟</p>
+<p class="para">- وإلى أي مدى يصحّ القول + أطروحة الموضوع؟</p>
+<p class="para">7 - تحديد عناصر التحليل والنقاش + المرجعيات :</p>
+<p class="para">ب- الأطروحة أو القولة</p>
+<p class="para">ت- الأطروحة المستبعدة</p>
+<p class="para">ث- النقاش : مكاسب + حدود الأطروحة</p>
+<p class="para">8 - رهانات النظر في إشكالية الموضوع</p>
+<p class="para">مثال : إنّ ما نراهن عليه من خلال النظر في إشكالية هذا الموضوع يتمثّل في رهانات نظرية تدعونا إلى مراجعة مفهوم ... ورهانات عملية تحفزنا على التحرر من قيود ...</p>
+<!-- PROOFREAD: 1677 part1 p49 — page blurred; item 7 list on page starts at "ب" (no "أ" visible) -->
+<p class="subhead t-navy">II- التخطيط :</p>
+<p class="para">1 - المقدّمة :</p>
+<ul class="dash">
+<li>تمهيد</li>
+<li>طرح إشكالية الموضوع وتفريعها</li>
+<li>طرح رهانات النّظر في إشكالية الموضوع</li>
+</ul>
+<p class="para">2 - الجوهر :</p>
+<ul class="dash">
+<li>التذكير بالموضوع المطروح وإبراز ضمنياته : مثال : يؤكد موضوعنا + مضمون القول + وهو يفترض الضمنيات التالية ...</li>
+<li>تحليل العنصر الأوّل (أو الأطروحة)</li>
+<li>تحليل العنصر الثاني (أو الأطروحة المستبعدة)</li>
+<li>النقاش : مكاسب + حدود الأطروحة</li>
+</ul>
+<p class="para">3 - الخاتمة :</p>
+<p class="para">حوصلة تأليفية لأهم نتائج التحليل + النقاش</p>
+<p class="subhead t-navy">III- الإنجاز :</p>
+
+<div class="chtag"><span>المحور</span> اللغة والتواصل</div>
+
+<p class="para"><b>الموضوع</b> : "تقول اللغة كلّ شيء" ما رأيك ؟</p>
+<p class="para">(خاص بشعبة الآداب)</p>
+<p class="para"><b>التحرير</b> :</p>
+<p class="para">من اليسير ردّ الإنسان إلى الكلمة لأنه أولا وأخرا اسم، وهذا الاسم يرمز إلى وجوده، ومن ثمّة تصبح اللغة مجالا يتحقق في إطاره الوجود الإنساني، إلاّ أنّ ما يصحب هذا الوجود من صعوبات تتعلق بالتواصل بين البشر يجعل اللغة وتحديدا يجعل قدرتها التعبيرية والتواصلية محلّ تظنن وهو ما يشرّع لنا طرح الإشكال الفلسفي التالي : ما اللغة ؟ وما هي قدرتها التواصلية ؟ هل تقول كلّ شيء أم أنها تعجز أحيانا عن القول، وقد تتحول إلى أداة إخفاء وتمويه ؟ وإذا افترضنا أنها تقول كلّ الأشياء فهل يعني ذلك أنها ملكة الترميز والتواصل الإنساني بامتياز ؟ وإذا أمكننا القول أنّ اللغة تعجز أحيانا عن التعبير فهل يؤدي ذلك إلى القول بمحدوديتها ؟</p>
+<p class="para">والى أيّ مدى يصحّ القول أنّ اللغة تقول كلّ شيء ؟</p>
+<p class="para">إنّ ما نراهن عليه من خلال النّظر في إشكالية هذا الموضوع يتعلق بتحديد مفهوم اللغة في علاقته بالتواصل وفي إبراز محدوديتها وإمكانية توظيفها للمغالطة والتحرز من زيفها لتصبح مجالا فعليا للتواصل .</p>
+<p class="para">يؤكد موضوعنا أنّ اللغة تقول كلّ شيء وهو يفترض الضمنيات التالية :</p>
+<p class="para">- أنّ القدرة التعبيرية والتواصلية للغة لا محدودة ولا متناهية .</p>
+<p class="para">- أنّ اللغة هي المجال الوحيد للتواصل الإنساني .</p>
+<p class="para">- أنّ الإنسان هو أولا وأخيرا كائن لغوي .</p>
+<p class="para">إلاّ أنّ امتحان مدى صحّة هذه الضمنيات يتطلب منّا بدءا تحديد مفهوم اللغة . فما اللغة إذن ؟</p>
+<p class="para">تفيد اللغة في معناها العام منظومة من الرموز والمصطلحات والعلامات والإشارات والأسماء والكلمات التي تخضع لقواعد والتي أبدعها الإنسان ليحقق من خلالها تواصله مع غيره من البشر . وتشير اللغة في معناها الخاص إلى قدرة الإنسان على التلفظ أي على الكلام . وبهذا المعنى تمثل اللغة في نظر "ديكارت" خاصية إنسانية بامتياز لأنّ التلفظ والنطق والكلام يرتبط بالوعي والعقل والتفكير وهي خصائص يفتقر إليها الحيوان، ثم إنّ الإنسان يتميز حسب "ديكارت" بالقدرة على توليد اللغة أي على الإبداع والخلق والتجديد وهو ما يسمح للغة في نظر عالم الألسنية "إميل بنفينيست" "بقول الكثير بالقليل" أي بالتعبير عن عدد لا محدود من المعاني والأفكار بعدد محدود من الوحدات الصوتية أو الأحرف، وبذلك تتحقق ذات الإنسان في اللغة وباللغة، إذ كما يقول "بنفينيست" :"يكون أنا، من يقول أنا"، ولذلك ارتقى "هيدغر" باللغة إلى مرتبة موطن الكينونة والوجود إذ يقول "اللغة مسكن الوجود ومأواه"، وتبعا لذلك فإنّ وجود المجتمع الإنساني مشروط بوجود اللغة أي أن التواصل اللغوي كما يبيّن "مرلوبونتي" هو شرط للتواصل الاجتماعي، معنى ذلك أن الحوار والتفاهم وتبادل الأفكار بين أفراد المجموعة البشريّة الواحدة والذي تؤمّنه اللغة هو الذي يضمن لتلك المجموعة البقاء والاستمرارية في الوجود . إلاّ أنّ ما نلاحظه أحيانا من غياب الفهم بين الأفراد وأحيانا أخرى من سوء الفهم ما يدفعنا إلى التساؤل عن مدى نجاعة اللغة في التعبير عن رغبات وعن أفكار وعن حاجيات الإنسان بدقة أي التساؤل عن مدى اقتدار اللغة على تحقيق التواصل الفعلي والحقيقي والدائم بين البشر، وبالفعل فقد بيّن "برقسون" أنّ اللغة الإنسانية تعتمد ملصقات وعبارات جامدة تتوسّط الإنسان والإنسان من جهة والإنسان والعالم من جهة أخرى فتحجب عنه رؤية الحقيقة في تغيّرها وتجدّدها وديمومتها ونبضها الدّائم .</p>
+<p class="para">ويتجلّى هذا الحجاب السّميك الذي تفرضه اللغة بين الإنسان والإنسان خاصّة في المجال الشعوري والوجداني العاطفي إذ تنوء الكلمات والعبارات بحمل المشاعر الجياشة للأفراد وتعجز عن التعبير عنها بل إنّ اللغة عند "نيتشه" تغدو أداة للإخفاء والتمويه والمغالطة والدّجل والزيف والخداع فهي تزعم أنّ وراء كلّ فعل فاعل وهو العقل أو الوعي أو الأنا في حين أنّ الفاعل الحقيقي هو الجسد وطاقته الحيويّة، لذلك آن لنا أن نهوي بمطرقة النّقد على هذه الأصنام اللغويّة لتأفل ويبرز من وراءها التواصل الحقيقي بين النّاس وهو تواصل يجده "نيتشه" في الفنّ المتحرّر من كلّ القيود . وتزداد صعوبة تحقيق اللغة للتواصل البشري إذا اعتبرنا أنّ كلّ فرد وهو يبثّ رسالته اللغويّة للآخرين ينطلق من عالمه الخاص اللاواعي وما اشتمل عليه من مكبوتات يصعب على المتلقي لرسالته فهمها خاصة وأنّ المتلقي له جانب لا واعي قد يؤثر بدوره في ذلك الفهم، فتغدو عمليّة التواصل اللغوي خاضعة لعمليّة تأويل لخطاب المتكلم قد تجعل من التفاهم أمرا بعيد المنال، لكن هذه المحدوديّة التي تتصف بها اللغة في التعبير لا تشرّع لنا التخلّي عنها في التواصل فيما بيننا لأنّ نقد اللغة لا يتمّ إلاّ من خلال اللغة، وقدر الإنسان أن يظلّ أسير اللغة، أليس الإنسان كما قال " إرنست كاسيرر" "حيوان رامز" ! هذه الرمزيّة هي التي تسمح له بالانفتاح على حقول أخرى من التواصل مثل الصورة بكلّ أشكالها عساه بذلك يسدّ فجوات لغة الكلام ويؤسّس لحوار سلمي فاعل وخصب وثري و دائم مع أخيه الإنسان .</p>
+
+<div class="chtag"><span>المحور</span> الخصوصية والكونية</div>
+
+<p class="subhead t-red">اختبار حول محور : الخصوصية والكونية</p>
+
+<div class="chtag"><span>المحور</span> المنهجية</div>
+
+<p class="subhead t-navy">منهجيّة الموضوع في صيغة زوج مفهومي</p>
+<p class="subhead t-navy">(خاص بشعبة الآداب)</p>
+<p class="subhead t-navy">I - العمل التحضيري :</p>
+<p class="para">1 - تحويل الموضوع إلى سؤال : مثال : نحن والآخرون هل من تعارض بين "النحن" و"الآخرين"؟</p>
+<p class="para">2 - الإجابة عن السؤال : مثال : لا تعارض بين "نحن" و"الآخرين"</p>
+<p class="para">3 - الإجابة المستبعدة عن السؤال : مثال : ثمة تعارض بين "نحن" و"الآخرين"</p>
+<p class="para">4 - صياغة الإشكالية العامة للموضوع : ما علاقة "نحن" بـ"الآخرين" ؟ هل في حضور النحن إقصاء للآخرين أم بالإمكان الحديث عن لقاء وتعايش بينهما ؟</p>
+<p class="para">5 - تحديد عناصر التحليل والنّقاش والمرجعيات :</p>
+<p class="para">أ- العنصر الأوّل : الأطروحة المستبعدة : ثمة تعارض بين "نحن" و "الآخرين"</p>
+<p class="para">المرجعيات : "هنتنغتون" في حديثه عن صدام الحضارات، "فوكوياما" في تأكيده نهاية التاريخ مع بلوغ الحضارة الغربية اليوم أوجها .</p>
+<p class="para">ب- العنصر الثاني : الأطروحة، لا تعارض بين "نحن" و"الآخرين" المرجعيات : "بول ريكور" (لقاء الإنسان بالإنسان) "كانط" (الأرض وطن للجميع)، "مالبرانش" (العقل الكوني)، "ليفيناس" (العلاقة البينذاتية) "كلود ليفي ستراوس" (وحدة العقل الإنساني) .</p>
+<p class="para">ج - النقاش : مكاسب الأطروحة : الحوار الحضاري ودوره في تقدّم الإنسانية</p>
+<p class="para">- حدود الأطروحة : العولمة ومخاطرها في تهديد الهويات والخصوصيات الثقافية + الموقف الشخصي .</p>
+<p class="para">6 - رهانات النّظر في إشكالية الموضوع : مثال : إنّ ما نراهن عليه من خلال النّظر في إشكالية هذا الموضوع يتمثّل في رهانات نظريّة تدعونا إلى إعادة تعقّل مفهوم "النحن" في علاقته بـ"الآخرين" ورهانات عمليّة تحفزنا على التحرز من هيمنة الآخر والاعتزاز بانتمائنا الحضاري .</p>
+<p class="subhead t-navy">II - التخطيط :</p>
+<p class="para">1 - المقدّمة :</p>
+<p class="para">ب- التمهيد : يمكن الانطلاق من رصد الواقع في علاقته بالمسألة التي يطرحها الموضوع، كما يمكن الانطلاق من توتر بين مواقف مختلفة من الإشكال المطروح، ويمكن الانطلاق كذلك من إبراز موقف عامة النّاس من المسألة المطروحة ومقارنتها بالموقف الفلسفي ...</p>
+<p class="para">ت- طرح إشكالية الموضوع : يمكن صياغتها كما يلي : ما هي أو ما هو + المفهوم الرئيسي للموضوع ؟ + هل + الأطروحة المستبعدة للموضوع + أم + أطروحة الموضوع ؟</p>
+<p class="para">ث- تفريع إشكالية الموضوع : يمكن اعتماد الصياغات التالية :</p>
+<p class="para">- إذا افترضنا أنّ + الأطروحة المستبعدة للموضوع + فهل يعني ذلك أنّ + استنتاج ؟</p>
+<p class="para">- وإذا أمكننا القول أنّ + أطروحة الموضوع + فهل يؤدي ذلك إلى + استنتاج ؟</p>
+<p class="para">- والى أيّ مدى يصحّ القول + أطروحة الموضوع ؟</p>
+<p class="para">ج- طرح رهانات النّظر في إشكالية الموضوع .</p>
+<p class="para">2 - الجوهر :</p>
+<p class="para">أ- التذكير بالموضوع المطروح : مثال : يطرح موضوعنا العلاقات الممكنة بين مفهوم "نحن" من جهة ومفهوم "الآخرين" من جهة ثانية ...</p>
+<p class="para">ب- إبراز ضمنيات الموضوع : مثال : وهو يفترض الضمنيات التالية ...</p>
+<p class="para">ت- تحليل العنصر الأول</p>
+<p class="para">ث- تحليل العنصر الثاني</p>
+<p class="para">ج- النقاش</p>
+<p class="para">3 - الخاتمة :</p>
+<p class="para">حوصلة تأليفية لأهم نتائج التحليل + النقاش</p>
+<p class="subhead t-navy">III - الإنجاز</p>
+
+<div class="chtag"><span>المحور</span> الخصوصية والكونية</div>
+
+<p class="para"><b>الموضوع</b> : نحن والآخرون</p>
+<p class="para">يشهد واقعنا الرّاهن تقاربا كبيرا بين الشعوب والأمم المختلفة تجسّد بالخصوص مع وسائل التواصل والاتصال العصريّة والتي ردمت الهوّة السّحيقة بين الثقافات لتستبدلها بتقاطع بينها قد يصل أحيانا إلى حدّ التماثل وهو ما جعل البعض يسم هذا العصر "بعصر نهاية الجغرافيا وبداية التاريخ"، أي عصر تقلّصت فيه الحدود الجغرافية بين شعوب العالم لفائدة تاريخ وثقافة واحدة تقدّم نفسها في صيغة ثقافة شمولية وكونية، ومن ثمّة يصبح الحديث عن علاقة التمايز بين الأنا والآخر حديثا مجازيا بما أنّ الثقافة الكونيّة أزالت الفروق والتمايزات وأحلّت محلّها علاقات قوامها الوئام والتكافؤ إذ الأنا والآخر ينهلان من نفس الينبوع الثقافي -الكوني- ولذلك فإنّ التساؤل عن مشروعية هذا التماثل بين الثقافات وعن خلفياته ورهاناته يكتسي وجاهة تسمح لنا بطرح الإشكال الفلسفي التالي : من نحن ؟ ومن الآخرون ؟ وهل يحق لنا اليوم الحديث عن علاقة تمايز واختلاف بين النحن والآخرين أم أنّ هذه العلاقة تضمحلّ وتتلاشى في ظلّ ثقافة تدّعي الشمولية والكونيّة ؟</p>
+<p class="para">فإذا افترضنا أنّ النحن مختلف عن الآخرين فهل يعني ذلك التشريع للتنوع الثقافي وتقريظه ؟</p>
+<p class="para">وإذا أمكننا القول أنّ النحن متماثل مع الآخرين فهل يؤدي ذلك إلى تبرير الهيمنة الثقافية بحجة الكونيّة ؟</p>
+<p class="para">والى أيّ مدى يصحّ القول أنّ التماثل والتماهي الثقافي محض وهم أيديولوجي ؟</p>
+<p class="para">إنّ ما نراهن عليه من خلال النّظر في إشكالية العلاقة بين النحن والآخرين يتمثل في إعادة تعقّل مفهوم النحن في واقع سمته الانفتاح اللاّ محدود بين الثّقافات وهيمنة نموذج أحادي للتقدّم والتحضّر .</p>
+<p class="para">عندما نتساءل عن علاقة النحن بالآخرين تستوقفنا جملة من الملاحظات الأوّلية، تبدو في شكل فرضيات ضمنيّة تقوم على أساسها تلك العلاقة . أولى هذه الملاحظات أنّ النحن وردت في صيغة موضوعنـــا قبل الآخرين، وهذه الأسبقية قد تفترض أفضلية أو سعي للتشريع والتأسيس والتأصيل وكأنّ النحن تائهة، منبتّة عن ذاتها ولن تستعيد وعيها بذاتها إلاّ من خلال رسمها لحدود الفصل بينها وبين الآخر أما ثاني الملاحظات فيتعلق بصيغة الجمع التي ميّزت مفردتي الموضوع : نحن والآخرون، فلماذا "نحن" وليس "أنا" ؟ ولماذا "الآخرون وليس "الآخر" ؟ هل معنى ذلك أنّ النحن من جهة والآخرين من جهة ثانية، كلّ منهما يشهد تجانسا يجوز الجمع أم أنّه تجانس موهوم يضمر إقصاء الاختلاف والتعدّد والتنوّع لفائدة التماثل والمماهاة ؟ ...</p>
+<!-- PROOFREAD: 1677 part1 p56 — page blurred; "منبتّة" uncertain -->
+<p class="para">إنّ مجمل الملاحظات السّالفة هي في حقيقة الأمر استشكالات سنسعى إلى تجلية بعض من جوانبها انطلاقا من تحديد مفهومي النحن والآخرون، فما المقصود إذن بعبارة "نحن" وما دلالة لفظة "الآخرين" ؟</p>
+<p class="para">تشير عبارة "نحن" إلى ضمير المتكلم وهي تدلّ في سياق موضوعنا على ما يجمع بين أفراد مجموعة بشريّة معيّنة من لغة وقيم ومثل وأفكار وعادات وتقاليد وتاريخ وإرث ثقافي يميزهم عن غيرهم من المجموعات البشريّة الأخرى . وهذا الانتماء الثقافي والفكري هو الذي يمثّل في نظر الفيلسوف المعاصر "تشارلز تايلور" :"الأفق الذي يسمح للفرد باتخاذ مواقف خاصّة من القضايا المطروحة عليه في واقعه" . وتبعا لذلك فإنّ مفهوم النحن يحيل إلى الهويّة والخصوصيّة الثقافيّة لشعب ولأمّة معيّنة وهي خصوصيّة تختلف عن الخصوصيات والهويّات الأخرى التي نعبّر عنها من خلال مفهوم الآخرين . وهذا الاختلاف قد يبرّر في نظر البعض الانكفاء على الذات والانغلاق ورفض المغايرة بحجة الدّفاع عن الأصالة والتجذّر الحضاري . ولعلّ ظاهرة الضياع والشّعور بالتشتّت الذهني والفكري والنفسي التي يعيشها بعض الأفراد وبعض الأقليات العرقيّة في أوروبا مثلا والتي يصفها البعض بأزمة هويّة وبانبتات عن الجذور الحضاريّة، هذه الظّاهرة، إذن، تدعو أنصار الانغلاق إلى الاعتداد بخصوصياتهم الثقافيّة ورفض الحضارات الأخرى بل والتصادم معها . ولقد نبّهنا "فولتير" إلى مخاطر التعصب الفكري إذ يؤدي إلى إقصاء الآخر المختلف معنا وإلى تعنيفه وإلى قتله والانتشاء لذلك القتل والاحتفاء به لأنّه في سياق تصوّر منغلق ومتحجّر للخصوصيّة الدينيّة والثقافيّة سيكون سبيلهم إلى جنّة موعودة، فإذا بمشهد الموت الدّرامي يصبح اليوم مشهدا احتفاليا وهو احتفال يتعارض مع شريعة الحياة ومع غريزة البقاء بما هي رغبة طبيعيّة لدى الإنسان والحيوان معا .</p>
+<p class="para">من أجل ذلك، ولتجاوز هذه المخاطر، تتولّد الحاجة إلى الانفتاح على الحضارات وعلى الثّقافات وعلى الخصوصيات الأخرى، وهو انفتاح يجد سنده في نظر "كانط" فيما يسمّيه "بالحق الكوني" أو "الحق الكوسموبوليتي" للإنسان بوصفه مواطنا عالميا . فهذا الحقّ يدعو الآخر إلى الاعتراف به والى حسن ضيافته وعدم معاملته كعدوّ وعدم إبداء الكراهية له واحتضانه عند تعرض حياته للخطر . وهو حقّ يقوم على أساس الانتماء إلى المجتمع البشري وعلى أساس الملكيّة المشتركة لسطح الأرض وهو ما يسمح بإقامة علاقات سلميّة بين القارات المتباعدة . ومن جهة أخرى يلتزم الضيف الأجنبي بأن يكون مسالما وبأن يحترم الاتفاقيات والمواثيق بين الدول والأمم وهكذا، ينفتح الأنا الخصوصيّ على الآخر والمختلف والمغاير الحضاري، وهذه المغايرة ترتدّ إلى وحدة كونيّة يعبّر عنها "مالبرانش" من خلال مفهوم "العقل الكوني "ذلك الذي نستشيره حينما نتأمّل في أعماق أنفسنا" وهو "العقل الأسمى" الذي يوحّد بين كلّ البشر ويهديهم إلى اليقين . بيد أنّ "الموزّع بعدل بين البشر" كما يقول "ديكارت" لا ينفي الاختلافات القائمة بين الثّقافات، فهذه الأخيرة في نظر "كلود ليفي ستراوس" متعدّدة السّمات والخصائص والقيم والعقائد والعادات والتقاليد ...</p>
+<p class="para">تبعا لتعدّد ولاختلاف الظّروف المناخيّة والبيئيّة والاجتماعيّة للبشر . وهو اختلاف لا يبرّر المفاضلة بين الحضارات والشعوب وتصنيفها إلى شعوب متقدّمة فكريا وأخرى متأخرة وأحيانا بربريّة ومتوحّشة بما أنّ الشعوب البشريّة كلّها تشترك في العقل الإنساني ذاته وتتمتّع بقدراته وطاقاته المعرفيّة والإدراكيّة كلّها . وهذا الاختلاف هو اختلاف محمود لا يجب البحث عن وسائل وعن طرق للتغلّب عليه وتأسيس تماثل موهوم بين الحضارات . إلاّ أنّه من الصعب اليوم الحديث عن إمكانيّة اعتداد ثقافة معيّنة بذاتها واستقلالها ودفاعها عن أصالتها في واقع يشرّع لنموذج حضاريّ واحد يزعم أنّه النّموذج الوحيد الممكن والنّاجع والصّالح لكلّ البشر أي الذي يقدّم نفسه كنموذج كوني وعولمي . وهو نموذج سينظّر له بعض المفكّرين المعاصرين أمثال "هنتنجتون" و"فوكوياما" .</p>
+<p class="para">علاقة النحن بالآخرين هي في نهاية الأمر علاقة الذّات الحضاريّة بذات أخرى سائدة ومهيمنة تسعى لدحرها وترويضها وتطويعها واستثمارها واستغلالها ...</p>
+<p class="para">فأن ندافع عن ذاتنا الحضاريّة ذلك لا يعني البتّة أن نعادي المكتسبات الإنسانيّة الرّاهنة ولا أن ننصهر في قيم الحضارة الغالبة، بل إنّ ذلك الدّفاع عن أصالتنا وعن خصوصيتنا يقتضي الحوار الفاعل والإيجابي المثمر مع الآخرين، وهو حوار لا يفيد الاتّباع بقدر ما يعبّر عن التفكير مع - والتفكير ضدّ ... إنّه تفكير نقدي تنهض له الفلسفة دوما وبشكل متجدّد وإن قدّمت في سبيل ذلك - على خطى سقراط- شهداء للحقيقة .</p>
+<p class="subhead t-red">اختبار حول محور: الخصوصية والكونية</p>
+<p class="subhead t-navy">(خاص بالشعب العلمية)</p>
+<div class="exsub">التمرين الأول :</div>
+<p class="para">قيل "تتحدد هويتنا بإرثنا الثقافي وحده" .</p>
+<p class="para">عن الكتاب المدرسي للشعب العلمية</p>
+<p class="consigne">المطلوب:</p>
+<p class="consigne">أبرز استتباعات هذا الموقف وأوجه الاعتراض عليه .</p>
+<p class="para"><b>الإجابة</b>:</p>
+<p class="para">(ملاحظة: الاستتباع هو كل ما يمكن أن يترتب من نتائج عن موقف ما .)</p>
+<p class="para">يفيد هذا الموقف أن هوية شعب أو حضارة ما تتحدد استناداً إلى الارث الثقافي لذلك الشعب وحده بما يتضمنه من لغة ومعتقدات وتاريخ ... وهو موقف قد يؤدي إلى رفض الآخر الحضاري وإقصائه بل وحتى التصادم معه انطلاقاً من رؤية مركزية تزعم التفوق والتقدم والتفرد ، إلا أن هذا الموقف يمكن إبراز تهافته بالنظر إلى تاريخ الإنسانية الذي يعكس مساهمة حضارات عديدة في تطوره ، ثم إن شعباً أو حضارة معينة لا يمكنها أن تنغلق على ذاتها إذ تحتاج إلى غيرها من الحضارات على الأقل اقتصادياً .</p>
+<div class="exsub">التمرين الثاني:</div>
+<p class="para">قيل " تتحدد هويتي من خلال علاقاتي الحوارية مع الآخرين"</p>
+<p class="consigne">المطلوب:</p>
+<p class="consigne">حدد دلالة الحوار في علاقته بمفهوم الهوية .</p>
+<p class="para">عن الكتاب المدرسي للشعب العلمية</p>
+<p class="para"><b>الإجابة</b>:</p>
+<p class="para">يفيد الحوار في معناه العام التخاطب وفي سياق هذا الموقف يرتقي الحوار بما هو تخاطب من مجال العلاقة بين الأفراد إلى العلاقة بين الهويات والخصوصيات الحضارية والثقافية وهو تخاطب يعبر عن التواصل الإيجابي الفاعل والمستمر بينها .</p>
+<div class="exsub">التمرين الثالث:</div>
+<p class="para">الاشتغال على نص فلسفي :</p>
+<div class="note"><div class="nb">
+<p class="para">هل يمكن أن توجد ثقافة واحدة يجد فيها كل البشر ثقافتهم الوطنية؟ هل لنا أن نتخيل أنه يمكن للحضارة الأوروبية التي نفخر بها جداً أن تصبح ملكاً مشتركاً لكل الشعوب؟ إن ما أخشاه ليس أكثر من اعتماد نظام تغذية خاص بكل البشر دون اتخاذ احتياطات لا متناهية من قريلندا في النيجر وكامتشاتكا في البورنيو . إن حكامنا وقادتنا مقتنعون جداً حين يشيدون في خطبهم بفتوحات العلم ، وإذا كان لهم أن يتحروا للحظة فيما يقوله العلم فإنهم سيدركون من رواد علم التغذية الفتي عدد الكوارث التي سببتها في القرن التاسع عشر، النية الطيبة وسخاء الأوروبيين ذوي القصد السليم والذين لأجل إنقاذ صغار الأقرندين من المجاعة قتلوهم جماعات بمنحهم فجأة أطعمة البيض أطعمة جد غنية جد منشطة كما ندعي: إنه بالقطع العنيف مع توازن نمط عيشهم العريق قضوا عليهم في بعض أشهر عبر آلية بدأنا نفهمها .</p>
+<p class="para">عن الكتاب المدرسي للشعب العلمية لوسين فيبر "من أسياد وعبيد " ، ص 1 8</p>
+</div></div>
+<p class="consigne">المطلوب:</p>
+<p class="consigne">أ . استخرج أطروحة الكاتب بدقة .</p>
+<p class="consigne">ب . حدد الإشكالية العامة للنص .</p>
+<p class="consigne">ج . عدد الحجج التي يسوقها الكاتب لإبطال أطروحة خصومه , حللها وأذكر طبيعتها.</p>
+<p class="para"><b>الأجوبة</b>:</p>
+<p class="para">أ . يؤكد الكاتب غياب ثقافة واحدة يجد فيها كل البشر ثقافتهم الوطنية .</p>
+<!-- PROOFREAD: 1677 part1 p60 — "قريلندا" / "الأقرندين" / "لوسين فيبر" uncertain readings -->
+<p class="para">ب . يطرح النص الإشكالية التالية: هل يمكن توحيد البشر في ثقافة واحدة أم أن ثقافاتهم متعددة ومتنوعة ومتماثلة في القيمة؟</p>
+<p class="para">ج . يعتمد الكاتب جملة من الحجج يبطل بها القول بمركزية الحضارة الأوروبية، وهذه الحجج مستقاة من الواقع مثل المقارنة بين النظام الغذائي في بعض البلدان الأفريقية ونظيره في أوروبا وما أدى إليه نشر طعام الأوروبيين لإنقاذ أطفال أفريقيا من المجاعة من مخاطر وصلت إلى حد قتلهم .</p>
+<div class="exsub">التمرين الرابع:</div>
+<p class="consigne">أجب بالاختيار عن أحد السؤالين التاليين في فقرة لا تتجاوز الثلاثين ( 3 0 ) سطرا:</p>
+<p class="consigne">1 . هل يمثل الاختلاف الثقافي خطراً على الإنسانية؟</p>
+<p class="consigne">2 . هل الحضارة الكونية خير كلي؟</p>
+<p class="para"><b>الإجابة</b> :</p>
+<p class="para">تتضمن هذه الفقرة المراحل التالية :</p>
+<p class="para">- مرحلة بناء المشكل: وفيها نبين مبررات معالجة هذا السؤال ونشير إلى أهميته ونستخلص مشكلا فلسفيا نصوغه بوضوح .</p>
+<p class="para">مثال: السؤال الاول: لعله من اليسير اليوم ملاحظة التقاء الإنسانية - بالرغم من الفروقات الثقافية العديدة بينها في القيم الاستهلاكية إلى درجة غاب فيها ما هو خصوصي في تلك الثقافات وهو ما يبرر التساؤل عن قيمة الاختلاف الثقافي في واقع نعلن فيه الولاء التام للحضارة الغربية بما هي حضارة دالة على كل أشكال التقدم العلمي والتقني والاقتصادي والسياسي ... من أجل ذلك يطرح الإشكال التالي: هل يمثل الاختلاف الثقافي خطراً على الإنسانية أم أنه عامل أساسي وحاسم من عوامل تقدمها؟</p>
+<p class="para">- مرحلة بلورة الجواب:</p>
+<ul class="b">
+<li>بيان دلالة الاختلاف الحضاري : ( مع تحديد المفاهيم ) .</li>
+<li>الاستدلال على وجوده من خلال بعض الأمثلة .</li>
+<li>ذكر الأسباب التي تفسر الاختلاف .</li>
+<li>تحديد دلالة الخطر ومستوياته .</li>
+<li>تحديد بعض الشروط التي يتحول فيها الاختلاف إلى عامل إثراء للإنسانية .</li>
+<li>إبراز علاقة الاختلاف الحضاري بالخصوصيات الثقافية دون إلغاء أفقها الكوني .</li>
+</ul>
+<p class="para">- مرحلة الاستخلاص:</p>
+<ul class="b">
+<li>اتخاذ موقف واضح ودقيق من الإشكال المطروح .</li>
+<li>إبراز قيمة ووجاهة ذلك الموقف .</li>
+</ul>
+<p class="para">مثال: نخلص إلى أن الاختلاف الثقافي لا يمثل خطراً على الإنسانية بل هو عامل إثراء وتجدد وخصوبة بقدر ما يعكس أصالة وعمق الثقافات المتنوعة وتمسكها بقيمتها وخصوصياتها بقدر ما يفتح آفاقاً رحبة لتواصل كوني مثمر بينها .</p>
+<!-- PROOFREAD: 1677 part1 p61 — whole page blurred; readings uncertain throughout -->
+<p class="subhead t-red">اختبار حول محور : العلم بين الحقيقة والنمذجة</p>
+<p class="subhead t-navy">(خاص بشعبة الآداب)</p>
+<p class="consigne">الموضوع : "النموذج العلمي هو نموذج شيء لأجل شيء ما"<br>ما رأيك ؟</p>
+<p class="subhead">التحرير :</p>
+<p class="para">اعتقد العلماء طويلا أن نشأة العلم الحديث فتحت للإنسانية آفاقا كبيرة لبلوغ حقيقة الكون النهائية والموضوعية، إلا أن تطور النظريات العلمية كشف عن تعقد الواقع المدروس وتشعبه الأمر الذي جعل من الحديث عن الحقيقة أمرا صعبا إن لم يكن محالا، إذ بينت الدراسات الإيبستمولوجية المعاصرة أن أقصى ما ينشده العلم اليوم هو بناء نماذج علمية تفهم الواقع وتؤوله، وهذه النماذج بقدر ما تنشد المعرفة بقدر ما تنشد غايات عملية، وهذه الغايات هي التي تطرح إحراجات عديدة حول طبيعة وهدف المعرفة العلمية، وهو ما يشرع لنا طرح الإشكال الفلسفي التالي :</p>
+<p class="para">فيم تتمثل غاية المعرفة العلمية اليوم ؟ هل تطلب الحقيقة لذاتها من خلال نمذجتها للواقع أم أنها تطلب الحقيقة لأجل شيء ما ؟ وإذا افترضنا أن العلم يروم الحقيقة لذاتها فهل يعني ذلك حياد المعرفة العلمية وموضوعيتها ؟ وإذا أمكننا القول أن العلم ينشد المعرفة لأجل شيء ما فهل يؤدي ذلك إلى التشكيك في حياد المعرفة العلمية وإلى إبراز انخراطها في مشاريع أيديولوجية تتنافر مع أغراض العلم ؟ وإلى أي مدى يصح القول أن المعرفة العلمية اليوم، أصبحت توظف لغايات عملية؟</p>
+<p class="para">إن ما نراهن عليه من خلال البحث في إشكالية هذا الموضوع يتعلق بتوضيح مفهوم العلم في علاقته بالنمذجة وفي إبراز توظيفاته الأيديولوجية للتحرز من مخاطر تلك التوظيفات على الإنسانية .</p>
+<p class="para">يؤكد موضوعنا أن النموذج العلمي هو نموذج شيء لأجل شيء ما، وهو يفترض الضمنيات التالية:</p>
+<ul class="dash">
+<li>أن العلم اليوم يستند إلى نماذج علمية يبدعها العلماء لفهم الواقع .</li>
+<li>أن النماذج العلمية ليست مجرد بناءات تخيلية مجردة منفصلة عن غايات المنمذج، بل هي منخرطة في مشاريع أيديولوجية خدمة لمصالح البعض .</li>
+</ul>
+<p class="para">إلا أن امتحان مدى صحة هذه الضمنيات يتطلب منا أولا تحديد مفهوم النموذج العلمي فما المقصود بالنموذج العلمي ؟</p>
+<p class="para">يفيد النموذج العلمي كل تمثل وتصور وبناء وإنشاء خيالي عقلي صوري رمزي رياضي مجرد واصطناعي أي من وضع العلماء وغاية النموذج العلمي تتمثل في تبسيط الواقع المعقد للتمكن من فهمه وتأويله ووصفه، ولذلك يستند العلماء إلى ما يسميه "لوموانيو" باستراتيجية الإهمال أو الإغفال وهي تتمثل في اهتمام العالم في دراسته لظاهرة معينة ببعض العناصر والخصائص والمظاهر وإهماله أي إغفاله وإخفائه للعديد من المظاهر الأخرى، وهذه الإستراتيجية محكومة بخطة منهجية واجرائية أي أنها نابعة من إرادة المنمذج، فهو يقصي من مجال اهتمامه العناصر التي لا تقبل القيس والحساب والتجريب العلمي وينصرف إلى دراسة المظاهر التي تقبل التجريب والقيس والتقعيد الرياضي شأن ما قام به عالم الفيزياء الإنقليزي "نيوتن" في تحديده لمفهوم القوة إذ أهمل كل العناصر والخصائص المتعلقة بظواهر الطبيعة المختلفة وأبقى فحسب على عنصري الكتلة أو كمية المادة والتسارع، لأن هذين العنصرين يمكن قيسهما حسابيا ورياضيا ومن ثمة استطاع "نيوتن" أن يصوغ مفهوم القوة في شكل معادلة رياضية كما يلي :</p>
+<p class="para">ق = ك X س . هذه المعادلة تصف في نظر "نيوتن" ما يجري في الطبيعة أو ما يعتقد أنه يحدث فيها مع أن تلك العناصر والمفاهيم لا وجود لها في الواقع الفعلي ولكنها تمثل وتصور وتصف الواقع عبر عملية تبسيط واختزال . وتبعا لذلك فإن العلم اليوم يرد إلى عملية نمذجة علمية أي إلى عملية تبسيط للواقع المعقد تقوم على أنساق رمزية رياضية واصطناعية</p>
+<p class="para">إلا أن هذه الأنساق والبناءات المجردة وهي تسلط على الواقع لتبسيطه وفهمه، تنشد غايات عملية تتراوح بين ما هو أداتي واستعمالي ونفعي ضيق تجسمه بعض التطبيقات لتقنية، وبين توظيفات استراتيجية تخدم مشاريع أيديولوجية لدول كبرى متقدمة علميا صناعيا وتكنولوجيا، وتبرز خطورة هذه التوظيفات في إرادة الهيمنة والسيطرة <!-- PROOFREAD: 1677 part1 p64 — "لتقنية" (left edge of line cut by the photo; first letter(s) not visible) -->لتلك الدول على بقية شعوب العالم وهو ما يفسر رصد تمويلات واستثمارات هائلة لمراكز البحث الجماعية خدمة لأغراض عسكرية مثلا، ولذلك انشغل التفكير الفلسفي بهذا التحول الأيديولوجي للمعرفة العلمية دفاعا عن معنى الوجود الإنساني وعن قيم المسؤولية والحقيقة وكل القيم الأصيلة التي تضمن الكرامة الإنسانية وتجعل الإنسان جديرا بأن يكون إنسانا، وهو ما نفهمه من دعوة "لوموانيو" إلى استعادة المشروع العلمي الأصيل بما هو محبة للحكمة وإنتاج للمعنى بدل أن نختزله في وضعية ضيقة تقصي ما هو قيمي وانساني بحجة الموضوعية العلمية وبدل أن نورطه في غايات وأغراض أيديولوجية تجعل الإنسان مغتربا عن قيمه فاقدا لذاته ولكينونته .</p>
+<p class="para">أن ينمذج العلم اليوم الواقع أي أن يبنيه رمزيا لتيسير فهمه وللاستفادة من ذلك الفهم إنسانيا ذلك أمر محمود لأنه يجعلنا نسير على خطى "ديكارت" متسيدين للطبيعة ومالكين لها .</p>
+<p class="para">ولكن أن يخدم العلم وهو ينمذج الواقع، مشاريع أيديولوجية محددة، قد تتعارض مع الإنسانية جمعاء، ذلك أمر خطير، نبهتنا إليه الفلسفة ولا تزال، ولعل ذلك بعض من مزاياها .</p>
+<p class="subhead t-red">اختبار حول محور : العلم بين الحقيقة والنمذجة</p>
+<p class="subhead t-navy">(خاص بالشعب العلمية)</p>
+<div class="exsub">التمرين الاول:</div>
+<p class="para">قيل : " إن رد النمذجة العلمية إلى عملية تخيلية افتراضية يجعل منها ضربا من الترف الفكري وملهاة للعقل". عن الكتاب المدرسي للشعب العلمية</p>
+<p class="subhead">المطلوب:</p>
+<p class="consigne">حدد دلالة هذا الموقف وبين السياق الذي ورد فيه .</p>
+<p class="subhead">الإجابة:</p>
+<p class="para">يفيد هذا الموقف أن النمذجة العلمية هي تمثلات وبناءات صورية رياضية تخيلية افتراضية لواقع ممكن بغية فهمه وتأويله والاستفادة عمليا منه ، إلا أن الطابع المجرد والخيالي لتلك التمثلات والبناءات وعدم اشتغالها على وقائع فعلية يمكن اخضاعها للتجريب وبالتالي يمكن تفسيرها هو الذي يجعل منها في نظر البعض مجرد ترف فكري أو نشاط زائد عن الحاجة يغري المتخصصين دون سواهم . هذا الموقف ورد في سياق الدفاع عن الشكل التقليدي للمعرفة العلمية بما هي معرفة تكتشف الحقيقة الموضوعية لواقع معطى .</p>
+<div class="exsub">التمرين الثاني:</div>
+<p class="para">قيل: " ليس النموذج علامة على علاقة مستحدثة بين عناصر كثيرة بل هو على الاصح تعبير عن استراتيجيا الإهمال" .</p>
+<p class="subhead">المطلوب:</p>
+<p class="consigne">أكشف عن ضمنيات هذا الموقف .</p>
+<p class="subhead">الإجابة:</p>
+<p class="para">يفترض هذا الموقف أن النمذجة العلمية تتميز في فهمها وتأويلها للواقع الافتراضي بالبعد الاختزالي والذي يقوم بإهمال عناصر كثيرة ويهتم ببعض العناصر فحسب وهو إهمال لا يخضع للاعتباطية بل هو إهمال يجد تبريره في تخير العناصر القابلة للدراسة العلمية .</p>
+<div class="exsub">التمرين الثالث:</div>
+<p class="subhead">الاشتغال على نص فلسفي:</p>
+<p class="para">إن واقع العلم واقع مفسر بصفة جزئية أو موقتة ولكنه مفسر بالضرورة والحال هذه تكمن المفارقة في كون تلك الرسوم المنجزة أو نماذج الواقع المجردة أقيمت بفضل انحراف للفكر حصل عن طريق ما نسميه الافتراضات . فالظواهر الملاحظة الان ليست التي يتعين تمثيلها في النموذج كما لو كان الأمر يحدث في مرآة . يقحم التمثل والتفسير العلمي إلى جانب صورة الوقائع المتحققة راهنا وقائع افتراضية يمكن أن تتحقق كما يمكن أن لا تتحقق ويكمن دورها في اتمام رسم الظواهر عبر الإبانة عن كل التجريدات والتي توجد من بينها صورة الظواهر التي تمت ملاحظتها فعليا . هكذا يكون واقع العلم مكونا من عوالم محكمة الارتباط لوقائع افتراضية، مع القواعد التي تسمح بتحديد صورة الوقائع الراهنة تحديدا لا يخلو من الدقة واليقين، تقريبا .هكذا قد يصح القول إن ما لم يوجد يفسر ما يوجد .</p>
+<p class="para">ج .ق . قرانجي، الاحتمالي والممكن والعرضي، ص 236 .<br>عن الكتاب المدرسي للشعب العلمية</p>
+<p class="subhead">المطلوب:</p>
+<p class="consigne">أ . استخرج أطروحة الكاتب .<br>ب . استخرج الأطروحة المستبعدة .<br>ج . حدد البنية المنطقية للنص .</p>
+<p class="subhead">الأجوبة:</p>
+<p class="para">أ . يؤكد الكاتب أن واقع العلم مكون من عوالم محكمة الارتباط لوقائع افتراضية مع القواعد التي تسمح بتحديد صورة الوقائع الراهنة تحديدا لا يخلو من الدقة واليقين .</p>
+<p class="para">ب . الأطروحة المستبعدة: واقع العلم هو واقع مفسر بالضرورة .</p>
+<p class="para">ج . يتناول النص القضايا التالية:</p>
+<p class="para">1 . واقع العلم الكلاسيكي الذي يبحث عن الحقيقة الموضوعية للظواهر المدروسة مستندا إلى منهج التفسير .</p>
+<p class="para">2 . واقع العلم اليوم في إطار ما يعرف بالنمذجة العلمية والتي تشتغل على وقائع افتراضية .</p>
+<div class="exsub">التمرين الرابع:</div>
+<p class="consigne">أجب عن أحد السؤالين التاليين في فقرة لا تتجاوز 30 سطرا</p>
+<p class="para">1 . هل تستجيب النمذجة لمطلب الكوني؟</p>
+<p class="para">2 . هل من معنى للحديث اليوم عن حقيقة موضوعية تفسر الواقع المعطى في ظل النمذجة العلمية؟</p>
+<p class="subhead">الإجابة:</p>
+<p class="subhead t-navy">- السؤال الأول:</p>
+<ul class="b">
+<li>مرحلة بناء المشكل ( تتضمن بيان مبررات معالجة هذا السؤال والإشارة إلى أهميته واستخلاص مشكل فلسفي نصوغه بدقة) .</li>
+</ul>
+<p class="para">مثال: يبدو أن توق الإنسانية إلى التوحد عند قيم محددة تميزها عن الكائنات الأخرى هو الذي يجعل من العلم اليوم - أي الذي ينحو منحى النمذجة - يطمح إلى تحقيق هذا المطلب علنا بذلك نؤسس لتواصل كوني بين البشر مداره العلم . وهو ما يعكس قيمة وأهمية التساءل عن مدى استجابة النمذجة لمطلب الكوني .</p>
+<p class="para">فهل يحق لنا الحديث عن تحقق للقاء كوني بين البشر من خلال النمذجة العلمية أم أن لهذه النمذجة حدودا مختلفة تنأى بها عن معانقة ذلك المطلب؟</p>
+<ul class="b">
+<li>مرحلة بلورة الجواب:</li>
+</ul>
+<p class="para">- تحديد دلالة النمذجة العلمية بما هي تمثيل تبسيطي وتقريبي لواقع افتراضي وهو تمثيل يعتمد لغة رمزية ورياضية وبالتالي يستند إلى بناءات خيالية مجردة هدفها فهم الواقع وتأويله لغرض عملي نفعي وبراقماتي ( تداولي ) .</p>
+<p class="para">- تحديد معنى الكوني في سياق الموضوع : ما يتفق حوله كل البشر ويلتقون فيه و يجمعون حوله من قيم ناجعة ونافعة وذات مردودية في واقعهم مثل نجاعة العلم المنمذج اليوم أي إمكانية استخدام النماذج العلمية كنماذج وصفية تأويلية في شتى المجالات الحياتية .</p>
+<p class="para">- استحضار بعض الأمثلة المؤيدة لاستجابة النمذجة العلمية لمطلب الكوني</p>
+<p class="para">مثلا : استخدام النموذج البيولوجي ( البرنامج الوراثي الذي يتضمنه الحامض النووي الريبي المنقوص الأوكسجين ( <span dir="ltr">ADN</span> ) في مجال الطب لتشخيص الأمراض وعلاجها ، وفي علم الإجرام بإرجاع الانحرافات السلوكية المؤدية للإجرام إلى عوامل وراثية . . .</p>
+<p class="para">- إبراز محدودية النمذجة العلمية في الاستجابة لمطلب الكوني وهي محدودية ذات مستويين:</p>
+<p class="para">- مستوى ايبستمولوجي يعكس اختزالها للواقع وارتباط النظري بالعملي الأمر الذي يجعلها طريقة تستعمل العلم بدل ان تكون طريقة علمية .</p>
+<p class="para">- ومستوى فلسفي يعبر عما تخفيه النمذجة من توظيفات ايديولوجية خدمة لمصالح سلطة رأس المال .</p>
+<p class="para">- مرحلة الاستخلاص : نستنتج أن النمذجة العلمية قد تطمح من خلال بناءها الصوري الخيالي والمجرد للواقع إلى الاستجابة لمطلب الكونية بما هو مطلب يعبر عن لقاء إنساني يلغي كل الحدود ويتجاوز كل الفروقات ، إلا أنها تقف دون تحقيق ذلك المطلب بما تتعرض له من توظيفات ايديولوجية تجعلها خادمة لطبقة اجتماعية اقتصادية بعينها بدل خدمتها للكوني أي للإنسانية قاطبة .</p>
+<p class="subhead t-navy">- السؤال الثاني: هل من معنى للحديث اليوم عن حقيقة موضوعية تفسر الواقع المعطى في ظل النمذجة العلمية؟</p>
+<p class="subhead">الإجابة:</p>
+<p class="para">- مرحلة بناء المشكل: مثال: يتميز العلم الكلاسيكي باستخدام منهج التفسير والتجريب لاكتشاف قوانين الطبيعة وبلوغ الحقيقة الموضوعية ، إلا ان العلم اليوم يشهد تحولا في التصور وفي المنهج في إطار ما يعرف بالنمذجة العلمية . وهو ما جعل من التساؤل عن معنى العلم الكلاسيكي اليوم أي في ظل تلك المستجدات تساؤلا من الوجاهة بمكان ما يشرع لنا طرح الإشكال التالي: هل تحقق النمذجة العلمية مطلب الكشف عن الحقيقة الموضوعية أم أنها تشتغل في حقل افتراضي هو حقل الممكن الذي يبني ليفهم ويؤول؟</p>
+<p class="para">- مرحلة بلورة الجواب:</p>
+<ul class="b">
+<li>تحديد خصائص العلم الكلاسيكي: اعتماد المنهج الوضعي ( التفسير والتجريب، الاعتقاد في وجود حقيقة موضوعية للواقع على العلم كشفها) .</li>
+<li>تحديد دلالة النمذجة العلمية بما هي تمثل خيالي وافتراضي لواقع ما ( البعد التركيبي) غايته فهمه وتأويله ( البعد الدلالي ) ومنتهاه الاستخدام العملي والنفعي ( البعد التداولي) .</li>
+<li>إبراز علاقة النمذجة العلمية بمفهوم الحقيقة : لا تبحث النمذجة العلمية عن تطابق قولها مع الواقع بل تبني تصورات مجردة لواقع افتراضي وممكن قد يتحقق وقد لا يتحقق .</li>
+</ul>
+<p class="para">- مرحلة الاستخلاص:</p>
+<p class="para">نستخلص أن النمذجة العلمية اليوم أحدثت منعرجا في فهمنا للواقع وفي تصورنا للحقيقة، وهو ما فتح إمكانيات لا محدودة من الاستفادة العملية من العلم .</p>
+
+<div class="chtag"><span>المحور</span> العمل: النجاعة والعدالة</div>
+
+<p class="subhead t-red">اختبار حول محور : العمل : العدالة والنجاعة</p>
+<p class="subhead t-navy">(خاص بشعبة الآداب)</p>
+<p class="consigne">الموضوع : هل يمكن أن يكون العمل الناجع عادلا ؟</p>
+<p class="subhead">التحليل :</p>
+<p class="para">غالبا ما نعتبر أن قيمة نشاط إنساني ما تقاس بمدى مردوديته أي بمدى جلبه للإنسان من مصالح ومنافع ولذلك عندما نبحث في نجاعة العمل الإنساني فإننا نبحث في الحقيقة في قيمته في الحياة الإنسانية، إلا أن هذه القيمة قد تتعارض مع العدالة الاجتماعية ولعل ذلك ما يشرع لنا طرح الإشكال الفلسفي التالي :</p>
+<p class="para">ما دلالة العمل الإنساني ؟ هل تتنافى نجاعته مع العدالة أم أنها قد تتناغم وتتآلف معها ؟</p>
+<p class="para">فإذا افترضنا أن العمل الناجع لا يكون عادلا فهل يعني ذلك أن النجاعة تقود إلى اللامساواة والاغتراب ؟</p>
+<p class="para">وإذا أمكننا القول أن العمل الناجع يكون عادلا فهل يؤدي ذلك إلى اعتبار النجاعة لا تتعارض مع العدالة ؟</p>
+<p class="para">والى أي مدى يصح القول أن العمل الناجع يكون عادلا ؟</p>
+<p class="para">إن ما نراهن عليه من خلال النظر في إشكالية هذا الموضوع يتعلق بمراجعة مفهوم العمل في علاقته بمفهومي النجاعة والعدالة وفي التشريع لنشاط إنساني يحررنا من قيود الضرورات المختلفة .</p>
+<p class="para">يتساءل موضوعنا إن كان بإمكاننا الحديث عن عمل ناجع وفي نفس الوقت يتصف بالعدالة . هذا الموضوع يفترض الضمنيات التالية :</p>
+<ul class="dash">
+<li>أن نجاعة العمل قد تتعارض مع العدالة الاجتماعية .</li>
+<li>أن من مخاطر الحرص على النجاعة في العمل تهديد القيم الإنسانية الأصيلة .</li>
+<li>أن إنسانية العمل تستوجب منا مراجعة طابعه الناجع حتى لا يؤدي إلى التضحية بالعدالة والمساواة الإنسانية .</li>
+</ul>
+<!-- PROOFREAD: 1677 part1 p72 — page photo blurred; whole page read with difficulty, check wording -->
+<p class="para">هذه الضمنيات لا يمكن اختبار مدى صحتها إلا بعد تحديد مفهوم العمل من جهة وفي علاقته بمفهومي النجاعة والعدالة من جهة ثانية، فما دلالة العمل ؟</p>
+<p class="para">يفيد العمل في معناه العام، كل نشاط إنساني واعي وإرادي وغائي يغير المادة الخام أو الطبيعية إلى قيم نافعة اجتماعيا أي إلى ثروات وخيرات يتم تبادلها وتوزيعها بين البشر ولذلك يعرف "أوقيست كونت" العمل بقوله :"هو التغيير المفيد للعالم الخارجي" وبهذا المعنى يتميز الإنسان عن الحيوان بالعمل لأن الحيوان ينصرف عبر نشاطه إلى ما هو غريزي وضروري أي إلى تحقيق حاجياته وضروراته البيولوجية من أجل ذلك ميز "أرسطو" بين الفعل الذي ننسبه إلى الحيوان وبين العمل الذي خص به الإنسان بما أن هذا الأخير هو كائن الوعي والعقل والتفكير والإبداع والخلق والتجديد فالعمل إذن يجعل من الإنسان على حد عبارة "هيقل" "كائن نوعيا" وهذا التميز الإنساني يبرز عند "ماركس" من خلال تغيير الطبيعة وإعادة تشكيلها وصياغتها من جديد ومن ثمة صنع الذات وبناء الكينونة . هكذا، يحقق العمل إنسانية الإنسان بما ينتجه من ثروات وخيرات تحرر الناس من قيود حاجاتهم وضروراتهم، ولذلك تقاس قيمة العمل بمدى وفرة إنتاجه أي بنجاعته أو مردوديته وما يقدمه من منافع وهو ما جعل الإنسان يسعى دوما إلى تطوير وسائل إنتاجه لتمنحه ثروات أوفر. وفي هذا السياق ساهمت المكننة أو التآلية أي استخدام الآلات والتقنيات المتطورة في ازدياد نجاعة العمل ونمو الإنتاج، إلا أن هذا النمو وهذه الوفرة في الإنتاج لم يوازيها تكافئا ومساواة وعدالة في التوزيع بين البشر الأمر الذي أدى إلى شعور العامل خاصة مع النظام الرأسمالي، بالاغتراب أي بسلب إرادته وقدرته على الخلق والإبداع وتشيئته وتبضيعه، وهو اغتراب أفقد الإنسان إنسانيته وجعله عبدا للآلة "فأصبح ما هو إنساني حيواني وما هو حيواني إنساني" على حد عبارة "ماركس"، وتبعا لذلك أدى الحرص على نجاعة ومردودية العمل إلى غياب العدالة الاجتماعية وظهور الحيف واحتداد التفاوت الطبقي وانتشار مظاهر البؤس والفاقة والاحتياج نتيجة التخلي عن القوى البشرية العاملة واستبدالها بآلات وتقنيات متطورة توفر الربح بأقل كلفة ممكنة. من أجل ذلك، انصرف التفكير الفلسفي إلى نقد المظاهر اللاإنسانية للعمل عساه يستعيد دوره في أنسنة الإنسان وفي الارتقاء به عن المرتبة الحيوانية. فإذا "جون بول سارتر" مثلا يدعونا إلى أن ننظر إلى العمل كنشاط يحرر الإنسان من أسر الأشياء ومن قيود الطبيعة شرط أن "تلغي علاقة الاضطهاد بين الناس حتى تتحول وجهة كل من إرادة العبد وإرادة السيد اللتان تستنزفان بالتطاحن الواحدة ضد الأخرى نحو الأشياء" معنى ذلك أن العدالة الاجتماعية أي غياب الاضطهاد والظلم واللامساواة والاستغلال بين البشر هو الكفيل بتجاوز استعباد العامل واغترابه التام .</p>
+<!-- PROOFREAD: 1677 part1 p73 — "فإذا "جون بول سارتر"" (a mark before جون could be a ب: "بجون") -->
+<p class="para">هكذا، إذن يكون العمل الناجع عادلا إذا وفرنا للعامل ظروفا إنسانية أثناء عمله تراعي ما تستوجبه منزلته وكرامته من قيم تضفي على وجوده معنى وتضمن له إنسانيته وإذاك فحسب يصبح العمل مجالا لتحقيق كينونة الإنسان .</p>
+
+<div class="chtag"><span>المحور</span> القيم: الأخلاق والدولة</div>
+
+<p class="subhead t-red">اختبار حول محور : الدولة : السيادة والمواطنة</p>
+<p class="subhead t-navy">منهجية تحليل نص فلسفي (خاص بشعبة الآداب)</p>
+<p class="subhead t-red">I - العمل التحضيري :</p>
+<p class="para">1 - تحديد أطروحة النص أي الموقف الذي يدافع عنه الكاتب في نصه</p>
+<p class="para">2 - تحديد الأطروحة المستبعدة للنص : أي الموقف الذي يستبعده ويفنده الكاتب في نصه .</p>
+<p class="para">3 - صياغة الإشكالية العامة للنص : ما هو أو ما هي + المفهوم الرئيسي للنص ؟ + هل + الأطروحة المستبعدة للنص + أم + أطروحة الكاتب ؟</p>
+<p class="para">4 - تفريع إشكالية النص : يمكن اعتماد الصياغات التالية :</p>
+<p class="para">- إذا افترضنا أن + الأطروحة المستبعدة للنص + فهل يعني ذلك أن + استنتاج ؟</p>
+<p class="para">- وإذا أمكننا القول أن + أطروحة الكاتب + فهل يؤدي ذلك إلى + استنتاج ؟</p>
+<p class="para">- والى أي مدى يصح القول + أطروحة الكاتب ؟</p>
+<p class="para">5 - تحديد عناصر التحليل + النقاش + المرجعيات :</p>
+<p class="para">أ - العنصر الأول : الوحدة المعنوية الأولى للنص : استخراج أفكار الكاتب وتحديد المرجعيات الفلسفية والأمثلة التي بإمكانها إثراء التحليل</p>
+<p class="para">ب - تحليل العنصر الثاني : أي الوحدة المعنوية الثانية للنص (تماما مثل العنصر الأول)</p>
+<p class="para">ت - تحليل العنصر الثالث للنص (إن وجد) أي الوحدة المعنوية الثالثة للنص .</p>
+<p class="para">ث - النقاش : مكاسب وحدود أطروحة الكاتب والتأليف بينهما .</p>
+<p class="para">6 - رهانات النظر في إشكالية النص : مثال : إن ميزان التفكير في إشكالية النص المطروح يتمثل في رهانات نظرية تدعونا إلى مراجعة مفهوم... ورهانات عملية تحثنا على التحرز من قيود . . .</p>
+<p class="subhead t-red">II - التخطيط :</p>
+<p class="subhead t-navy">1 - المقدمة :</p>
+<p class="para">أ - تمهيد عام : يتمثل في الانطلاق من فكرة أو موقف عام له علاقة بالمشكل الفلسفي الذي يطرحه النص .</p>
+<p class="para">ب - تمهيد مادي : يتمثل في تنزيل النص ماديا بنسبته إلى كاتبه وبالمصدر الذي اقتطف منه .</p>
+<p class="para">ت - طرح الإشكالية العامة للنص وتفريعها</p>
+<p class="para">ث - طرح رهانات النظر في إشكالية النص</p>
+<p class="subhead t-navy">2 - الجوهر :</p>
+<p class="para">أ - التذكير بأطروحة الكاتب وبمراحل حلها، مثال : يؤكد الكاتب في نصه + الأطروحة، هذه الأطروحة حاول الكاتب أن يبرهن عليها من خلال مسار حجاجي قائم على لحظتين (عنصرين) بين في اللحظة الأولى . . . . ووضح في اللحظة الثانية . . .</p>
+<p class="para">ب - تحليل العنصر الأول</p>
+<p class="para">ت - تحليل العنصر الثاني</p>
+<p class="para">ث - النقاش</p>
+<p class="subhead t-navy">3 - الخاتمة :</p>
+<p class="para">حوصلة تأليفية لأهم نتائج التحليل + النقاش</p>
+<p class="subhead">النص</p>
+<p class="para">جميع الناس، كما ذكرنا، أحرار، متساوون ومستقلون بطبيعتهم، ولا يجوز إخراج أي منهم من هذه الحالة وإخضاعه للسلطة السياسية للآخرين دون الحصول على موافقته . ان الطريقة الوحيدة التي يجرد الفرد بها نفسه من حريته الطبيعية، ويقبل بقيود المجتمع المدني هي باتفاقه مع الآخرين على الاتحاد في مجتمع واحد من أجل العيش المشترك، المريح والآمن، ومن أجل التمتع الآمن بالممتلكات وبالأمن الأكبر من الغرباء . يستطيع أي عدد من الناس أن يقوموا بذلك، لأنه لا يلحق الضرر بالآخرين الذين يتركون كما هم، يتمتعون بحريتهم الطبيعية . حين يكون عدد من الناس، وباتفاق كل فرد منهم، مجتمعا، فإنهم بذلك المجتمع جسم واحد، له سلطة العمل كجسم واحد بإرادة وقرار الأغلبية ... وبما أن أي جسم واحد يجب أن يتحرك باتجاه واحد، فمن الضروري أن يتحرك ذلك الجسم بالاتجاه الذي تدفعه إليه القوة الأكبر، وهي موافقة الأغلبية . وبدون ذلك لا يستطيع ان يعمل أو ان يبقى جسما واحدا، مجتمعا واحدا . لقد وافق جميع المتحدين به على ان يكون كذلك، ذلك الاتفاق الذي يلزم كلا منهم بقبول قرار الأغلبية . ونتيجة لذلك فاننا نرى انه في حالة الجمعيات (البرلمانات) المخولة بالعمل حسب قوانين وضعية، حيث لا ذكر في تلك القوانين للعدد، فإن قرار الأغلبية يعتبر قرار الجمعية كلها، وهو بالطبع ملزم . وكأن لها، حسب قانون الطبيعة والعقل، سلطة الكل وهكذا، فمن يتفق مع الآخرين على تكوين جسم سياسي واحد، له حكومة واحدة، يأخذ على عاتقه تجاه كل فرد من أفراد هذا المجتمع أن يلتزم بقرار الأغلبية، وان يعتبر نفسه مشمولا به . وبدون هذا فإن الاتفاق الأصلي، والذي بموجبه اتحد مع الآخرين في مجتمع واحد، يكون عديم المعنى، وهو يفقد صيغة الاتفاق إذا ترك الفرد حرا، غير خاضع لقيود سوى قيود حالة الطبيعة .</p>
+<p class="para">جون لوك الرسالة الثانية في الحكم المدني</p>
+<p class="subhead t-red">III- الإنجاز :</p>
+<p class="para">إن التساؤل عن أسس مشروعية قيام الحكم المدني من ناحية وعن الوظائف التى توكل إليه من ناحيه أخرى هو الذي قاد "جون لوك" في الفصل الثامن من "المقالة الثانية في الحكم المدني" للبحث في طبيعة السلطة السياسية وفي أسسها لذلك يعمد في الفقرات 95 و 96 إلى تحديد مقومات هذه السلطة ومرتكزاتها والى إبراز أهدافها و أغراض قيامها .</p>
+<p class="para">ففي أي معنى تنبثق السلطة السياسية عن الحالة الطبيعية للأفراد وتدعمها في آن ؟ وكيف يأتلف نصنا نقدا للسلطة المطلقة سلطة الأغلبية المقننة من جهة وتشريعا لسلطة الأغلبية المقننة من جهة أخرى ؟</p>
+<p class="para">توقفنا قراءتنا للفقرتين 95 و 96 من مؤلف "لوك" المقالة الثانية في الحكم المدني على الرهانات النظرية والعملية التالية :</p>
+<p class="para">أولا يسعى "لوك" إلى دحض السلطة المطلقة المتخارجة عن إرادة الأفراد والسالبة لحرياتهم الطبيعية فإذا بها سلطه متعارضة مع القانون الطبيعي الذي يقوم على حق البقاء وضمانه والمحافظة عليه ومن ثمة تسلب هذه السلطة المطلقة حرية الإنسان وحياته .</p>
+<p class="para">ثانيا يشرع "لوك" لسلطة سياسية تنبثق من إرادة الأفراد وتتساوق مع حقوقهم الطبيعية وإذاك تصبح السلطة مدعمه للحرية وللحياة في آن .</p>
+<p class="para">ثالثا يؤسس "لوك" لمعيارية نحتكم إليها في تقييمنا للسلطة السياسية ولمدى استيفاءها للأغراض التي من أجلها وجدت، ترتد تلك المعايير إلى القانون الطبيعي</p>
+<p class="para">رابعا ينقد "لوك" السلطة السياسية القائمة لاستنادها إلى إرادة فردية مطلقة مستوحاة من الحق الإلهي كما نظر له "فيلمار" .</p>
+<p class="para">فكيف أثار "لوك" إذن أشكال أسس السلطة السياسية ؟</p>
+<p class="para">في الفقرة 95 يستند "لوك" في تحديده لأصول تلك السلطة إلى الدليل العقلي أو العقل الطبيعي والذي يتمتع بمقتضاه البشر بالطبيعة بالحرية والمساواة والاستقلالية باعتبارهم قوى ترغب في الحفاظ على البقاء .فهم جميعا متساوون في القوى و في الحقوق الطبيعية وان تمتع كل منهم بكيان مستقل عن الآخرين . وانطلاقا من هذه المسلمات شرع "لوك" لقيام سلطة سياسية ترفض الإكراه والإلزام و الإخضاع وتقوم على تنازل إرادي واختياري للأفراد . معنى ذلك أن محدودية حالة طبيعية لافتقارها إلى قانون معلوم وثابت تواضع عليه أبناء المجتمع ليحدد حقوق الفرد ومسؤولياته بوضوح من جهة وانعدام حكم منصف نزيه يقضي بينهم ويفصل في خلافاتهم (الفقرة 124 - 125 - 126) من جهة أخرى فضلا عن انعدام سلطة قادرة على تنفيذ أحكام القانون بصرامة وإنصاف، إذ لما كان مرتكب إساءة ما قلما يرتدع طوعا الأمر الذي اقتضى أن تكون السلطة الحاكمة قادرة على إخضاعه على الامتثال لعجز المرء عن فعل ذلك بمفرده . لهذه الأسباب مجتمعة أوجب "لوك" قيام مجتمع مدني تحكمه و تنظمه سلطه سياسية واحدة تعبر عن إرادة كل الأفراد لأنها قائمة على موافقتهم . ومن ثمة يغدو أساس السلطة المواضعة والاتفاق . يقول "لوك" في هذا الإطار <span dir="ltr">"no one can be put of this estate and subjected to the political power of another without his own consent"</span> .</p>
+<p class="para">هذه السلطة السياسية أو الحكومة تقوم على أساس الأغلبية وذلك لاستحالة الاحتكام إلى أراء كل الأفراد وهو ما يصطلح عليه "لوك" في الفقرة 160 ب"التمثيل فثمة إذن سلطة تشريع و تنفيذ وتقرير لهذه الأغلبية إذ تقرر ما يجب فعله تجاه المتجاوزين شرط أن يتنازل الأفراد عن سلطة يمتلكونها في حالة الطبيعة تنازلا كليا وهي حق العقاب أو القصاص و هكذا فإن السلطة السياسية تلزم الآخرين بأوامر وقوانين مدنية بغرض توفير أمن الأفراد و رخائهم وسلمهم وبهدف الحفاظ على حقوقهم الطبيعية وأساسا حق الملكية التي يعتبرها "لوك" في الفقرة 25 "هبة الله لجميع الناس" بما أن مشاعية الأرض أو ملكيتها حق مشترك بين جميع البشر لغاية البقاء . ولا تفتقد هذه السلطة شرعيتها إلا إذا ما خرقت وتجاوزت الحريات والحقوق الطبيعية للأفراد . فكيف تقوم السلطة السياسية على حكم الأغلبية ؟</p>
+<p class="para">إن فعالية السلطة السياسية بما هي سلطة تشريع وتنفيذ أو تقرير ونجاعتها واستمرارية قيامها تتطلب تحديدا واقعيا لها وأمام امتناع ممارسة كل الأفراد المنضوين تحت راية المجتمع المدني لهذه السلطة يؤسس "لوك" لحكم الأغلبية الممثلة لجميع الأفراد وعليهم أن يتقيدوا بحكم الأغلبية لتستمر الحكومة في أداء وظائفها ولكن ما هو مجال سلطة القوانين الفردية ؟</p>
+<p class="para">إن الخير العام <span dir="ltr">The public good</span> هو حد لسلطة القوانين المدنية لأن القوانين التي سيصدرها المجتمع المدني تتعلق أساسا بالحياة المشتركة ثم أن فاعلية السلطة السياسية تتمثل في وضع قوانين تمكن من المحافظة على الحياة الطبيعية للأفراد وعلى الخير العام فمقياس ومعيار تلك السلطة هو القانون الطبيعي الذى يقوم على حق البقاء والمحافظة على ذلك البقاء وتجدر الإشارة إلى أن "لوك" لا يصف واقعة طبيعية شأن "هوبس" بل يهتم بتحديد ما يجب أن يكون ولذلك يتخذه الطبيعي عنده دلالة مزدوجة . فهو يشير إلى نزاعات طبيعية أو إلى غرائز كما يشير إلى نزاعات طبيعية خاصة بالإنسان أي إلى ملكة ذات صبغة أخلاقية عقلانية هي ملكة الحكم والتقييم ولا سيما تقييم تجاوزات الأفراد .</p>
+<p class="para">فما هو طبيعي ومشترك بين جميع الأفراد هو الحق في الدفاع عن القانون الطبيعي والعقلي ويوجب الالتزام بقرارات الأغلبية باعتبارها تمثل قرارات جميع الأفراد وتعبر عن سلطتهم تماما مثل التزام بعض المجتمعات بتشريعات مجالس برلمانية أعضاءها غير محددة معنى ذلك أن امتناع الاحتكام إلى آراء جميع الأفراد فردا فردا يوجب على المجموعة المؤلفة لمجتمع مدني ما الالتزام بقرارات الأغلبية لأن في ذلك التزام بقراراتها هي شرط أن تدافع وتحافظ سلطة الأغلبية على الحقوق الطبيعية للأفراد بما هي حقوق لا يمكن التنازل عنها لارتباطها لوثيق بالحياة (حق الملكية، الحرية . . .) وبذلك يكون "الحكم المدني اجتهادا من أجل تحقيق غايات حالة الطبيعة". <span dir="ltr">Yves Michaud : « Locke »</span> .</p>
+<p class="para">يقول "لوك": <span dir="ltr">"the act of the mojority passes for the act of the whoule, and of course determines as having, by the law of nature and reason, the power of the whole"</span> الفقرة 96</p>
+<p class="para">إن المجتمع المدني عند "لوك" هو عبارة عن جسم سياسي يوحده القانون وهو قائم على إرادة اتفاقية واختيارية للأفراد غرضه المحافظة على حياة المرء وعلى حريته الطبيعية وأملاكه ودفع عدوان الآخرين عنه وإذ يلتحق به الفرد يتنازل عن حقه الطبيعي بتنفيذ القوانين الطبيعية والاقتصاص من المعتدين عليه للجماعة فتصبح هذه الجماعة إذاك الحاكم الوحيد في الخصومات التي تنشأ بينه وبينهم، لها وحدها صلاحية تنفيذ القانون وانزال العقوبات بالمعتدين، وعن هذه السلطة العامة التي تكتسبها الجماعة تتفرع السلطة التشريعية والسلطة التنفيذية، والدولة إنما تنشأ عن اتفاق بين الأفراد على حياة الاجتماع تراضيا أو تواطئوا إما باستحداث مجتمع جديد (شأن تأسيس روما والبندقية) أو بالانخراط في مجتمع ما طوعا دون سواه من المجتمعات .</p>
+<p class="para">إن ما يثير الاهتمام في تصور "لوك" لأسس السلطة السياسية هو جانبه النقدي والتأسيسي معا :</p>
+<p class="para">- النقدي لأشكال وضروب السلطة الاستبدادية التي تشرع للفردانية المطلقة مستندة إلى مشروعيات خارجة عن الإرادة الإنسانية (شأن نظرية الحق الإلهي) .</p>
+<p class="para">- التأسيس لسلطة قائمة على إرادة الأفراد ومعبرة عن حقوقهم وحرياتهم، إلا أن هذا الجانب على ما فيه من جدة ومصالحة مع إنسانية الإنسان يثير من الإحراجات الكثير : فمفهوم الأغلبية يظل مفهوما غامضا، ضبابيا وعاما جدا دون تحديد، إذ كيف لنا أن نعين هذه الأغلبية الممثلة لكل الأفراد ؟ هل نرتضي التمثيلية البرلمانية أم نتخير شكلا آخر ؟ وأي سبيل لضمان شرعية تلك التمثيلية ؟</p>
+<p class="para">ومع ذلك لا يجب أن نغفل البتة عما علمنا إياه "لوك"، علمنا -ولعل ذلك بعض من مزاياه- أن سلب الإنسان حريته يرتد في نهاية الأمر إلى سلبه حياته .</p>
+<!-- PROOFREAD: 1677 part1 p79 — lower half of page blurred; check "تراضيا أو تواطئوا" and "الإحراجات" -->
+<p class="subhead t-red">اختبار حول محور: الدولةالسيادة والمواطنة</p>
+<p class="subhead t-navy">(خاص بالشعب العلمية)</p>
+<div class="exsub">- التمرين الأول:</div>
+<p class="consigne">- قارن بين مفهومي : السلطة والدولة</p>
+<p class="subhead">الإجابة:</p>
+<p class="para">عادة ما نخلط بيم مفهومي السلطة والدولة من خلال المماهاة بينهما إلا أن الفلسفة المعاصرة وخاصة مع "ميشال فوكو" بينت أن مفهوم السلطة هو أوسع وأشمل من مفهوم الدولة لأنها تحيل إلى استراتيجية بواسطتها تفعل موازين القوى فعلها والتي تتجسد خطتها العامة أو تبلورها المؤسس في أجهزة الدولة وصياغة القانون وضروب الهيمنة الاجتماعية ، وتبعا لذلك فإن السلطة توجد في كل مكان فهي مبثوثة في نسيج المجتمع ككل او ما يسميه "فوكو" بميكروفيزياء السلطة .</p>
+<p class="para">في حين أن الدولة هي شكل فحسب من أشكال السلطة يتمثل في التنظيم السياسي والإداري والقضائي الذي ينظم العلاقات بين المواطنين والذي يقوم على خضوع هؤلاء لسلطة القانون .</p>
+<div class="exsub">- التمرين الثاني:</div>
+<p class="consigne">ماذا نعني بمفهوم "المجتمع المدني" ؟ عن الكتاب المدرسي للشعب العلمية</p>
+<p class="subhead">الإجابة:</p>
+<p class="para">غالبا ما يشير المجتمع المدني إلى المؤسسات السياسية المستقلة عن الدولة وعن سلطتها . إلا أن الفيلسوف الإيطالي "أنطونيو قرامشي" يذهب إلى اعتبار المجتمع المدني لا ينفصل فعليا عن الدولة إلا من جهة طابعه الاحتجاجي على استهدافها لحقوق وحريات المواطنين . أما واقعيا فإن مؤسسات المجتمع المدني تنضوي في إطار قوانين الدولة ولذلك يميز "قرامشي" بين مجتمعين هما : المجتمع السياسي والذي يحيل إلى سلطة الدولة . والمجتمع المدني والذي يعبر عن الإرادة المستقلة للمواطنين من خلال الأحزاب السياسية والنقابات والجمعيات المختلفة . ولعل هذا التمييز هو الذي يسمح بحل إشكالية العلاقة بين الحق والقانون في إطار الدولة .</p>
+<div class="exsub">التمرين الثالث:</div>
+<p class="subhead">الاشتغال على نص فلسفي :</p>
+<p class="para">يبقى مشكل الفلسفة السياسية الأساسي المشكل الذي أحسن سبينوزا طرحه ( والذي أعاد اكتشافه رايش ) : "لماذا يناضل الناس من أجل عبوديتهم كما لو كان الأمر متعلقا بخلاصهم؟ " كيف نصل إلى حد الصراخ : نريد مزيدا من الأداءات نريد خبز أقل وكما قال رايش ، ما يدهش ليس أن يسرق الناس ، أو أن يضرب آخرون عن العمل ، بل الأولى بالدهشة ألا يستمر الجائعون في السرقة وألا يواصل المسحوقون إضرابهم: لماذا يتحمل الناس منذ قرون الاستغلال والإذلال والاستبعاد إلى الدرجة التي يصبحون فيها طلابا لها، لا فقط للآخرين بل لأنفسهم أيضا؟</p>
+<p class="para">جيل دولوز - قاتاري، الرأسمالية والفصام<br>عن الكتاب المدرسي للشعب العلمية <span dir="ltr">D.DELEUZE, F.GUATTARI, Capitalisme 3-et Schizophrénie, t I, Ed. De Minuit, 1972, pp.36</span></p>
+<p class="subhead">المطلوب:</p>
+<p class="consigne">أ . استخرج أطروحة الكاتب .<br>ب . حدد الأطروحة المستبعدة للنص .<br>ج . أبرز حدود أطروحة الكاتب .</p>
+<p class="subhead">الأجوبة:</p>
+<p class="para">أ . يؤكد الكاتب أن السلطة السياسية للدولة الرأسمالية اليوم نجحت في استغلال وإذلا <!-- PROOFREAD: 1677 part1 p81 — "وإذلا" (word cut by the left page edge) -->واستبعاد الناس إلى درجة نضالهم من أجل عبوديتهم أي دفاعهم عن الوضع القائم .</p>
+<p class="para">ب . الأطروحة المستبعدة: يناضل الناس من أجل الحد من سلطة الدولة واسترجاعهم لحقوقهم .</p>
+<p class="para">ج . حدود الأطروحة ( ملاحظة: الأطروحة هي الموقف الذي يدافع عنه الكاتب ويسعى إلى إقامة الحجة على وجاهته باعتباره حلا لمشكل فلسفي مستبعدا بذلك أطروحات أخرى ويقتضي بيان حدود الأطروحة في حل المشكل مواجهتها بوقائع تكذبها وبيان تناقضها الداخلي وتهافت أسسها واستتباعاتها الخارقة للمنطق وللواقع) .</p>
+<p class="para">لا يمكن تعميم موقف الكاتب على كل المجتمعات لأننا شهدنا استقلال العديد من الشعوب من الاستعمار الرأسمالي ولا زلنا نشهد في بعض الدول تنامي حركات الاحتجاج والمقاومة ضد كل أشكال الهيمنة والاحتلال . بل ان المجتمعات الأوروبية نفسها لا تخلو من وعي المواطنين بحقوقهم ودفاعهم المستميت عنها ، ثم ان هذا الموقف الذي اتخذه الكاتب قد يبرر الاستسلام والخضوع لسلطة رأس المال .</p>
+<div class="exsub">التمرين الرابع:</div>
+<p class="consigne">أجب عن أحد السؤالين التاليين في فقرة لا تتجاوز 30 سطرا</p>
+<p class="para">أ . هل يمكن التوفيق بين الرغبة في الأمن والرغبة في الحرية؟</p>
+<p class="para">ب . هل تبرر سيادة الدولة التضحية بالمواطنة؟</p>
+<p class="subhead">الإجابة:</p>
+<p class="subhead t-navy">السؤال الأول:</p>
+<p class="para">مرحلة بناء المشكل: يبدو أن انتشار مظاهر الفوضى واللا استقرار السياسي والاقتصادي في بعض الدول يبرر في نظر البعض أولوية الأمن والسلم على حساب الحق والحرية .</p>
+<p class="para">إلا أن هذا التبرير يعترض عليه آخرون بحجة أن الحرية هي قوام الوجود الإنساني</p>
+<p class="para">ومن ثمة جاز لنا طرح الإشكال التالي:</p>
+<p class="para">هل يمكن التوفيق بين الرغبة في الأمن والرغبة في الحرية أم ان حضور أحدهما يقتضي إلغاء الآخر والتضحية به؟</p>
+<p class="para">- مرحلة بلورة الجواب:</p>
+<ul class="b">
+<li>بيان دلالة الرغبة في الأمن : بما هي رغبة في السلم وفي البقاء والحياة التي تستهدفها قوى الطبيعة العاتية من جهة والصراع بين الافراد من جهة أخرى .</li>
+<li>تحديد معنى الرغبة في الحرية: بما هي ميل طبيعي إلى التمتع بحقوق طبيعية أي حقوق تضمنها الطبيعة البشرية كالحق في الحياة والأمن والمساواة والملكية ( استثمار مرجعيات فلاسفة العقد الاجتماعي : "سبينوزا" ."روسو" ."لوك") .</li>
+<li>بيان امتناع التوفيق بين الرغبة في الأمن والرغبة في الحرية ( استثمار تصور "هوبس") .</li>
+<li>بيان حدود الموقف السابق والتخلص لإمكانية التوفيق بين الرغبتين ومجالاته ومستوياته ( الدولة الديمقراطية كما تصورها "روسو") .</li>
+</ul>
+<p class="para">إمكانية التوفيق بين الأمن والحرية في إطار الدولة الديمقراطية يجعل الإنسان متصالحا مع إنسانيته لأن " من يتنازل عن حريته يتنازل عن صفته كإنسان " على حد تعبير "روسو" .</p>
+<p class="subhead t-red">اختبار حول محور : الأخلاق : الخير والسعادة</p>
+<p class="subhead t-navy">(خاص بشعبة الآداب)</p>
+<p class="consigne">الموضوع : أيهما مطلوب الأخلاق : الواجب أم المنفعة ؟</p>
+<p class="subhead">التحرير :</p>
+<p class="para">يشهد واقعنا المعاصر انصرافا يكاد يكون كليا إلى المنفعة إلى درجة أن قيمة الأشياء أصبحت تقاس بما تجلبه للإنسان من منافع، تماما مثل قيمة أفعاله . ولذلك عندما نبحث في غاية الفعل الأخلاقي البشري فإننا نجد أنفسنا أمام الإشكال الفلسفي التالي :</p>
+<p class="para">أيهما مطلوب الأخلاق : الواجب أم المنفعة ؟ فإذا افترضنا أن مطلوب الأخلاق هو الواجب، فهل يعني ذلك التشريع لمبادئ أخلاقية عقلية وكونية ؟</p>
+<p class="para">وإذا أمكننا القول أن مطلوب الأخلاق هو المنفعة فهل يؤدي ذلك إلى تنسيب المبادئ الأخلاقية تبعا لاختلاف المنافع بين البشر ؟ وفي هذه الحالة هل يجوز الحديث عن فعل أخلاقي نفعي ؟</p>
+<p class="para">والى أي مدى يصح القول أن مطلوب الأخلاق هو الواجب ؟</p>
+<p class="para">إن ما نراهن عليه من خلال النظر في إشكالية هذا الموضوع يتمثل في مراجعة مفهوم الأخلاق وإعادة تعقله في ضوء علاقته بمفهومي الواجب والمنفعة والدعوة إلى التحرز من المنافع الضيقة تشريعا لمبادئ أخلاقية كلية وإنسانية</p>
+<p class="para">يتساءل موضوعنا عن مطلوب الأخلاق وإن كان يتمثل في الواجب أم في المنفعة وهو يفترض الضمنيات التالية :</p>
+<ul class="dash">
+<li>أن الأخلاق تطلب مبدئيا الواجب</li>
+<li>أن الأخلاق إذا ما طلبت المنفعة قد تحيد عن مبادئها الأصلية</li>
+</ul>
+<p class="para">هذه الضمنيات لا يمكننا اختبار مدى صحتها إلا بعد تحديد مفهوم الأخلاق أولا. فما دلالة الأخلاق ؟</p>
+<p class="para">تشير الأخلاق في معناها العام إلى منظومة من القيم تنظم العلاقات بين أفراد مجموعة بشرية معينة وهذه القيم مدارها الخير الذي يتقابل مع الشر. فالخير هو كل سلوك بشري نمتدحه ونرغب فيه لأنه يطهر النفس والشر، هو كل سلوك بشري نستقبحه ونتجنبه لأنه يدنس النفس . إلا أن السؤال الذي طرحه الفلاسفة يتعلق أساسا بمصدر الفعل الأخلاقي . في هذا الإطار تساءل "كانط" وهو يبحث عن مبادئ وقوانين كلية وعامة لعلم يروم تأسيسه على شاكلة تأسيس "نيوتن" لعلم الفيزياء وهو علم الأخلاق تساءل إذن إن كان بإمكان الحواس أن تكون أساسا متينا لعلمنا الأخلاقي فبين تغيرها ونسبيتها واختلافها بين البشر ووجد في مبادئ العقل الثابتة والمشتركة بين كل الناس ذلك الأساس الذي يبحث عنه . وانطلاقا من هذه المبادئ ميز "كانط" بين صنفين من الأفعال البشرية : فعل شرطي يطلب من ورائه تحقيق غاية ومنفعة محددة مثل التاجر الذي لا يغش في تجارته لجلب الزبائن، فهذا الفعل ليس فعلا أخلاقيا .</p>
+<p class="para">أما الفعل الثاني فهو فعل قطعي وضروري وصيغته أمرية توجب الالتزام به لأن العقل يأمرنا بذلك وهو ما يسميه "كانط" بالواجب الأخلاقي كأن لا يغش التاجر في تجارته لأن هذا السلوك واجب عقلي، وهذا الواجب مصدره الإرادة الطيبة التي لا تنشد غاية خارجية ولا منفعة معينة لأن هذه المنافع والغايات بما في ذلك السعادة نسبية ومتغيرة بتغير البشر واختلافهم، والحال أن "كانط" يبحث عن الكلي والعام والمطلق الذي يوحدهم .</p>
+<p class="para">إلا أن أخلاق الواجب اللانفعية تبدو من جهة "نيتشه" تبريرا للضعف وللعبودية والانحطاط وهي أخلاق تقوم على الشفقة والرحمة واستعطاف الأقوياء ورفض مواجهة الحياة في قسوتها من أجل ذلك يميز "نيتشه" بين أخلاق الأسياد والأقوياء وأخلاق الإبداع والإقبال على الحياة وبين أخلاق العبيد والضعفاء أو أخلاق الاتباع ورفض الحياة، تماما مثل النعامة التي تدفن رأسها في تراب الأرض ظنا منها أنها عندما لا ترى الصياد فإنه بدوره لا يراها وتضمن بذلك نجاتها . فالإنسان المثالي الذي يتدثر بأخلاق المبادئ والمثل الماورائية يتهرب في الحقيقة من مواجهة واقعه بدفن رأسه في تراب السماء وهو ما جعل "نيتشه" يدعو إلى الإقبال على الحياة إقبال النسور والوحوش الضواري وإلى الانفتاح على الجسد وعلى طاقاته الحيوية، فإذا بالمنفعة الحسية والجسدية لا تتعارض البتة مع الأخلاق بل إن "جون لوك" سبق أن حدد الخير بكل سلوك يجلب اللذة للجسم، وحدد الشر بكل سلوك يجلب الألم للجسم، وغير بعيد عن هذا التصور ما وضحه الفيلسوف "أبيقور" من أن السعادة أو "الأتاراكسيا" أي غياب الكدر عن النفس لا يبلغها الإنسان إلا إذا ما تخلص من آلام الجسم ومن اضطرابات النفس، لأن الخير عنده هو كل إحساس حسن يؤدي إلى اللذة .</p>
+<p class="para">هذه التصورات التي تربط بين الأخلاق والمنفعة الحسية يبدو أنها تجد صداها اليوم في ثقافة الاستهلاك والرفاه الاقتصادي . لكن ذلك لا يمنع من وجود مدافعين عن أخلاق الواجب والمثل والمبادئ العقلية والإنسانية وهو ما تجسده المنظمات الإنسانية الخيرية اللانفعية كجمعية "أطباء بلا حدود" وجمعية "الغوث الإنساني" فضلا عن المنظمات الحقوقية التي نهضت للدفاع عن الإنسان أي إنسان وأينما كان . ويبدو أننا اليوم في حاجة ملحة لهذه الأخلاق الإنسانية الكونية في واقع تستهدف فيه القيم الإنسانية دوما .</p>
+<p class="subhead t-red">اختبار حول محور: الأخلاق الخير والسعادة</p>
+<p class="subhead t-navy">(خاص بالشعب العلمية)</p>
+<div class="exsub">- التمرين الأول:</div>
+<p class="para">هل تكمن أخلاقية أفعالي في اتباع القيم الاجتماعية السائدة؟ عن الكتاب المدرسي للشعب العلمية</p>
+<p class="subhead">المطلوب:</p>
+<p class="consigne">حدد رهانات التفكير في هذه المسألة .</p>
+<p class="subhead">الإجابة:</p>
+<p class="para">( ملاحظة: الرهان: هو الخطورة والأهمية التي يكتسيها التفكير في مشكل ما ، وما للموقف الذي سنتخذه منه من طابع حاسم ومصيري نظريا وعمليا . ويتعلق بالتبعات النظرية والعملية التي يمكن أن يؤول إليها التفكير في هذا المشكل وانعكاساته المحتملة والمصيرية سياسيا وأخلاقيا على مجرى الحياة الواقعية) .</p>
+<p class="para">تختلف المواقف المحددة لطبيعة أفعالي الأخلاقية . فهناك من يراها متمثلة في اتباعي للقيم الاجتماعية السائدة وامتثالي لها . وهناك من يجدها في تحرري من السائد وإبداعي لقيمي الخاصة بي . وبين ما للموقف الأول من خطورة تنذر بخضوع الإنسان للموروث وللتقليد وما فيه من أوهام تكبل الفكر وتقيده ، وتدعوه إلى الإنغلاق والجمود والتعصب، في حين أن الموقف الثاني قد يساهم في إرساء علاقات إنسانية قائمة على الحوار السلمي وعلى الاعتراف المتبادل وهو ما يؤدي إلى التقدم الفكري والحضاري .</p>
+<div class="exsub">التمرين الثاني:</div>
+<p class="consigne">ما المقصود بالفضيلة؟ وما علاقتها بالسعادة؟</p>
+<p class="subhead">الإجابة:</p>
+<p class="para">تشير الفضيلة إلى أخلاقية الفعل البشري والتي يحددها "أرسطو" بالتمسك بالوسط بين طرفين قصيين ( متباعدين) أحدهما إفرطا والآخر تفريطا . فهي إذن توسط واعتدال بين نقيضين كالشجاعة التي تتوسط الجبن والتهور .</p>
+<p class="para">ومن شأن الإنسان الفاضل أن يبلغ السعادة أي أن يحقق الخير الأسمى الذي يطلبه لذاته أي الذي لا يرتبط لا باللذة والمنفعة الحسية ولا بالحظ الملائم بل قوامه العقل والتفكير والتأمل النظري الصرف .</p>
+<div class="exsub">التمرين الثالث:</div>
+<p class="subhead">الاشتغال على نص فلسفي:</p>
+<p class="para">وإذا ما قيل إن الإنسان ضعيف فما يقصد بهذا؟ تدل كلمة الضعيف هذه على نسبة، تدل على نسبة الموجود الذي تطبق عليه، ويعد موجودا قويا من تزيد قوته على احتياجاته ولو كان حشرة أو دودة، ويعد موجودا ضعيفا من تزيد احتياجاته على قوته ولو كان فيلا أو أسدا أو فاتحا أو بطلا أو إلها، وكان الملك العاصي الذي أنكر طبيعته أضعف من الفاني السعيد الذي يعيش مطمئنا وفق طبيعته ، ويكون الإنسان قويا جدا إذ ما رضي بما هو عليه ، ويكون ضعيفا جدا إذا ما أراد أن يعلو الإنسانية ، ولذا لا تظنوا أنكم تزيدون قواتكم بزيادة طاقاتكم ، وعلى العكس تقللونها إذا ما زاد زهوكم ، ولنقس قطر دائرتنا، ولنبق في المركز كالحشرة في وسط نسيجها ، وسنكون من الكفاية ما نقضي معه حاجاتنا ، ولا يكون لدينا من الأسباب ما نتوجع معه من ضعف ، وذلك لأننا لن نشعر به مطلقا .</p>
+<p class="para">ج . ج . روسو، اميل أو التربية ، ص 111، ترجمة عادل زعيتر عن الكتاب المدرسي للشعب العلمية<br><span dir="ltr">J.J. ROUSSEAU ; Emile ou de l’éducation</span></p>
+<p class="subhead">المطلوب:</p>
+<p class="consigne">أ . أرصد المفاهيم الواردة في النص وبين العلاقات المنطقية القائمة بينها .<br>ب . قارن بين الأمثلة الواردة في النص<br>ج . حدد دلالة المفهوم المحوري للنص</p>
+<p class="subhead">الأجوبة:</p>
+<p class="para">أ . الضعيف يتقابل مع القوي .</p>
+<p class="para">ب . مثال الحشرة أو الدودة ومثال الفيل والأسد أو الفاتح أو البطل أو الآلة فالمثال الأول يدل على القوة إذا زادت قوته على احتياجاته . والأمثلة الثانية تدل على الضعف إذا زادت احتياجاتها على قوتها .</p>
+<p class="para">ج . المفهوم المحوري للنص: الضعيف : يحدده الكاتب تحديدا طريفا مقارنة مع دلالته السائدة بما أنه لا يفيد الضعف الجسدي بل يفيد التكالب على الاستهلاك وهتك الملذات أو الإسراف فيها وذلك بازدياد احتياجاته وتجاوزها لقوته .</p>
+<div class="exsub">التمرين الرابع:</div>
+<p class="consigne">أجب عن أحد السؤالين التاليين في فقرة لا تتجاوز 30 سطرا:</p>
+<p class="para">1 . هل نحتاج إلى قيم كونية؟</p>
+<p class="para">2 . هل تتمثل غاية الفعل الأخلاقي في بلوغ السعادة؟</p>
+<p class="subhead">الإجابة:</p>
+<p class="subhead t-navy">السؤال 2:</p>
+<p class="para">- مرحلة بناء المشكل:</p>
+<ul class="b">
+<li>ارتباط الأفعال البشرية المختلفة بالغايات قد يبرر البحث في علاقة الفعل الأخلاقي بالسعادة كغاية .</li>
+<li>طرح الإشكالية: هل تتمثل غاية الفعل الأخلاقي في بلوغ السعادة أم في الامتثال للواجب؟</li>
+</ul>
+<p class="para">- مرحلة بلورة الجواب:</p>
+<ul class="b">
+<li>تحديد دلالة الفعل الأخلاقي وعلاقته بالفضيلة والخير</li>
+<li>تحديد دلالة السعادة بما هي مطلب وغاية للفعل الأخلاقي<br>( استثمار بعض المرجعيات الفلسفية: "أرسطو" مثلا ) .</li>
+<li>تنسيب مطلب السعادة ( بيان حدودها: استثمار تصور "فرويد" مثلا) .</li>
+<li>بيان ارتباط الفعل الأخلاقي بالامتثال للواجب : تحديد دلالة الواجب(استثمار تصور "كانط" ) .</li>
+</ul>
+<p class="para">- مرحلة الاستخلاص: بيان المعنى الجديد للسعادة وارتباطه بالاستهلاك والرفاه المادي وهو ما يمنح للمشكل بعدا جديدا واستخلاص طموح الفعل الأخلاقي إلى الكونية</p>
+
+<div class="chtag"><span>المحور</span> الفن والدين</div>
+
+<p class="subhead t-red">اختبار حول محور : الفن : الجمال والحقيقة</p>
+<p class="subhead t-navy">(خاص بشعبة الآداب)</p>
+<!-- PROOFREAD: 1677 part1 p91 — page photo blurred; check wording -->
+<p class="consigne">الموضوع : هل يمكن الجمع بين الجمال والحقيقة في العمل الفني ؟</p>
+<p class="subhead">التحرير :</p>
+<p class="para">غالبا ما نعتبر كل عمل فني يطلب التعبير عن الجمال وتحقيق النشوة الجمالية للمتقبلين، ولذلك فإن الحديث عن الحقيقة في العمل الفني يبدو أمرا غريبا لأننا عادة ما ننسب الحقيقة إلى الفلسفة وإلى العلم، وهو ما يجعل من السؤال التالي سؤالا طريفا ولكنه أيضا سؤالا هاما، هل يمكن الجمع بين الجمال والحقيقة في العمل الفني ؟ فإذا افترضنا امتناع هذا الجمع فهل يعني ذلك أن الحقيقة تنفرد بها خطابات أخرى غير الفن ؟ وإذا أمكننا القول بإمكانية ذلك الجمع، فهل يؤدي ذلك إلى القول بانفتاح الحقيقة على خطابات لم نألفها ؟</p>
+<p class="para">والى أي مدى يصح القول بإمكانية الجمع بين الجمال والحقيقة في العمل الفني ؟</p>
+<p class="para">إن ما نراهن عليه من خلال النظر في إشكالية هذا الموضوع يتعلق بتوضيح مفهوم الفن في علاقته بمفهومي الجمال والحقيقة وفي رسم سبل لإمكانات جديدة تنفتح عليها الحقيقة فتتحرر بالتالي من قيود الخطابين الفلسفي والعلمي</p>
+<p class="para">يتساءل موضوعنا عن إمكانية الجمع بين الجمال والحقيقة في العمل الفني وهو يفترض الضمنيات التالية :</p>
+<ul class="dash">
+<li>أن الفن مطلوبه الجمال وأن الحقيقة مطلب دخيل عليه</li>
+<li>أن الجمع بين الجمال والحقيقة في العمل الفني يبدو أمرا مفارقيا إذا تأملنا في تاريخ الفن من جهة وفي فلسفة الجماليات من جهة ثانية</li>
+</ul>
+<p class="para">إلا أن امتحان مدى صحة هذه الضمنيات يتطلب منا بدءا تحديد مفهوم العمل الفني ي علاقته بمفهومي الجمال والحقيقة، فما دلالة العمل الفني إذن ؟ <!-- PROOFREAD: 1677 part1 p91 — "ي علاقته" (first letter cut by the left page edge) --></p>
+<p class="para">يشير العمل الفني في معناه المخصوص الى ذلك النشاط الإنساني الواعي والغائي والمبدع للجمال، والجمال هو كل انسجام وتناغم في الألوان أو الحركات أو الأصوات أو الكلمات . . .</p>
+<p class="para">يحدث في المتقبل نشوة جمالية أي لذة ومتعة حسية ونفسية وفي هذا الإطار نتحدث عن فن الرسم وفن النحت وفن الشعر وفن الأدب وفن الموسيقى وفن الرقص . . .</p>
+<p class="para">فهذه الفنون على اختلافها يبدو أنها تنشد الجمال وإن كانت نابعة من خيال الفنانين ومعبرة عن قدراتهم الإبداعية الخلاقة، وهو ما جعل الفلسفة منذ اليونان تبعد الفن عن مجال الحقيقة، هذه الأخيرة بما هي تطابق بين الحكم والواقع أو بما هي نتاج لتأمل وتفكير عقلي صرف لا يمكن أن يبلغها الفنان لأنه في نظر "أفلاطون" يظل أسير الخيال والحواس، مجال التغير والتبدل في حين أن الحقيقة تتصف بالثبات والوحدة والإطلاقية</p>
+<p class="para">بل إن شرط الترقي للحقيقة يتمثل في التحرز من الخيال والحواس، وهو تحرز يصفه "أفلاطون" بتطهر الروح من أدراننا الحسية عبر "تدربها الفلسفي على الموت"، وبهذا المعنى يكون الفن "محاكاة للمحاكاة" أي محاكاة للطبيعة التي تحاكي بدورها عالم المثل، موطن الحقيقة . هذا التقليد الفلسفي اليوناني ترسخ طويلا من خلال التصورات الفلسفية بل التصورات الفنية ذاتها التي تنزل الفن منزلة خطاب دون الحقيقة، فأن يتحول العمل الفني إلى خطاب حقيقة ذلك أمر من الجدة بمكان مما يعكس تحولا جذريا في التفكير الفلسفي . وبالفعل فقد بين "كانط" أن الفن إذ يعبر بشكل جميل عن أشياء الواقع، فهو يحفزنا على التفكير فيه وفي حقيقته وهو ما عمقه "هيقل" عندما ارتقى بالفن إلى مرتبة الوعي المطلق أي الوعي الذي يعبر عن الحقيقة المطلقة تماما مثل الفلسفة ومثل الدين، وما الأهرامات المصرية مثلا إلا أعمالا فنية تعبر عن أفكار ورؤى المصريين القدامى للحياة وللوجود، بل إن الفن عند "نيتشه" أصبح ملاذنا الأمين حتى لا تطمس الحقيقة حياتنا إذ يقول :"لنا الفن حتى لا تميتنا الحقيقة". فإذا بفيلسوف المطرقة والنقد يعمد في كتاباته الفلسفية إلى تخير أسلوب فني قوامه الشعر للمجاز والمثال . . . ويبحث في التراجيديا اليونانية بما هي عمل مسرحي وفني يعبر عن إمكانات جديدة للحقيقة . وهكذا يغدو الفن فضاء للتعبير عن الحقيقة وعن الجمال دون تناقض بينهما، فمسرحية "بيكيت" "في انتظار قودو" إذ تصور حيرة الإنسان وهو يبحث عن خلاص لمأساته الوجودية، فهي تعبر عن حقيقة الوجود الإنساني التائه بما أن بطل المسرحية يتوهم أن مخلصه هو إله اسمه "قودو"، ولكن هذا الإله أخرس وأصم لن يسمعه بل ولن يأتي لأنه لا وجود له مع ذلك فقدر الإنسان أن ينتظره، تماما مثل رواية "البؤساء" لـ"فيكتور هيقو" والتي صاغها مؤلفها صياغة فنية جميلة رغم تعبيرها عن حقيقة الواقع الاجتماعي والاقتصادي المتردي والبائس، وغير بعيد عن هذه الرسالة المنوطة بالعمل الفني في قول الحقيقة ما عبر عنه الشاعر الفرنسي "كوكتو من ارتباط وثيق للشعر بالواقع إذ يقول :"الشعر مثل كوارث القطار لا نصفها بل نحس بها" . ثم إن الرسم يعبر بدوره عن الحقيقة شأن لوحة الرسام "بيكاسو" "قارنيكا" والتي تصور بشاعة الحرب الأهلية الإسبانية ولكن طابعها الإبداعي الجمالي جعل من تلك اللوحة وثيقة تاريخية خالدة .</p>
+<p class="para">هكذا إذن يتصالح الفن مع الحقيقة بعد أن أقصاها وهمشها طويلا، إلا أن ذلك لا يعني أن كل عمل فني يعبر بالضرورة عن الحقيقة إذ قد يستخدم في المغالطة والإخفاء والتمويه في تبرير الواقع السائد وهو ما يعرف بفن التخدير، لذلك ظهرت دعوات داخل الحقل الفني إلى الالتزام في الأعمال الفنية بقضايا الواقع وبهموم الإنسان ومشاغله وبهذا المعنى فحسب يمكننا الحديث عن إمكانية جمع بين الجمال والحقيقة في العمل الفني وهو جمع د يجعل من الفن على حد عبارة "أندريه مالرو" "للإنسان"</p>
+<!-- PROOFREAD: 1677 part1 p93 — "قد يجعل" (first letter cut by the left page edge; only "ـد" visible) -->
+
+</section>
+
+</div>
+</body>
+</html>

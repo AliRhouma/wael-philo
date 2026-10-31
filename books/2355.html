@@ -1,0 +1,470 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<title>Wael Academy — Philosophie · schémas-philo</title>
+<script>
+  window.MathJax = {
+    tex: { inlineMath: [['\\(','\\)']], displayMath: [['\\[','\\]']] },
+    chtml: { fontURL: 'https://cdn.jsdelivr.net/npm/mathjax@3/es5/output/chtml/fonts/woff-v2', matchFontHeight: true },
+    startup: { typeset: true }
+  };
+</script>
+<script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js" async></script>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Sora:wght@400;500;600;700;800&family=Cairo:wght@400;500;600;700;800;900&family=Tajawal:wght@400;500;700;800&family=JetBrains+Mono:wght@400;500;600;700&display=swap');
+:root{
+  /* ===== Wael Academy palette — MAIN ACCENT = green-teal gradient #0FAB8F → #067360 ===== */
+  --bg:#fff; --panel:#f2f8f8; --hair:#e6e6e9; --hair2:#d6d6db;
+  --fg:#0f2a31;        /* body text (and +/− signs) */
+  --fg2:#3f5b62;       /* softer text */
+  --fg3:#7c959b;       /* muted (footer) */
+  --blue:#067360;      /* deep accent — small numbers, borders, watermark, accent equations */
+  --blue-dark:#045260; /* titles & wordmarks (also the balance colour) */
+  --teal:#0fab8f;      /* bright accent end */
+  --loop:#0d9c82;      /* logo-loop helper */
+  --orange:#067360;    /* kicker/category labels (gold retired → deep teal) */
+  --red:#f5322f;       /* EXERCISE CHIPS ONLY — never for emphasis */
+  --cream:#e6f3f4; --blue-soft:#e6f3f4;  /* pale teal — callout fill + table sub-row fill */
+  --blue-line:#cde7e4; /* hairline */
+  --sub-ink:#045260;   /* table sub-row text */
+  --grad:linear-gradient(148deg,#0fab8f 0%,#0d9c82 52%,#067360 100%);
+  --mono:'JetBrains Mono',monospace; --latin:'Sora',sans-serif; --ar:'Cairo',sans-serif; --arb:'Tajawal',sans-serif;
+}
+*{box-sizing:border-box;margin:0;padding:0;}
+body{font-family:var(--latin);color:var(--fg);background:#e4e4e7;padding:28px 0;
+     -webkit-print-color-adjust:exact;print-color-adjust:exact;}
+html[dir="rtl"] body{font-family:var(--arb);}
+
+/* ===== brand watermark: REAL text (crisp), full-bleed, repeats per page ===== */
+.wm{position:fixed;inset:0;z-index:0;pointer-events:none;display:flex;
+    align-items:center;justify-content:center;overflow:hidden;
+    -webkit-print-color-adjust:exact;print-color-adjust:exact;}
+.wm span{font-family:var(--mono);font-weight:800;font-size:76.8pt;letter-spacing:.16em;
+    color:var(--blue);opacity:.06;white-space:nowrap;transform:rotate(-54deg);}  /* single diagonal: bottom-left → top-right */
+.wm.mono span{color:#000;opacity:.05;}
+
+/* ===== continuous flow stream (no page border) ===== */
+.flow{width:210mm;margin:0 auto;background:transparent;color:var(--fg);
+      padding-block:16mm 18mm;padding-inline:23mm 14mm;position:relative;}   /* spiral gutter: inline-start(=spine) 23mm / outer 14mm — dir-aware; print margins set in render_flow.py */
+@media screen{ .flow{background:#fff;box-shadow:0 10px 40px rgba(0,0,0,.16);} }
+.flow>*{position:relative;z-index:1;}
+.flow p,.flow li,.flow .data,.flow .note,.flow .ex{break-inside:auto;}
+.flow .fig,.flow figure,.flow img,.flow svg.figsvg,.flow table,.flow tr,.flow .chapdiv,.flow .exh,.flow .qrcard,.flow .meta{break-inside:avoid;}
+.flow h1,.flow h2,.flow h3,.flow .exh,.flow .subhead,.flow .chapdiv{break-after:avoid;}
+.flow img,.flow svg.figsvg{max-width:100%;height:auto;}
+.flow figcaption,.flow .figcap{display:none;}          /* rule 3: no figure captions */
+
+/* ===== front matter + chapters each start on a fresh page ===== */
+.flow .cover{break-after:page;}        /* cover alone on page 1 */
+.flow .toc{break-after:page;}          /* Sommaire alone on the next page */
+.flow .chapter{break-before:page;}
+.flow .chapter:first-of-type{break-before:auto;}
+
+/* ===== cover ===== */
+.cover{padding:14mm 0 8mm;border-bottom:2px solid var(--blue);margin-bottom:6mm;}
+.cover .badge{font-family:var(--mono);font-size:8.5pt;letter-spacing:.28em;text-transform:uppercase;color:var(--orange);margin-bottom:10px;}
+.cover h1{font-family:var(--latin);font-weight:800;font-size:34pt;line-height:1.03;letter-spacing:-.025em;color:var(--blue-dark);}
+.cover .grule{width:120px;height:5px;border-radius:5px;background:var(--grad);margin:14px 0;}
+.cover .sub{font-family:var(--mono);font-size:10pt;letter-spacing:.14em;text-transform:uppercase;color:var(--teal);}
+.cover .auth{font-size:11pt;color:var(--fg2);margin-top:6px;font-weight:600;}
+
+/* ===== table of contents ===== */
+.toc{margin:2mm 0 4mm;}
+.toc h2{font-family:var(--latin);font-weight:800;font-size:15pt;color:var(--blue-dark);margin-bottom:4mm;}
+.toc .trititle{font-family:var(--mono);font-size:8pt;letter-spacing:.2em;text-transform:uppercase;color:var(--orange);margin:4mm 0 2mm;}
+.toc ol{list-style:none;}
+.toc li{display:flex;align-items:baseline;gap:8px;font-size:10pt;padding:2.2px 0;color:var(--fg);line-height:1.4;}
+.toc li .n{font-family:var(--mono);font-weight:700;font-size:9pt;color:var(--blue);min-width:26px;}
+.toc li .dots{flex:1;border-bottom:1px dotted var(--hair2);transform:translateY(-3px);}
+
+/* ===== chapter divider band ===== */
+.chapdiv{margin:0 0 5mm;padding:6mm 16px 5mm;border-radius:12px;background:var(--grad);
+    -webkit-print-color-adjust:exact;print-color-adjust:exact;}   /* green-filled chapter band */
+.chapdiv .cn{font-family:var(--mono);font-size:8.5pt;font-weight:700;letter-spacing:.24em;text-transform:uppercase;color:rgba(255,255,255,.82);margin-bottom:5px;}
+.chapdiv h2{font-family:var(--latin);font-weight:800;font-size:17pt;line-height:1.1;letter-spacing:-.015em;color:#fff;}
+/* conclusion block — same green-filled look as the chapter band */
+.conclusion{background:var(--grad);border-radius:12px;padding:6mm 16px;margin:5mm 0;color:#fff;break-inside:avoid;
+    -webkit-print-color-adjust:exact;print-color-adjust:exact;}
+.conclusion .ck{font-family:var(--mono);font-size:8.5pt;font-weight:700;letter-spacing:.24em;text-transform:uppercase;color:rgba(255,255,255,.82);margin-bottom:6px;}
+.conclusion h3{font-family:var(--latin);font-weight:800;font-size:13pt;line-height:1.2;color:#fff;margin-bottom:4px;}
+.conclusion p,.conclusion li{font-size:10.4pt;line-height:1.7;color:#fff;}
+.conclusion b,.conclusion strong{color:#fff;font-weight:700;}
+
+/* ===== unit header (lesson/exercise) + QR emplacement ===== */
+.exh{display:flex;align-items:center;gap:11px;margin:6mm 0 3mm;}
+.exh .idx{font-family:var(--mono);font-size:9pt;font-weight:600;color:#fff;background:var(--grad);
+    border-radius:6px;padding:4px 11px;letter-spacing:.08em;text-transform:uppercase;
+    -webkit-print-color-adjust:exact;print-color-adjust:exact;}
+.exh .idx.ex{background:var(--red);}   /* exercise chip = red */
+.exh h2{font-family:var(--latin);font-size:14pt;font-weight:700;letter-spacing:-.01em;color:var(--blue-dark);}
+.exh .qrcard{margin-inline-start:auto;flex:0 0 auto;display:flex;flex-direction:column;align-items:center;gap:3px;width:26mm;}
+.qrcard .qrt{font-family:var(--mono);font-size:6.5pt;letter-spacing:.1em;text-transform:uppercase;color:var(--teal);text-align:center;}
+.qrcard .qrslot{width:24mm;height:24mm;padding:1.5mm;background:#fff;border:1px solid var(--blue-line);border-radius:8px;display:flex;align-items:center;justify-content:center;}
+.qrcard .qrslot img,.qrcard .qrslot svg{width:100%;height:100%;display:block;}
+
+/* sub-exercise label when one file holds several exercices */
+.exsub{font-family:var(--latin);font-weight:800;font-size:11.5pt;color:var(--blue-dark);margin:5mm 0 2.5mm;padding-bottom:3px;border-bottom:2px solid var(--blue-line);}
+
+/* ===== text blocks ===== */
+.lead{font-size:11pt;line-height:1.7;margin:2mm 0 3mm;color:var(--fg);}
+.para{font-size:10.6pt;line-height:1.7;margin:2mm 0 2.5mm;color:var(--fg);}
+.consigne{font-size:10.4pt;line-height:1.6;margin:1mm 0 2mm;color:var(--fg);font-style:italic;}
+.subhead{font-family:var(--latin);font-weight:800;font-size:12pt;letter-spacing:-.01em;color:var(--blue-dark);margin:5mm 0 2.5mm;}
+/* emphasis — green accent = .t-blue/.t-green ; balance = .t-navy ; red = SECONDARY accent (.t-red) on titles + a few words */
+.t-blue{color:var(--blue);font-weight:600;} .t-navy{color:var(--blue-dark);font-weight:700;}
+.t-red{color:var(--red);font-weight:600;} .t-green{color:var(--teal);font-weight:600;} .t-gold{color:var(--orange);font-weight:600;}
+.subhead.t-red{color:var(--red);font-weight:800;}   /* red Roman-numeral section title (I, II, …) — keeps subhead weight */
+/* highlighter marks — a soft colour wash behind a key word (agent picks green or red per what balances the page) */
+.hl-green,.hl-red{border-radius:3px;padding:.02em .24em;font-weight:600;box-decoration-break:clone;-webkit-box-decoration-break:clone;
+    -webkit-print-color-adjust:exact;print-color-adjust:exact;}
+.hl-green{background:rgba(15,171,143,.20);color:var(--blue-dark);}   /* green highlight */
+.hl-red{background:rgba(245,50,47,.13);color:#c0261f;}               /* red highlight  */
+
+.data{background:var(--blue-soft);border:1px solid var(--blue-line);border-inline-start:4px solid var(--blue);
+    border-radius:8px;padding:11px 16px;margin:3mm 0;font-size:10pt;line-height:1.65;color:var(--fg2);}
+.data b{color:var(--fg);font-weight:700;}
+.note{border:1px dashed var(--hair2);border-radius:9px;padding:11px 16px;margin:4mm 0;background:var(--panel);}
+.note .kicker{font-family:var(--mono);font-size:7.5pt;letter-spacing:.18em;color:var(--orange);display:block;margin-bottom:5px;}
+.note .nb{font-size:10pt;line-height:1.7;color:var(--fg2);} .note b{color:var(--fg);}
+.ex:not(.idx){background:var(--blue-soft);border:1px solid var(--blue-line);border-inline-start:3px solid var(--blue);
+    border-radius:7px;padding:7px 11px;font-size:9.6pt;line-height:1.6;color:var(--fg2);margin:2mm 0;}   /* :not(.idx) so it never hits the exercise chip (which is .idx.ex) */
+.ex .extag{display:inline-block;font-family:var(--latin);font-weight:800;font-size:7.6pt;color:var(--blue-dark);background:#fff;
+    border:1px solid var(--blue);border-radius:5px;padding:1px 9px;margin-inline-end:7px;vertical-align:middle;text-transform:uppercase;letter-spacing:.06em;}
+
+/* ===== lists ===== */
+ol.q{list-style:none;counter-reset:q;margin:1mm 0 2mm;}
+ol.q>li{counter-increment:q;position:relative;padding-inline-start:30px;margin-bottom:2.5mm;font-size:10.4pt;line-height:1.6;}
+ol.q>li::before{content:counter(q);position:absolute;inset-inline-start:0;top:1px;width:21px;height:21px;background:var(--grad);color:#fff;
+    border-radius:50%;font-family:var(--mono);font-size:9pt;font-weight:600;display:flex;align-items:center;justify-content:center;
+    -webkit-print-color-adjust:exact;print-color-adjust:exact;}
+ol.sub{list-style:none;counter-reset:s;margin:4px 0 0;padding-inline-start:2px;border-inline-start:1px solid var(--blue-line);}
+ol.sub li{counter-increment:s;position:relative;padding:2.5px 0 2.5px 26px;font-size:10.1pt;line-height:1.55;}
+ol.sub li::before{content:counter(s,lower-alpha)".";position:absolute;inset-inline-start:10px;top:2.5px;font-family:var(--mono);font-size:9pt;font-weight:600;color:var(--teal);}
+ol.qn{list-style:none;counter-reset:qn;margin:1mm 0 2mm;}
+ol.qn>li{counter-increment:qn;position:relative;padding-inline-start:26px;margin-bottom:2.2mm;font-size:10.4pt;line-height:1.55;}
+ol.qn>li::before{content:counter(qn)".";position:absolute;inset-inline-start:0;top:0;font-family:var(--mono);font-size:9.5pt;font-weight:700;color:var(--blue);}
+ul.b{list-style:none;margin:1mm 0 2mm;} ul.b>li{position:relative;padding-inline-start:22px;margin-bottom:2.4mm;font-size:10.4pt;line-height:1.6;}
+ul.b>li::before{content:"";position:absolute;inset-inline-start:3px;top:8px;width:8px;height:8px;border-radius:50%;background:var(--grad);
+    -webkit-print-color-adjust:exact;print-color-adjust:exact;}
+ul.dash{list-style:none;margin:1mm 0 2mm;} ul.dash>li{position:relative;padding-inline-start:20px;margin-bottom:1.8mm;font-size:10.4pt;line-height:1.6;}
+ul.dash>li::before{content:"–";position:absolute;inset-inline-start:2px;top:0;color:var(--fg);font-weight:700;}  /* dash / +/− signs = body colour */
+.flow ul.opts{list-style:none;margin:4px 0 3px;padding-inline-start:16px;}
+.flow ul.opts li{padding:2px 0;font-size:10.2pt;line-height:1.5;color:var(--fg);}
+
+/* ===== figures / tables ===== */
+.fig{margin:3mm 0;} .fig svg.figsvg{display:block;margin:0 auto;background:#fff;max-width:100%;height:auto;}
+.photo{display:block;margin:3mm auto;border-radius:8px;border:1px solid var(--hair);max-width:100%;}
+.figrow{display:flex;flex-wrap:wrap;gap:9px;justify-content:center;margin:3mm auto;max-width:190mm;}
+.flow .figrow img{border-radius:7px;border:1px solid var(--hair);height:46mm;width:auto;max-width:none;object-fit:cover;}
+.schemarow{display:flex;gap:16px;align-items:flex-start;flex-wrap:wrap;margin:2mm 0;}
+.schemarow .col-txt{flex:1 1 90mm;min-width:80mm;} .schemarow .col-fig{flex:0 0 78mm;} .schemarow .col-fig .fig{margin:0;}
+.flow table{border-collapse:collapse;width:100%;margin:3mm 0;font-size:9.8pt;line-height:1.5;}
+.flow table th,.flow table td{border:1px solid var(--blue-line);padding:6px 10px;text-align:start;vertical-align:top;}
+.flow table th{background:var(--grad);color:#fff;font-family:var(--latin);font-weight:700;font-size:9.4pt;
+    -webkit-print-color-adjust:exact;print-color-adjust:exact;}
+.flow table tr:nth-child(even) td{background:var(--blue-soft);color:var(--sub-ink);}   /* sub-row: #E6F3F4 / #045260 */
+
+mjx-container{color:var(--fg) !important;font-weight:400 !important;font-size:1.0em !important;}
+.eq-hi mjx-container,mjx-container.eq-hi{color:var(--blue) !important;}   /* accent (green) equation — highlight a key result; balance with plain math */
+.eq-red mjx-container,mjx-container.eq-red{color:var(--red) !important;}  /* red accent equation / symbol — complements the green .eq-hi */
+
+/* ===== per-file books: credit line, copies list, figures at their size ===== */
+.credit{display:flex;flex-wrap:wrap;align-items:center;gap:5px;margin:-1mm 0 3.5mm;font-size:9.4pt;color:var(--fg2);}
+.credit .who{font-weight:700;color:var(--blue-dark);}
+.credit .tg{font-family:var(--mono);font-size:7.2pt;letter-spacing:.04em;border-radius:5px;padding:1px 7px;line-height:1.6;
+    border:1px solid var(--blue-line);color:var(--blue);background:#fff;-webkit-print-color-adjust:exact;print-color-adjust:exact;}
+.credit .tg.sec{background:var(--blue-dark);border-color:var(--blue-dark);color:#fff;}
+.credit .tg.cor{background:#fff;border-color:var(--red);color:var(--red);}
+.credit a{color:var(--fg3);font-family:var(--mono);font-size:7pt;text-decoration:none;}
+.cover .auth .credit{margin:4mm 0 0;}
+.cover .copies{margin-top:5mm;font-size:8.6pt;color:var(--fg2);}
+.cover .copies ul{list-style:none;margin:2mm 0 0;padding:0;columns:2;}
+.cover .copies a{color:var(--fg3);text-decoration:none;font-size:8pt;}
+.flow figure.fig{text-align:center;}
+.flow figure.fig img{max-height:60mm;width:auto;max-width:70%;display:inline-block;}
+
+/* chapter tag on each part of a multi-chapter book (the book keeps the original order of the file) */
+.chtag{display:inline-block;margin:5mm 0 2mm;padding:1mm 3mm;border-radius:2mm;background:#eef3fb;border:1px solid #c9d6ea;
+  color:#1f3a6b;font-size:9pt;font-weight:700}
+.chtag span{color:#6b7f9e;font-weight:600;margin-inline-end:1.5mm}
+
+@media print{ body{background:#fff;padding:0;} .flow{width:auto;max-width:none;margin:0;padding:0;} }
+@page{size:A4;}   /* margins come from render_flow.py — do NOT set them here */
+</style>
+<meta data-pagefind-filter="type[content]" content="ملخّص">
+<meta data-pagefind-filter="resource[content]" content="المصدر غير مذكور">
+<meta data-pagefind-meta="n[content]" content="2355">
+<meta data-pagefind-meta="title[content]" content="schémas-philo">
+<meta data-pagefind-filter="chapter[content]" content="محور غير محدّد">
+<meta data-pagefind-filter="chapter[content]" content="الخصوصية والكونية">
+<meta data-pagefind-filter="chapter[content]" content="العلم بين الحقيقة والنمذجة">
+<meta data-pagefind-filter="chapter[content]" content="القيم: الأخلاق والدولة">
+<meta data-pagefind-filter="section[content]" content="باكالوريا رياضيات"><style>.qrcard{display:none!important}.wa-nav{position:sticky;top:0;z-index:50;background:#045260;padding:10px 18px;font-family:Cairo,sans-serif;direction:rtl}.wa-nav a{color:#fff;text-decoration:none;font-weight:700}@media print{.wa-nav{display:none}}</style>
+</head>
+
+<body dir="rtl" lang="ar"
+      data-brand="Wael Academy" data-handle="@WaelAcademy"
+      data-tagline="في تُرابنا.. مغامرة بمغامرة"
+      data-phone="+216 50 40 40 42" data-site="waeldocuments.com"
+      data-cta="سجل معانا وأقرى عن بعد مع منصة Wael Academy"
+      data-subject="Philosophie · schémas-philo" data-watermark="Wael Academy" data-pagefind-body><nav class="wa-nav" data-pagefind-ignore><a href="../index.html">→ الرجوع إلى فهرس الفلسفة</a></nav>
+
+<!-- single full-page diagonal watermark, bottom-left → top-right (repeats on every page) -->
+<div class="wm" aria-hidden="true"><span>WAEL&nbsp;ACADEMY</span></div>
+
+<div class="flow colored">
+<div class="cover"><div class="badge">◉ Wael Academy · Philosophie</div><h1>schémas-philo</h1><div class="grule"></div><div class="sub">محور غير محدّد</div><div class="auth"><div class="credit">المؤلّف / المصدر : <span class="who">المصدر غير مذكور في الوثيقة</span> <span class="tg sec">الفلسفة · باكالوريا رياضيات</span> <a href="https://drive.google.com/file/d/1DsClzSIpsfZr1J_hWlakbW-BMVx2nlLH/view">↗ schémas-philo.pdf</a></div></div><div class="copies" data-pagefind-ignore><b>نسخ هذا الملف في الدرايفات (1)</b><ul><li><a href="https://drive.google.com/file/d/1DsClzSIpsfZr1J_hWlakbW-BMVx2nlLH/view">Karim Fourati · Bac 2KF25 › Philo</a></li></ul></div></div>
+<section class="chapter">
+<div class="chtag"><span>المحور</span> محور غير محدّد</div>
+<!-- NOTE: handwritten mind-map schemas (highlighted); branches transcribed in order I, III, II (right to left). -->
+<div class="exh"><span class="idx">ملخّص</span><h2>الخصوصية والكونية</h2>
+  <div class="qrcard"><div class="qrt">فيديو الدرس</div><div class="qrslot"><img src="qr/2355.svg" alt="QR"></div></div></div>
+<div class="credit">المؤلّف / المصدر : <span class="who">المصدر غير مذكور في الوثيقة</span> <span class="tg sec">الفلسفة · باكالوريا رياضيات</span> <a href="https://drive.google.com/file/d/1DsClzSIpsfZr1J_hWlakbW-BMVx2nlLH/view">↗ schémas-philo.pdf</a></div>
+
+<div class="chtag"><span>المحور</span> الخصوصية والكونية</div>
+
+<p class="subhead t-red">الخصوصية والكونية</p>
+
+<p class="subhead t-navy">I</p>
+<p class="para">★ <span class="t-red">الإعتزاز بالهوية</span> (تايلور) <span class="t-red">هوية الانسان = تحقيق الذات</span></p>
+<p class="para">↓<br><span class="t-red">الإفراط في الإعتزاز</span><br>↓<br><span class="t-red">التعصب</span> (فولتير)<br>=<br>خطر على الانسان<br>↓<br>مقاومة التعصب = الحلول (3)</p>
+<ul class="b">
+<li><span class="t-green">المقدس</span></li>
+<li><span class="t-green">القوانين</span></li>
+<li><span class="t-green">التفكير الفلسفي</span></li>
+</ul>
+<p class="para">⇐ <span class="t-red">فشلوا في تحقيق الطمأنينة</span><br>⇓<br><span class="t-green">الحل</span><br>=<br>الانفتاح (II)</p>
+
+<p class="subhead t-navy">III</p>
+<p class="para">★ <span class="t-red">المشترك الانساني الكوني والعلومي</span></p>
+<p class="para">↓ <u>غاية الانسان = تحقيق الكونية</u></p>
+<p class="para"><span class="t-red">دلالة</span> ← <span class="t-gold">"الكونية هي مشروع يعمل على توحيد الانسانية وتأصيل ماهو إنساني في الانسان"</span> + <span class="t-red">مزايا الكونية</span></p>
+<p class="para">★ العولمة اليوم تدعي الكونية</p>
+<p class="para">↓ <span class="t-gold">"هي ضرورة انفتاح الاقتصاد المحلي لكل دولة على السوق العالمي".</span></p>
+<p class="para"><span class="t-red">شعارات العولمة</span> ← <span class="t-green">نسبية المعرفة</span><br>← <span class="t-green">نسبية الثقافة</span></p>
+<p class="para">↓ مجرد شعارات تختفي وراء نوايا خبيثة<br>↓ (الحكم / الهيمنة / السيطرة على العالم)</p>
+<p class="para">⇐ <span class="t-red">شيئات الانسان</span> ≠ الكونية (تعطي قيمة للانسان)</p>
+<p class="para">⇐ الحلول</p>
+<table>
+<tr><td>حسن استخدام المعلوماتية</td><td>إخضاع انتاجات العولمة إلى النقد</td><td>تحمل المسؤولية تجاه الذات والانسانية</td></tr>
+</table>
+
+<p class="subhead t-navy">II</p>
+<p class="para">★ <span class="t-red">الإعتراف بالآخر الثقافي</span> (ليفي شتراوس)</p>
+<p class="para">↓ التعامل مع الثقافات على <span class="t-red">نفس الدرجة</span><br>≠ التفاضل ≠ العنصرية</p>
+<p class="para">⇐ <span class="t-red">لشروط الانفتاح</span> ⇐</p>
+<p class="para">↓ <span class="t-red">الافراط في الاتصال</span> ≠ التواصل<br>(= اللا تواصل)</p>
+<p class="para">↓ الثمن: فقدانا لأصالتنا بأكملها .</p>
+<p class="para">↓ <span class="t-red">الذوبان في الآخر</span><br>⇓<br><span class="t-green">الحل</span><br>=<br>لا بد من المحافظة على الجذور مع الانفتاح على الآخر الثقافي<br>(النقد البناء)</p>
+<!-- PROOFREAD: 2355 part1 p01 — "الكوني والعلومي" / "شيئات الانسان" -->
+
+
+<div class="chtag"><span>المحور</span> العلم بين الحقيقة والنمذجة</div>
+
+<p class="subhead t-red">العلم بين الحقيقة والنمذجة</p>
+
+<p class="subhead t-navy">I</p>
+<p class="para">★ <span class="t-red">النمذجة وصورة العلم اليوم</span></p>
+<table>
+<tr><th>إبستيمولوجيا وضعية</th><th>إبستيمولوجيا بنائية</th></tr>
+<tr><td>
+<ul class="b">
+<li>المعرفة إكتشاف</li>
+<li>الحقيقة مطلقة</li>
+<li>الذات محايدة</li>
+<li>الموضوعية شرط العلومية</li>
+<li>التجربة</li>
+<li>التعميم</li>
+<li>التفسير</li>
+<li><span class="t-green">المعرفة موضوع</span></li>
+</ul>
+</td><td>
+<ul class="b">
+<li>المعرفة بناء</li>
+<li>الحقيقة نسبية</li>
+<li>لا حياد للذات</li>
+<li>الموضوعية ليست شرط العلومية</li>
+<li>ليست ضرورية</li>
+<li>لا تعميم</li>
+<li>فهم وتأويل + فعل</li>
+<li><span class="t-green">المعرفة مشروع</span></li>
+</ul>
+</td></tr>
+</table>
+
+<p class="subhead t-navy">II</p>
+<p class="para">★ <span class="t-red">دلالة النموذج</span></p>
+<table>
+<tr><th>إستبعاد</th><th>إستحضار</th></tr>
+<tr><td>المثل الأفلاطوني "Paradigme"<br>المثل الأعلى / البرادايغم<br>الصورة الحقيقية</td><td><span class="t-gold">هو كل تمثل لنسق واقعي سوى أكان ذهنيا أو ماديا يتم التعبير عنه بلغة أدبية أو في شكل رسوم بيانية أو رموز رياضية ؟</span> !!</td></tr>
+</table>
+<p class="para">★ <span class="t-red">وظائف النموذج</span></p>
+<ol class="qn">
+<li><span class="t-green">تمثيلية</span> : بناء موضوع مهيكل ومبسط</li>
+<li><span class="t-green">منهجية</span> : يوجه الفكر وينظم حركة استدلاله</li>
+<li><span class="t-green">إقتصادية</span> : يستفيد العلماء في مختلف الاختصاصات من أعمال بعضهم .</li>
+<li><span class="t-green">تحكمية</span> : التحكم في الواقع والتأثير على المعرفة بما يحقق المصالح .</li>
+</ol>
+
+<p class="subhead t-navy">III</p>
+<p class="para">★ <span class="t-red">أبعاد النمذجة</span></p>
+<p class="para"><b>بعد تركيبي</b> = <span class="t-red">(النموذج هو بنية)</span><br>← خصائص البنية : 1) <span class="t-green">كلية</span> 2) <span class="t-green">تحولات</span> 3) <span class="t-green">إنتظام ذاتي</span></p>
+<p class="para">• الترييض / الصورنة / الأكسمة</p>
+<table>
+<tr><th>الوضعية</th><th>البنائية</th></tr>
+<tr><td>الرياضيات<br>+<br>ال</td><td>أكثر الرياضيات<br>+<br>الصورنة + الأكسمة</td></tr>
+</table>
+<!-- PROOFREAD: 2355 part1 p02 — bottom-right cut by page edge: "الرياضيات + ال…" -->
+<p class="para"><b>بعد دلالي</b> = <span class="t-red">(علاقة النموذج بالواقع)</span></p>
+<table>
+<tr><th>الوضعية</th><th>البنائية</th></tr>
+<tr><td>• تفسير<br>⇓<br><span class="t-green">كشف في الحقيقة معرفة</span></td><td>• فهم وتأويل<br>⇓<br><span class="t-green">الواقع بناء = حقائق</span></td></tr>
+</table>
+<p class="para"><b>بعد تداولي</b> = <span class="t-red">(نفعي)</span> (وظيفتين معرفية وعملية)</p>
+<p class="para">الفهم + الفعل في الواقع<br>⇓<br>التحكم في البشر والطبيعة</p>
+
+
+<div class="chtag"><span>المحور</span> القيم: الأخلاق والدولة</div>
+
+<p class="subhead t-red">الدولة السيادة والمواطنة</p>
+
+<p class="subhead t-navy">I</p>
+<p class="para">★ <span class="t-red">في ماهية السلطة وعلاقتها بالدولة</span></p>
+<ul class="b">
+<li><span class="t-green">الدولة</span> : مفهوم معقد يتداخل مع { سيادة / سلطة / حكم / قانون / قوة<br>← هي جسم سياسي حقوقي ينظم حياة مجموعة ما .</li>
+<li><span class="t-green">السلطة</span>: تعني التسلط، هي القاعدة العليا للنظام .</li>
+<li><span class="t-gold">تحتاج كل دولة إلى سلطة لتحققها ولكن ليست كل سلطة دولة</span></li>
+<li><span class="t-green">السيادة لصيقة بالدولة</span> : هي وحدة ثابتة لا تتجزأ مهما تعددت السلطات</li>
+</ul>
+
+<p class="subhead t-navy">III</p>
+<p class="para"><span class="t-red">مبررات قيام الدولة</span> :</p>
+<ul class="b">
+<li>قلة الخيرات في الطبيعة</li>
+<li>العلاقات الانسانية تحتاج إلى سلطة تنظمها ⇐ <span class="t-blue">البقاء</span></li>
+</ul>
+<p class="para">★ <span class="t-red">السيادة فضاء للمواطنة</span></p>
+<p class="para"><span class="t-green">"سبينوزا"</span> + <span class="t-green">"روسو"</span></p>
+<ul class="b">
+<li>يتنازل كل فرد عن حقه الطبيعي لصالح الإرادة العامة</li>
+<li>قوة القوانين الصادرة عن العقل .</li>
+</ul>
+<p class="para">⇐ <span class="t-blue">عقد ملزم للحاكم والمحكوم</span> ≠ <span class="t-blue">العقد الهوبسي</span></p>
+<ul class="b">
+<li>ربط الصلة بين الحق والقانون وبين القوة والحرية</li>
+</ul>
+<p class="para"><span class="t-gold">" السيادة التي تحافظ على المنافع هي الأبقى من التي يمارسها المواطن "</span> +</p>
+<ul class="b">
+<li><span class="t-green">طاعة القوانين ليست خضوع طالما احتكمت الدولة للعقل وأطاع الحاكم نفسه هذه القوانين</span></li>
+</ul>
+<p class="para">{ • الانتماء إلى وطن والاعتزاز به • الحقوق والواجبات &nbsp;&nbsp; • المواطنة ليست عبودية • الديمقراطية هي إرادة الأحرار</p>
+<!-- PROOFREAD: 2355 part1 p03 — "السيادة التي تحافظ على المنافع هي الأبقى من التي يمارسها المواطن" -->
+
+<p class="para"><span class="t-red">إستبداد</span> — سيادة ≠ مواطنة — <b>علاقة تنافر</b></p>
+<p class="para"><b>علاقة تلازم</b> — سيادة = مواطنة — <span class="t-red">ديمقراطية</span></p>
+
+<p class="subhead t-navy">II</p>
+<p class="para">★ <span class="t-red">السيادة بما هي نفي للمواطنة</span></p>
+<p class="para"><span class="t-blue">سلطة الأمير</span> <span class="t-green">"ميكيافيلي"</span> ← العنف - (القوة) - الضعف ← <span class="t-green">"هوبس"</span> ← <span class="t-blue">سلطة التنين</span></p>
+<p class="para"><span class="t-red">سيادة قائمة على المكر والحيلة</span></p>
+<ul class="b">
+<li><span class="t-green">"على الأمير أن يكون ثعلبا ليميز الفخاخ وأسدا ليرهب الذئاب"</span> ؟</li>
+</ul>
+<p class="para"><span class="t-red">سيادة قائمة على التعاقد</span></p>
+<ul class="b">
+<li>إفتراض وجود حالة الطبيعة (حرب الكل ضد الكل)</li>
+<li><span class="t-gold">"الانسان ذئب للانسان"</span></li>
+<li>اعتمد على العقل للانتقال إلى حالة مدنية عبر آلية <span class="t-gold">العقد الاجتماعي</span></li>
+<li><span class="t-green">كيان سياسي واحد يتميز بالقوة والسيادة المطلقة</span></li>
+<li><span class="t-green">الخضوع إلى القوانين والأوامر</span></li>
+<li><span class="t-green">ضمان السلم والأمن</span></li>
+<li><span class="t-green">تخوف الرعية أشد وأبقى للسيادة من محبتهم</span></li>
+<li><span class="t-green">السيادة تستمد من قوة صاحب السيادة</span></li>
+</ul>
+
+<p class="subhead t-navy">IV</p>
+<p class="para">★ <span class="t-red">المواطنة ومطلب الكوني</span></p>
+<p class="para">يقول <span class="t-green">"كانط"</span> : <span class="t-gold">"الأرض ملك للجميع"</span>.</p>
+<ul class="b">
+<li>قيم حقوق الانسان هي <span class="t-blue">قيم انسانية ثابتة</span> و <span class="t-blue">حقوق كونية</span> كل الدول مطالبة باحترامها</li>
+<li>لا تتعارض المواطنة العالمية مع لسيادة الدولة لأن غاية كل دولة ← <span class="t-green">نبذ العنف</span> / <span class="t-green">إقامة السلم</span> } <span class="t-red">تعامل حضاري</span> ← <span class="t-red">تنافي ؟؟</span></li>
+</ul>
+<p class="para"><span class="t-gold">" العنصرية جرح العالم وجرح الانسان "</span> +</p>
+<p class="para"><span class="t-gold">" كل فرد هو في آن نفسه مواطن العالم بالمعنى الكامل للكلمة ومواطن دولته "</span> +</p>
+<p class="para"><span class="t-red">النقاش : التحقق على السيادة والمواطنة</span></p>
+<!-- PROOFREAD: 2355 part1 p03 — "التحقق على السيادة والمواطنة" -->
+
+<p class="subhead t-red">الأخلاق الخير والسعادة</p>
+
+<p class="subhead t-navy">I</p>
+<p class="para">★ <span class="t-red">في التآلف بين الخير والسعادة</span></p>
+<p class="para"><span class="t-blue">الفضيلة (الخير) أساس السعادة</span> - <span class="t-green">أرسطو</span> -</p>
+<ul class="b">
+<li>الفعل الانساني ⇐ فعل غائي</li>
+<li>السعادة هي الغاية الكونية والمطلقة للفعل الانساني . (نسبية تختلف باختلاف المعايير)</li>
+</ul>
+<p class="para"><span class="t-green">شروط التحقق</span> :</p>
+<ul class="b">
+<li><span class="t-red">التأمل</span> + <span class="t-red">الحكمة</span> + <span class="t-red">الفضيلة</span><br>↓ إعمال العقل &nbsp; (الإعتدال)</li>
+</ul>
+<p class="para">⇐ السعادة تتحقق بغاياتها لا بمبادئها</p>
+<p class="para"><span class="t-blue">اللذة أساس السعادة</span> - <span class="t-green">أبيقور</span> -</p>
+<p class="para">فلسفة الاغريق (موقف نقدي) ≠ ربط اللذة والسعادة</p>
+<p class="para"><span class="t-gold">" ان السعادة هي اللذة التي هي منطلق ونهاية كل حياة سعيدة لأنها مبدأ الحياة نفسها "</span></p>
+<ul class="b">
+<li>اللذة هي المعيار الطبيعي لعمل الجسم وتوازنه<br>↓ بشرط أن تبقى في حدوده !!</li>
+</ul>
+<p class="para">اللذة ↓ <span class="t-green">طبيعية</span> ↓ <span class="t-green">ضرورية</span> : تلبية الغرائز (السعادة) (تؤدي إلى)<br>↓ <span class="t-green">غير ضرورية</span> : الافراط في الغرائز (الألم)<br>↓ <span class="t-green">غير طبيعية</span> = <span class="t-green">غير ضرورية</span> (تجنبها لأنها تسبب الشقاء)</p>
+<p class="para"><span class="t-blue">المنفعة أساس السعادة</span> - <span class="t-green">ج - س - ميل</span> -</p>
+<p class="para">الأخلاق تكمن في تحقيق أكبر قدر من السعادة لأكبر عدد من الناس</p>
+<ul class="b">
+<li>السعادة = المقياس الوحيد لكل عمل أخلاقي</li>
+</ul>
+<p class="para"><span class="t-gold">" ما نعنيه بالسعادة هو وجود اللذة وغياب الألم "</span></p>
+<p class="para">المنفعة ← فردية شخصية ← مصلحة مشتركة = تحقق السعادة</p>
+<p class="para">⇐ لذة الآخرين هي وسيلة لتحقيق لذة الفرد</p>
+
+<p class="subhead t-navy">II</p>
+<p class="para">★ <span class="t-red">في التمييز بين الخير والسعادة</span> &nbsp; <span class="t-red">(حدوده) وجوب تحقق هذه الأخلاق</span></p>
+<p class="para">- <span class="t-green">كانط</span> - "ماذا يجب علينا فعله ؟"</p>
+<ul class="b">
+<li>عجز الانسان عن تحديد ما يجعله سعيدا</li>
+</ul>
+<p class="para"><span class="t-blue">الخير واجب</span> : يقتضي الوعي / القصد / الإرادة الحرة</p>
+<table>
+<tr><th><span class="t-green">أخلاقي</span></th><th><span class="t-red">الفعل</span></th><th>لا أخلاقي</th></tr>
+<tr><td>مطابق للواجب بدوافع الواجب<br><span class="t-green">خاضع</span></td><td>مطابق للواجب بدوافع المنفعة<br><span class="t-green">خاضع</span></td><td>ضد الواجب</td></tr>
+</table>
+<p class="para">⇓ <span class="t-red">الأمر</span> ← القطعي ← الشرطي</p>
+<p class="para"><span class="t-green">الشروط</span> : <span class="t-red">الكلية</span> + <span class="t-red">الغائية</span> + <span class="t-red">الحرية</span></p>
+<p class="para">الفعل الأخلاقي يرتبط بمبادئه ولا بنتائجه</p>
+<p class="para"><span class="t-gold">" لا تعلمنا الأخلاق كيف نكون سعداء بل كيف نكون جديرين بالسعادة "</span></p>
+
+<p class="subhead t-navy">III</p>
+<p class="para">★ <span class="t-red">في التحقق على الخير والسعادة</span></p>
+<p class="para"><span class="t-blue">نسبية القيم الأخلاقية</span> - <span class="t-green">نيتشه</span> - عدم إمكانية تأسيس أخلاق كونية</p>
+<ul class="b">
+<li><span class="t-green">الجينيالوجيا</span> ≠ <span class="t-green">الميتافيزيقا</span> : كل ما يقصي الجسد / العقل صنم ويجب تحطيمه</li>
+<li>الأخلاق التقليدية تستند إلى فكرة { <span class="t-red">الإله</span> (dieu) / <span class="t-red">المجتمع</span> / <span class="t-red">العقل</span> } <span class="t-red">أصنام وجب تحطيمها</span></li>
+</ul>
+<p class="para">"نيتشه" يميز بين نوعان من الأخلاق</p>
+<ul class="b">
+<li>أخلاق الضعفاء (لا بل معاني الحياة) و أخلاق الأقوياء (الفكر الحر والتعالي) والقوة</li>
+</ul>
+<p class="para">⇐ <span class="t-red">أخلاق نسبية متغيرة</span> : (متأثرة بما له من قوة ≠ كونية "كانط")</p>
+<p class="para"><span class="t-blue">في الاعتراض على بلوغ السعادة</span> - <span class="t-green">فرويد</span> - ليست نتاج العقل</p>
+<ul class="b">
+<li>الأخلاق يفرزها الأنا الأعلى = <span class="t-red">وسيلة قمع الرغبات</span></li>
+</ul>
+<p class="para"><span class="t-red">لا يمكن تحقيق السعادة</span> ≠ مبدأ الوسطية عند أرسطو</p>
+<p class="para"><span class="t-blue">السعادة في المجتمع الاستهلاكي</span> - <span class="t-green">بودريار</span> -</p>
+<p class="para"><span class="t-gold">" ان أسطورة السعادة هي التي تحتفي في المجتمعات أسطورة المساواة وتجسدها "</span> ⇐ مجرد <span class="t-red">شعار</span> للترويج السياسي</p>
+<p class="para">= <span class="t-red">إخفاء الفوارق الطبقية</span></p>
+<!-- PROOFREAD: 2355 part1 p04 — dense handwriting; doubtful: "(لا بل معاني الحياة)", "في التحقق على الخير والسعادة", "تحتفي في المجتمعات", "حدوده) وجوب تحقق هذه الأخلاق" -->
+
+</section>
+
+</div>
+</body>
+</html>

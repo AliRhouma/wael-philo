@@ -1,0 +1,422 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<title>Wael Academy — Philosophie · الخصوصية و الكونية</title>
+<script>
+  window.MathJax = {
+    tex: { inlineMath: [['\\(','\\)']], displayMath: [['\\[','\\]']] },
+    chtml: { fontURL: 'https://cdn.jsdelivr.net/npm/mathjax@3/es5/output/chtml/fonts/woff-v2', matchFontHeight: true },
+    startup: { typeset: true }
+  };
+</script>
+<script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js" async></script>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Sora:wght@400;500;600;700;800&family=Cairo:wght@400;500;600;700;800;900&family=Tajawal:wght@400;500;700;800&family=JetBrains+Mono:wght@400;500;600;700&display=swap');
+:root{
+  /* ===== Wael Academy palette — MAIN ACCENT = green-teal gradient #0FAB8F → #067360 ===== */
+  --bg:#fff; --panel:#f2f8f8; --hair:#e6e6e9; --hair2:#d6d6db;
+  --fg:#0f2a31;        /* body text (and +/− signs) */
+  --fg2:#3f5b62;       /* softer text */
+  --fg3:#7c959b;       /* muted (footer) */
+  --blue:#067360;      /* deep accent — small numbers, borders, watermark, accent equations */
+  --blue-dark:#045260; /* titles & wordmarks (also the balance colour) */
+  --teal:#0fab8f;      /* bright accent end */
+  --loop:#0d9c82;      /* logo-loop helper */
+  --orange:#067360;    /* kicker/category labels (gold retired → deep teal) */
+  --red:#f5322f;       /* EXERCISE CHIPS ONLY — never for emphasis */
+  --cream:#e6f3f4; --blue-soft:#e6f3f4;  /* pale teal — callout fill + table sub-row fill */
+  --blue-line:#cde7e4; /* hairline */
+  --sub-ink:#045260;   /* table sub-row text */
+  --grad:linear-gradient(148deg,#0fab8f 0%,#0d9c82 52%,#067360 100%);
+  --mono:'JetBrains Mono',monospace; --latin:'Sora',sans-serif; --ar:'Cairo',sans-serif; --arb:'Tajawal',sans-serif;
+}
+*{box-sizing:border-box;margin:0;padding:0;}
+body{font-family:var(--latin);color:var(--fg);background:#e4e4e7;padding:28px 0;
+     -webkit-print-color-adjust:exact;print-color-adjust:exact;}
+html[dir="rtl"] body{font-family:var(--arb);}
+
+/* ===== brand watermark: REAL text (crisp), full-bleed, repeats per page ===== */
+.wm{position:fixed;inset:0;z-index:0;pointer-events:none;display:flex;
+    align-items:center;justify-content:center;overflow:hidden;
+    -webkit-print-color-adjust:exact;print-color-adjust:exact;}
+.wm span{font-family:var(--mono);font-weight:800;font-size:76.8pt;letter-spacing:.16em;
+    color:var(--blue);opacity:.06;white-space:nowrap;transform:rotate(-54deg);}  /* single diagonal: bottom-left → top-right */
+.wm.mono span{color:#000;opacity:.05;}
+
+/* ===== continuous flow stream (no page border) ===== */
+.flow{width:210mm;margin:0 auto;background:transparent;color:var(--fg);
+      padding-block:16mm 18mm;padding-inline:23mm 14mm;position:relative;}   /* spiral gutter: inline-start(=spine) 23mm / outer 14mm — dir-aware; print margins set in render_flow.py */
+@media screen{ .flow{background:#fff;box-shadow:0 10px 40px rgba(0,0,0,.16);} }
+.flow>*{position:relative;z-index:1;}
+.flow p,.flow li,.flow .data,.flow .note,.flow .ex{break-inside:auto;}
+.flow .fig,.flow figure,.flow img,.flow svg.figsvg,.flow table,.flow tr,.flow .chapdiv,.flow .exh,.flow .qrcard,.flow .meta{break-inside:avoid;}
+.flow h1,.flow h2,.flow h3,.flow .exh,.flow .subhead,.flow .chapdiv{break-after:avoid;}
+.flow img,.flow svg.figsvg{max-width:100%;height:auto;}
+.flow figcaption,.flow .figcap{display:none;}          /* rule 3: no figure captions */
+
+/* ===== front matter + chapters each start on a fresh page ===== */
+.flow .cover{break-after:page;}        /* cover alone on page 1 */
+.flow .toc{break-after:page;}          /* Sommaire alone on the next page */
+.flow .chapter{break-before:page;}
+.flow .chapter:first-of-type{break-before:auto;}
+
+/* ===== cover ===== */
+.cover{padding:14mm 0 8mm;border-bottom:2px solid var(--blue);margin-bottom:6mm;}
+.cover .badge{font-family:var(--mono);font-size:8.5pt;letter-spacing:.28em;text-transform:uppercase;color:var(--orange);margin-bottom:10px;}
+.cover h1{font-family:var(--latin);font-weight:800;font-size:34pt;line-height:1.03;letter-spacing:-.025em;color:var(--blue-dark);}
+.cover .grule{width:120px;height:5px;border-radius:5px;background:var(--grad);margin:14px 0;}
+.cover .sub{font-family:var(--mono);font-size:10pt;letter-spacing:.14em;text-transform:uppercase;color:var(--teal);}
+.cover .auth{font-size:11pt;color:var(--fg2);margin-top:6px;font-weight:600;}
+
+/* ===== table of contents ===== */
+.toc{margin:2mm 0 4mm;}
+.toc h2{font-family:var(--latin);font-weight:800;font-size:15pt;color:var(--blue-dark);margin-bottom:4mm;}
+.toc .trititle{font-family:var(--mono);font-size:8pt;letter-spacing:.2em;text-transform:uppercase;color:var(--orange);margin:4mm 0 2mm;}
+.toc ol{list-style:none;}
+.toc li{display:flex;align-items:baseline;gap:8px;font-size:10pt;padding:2.2px 0;color:var(--fg);line-height:1.4;}
+.toc li .n{font-family:var(--mono);font-weight:700;font-size:9pt;color:var(--blue);min-width:26px;}
+.toc li .dots{flex:1;border-bottom:1px dotted var(--hair2);transform:translateY(-3px);}
+
+/* ===== chapter divider band ===== */
+.chapdiv{margin:0 0 5mm;padding:6mm 16px 5mm;border-radius:12px;background:var(--grad);
+    -webkit-print-color-adjust:exact;print-color-adjust:exact;}   /* green-filled chapter band */
+.chapdiv .cn{font-family:var(--mono);font-size:8.5pt;font-weight:700;letter-spacing:.24em;text-transform:uppercase;color:rgba(255,255,255,.82);margin-bottom:5px;}
+.chapdiv h2{font-family:var(--latin);font-weight:800;font-size:17pt;line-height:1.1;letter-spacing:-.015em;color:#fff;}
+/* conclusion block — same green-filled look as the chapter band */
+.conclusion{background:var(--grad);border-radius:12px;padding:6mm 16px;margin:5mm 0;color:#fff;break-inside:avoid;
+    -webkit-print-color-adjust:exact;print-color-adjust:exact;}
+.conclusion .ck{font-family:var(--mono);font-size:8.5pt;font-weight:700;letter-spacing:.24em;text-transform:uppercase;color:rgba(255,255,255,.82);margin-bottom:6px;}
+.conclusion h3{font-family:var(--latin);font-weight:800;font-size:13pt;line-height:1.2;color:#fff;margin-bottom:4px;}
+.conclusion p,.conclusion li{font-size:10.4pt;line-height:1.7;color:#fff;}
+.conclusion b,.conclusion strong{color:#fff;font-weight:700;}
+
+/* ===== unit header (lesson/exercise) + QR emplacement ===== */
+.exh{display:flex;align-items:center;gap:11px;margin:6mm 0 3mm;}
+.exh .idx{font-family:var(--mono);font-size:9pt;font-weight:600;color:#fff;background:var(--grad);
+    border-radius:6px;padding:4px 11px;letter-spacing:.08em;text-transform:uppercase;
+    -webkit-print-color-adjust:exact;print-color-adjust:exact;}
+.exh .idx.ex{background:var(--red);}   /* exercise chip = red */
+.exh h2{font-family:var(--latin);font-size:14pt;font-weight:700;letter-spacing:-.01em;color:var(--blue-dark);}
+.exh .qrcard{margin-inline-start:auto;flex:0 0 auto;display:flex;flex-direction:column;align-items:center;gap:3px;width:26mm;}
+.qrcard .qrt{font-family:var(--mono);font-size:6.5pt;letter-spacing:.1em;text-transform:uppercase;color:var(--teal);text-align:center;}
+.qrcard .qrslot{width:24mm;height:24mm;padding:1.5mm;background:#fff;border:1px solid var(--blue-line);border-radius:8px;display:flex;align-items:center;justify-content:center;}
+.qrcard .qrslot img,.qrcard .qrslot svg{width:100%;height:100%;display:block;}
+
+/* sub-exercise label when one file holds several exercices */
+.exsub{font-family:var(--latin);font-weight:800;font-size:11.5pt;color:var(--blue-dark);margin:5mm 0 2.5mm;padding-bottom:3px;border-bottom:2px solid var(--blue-line);}
+
+/* ===== text blocks ===== */
+.lead{font-size:11pt;line-height:1.7;margin:2mm 0 3mm;color:var(--fg);}
+.para{font-size:10.6pt;line-height:1.7;margin:2mm 0 2.5mm;color:var(--fg);}
+.consigne{font-size:10.4pt;line-height:1.6;margin:1mm 0 2mm;color:var(--fg);font-style:italic;}
+.subhead{font-family:var(--latin);font-weight:800;font-size:12pt;letter-spacing:-.01em;color:var(--blue-dark);margin:5mm 0 2.5mm;}
+/* emphasis — green accent = .t-blue/.t-green ; balance = .t-navy ; red = SECONDARY accent (.t-red) on titles + a few words */
+.t-blue{color:var(--blue);font-weight:600;} .t-navy{color:var(--blue-dark);font-weight:700;}
+.t-red{color:var(--red);font-weight:600;} .t-green{color:var(--teal);font-weight:600;} .t-gold{color:var(--orange);font-weight:600;}
+.subhead.t-red{color:var(--red);font-weight:800;}   /* red Roman-numeral section title (I, II, …) — keeps subhead weight */
+/* highlighter marks — a soft colour wash behind a key word (agent picks green or red per what balances the page) */
+.hl-green,.hl-red{border-radius:3px;padding:.02em .24em;font-weight:600;box-decoration-break:clone;-webkit-box-decoration-break:clone;
+    -webkit-print-color-adjust:exact;print-color-adjust:exact;}
+.hl-green{background:rgba(15,171,143,.20);color:var(--blue-dark);}   /* green highlight */
+.hl-red{background:rgba(245,50,47,.13);color:#c0261f;}               /* red highlight  */
+
+.data{background:var(--blue-soft);border:1px solid var(--blue-line);border-inline-start:4px solid var(--blue);
+    border-radius:8px;padding:11px 16px;margin:3mm 0;font-size:10pt;line-height:1.65;color:var(--fg2);}
+.data b{color:var(--fg);font-weight:700;}
+.note{border:1px dashed var(--hair2);border-radius:9px;padding:11px 16px;margin:4mm 0;background:var(--panel);}
+.note .kicker{font-family:var(--mono);font-size:7.5pt;letter-spacing:.18em;color:var(--orange);display:block;margin-bottom:5px;}
+.note .nb{font-size:10pt;line-height:1.7;color:var(--fg2);} .note b{color:var(--fg);}
+.ex:not(.idx){background:var(--blue-soft);border:1px solid var(--blue-line);border-inline-start:3px solid var(--blue);
+    border-radius:7px;padding:7px 11px;font-size:9.6pt;line-height:1.6;color:var(--fg2);margin:2mm 0;}   /* :not(.idx) so it never hits the exercise chip (which is .idx.ex) */
+.ex .extag{display:inline-block;font-family:var(--latin);font-weight:800;font-size:7.6pt;color:var(--blue-dark);background:#fff;
+    border:1px solid var(--blue);border-radius:5px;padding:1px 9px;margin-inline-end:7px;vertical-align:middle;text-transform:uppercase;letter-spacing:.06em;}
+
+/* ===== lists ===== */
+ol.q{list-style:none;counter-reset:q;margin:1mm 0 2mm;}
+ol.q>li{counter-increment:q;position:relative;padding-inline-start:30px;margin-bottom:2.5mm;font-size:10.4pt;line-height:1.6;}
+ol.q>li::before{content:counter(q);position:absolute;inset-inline-start:0;top:1px;width:21px;height:21px;background:var(--grad);color:#fff;
+    border-radius:50%;font-family:var(--mono);font-size:9pt;font-weight:600;display:flex;align-items:center;justify-content:center;
+    -webkit-print-color-adjust:exact;print-color-adjust:exact;}
+ol.sub{list-style:none;counter-reset:s;margin:4px 0 0;padding-inline-start:2px;border-inline-start:1px solid var(--blue-line);}
+ol.sub li{counter-increment:s;position:relative;padding:2.5px 0 2.5px 26px;font-size:10.1pt;line-height:1.55;}
+ol.sub li::before{content:counter(s,lower-alpha)".";position:absolute;inset-inline-start:10px;top:2.5px;font-family:var(--mono);font-size:9pt;font-weight:600;color:var(--teal);}
+ol.qn{list-style:none;counter-reset:qn;margin:1mm 0 2mm;}
+ol.qn>li{counter-increment:qn;position:relative;padding-inline-start:26px;margin-bottom:2.2mm;font-size:10.4pt;line-height:1.55;}
+ol.qn>li::before{content:counter(qn)".";position:absolute;inset-inline-start:0;top:0;font-family:var(--mono);font-size:9.5pt;font-weight:700;color:var(--blue);}
+ul.b{list-style:none;margin:1mm 0 2mm;} ul.b>li{position:relative;padding-inline-start:22px;margin-bottom:2.4mm;font-size:10.4pt;line-height:1.6;}
+ul.b>li::before{content:"";position:absolute;inset-inline-start:3px;top:8px;width:8px;height:8px;border-radius:50%;background:var(--grad);
+    -webkit-print-color-adjust:exact;print-color-adjust:exact;}
+ul.dash{list-style:none;margin:1mm 0 2mm;} ul.dash>li{position:relative;padding-inline-start:20px;margin-bottom:1.8mm;font-size:10.4pt;line-height:1.6;}
+ul.dash>li::before{content:"–";position:absolute;inset-inline-start:2px;top:0;color:var(--fg);font-weight:700;}  /* dash / +/− signs = body colour */
+.flow ul.opts{list-style:none;margin:4px 0 3px;padding-inline-start:16px;}
+.flow ul.opts li{padding:2px 0;font-size:10.2pt;line-height:1.5;color:var(--fg);}
+
+/* ===== figures / tables ===== */
+.fig{margin:3mm 0;} .fig svg.figsvg{display:block;margin:0 auto;background:#fff;max-width:100%;height:auto;}
+.photo{display:block;margin:3mm auto;border-radius:8px;border:1px solid var(--hair);max-width:100%;}
+.figrow{display:flex;flex-wrap:wrap;gap:9px;justify-content:center;margin:3mm auto;max-width:190mm;}
+.flow .figrow img{border-radius:7px;border:1px solid var(--hair);height:46mm;width:auto;max-width:none;object-fit:cover;}
+.schemarow{display:flex;gap:16px;align-items:flex-start;flex-wrap:wrap;margin:2mm 0;}
+.schemarow .col-txt{flex:1 1 90mm;min-width:80mm;} .schemarow .col-fig{flex:0 0 78mm;} .schemarow .col-fig .fig{margin:0;}
+.flow table{border-collapse:collapse;width:100%;margin:3mm 0;font-size:9.8pt;line-height:1.5;}
+.flow table th,.flow table td{border:1px solid var(--blue-line);padding:6px 10px;text-align:start;vertical-align:top;}
+.flow table th{background:var(--grad);color:#fff;font-family:var(--latin);font-weight:700;font-size:9.4pt;
+    -webkit-print-color-adjust:exact;print-color-adjust:exact;}
+.flow table tr:nth-child(even) td{background:var(--blue-soft);color:var(--sub-ink);}   /* sub-row: #E6F3F4 / #045260 */
+
+mjx-container{color:var(--fg) !important;font-weight:400 !important;font-size:1.0em !important;}
+.eq-hi mjx-container,mjx-container.eq-hi{color:var(--blue) !important;}   /* accent (green) equation — highlight a key result; balance with plain math */
+.eq-red mjx-container,mjx-container.eq-red{color:var(--red) !important;}  /* red accent equation / symbol — complements the green .eq-hi */
+
+/* ===== per-file books: credit line, copies list, figures at their size ===== */
+.credit{display:flex;flex-wrap:wrap;align-items:center;gap:5px;margin:-1mm 0 3.5mm;font-size:9.4pt;color:var(--fg2);}
+.credit .who{font-weight:700;color:var(--blue-dark);}
+.credit .tg{font-family:var(--mono);font-size:7.2pt;letter-spacing:.04em;border-radius:5px;padding:1px 7px;line-height:1.6;
+    border:1px solid var(--blue-line);color:var(--blue);background:#fff;-webkit-print-color-adjust:exact;print-color-adjust:exact;}
+.credit .tg.sec{background:var(--blue-dark);border-color:var(--blue-dark);color:#fff;}
+.credit .tg.cor{background:#fff;border-color:var(--red);color:var(--red);}
+.credit a{color:var(--fg3);font-family:var(--mono);font-size:7pt;text-decoration:none;}
+.cover .auth .credit{margin:4mm 0 0;}
+.cover .copies{margin-top:5mm;font-size:8.6pt;color:var(--fg2);}
+.cover .copies ul{list-style:none;margin:2mm 0 0;padding:0;columns:2;}
+.cover .copies a{color:var(--fg3);text-decoration:none;font-size:8pt;}
+.flow figure.fig{text-align:center;}
+.flow figure.fig img{max-height:60mm;width:auto;max-width:70%;display:inline-block;}
+
+/* chapter tag on each part of a multi-chapter book (the book keeps the original order of the file) */
+.chtag{display:inline-block;margin:5mm 0 2mm;padding:1mm 3mm;border-radius:2mm;background:#eef3fb;border:1px solid #c9d6ea;
+  color:#1f3a6b;font-size:9pt;font-weight:700}
+.chtag span{color:#6b7f9e;font-weight:600;margin-inline-end:1.5mm}
+
+@media print{ body{background:#fff;padding:0;} .flow{width:auto;max-width:none;margin:0;padding:0;} }
+@page{size:A4;}   /* margins come from render_flow.py — do NOT set them here */
+</style>
+<meta data-pagefind-filter="type[content]" content="ملخّص">
+<meta data-pagefind-filter="resource[content]" content="المصدر غير مذكور">
+<meta data-pagefind-meta="n[content]" content="1449">
+<meta data-pagefind-meta="title[content]" content="الخصوصية و الكونية">
+<meta data-pagefind-filter="chapter[content]" content="الخصوصية والكونية">
+<meta data-pagefind-filter="section[content]" content="باكالوريا تقنية"><style>.qrcard{display:none!important}.wa-nav{position:sticky;top:0;z-index:50;background:#045260;padding:10px 18px;font-family:Cairo,sans-serif;direction:rtl}.wa-nav a{color:#fff;text-decoration:none;font-weight:700}@media print{.wa-nav{display:none}}</style>
+</head>
+
+<body dir="rtl" lang="ar"
+      data-brand="Wael Academy" data-handle="@WaelAcademy"
+      data-tagline="في تُرابنا.. مغامرة بمغامرة"
+      data-phone="+216 50 40 40 42" data-site="waeldocuments.com"
+      data-cta="سجل معانا وأقرى عن بعد مع منصة Wael Academy"
+      data-subject="Philosophie · الخصوصية و الكونية" data-watermark="Wael Academy" data-pagefind-body><nav class="wa-nav" data-pagefind-ignore><a href="../index.html">→ الرجوع إلى فهرس الفلسفة</a></nav>
+
+<!-- single full-page diagonal watermark, bottom-left → top-right (repeats on every page) -->
+<div class="wm" aria-hidden="true"><span>WAEL&nbsp;ACADEMY</span></div>
+
+<div class="flow colored">
+<div class="cover"><div class="badge">◉ Wael Academy · Philosophie</div><h1>الخصوصية و الكونية</h1><div class="grule"></div><div class="sub">الخصوصية والكونية</div><div class="auth"><div class="credit">المؤلّف / المصدر : <span class="who">المصدر غير مذكور في الوثيقة</span> <span class="tg sec">الفلسفة · باكالوريا تقنية</span> <a href="https://drive.google.com/file/d/11Xvc4DiMWsNOWB8UVQgF7hefm4gigBto/view">↗ الخصوصية و الكونية.pdf</a></div></div><div class="copies" data-pagefind-ignore><b>نسخ هذا الملف في الدرايفات (1)</b><ul><li><a href="https://drive.google.com/file/d/11Xvc4DiMWsNOWB8UVQgF7hefm4gigBto/view">Mariem Benkaied · BacTech (LPN 2k26) › philo / الخصوصية و الكونية</a></li></ul></div></div>
+<section class="chapter"><div class="chapdiv"><div class="cn">المحور</div><h2>الخصوصية والكونية</h2></div>
+<div class="exh"><span class="idx">ملخّص</span><h2>المحور ② : الخصوصيّة &amp; الكونيّة</h2>
+  <div class="qrcard"><div class="qrt">فيديو الدرس</div><div class="qrslot"><img src="qr/1449.svg" alt="QR"></div></div></div>
+<div class="credit">المؤلّف / المصدر : <span class="who">المصدر غير مذكور في الوثيقة</span> <span class="tg sec">الفلسفة · باكالوريا تقنية</span> <a href="https://drive.google.com/file/d/11Xvc4DiMWsNOWB8UVQgF7hefm4gigBto/view">↗ الخصوصية و الكونية.pdf</a></div>
+<!-- NOTE: handwritten mind-map pages (boxes, arrows, highlighter on the author's own handwriting); layout linearised -->
+<p class="subhead t-navy">مفهوم الخصوصيّة</p>
+<ul class="dash">
+<li>← تحيل إلى الهويّة</li>
+<li>← فيها استحضار للمقدّس، الحضارة الّتي تنتمي إليها</li>
+<li>← الفنّ، العلم، الثّورة ... = الثّقافة بصفة عامّة</li>
+<li>← ميزة ما هو خاصّ / التّفرّد</li>
+<li>← هويّة ثقافيّة / مبدأ الانتماء</li>
+<li>← مبدأ المطابقة</li>
+</ul>
+<p class="subhead t-navy">مفهوم الكونيّة</p>
+<ul class="dash">
+<li>← الفكر الّذي يعتقد بشموليّة القيم الإنسانيّة وعدم التّمييز بين الأفراد على أساس الإختلاف العرقيّ أو الذّاتي</li>
+<li>← النّظر إلى الإنسان ومنزلته في العالم وعلاقته بالآخرين</li>
+<li>← مسار إبستيمي قيميّ يراعي التّنوّع قاعدة للوجود البشريّ<br>مثال: الإعلان العالميّ لحقوق الإنسان</li>
+</ul>
+<p class="subhead t-navy">طبيعة العلاقة بينهما</p>
+<p class="para"><b>علاقة تعارض</b> : عولمة - تعصّب - تماثل</p>
+<ul class="dash">
+<li>← خصوصيّة بسيطة منغلقة</li>
+<li>← كونيّة تعتبر الاختلاف نقمة</li>
+</ul>
+<p class="para">كونيّة تهدّد الخصوصيّة / خصوصيّة تهدّد الكونيّة</p>
+<!-- PROOFREAD: 1449 part1 p01 — faint pencil text between the two relation bubbles: "كونيّة تهدّد الخصوصيّة / خصوصيّة تهدّد الكونيّة" -->
+<p class="para"><b>علاقة ترابط</b> : اختلاف - تسامح - إبداع - عالميّة - تفاعل</p>
+<ul class="dash">
+<li>← خصوصيّة مركّبة منفتحة</li>
+<li>← كونيّة تعتبر الاختلاف نعمة</li>
+</ul>
+<p class="para">مواقف هذا الدّرس هي مواقف إيديولوجيّة وليست فلسفيّة مثل المحور الأوّل</p>
+<!-- PROOFREAD: 1449 part1 p01 — faint pencil margin note "مواقف هذا الدّرس هي مواقف إيديولوجيّة وليست فلسفيّة مثل المحور الأوّل" -->
+<p class="subhead t-red">1 دلالة الخصوصيّة ومطلب الهويّة :</p>
+<p class="para">← لا هويّة خارج الخصوصيّة</p>
+<ul class="b">
+<li>الهويّة هي أن يكون الشّيء مطابقًا لنفسه</li>
+<li>هي جملة السّمات والصّفات الماديّة والمعنويّة الّتي يتفرّد بها مجتمع عن آخر وتتميّز بالكثرة</li>
+</ul>
+<table>
+<tr><th>الهويّة الذّاتيّة<br>الفرديّة<br>الشّخصيّة</th><th>الهويّة الثّقافيّة</th></tr>
+<tr><td>← ما يجعل الأنا قادرا على قول أنا<br>← أن يبقى الإنسان كما هو في الزّمان والمكان رغم تغيّر حالته<br>← كيفيّة إدراك الذّات لذاتها من الأنا<br>← تجربة ترتبط بالتّملّك</td><td>← المعايير والإلتزامات القواعد والقيم والمثل المشتركة<br>← الثّقافة هي إبداعات الإنسان النّاجمة عن تفاعله مع أرض يختصّ بها<br>← هي نتاج تفاعل مع العوامل المتغيّرة (جغرافيا، تاريخ، معتقد...</td></tr>
+<tr><td>الطّبيعيّ</td><td>المكتسب</td></tr>
+</table>
+<p class="para">⇐ الإنسان كائن بيوثقافي</p>
+<p class="subhead t-navy">الهويّة في مواجهة التّنوّع والإختلاف :</p>
+<ul class="dash">
+<li>اللّقاء بالآخر الثّقافيّ ← إدراك النّسبيّة الثّقافيّة</li>
+</ul>
+<p class="para">أزمة الهويّة : - فقدان جذريّ لليقين<br>- العجز عن اتّخاذ موقف<br>- النّظر للإنسان من زاوية المادّة</p>
+<!-- PROOFREAD: 1449 part1 p01 — faint red word after "الهويّة في مواجهة التّنوّع والإختلاف :" not readable; word under "زاوية المادّة" cut by the page edge -->
+<p class="subhead t-red">2 في دلالة الكونيّة / شروط تحقّق مطلب الكونيّ</p>
+<p class="para">← اختزال الإنسانيّ فيما هو كونيّ</p>
+<ul class="b">
+<li>الكونيّ يعدّ على أساس الأفق المشترك الّذي يصل الخصائص الموحّدة للبشر رغم تنوّع واختلاف خصوصيّاتهم</li>
+<li>الكونيّة هي لقاء الإنسانيّة القائم على الحوار والاعتراف المتبادل واحترام المختلف</li>
+<li>تقوم على : - الحرّيّة<br>- الكرامة<br>- حرمة الشّخص الجسديّة والنّفسيّة<br>- العدالة<br>- الحقّ (الإختلاف حقّ لكن لا أختلف على الحقّ)</li>
+</ul>
+<p class="subhead t-red">I - علاقة التّعارض (الأطروحة المستبعدة للدّرس)</p>
+<p class="subhead t-navy">أ- في أنّ الخصوصيّة نفي للكونيّة : صورة الهويّة حول ذاتها وصورة الآخر الثّقافي</p>
+<p class="para">① النّزعة المركزيّة الثّقافيّة : تعتبر أنّ الكونيّة هي فرض لنموذج ثقافيّ واحد يلغي الأختلا</p>
+<ul class="dash">
+<li>← تقوم على مبدأ التّفاضل بين الثّقافات</li>
+<li>← هويّات ثقافيّة تدّعي الكمال والتّفوّق</li>
+<li>← تنظر إلى نفسها بأنّها أفضل وأرقى فلا تحتاج إلى الآخر الحضاريّ</li>
+<li>← تقوم هذه النّزعة على احتقار وازدراء الآخر الثّقافيّ المختلف والنّظر إليه في مرتبة دون الإنسانيّة (العص</li>
+</ul>
+<p class="para">* الأختلاف، حسب هذا السّياق، يعود إلى أسباب بيولوجيّة طبيعيّة وعرقيّة (تفاضل عرقي عنصريّ)</p>
+<ul class="dash">
+<li>← تعتبر الأختلاف ظاهرة سلبيّة يجب القضاء عليها لأنّه عائق أمام ترفّع خصوصيّتها الثّقافيّة إلى مستوى النّموذج الّذي يجب تعميمه على بقيّة الثّقافات الأخرى.</li>
+</ul>
+<p class="para"><u>مثال</u>: هذه النّزعة شرّعت للحضارة الغربيّة تقسيم الثّقافات إلى متقدّمة ومتحضّرة تمثّلها هي وثقافات بربريّة ومتخلّفة تمثّلها بقيّة الثّقافات الغريبة عنها</p>
+<p class="para">② الأنغلاق الثّقافيّ : الإنفتاح على الكونيّة هو تهديد للهويّة</p>
+<ul class="dash">
+<li>← إنكار إمكانات التّفاعل مع الأمم الأخرى بما أنّ الهويّة تكون قد حقّقت توهّمًا، اكتفاءًا ذاتيًا داخليّ</li>
+<li>← الثّقافة المحليّة تحيط نفسها بسياج منطقيّ ومادّي يمنع تسرّب فيم دخيلة تفد عليها من الخارج</li>
+<li>← تشكيل إرادة إحتماء من الآخر</li>
+</ul>
+<p class="para">③ الأنعكاسات</p>
+<ul class="dash">
+<li>⇐ تلغي الأختلاف وتقصي الآخر، العزلة والأنعزال</li>
+<li>⇐ تشرّع لنفسها اختراق الخصوصيّات الأخرى وطمسها</li>
+<li>⇐ تكوين نزعة ماضاويّة تضفي قداسة على الموروث الثّقافيّ ⇐ ما يمنع عنه كلّ إمكان للنّقد ⇐ عدم القدرة على التّجد</li>
+<li>⇐ اختزال الثّقافة في بعض الصّور الشّكلانيّة الجامدة بعيدة عن مضامين الخلق والابداع ⇐ التّقليد الثّقافيّ</li>
+<li>⇐ <b>التّعصّب</b> تكريس ثقافة العنف والعنصريّة والأستبداد<br>← تحوّل العلاقات الإنسانيّة إلى علاقات دمويّة (صراع الأديان، الأستعمار، الحروب ...)<br>← الأنغلاق والتّحجّر والتّطرّف والتّشدّد</li>
+</ul>
+<!-- NOTE: 1449 p02 — crossed-out lines (after "تقوم على مبدأ التّفاضل بين الثّقافات" and first line under ③, and before "تهديد للخصوصيّة") are left out -->
+<!-- PROOFREAD: 1449 part1 p02 — words cut at the right/left edges: "الأختلا", "(العص", "داخليّ", "التّجد", end of the "التّقليد الثّقافيّ" line; "تسرّب فيم دخيلة تفد"; "ترفّع خصوصيّتها" -->
+<p class="subhead t-navy">ب- في أنّ الكونيّ تهديد للخصوصيّة</p>
+<p class="para">① العولمة : مشروع يهدف إلى إدماج كلّ الثّقافات والشّعوب ضمن منظومة اقتصاديّة وسياسيّة وثقافيّة وقيميّة واحدة وشموليّة والتّخلّي عن الإنتماء إلى هويّة وخصوصيّة ثقافيّة،</p>
+<ul class="b">
+<li>مسار رأسماليّ يعكس نزوعًا براغماتيّا يرى العالم سوقا كونيّة</li>
+<li>تدفع إلى التّخلّي عن الموروث والمخزون الثّقافيّ واعتباره خرافات وتقاليد بالية لم تعد تتلاءم مع عناصر التّطوّر، ولا توفّر الرّفاه المنشود</li>
+</ul>
+<p class="para">سوقا كونيّة ← تدجين وتبضيع القيم<br>← الاستعاضة عن الثّقافات المحليّة بثقافة الإستهلاك الّتي تقترن بالرّداءة<br>← تراهن فقط على وفرة الإنتاج وتكديس الثّروة وزيادة الرّبح<br>← النّزوع نحو الهيمنة والسّيطرة على حساب الشّعوب في العالم<br>← الأعلى قاعدة لا تفهم العالم إلاّ بالملكيّة والتّملّك</p>
+<!-- PROOFREAD: 1449 part1 p02 — arrow diagram around "سوقا كونيّة" (bottom left): order of branches and readings "الأعلى قاعدة لا تفهم العالم إلاّ بالملكيّة والتّملّك", "على حساب الشّعوب في العالم" uncertain; "الثّروة" cut at edge -->
+<p class="para">⇐ تنتهي العولمة، بهذه الكليّة المفترسة، إلى تأسيس كونيّة مزيّفة تتمركز حول نموذج ثقافيّ أو حول الثّقافة المركز (هي أعلى مراحل الإمبرياليّة)</p>
+<ul class="dash">
+<li>← فرض التّشابه والتّطابق الثّقافيّ والتّنميط</li>
+<li>← توظيف الإعلام والصّورة لتسهيل الغزو الثّقافي</li>
+<li>← تؤول إلى هلاك الكونيّة وموت الخصوصيّة</li>
+<li>← أزمة الهويّة ③</li>
+</ul>
+<p class="para">على عكس : العالميّة (الكونيّة) ← مسار إيتيقيّ<br>ضرورة التّمييز بين العالميّ والعولمة !</p>
+<ul class="dash">
+<li>← مراهنة على وحدة الإنسانيّة وتنوّع الثّقافات</li>
+<li>← حقوق الإنسان الّتي لا تمايز بين ثقافة وأخرى</li>
+<li>← أفق تثاقف وحوار تأسيسًا للبينثقافيّة</li>
+</ul>
+<ul class="b">
+<li>كلّ ثقافة تروم الإنخراط في الكونيّة عليها أن تكون مساهمة في البناء الثّقافيّ الكونيّ.<br>← تكون ثقافة حيّة ومبدعة تنهل من نواتها الخلاّقة أي من عمقها الحضاريّ فتنفلت من الإنغلاق والإغتراب في آن</li>
+</ul>
+<p class="para">③ أزمة الهويّة :</p>
+<p class="para">تتجلّى في شكلين</p>
+<ul class="dash">
+<li>السّقوط في التّقليد والتّبعيّة :<br>- الإستهلاك السّلبيّ لثقافة الآخر<br>- طمس التّعدّديّة<br>- غياب كلّ الإحداثيّات والمحدّدات والقيم والمعايير</li>
+<li>الإنغلاق الثّقافيّ :<br>- الإلتفاف حول تمجيد الماضي بأسم الدّفاع عن هويّتها ضدّ تهديد الآخر<br>- مواجهة الآخر عبر العنف والصّراع</li>
+</ul>
+<p class="subhead t-red">II - علاقة التّلازم (التّكامل)</p>
+<!-- NOTE: 1449 p03 — printed text glued onto the page; highlighter, circles and the handwritten note on it are annotations, left out -->
+<p class="subhead t-red">* مبررات الدعوة الى الكونية</p>
+<p class="para">صبحت الدعوة الى الكونية مطلبا ملحا اكثر من أي وقت مضى ويستمد شرعيته من الواقع والمفارقات التي افرزتها اشكال الكونية الزائفة فعلى الرغم من تطور التكنولوجيا ووسائل الاتصال الذي جعل العالم قرية صغيرة مفتوحة كل اجزائه على بعضه البعض الذي يعكس تزايد عملية التواصل بين الشعوب الا ان الواقع يؤكد عكس ذلك ، فقد تفاقمت مظاهر العزلة سواء عند الافراد او عند الجماعات الدينية والقومية والعرقية وتفاقمت مظاهر الصراع والحروب باسم الدفاع عن الهوية ،لذلك أصبحت الحاجة الى إرساء كونية حقيقية امرا ملحا أي الحاجة الى كونية ايتيقية تتاسس على الإنساني المشترك الذي لا يلغي الاختلاف والتنوع الثقافي</p>
+<p class="subhead t-red">*الشروط الانتروبولوجية :</p>
+<p class="para">في هذا السياق اكد كلود لفي شتروس نقده لمبدأ التفاضل بين الثقافات الذي يميز بين ثقافات مقدمة ومتحضرة وبين ثقافات متخلفة وبربرية واكد على النسبية الثقافية فكل الثقافات تتمتع بنفس القيمة ، إن الاختلاف والتنوع هو ظاهرة وخاصية نوعية للوجود الإنساني يجب الحفاظ عليها بوصفها إثراءا للحضارة الإنسانية هوالشرط الأساسي لقيام حضارة عالمية تقوم على التعايش والتواصل والتبادل المشترك يقول شتروس "ولا أريدكم أن تفهموا ...أنها ...جملة فروقات يجب التغلب عليها ، هذه فروقات ولودة ومبدعة " وهو بذلك ينقد كل نزعة تهدف للهيمنة متسترة وراء شعار الكونية فالاختلاف ليس عائقا امام تحقيق الكونية كما تدعي ذلك المركزية الثقافية بل هو مخزون ثمين يجب حمايته ، كما يدعو المجتمعات الى التمسك باصالتها وخصوصيتها امام ثقافة الاخر دون الوقوع في الانغلاق والانفتاح على الاخر دون السقوط في التقليد والتبعية</p>
+<p class="subhead t-red">*الشروط الايتيقية :</p>
+<p class="para">ان الكونية الحقيقية هي كونية ايتيقية تنبني على مطلب ايتيقي وهو التواصل وعلى جملة من القيم الإنسانية المشتركة مثل المحبة والاخوة والمسؤولية والديمقراطية ،فالهوية ليست هوية بسيطة تقوم على التماثل تعبر فقط عن خصوصية محلية بل هي هوية مركبة يتفاعل فيها الخصوصي المحلي مع العالمي الكوني فالهوية ليست فقط انتماءا الى ثقافة مخصوصة بل هي كذلك انفتاح على ما هو كوني وانفتاح على الاخر وهي هوية تاريخية ومتجددة تتفاعل مع ما يحيط بها وقادرة على التموقع داخل العالم المعقد الذي تتشابك فيه الأفعال وردود الأفعال .</p>
+<p class="para">من هنا يمكن استعادة المشروع الكانطي الذي يسعى لتحقيق كونية وإرساء سلم دائمة بين الشعوب تتحدد بالانتماء الى الأرض قادرة ان تستوعب داخلها هوية عرقية ودينية وقومية وجهوية يقول ادغار موران " غير انّ الأمر الزدوج والمركّب يلزمنا بالمحافظة على تنوع الثقافات وتطوير الوحدة الإنسانية الثقافية " ،فقد أشار ادغار موران ان الدعوة الى الكونية اليوم يجب ان يقوم على ضرورة على وضع سياسة جديدة للعلاقات بين الحضارات تعمل على فتح افاق جديدة وفتح مجال للامل في إمكانات جديدة للوجود الانساني بعيدا عن العنف والصراع وتاخذ بعين الاعتبار اشتراك الإنسانية في نفس المصير فالانسانية اليوم تواجه مصيرا واحدا امام مخاطر العولمة التي أصبحت تهدد كل الحضارات بما في ذلك الحضارة الغربية وهي المخاطر البيئية ومخاطر الإرهاب ومخاطر النووي والتي أصبحت تهدد الحياة على الأرض</p>
+<p class="para">لذلك من الضروري اليوم التاسيس لكوني لا يقع اختزاله في البعد الاقتصادي والكمي بل يمتد ليشمل الكيف أي كيفية العيش معا والتي سماها موران "حكمة العيش معا " والتي تحدد العلاقة بين الانا والأخر على قيم المحبة والتواصل والمشاركة.</p>
+<!-- PROOFREAD: 1449 part1 p03 — printed columns cut at the edges ("صبحت", line starts of right column, "جملة", "انتماءا الى", "بين" at left edge); "ثقافات مقدمة"; "يقوم على ضرورة على وضع"; "بل هي هوية" partly hidden by a drawn circle; handwritten "تنتهي العولمة، بهذه الكليّة المفترسة" -->
+<p class="subhead t-red"># التحرّر من التعصّب</p>
+<ul class="dash">
+<li>القول بالعقل الكوني: عقل واحد (يوّحد) وتجلّيات (مظهرات) مختلفة (تفرّق).</li>
+<li>إقامة التواصل على أساس الحوار والنقد: الفلسفة تمثّل أرضا وأفقا للحرّية والفيلسوف ينشغل بالمواقف لا بأصحابها. (فولتير)</li>
+<li>رفض تصنيف الشعوب: متحضّرة، مثقفة أو بربرية، متوحّشة، همجية. (الهمجية ليست واقعا فعليًا وإنما نظرة تصنيفية للآخر) (شتراوس)</li>
+<li>إدانة كل أشكال الرفض والإقصاء والاستبعاد والاستهجان والتهميش والتحقير والعنف: مقاومة العنف باللاعنف. (غاندي)</li>
+<li>إقرار مبدأ التعايش الحكيم أو حكمة العيش معا وتكريس مبدأ التسامح. (موران)</li>
+<li>العيش مع الآخرين واجب. (كونت)</li>
+<li>الإنسان: النظر للإنسان بما هو غاية لا وسيلة.</li>
+</ul>
+<!-- PROOFREAD: 1449 part1 p04 — small printed block "التحرّر من التعصّب": line starts cut by the page/paper edge; "(كونت)"; "(يوّحد)" -->
+<p class="para">* تعاون الخصوصيّات : الكونيّة هي التّبادل من الآخر بقدر الحاجة ومنح الآخر ما يحتاجه</p>
+<ul class="dash">
+<li>في العلوم : البعد العلميّ العقلانيّ من خلال قواعد وموضوعات ذات كونيّة (الحقيقة العلميّة واحدة، لكر تطبيقاتها تختلف باختلاف حاجة كلّ مجتمع)</li>
+<li>في التّقنية : هي كونيّة بطبعها وتمارس داخل سياقات ثقافيّة محليّة</li>
+</ul>
+<!-- PROOFREAD: 1449 part1 p04 — "لكر" cut at the edge -->
+<p class="subhead t-red"># الاختلاف شرط التواصل</p>
+<ul class="dash">
+<li>إعلان تصوّر جديد لعلاقة الوحدة بالكثرة: وحدة الكثرة وكثرة الوحدة + رفض وحدة التجانس وكثرة الانغلاق.</li>
+<li>دعوة لتأسيس واقع - أفق إنساني جديد يُقدّم فيه الإنساني على الفردي والكوني على الخصوصي والجدل على القطيعة.</li>
+<li>القول بالهوية المركّبة (متعدّدة المنابع) تسببيا للفكرة القائلة بأنّ كل وحدة اختزالية إقصائية بالضرورة. (الفكر المركّب: موران)</li>
+<li>الإقرار بتنوع وتعدّد الثقافات: لا وجود لثقافة لكل الثقافات (لا توجد مجموعة لكل المجموعات الرياضية في منطق رسل)</li>
+<li>رفض مقولة المفاضلة بين الثقافات: التمييز بين التميّز والتمايز.</li>
+<li>الاختلاف شرط (الحوار) اللقاء بين الثقافات: تبنّي مبدأ الاختلاف والدفاع عنه.</li>
+<li>الاختلاف أولا عامل تحرير من التشابه والتماثل والتجانس من جهة والنرجسية والتعالي من جهة أخرى، وثانيا عامل إثراء وإغناء.</li>
+<li>الإقرار بضرورة فكّ عزلة الخصوصية (الانغلاق) والانفتاح على الآخر. ← مراعاة مبدأ لا إفراط ولا تفريط.</li>
+<li>ضرورة الوعي بمخاطر الانفتاح: الانسلاخ... الاغتراب... ← الانفتاح ضمن الحد الأدنى من الاتصال (وإلاّ فقدان الأصالة).</li>
+</ul>
+<!-- PROOFREAD: 1449 part1 p04 — small print: "تسببيا للفكرة القائلة" uncertain -->
+<p class="para">يعد الإختلاف تبعة ضرورية للتنوع إذ يقول دولوز : " المتنوع ليس المختلف بل إنه ما به يكون المختلف مختلفا " التنوع هو الشرط الضروري للإختلاف فالإختلاف ليس حدثا عرضيا بل هو مكون بنيوي للثقافة الإنسانية فلكل ثقافة و بالضرورية خصوصية تميزها و تحدد هويتها الخاصة التي بها تتميز عن بقية الثقافات و الخصوصيات.</p>
+<p class="para">إنه من الضروري أن نعيد النظر في مفهوم الإختلاف من جهة و مفهوم الهوية من جهة أخرى فالإختلاف غير الخلاف...فبعض المقاربات التي يمكن تسميتها "أنتروبولوجيا إستعمارية "حيث " الأنتروبولوجيا الثقافية " وانحرفت في فهمها للإختلاف لتجعله لاعتبارات إيديولوجية / إستعمارية خلافا و نزاعا و تصادما..وكرست منطقا تفاضليا جعل الهوية مرادفا للتعصب و الخطاب العنصري التفاضلي و صنفت الثقافات وفق منطق غريب : ثقافة متقدمة و أخرى متخلفة , ثقافة عقلانية و ثقافة وجدانية, ثقافة التحضر و ثقافة التوحش و البربرية , و ثقافة التسامح و ثقافة الإرهاب...دون أن تدرك هذه المقاربات الإنساني الكامن وراء الثقافات و الوحدة من وراء التنوع و التنوع الكامن في الوحدة ... فالهوية الإنسانية هوية مركبة تستند إلى مرجعية كونية قوامها كونية القيم</p>
+<!-- NOTE: 1449 p04 — pen strike-through, highlighter and handwritten notes written on the printed paragraphs are annotations, left out -->
+<!-- PROOFREAD: 1449 part1 p04 — "حيث" (partly struck through) -->
+<p class="subhead t-red">3/ الكونية و وحدة الإنسانية</p>
+<p class="para">إن لقاء الإنسان بالإنسان يتأسس بعيدا عن منطق الأهواء و الإنفعالات... فهي معطيات ديناميكية متغيرة و لا تصلح أن نؤسس عليها , هذا اللقاء وجب أن يتأسس على الحق كما يلاحظ كانط حين قال : " لا يتعلق الأمر هنا بحب البشر و إنما بالحق " فالحق الكوني هو التعبير عن انتماء الإنسان إلى العالم باعتباره مواطنا عالميا.</p>
+<p class="para">الأساس هو العقل باعتباره قوة تشريع للحق , فالعقل قيمة كونية لا تشرع إلا للحق الكوني و للسلم الكونية , و استنادا لهذا الحق الكوني نجد الحق في الضيافة كدعامة لنبذ التعصب و العنصرية و اعتبار كل إنسان مسؤول عن الإنسانية جمعاء, لتكون الكونية وحدة الإنسانية في تنوعها و اختلافها...فالهوية اللأصيلة هي هوية مركبة.</p>
+<p class="subhead t-navy">③ الهويّة المركّبة</p>
+<p class="para">الهويّة متعدّدة المنابع بما هي هويّة متلا يترابط فيها العائليّ بالمحلّيّ والوطنيّ لتر إلى الأرضيّ والكوكبيّ جميعًا<br>بعيدًا عن الفكر الإختزاليّ الّذي يكون عاج عن تعقّل منبع التّنوّع</p>
+<ul class="dash">
+<li>← حكمة العيش معًا والإعتراف بالغير الضّ والتّقابل الخصب مع المختلف ليكون نتاج كونيّ مبدعًا خلاّقًا ← فروقات ولودة مبد</li>
+<li>← الحضارة العالميّة ثمرة التّعدّد</li>
+</ul>
+<p class="para">إستتباعات هذا الموقف :</p>
+<ul class="b">
+<li>ظهور مفهوم المواطن العالميّ : يخلص لوطنه وثقافته في آن ويلتزم بقضايا الأرض مثل المناخ والعدالة الدّوليّة في نفس الأر</li>
+<li>☆ حماية الخصوصيّات : لأنّ موت أيّ ثقافة خاصّة هو بتر لجزء من التّجربة الإنسانيّة الكونيّة</li>
+<li>تأسيس إيتيقا عالميّة : تصبّ في مصلحة الوجود البشريّ ككلّ، قائمة على الإعتراف المتبادل والتّحرّر من كلّ أشكال العداوة الّتي تعكّر واقعنا الحالي</li>
+</ul>
+<!-- PROOFREAD: 1449 part1 p04 — handwritten column cut at the left edge: "متلا", "لتر", "عاج", "الضّ", "نتاج", "مبد", "الأر"; crossed-out word before "نفس" left out -->
+<p class="subhead t-red">شواهد محور الخصوصيّة والكونيّة</p>
+<ul class="b">
+<li>تايلور : “ أن أعرف من أكون يعني أن أعرف الموقع الّذي أحتلّه ”</li>
+<li>„ „ “ الأفق الّذي بداخله بمكنني أن أتّخذ موقفًا ” (الهويّة)</li>
+<li>مونتنيو : “ كلّ واحد يسمّي الآخر همجيًّا ما لا يتّفق مع عوائده ”</li>
+<li>كلود لفي شتراوس : “ بقدر ما تكون ثقافة ما معزولة لا يمكنها أن تكون متفوّقة ”</li>
+<li>مونتنيو : “ مثال البلد الّذي نعيش فيه، حيث يوجد دومًا الدّين الكامل والنّظام الكاملة وحسن التّصرّف الكامل في جميع الأشياء ”</li>
+</ul>
+<ul class="b">
+<li>بودريار : “ أمّا العولمة فهي عولمة التّقنيّات والسّوق والسّياحة والإعلام ”</li>
+<li>بودريار : “ إنّ الكونيّة هي كونيّة حقوق الإنسان والحرّيّات والثّقافة والدّيمقراطيّة ”</li>
+<li>منتغتن : “ مفهوم الحضارة العالميّة إنتاج مميّز للحضارة الغربيّة ”</li>
+<li>غارودي : “ إنّ العولمة تأسيس لديانة توحيديّة جديدة هي ديانة السّوق ”</li>
+<li>منتغتن : “ وأحسن سؤال من أنت محلّ سؤال إلى أيّ جانب أنت ”</li>
+</ul>
+<ul class="b">
+<li>إدغارد موران : “ النّاس متساوون بالثّقافة مختلفون بالثّقافات</li>
+</ul>
+<!-- PROOFREAD: 1449 part1 p05 — "بمكنني"; "عوائده"; "النّظام الكاملة"; "وأحسن سؤال من أنت محلّ سؤال" (reading uncertain); last line cut at the page edge after "بالثّقافات" -->
+
+
+
+</section>
+
+</div>
+</body>
+</html>

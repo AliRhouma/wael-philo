@@ -1,0 +1,346 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<title>Wael Academy — Philosophie · الدولة السيادة و المواطنة</title>
+<script>
+  window.MathJax = {
+    tex: { inlineMath: [['\\(','\\)']], displayMath: [['\\[','\\]']] },
+    chtml: { fontURL: 'https://cdn.jsdelivr.net/npm/mathjax@3/es5/output/chtml/fonts/woff-v2', matchFontHeight: true },
+    startup: { typeset: true }
+  };
+</script>
+<script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js" async></script>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Sora:wght@400;500;600;700;800&family=Cairo:wght@400;500;600;700;800;900&family=Tajawal:wght@400;500;700;800&family=JetBrains+Mono:wght@400;500;600;700&display=swap');
+:root{
+  /* ===== Wael Academy palette — MAIN ACCENT = green-teal gradient #0FAB8F → #067360 ===== */
+  --bg:#fff; --panel:#f2f8f8; --hair:#e6e6e9; --hair2:#d6d6db;
+  --fg:#0f2a31;        /* body text (and +/− signs) */
+  --fg2:#3f5b62;       /* softer text */
+  --fg3:#7c959b;       /* muted (footer) */
+  --blue:#067360;      /* deep accent — small numbers, borders, watermark, accent equations */
+  --blue-dark:#045260; /* titles & wordmarks (also the balance colour) */
+  --teal:#0fab8f;      /* bright accent end */
+  --loop:#0d9c82;      /* logo-loop helper */
+  --orange:#067360;    /* kicker/category labels (gold retired → deep teal) */
+  --red:#f5322f;       /* EXERCISE CHIPS ONLY — never for emphasis */
+  --cream:#e6f3f4; --blue-soft:#e6f3f4;  /* pale teal — callout fill + table sub-row fill */
+  --blue-line:#cde7e4; /* hairline */
+  --sub-ink:#045260;   /* table sub-row text */
+  --grad:linear-gradient(148deg,#0fab8f 0%,#0d9c82 52%,#067360 100%);
+  --mono:'JetBrains Mono',monospace; --latin:'Sora',sans-serif; --ar:'Cairo',sans-serif; --arb:'Tajawal',sans-serif;
+}
+*{box-sizing:border-box;margin:0;padding:0;}
+body{font-family:var(--latin);color:var(--fg);background:#e4e4e7;padding:28px 0;
+     -webkit-print-color-adjust:exact;print-color-adjust:exact;}
+html[dir="rtl"] body{font-family:var(--arb);}
+
+/* ===== brand watermark: REAL text (crisp), full-bleed, repeats per page ===== */
+.wm{position:fixed;inset:0;z-index:0;pointer-events:none;display:flex;
+    align-items:center;justify-content:center;overflow:hidden;
+    -webkit-print-color-adjust:exact;print-color-adjust:exact;}
+.wm span{font-family:var(--mono);font-weight:800;font-size:76.8pt;letter-spacing:.16em;
+    color:var(--blue);opacity:.06;white-space:nowrap;transform:rotate(-54deg);}  /* single diagonal: bottom-left → top-right */
+.wm.mono span{color:#000;opacity:.05;}
+
+/* ===== continuous flow stream (no page border) ===== */
+.flow{width:210mm;margin:0 auto;background:transparent;color:var(--fg);
+      padding-block:16mm 18mm;padding-inline:23mm 14mm;position:relative;}   /* spiral gutter: inline-start(=spine) 23mm / outer 14mm — dir-aware; print margins set in render_flow.py */
+@media screen{ .flow{background:#fff;box-shadow:0 10px 40px rgba(0,0,0,.16);} }
+.flow>*{position:relative;z-index:1;}
+.flow p,.flow li,.flow .data,.flow .note,.flow .ex{break-inside:auto;}
+.flow .fig,.flow figure,.flow img,.flow svg.figsvg,.flow table,.flow tr,.flow .chapdiv,.flow .exh,.flow .qrcard,.flow .meta{break-inside:avoid;}
+.flow h1,.flow h2,.flow h3,.flow .exh,.flow .subhead,.flow .chapdiv{break-after:avoid;}
+.flow img,.flow svg.figsvg{max-width:100%;height:auto;}
+.flow figcaption,.flow .figcap{display:none;}          /* rule 3: no figure captions */
+
+/* ===== front matter + chapters each start on a fresh page ===== */
+.flow .cover{break-after:page;}        /* cover alone on page 1 */
+.flow .toc{break-after:page;}          /* Sommaire alone on the next page */
+.flow .chapter{break-before:page;}
+.flow .chapter:first-of-type{break-before:auto;}
+
+/* ===== cover ===== */
+.cover{padding:14mm 0 8mm;border-bottom:2px solid var(--blue);margin-bottom:6mm;}
+.cover .badge{font-family:var(--mono);font-size:8.5pt;letter-spacing:.28em;text-transform:uppercase;color:var(--orange);margin-bottom:10px;}
+.cover h1{font-family:var(--latin);font-weight:800;font-size:34pt;line-height:1.03;letter-spacing:-.025em;color:var(--blue-dark);}
+.cover .grule{width:120px;height:5px;border-radius:5px;background:var(--grad);margin:14px 0;}
+.cover .sub{font-family:var(--mono);font-size:10pt;letter-spacing:.14em;text-transform:uppercase;color:var(--teal);}
+.cover .auth{font-size:11pt;color:var(--fg2);margin-top:6px;font-weight:600;}
+
+/* ===== table of contents ===== */
+.toc{margin:2mm 0 4mm;}
+.toc h2{font-family:var(--latin);font-weight:800;font-size:15pt;color:var(--blue-dark);margin-bottom:4mm;}
+.toc .trititle{font-family:var(--mono);font-size:8pt;letter-spacing:.2em;text-transform:uppercase;color:var(--orange);margin:4mm 0 2mm;}
+.toc ol{list-style:none;}
+.toc li{display:flex;align-items:baseline;gap:8px;font-size:10pt;padding:2.2px 0;color:var(--fg);line-height:1.4;}
+.toc li .n{font-family:var(--mono);font-weight:700;font-size:9pt;color:var(--blue);min-width:26px;}
+.toc li .dots{flex:1;border-bottom:1px dotted var(--hair2);transform:translateY(-3px);}
+
+/* ===== chapter divider band ===== */
+.chapdiv{margin:0 0 5mm;padding:6mm 16px 5mm;border-radius:12px;background:var(--grad);
+    -webkit-print-color-adjust:exact;print-color-adjust:exact;}   /* green-filled chapter band */
+.chapdiv .cn{font-family:var(--mono);font-size:8.5pt;font-weight:700;letter-spacing:.24em;text-transform:uppercase;color:rgba(255,255,255,.82);margin-bottom:5px;}
+.chapdiv h2{font-family:var(--latin);font-weight:800;font-size:17pt;line-height:1.1;letter-spacing:-.015em;color:#fff;}
+/* conclusion block — same green-filled look as the chapter band */
+.conclusion{background:var(--grad);border-radius:12px;padding:6mm 16px;margin:5mm 0;color:#fff;break-inside:avoid;
+    -webkit-print-color-adjust:exact;print-color-adjust:exact;}
+.conclusion .ck{font-family:var(--mono);font-size:8.5pt;font-weight:700;letter-spacing:.24em;text-transform:uppercase;color:rgba(255,255,255,.82);margin-bottom:6px;}
+.conclusion h3{font-family:var(--latin);font-weight:800;font-size:13pt;line-height:1.2;color:#fff;margin-bottom:4px;}
+.conclusion p,.conclusion li{font-size:10.4pt;line-height:1.7;color:#fff;}
+.conclusion b,.conclusion strong{color:#fff;font-weight:700;}
+
+/* ===== unit header (lesson/exercise) + QR emplacement ===== */
+.exh{display:flex;align-items:center;gap:11px;margin:6mm 0 3mm;}
+.exh .idx{font-family:var(--mono);font-size:9pt;font-weight:600;color:#fff;background:var(--grad);
+    border-radius:6px;padding:4px 11px;letter-spacing:.08em;text-transform:uppercase;
+    -webkit-print-color-adjust:exact;print-color-adjust:exact;}
+.exh .idx.ex{background:var(--red);}   /* exercise chip = red */
+.exh h2{font-family:var(--latin);font-size:14pt;font-weight:700;letter-spacing:-.01em;color:var(--blue-dark);}
+.exh .qrcard{margin-inline-start:auto;flex:0 0 auto;display:flex;flex-direction:column;align-items:center;gap:3px;width:26mm;}
+.qrcard .qrt{font-family:var(--mono);font-size:6.5pt;letter-spacing:.1em;text-transform:uppercase;color:var(--teal);text-align:center;}
+.qrcard .qrslot{width:24mm;height:24mm;padding:1.5mm;background:#fff;border:1px solid var(--blue-line);border-radius:8px;display:flex;align-items:center;justify-content:center;}
+.qrcard .qrslot img,.qrcard .qrslot svg{width:100%;height:100%;display:block;}
+
+/* sub-exercise label when one file holds several exercices */
+.exsub{font-family:var(--latin);font-weight:800;font-size:11.5pt;color:var(--blue-dark);margin:5mm 0 2.5mm;padding-bottom:3px;border-bottom:2px solid var(--blue-line);}
+
+/* ===== text blocks ===== */
+.lead{font-size:11pt;line-height:1.7;margin:2mm 0 3mm;color:var(--fg);}
+.para{font-size:10.6pt;line-height:1.7;margin:2mm 0 2.5mm;color:var(--fg);}
+.consigne{font-size:10.4pt;line-height:1.6;margin:1mm 0 2mm;color:var(--fg);font-style:italic;}
+.subhead{font-family:var(--latin);font-weight:800;font-size:12pt;letter-spacing:-.01em;color:var(--blue-dark);margin:5mm 0 2.5mm;}
+/* emphasis — green accent = .t-blue/.t-green ; balance = .t-navy ; red = SECONDARY accent (.t-red) on titles + a few words */
+.t-blue{color:var(--blue);font-weight:600;} .t-navy{color:var(--blue-dark);font-weight:700;}
+.t-red{color:var(--red);font-weight:600;} .t-green{color:var(--teal);font-weight:600;} .t-gold{color:var(--orange);font-weight:600;}
+.subhead.t-red{color:var(--red);font-weight:800;}   /* red Roman-numeral section title (I, II, …) — keeps subhead weight */
+/* highlighter marks — a soft colour wash behind a key word (agent picks green or red per what balances the page) */
+.hl-green,.hl-red{border-radius:3px;padding:.02em .24em;font-weight:600;box-decoration-break:clone;-webkit-box-decoration-break:clone;
+    -webkit-print-color-adjust:exact;print-color-adjust:exact;}
+.hl-green{background:rgba(15,171,143,.20);color:var(--blue-dark);}   /* green highlight */
+.hl-red{background:rgba(245,50,47,.13);color:#c0261f;}               /* red highlight  */
+
+.data{background:var(--blue-soft);border:1px solid var(--blue-line);border-inline-start:4px solid var(--blue);
+    border-radius:8px;padding:11px 16px;margin:3mm 0;font-size:10pt;line-height:1.65;color:var(--fg2);}
+.data b{color:var(--fg);font-weight:700;}
+.note{border:1px dashed var(--hair2);border-radius:9px;padding:11px 16px;margin:4mm 0;background:var(--panel);}
+.note .kicker{font-family:var(--mono);font-size:7.5pt;letter-spacing:.18em;color:var(--orange);display:block;margin-bottom:5px;}
+.note .nb{font-size:10pt;line-height:1.7;color:var(--fg2);} .note b{color:var(--fg);}
+.ex:not(.idx){background:var(--blue-soft);border:1px solid var(--blue-line);border-inline-start:3px solid var(--blue);
+    border-radius:7px;padding:7px 11px;font-size:9.6pt;line-height:1.6;color:var(--fg2);margin:2mm 0;}   /* :not(.idx) so it never hits the exercise chip (which is .idx.ex) */
+.ex .extag{display:inline-block;font-family:var(--latin);font-weight:800;font-size:7.6pt;color:var(--blue-dark);background:#fff;
+    border:1px solid var(--blue);border-radius:5px;padding:1px 9px;margin-inline-end:7px;vertical-align:middle;text-transform:uppercase;letter-spacing:.06em;}
+
+/* ===== lists ===== */
+ol.q{list-style:none;counter-reset:q;margin:1mm 0 2mm;}
+ol.q>li{counter-increment:q;position:relative;padding-inline-start:30px;margin-bottom:2.5mm;font-size:10.4pt;line-height:1.6;}
+ol.q>li::before{content:counter(q);position:absolute;inset-inline-start:0;top:1px;width:21px;height:21px;background:var(--grad);color:#fff;
+    border-radius:50%;font-family:var(--mono);font-size:9pt;font-weight:600;display:flex;align-items:center;justify-content:center;
+    -webkit-print-color-adjust:exact;print-color-adjust:exact;}
+ol.sub{list-style:none;counter-reset:s;margin:4px 0 0;padding-inline-start:2px;border-inline-start:1px solid var(--blue-line);}
+ol.sub li{counter-increment:s;position:relative;padding:2.5px 0 2.5px 26px;font-size:10.1pt;line-height:1.55;}
+ol.sub li::before{content:counter(s,lower-alpha)".";position:absolute;inset-inline-start:10px;top:2.5px;font-family:var(--mono);font-size:9pt;font-weight:600;color:var(--teal);}
+ol.qn{list-style:none;counter-reset:qn;margin:1mm 0 2mm;}
+ol.qn>li{counter-increment:qn;position:relative;padding-inline-start:26px;margin-bottom:2.2mm;font-size:10.4pt;line-height:1.55;}
+ol.qn>li::before{content:counter(qn)".";position:absolute;inset-inline-start:0;top:0;font-family:var(--mono);font-size:9.5pt;font-weight:700;color:var(--blue);}
+ul.b{list-style:none;margin:1mm 0 2mm;} ul.b>li{position:relative;padding-inline-start:22px;margin-bottom:2.4mm;font-size:10.4pt;line-height:1.6;}
+ul.b>li::before{content:"";position:absolute;inset-inline-start:3px;top:8px;width:8px;height:8px;border-radius:50%;background:var(--grad);
+    -webkit-print-color-adjust:exact;print-color-adjust:exact;}
+ul.dash{list-style:none;margin:1mm 0 2mm;} ul.dash>li{position:relative;padding-inline-start:20px;margin-bottom:1.8mm;font-size:10.4pt;line-height:1.6;}
+ul.dash>li::before{content:"–";position:absolute;inset-inline-start:2px;top:0;color:var(--fg);font-weight:700;}  /* dash / +/− signs = body colour */
+.flow ul.opts{list-style:none;margin:4px 0 3px;padding-inline-start:16px;}
+.flow ul.opts li{padding:2px 0;font-size:10.2pt;line-height:1.5;color:var(--fg);}
+
+/* ===== figures / tables ===== */
+.fig{margin:3mm 0;} .fig svg.figsvg{display:block;margin:0 auto;background:#fff;max-width:100%;height:auto;}
+.photo{display:block;margin:3mm auto;border-radius:8px;border:1px solid var(--hair);max-width:100%;}
+.figrow{display:flex;flex-wrap:wrap;gap:9px;justify-content:center;margin:3mm auto;max-width:190mm;}
+.flow .figrow img{border-radius:7px;border:1px solid var(--hair);height:46mm;width:auto;max-width:none;object-fit:cover;}
+.schemarow{display:flex;gap:16px;align-items:flex-start;flex-wrap:wrap;margin:2mm 0;}
+.schemarow .col-txt{flex:1 1 90mm;min-width:80mm;} .schemarow .col-fig{flex:0 0 78mm;} .schemarow .col-fig .fig{margin:0;}
+.flow table{border-collapse:collapse;width:100%;margin:3mm 0;font-size:9.8pt;line-height:1.5;}
+.flow table th,.flow table td{border:1px solid var(--blue-line);padding:6px 10px;text-align:start;vertical-align:top;}
+.flow table th{background:var(--grad);color:#fff;font-family:var(--latin);font-weight:700;font-size:9.4pt;
+    -webkit-print-color-adjust:exact;print-color-adjust:exact;}
+.flow table tr:nth-child(even) td{background:var(--blue-soft);color:var(--sub-ink);}   /* sub-row: #E6F3F4 / #045260 */
+
+mjx-container{color:var(--fg) !important;font-weight:400 !important;font-size:1.0em !important;}
+.eq-hi mjx-container,mjx-container.eq-hi{color:var(--blue) !important;}   /* accent (green) equation — highlight a key result; balance with plain math */
+.eq-red mjx-container,mjx-container.eq-red{color:var(--red) !important;}  /* red accent equation / symbol — complements the green .eq-hi */
+
+/* ===== per-file books: credit line, copies list, figures at their size ===== */
+.credit{display:flex;flex-wrap:wrap;align-items:center;gap:5px;margin:-1mm 0 3.5mm;font-size:9.4pt;color:var(--fg2);}
+.credit .who{font-weight:700;color:var(--blue-dark);}
+.credit .tg{font-family:var(--mono);font-size:7.2pt;letter-spacing:.04em;border-radius:5px;padding:1px 7px;line-height:1.6;
+    border:1px solid var(--blue-line);color:var(--blue);background:#fff;-webkit-print-color-adjust:exact;print-color-adjust:exact;}
+.credit .tg.sec{background:var(--blue-dark);border-color:var(--blue-dark);color:#fff;}
+.credit .tg.cor{background:#fff;border-color:var(--red);color:var(--red);}
+.credit a{color:var(--fg3);font-family:var(--mono);font-size:7pt;text-decoration:none;}
+.cover .auth .credit{margin:4mm 0 0;}
+.cover .copies{margin-top:5mm;font-size:8.6pt;color:var(--fg2);}
+.cover .copies ul{list-style:none;margin:2mm 0 0;padding:0;columns:2;}
+.cover .copies a{color:var(--fg3);text-decoration:none;font-size:8pt;}
+.flow figure.fig{text-align:center;}
+.flow figure.fig img{max-height:60mm;width:auto;max-width:70%;display:inline-block;}
+
+/* chapter tag on each part of a multi-chapter book (the book keeps the original order of the file) */
+.chtag{display:inline-block;margin:5mm 0 2mm;padding:1mm 3mm;border-radius:2mm;background:#eef3fb;border:1px solid #c9d6ea;
+  color:#1f3a6b;font-size:9pt;font-weight:700}
+.chtag span{color:#6b7f9e;font-weight:600;margin-inline-end:1.5mm}
+
+@media print{ body{background:#fff;padding:0;} .flow{width:auto;max-width:none;margin:0;padding:0;} }
+@page{size:A4;}   /* margins come from render_flow.py — do NOT set them here */
+</style>
+<meta data-pagefind-filter="type[content]" content="درس">
+<meta data-pagefind-filter="resource[content]" content="Taki Academy">
+<meta data-pagefind-meta="n[content]" content="1965">
+<meta data-pagefind-meta="title[content]" content="الدولة السيادة و المواطنة">
+<meta data-pagefind-filter="chapter[content]" content="القيم: الأخلاق والدولة">
+<meta data-pagefind-filter="section[content]" content="باكالوريا تقنية"><style>.qrcard{display:none!important}.wa-nav{position:sticky;top:0;z-index:50;background:#045260;padding:10px 18px;font-family:Cairo,sans-serif;direction:rtl}.wa-nav a{color:#fff;text-decoration:none;font-weight:700}@media print{.wa-nav{display:none}}</style>
+</head>
+
+<body dir="rtl" lang="ar"
+      data-brand="Wael Academy" data-handle="@WaelAcademy"
+      data-tagline="في تُرابنا.. مغامرة بمغامرة"
+      data-phone="+216 50 40 40 42" data-site="waeldocuments.com"
+      data-cta="سجل معانا وأقرى عن بعد مع منصة Wael Academy"
+      data-subject="Philosophie · الدولة السيادة و المواطنة" data-watermark="Wael Academy" data-pagefind-body><nav class="wa-nav" data-pagefind-ignore><a href="../index.html">→ الرجوع إلى فهرس الفلسفة</a></nav>
+
+<!-- single full-page diagonal watermark, bottom-left → top-right (repeats on every page) -->
+<div class="wm" aria-hidden="true"><span>WAEL&nbsp;ACADEMY</span></div>
+
+<div class="flow colored">
+<div class="cover"><div class="badge">◉ Wael Academy · Philosophie</div><h1>الدولة السيادة و المواطنة</h1><div class="grule"></div><div class="sub">القيم: الأخلاق والدولة</div><div class="auth"><div class="credit">المؤلّف / المصدر : <span class="who">مريم بنقايد ; Taki Academy www.takiacademy.com</span> <span class="tg sec">الفلسفة · باكالوريا تقنية</span> <a href="https://drive.google.com/file/d/1_3aK860-Uqg3kuS9EH8VuxkW9ScOPJJd/view">↗ الدولة السيادة و المواطنة.pdf</a></div></div><div class="copies" data-pagefind-ignore><b>نسخ هذا الملف في الدرايفات (1)</b><ul><li><a href="https://drive.google.com/file/d/1_3aK860-Uqg3kuS9EH8VuxkW9ScOPJJd/view">Mariem Benkaied · BacTech (LPN 2k26) › philo / الدولة</a></li></ul></div></div>
+<section class="chapter"><div class="chapdiv"><div class="cn">المحور</div><h2>القيم: الأخلاق والدولة</h2></div>
+<!-- SOURCE: مريم بنقايد ; Taki Academy www.takiacademy.com -->
+<!-- PROOFREAD: 1965 part1 p01 — handwritten name top-left, reading "مريم بنقايد" uncertain -->
+<!-- NOTE: handwritten course; a strip of another sheet stuck on the left edge of p01 and an erased pink line under the problematic are left out -->
+<div class="exh"><span class="idx">درس</span><h2>الدّولة: السّيادة و المواطنة</h2>
+  <div class="qrcard"><div class="qrt">فيديو الدرس</div><div class="qrslot"><img src="qr/1965.svg" alt="QR"></div></div></div>
+<div class="credit">المؤلّف / المصدر : <span class="who">مريم بنقايد ; Taki Academy www.takiacademy.com</span> <span class="tg sec">الفلسفة · باكالوريا تقنية</span> <a href="https://drive.google.com/file/d/1_3aK860-Uqg3kuS9EH8VuxkW9ScOPJJd/view">↗ الدولة السيادة و المواطنة.pdf</a></div>
+<p class="subhead t-navy">المحور الرّابع:</p>
+<p class="subhead t-red">* مبرّرات التّفكير في المسألة (الإحراجات)</p>
+<p class="para">← الإنسانيّ يتحقّق في إطار سياسيّ مدنيّ: الإنسان في حالة غياب الدّولة يميل إلى العودة إلى طبيعته العنيفة والرّغبة في الإعتداء على الآخر ⇐ في حالة غياب إطار سياسيّ ينهار الوجود الإنسانيّ ويتهدّد مفهوم العيش معًا.</p>
+<p class="para">← الإنسانيّ يتحقّق في إطار المدنيّة: الإنسان ليس مدنيًّا بالطّبع بل مدنيّ بالإكراه والإلتزام الطّوعي بالقوانين والمؤسّسات ⇐ فقط داخل الدّولة يكون الإنسان مدنيًّا</p>
+<p class="para">← مفارقات عديدة تحيط بالدّولة أو بالوجود السّياسيّ: (تدرج في المقدّمة)</p>
+<ul class="dash">
+<li>تزايد مظاهر التّمييز والتّفاوت بين الأفراد والدّول</li>
+<li>تقهقر الحقوق وتعاظم وسائل التّطويع والتّسلّط والمراقبة</li>
+<li>تلاشي واضمحلال المواطنة ممارسةً، فالأقرب أنّنا نعيش زمن دول الرّعايا أو القطيع ⇐ مصدر اغتراب وسلب إنسانيّة الإنسان</li>
+<li>التّعارض بين الدّولة كحماية لحقوق الإنسان والدّولة كتهديد له</li>
+</ul>
+<!-- PROOFREAD: 1965 part1 p01 — last word "له" cut at the strip / page edge -->
+<p class="para">الإشكاليّة العامّة للدّرس: هل من تعارض بين اقتضاء السّيادة للقوّة واقتضاء المواطنة للحقّ الحقّ</p>
+<!-- PROOFREAD: 1965 part1 p01 — "للحقّ" at line end then "الحقّ" alone on the next line -->
+<p class="subhead t-navy">الدّولة</p>
+<p class="para">← اختراع عقلانيّ، تجعل <span class="t-green">الشّرعيّة القانونيّة</span> والمشروعيّة الأخلاقيّة هي <u>أسس</u> ممارسة السّلطة السّياسيّة. <span class="t-gold">فضاء يجمع بين السّيادة والمواطنة</span></p>
+<p class="para">← مؤسّسة قانونيّة تقوم على <span class="t-green">التّعاقد</span> بين طرفين <span class="t-gold">يتنازل</span> بموجبه الأفراد عن حرّيّتهم الطّبيعيّة لفائدة مؤسّسة الدّولة لتنظيم مصالحهم المتناقضة وتسيير الشّأن العامّ</p>
+<p class="subhead t-navy">السّلطة</p>
+<p class="para">← <span class="t-gold">أسمى من الدّولة</span> عمومًا، قدرة على التّأثير على</p>
+<!-- PROOFREAD: 1965 part1 p01 — end of the line hidden by the stuck strip -->
+<p class="para">← الدّولة تحرّر <u>السّلطة</u> من المحدّدات الدّينيّة والميثولوجيّة بأن تضفي عليها وجهًا إنسانيًّا خالصًا</p>
+<p class="para">← سيادة الدّولة هي إنعكاس <u>لسلطة</u> نابعة من الإنسان وتعبّر عن اختياره وتعكس وعيه بضرورة التّنظيم العاقل للعلاقات الإجتماعيّة | علاقة <span class="t-gold">أمريّة</span> تفترض قدرًا من القوّة</p>
+<p class="subhead t-navy">السّيادة</p>
+<p class="para">← تتحدّد ضمن سجلّين: سجلّ عامّ: تفيد فيه استقلاليّة القرار<br>سجلّ خاصّ: تحيل فيه إلى القدرة على تشريع القوانين والإلتزام بها.</p>
+<!-- PROOFREAD: 1965 part1 p01 — "سجلّين / سجلّ عامّ / سجلّ خاصّ" uncertain reading -->
+<p class="para">← هي <span class="t-green">شرط إمكان</span> الدّولة أي ما به تكون الدّولة ومن دونه لا تكون، أعلى <span class="t-green">سلطة</span> في الدّولة ولها <u>القوّة والنّفوذ</u> الّذي يمكّنها من <u>الإلزام والإجبار</u></p>
+<p class="subhead t-navy">المواطنة</p>
+<p class="para">← <span class="t-gold">منزلة</span> يتمتّع بها الفرد الّذي ينتمي إلى دولة <span class="t-gold">ذات سيادة</span></p>
+<p class="para">← المواطن يطيع القانون ولا يطيع شخصًا (عكس العبد)<br>سبينوزا: " لا يولد النّاس مواطنين بل يتدرّبون على المواطنة".</p>
+<p class="para">- تتضمّن <span class="t-gold">ثنائيّة الحقّ والواجب</span></p>
+<!-- PROOFREAD: 1965 part1 p02 — top line of the page cut and whited out, unreadable -->
+<p class="para">1- ضرورة التّمييز بين الدّولة والسّلطة (عد إلى قسم المفاهيم)</p>
+<p class="para">2- مبرّرات حاجة الإنسان للدّولة:</p>
+<p class="para">• <span class="t-green">الأساس التّعاقديّ للدّولة يقوم على</span> ما يبرّر الحاجة إلى الدّولة / السّيادة هو القضاء على النّزاع المتولّد عن الطّبيعة البشريّة، وكما يقول هوبز "الإنسان ذئب للإنسان"</p>
+<ul class="dash">
+<li>فرضيّة <span class="t-red">مرحلة الطّبيعة</span> (هوبز): هي حالة ما قبل نشأة الدّولة تغلب عليها أشكال <span class="t-red">الصّراع</span> وقانون الغاب باعتبار أنّ <span class="t-green">الحقّ الطّبيعيّ</span> هو القوّة الطّبيعيّة دائما (تطابق بين الحقّ والقوّة)</li>
+<li>فرضيّة <u>طبيعة الإنسان</u>: يغلب عليه الجانب الإنفعاليّ من خلال الخضوع للأهواء والدّوافع الغريزيّة، الميول العدوانيّة والشّرّ</li>
+</ul>
+<div class="data"><p class="para">السّيادة هنا تتأسّس على <span class="t-red">مبدأ حقّ الأقوى</span> وما إن تتأسّس حتّى تتعالى على حياة الأفراد وتصادر <span class="t-red">حرّيّاتهم</span> (مواطنتهم) ليكونوا <span class="t-gold">مجرّد رعايا</span> لا يملكون إلّا الطّاعة العمياء لأوامر الحاكم (التّنّين)</p></div>
+<p class="para">• <span class="t-green">العقد الإجتماعيّ</span>: ينقلنا من "حالة الطّبيعة" إلى "الحالة المدنيّة"، يجسّد <span class="t-gold">ثنائيّة "التّنازل والمقابل"</span><br>عن الحرّيّة الطّبيعيّة ← الأمن</p>
+<p class="subhead t-red">I) التّعارض: السّيادة بما هي نفي للمواطنة:</p>
+<p class="para">• ما يبرّر <u>اقتضاء السّيادة للعنف</u> هو ما تضطلع به الدّولة من وظائف ما يشرّع <span class="t-red">مقايضة الحرّيّة بالأمن</span>. فمهمّة السّيادة تتمثّل في ضبط الأفراد ومراقبة طبيعتهم الإنفعاليّة بقوّة الإخضاع <span class="t-green">حمايةً</span> للدّولة من كلّ خطر داخليّ أو خارجيّ.</p>
+<p class="para">• إنّ الحاكم أو صاحب السّيادة يجب أن يتّصف بما يضمن <span class="t-green">نجاعة</span> سيادته دون ربط السّياسة بالأخلاق لذلك تعتبر قاعدة <span class="t-red">الغاية</span> <span class="t-green">تبرّر الوسيلة</span> هي ما يمثّل ماهيّة الفعل السّياسيّ</p>
+<p class="subhead t-navy">3- مظاهر الإستبداد</p>
+<!-- PROOFREAD: 1965 part1 p02 — numeral before "مظاهر الإستبداد" looks like "٦"/"3" -->
+<ul class="dash">
+<li>الانفراد بالسّلطة / <span class="t-red">سلطة مطلقة</span> / تحوّل من سلطة إلى تسلّط</li>
+<li>عدم حياد واستقلاليّة القوانين وتوظيفها إيديولوجيًّا في خدمة <span class="t-red">مصالح</span> فئات ضيّقة وليس المصلحة العامّة</li>
+<li>توظيف السّلطة القضائيّة والتّشريعيّة في وضع قوانين تهدف لإنتاج <span class="t-gold">مجتمع منضبط</span> ابلاء وسلوكه مع النّظام الرّأسماليّ</li>
+<li><span class="t-gold">غياب المراقبة</span> والمحاسبة وحدود ضابطة للسّلطة</li>
+<li>استخدام <span class="t-red">القوّة كغاية</span> = انحراف العنف الشّرعيّ نحو العنف الغير شرعيّ</li>
+</ul>
+<!-- PROOFREAD: 1965 part1 p02 — "منضبط ابلاء وسلوكه مع النّظام" uncertain reading -->
+<p class="para">⇐ السّيادة إذن تصادر المواطنة وتغيّبها</p>
+<p class="subhead t-navy">التّبعات</p>
+<ul class="dash">
+<li>علاقة عموديّة بين الرّاعي والرّعيّة</li>
+<li>إثقال كاهل الأفراد بالواجبات والضّرائب</li>
+<li>غياب الحقوق السّياسيّة</li>
+<li>تعميم الخضوع والإمتثال وغياب كلّ أشكال المعارضة والمقاومة</li>
+</ul>
+<p class="para">4- عدم استقلاليّة وحياد القوانين وتوظيفها إيديولوجيًّا في خدمة مصالح فئات ضيّقة وليس المصلحة العامّة:</p>
+<p class="para"><u>ميشال فوكو</u>: اعتبر أنّ القوانين تحوّلت إلى مجرّد <span class="t-green">سلطة انضباطيّة</span> تقمع الأفراد تحت هيمنة الرّأسماليّة البرجوازيّة وكشف عن توظيف السّلطة القضائيّة والتّشريعيّة في وضع قوانين تهدف لإنتاج مجتمع منضبط.</p>
+<p class="para"><u>مشروعيّة سلطة الدّولة</u>: السّيادة باعتبار الأمن غايتها المطلقة ← <span class="t-red">تمهّد للنّظام الإستبداديّ</span></p>
+<p class="para">لا يكفي أن يكون أساس الدّولة عقلانيًّا وغايتها نبيلة حتّى تكون مشروعة. فالمقاصد النّبيلة يمكن أن يستعملها الحكّام لإخفاء أطماعهم وسعيهم إلى التّحكّم</p>
+<p class="para">5- انحراف العنف الشّرعيّ نحو العنف غير شرعيّ ← العنف الإستبداديّ</p>
+<!-- PROOFREAD: 1965 part1 p03 — numerals "4-" and "5-" uncertain (handwritten) -->
+<p class="para">إنّ العنف ملازم <span class="t-red">للدّولة</span> والدّولة هي الجهة الوحيدة الّتي لها شرعيّة استعمال القوّة والعنف <u>لكنّ</u> احتكار الدّولة للعنف قد يتجاوز الأطر الشّرعيّة والقانونيّة إلى قمع الأفراد <u>تحت غطاء العنف الشّرعيّ</u></p>
+<p class="para">فالدّولة اليوم تتخلّى عن مهمّتها في خدمة المواطنين وضمان حقوقهم الإجتماعيّة والإقتصاديّة وأصبح دورها يقتصر فقط على تسهيل عمل رؤوس الأموال، ممّا أنتج واقعًا سياسيًّا تغيب فيه المساواة والعدالة والحرّيّة وتنتشر فيه ظاهرة التّهميش والفقر والحاجة والتّفاوت الإجتماعيّ والّذي من شأنه أن يغذّي ظاهرة العنف في شكل احتجاجات وانتشار الجريمة وتواجه الدّولة هذا الواقع بقمع الأفراد بدل معالجته.</p>
+<!-- NOTE: a crossed-out word before "الأموال" on p03 left out -->
+<p class="subhead t-red">II) السّيادة بما هي فضاء تحقّق المواطنة: التّلازم</p>
+<p class="para">لكي تكون السّيادة غير مناقضة للمواطنة، يجب أن لا تتحدّد كسلطة مطلقة. لذلك لا يمكن حلّ التّعارض بين السّيادة والمواطنة إلّا في <span class="t-gold">إطار الدّيمقراطيّة</span>. فالدّولة، كما يؤكّد روسو وجدت لضمان الحرّيّات والحقوق لا لنفيها.</p>
+<p class="para">← <span class="t-red">سيادة تشاركيّة</span> ← قابلة للقسمة / قابلة للتّجزئة / قابلة للمشاركة</p>
+<!-- PROOFREAD: 1965 part1 p03 — "قابلة للتّجزئة" uncertain -->
+<p class="para">← الدّولة وجدت <span class="t-green">لتحرير البشر من الخوف</span> لا لتحكمهم عن طريق الخوف</p>
+<p class="subhead t-navy">• الدّيمقراطيّة:</p>
+<p class="para">1- تعريفها: نظام سياسيّ يقوم على <span class="t-gold">سيادة الشّعب</span> والمشاركة السّياسيّة، حيث تخضع السّلطة <span class="t-gold">للرّقابة</span> وتحترم الحرّيّات والحقوق</p>
+<p class="para">2- سبينوزا كمرجعيّة داعمة: يحدّدها على أنّها <span class="t-green">نظام حكم عقلانيّ</span> ويرى أنّ الدّولة القويّة ليست تلك الّتي تعتمد على القمع بل تلك الّتي <span class="t-gold">تتيح أكبر قدر من الحرّيّة</span>، لأنّ الأفراد <span class="t-green">الأحرار هم الأكثر ولاء لدولتهم</span></p>
+<p class="para">3- <u>مصدر شرعيّة السّيادة</u> = <span class="t-green">الإرادة العامّة</span>: يقول روسو " <span class="t-gold">ليست السّيادة سوى ممارسة الإرادة العامّة</span>" أي الخضوع للكلّ وليس خضوع لشخص بعينه وأنّ الإرادة العامّة هي الّتي تضع القوانين الّتي تخدم المصلحة العامّة والخير المشترك وتكون أساسًا لتحقيق المساواة والعدالة</p>
+<p class="para">← وظيفة الدّيمقراطيّة الجوهريّة هي أن <span class="t-red">تلطّف القوّة</span> حتّى لا تكون قوّة غاشمة وأن تقوّي الحقّ حتّى لا ينتفي</p>
+<p class="para">← ما يضمن للسّيادة استمرارها هو أن تضع لنفسها <span class="t-gold">ضوابط وحدود ذاتيّة</span> تمنعها من الإنحراف إلى الإستبداد</p>
+<p class="para">4- <u>أساس</u> شرعيّة السّيادة: <span class="t-green">المواطنة</span>: إنّ الإحتكام إلى القوانين في إدارة الحكم وعدم احتكار السّيادة في قبضة شخص واحد أو مجموعة أشخاص هو ما يضع <span class="t-red">حدودًا</span> تهذّب الفعل السّياسيّ حتّى لا تتحوّل السّلطة إلى تسلّط، وهو ما يضمن فكّ التّعارض بين ما تقتضيه السّيادة من قوّة والمواطنة من حقوق بما أنّ المواطنة <span class="t-gold">تجسيد للطّاعة الإراديّة وهي طاعة تعكس الإلتزام الحرّ والمسؤول</span> بالقوانين وليس إلزامًا قائمًا على الإكراه.</p>
+<p class="para">← بذلك تكون الدّولة هي الفضاء الّذي لا يضمن فقط بقاء الفرد بل كذلك تحقيق إنسانيّته من خلال تحقيق منزلة المواطنة باعتبارها تجسيدًا لإرادته.</p>
+<p class="subhead t-red"><u>حدود</u> حلّ التّعارض بين السّيادة والمواطنة:</p>
+<p class="subhead t-navy">1- حدود الدّيمقراطيّة:</p>
+<p class="para">• انحراف حكم الأغلبيّة إلى الإستبداد على مستوى الممارسة: هيمنة العدد والكثرة على <span class="t-gold">ديمقراطيّة الحشود والجماهير</span> فيستمدّ شرعيّته من الكمّ وليس من الكيف وتتحوّل إلى أغلبيّة ذات سلطة لا حدود لها تستأثر بالقوّة والثّروة لخدمة مصالحها وليس لخدمة المصلحة العامّة. وتنتهي إلى تهميش الأقلّيّات وقمعهم واختزال المواطنة في الحقّ الإنتخابيّ فقط</p>
+<p class="para">• إيديولوجيا تخلق مجتمعات انضباطيّة: عندما يعتبر ميشال فوكو أنّ السّلطة ذات طبيعة <span class="t-gold">ميكروفيزيائيّة</span> وتوجد أينما ولّينا وجوهنا فهو يصف المواطن الّذي ينتمي إلى دولة ديمقراطيّة، ويعتقد أنّه حرّ ولكن في الحقيقة يعيش أشكالا لا مرئيّة من الإستبداد.</p>
+<p class="para">• واقع العولمة: سيطرة <span class="t-gold">منطق القوّة</span> وخلق صورة جديدة للحكم تجعل الفاعلين الحقيقيّين هم رجال المال واللّوبيّات أمّا رجال السّياسة فهم مجرّد أدوات.</p>
+<p class="para">العولمة بما هي تجسيد لهيمنة الدّول العظمى تهدّد سيادة الدّول بما أنّها تهدّد استقلاليّتها في اتّخاذ القرارات</p>
+<p class="subhead t-red">III) المواقف البديلة: المواطنة العالميّة / الدّيمقراطيّة المركّبة / المواطنة الفاعلة</p>
+<p class="para">الدّيمقراطيّة المركّبة: حلّ لمأزق ديمقراطيّة الجماهير، هي علاقة <span class="t-gold">بالتّعدّديّة الحقيقيّة</span> والتّنوّع، السّيادة فيها سلطة موزّعة ومتعدّدة المستويات (أساسها: فتح مجال الثّقة، حرّيّة التّعبير ووسائل الإعلام وتشريك الأقلّيّات)</p>
+<p class="para">المواطنة الفاعلة: هي مواطنة معارضة ورفض واحتجاج ومواطنة لا تكتفي بمواطن يصوّت ويدفع الضّرائب بل بمواطن <span class="t-gold">يسهم في صنع القرار</span> ← السّياسة ممارسة مجتمعيّة</p>
+<!-- PROOFREAD: 1965 part1 p04 — last lines cramped with insertions ("وتشريك الأقلّيّات"، "ويدفع الضّرائب") -->
+<!-- NOTE: p05 printed page (Taki Academy watermark); hand highlighter / circling / underlining on them left out -->
+<p class="subhead t-red">7. المواطن العالمي كبديل في ظل العولمة</p>
+<p class="subhead t-gold">▪ تعريفه:</p>
+<p class="para"><b>هو الفرد الذي يتجاوز انتماءه للدولة القومية ليشعر بالانتماء إلى الإنسانية ككل، مدافعا عن القيم الكونية مثل حقوق الإنسان والعدالة البيئية.</b></p>
+<p class="subhead t-gold">▪ أهميته وقيمته:</p>
+<p class="para"><b>يساهم في تعزيز التعاون الدولي لحل القضايا العالمية مثل التغير المناخي والفقر.</b></p>
+<p class="para"><b>يعزز قيم التسامح والانفتاح، مما يقلل من النزاعات بين الدول والشعوب.</b></p>
+<p class="subhead t-gold">▪ حدوده ومخاطره المحتملة:</p>
+<ul class="b">
+<li>قد يؤدي إلى إضعاف مفهوم الدولة القومية وفقدانها القدرة على حماية مواطنيها.</li>
+<li>قد يستغل لتبرير تدخلات القوى الكبرى في شؤون الدول تحت شعار "الإنسانية".</li>
+<li>يثير تساؤلات حول مدى إمكانية تطبيق هذا النموذج في عالم تسيطر عليه المصالح القومية.</li>
+</ul>
+<!-- PROOFREAD: 1965 part1 p06 — top edge shows a cut line of handwriting, unreadable -->
+<p class="para">• <span class="t-red">روسو</span>: " إنّ الطّاغية عندما يحكم على هواه يقترف أكبر الجرائم ".</p>
+<p class="para">• <span class="t-red">جون لوك</span>: " هل يترك البشر حرّيّة حالة الطّبيعة ليخضعوا إلى حكم لا يأتمنونه فيه على أرواحهم وحرّيّاتهم وراحتهم وممتلكاتهم؟ "</p>
+<p class="para"><span class="t-red">توكفيل</span>: " أتطلّع إلى مجتمع ينظر فيه النّاس إلى القانون نظرة الشّيء من صنعهم فيخضعون إليه دون عناء ".</p>
+<p class="para"><span class="t-red">ماريا مولير</span>: " الحقّ يجب أن يعلو على العدد ".</p>
+<p class="para"><span class="t-red">توكفيل</span>: " نوع القمع الّذي يهدّد الشّعوب الدّيمقراطيّة يختلف عن كلّ ما عرفه العالم في الماضي ".</p>
+<p class="para"><span class="t-red">جون لوك</span>: " كلّ من يتجاوز السّلطة الّتي قلّده إيّاها القانون جاز الخروج عليه ومقاومته ".</p>
+<p class="para"><span class="t-red">ميشال فوكو</span>: " ترتبط بكلّ الآليّات الّتي تهدف إلى التّحكّم في عقول البشر وفي أجسادهم ".</p>
+<p class="para"><span class="t-red">بيردو</span>: " اخترع الإنسان الدّولة كي لا يطيع الإنسان ".</p>
+<p class="para"><span class="t-red">غودوفكي</span>: " ليس أصل السّلطة ولا غايتها ما يكسبها المشروعيّة بل الطّريقة الّتي تمارس بها ".</p>
+<p class="para"><span class="t-red">مونتسكيو</span>: " كلّ سلطة لا حدود لها هي سلطة لا مشروعة ".</p>
+<p class="para"><span class="t-red">ماركس</span>: " الدّولة هي جهاز احتكار العنف المشروع ".</p>
+<!-- PROOFREAD: 1965 part1 p06 — names "ماريا مولير", "بيردو", "غودوفكي" (partly over-written in pink) uncertain; star marks before some names left out -->
+
+</section>
+
+</div>
+</body>
+</html>

@@ -1,0 +1,1677 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<title>Wael Academy — Philosophie · CMS_فلسفة_باك_اداب</title>
+<script>
+  window.MathJax = {
+    tex: { inlineMath: [['\\(','\\)']], displayMath: [['\\[','\\]']] },
+    chtml: { fontURL: 'https://cdn.jsdelivr.net/npm/mathjax@3/es5/output/chtml/fonts/woff-v2', matchFontHeight: true },
+    startup: { typeset: true }
+  };
+</script>
+<script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js" async></script>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Sora:wght@400;500;600;700;800&family=Cairo:wght@400;500;600;700;800;900&family=Tajawal:wght@400;500;700;800&family=JetBrains+Mono:wght@400;500;600;700&display=swap');
+:root{
+  /* ===== Wael Academy palette — MAIN ACCENT = green-teal gradient #0FAB8F → #067360 ===== */
+  --bg:#fff; --panel:#f2f8f8; --hair:#e6e6e9; --hair2:#d6d6db;
+  --fg:#0f2a31;        /* body text (and +/− signs) */
+  --fg2:#3f5b62;       /* softer text */
+  --fg3:#7c959b;       /* muted (footer) */
+  --blue:#067360;      /* deep accent — small numbers, borders, watermark, accent equations */
+  --blue-dark:#045260; /* titles & wordmarks (also the balance colour) */
+  --teal:#0fab8f;      /* bright accent end */
+  --loop:#0d9c82;      /* logo-loop helper */
+  --orange:#067360;    /* kicker/category labels (gold retired → deep teal) */
+  --red:#f5322f;       /* EXERCISE CHIPS ONLY — never for emphasis */
+  --cream:#e6f3f4; --blue-soft:#e6f3f4;  /* pale teal — callout fill + table sub-row fill */
+  --blue-line:#cde7e4; /* hairline */
+  --sub-ink:#045260;   /* table sub-row text */
+  --grad:linear-gradient(148deg,#0fab8f 0%,#0d9c82 52%,#067360 100%);
+  --mono:'JetBrains Mono',monospace; --latin:'Sora',sans-serif; --ar:'Cairo',sans-serif; --arb:'Tajawal',sans-serif;
+}
+*{box-sizing:border-box;margin:0;padding:0;}
+body{font-family:var(--latin);color:var(--fg);background:#e4e4e7;padding:28px 0;
+     -webkit-print-color-adjust:exact;print-color-adjust:exact;}
+html[dir="rtl"] body{font-family:var(--arb);}
+
+/* ===== brand watermark: REAL text (crisp), full-bleed, repeats per page ===== */
+.wm{position:fixed;inset:0;z-index:0;pointer-events:none;display:flex;
+    align-items:center;justify-content:center;overflow:hidden;
+    -webkit-print-color-adjust:exact;print-color-adjust:exact;}
+.wm span{font-family:var(--mono);font-weight:800;font-size:76.8pt;letter-spacing:.16em;
+    color:var(--blue);opacity:.06;white-space:nowrap;transform:rotate(-54deg);}  /* single diagonal: bottom-left → top-right */
+.wm.mono span{color:#000;opacity:.05;}
+
+/* ===== continuous flow stream (no page border) ===== */
+.flow{width:210mm;margin:0 auto;background:transparent;color:var(--fg);
+      padding-block:16mm 18mm;padding-inline:23mm 14mm;position:relative;}   /* spiral gutter: inline-start(=spine) 23mm / outer 14mm — dir-aware; print margins set in render_flow.py */
+@media screen{ .flow{background:#fff;box-shadow:0 10px 40px rgba(0,0,0,.16);} }
+.flow>*{position:relative;z-index:1;}
+.flow p,.flow li,.flow .data,.flow .note,.flow .ex{break-inside:auto;}
+.flow .fig,.flow figure,.flow img,.flow svg.figsvg,.flow table,.flow tr,.flow .chapdiv,.flow .exh,.flow .qrcard,.flow .meta{break-inside:avoid;}
+.flow h1,.flow h2,.flow h3,.flow .exh,.flow .subhead,.flow .chapdiv{break-after:avoid;}
+.flow img,.flow svg.figsvg{max-width:100%;height:auto;}
+.flow figcaption,.flow .figcap{display:none;}          /* rule 3: no figure captions */
+
+/* ===== front matter + chapters each start on a fresh page ===== */
+.flow .cover{break-after:page;}        /* cover alone on page 1 */
+.flow .toc{break-after:page;}          /* Sommaire alone on the next page */
+.flow .chapter{break-before:page;}
+.flow .chapter:first-of-type{break-before:auto;}
+
+/* ===== cover ===== */
+.cover{padding:14mm 0 8mm;border-bottom:2px solid var(--blue);margin-bottom:6mm;}
+.cover .badge{font-family:var(--mono);font-size:8.5pt;letter-spacing:.28em;text-transform:uppercase;color:var(--orange);margin-bottom:10px;}
+.cover h1{font-family:var(--latin);font-weight:800;font-size:34pt;line-height:1.03;letter-spacing:-.025em;color:var(--blue-dark);}
+.cover .grule{width:120px;height:5px;border-radius:5px;background:var(--grad);margin:14px 0;}
+.cover .sub{font-family:var(--mono);font-size:10pt;letter-spacing:.14em;text-transform:uppercase;color:var(--teal);}
+.cover .auth{font-size:11pt;color:var(--fg2);margin-top:6px;font-weight:600;}
+
+/* ===== table of contents ===== */
+.toc{margin:2mm 0 4mm;}
+.toc h2{font-family:var(--latin);font-weight:800;font-size:15pt;color:var(--blue-dark);margin-bottom:4mm;}
+.toc .trititle{font-family:var(--mono);font-size:8pt;letter-spacing:.2em;text-transform:uppercase;color:var(--orange);margin:4mm 0 2mm;}
+.toc ol{list-style:none;}
+.toc li{display:flex;align-items:baseline;gap:8px;font-size:10pt;padding:2.2px 0;color:var(--fg);line-height:1.4;}
+.toc li .n{font-family:var(--mono);font-weight:700;font-size:9pt;color:var(--blue);min-width:26px;}
+.toc li .dots{flex:1;border-bottom:1px dotted var(--hair2);transform:translateY(-3px);}
+
+/* ===== chapter divider band ===== */
+.chapdiv{margin:0 0 5mm;padding:6mm 16px 5mm;border-radius:12px;background:var(--grad);
+    -webkit-print-color-adjust:exact;print-color-adjust:exact;}   /* green-filled chapter band */
+.chapdiv .cn{font-family:var(--mono);font-size:8.5pt;font-weight:700;letter-spacing:.24em;text-transform:uppercase;color:rgba(255,255,255,.82);margin-bottom:5px;}
+.chapdiv h2{font-family:var(--latin);font-weight:800;font-size:17pt;line-height:1.1;letter-spacing:-.015em;color:#fff;}
+/* conclusion block — same green-filled look as the chapter band */
+.conclusion{background:var(--grad);border-radius:12px;padding:6mm 16px;margin:5mm 0;color:#fff;break-inside:avoid;
+    -webkit-print-color-adjust:exact;print-color-adjust:exact;}
+.conclusion .ck{font-family:var(--mono);font-size:8.5pt;font-weight:700;letter-spacing:.24em;text-transform:uppercase;color:rgba(255,255,255,.82);margin-bottom:6px;}
+.conclusion h3{font-family:var(--latin);font-weight:800;font-size:13pt;line-height:1.2;color:#fff;margin-bottom:4px;}
+.conclusion p,.conclusion li{font-size:10.4pt;line-height:1.7;color:#fff;}
+.conclusion b,.conclusion strong{color:#fff;font-weight:700;}
+
+/* ===== unit header (lesson/exercise) + QR emplacement ===== */
+.exh{display:flex;align-items:center;gap:11px;margin:6mm 0 3mm;}
+.exh .idx{font-family:var(--mono);font-size:9pt;font-weight:600;color:#fff;background:var(--grad);
+    border-radius:6px;padding:4px 11px;letter-spacing:.08em;text-transform:uppercase;
+    -webkit-print-color-adjust:exact;print-color-adjust:exact;}
+.exh .idx.ex{background:var(--red);}   /* exercise chip = red */
+.exh h2{font-family:var(--latin);font-size:14pt;font-weight:700;letter-spacing:-.01em;color:var(--blue-dark);}
+.exh .qrcard{margin-inline-start:auto;flex:0 0 auto;display:flex;flex-direction:column;align-items:center;gap:3px;width:26mm;}
+.qrcard .qrt{font-family:var(--mono);font-size:6.5pt;letter-spacing:.1em;text-transform:uppercase;color:var(--teal);text-align:center;}
+.qrcard .qrslot{width:24mm;height:24mm;padding:1.5mm;background:#fff;border:1px solid var(--blue-line);border-radius:8px;display:flex;align-items:center;justify-content:center;}
+.qrcard .qrslot img,.qrcard .qrslot svg{width:100%;height:100%;display:block;}
+
+/* sub-exercise label when one file holds several exercices */
+.exsub{font-family:var(--latin);font-weight:800;font-size:11.5pt;color:var(--blue-dark);margin:5mm 0 2.5mm;padding-bottom:3px;border-bottom:2px solid var(--blue-line);}
+
+/* ===== text blocks ===== */
+.lead{font-size:11pt;line-height:1.7;margin:2mm 0 3mm;color:var(--fg);}
+.para{font-size:10.6pt;line-height:1.7;margin:2mm 0 2.5mm;color:var(--fg);}
+.consigne{font-size:10.4pt;line-height:1.6;margin:1mm 0 2mm;color:var(--fg);font-style:italic;}
+.subhead{font-family:var(--latin);font-weight:800;font-size:12pt;letter-spacing:-.01em;color:var(--blue-dark);margin:5mm 0 2.5mm;}
+/* emphasis — green accent = .t-blue/.t-green ; balance = .t-navy ; red = SECONDARY accent (.t-red) on titles + a few words */
+.t-blue{color:var(--blue);font-weight:600;} .t-navy{color:var(--blue-dark);font-weight:700;}
+.t-red{color:var(--red);font-weight:600;} .t-green{color:var(--teal);font-weight:600;} .t-gold{color:var(--orange);font-weight:600;}
+.subhead.t-red{color:var(--red);font-weight:800;}   /* red Roman-numeral section title (I, II, …) — keeps subhead weight */
+/* highlighter marks — a soft colour wash behind a key word (agent picks green or red per what balances the page) */
+.hl-green,.hl-red{border-radius:3px;padding:.02em .24em;font-weight:600;box-decoration-break:clone;-webkit-box-decoration-break:clone;
+    -webkit-print-color-adjust:exact;print-color-adjust:exact;}
+.hl-green{background:rgba(15,171,143,.20);color:var(--blue-dark);}   /* green highlight */
+.hl-red{background:rgba(245,50,47,.13);color:#c0261f;}               /* red highlight  */
+
+.data{background:var(--blue-soft);border:1px solid var(--blue-line);border-inline-start:4px solid var(--blue);
+    border-radius:8px;padding:11px 16px;margin:3mm 0;font-size:10pt;line-height:1.65;color:var(--fg2);}
+.data b{color:var(--fg);font-weight:700;}
+.note{border:1px dashed var(--hair2);border-radius:9px;padding:11px 16px;margin:4mm 0;background:var(--panel);}
+.note .kicker{font-family:var(--mono);font-size:7.5pt;letter-spacing:.18em;color:var(--orange);display:block;margin-bottom:5px;}
+.note .nb{font-size:10pt;line-height:1.7;color:var(--fg2);} .note b{color:var(--fg);}
+.ex:not(.idx){background:var(--blue-soft);border:1px solid var(--blue-line);border-inline-start:3px solid var(--blue);
+    border-radius:7px;padding:7px 11px;font-size:9.6pt;line-height:1.6;color:var(--fg2);margin:2mm 0;}   /* :not(.idx) so it never hits the exercise chip (which is .idx.ex) */
+.ex .extag{display:inline-block;font-family:var(--latin);font-weight:800;font-size:7.6pt;color:var(--blue-dark);background:#fff;
+    border:1px solid var(--blue);border-radius:5px;padding:1px 9px;margin-inline-end:7px;vertical-align:middle;text-transform:uppercase;letter-spacing:.06em;}
+
+/* ===== lists ===== */
+ol.q{list-style:none;counter-reset:q;margin:1mm 0 2mm;}
+ol.q>li{counter-increment:q;position:relative;padding-inline-start:30px;margin-bottom:2.5mm;font-size:10.4pt;line-height:1.6;}
+ol.q>li::before{content:counter(q);position:absolute;inset-inline-start:0;top:1px;width:21px;height:21px;background:var(--grad);color:#fff;
+    border-radius:50%;font-family:var(--mono);font-size:9pt;font-weight:600;display:flex;align-items:center;justify-content:center;
+    -webkit-print-color-adjust:exact;print-color-adjust:exact;}
+ol.sub{list-style:none;counter-reset:s;margin:4px 0 0;padding-inline-start:2px;border-inline-start:1px solid var(--blue-line);}
+ol.sub li{counter-increment:s;position:relative;padding:2.5px 0 2.5px 26px;font-size:10.1pt;line-height:1.55;}
+ol.sub li::before{content:counter(s,lower-alpha)".";position:absolute;inset-inline-start:10px;top:2.5px;font-family:var(--mono);font-size:9pt;font-weight:600;color:var(--teal);}
+ol.qn{list-style:none;counter-reset:qn;margin:1mm 0 2mm;}
+ol.qn>li{counter-increment:qn;position:relative;padding-inline-start:26px;margin-bottom:2.2mm;font-size:10.4pt;line-height:1.55;}
+ol.qn>li::before{content:counter(qn)".";position:absolute;inset-inline-start:0;top:0;font-family:var(--mono);font-size:9.5pt;font-weight:700;color:var(--blue);}
+ul.b{list-style:none;margin:1mm 0 2mm;} ul.b>li{position:relative;padding-inline-start:22px;margin-bottom:2.4mm;font-size:10.4pt;line-height:1.6;}
+ul.b>li::before{content:"";position:absolute;inset-inline-start:3px;top:8px;width:8px;height:8px;border-radius:50%;background:var(--grad);
+    -webkit-print-color-adjust:exact;print-color-adjust:exact;}
+ul.dash{list-style:none;margin:1mm 0 2mm;} ul.dash>li{position:relative;padding-inline-start:20px;margin-bottom:1.8mm;font-size:10.4pt;line-height:1.6;}
+ul.dash>li::before{content:"–";position:absolute;inset-inline-start:2px;top:0;color:var(--fg);font-weight:700;}  /* dash / +/− signs = body colour */
+.flow ul.opts{list-style:none;margin:4px 0 3px;padding-inline-start:16px;}
+.flow ul.opts li{padding:2px 0;font-size:10.2pt;line-height:1.5;color:var(--fg);}
+
+/* ===== figures / tables ===== */
+.fig{margin:3mm 0;} .fig svg.figsvg{display:block;margin:0 auto;background:#fff;max-width:100%;height:auto;}
+.photo{display:block;margin:3mm auto;border-radius:8px;border:1px solid var(--hair);max-width:100%;}
+.figrow{display:flex;flex-wrap:wrap;gap:9px;justify-content:center;margin:3mm auto;max-width:190mm;}
+.flow .figrow img{border-radius:7px;border:1px solid var(--hair);height:46mm;width:auto;max-width:none;object-fit:cover;}
+.schemarow{display:flex;gap:16px;align-items:flex-start;flex-wrap:wrap;margin:2mm 0;}
+.schemarow .col-txt{flex:1 1 90mm;min-width:80mm;} .schemarow .col-fig{flex:0 0 78mm;} .schemarow .col-fig .fig{margin:0;}
+.flow table{border-collapse:collapse;width:100%;margin:3mm 0;font-size:9.8pt;line-height:1.5;}
+.flow table th,.flow table td{border:1px solid var(--blue-line);padding:6px 10px;text-align:start;vertical-align:top;}
+.flow table th{background:var(--grad);color:#fff;font-family:var(--latin);font-weight:700;font-size:9.4pt;
+    -webkit-print-color-adjust:exact;print-color-adjust:exact;}
+.flow table tr:nth-child(even) td{background:var(--blue-soft);color:var(--sub-ink);}   /* sub-row: #E6F3F4 / #045260 */
+
+mjx-container{color:var(--fg) !important;font-weight:400 !important;font-size:1.0em !important;}
+.eq-hi mjx-container,mjx-container.eq-hi{color:var(--blue) !important;}   /* accent (green) equation — highlight a key result; balance with plain math */
+.eq-red mjx-container,mjx-container.eq-red{color:var(--red) !important;}  /* red accent equation / symbol — complements the green .eq-hi */
+
+/* ===== per-file books: credit line, copies list, figures at their size ===== */
+.credit{display:flex;flex-wrap:wrap;align-items:center;gap:5px;margin:-1mm 0 3.5mm;font-size:9.4pt;color:var(--fg2);}
+.credit .who{font-weight:700;color:var(--blue-dark);}
+.credit .tg{font-family:var(--mono);font-size:7.2pt;letter-spacing:.04em;border-radius:5px;padding:1px 7px;line-height:1.6;
+    border:1px solid var(--blue-line);color:var(--blue);background:#fff;-webkit-print-color-adjust:exact;print-color-adjust:exact;}
+.credit .tg.sec{background:var(--blue-dark);border-color:var(--blue-dark);color:#fff;}
+.credit .tg.cor{background:#fff;border-color:var(--red);color:var(--red);}
+.credit a{color:var(--fg3);font-family:var(--mono);font-size:7pt;text-decoration:none;}
+.cover .auth .credit{margin:4mm 0 0;}
+.cover .copies{margin-top:5mm;font-size:8.6pt;color:var(--fg2);}
+.cover .copies ul{list-style:none;margin:2mm 0 0;padding:0;columns:2;}
+.cover .copies a{color:var(--fg3);text-decoration:none;font-size:8pt;}
+.flow figure.fig{text-align:center;}
+.flow figure.fig img{max-height:60mm;width:auto;max-width:70%;display:inline-block;}
+
+/* chapter tag on each part of a multi-chapter book (the book keeps the original order of the file) */
+.chtag{display:inline-block;margin:5mm 0 2mm;padding:1mm 3mm;border-radius:2mm;background:#eef3fb;border:1px solid #c9d6ea;
+  color:#1f3a6b;font-size:9pt;font-weight:700}
+.chtag span{color:#6b7f9e;font-weight:600;margin-inline-end:1.5mm}
+
+@media print{ body{background:#fff;padding:0;} .flow{width:auto;max-width:none;margin:0;padding:0;} }
+@page{size:A4;}   /* margins come from render_flow.py — do NOT set them here */
+</style>
+<meta data-pagefind-filter="type[content]" content="إصلاح">
+<meta data-pagefind-filter="resource[content]" content="لطفي العربي">
+<meta data-pagefind-meta="n[content]" content="1423">
+<meta data-pagefind-meta="title[content]" content="CMS_فلسفة_باك_اداب">
+<meta data-pagefind-filter="chapter[content]" content="الخصوصية والكونية">
+<meta data-pagefind-filter="chapter[content]" content="الإنية والغيرية">
+<meta data-pagefind-filter="chapter[content]" content="اللغة والتواصل">
+<meta data-pagefind-filter="chapter[content]" content="العلم بين الحقيقة والنمذجة">
+<meta data-pagefind-filter="chapter[content]" content="العمل: النجاعة والعدالة">
+<meta data-pagefind-filter="chapter[content]" content="القيم: الأخلاق والدولة">
+<meta data-pagefind-filter="chapter[content]" content="الفن والدين">
+<meta data-pagefind-filter="section[content]" content="باكالوريا علوم تجريبية"><style>.qrcard{display:none!important}.wa-nav{position:sticky;top:0;z-index:50;background:#045260;padding:10px 18px;font-family:Cairo,sans-serif;direction:rtl}.wa-nav a{color:#fff;text-decoration:none;font-weight:700}@media print{.wa-nav{display:none}}</style>
+</head>
+
+<body dir="rtl" lang="ar"
+      data-brand="Wael Academy" data-handle="@WaelAcademy"
+      data-tagline="في تُرابنا.. مغامرة بمغامرة"
+      data-phone="+216 50 40 40 42" data-site="waeldocuments.com"
+      data-cta="سجل معانا وأقرى عن بعد مع منصة Wael Academy"
+      data-subject="Philosophie · CMS_فلسفة_باك_اداب" data-watermark="Wael Academy" data-pagefind-body><nav class="wa-nav" data-pagefind-ignore><a href="../index.html">→ الرجوع إلى فهرس الفلسفة</a></nav>
+
+<!-- single full-page diagonal watermark, bottom-left → top-right (repeats on every page) -->
+<div class="wm" aria-hidden="true"><span>WAEL&nbsp;ACADEMY</span></div>
+
+<div class="flow colored">
+<div class="cover"><div class="badge">◉ Wael Academy · Philosophie</div><h1>CMS_فلسفة_باك_اداب</h1><div class="grule"></div><div class="sub">الخصوصية والكونية</div><div class="auth"><div class="credit">المؤلّف / المصدر : <span class="who">لطفي العربي · شمس للنشر · CMS</span> <span class="tg sec">الفلسفة · باكالوريا علوم تجريبية</span> <a href="https://drive.google.com/file/d/1JYe9zFvgrfbcg0U72mPCynf5Ey0SGafr/view">↗ CMS_فلسفة_باك_اداب.pdf</a></div></div><div class="copies" data-pagefind-ignore><b>نسخ هذا الملف في الدرايفات (2)</b><ul><li><a href="https://drive.google.com/file/d/1JYe9zFvgrfbcg0U72mPCynf5Ey0SGafr/view">Ons chograni · BAC SC ONSSSS › philo</a></li><li><a href="https://drive.google.com/file/d/1ayz31xLt9xs33TzDpn-na6LJmXMDdDIK/view">BAC SCIENCE — Drive 5: Parascolaire divers (from WhatsApp &quot;Drive Mayssa Bac Sc&quot;) · كتب مدرسية موازية PARASCOLAIRES › 05_5 BAC LETTRES</a></li></ul></div></div>
+<section class="chapter">
+<div class="chtag"><span>المحور</span> الخصوصية والكونية</div>
+<!-- SOURCE: لطفي العربي · شمس للنشر · CMS -->
+<div class="exh"><span class="idx">إصلاح</span><h2>إصلاح تمارين الكتاب المدرسي</h2>
+  <div class="qrcard"><div class="qrt">فيديو الدرس</div><div class="qrslot"><img src="qr/1423.svg" alt="QR"></div></div></div>
+<div class="credit">المؤلّف / المصدر : <span class="who">لطفي العربي · شمس للنشر · CMS</span> <span class="tg sec">الفلسفة · باكالوريا علوم تجريبية</span> <a href="https://drive.google.com/file/d/1JYe9zFvgrfbcg0U72mPCynf5Ey0SGafr/view">↗ CMS_فلسفة_باك_اداب.pdf</a></div>
+<p class="para">CMS</p>
+<p class="para">4</p>
+<p class="para">شعبة الآداب</p>
+<div class="data"><p class="para"><b>إصلاح تمارين<br>الكتاب المدرسي</b></p></div>
+<p class="para"><b>لطفي العربي</b></p>
+<p class="para">مع ملحق خاصّ بالفنّ ، و آخر يحتوي على بنك من المواضيع</p>
+<p class="para">شمس للنشر</p>
+<p class="subhead t-red">فلسفة</p>
+<!-- END p01 -->
+<!-- p02: blank page -->
+<p class="subhead t-red">تقديـم</p>
+<p class="para">ليست الغاية من هذا الكتاب تعويض مجهود التلميذ ، فهو مطالب بإنجاز تمارين كتابه المدرسي بنفسه حتى يمتلك مهارات الكتابة الفلسفية و يكون قادرا على مواجهة الامتحان ، و إنّما غايته أن يقدّم نماذج من الإصلاح تكون بالنّسبة إليه مرجعا و معيارا للحكم على ما قام به من مجهود خاصّ : يحاول بنفسه إنجاز هذه التمارين ، ثمّ يقارن ما قام به بما يُقدّمه له هذا الكتاب من نماذج اصلاح ليعرف ثغرات عمله و يتمكّن بالتالي من التحسّن تدريجيا .</p>
+<p class="para">هذه التمارين جزئية كتلك التي تُخصّص لها حصّة المنهجية ، و لكنّ انجازها ضروري لامتلاك القدرة على تحرير مقال كامل تتقاطع فيه مهارات عديدة و مختلفة تدور حولها هذه التمارين .</p>
+<p class="para">يتضمّن هذا الكتاب إصلاحا لتمارين الآداب الواردة بالكتاب المدرسي و ملحقين : الأوّل منهما يخصّ الفنّ و هي المسألة الأخيرة في البرنامج و التي تُنجَز في الغالب في عجلة نسبية لأسباب موضوعية و يقدّم هذا الملحق مناسبة لتمثّل إشكالياتها و الإلمام بمرجعياتها . و الثّاني يتضمّن بنكا من المواضيع يمكن للتلاميذ أن يتدرّبوا عليها تتويجا للاشتغال على التمارين المصلحة في هذا الكتاب .</p>
+<p class="para">بوّبت هذه التمارين كما في الكتاب المدرسي ، بحسب المسألة ، و النّافذة ، و <b>الصّفحة</b> ، <b>و رقم</b> النّشاط ، ليكون أداة طيّعة تيسّر عمل التلميذ .</p>
+<p class="para">تمنّياتي الخالصة بالنّجاح لكلّ تلاميذنا .</p>
+<p class="para">المؤلّف</p>
+<!-- END p03 -->
+<!-- p04: blank page -->
+
+<div class="chtag"><span>المحور</span> الإنية والغيرية</div>
+
+<p class="subhead t-red">الإنّية و الغيرية</p>
+<div class="exsub">النشاط عدد 1 : أشتغل على وضعيات</div>
+<p class="subhead t-navy">(نافذة "كيفيات للتفكير في المسألة" ص 85) :</p>
+<p class="subhead t-navy">المهارة المستهدفة : أوظّف ما درست لفهم وضعيات</p>
+<!-- CROP: 1423 1 5 0.76 0.325 0.95 0.40 1423_p05_eleve -->
+<figure class="fig"><img src="https://wael-philo.b-cdn.net/figs/1423/1423_p05_eleve.png" alt=""></figure>
+<!-- CROP: 1423 1 5 0.06 0.33 0.25 0.38 1423_p05_tv -->
+<figure class="fig"><img src="https://wael-philo.b-cdn.net/figs/1423/1423_p05_tv.png" alt=""></figure>
+<p class="consigne"><b>التمرين عدد 1 : الوضعية الأولى</b> : أجد نفسي متردّدا بين القيام بواجباتي المدرسية و مشاهدة التلفزة ، و في الآخر أقوم بواجباتي المدرسية و أحسّ بنشوة عند إتمام العمل .</p>
+<p class="consigne">أنظر الكتاب المدرسي . ص 85 .</p>
+<p class="consigne">– <b>المهامّ</b> : أبحث في نافذة السندات أو الدعائم عن معاني الميل و الرّغبة و ما يقابلهما من إرادة و تعقّل معاني الميل و الرّغبة و ما يقابلهما من إرادة و تعقّل.</p>
+<p class="subhead t-navy">– الانجاز :</p>
+<p class="para">. <u>معاني الميل و الرّغبة و ما يقابلهما من إرادة و تعقّل(على ضوء السندات و الدعائم)</u> : الميل هو النّزوع بدافع من الدّوافع إلى تحقيق غاية ما . و الرّغبة هي الحاجة الملحّة لإرضاء شعور مؤلم بالافتقار إلى حاجة ما ، إرضاء تنتج عنه لذّة تكون هي الغاية الأخيرة و الحقيقية للرّغبة . و الإرادة غير الميل و الرّغبة لأنّها ليست انفعالية بل فاعلة ، تتطلّب عودة إرادية للذّات إلى ذاتها بحثا عن أسباب ميولها و رغباتها و عمّا يمكن أن ينتج عنهما من نتائج سلبية أو إيجابية . و قد تفضي الإرادة – لأنّها قائمة على التعقّل – إلى التخلّي عن تلك الميول أو الرّغبات إذا اتّضحت سلبياتها أو مخاطرها .</p>
+<p class="para">. <u>التعبير الفلسفي عن الوضعية (على ضوء السندات و الدعائم)</u> : يقتضي فهم الوضعية المفترَضَة في التمرين تصوّرا لحقيقة الإنسان يكون بمقتضاها متردّدا بين ميوله ورغباته من جهة ، و عقله و إرادته من جهة أخرى ، إمّا على أساس تصوّر ثنائي للإنسان يمكن أن يكون افلاطونيا أو لابن سينا أو لغيره من الثنائيين ، أو على أساس تصوّر نفساني فرويدي :</p>
+<!-- END p05 -->
+<p class="para">. حسب الثّنائيين ، و كماجاء في الحاشيتين رقم 1 و 2 ص 27 لنصّ أفلاطون "الحكمة في معرفة النفس" ص 26 ، يتكوّن الإنسان من نفس و جسد ، و الجسد هو "الجسم الإنساني الذي يتكوّن من العناصر الأربعة أي الماء و الهواء و النار و التراب ، و هو ظاهرة حيوية (البدن) تقوم على الغذاء و حركة الدم والتنفّس و يعرف الشيخوخة و الموت" ، و هذا يعني أن لا دخل للجسم بما هو جسم في اللّذة و الانفعال و الحركة و غيرها لأنّ مصدر هذه الأشياء هو النفس" ... لكنّ النفس تتفاعل مع الجسم ، تؤثّر فيه و تتأثّر به ، فتكون إمّا "نفسا شهوانية" أو "نفسا غاضبة" عندما تتأثّر به ، أو نفسا ناطقة" عندما تؤثّر فيه و تتحكّم في شهواتها و غضبها ، من هنا تشبيه افلاطون النفس بالعربة . لقد "مثّلها في حوار "الفيدروس" <span dir="ltr">Phèdre</span> بالعربة جواداها النفس الغضبية و النفس الشهوانية و قائدها النفس الناطقة . و كلّما كان العقل هو المتحكّم في العربة كان الإنسان عاقلا و حكيما" . و وفق ما جاء في الوضعية المفترَضَة ، تحت تأثير الجسد و الشهوات وجدتني أميل إلى مشاهدة التلفزة و أرغبة في التلذّذ ببرامجها التي تمتع العين و تنشي الحواسّ ، لكنّ النفس النّاطقة في أخذت بزمام الأمور ، و بعد التروّي و التعقّل أردت ما هو حقّا صالح لي أي إنجاز دروسي ، ما جعلني أشعر بالرضا و النشوة . جاء أيضا في نصّ ابن مسكويه "منزلة النفس" ص 24 انطلاقا من السطر 17 "فأمّا هذا المعنى الآخر الذي سمّيناه نفسا ، فإنّه كلّما يتباعد من هذه المعاني البدنية التي أحصيناها و تداخل إلى ذاته و تخلّى عن الحواس بأكثر ما يمكن ، ازداد قوّة و تماما و كمالا و تظهر له الآراء الصّحيحة و المعقولات البسيطة و هذا إذن أدلّ دليل على أنّ طباعه و جوهره من غير طباع الجسم و البدن" . و هو ما يؤيّد نفس التأويل .</p>
+<!-- CROP: 1423 1 6 0.34 0.415 0.66 0.595 1423_p06_attelage -->
+<figure class="fig"><img src="https://wael-philo.b-cdn.net/figs/1423/1423_p06_attelage.png" alt=""></figure>
+<!-- PROOFREAD: 1423 part1 p06 — figure labels (Sagesse, Raison, Courage, Appétit, legend "Comparaison entre l'attelage de l'âme et les vertus cardinales") not transcribed as text; kept in CROP -->
+<!-- END p06 -->
+<p class="para">. أمّا حسب فرويد فإنّ الجهاز النفسي لدى الإنسان يتكوّن من "الهو" مصدر الميول و مكمن الرّغبات و "يحكمه مبدأ الإشباع" ، و من "الأنا الأعلى" ممثّل الرّقابة المتصدّي لهذه الميول و الرّغبات ، ومن "الأنا" الذي تقع عليه مسؤولية تنظيم سلوكه على ضوء "مبدإ الواقع" . فمن جهة يعني اكتشاف "اللاّوعي" أو "للاّشعور" ممثّلا في "الهو" أنّ "الأنا" لم يعد سيّدا حتى في بيته" ، و لكن من جهة أخرى يهدف التحليل النفسي إلى أن "يحلّ الأنا حيث كان الهو" <span dir="ltr">« où était le ça doit advenir le moi »</span> ، أي إلى أن يتحمّل "الأنا" مسؤولية أفعاله فلا يكون تحت سلطة "الهو" <b>و لا تحت</b> سلطة "الأنا الأعلى" ، بل يختار ما يصلح به حقّا في ضوء الواقع . و إذا استندنا إلى هذا التصوّر <b>فإنّ</b> التخلّي عن مشاهدة التلفزة و اختيار القيام بدروسي في الوضعية المفترَضَة هو انتصار للأنا على ميوله و أهوائه بعد العودة إلى ذاته و التروي و تحكيم العقل .</p>
+<!-- CROP: 1423 1 7 0.28 0.11 0.78 0.34 1423_p07_psychisme -->
+<figure class="fig"><img src="https://wael-philo.b-cdn.net/figs/1423/1423_p07_psychisme.png" alt=""></figure>
+<p class="consigne"><b>التمرين عدد 2 : الوضعية الثانية</b> : كانت الفتاة في المقهى تدخّن سيجارة رفقة زملائها فإذا بوالدها يفاجئها . يحمرّ وجهها و يتعثّر كلامها و تجد رغبة جامحة في الهروب و الإختفاء .</p>
+<p class="consigne">– <b>المهامّ</b> : تذكّر بعض النصوص أو الدعائم لها علاقة بالتحليل النفسي تفسّر بمفاهيمها هذه الحادثة.</p>
+<p class="subhead t-navy">– الانجاز :</p>
+<p class="para"><u>بالرّجوع إلى الرسم البياني لمكوّنات الجهاز النفسي و الآلية الديناميكية في نافذة دعائم التفكير ص 75</u> : يمكن تفسير هذه الحادثة أي احمرار وجه هذه الفتاة و تعثّر كلامها و رغبتها الجامحة في الهروب و الاختفاء بالشعور بالذنب التاتج عن إحساسها بخرق بعض قيم المجتمع ممثّلة في الأب . و هذا الشعور بالذّنب مصدره "الأنا الأعلى" باعتباره حصيلة ما يترسّب في نفسية الإنسان من موانع اجتماعية و أسرية خلال عملية التربية ، و باعتباره يتعارض مع "الهو" أي ما يكمن في الإنسان من ميول و رغبات مكبوتة تتعارض مع موانع المجتمع و نواميسه . و حين يستجيب "الأنا" إلى رغبات "الهو" فهو يُغضب "الأنا الأعلى" الذي يردّ بتوليد الشعور بالذّنب و الإحساس بالدونية لدى الأنا .</p>
+<!-- END p07 -->
+<div class="exsub">النشاط عدد 2 : أشتغل على أنواع المواضيع</div>
+<p class="subhead t-navy">(نافذة "كيفيات للتفكير في المسألة" ص 85) :</p>
+<p class="subhead t-navy">– المعطى :</p>
+<table>
+<tr><th>صيغة الموضوع</th><th>التعليق على الصيغة</th><th>مثال</th></tr>
+<tr><td rowspan="2">تقريرية</td><td>اثبات أطروحة في شأن مفهوم</td><td>قيل : "الإنسان رغبة".</td></tr>
+<tr><td>اثبات أطروحة في شأن علاقة</td><td>الأنا نفي للآخر .</td></tr>
+<tr><td rowspan="2">استفهامية</td><td>التساؤل عن علاقة</td><td>هل ينبغي علينا أن نحيا من أجل الآخرين ؟</td></tr>
+<tr><td>سؤال عن الوجاهة أو المشروعية</td><td>ما وجاهة القول بأنّ كلّ أنا هو عدو و يريد أن يكون المسيطر على الكلّ ؟</td></tr>
+</table>
+<p class="consigne">– <b>المطلوب</b> : أتمّم بما هو مناسب صياغة مواضيع حول الإنّية و الغيرية تستهلّ على النحو التالي :</p>
+<table>
+<tr><th>صيغة الموضوع</th><th>نوع الصيغة</th><th>توجيه الفهم بناء على الصيغة</th></tr>
+<tr><td>إنّ ...</td><td></td><td></td></tr>
+<tr><td>قيل ...</td><td></td><td></td></tr>
+<tr><td>هل ...</td><td></td><td></td></tr>
+<tr><td>بأيّ معنى ...</td><td></td><td></td></tr>
+<tr><td>ما شروط إمكان القول ...</td><td></td><td></td></tr>
+<tr><td>إلى أيّ حدّ ...</td><td></td><td></td></tr>
+</table>
+<!-- END p08 -->
+<p class="subhead t-navy">– الانجاز :</p>
+<table>
+<tr><th>صيغة الموضوع</th><th>نوع الصيغة</th><th>توجيه الفهم بناء على الصيغة</th></tr>
+<tr><td>إنّ الغير عدّو . حلّل و ناقش .</td><td>تقريرية</td><td>تحديد دلالة القول بأنّ الغير عدّو و الكشف عن المسلّمات التي يقوم عليها ، ثمّ مناقشة هذه المسلمات و بيان حدود هذا القول .</td></tr>
+<tr><td>قيل : <b>إنّي الأقدر على معرفة من أنا</b>". ابد رايك في هذا القول .</td><td><b>تقريرية</b></td><td><b>تحديد دلالة القول بأنّي الأقدر على معرفة ذاتي و الكشف عن المسلّمات التي يقوم</b> ، ثمّ مناقشة هذه المسلمات و بيان حدود هذا القول .</td></tr>
+<tr><td>هل أكون إنسانا في غياب الغير ؟</td><td>استفهامية</td><td>البحث فيما إذا كانت إنسانيتي ممكنة دون الغير أم أنّها تتوقّف على حضوره ؟</td></tr>
+<tr><td>بأيّ معنى أحتاج إلى الغير لأكون أنا ؟</td><td>استفهامية</td><td>تحديد دلالة الحاجة إلى الغير لأكون أنا ، و مجالاتها ، و مستوياتها ، و حدودها .</td></tr>
+<tr><td>ما شروط إمكان القول "الذّات حوارية" ؟</td><td>استفهامية</td><td>البحث في مقتضيات هذا القول و أسسه و حدوده .</td></tr>
+<tr><td>إلى أيّ حدّ يمثّل الغير شرطا لتحقّقي ؟</td><td>استفهامية</td><td>البحث في مدى وجاهة الأطروحة القائلة بأنّ الغير يمثّل شرطا لتحقّقي بعد تحليلها و بيان مسلّماتها .</td></tr>
+</table>
+<!-- END p09 -->
+<div class="exsub">النشاط عدد 3 : أشتغل على المعاني و المفاهيم</div>
+<p class="subhead t-navy">(نافذة "كيفيات للتفكير في المسألة" ص 86) :</p>
+<p class="consigne"><b>التمرين عدد 1</b> : أدرج المعاني المناسبة لكلّ من الشّعور و اللاّشعور و أبيّن منزلة الشّعور بالنسبة إلى الإنسان .</p>
+<p class="subhead t-navy">– الانجاز :</p>
+<table>
+<tr><th>الشّعور</th><th>اللاّشعور</th></tr>
+<tr><td>الوعي</td><td>اللاّوعي</td></tr>
+<tr><td>الادراك</td><td>المبهم</td></tr>
+<tr><td>المعرفة المباشرة</td><td>المجهول</td></tr>
+</table>
+<p class="para">الشّعور هو ما به نعي بوجودنا و ندرك ما بداخلنا و حولنا و نعرف ما يدفعنا إلى الفعل ، لكنّه لا يمثّل كلّ حياتنا النفسية ففي أعماقنا ثمّة ما يتجاوز شعورنا أو وعينا و لا ندركه أو نعرفه و هو اللاّشعور أو اللاّوعي المبهم و المجهول كما يتبيّن من خلال التحليل النفسي مع فرويد .</p>
+<p class="consigne"><b>التمرين عدد 2</b> :</p>
+<!-- END p10 -->
+<p class="consigne"><b>– المعطى</b> : نصّ "آلآن" من "عناصر فلسفية" . نافذة كيفيات للتفكير . ص <b>86</b> .</p>
+<p class="consigne"><b>– المهامّ</b> :</p>
+<ul class="dash">
+<li>استخرج المفهوم المركزي في النصّ و حدّد دلالته.</li>
+<li>ما علاقة هذا المفهوم بالماضي و الحاضر و المستقبل ؟</li>
+<li>ما هي المرجعيات القابلة للتوظيف لبيان دلالة الأنا ؟</li>
+</ul>
+<p class="subhead t-navy">– الانجاز :</p>
+<p class="para">– <u>المفهوم المركزي في النصّ</u> : هو "الأنا" أي "الذّات الظاهرة أو الخفية لكلّ أفعالنا" .</p>
+<p class="para">– <u>علاقة هذا المفهوم بالماضي و الحاضر و المستقبل</u> : إنّه الرّابط الثّابت الذي يصل حاضرنا بماضينا و مستقبلنا ، إذا مهما تقدّمت في الزمن أو تذكّرت الماضي أو استشرفت المستقبل أظلّ أنا ذاتي أي انا عيني الذي كنت و لا أزال و سأكون ، أتذكّر ماضي وأعي بحاضري و أستشرف مستقبلي .</p>
+<p class="para">– <u>المرجعيات القابلة للتوظيف</u> : ديكارت و الكوجيتو : "أنا أفكّر إذن أنا موجود" ، و برجسون "الوعي ذاكرة" .</p>
+<p class="consigne"><b>التمرين عدد 3</b> : أتعرّف على مجالات استخدام الكلمة .</p>
+<p class="subhead t-navy">– الانجاز :</p>
+<table>
+<tr><th>الكلمة المقترحة</th><th>مجال أوّل</th><th>مجال ثان</th><th><b>مجال ثالث</b></th></tr>
+<tr><td>الأنا</td><td>علم النفس</td><td>الفلسفة</td><td><b>الأدب</b></td></tr>
+<tr><td>الرّغبة</td><td>علم النفس</td><td>الفلسفة</td><td><b>الإشهار</b></td></tr>
+<tr><td>التاريخ</td><td>علم التاريخ ( كدراسة للوقائع الإنسانية الماضية)</td><td>الفلسفة</td><td>علم الحياة (علم المستحاثات)</td></tr>
+</table>
+<!-- END p11 -->
+<div class="exsub">النشاط عدد 4 : أشتغل على الأشكلة</div>
+<p class="subhead t-navy">(نافذة "كيفيات للتفكير في المسألة" ص 87) :</p>
+<p class="consigne"><b>التمرين عدد 1</b> : من المعنى إلى السّؤال : صغ سؤالين إنطلاقا من لفظ "الانا" .</p>
+<p class="subhead t-navy">– الانجاز :</p>
+<ul class="dash">
+<li>ما الأنا ؟</li>
+<li>هل يتحقّق بمعزل عن الغير ؟</li>
+</ul>
+<p class="consigne"><b>التمرين عدد 2</b> : من السؤال على الإشكالية : حوّل السؤالين في التمرين السّابق إلى إلى إشكالية تثير إحراجا على نحو قيق .</p>
+<p class="subhead t-navy">– الانجاز :</p>
+<p class="para">ما الأنا ؟ هل يتحقّق بمعزل عن الغير أم بحضوره ؟ و إذا سلّمنا بأنّ حضور الغير شرط لتحقّق الأنا ، فضمن أيّة شروط و إلى أيّ حدّ ؟</p>
+<div class="exsub">النشاط عدد 5 : أشتغل على الحجاج</div>
+<p class="subhead t-navy">(نافذة "كيفيات للتفكير في المسألة" ص 87) :</p>
+<p class="consigne"><b>التمرين عدد 1</b> : اتّبع مسارا حجاجيا لتحليل اطروحة .</p>
+<!-- END p12 -->
+<p class="consigne"><b>الموضوع</b> : قيل "الوعي بالذّات يستوجب الوعي بالآخر" .</p>
+<p class="consigne"><b>المطلوب</b> : قدّم حججا متنوّعة لتأكيد هذا القول .</p>
+<p class="subhead t-navy">– الانجاز :</p>
+<p class="para">– <u>الحجّة الأولى</u> : إنّ الوعي بالذّات يكون أوّل الأمر منغلقا على ذاته يقصي كلّ ما هو آخر باعتباره موضوعا "موسوما بالسّلبية" ، غير أنّ الآخر هو أيضا ذات و طالما أنّني موضوع في نظره فإنّ وعيي بذاتي يكون ناقصا و لا يتحقّق إلاّ من خلال الدخول في صراع مع الآخر – كما يبيّن هيجل – لأفوز بتقديره و أقتلع منه الاعتراف بي كذات . أي أن الوعي بالذّات ليس معطى و إنّما هو مهمّة أي كسب يتحقّق من خلال الآخر و بشرط حضوره .</p>
+<p class="para">– <u>الحجة الثانية</u> : الوعي بالذّات يستوجب حتما حضور الآخر ، لأنّني لا أعي بذاتي بوصفي "ثقيل الظلّ أو خفيفه مثلا ، أو سيّئا أو طيّبا" إلاّ من خلال موقف الآخرين منّي و شهادتهم على ذلك . هذا ما يظهر مثلا في تجربة الخجل كما يبيّن سارتر . فمن جهة "الخجل هو دائما خجل أمام الآخرين" و من جهة أخرى " الخجل هو اعتراف ، إعتراف بأنّني أكون كما يراني الآخرون" .</p>
+<!-- CROP: 1423 1 13 0.32 0.425 0.62 0.53 1423_p13_honte -->
+<figure class="fig"><img src="https://wael-philo.b-cdn.net/figs/1423/1423_p13_honte.png" alt=""></figure>
+<p class="para">– <u>الحجّة الثالثة</u> : الوعي الفردي ليس مستقلاّ عن الظّروف المادّية ، الاجتماعية و الاقتصادية ، السّائدة في المجتمع الذي ينتمي إليه الفرد . هذا ما يفضي إليه استقراء تاريخ المجتمعات ، حيث أنّ أشكال الوعي تغيّرت من المرحلة العبودية إلى المرحلة الإقطاعية إلى المرحلة البورجوازية كما يبيّن ماركس ممّا جعله ينتهي إلى أنّ "الوعي نتاج إجتماعي" .</p>
+<p class="consigne"><b>التمرين عدد 2</b> : اتّبع مسارا حجاجيا لدحض أطروحة او موقف .</p>
+<p class="consigne"><b>الموضوع</b> : ما رأيك في القول : "إنّ الذّات تتحقّق بمعزل عن الآخر" ؟</p>
+<p class="consigne"><b>المطلوب</b> : قدّم حججا تدحض هذا القول .</p>
+<!-- END p13 -->
+<p class="subhead t-navy">– الانجاز :</p>
+<p class="para">– <u>الحجّة الأولى</u> : لو كان بإمكان الذّات أن تتحقّق بمعزل عن العالم ، لكان بإمكانها أن تتحقّق دون أن يكون لمحيطها المادي أو لوجود الآخرين معها دور في ذلك ، لكنّ هذا ليس صحيحا فتفاعل الإنسان مع عالمه المادي بواسطة العمل غيّر الإنسان نفسه كما يبيّن ماركس ، و "الوعي بالذّات يستوجب الوعي بالأخر" كما يبيّن هيجل .</p>
+<!-- CROP: 1423 1 14 0.07 0.245 0.24 0.425 1423_p14_enfants_sauvages -->
+<figure class="fig"><img src="https://wael-philo.b-cdn.net/figs/1423/1423_p14_enfants_sauvages.png" alt=""></figure>
+<p class="para">– <u>الحجّة الثانية</u> : حالة "الأطفال المتوحّشين" ، و هي حالة واقعية درسها الدكتور جان إطار <span dir="ltr">Jean Itard</span> ، كما جاء في كتاب لوسيان مالصون "الأطفال المتوحّشون" ، تبيّن أنّ الأطفال الذين قذفت بهم الصدف خارج المجتمع و عاشوا في عزلة عن كلّ اتّصال إنساني ، فقدوا كلّ الخصائص الإنسانية التي تؤهّلهم ليكونوا ذوات بشرية و اصبحوا أقرب إلى الحيونات منهم على البشر .</p>
+<div class="exsub">النشاط عدد 6 : أتدرّب على صياغة مقدّمة</div>
+<p class="subhead t-navy">(نافذة "كيفيات للتفكير في المسألة" ص 87) :</p>
+<p class="consigne"><b>التمرين عدد 1</b> : أصوغ تمهيدا .</p>
+<p class="consigne"><b>الموضوع</b> : هل يمثّل حضور الآخر شرط معرفة ذاتي ؟</p>
+<p class="consigne"><b>المطلوب</b> : ابحث عن دواعي طرح المشكل .</p>
+<p class="subhead t-navy">– الانجاز :</p>
+<p class="para"><u>دواعي طرح المشكل</u> : من جهة تبدو حقيقتي في متناولي في غياب الغير إذ أنّني أنا الذي أعيش حالاتي النفسية و ليس غيري و بالتالي فإنّني أبدو الأقرب إلى معرفتها و معرفة ذاتي من خلالها ، غير أنّ صورة الغير عنّي لا تتطابق في الغالب مع الصّورة التي أكوّنها عن نفسي ، علاوة على أنّه تصدر عنّي أفعال لا حصر لها أجهل أصلها و معناها ، ممّا يدعو إلى التساؤل إن كنت أستطيع معرفة ذاتي في غياب الغير أم أنّ حضور الغير شرط لمعرفة ذاتي .</p>
+<!-- END p14 -->
+<p class="consigne"><b>التمرين عدد 2</b> : أصوغ الإشكالية .</p>
+<p class="subhead t-navy">– الانجاز :</p>
+<p class="para"><u>الإشكالية</u> : كيف تتحقّق معرفة الذّات ؟ هل في غياب الآخر أم أنّ حضور الآخر يمثّل شرطا لتحقّقها؟ و إذا سلّمنا بأنّ للآخر دورا في معرفة ذاتي ، فعلى أيّ نحو و إلى أيّ حدّ ؟ ألاّ يمكن للآخر أن يغالطني ويُفسد معرفتي لذاتي عوض أن يُحقّقها ؟</p>
+<div class="exsub">النشاط عدد 7 : أتدرّب على وضع تخطيط</div>
+<p class="subhead t-navy">(نافذة "كيفيات للتفكير في المسألة" ص 88) :</p>
+<p class="consigne"><b>التمرين عدد 1</b> :</p>
+<p class="consigne"><b>الموضوع</b> : قيل : "كن ما أنت عليه" . ما رأيك ؟</p>
+<p class="consigne"><b>المطلوب</b> :</p>
+<ul class="dash">
+<li>فكّر في الزمن الذي يحيل إليه لفظ "كن" و الزمن الذي يحيل إليه لفظ "ما أنت عليه" .</li>
+<li>ابحث في المشكل الذي يطرحه الموضوع .</li>
+</ul>
+<p class="subhead t-navy">– الانجاز :</p>
+<p class="para">– <u>الزمن الذي يحيل إليه لفظ "كن" و الزمن الذي يحيل إليه لفظ "ما أنت عليه"</u> : لفظ "كن" يحيل إلى المستقبل و لفظ "ما انت عليه" يحيل إلى الحاضر .</p>
+<p class="para">– <u>المشكل الذي يطرحه الموضوع</u> : هل نوجد عى نحو حقيقي أم زائف ؟ كيف نحقّق وجودا أصيلا ينسجم مع حقيقتنا ؟ هل حقيقتنا معطاة أم أنّها مخفية عنّا ؟ هل نكتشفها أم نبنيها ؟</p>
+<!-- END p15 -->
+<p class="consigne"><b>التمرين عدد 2</b> :</p>
+<p class="consigne"><b>الموضوع</b> : قيل : هل يصنع الإنسان التاريخ أم هو صنيعة التاريخ ؟</p>
+<p class="consigne"><b>المطلوب</b> : اتبع نفس الخطوات الواردة في التمرين التمرين الاوّل .</p>
+<p class="subhead t-navy">– الانجاز :</p>
+<p class="para">– <u>إشكالية الموضوع</u> : ما هي طبيعة علاقة الإنسان بالتاريخ ؟ هل هي علاقة فعل أم انفعال ؟ هل الإنسان ذات تعلو على التاريخ و تتحكّم فيه و تحدّد وجهته ، أم أنّه ضمن التاريخ و صنيعته ؟ ألا يمكن أن يكون الإنسان في آن صنيعة التاريخ و صانعه ؟</p>
+<!-- END p16 -->
+
+<div class="chtag"><span>المحور</span> اللغة والتواصل</div>
+
+<p class="subhead t-red">التواصل و الأنظمة الرمزية</p>
+<div class="exsub">النشاط عدد 1 : أشتغل على وضعيات</div>
+<p class="subhead t-navy">(نافذة "كيفيات للتفكير في المسألة" ص 153) :</p>
+<p class="subhead t-navy">أوظّف ما درست لفهم وضعيات</p>
+<p class="consigne"><b>التمرين عدد 1</b> : <b>حوار حول أهمّية التواصل</b> .</p>
+<p class="consigne"><b>المعطى</b> : تعرّضت في الدروس إلى تطوّر وسائل التواصل في عدّة مجالات .</p>
+<p class="consigne"><b>المطلوب</b> : اختر موقفا من بين الموقفين التاليين و حاور الطرف المقابل (عمل بين تلميذين او <b>مجموعة</b> من التلاميذ) :</p>
+<ul class="dash">
+<li>موقف اوّل : يقدّم حججا تدعّم الموقف القائل بأنّ تطوّر وسائل التواصل دعّم العلاقات بين البشر و شكّل أفقا إنسانيا مشتركا .</li>
+<li>موقف ثان : يقدّم حججا مضادّة تكشف دور تطوّر وسائل الاتّصال الحديثة في تعميق الشعور بالعزلة لدى الإنسان .</li>
+</ul>
+<p class="subhead t-navy">– الانجاز :</p>
+<p class="para">– <u>الموقف الأوّل</u> : تطوّر وسائل التواصل كمًّا ، أي من حيث العدد ، مثل التلفاز و <b>الهاتف الجوّال</b> و الحاسوب ؛ و كيفًا ، أي من حيث <b>الدقّة و النجاعة</b> ، إذ نتحدّث اليوم عن الجيل الرّابع <b>أو</b> حتى الخامس من الهواتف و الصّور عالية الجودة و الصور الثّلاثية الأبعاد و الهلوغرامية ، كلّ هذا <b>دعّم العلاقات</b> بين البشر و شكّل أفقا إنسانيا مشتركا لأنّه يسّر التواصل . فالاقمار الصّناعية <b>قرّبت المسافات</b> ، و تكنولوجيا الملتيميديا ، أي تكنولوجيا الأجهزة متعدّدة الوسائط ، يسّرت تبليغ الرّسالة و الاشتراك في المعلومة آنيا ، إذا يمكن لملايين البشر في مختلف بقاع العالم أن يتابعوا في نفس الوقت نفس الأخبار أو يشاهدوا نفس الحفل أو المباريات .</p>
+<!-- CROP: 1423 1 17 0.33 0.71 0.65 0.87 1423_p17_technologie -->
+<figure class="fig"><img src="https://wael-philo.b-cdn.net/figs/1423/1423_p17_technologie.png" alt=""></figure>
+<!-- END p17 -->
+<p class="para">– <u>الموقف الثّاني</u> : تطوّر وسائل الاتّصال الحديثة له دور في تعميق الشعور بالعزلة لدى الإنسان اليوم لأنّه لا يحقّق تواصلا حقيقيا ، أي انفتاحا للبشر على بعضهم البعض ، بل على العكس يجعلهم منغلقين كلّ في عالمه الخاصّ لا يرى و لا يسمع إلاّ ما يدغدغ عوطفه و يتماشى مع أحلامه و يشبع رغباته . فبفضل التطوّر التقني الصّورة أصبحت رقمية و عالية الجودة و لكنّها افتراضية تصف واقعا غير الواقع المشترك ، واقعا خاليا يناسب جمهورا بعينه في الأفلام و الألعاب ، و الصّوت أصبح أنقى و أشجى و إن لزم أعلى و أصخب ليلائم أمزجة و اغراضا بعينها بحسب أنواع معيّنة من المريدين و المدمنين . على هذا النحو ينشدّ المدمن على الأفلام إلى أفلامه ، و المدمن على الألعاب إلى ألعابه ، فيتجاوران في المكان دون تواصل ، في فضاءات الحواسيب بالسّاعة حيث يصمّ كلّ آذانه على الآخرين بسمّاعتيه حتى لا يسمع إلاّ ما ياتيه من حاسوبه و لا ينشدّ إلاّ إلى الصّور الآتية منه ، و في المنزل حيث لكلّ تلفازه أو حاسوبه أو هاتفه الجوّال ليتابع برامجه المفضّلة ، لا بل حتى في القطار و الطّائرة و غيرها من الفضاءات حيث يحيا كلّ في عالمه الخاصّ . فعمّق هذا الشعور بالعزلة لأنّ النّاس من جهة في حاجة إلى التواصل لأنّهم في حاجة إلى الصّداقة و التنفيس عن مشاعرهم لغيرهم بوصفهم بشرا ، و لكنّهم من جهة يعيشون في عوالم متوازية لا تتقاطع لاختلاف أحلامهم و رغباتهم .</p>
+<!-- CROP: 1423 1 18 0.35 0.33 0.66 0.47 1423_p18_eloigne -->
+<figure class="fig"><img src="https://wael-philo.b-cdn.net/figs/1423/1423_p18_eloigne.png" alt=""></figure>
+<p class="consigne"><b>التمرين عدد 2 : أنجز مشروعا</b> .</p>
+<p class="consigne"><b>المطلوب</b> :</p>
+<ul class="dash">
+<li>أختار من بين الوضعيات التي درستها <b>ما ابحث فيه عن</b> وثائق مكتوبة أو مسموعة أو مرئية لبيان البعد الرمزي إمّا في اللّغة <b>أو</b> في المقدّس</li>
+<li>أتحاور في القسم مع الأطراف الأخرى حول هذه القيمة الرّمزية .</li>
+</ul>
+<!-- END p18 -->
+<p class="subhead t-navy">– الانجاز :</p>
+<p class="para">_ <u>وثائق لبيان البعد الرّمزي في للّغة</u> : كتاب "مقال في الإنسان" للفيلسوف إرنست كاسيرر <span dir="ltr">Ernst Cassirer</span> و فيه نقد للنظرية القائلة بأنّ علاقة الألفاظ بالاشياء علاقة طبيعية و في المقابل التأكيد على أنّ اللّغة وسيط رمزي بين الإنسان و الإنسان و الأشياء و الإنسان و غيره و الإنسان و نفسه (إرنست كاسيرر، مقال في الإنسان، ترجمة إحسان عبّاس، دار الأندلس، بيروت) . و كتاب "دروس في الالسنية العامّة" للألسني فردينان دو سوسور <span dir="ltr">Ferdinand De Saussure</span> و فيه تأكيد على الطّابع الإصطلاحي للّغة و كيف أنّ علاقة الدّال بالمدلول في العلامة اللّسانية هي علاقة اعتباطية و ليست طبيعية (دروس في الألسنية العامة – ترجمة : صالح الفرماوي ومحمد الشاوش ومحمد عجينة – الدار العربية للكتاب ليبيا طرابلس وتونس 1985) .</p>
+<!-- CROP: 1423 1 19 0.05 0.40 0.17 0.54 1423_p19_eliade -->
+<figure class="fig"><img src="https://wael-philo.b-cdn.net/figs/1423/1423_p19_eliade.png" alt=""></figure>
+<p class="para">_ <u>وثائق لبيان البعد الرّمزي في المقدّس</u> : يمكن أيضا الرّجوع إلى كتاب أرنست كاسيرور "مقال في الإنسان" و خاصّة كتاب ميرسيا إلياد "المقدّس و الدنيوي" حيث يبيّن صاحبه قدرة المقدّس على اختراق الدنيوي من خلال شخصيات و أحداث خارقة تؤبدّها آثار و معالم و حركات في الأسطورة و الدّين ("المقدّس و الدنيوي" ترجمة و تحقيق عبد الهادي عبّاس . دار دمشق للطّباعة و النشر) .</p>
+<p class="para">– <u>التحاور بيني و بين بقية التلاميذ يحول هذه الوثائق يُنجزُ في الفصل</u> .</p>
+<div class="exsub">النشاط عدد 2 : أشتغل على المعاني و المفاهيم</div>
+<p class="subhead t-navy">(نافذة "كيفيات للتفكير في المسألة" ص 153) :</p>
+<p class="consigne"><b>التمرين عدد 1</b> : من جهة الدّلالة .</p>
+<p class="consigne">أ – <b>المعطى</b> : "إذا حصلت أصوات متركّبة تركيبا يدلّ على المعاني ، إلاّ أنّ التركيب طبيعي و ليس إصطلاحيا فهل يسمى ذلك كلمة أو كلاما ؟</p>
+<!-- END p19 -->
+<p class="consigne">مثال الإنسان عند الرّاحة أو عند الألم يقول : "آه" أو "أه" و عند السّعال أيضا : "أه أه" ، فهذه أصوات مركّبة و حروف مؤلّفة و دلالة على معان مخصوصة ، لكنّ دلالتها على مدلولها بالطّبع لا يالإصطلاح ، فهل تسمّى أمثالها كلمات ؟</p>
+<p class="consigne"><b>– المهامّ</b> :</p>
+<ul class="dash">
+<li>استعن بما درست للإجابة على السؤالين الواردين في النصّ .</li>
+<li>هل الكلمة صوت أم يجب التمييز بينهما ؟</li>
+<li>هل تعبّر الأصوات عن الحالة النفسية للإنسان ؟</li>
+</ul>
+<p class="consigne">ب – <b>المعطى</b> : بأيّ معنى يكون رفض التواصل تواصلا ؟</p>
+<p class="consigne"><b>– المهامّ</b> : بيّن وجه الحرج في الموضوع من خلال المعنى و نقيضه .</p>
+<p class="subhead t-navy">– الانجاز :</p>
+<p class="para"><u><b>أ –</b> الاستعانة بما درست للإجابة على السؤالين الواردين في النصّ :</u></p>
+<p class="para">– <u>الإجابة على السؤال الأوّل</u> : يجب التميز بين الكلمة أو الكلام و الصّوت أو حتى تتابع الأصوات ، لأنّ الكلمة و إن كانت تتكوّن من أصوات إلاّ أنّها تصدر عن إعادة تركيب لوحدات صوتية محدّدة المخرج و العدد تسمّى "الوحدات الصوتية" أو "الحروف" أو "الصّواتم" ، متّفق عليها في إطار مجتمع ما و لسان ما مثل اللّسان العربي الذي يضمّ ثمانية و عشرين وحدة صوتية أو حرفا هي "أبجدية العربية" ، حنجرية مثل الحاء أو شفوية مثل "الباء" ، و ذلك وفق قواعد اصطلاحية . أمّا الصوت فهو طبيعي و لا يخضع إلى قواعد و يمكنه أن يتنوّع إلى ما لا نهاية له .</p>
+<p class="para">– <u>الإجابة على السّؤال الثّاني</u> : بإمكان الصّوت أن يعبّر عن الحالة النفسية للإنسان عند قوله "آه" أو أه" ، لكنّ هذه الاصوات ليست كلمات او كلاما لأنّ "دلالتها على مدلولها بالطّبع لا يالإصطلاح".</p>
+<p class="para"><u><b>ب –</b> بيان الحرج في معنى القول أن يكون رفض التواصل تواصلا :</u></p>
+<!-- END p20 -->
+<p class="para">وجه الحرج في معنى هذا القول هو ما يبدو فيه من تناقض : <b>فالتواصل هو الانفتاح على الآخر</b> و الاستماع إليه و تبادل الأفكار معه ، أمّا عدم التواصل فهو إقصاء الآخر و <b>رفض الاستماع إليه</b> و التحاور معه و يبدو من غير الممكن الجمع بين هذين المعنيين . و مع <b>ذلك يمكن تجاوز هذ الحرج</b> إن انتبهنا إلى أنّ رفض التواصل <u>موجّه إلى الآخر ليتقبّل هذه الرّسالة <b>و يعمل بها ليكون لهذا الرّفض</b> معنى</u> ، و هو ما لا يتحقّق إلاّ إذا ما وصلته هذه الرّسالة و فهمها ، بذلك يكون رفض التواصل <b>شكلا</b> من أشكال التواصل أي <u>إيصال رسالة إلى الغير</u> و إن كانت هذه الرّسالة سلبية لأنّ غايتها <b>هي وضع</b> حدّ للتواصل <u>بعد بلوغ الرّسالة</u> .</p>
+<p class="consigne"><b>التمرين عدد 2 : من جهة العلاقة</b> .</p>
+<p class="consigne"><b>المطلوب</b> : حلّل ما تتصوّر من علاقات ممكنة بين المعاني التالية :</p>
+<ul class="dash">
+<li>المقدّس و الرّمز .</li>
+<li>الصّورة ، السّلطة ، الإيديولوجيا .</li>
+<li>الوساطة الرّسالة ، اللّغة ، التواصل .</li>
+</ul>
+<p class="subhead t-navy">– الانجاز :</p>
+<p class="para">– <u>العلاقات الممكنة بين المقدّس و الرّمز :</u></p>
+<p class="para">. الاشتراط : لا وجود للمقدّس دون رموز لأنّ المقدّس يحتاج إلى ما يجليه في العالم و يكون <b>دالا</b> عليه.</p>
+<p class="para">. الاختلاف : يختلف الرّمز عن المقدّس لأنّ كلّ مقدّس يحتاج إلى الرّمز و لكن في <b>المقابل هنالك</b> رموز خارج مجال المقدّس .</p>
+<p class="para">– <u>العلاقات الممكنة بين الصّورة ، السّلطة ، الإيديولوجيا :</u></p>
+<p class="para">.التلازم : لا وجود لصورة بريئة من كلّ علاقة بالسّلطة و الإيديولوجيا و في نفس الوقت السلطة و الإيديولوجيا يحتاجان إلى الصّورة .</p>
+<!-- END p21 -->
+<p class="para">– التماهي : كلّ صورة سلطة .</p>
+<p class="para">– <u>العلاقات الممكنة بين الرّسالة و اللّغة و التواصل :</u></p>
+<p class="para">. الاختلاف : قد لا تحمل اللّغة رسالة فتكون ثرثرة و قد لا تحقّق التواصل كما في المغالطة .</p>
+<p class="para">. التلازم (بين الرّسالة و التواصل) : كلّ رسالة تهدف إلى تحقيق التواصل (و إن حالت بعض العوائق دون تحقيقه) و لا تواصل إن لم تكن هنالك رسالة .</p>
+<div class="exsub">النّشاط عدد 3 : أشتغل على الأشكلة</div>
+<p class="subhead t-navy">(نافذة "كيفيات للتفكير في المسألة" ص 155) :</p>
+<p class="consigne"><b>– السند : نصّ رجيس ديبراي 155</b> .</p>
+<p class="consigne"><b>– التمرين عدد 1 : من المعاني إلى السّؤال</b></p>
+<p class="consigne">صغ سؤالا يجيب عنه النصّ .</p>
+<p class="subhead t-navy">– الانجاز :</p>
+<p class="para"><u>السّؤال الذي يجيب عنه النصّ</u> : هل توجد لغة بريئة ؟</p>
+<p class="consigne"><b>– التمرين عدد 2 : من السّؤال على الأشكلة</b> .</p>
+<p class="consigne">حوّل السّؤال في ضوء النصّ إلى إشكالية .</p>
+<p class="subhead t-navy">– الانجاز :</p>
+<p class="para"><u>تحويل السّؤال في ضوء النصّ إلى إشكالية</u> : ماذا تمثّل اللّغة بالنّسبة إلى الإنسان ؟ هل هي وسيط بريء و محايد بيني و بين الآخر أم أنّها تحمل بالضرورة أبعادا سلطوية و إيديولوجية ؟ و إذا سلّمنا بأنّها غير بريئة فإلى أيّ مدى و ضمن أيّة شروط يمكنها أن تحقّق التواصل بين البشر ؟</p>
+<div class="exsub">النّشاط عدد 4 : أشتغل على الإمكانات</div>
+<!-- END p22 -->
+<p class="subhead t-navy">(نافذة "كيفيات للتفكير في المسألة" ص 156) :</p>
+<p class="consigne"><b>– المعطى</b> : هل الوسائط علامة تحرّر ام اغتراب ؟</p>
+<p class="consigne"><b>– المطلوب</b> :</p>
+<p class="consigne">قم ببناء موقف من الإمكانيتين و علّله .</p>
+<p class="subhead t-navy">– الانجاز :</p>
+<!-- CROP: 1423 1 23 0.05 0.32 0.28 0.39 1423_p23_facebook -->
+<figure class="fig"><img src="https://wael-philo.b-cdn.net/figs/1423/1423_p23_facebook.png" alt=""></figure>
+<p class="para">– <u>بناء موقف من الإمكانية الأولى : الوسائط علامة تحرّر</u> : تكون الوسائط علامة تحرّر إن كانت الغاية منها تحقيق التواصل بتحرير الناس من عزلتهم و تمكينهم من التعبير عن كوامنهم و المطالبة بحقوقهم .</p>
+<!-- CROP: 1423 1 23 0.05 0.40 0.27 0.535 1423_p23_tele -->
+<figure class="fig"><img src="https://wael-philo.b-cdn.net/figs/1423/1423_p23_tele.png" alt=""></figure>
+<p class="para">– <u>بناء موقف من الإمكانية الثانية : الوسائط علامة اغتراب</u> : بإمكان الوسائط أن تكون علامة اغتراب إذا كانت الغاية منها المغالطة ليصبح النّاس أدوات طيّعة للسلطة سياسيا و للاستثمار إقتصاديا كما يبيّن فوكو .</p>
+<div class="exsub">النّشاط عدد 5 : أشتغل على الحجاج</div>
+<p class="para">الحجاج</p>
+<!-- PROOFREAD: 1423 part1 p23 — heading "النّشاط عدد 5 : أشتغل على الحجاج" partly blotted on the scan; the word "الحجاج" is also printed separately beside it -->
+<p class="subhead t-navy">(نافذة "كيفيات للتفكير في المسألة" ص 156) :</p>
+<p class="consigne"><b>– التمرين عدد 1 : أدعّم إقرارا</b> .</p>
+<p class="consigne"><b>– المعطى</b> : "الصّورة اصدق من الكلمات" .</p>
+<p class="consigne"><b>– المطلوب</b> :</p>
+<ul class="dash">
+<li>وضّح كيف تكون الصّورة أصدق من الكلمات .</li>
+</ul>
+<p class="subhead t-navy">– الانجاز :</p>
+<p class="para">– <u>الحجج على أنّ الصّورة أصدق من الكلمات :</u></p>
+<!-- END p23 -->
+<p class="para">– <u>الحجّة الأولى</u> : دلالة الصّورة تُدرَك بكيفية أيسر من دلالة الكلمات حيث تحتاج الكلمات إلى متابعة خطّية خلال قراءتها و إلى مجهود تأويلي مجرّد لتحديد معناها يمكن أن يكون خاطئا في حين نرى الصّورة دفعة واحدة في كلّيتها و ندرك معناها مباشرة بكيفية ملموسة .</p>
+<p class="para">. <u>الحجّة الثّانية</u> : ما يُرى أصدق ممّا يُقرَأُ أو يُسمَعُ ، فمن المتعارف أنّنا نُصدّق ما نرى ، أمّا ما نقرأه أو نسمع عنه فقد يكون كاذبا .</p>
+<p class="para">. <u>الحجّة الثّالثة</u> : الكلمات محلّية تتغير بتغيّر اللّسان الذي نتكلّمه و تحتاج إلى أن نتعلّمها بمهارة متفاوتة من شخص إلى آخر ، أمّا الصّورة فهي كونية يفهمها الجميع دون حاجة إلى تعلّم .</p>
+<p class="consigne"><b>– التمرين عدد 2 : استبعد موقفا</b> .</p>
+<p class="consigne"><b>– المعطى</b> :</p>
+<p class="consigne">قيل : "لا يسكن الإنسان عالم الأشياء ، بل يسكن عالم الرّموز" .</p>
+<p class="consigne"><b>– المطلوب</b> :</p>
+<ul class="dash">
+<li>بأيّة حجج نستبعد اعتبار الإنسان كائنا يسكن عالم الأشياء ؟</li>
+</ul>
+<p class="subhead t-navy">– الانجاز :</p>
+<p class="para"><u>الحجج لاستبعاد اعتبار الإنسان كائنا يسكن في عالم الأشياء :</u></p>
+<!-- CROP: 1423 1 24 0.05 0.66 0.32 0.80 1423_p24_vache -->
+<figure class="fig"><img src="https://wael-philo.b-cdn.net/figs/1423/1423_p24_vache.png" alt=""></figure>
+<!-- CROP: 1423 1 24 0.69 0.755 0.95 0.88 1423_p24_grill -->
+<figure class="fig"><img src="https://wael-philo.b-cdn.net/figs/1423/1423_p24_grill.png" alt=""></figure>
+<p class="para">. <u>الحجّة الأولى</u> : لو كان الإنسان يعيش في عالم من الأشياء ، لكانت دلالة الأشياء هي نفسها لدى جميع النّاس ، لكنّ هذا ليس صحيحا بدليل أن البقرة مثلا تحيل على معنى الطعام لدى الأمريكي مثلا و على معنى المقدّس لدى الهنود ، و البومة على الشّؤم عندنا و على الحكمة لدى اليونانين . و هذا معناه أنّنا نعيش في عالم من الرّموز و ليس في عالم من الأشياء .</p>
+<!-- END p24 -->
+<p class="para">. <u>الحجّة الثّانية</u> : كلّ كائن حيّ يتفاعل مع بيئته من خلال ردود أفعال على مثيرات محيطه ، لكن عندما نقارن بين ردود أفعال الحيوانات على مثيرات محيطها و ردود أفعال الإنسان على مثيرات محيطه نلاحظ أنّ علاقة ردود أفعال الحيوانات على مثيرات محيطها هي علاقة غريزية و مباشرة ، في حين أنّ علاقة ردود أفعال الإنسان على مثيرات محيطه هي علاقة غير مباشرة تمرّ عبر أنظمة رمزية متنوّعة مثل اللّغة و الصّورة .</p>
+<div class="exsub">النّشاط عدد 6 : أشتغل على الضمنيات</div>
+<p class="consigne"><b>– التمرين عدد 1</b> .</p>
+<p class="subhead t-navy">(نافذة "كيفيات للتفكير في المسألة" ص 157) :</p>
+<p class="consigne"><b>– الموضوع</b> :</p>
+<p class="consigne">"اللّغة تقول شيئا و تفعل شيئا آخر" .</p>
+<p class="consigne"><b>– المطلوب</b> :</p>
+<p class="consigne">اكشف عن ضمنيات هذا الموضوع .</p>
+<p class="subhead t-navy">– الانجاز :</p>
+<p class="para"><u>ضمنيات الموضوع</u> : ضمنيات القول إنّ "اللّغة تقول شيئا و تفعل <b>شيئا آخر</b>" ، هي أنّها ليست أداة تواصل كما تدّعي أو "تقول" و إنّما هي أداة مغالطة كما "تفعل" ، إذ توجد مسافة بين ما تعلنه كأن تعلن في السّياسة مثلا أهمّية المبادئ و الأخوّة و الديمقراطية ، و لكنّها في الواقع تريد الإيقاع بالمتقبّلين بواسطة مغالطتهم لتطويعهم و التحكّم فيهم . علما أنّ في هذا القول مجازا فليست اللّغة هي التي تقول و تُضمر بقدر ما يتعلّق الأمر بمن يستخدمها في المحاكم و المنابر السياسية كما أشار على ذلك أفلاطون عندما نبّه إلى مخاطر الخطابة و السفسطة .</p>
+<!-- END p25 -->
+
+<div class="chtag"><span>المحور</span> الخصوصية والكونية</div>
+
+<p class="subhead t-red">الخصوصية و الكونية</p>
+<div class="exsub">النشاط عدد 1 : أشتغل على وضعيات</div>
+<p class="subhead t-navy">(نافذة "كيفيات للتفكير في المسألة" ص 212) :</p>
+<p class="consigne"><b>التمرين عدد 1 : الوضعية الأولى</b> :</p>
+<p class="consigne"><b>– المعطى</b> :</p>
+<ul class="dash">
+<li>انقل حوارا جرى بينك و بين شخص أجنبي حول ما يجعل منكما متشابهين و مختلفين في آن .</li>
+<li>تحاور مع مجموعتك أو مجموعة أخرى حول العولمة :</li>
+<li>المجموعة أ : تنتصر للعولمة .</li>
+<li>المجموعة ب : تقبلها بشروط .</li>
+</ul>
+<p class="consigne"><b>– المطلوب</b> :</p>
+<p class="consigne">* تتولى كلّ مجموعة تقديم الحجج المناسبة .</p>
+<p class="consigne">* تسعى المجموعتان إلى تأيف موقف موحّد .</p>
+<p class="subhead t-navy">– الانجاز :</p>
+<p class="para">– <u>الحوار المفترَض بيني و بين شخص أجنبي حول ما يجعل منّا متشابهين و مختلفين في آن :</u></p>
+<p class="para"><u>أنا</u> : أنا شاب من تونس وطالب جئت في عطلة إلى باريس لأقضي بعض الوقت بعد تعب السّنة الجامعية .</p>
+<p class="para"><u>الأجنبي</u> : و أنا طالب من بلجيكا جئت لنفس الغرض .</p>
+<p class="para"><u>أنا</u> : ما الذي يعجبك في باريس ؟</p>
+<!-- END p26 -->
+<p class="para"><u>الأجنبي</u> : كونها عاصمة عالمية تلتقي فيها كلّ الأجناس و يأتيها النّاس من كلّ الثّقافات .</p>
+<p class="para"><u>أنا</u> : ألا يمكن أن يكون الانتماء الثقافي لهؤلاء النّاس عائقا أمام تعايشهم و استمتاعهم بالحياة ؟ أليست لك أنت مثلا معتقدات و عادات و تقاليد مختلفة عن معتقداتي و عاداتي و تقاليدي ؟</p>
+<!-- CROP: 1423 1 27 0.06 0.155 0.26 0.345 1423_p27_timbre_mosquee -->
+<figure class="fig"><img src="https://wael-philo.b-cdn.net/figs/1423/1423_p27_timbre_mosquee.png" alt=""></figure>
+<p class="para">– <u>الأجنبي</u> : كلاّ ، إنّهم يعيشون في انسجام و يستمتعون بما يُضيفه كلّ واحد باختلافه إلى الآخرين في الملبس و المأكل و الفنّ . الموضة الباريسية تستوحي من ذوق الأفارقة و الأسيويين ، و المطاعم اليابانية تتجاور مع المطاعم الفرنسية و التونسية ، و الفرق الموسيقية تجمع بين الهنود و الانجليز ... و بالنسبة إلى المعتقد فللمسلم مسجده و للمسيحي كنيسته و هلمّ جرّا ...<b>ثمّ ألا نتشابه</b> كلّنا رغم اختلاف ثقافاتنا في كوننا بشرا لنا مقدّسات و <b>نحبّ اللّباس الجميل و</b> الاستمتاع بالطعام اللذيذ و الموسيقى ؟</p>
+<p class="para">– <u>أنا</u> : أستسيغ هذا التعايش و <b>اوافقك على ما يجمع البشر و يجعلهم متشابهين</b> ، و لكنّني في نفس الوقت أخشى أن أفقد هوّيتي إن كان <b>عليّ أن أواصل</b> تعليمي هنا و أستقرّ مع أسرتي في هذا البلد ...</p>
+<p class="para">– <u>حجج المجموعة "أ" التي تنتصر للعولمة :</u></p>
+<p class="para">. <u>الحجّة الأولى</u> : اختلاف الثّقافات نتج عن العزلة التي كانت فيها المجتمعات بسبب تواجدها في مناطق بعيدة تفصلها مسافات شاسعة ، أمّا اليوم فإنّ تطوّر المواصلات و وسائل الاتّصال حوّل الأرض إلى "قرية عالمية" ، و هذا التقارب بصدد محو المسافات و في نفس الوقت الفوارق بين الثّقافات ، فنحن اليوم نستهلك نفس المنتوجات الثّقافية و نشاهد نفس الأخبار و المباريات ، و آخر موضة أو تقليعة شعر في أمريكا نجدها من الغد في إفريقيا او آسيا ، إن لم يكن بكيفية آنية .</p>
+<p class="para">. <u>الحجّة الثانية</u> : نحن بشر قبل أن ننتمي إلى هذه الثّقافة أو تلك و تجابهنا مشاكل كونية هي مشاكل البيئة و سوء التغذية و الأوبئة ، و هي مشاكل لا يمكن حلّها إن جثمت كلّ ثقافة على اختلافها و رفضت مساعدة الغير باعتباره مختلفا و باعتبار الاختلاف خطرا يهدّدني .</p>
+<p class="para">– <u>حجج المجموعة "<b>ب</b>" التي تقبل العولمة بشروط :</u></p>
+<!-- END p27 -->
+<p class="para">. <u>الحجّة الأولى</u> : بوصفنا بشرا تجابهنا بالفعل مشاكل إنسانية كونية هي مشاكل البيئة و سوء التغذية و الأوبئة و لا يمكن بالفعل لأيّة ثقافة مهما كانت خصائصها أن تحلّها بمفردها ، لكن من أين سيسمدّ النّاس الطّاقة لمجابهة هذه المشاكل و من أين سيأتون بمساهمتهم في حلّها إن لم يكن ذلك من مخزون و إمكانات ثقافتهم ، لا احد ينفي دور اليابانيين أو الألمان في العمل اليوم على تطوير الوسائل التقنية لمجابهة الكوارث و الأوبئة في العالم ، و لكن لا احد ينفي أنّهم يستمدّون حبّهم للعمل و انضباطهم من قيم ثقافاتهم .</p>
+<!-- CROP: 1423 1 28 0.06 0.37 0.37 0.59 1423_p28_globe -->
+<figure class="fig"><img src="https://wael-philo.b-cdn.net/figs/1423/1423_p28_globe.png" alt=""></figure>
+<p class="para">. <u>الحجّة الثّانية</u> : الثّقافة العالمية اليوم هي ثقافة تأبى الاختلاف و تعمل على تنميط البشر من خلال ترسيخ سلوكات استهلاكية تخدم مصالح الرّأسمالية العالمية و الدول و الشركات الكبرى و هو ما يفسّر تزايد المواقف الرّافضة للعولمة و معاداة الثقافة الغربية كمسؤولة عن الفقر المتزايد للشعوب الضعيفة و الحال أنّه كان بإمكان العولمة أن تساعد على حلّ مشاكل هذه الشّعوب و لكن شرط أن لا يكون ذلك على حساب خصوصيتها الثّقافية أي هوّيتها . و المدافعون عن "العولمة البديلة" <span dir="ltr">alter mondialisation</span> اليوم يرون أن من شروط العيش المشترك أن تقوم العلاقات بين الشعوب على التعاون و التكامل و احترام قيم الغير ، لا على التعامل الفوقي و الاستغلال حتى يتسنى الوفاق الحقيقي بين البشر .</p>
+<p class="para">– <u>التأليف</u> : إذا كنّا نعني بالعولمة أنّ وضع البشر اليوم هو وضع عالمي و أنّ مشاكل البشر اليوم هي مشاكل عالمية و أنّ حلول هذه المشاكل اليوم لا يمكن أن تكون إلاّ عالمية أي بالتعاون على مستوى العالم بمساهمة كلّ الشعوب حسب إمكانياتها بعيدا عن الاستغلال و دون تهديد لخصوصيتها ، فإنّ هذه العولمة من شانها أن تساهم في تحقيق العيش المشترك بين كلّ البشر ، أي من شأنها أن تساعد على إرساء كونية حقيقية لا تتناقض مع التنوّع بل تتأسّ عليه و تنسجم معه .</p>
+<div class="exsub">النشاط عدد 2 : أشتغل على المعاني و المفاهيم</div>
+<!-- END p28 -->
+<p class="subhead t-red">(نافذة "كيفيات للتفكير في المسألة" ص 212) :</p>
+<div class="exsub">التمرين عدد 1 : من جهة الدّلالة :</div>
+<p class="para"><b>المعطى</b> : هل يجوز الحديث عن حضارة عالمية ؟</p>
+<p class="para"><b>المطلوب</b> : حدّد دلالتي الحضارة و العالمية .</p>
+<p class="subhead t-navy">- الانجاز :</p>
+<p class="para">- <u>دلالة الحضارة</u> : بالمعنى المتداول الحضارة هي التقدّم و التطوّر في مقابل التخلّف و البدائية ، و الفرق بينها و بين الثّقافة في المعنى المتداول هو أنّ الحضارة تخصّ الجانب المادّي من تطوّر حياة البشر في حيث أنّ الثّقافة تخصّ الجانب المعنوي و القيمي . أمّا بالمعنى الأنتروبولوجي الحديث فإنّهما مترادفتان و تعنيان "كلّ ما يضيفه الإنسان إلى الطّبيعة" و يكتسبه الفرد من محيطه الإجتماعي من لغة و معتقدات و عادات و تقاليد . و بهذا المعنى فإنّه لا وجود لمجتمعات غير متحضّرة أو غير مثقّفة .</p>
+<p class="para">- <u>دلالة العالمية</u> : هي صفة لما يُنسَب للعالم ، و في عبارة "الحضارة العالمية" لبس لأنّه لا وجود لحضارة واحدة على مستوى العالم يشترك فيها كلّ البشر رغم أنّ "المركزية الثّقافية" جعلت بعض الشعوب تعتقد أنّ حضارتها هي الحضارة العالمية التي يجب أن تقبل بها كلّ الشعوب ، و لكنّها في الواقع حضارة محليّة حاولت أن تتعمّم لتبرّر استعمارها لبقية الشعوب مثلما فعل الغرب في القرن التاسع عشر مع الشعوب غير الغربية . و هو ما ينقده علماء الأنتروبولوجيا مثل لفي ستراوس الذي يرى أنّ "الحضارة العالمية" اليوم "ليست على مسوى العالم سوى التحالف بين حضارات مختلفة تحافظ كلّ منها على خصوصيتها".</p>
+<div class="exsub">التمرين عدد 2 : من جهة العلاقة :</div>
+<p class="para"><b>المعطى</b> : هل يتعارض القول بتعدّد الثقافات مع وحدة الإنسانية ؟</p>
+<p class="para"><b>المطلوب</b> : بيّن العلاقات الممكنة بين مفهومي التعدّد و الوحدة .</p>
+<p class="subhead t-navy">- الانجاز :</p>
+<p class="para"><u>العلاقات الممكنة بين التعدّد و الوحدة :</u></p>
+<p class="para">. <u>التعارض</u> : إذ التعدّد يعني تجاوز الوحدة .</p>
+<p class="para">- <u>التلازم</u> : لأنّ الوحدة يمكن أن تشتمل على الكثرة مثلما أنّ الكثرة يمكن ان تجتمع في وحدة .</p>
+<p class="para">(العلاقة بين تعدّد الثقافات و وحدة الإنسانية يمكن أن تكون علاقة تعارض إن سادت "المركزية الثقافية" ، و تعالت كلّ ثقافة على غيرها من الثقافات ، و أنغلقت على نفسها و اعتبرت أنّ الاختلاف يهدّدها ؛ و بإمكانها أن تصبح علاقة تلازم إن غابت المركزية الثقافية و انفتحت الثقافات على بعضها و عاملت بعضها معاملة النّد للندّ و اعتبرت أنّ الاختلاف "لا يهدّددني بل يثريني" . عند ذلك تكون الإنسانية "كثرة في وحدة و وحدة في كثرة" كما يقول إدغار موران) .</p>
+<div class="exsub">التمرين عدد 3 : من جهة العلاقة :</div>
+<p class="para"><b>المعطى</b> : هل في القول بالهوية نفي للاختلاف ؟</p>
+<p class="para"><b>المطلوب</b> : وضّح طبيعة العلاقة بين مفهوم الهوّية و مفهوم الاختلاف .</p>
+<p class="subhead t-navy">- الانجاز :</p>
+<p class="para"><u>طبيعة العلاقة بين مفهوم الهوّية و مفهوم الاختلاف :</u></p>
+<!-- CROP: 1423 1 30 0.09 0.68 0.32 0.84 1423_p30_costumes -->
+<figure class="fig"><img src="https://wael-philo.b-cdn.net/figs/1423/1423_p30_costumes.png" alt=""></figure>
+<p class="para">. <u>علاقة نفي <b>أو</b> تناقض (أو تعارض)</u> : إذا اعتبرنا أنّ الهوّية تقوم على التماثل ، تماثل الشخص مع شخصه ، أو تماثل مجموعة من الأشخاص فيما بينهم داخل هوية حضارية واحدة موروثة ، عند ذلك يكون القول بالهوية نفيا للاختلاف .</p>
+<!-- CROP: 1423 1 31 0.08 0.035 0.255 0.165 1423_p31_portrait -->
+<figure class="fig"><img src="https://wael-philo.b-cdn.net/figs/1423/1423_p31_portrait.png" alt=""></figure>
+<p class="para">. <u>علاقة إقرار ، انسجام (أو تلازم)</u> : إذا اعتبرنا أنّ الهوّية الحقيقية هي "هوية حوارية" كما يقول شارل تايلور أو "هوية مركّبة" كما يقول إدغار موران ، لا تُورث بقدر ما تُبنى في علاقة بالغير المختلف ، عند ذلك تتأسّس الهوية على الاختلاف .</p>
+<div class="exsub">النشاط عدد 3 : أشتغل على الأشكلة</div>
+<!-- PROOFREAD: 1423 part1 p31 — "النشاط عدد 3 : أشتغل على الأشكلة" (shaded heading, faint) -->
+<p class="subhead t-red">(نافذة "كيفيات للتفكير في المسألة" ص 213) :</p>
+<div class="exsub">التمرين عدد 1 :</div>
+<p class="para"><b>المعطى</b> : هل يمثّل تعدّد الثقافات عائقا أمام وحدة الإنسانية ؟</p>
+<p class="para"><b>المطلوب</b> :</p>
+<p class="para">- صغ أسئلة بالنّظر إلى ما يربط بين "التعدّد" و "الوحدة" و "الثقافات" و "الإنساني" من علاقات .</p>
+<p class="para">- اعمل على بناء إشكالية انطلاقا من الأسئلة التي قمت بصياغتها .</p>
+<p class="subhead t-navy">- الانجاز :</p>
+<p class="para">- <u>الأسئلة</u> :</p>
+<p class="para">. هل من تناقض بين التعدّد و الوحدة ؟ ألا يمكن أن ينسجما ؟</p>
+<p class="para">. هل في تعدّد الثقافات نفي لوحدة الإنسانية أم تأسيس لها ؟</p>
+<p class="para">- <u>الإشكالية</u> : ماذا يمثّل تعدّد الثقافات بالنّسبة إلى الإنسانية ؟ هل يناقض وحدتها أم هو شرط لتحقّقها ؟ هل من الضروري أن يتناقض التعدّد مع الوحدة أم بإمكانها الإنسجام ؟ كيف و ضمن أيّة شروط يمكن أن ينسجم تعدّد الثقافات مع وحدة الإنسانية ؟</p>
+<div class="exsub">التمرين عدد 2 :</div>
+<p class="para"><b>المعطى</b> : هل لي أن أختار هوّيتي ؟</p>
+<p class="para"><b>المطلوب</b> : اعمل على صياغة الإشكالية انطلاقا من سؤال الموضوع .</p>
+<p class="subhead t-navy">- الانجاز :</p>
+<p class="para"><u>الإشكالية</u> : ما حقيقة الهوية ؟ هل تورَث و تُفرَض عليّ أم أختارها و لي دور في بنائها ؟ و إذا سلّمنا بأنّ لي دورا في اختيار هوّيتي و بنائها فبأيّ معنى و ضمن أيّة شروط ؟</p>
+<div class="exsub">النشاط عدد 4 : أشتغل على إمكانات</div>
+<!-- PROOFREAD: 1423 part1 p32 — "النشاط عدد 4 : أشتغل على إمكانات" (shaded heading, faint) -->
+<p class="subhead t-red">(نافذة "كيفيات للتفكير في المسألة" ص 213) :</p>
+<p class="para"><b>المعطى</b> : هل الثقافة عامل انقسام الإنسانية أم وحدتها ؟</p>
+<p class="para"><b>المطلوب</b> :</p>
+<p class="para">- استخرج المواقف الممكنة من الموضوع .</p>
+<p class="para">- قم ببناء موقف منها .</p>
+<p class="subhead t-navy">- الانجاز :</p>
+<p class="para">- <u>المواقف الممكنة من الموضوع</u> :</p>
+<p class="para">. الثّقافة عامل انقسام بالنّسبة على الإنسانية .</p>
+<p class="para">. الثّقافة عامل وحدة بالنّسبة إليها .</p>
+<p class="para">- <u>موقفي منها</u> :</p>
+<p class="para">بإمكان الثّقافة أن تلعب الدّورين بحسب شروط :</p>
+<p class="para">. إذا سادت "المركزية الثّقافية" و تعالت كلّ ثقافة على غيرها من الثّقافات و انغلقت على نفسها و رأت في الاختلاف تهديدا لها ، فإنّ الثّقافة تكون عامل انقسام .</p>
+<p class="para">. أمّا إذا غابت المركزية الثقافية و انفتحت الثقافات على بعضها و عاملت بعضها معاملة النّذ للندّ و اعتبرت أنّ الاختلاف "لا يهدّدني بل يثريني" ، فإنّ الثّقافة تصبح عامل وحدة .</p>
+<div class="exsub">النشاط عدد 5 : أشتغل على الحجاج</div>
+<p class="subhead t-red">(نافذة "كيفيات للتفكير في المسألة" ص 213) :</p>
+<div class="exsub">التمرين عدد 1 : اتّبع مسارا حجاجيا لتحليل أطروحة</div>
+<p class="para"><b>المعطى : نص برتراند رسّل ص 213</b></p>
+<p class="para"><b>المهامّ</b> :</p>
+<p class="para">- بيّن كيف أنّ الاختلاف يكون باعثا على معرفة الإنسان لهوّيته .</p>
+<p class="para">- إلى أيّ مدى يمكن أن نعتبر مشاعر الحبّ سبيلا لتوحيد الإنسانية ؟</p>
+<p class="para">- هل يحقّ للإنسان أن يتطلّع إلى بناء عالم بلا عداوة و لا احقاد ؟</p>
+<p class="para">- ما هي بواعث المحبّة و الكراهية بين البشر ؟</p>
+<p class="subhead t-navy">- الانجاز :</p>
+<p class="para">- <u>الاختلاف باعث على معرفة الإنسان لهوّيته</u> : حسب النّص "نحبّ أبناء وطننا و نكره الأجانب" أي نتمسّك بهويتنا و نكره الاختلاف ، لكنّ الاختلاف ضروري لمعرفة هويتنا ، لأنّه مناسبة لمعرفة نسبية ثقافاتنا ، و وجود ثقافات أخرى تختلف عن ثقافتنا ؛ و لأنّ الهوية لا تورث فحسب ، بل تُبنى من خلال الحوار مع الآخر المختلف .</p>
+<p class="para">- <u>مدى اعتبار مشاعر الحبّ سبيلا لتوحيد الإنسانية</u> : حسب النصّ مشاعر الحبّ لا توحّد البشر لأنّها لا تتوجّه إلاّ إلى أبناء وطننا الذين يشبهوننا ، و أمّا الغرباء الأجانب المختلفين عنّا فإنّنا نكرههم و نقصيهم . و بالتالي لا يكون الحبّ سبيلا لتوحيد الإنسانية إلاّ إذا امتدّ إلى الغريب و إلى الغير المختلف .</p>
+<p class="para">- <u>حقّ التطلّع إلى بناء عالم بلا عداوة و لا احقاد</u> : يحقّ للإنسان أن يتطلّع إلى بناء عالم بلا عداوة و لا أحقاد ، لكنّ هذا يتطلّب مقاومة للذّات و انفتاحا على الآخر المختلف و احتكاما للعقل حتى يتذكّر النّاس كلّهم أنّهم يشتركون جميعا في الإنسانية رغم اختلافهم .</p>
+<p class="para">- <u>بواعث المحبّة و الكراهية بين البشر</u> : حسب النصّ بواعث المحبّة هي التماثل و البحث عن الشّبيه ،و بواعث الكراهية هي الاختلاف و الهروب من الغريب (و لكنّ الآخر هو في نفس الوقت "المماثل و المباين" كما يقول إدغار موران ، و بقدر ما نرى فيه المماثل فإنّنا نحبّه ، فهو "الصّديق" و هذا ما يجب أن يكون ، و بقدر ما نرى فيه المباين فإنّنا نكرهه و نرى فيه "العدوّ" و هذا ما يجب الحدّ منه).</p>
+<div class="exsub">التمرين عدد 2 : ابداء موقف و تدعيمه</div>
+<p class="para"><b>المعطى</b> :</p>
+<!-- CROP: 1423 1 34 0.05 0.44 0.32 0.60 1423_p34_food -->
+<figure class="fig"><img src="https://wael-philo.b-cdn.net/figs/1423/1423_p34_food.png" alt=""></figure>
+<p class="para">لقد قرات عن آداب الاكل في العديد من مناطق العالم فعرفت أنّ تذوّق الأطعمة و اختيارها يختلف من بلد إلى آخر ؛ فثمّة من يأكل الجراد و يفضّله على لحوم الضأن ، و ثمّة من يأكل لحوم الثعابين بعد اعدادها إعدادا مخصوصا ، و ثمّة من يجد في سيقان الضفادع طبقا شهيا لا مثيل له . و قد اعتبر البعض انّ آكلي الجراد و لحوم الثعابين إنّما يدلّ سلوكهم على وحشيتهم و على منزلة دونية يحتلّونها في هذا العالم .</p>
+<p class="para"><b>المطلوب</b> : ابد رأيك في هذا الموقف و دعّم جوابك بحجج و تعليلات .</p>
+<p class="subhead t-navy">- الانجاز :</p>
+<p class="para"><u>رأيي في هذا الموقف</u> : هذا موقف عفوي ناتج عن التمركز حول الذّات و لا يمكن أن يؤدي إلاّ إلى الإقصاء المتبادل و استحالة التعايش بين البشر باعتبار أنّ كلّ واحد من داخل ثقافته سيرى أنّ ثقافته هي الأفضل في حين لا يوجد فرق في الدّرجة بين الثّقافات ، بل فقط فرق نوعي .</p>
+<div class="exsub">النشاط عدد 6 : أتدرّب على الكشف عن الرّهانات و عن الرّاهنية</div>
+<p class="subhead t-red">(نافذة "كيفيات للتفكير في المسألة" ص 214) :</p>
+<div class="exsub">التمرين عدد 1 :</div>
+<p class="para"><b>المعطى</b> : ما وجاهة القول بأنّ العولمة محرقة عالمية ؟</p>
+<p class="para"><b>المطلوب</b> : اكشف عن الرّهانات التي يتضمّنها الموضوع .</p>
+<p class="subhead t-navy">- الانجاز :</p>
+<p class="para"><u>رهانات الموضوع</u> : يراهن الموضوع على التشكيك في الموقف الذي يثمّن العولمة و يرى فيها السّبيل لتحقيق خلاص الإنسانية من أزماتها الاقتصادية و السياسية .</p>
+<div class="exsub">التمرين عدد 2 :</div>
+<p class="para"><b>المعطى</b> : أيّ غنم نجنيه من تبنّينا لفكرة الحضارة العالمية ؟</p>
+<p class="para"><b>المطلوب</b> : اكشف عن راهنية القول بحضارة عالمية مدعّما موقفك بأمثلة .</p>
+<p class="subhead t-navy">- الانجاز :</p>
+<p class="para"><u>راهنية القول بحضارة عالمية</u> : للموضوع راهنية لأنّنا نحتاج اليوم بالفعل إلى فكرة الحضارة العالمية التي يكون فيها لكلّ الحضارات مكانا لوضع حدّ للانقسامات و الصّراعات الناتجة عن ادّعاء بعض الحضارات أنّها الأفضل و أنّ من حقّها أن تهيمن على العالم و من واجب كلّ الشّعوب أن تأخذ بها ، و هو ما عاينه كلود لفي ستراوس و أشار إليه في "العرق و التاريخ" و كذلك ما عاينه صاموال هنتجتون في "صدام الحضارات" الذي أصبح يهدّد الإنسانية .</p>
+
+<div class="chtag"><span>المحور</span> العلم بين الحقيقة والنمذجة</div>
+
+<p class="subhead t-red">العلم بين الحقيقة و النمذجة</p>
+<div class="exsub">النشاط عدد 1 : أشتغل على وضعيات</div>
+<p class="subhead t-red">(نافذة "كيفيات للتفكير في المسألة" ص 312) :</p>
+<p class="para">أوظّف ما درست لفهم وضعيات</p>
+<div class="exsub">التمرين عدد 1 :</div>
+<p class="para"><b>الوضعية : حوار بين صديقين ص 312</b></p>
+<!-- CROP: 1423 1 36 0.035 0.36 0.20 0.485 1423_p36_maths -->
+<figure class="fig"><img src="https://wael-philo.b-cdn.net/figs/1423/1423_p36_maths.png" alt=""></figure>
+<p class="para">* <b>أ</b> . — إنّني لا أقدر على متابعة درس في الرّياضيات نظرا لطابعها المجرّد لكنّني أجد متعة عندما يكلّفني والدي بإصلاح عطب في المنزل .</p>
+<!-- CROP: 1423 1 36 0.18 0.33 0.36 0.52 1423_p36_mechanic -->
+<figure class="fig"><img src="https://wael-philo.b-cdn.net/figs/1423/1423_p36_mechanic.png" alt=""></figure>
+<p class="para">* <b>ب</b> . — أنا عكسك تماما إذ أنّني أنفر من أيّ عمل يدوي و لا أجد صعوبة في حلّ المعادلات الرّياضية المستعصية .</p>
+<p class="para"><b>المطلوب</b> :</p>
+<p class="para">- تأمّل هذا الحوار و استخلص الفكرة الأساسية أو النظرية التي تتوافق معها .</p>
+<p class="para">- ابحث في النّصوص الواردة في نافذة سندات التفكير عن أثر لمسار هذا الحوار .</p>
+<p class="para">- هل تجد في تعرّضت إليه حول الممذجة ما يخوّل التعبير عن هذا الحوار ؟</p>
+<p class="subhead t-navy">- الانجاز :</p>
+<p class="para">- <u>الفكرة الأساسية التي تتوافق مع الحوار</u> : يتوافق هذ الحوار مع فكرة أساسية هي أنّ العلم متميّز عن التقنية تميّز المعرفة المجرّدة عن العمل التطبيقي ، فيجد البعض صعوبة في ممارسة العلم لأنّه مجرّد ، و متعة في التقنية لانّها ملموسة ، و في المقابل ثمّة من ينفر من التقنية بما هي عمل يدوي و لا يجد صعوبة في ممارسة العلم رغم أنّه مجرّد مثل حلّ المعادلات الرّياضية المستعصية .</p>
+<p class="para">- <u>الإجابة على السؤال الثّاني</u> : نجد أثرا لمسار هذا الحوار في نصّ إدغار موران "العلم و التقنية و السياسة" ص 276 حيث يؤدّي القول بالفصل بين العلم و التقنية إلى اعتبار العلم محايدا باعتباره بحثا مجرّدا بعيدا عن الغايات العملية في حين أنّ التقنية ، لأنّها بالذّات عملية ، غير محايدة : "انّ العلم أخلاقي ، أمّا التقنية فهي متعدّدة الأوجه مثل لغة "إزوب" <span dir="ltr">Esope</span> " ، بإمكانها أن تُستَخدَم لصالح الإنسان أو ضدّه .</p>
+<p class="para">- <u>الإجابة على السؤال الثّالث</u> : هذا الحوار يمكن تنزيله في إطار البراديغم الكلاسيكي الذي كان يفصل في العلم بين النظري و التطبيقي في حين أنّ العلم اليوم يقطع مع هذا البراديغم و يقوم على براديغم جديد لا يفصل بين هذين البعدين بما أنّ لكلّ نموذج بالضّرورة ثلاثة أبعاد لا يمكن الفصل بينها – إلاّ منهجيا – و هي البعد <u>التركيبي</u> و البعد <u>الدّلالي</u> و البعد <u>التداولي</u> : يجب أن يكون النموذج العلمي منسجما داخليا أي <u>حَسَنَ التركيب</u> ، و يجب أن <u>يتلاءم</u> (و ليس يتطابق) مع معطيات الملاحظة و بالتالي قادرا على أنّ <u>يدلّ</u> على شيء ما في الواقع (بإمكان النموذج أن يكون افتراضيا و أن يدلّ على شيء في الواقع كأن يدلّ نموذج "طول الموجة" مثلا على اختلاف الألوان حسب النظرية الموجية) ، و أن يمكّن من تحقيق <u>نتائج نظرية و عملية</u> عندما <u>نتداوله</u> . يمكن تلخيص هذا الكلام بقولنا : "كلّ نموذج هو نموذج لشيء ما من أجل شيء ما" . أي أنّ كلّ نموذج هو "معرفة فاعلة" كما يقول لوموانييه ، أي أنّه "مشروع" له بعد عملي أو تقني حاضر فيه منذ البداية ، و هو ما نجده اليوم فيما يسمى "علوم المهندس" <span dir="ltr">les sciences de l’ingénieur</span> التي تجمع بين النظري و التطبيقي بتوسّط النمذجة .</p>
+<div class="exsub">التمرين عدد 2 :</div>
+<p class="para"><b>الوضعية : أحلّل مشروعا ص 312</b></p>
+<p class="para"><b>الوضعية</b> : أبحث عن صور لتصاميم مصغّرة في الهندسة المعمارية و العلوم الطبّية ، و العلوم الفيزيائية ، و العلوم الهندسية .</p>
+<p class="para"><b>المطلوب</b> :</p>
+<p class="para">- أبيّن القاسم المشترك بينها .</p>
+<p class="para">- أتأمّل هذه النماذج و أحدّد وظيفة كلّ واحد منها بالنّظر إلى المجال الذي ينتسب إليه .</p>
+<p class="para">- أستنتج الآليات الذهنية و المهارية التي اعتمدت لإنجاز كلّ تصميم أو نموذج .</p>
+<p class="para">- أتبيّن جنس العلاقة بين التصميم و التمثّل أو الواقع الذي يحيل إليه سواء أكان موضوعا طبيعيا أو واقعة او فكرة .</p>
+<p class="subhead t-navy">- الانجاز :</p>
+<p class="para">- <u>صور لبعض التصاميم المصغّرة</u> : تصميم مصغّر للنظام الشمسي ، و ثان لقنطرة معلّقة ، و الثّالث لبركان :</p>
+<!-- CROP: 1423 1 38 0.10 0.36 0.94 0.52 1423_p38_models -->
+<figure class="fig"><img src="https://wael-philo.b-cdn.net/figs/1423/1423_p38_models.png" alt=""></figure>
+<p class="para">- <u>القاسم المشترك بينها</u> : القاسم المشترك بين هذه التصاميم هي أنّها بناءات مادّية مصغّرة لأشياء طبيعية أو صنعية تحترم نسب الأجزاء فيما بينها و بالنّسبة إلى الكلّ كما هي في هذه الأشياء.</p>
+<p class="para">- <u>وظيفة هذه التصاميم</u> : التصميم الأوّل يخصّ النظام الشمسي ممّا يساعد على فهم تعاقب اللّيل و النهار و الفصول و توقّع الخسوف و الكسوف و هو ما يساعد على تنظيم أعمال البشر و اتّخاذ بعض القرارات . التصميم الثّاني هو تمثيل مادّي مصغّر لجسر معلّق <span dir="ltr">un pont suspendu</span> للقيام ببعض الاختبارات عليه فيما يخصّ استقراره و مدى قدرته على تحمّل ثقل العربات . أمّا التصميم الثّالث فهو تمثيل ثلاثي الأبعاد لجوف بركان لمعرفة آلية فورانه لتوقّع أوقات انفجاره لاتّخاذ التدابير اللاّزمة عن الإقتضاء .</p>
+<p class="para">- <u>الآليات الذهنية التي اعتمدت في هذه التصاميم</u> : الآليات الذهنية التي اعتمدت في هذه التصاميم هي التخطيط و الاختزال و الإهمال و الإجرائية : إنشاء التصميم يصدر عن تصوّر لغاية ما يريد تحقيقها عالم الفلك ، أو المهندس المعماري ، أو العالم الجيولوجي ؛ و تحقيق هذه الغاية يفرض عليهم التركيز على جوانب من موضوعهم دون أخرى ، مثل التركيز على بنية الشيء المراد إنشاء تصميم مصغّر له ، و النسّب بين أجزائه دون أيّ شيء آخر .</p>
+<p class="para">- <u>العلاقة بين التصميم و الواقع الذي يحيل إليه</u> : العلاقة بين التصميم و التمثّل أو الواقع الذي يحيل إليه سواء أكان موضوعا طبيعيا أو واقعة أو فكرة هي علاقة بنيوية و غائية ، و بالتالي فإنّ التصميم ليس مجرّد صورة مطابقة للموضوع و إنّما هو "مشروع" أي "تمثيل لشيء ما من أجل شيء ما" .</p>
+<div class="exsub">النشاط عدد 2 : أشتغل على المعاني و المفاهيم</div>
+<p class="subhead t-red">(نافذة "كيفيات للتفكير في المسألة" ص 312) :</p>
+<p class="para">أوظّف ما درست لفهم وضعيات</p>
+<div class="exsub">التمرين عدد 1 : من جهة الدّلالة ص 313</div>
+<p class="para"><b>المعطى</b> : الواقع وقائع .</p>
+<p class="para"><b>المطلوب</b> : حلّل في فقرة دلالة المعنى الوارد في المعطى و بيّن كيف يستدعي تعريف الواقع في صيغة الجمع لا في صيغة المفرد .</p>
+<p class="subhead t-navy">- الانجاز :</p>
+<!-- CROP: 1423 1 39 0.04 0.60 0.27 0.72 1423_p39_newton -->
+<figure class="fig"><img src="https://wael-philo.b-cdn.net/figs/1423/1423_p39_newton.png" alt=""><figcaption>نيوتن</figcaption></figure>
+<!-- CROP: 1423 1 39 0.625 0.755 0.89 0.88 1423_p39_einstein -->
+<figure class="fig"><img src="https://wael-philo.b-cdn.net/figs/1423/1423_p39_einstein.png" alt=""><figcaption>إنشتين</figcaption></figure>
+<p class="para"><u>الفقرة</u> : إذا سلّمنا بأنّ الواقع ليس معطى ، و إنّما هو ما نبنيه بالذّهن من خلال نماذج ، كما تؤكّد على ذلك النظرية البنائية ، فإنّ الواقع يصبح وقائع ، بما أنّه لا يوجد نموذج واحد شامل و كامل لتمثّل الواقع بل نماذج عديدة و مختلفة قادرة بكيفية متعادلة على وصف الواقع . فالواقع كما نتمثّله من خلال النموذج الميكانيكي النيوتني ، ليس الواقع كما نتمثّله من خلال النسبية الإنشتينية أو نظرية الكمّات التي أنشأها ماكس بلانك و تؤكّدها علاقات الإرتياب التي وضعها هيزنبرغ . و على هذا النحو فإنّ تاريخ العلوم يكشف عن أنّ الواقع لا يجب أن يحمل على معنى الوحدة بل على معنى الكثرة ، ما دام كلّ نموذج علمي جديد هو تمثّل جديد للطبيعة و ما دام كلّ براديغم جديد للعلم هو براديغم جديد للواقع.</p>
+<div class="exsub">التمرين عدد 2 : من جهة العلاقة ص 313</div>
+<p class="para"><b>المعطى</b> : العلم نمذجة .</p>
+<p class="para"><b>المطلوب</b> :</p>
+<p class="para">- تبيّن نوع العلاقة بين المعنيين .</p>
+<p class="para">- ابحث عمّ يستوجبه الجمع بينهما من تحديد دلالي .</p>
+<p class="para">- استخلص ما يترتّب عن هذا الرّبط من تحديد سياقي في التحليل .</p>
+<p class="subhead t-navy">- الانجاز :</p>
+<p class="para">- <u>العلاقة بين العلم و النمذجة</u> : هذه العلاقة هي علاقة تماهي بمقتضاها "يتماهى" العلم مع النمذجة أي أنّه يُرَدّ إليها أو يكوّن معها شيئا واحدا : العلم <u>(هو)</u> نمذجة . أي أنّه فعل بناء لنماذج من أجل فهم الواقع و توقّعه و الفعل فيه .</p>
+<p class="para">- <u>ما يستوجبه الجمع بين المعنيين</u> : ما يستوجبه الجمع بين هذين المعنيين هو التخلّي عن التصوّر الوضعي الذي يجعل العلم قائما على المطابقة و كأنّه صورة تعكس الواقع و في المقابل استبدال هذا التصوّر بتصوّر آخر يكون بموجبه العلم نشاطا بنائيا .</p>
+<p class="para">- <u>ما يتطلّبه هذا الرّبط من تحديد سياقي لمفهومي العلم و النموذج</u> : يتطلّب هذا الرّبط تحديدا للنموذج كتمثيل مبسّط للواقع لفهمه و توقّعة و الفعل فيه ، و للعلم كإنشاء نظري أي كفعل بناء و ليس كعملية إكتشاف كما كان يُعتقد في المرحلة الكلاسيكية أو لدى الوضعيين .</p>
+<div class="exsub">النشاط عدد 3 : أشتغل على الاشكلة</div>
+<p class="subhead t-red">(نافذة "كيفيات للتفكير في المسألة" ص 313) :</p>
+<div class="exsub">التمرين عدد 1 : من المعاني إل السّؤال</div>
+<p class="para"><b>المطلوب</b> : حوّل كلّ معنى من المعاني التالية : الواقع ، التفسير ، العلم ، النمذجة ، الحقيقة ، إلى سؤال.</p>
+<p class="subhead t-navy">- الانجاز :</p>
+<p class="para">- <u>تحويل كلّ معنى من هذه المعاني إلى سؤال</u> : ما الواقع ؟ ما التفسير ؟ ما الغاية من العلم ؟ ما هي آليات النمذجة ؟ هل الحقيقة نهائية ؟</p>
+<div class="exsub">التمرين عدد 2 : من السؤال إلى الأشكلة</div>
+<p class="para"><b>المطلوب</b> : حوّل الأسئلة التي كوّنتها في التمرين السّابق إلى إشكاليات مراعيا ما تستوجبه من رواط .</p>
+<p class="subhead t-navy">- الانجاز</p>
+<p class="para">- <u>تحويل الأسئلة التي كوّنتها إلى إشكاليات</u> :</p>
+<p class="para">. <u>إمكانية أولى</u> : ما الواقع ؟ هل يفسّره العلم أم ينمذجه ؟ ما هي آليات النمذجة و هل تكشف عن الحقيقة النّهائية للواقع ؟</p>
+<p class="para">. <u>إمكانية ثانية</u> : ما الغاية من العلم ؟ هل يهدف إلى تفسير الواقع للتوصّل إلى حقيقته النهائية أم أنّه يهدف إلى نمذجته ؟ و إذا سلّمنا بأنّ العلم يهدف إلى نمذجة الواقع فما هي آليات هذه النمذجة و ما هي قيمتها بالنّسبة إلى العلم و الإنسان معا ؟</p>
+<div class="exsub">النشاط عدد 4 : أشتغل على الحجاج</div>
+<p class="subhead t-red">(نافذة "كيفيات للتفكير في المسألة" ص 314) :</p>
+<div class="exsub">التمرين عدد 4 : اتباع مسار حجاجي لتحليل موقف</div>
+<p class="para"><b>- المعطى : "ردّ النمذجة إلى عملية تخيّلية افتراضية ، يجعل منها ضربا من الترف الفكري و ملهاة للعقل" .</b></p>
+<p class="para"><b>- المطلوب</b></p>
+<p class="para">. أحدّد دلالة هذا الموقف و أتبيّن سياقه .</p>
+<p class="para">. استحضر مكتسباتي حول هذا السّياق .</p>
+<p class="para">. اتخيّر أسلوب الحجاج المناسب لتأكيد هذا الموقف .</p>
+<p class="para">. أستحضر حججا تتلاءم مع الأسلوب الذي تخيّرته .</p>
+<p class="subhead t-navy">- الانجاز :</p>
+<p class="para">- <u>أحدّد دلالة هذا الموقف و أتبيّن سياقه</u> : "الردّ" هو "الإرجاع" ، و هو سياقيا "التقليص و"الاختزال" <span dir="ltr">la réduction</span> ، بما أنّ النمذجة لا تؤخَذُ بكلّ أبعادها ، بل "تُرَدّ" ، أي "تُختزَل" إلى "عملية تخيّلية افتراضية" ممّا "يجعل منها ضربا من الترف الفكري و ملهاة للعقل " . و يمكن تنزيل هذا الموقف في إطار نقد الرؤية الاختزالية للنمذجة ، و ذلك بالنظر إلى نتائجها السلبية ، إذ تُصبح النمذجة على هذا النحو نشاطا كماليا و نوعا من اللّهو يُبعد العقل عن نشاطات أكثر جدّية و فائدة للإنسان .</p>
+<!-- CROP: 1423 1 42 0.02 0.612 0.165 0.762 1423_p42_portrait -->
+<figure class="fig"><img src="https://wael-philo.b-cdn.net/figs/1423/1423_p42_portrait.png" alt=""></figure>
+<p class="para">- <u>استحضر مكتسباتي حول هذا السّياق</u> : ليس النموذج صورة مطابقة للواقع لأنّه يقوم على "استراتيجيا إهمال" كما يقول باسكال نوفال <span dir="ltr">Pascal Nouvel</span> ، و بالتالي "لا يجب الخلط بين النموذج و الواقع" كما يقول سيلفان أورو <span dir="ltr">Sylvain Auroux</span> ، فـ"الخريطة ليست الأرض" بحسب تعبير كورزيبسكي . و ما يختزله النموذج يُصاغ في لغة صورية مجرّدة ، على نحو أكسيومي ، لا يؤخذ فيه المحتوى بعين الاعتبار ، بل فقط العلاقات المنطقية الصّورية بين الأكسيومات المتواضع عليها و النتائج (انظر <b>الملحق رقم</b> 1 من هذا الكتاب : <b>النمذجة</b>).</p>
+<p class="para">- <u>أتخيّر أسلوب الحجاج المناسب لتأكيد هذا الموقف</u> : يمكن تأكيد هذا الموقف بـ"حجاج بواسطة التعريف" (انظر <b>الملحق رقم 2 : الاستنتاج بواسطة التعريف</b>) ، أي من خلال العودة إلى تعريف النموذج و مقارنة ما تؤول إليه النمذجة بالاختزال مع يشترطه هذا التعريف .</p>
+<!-- CROP: 1423 1 43 0.36 0.22 0.70 0.42 1423_p43_helicopter -->
+<figure class="fig"><img src="https://wael-philo.b-cdn.net/figs/1423/1423_p43_helicopter.png" alt=""><figcaption><span dir="ltr">Jean-Louis Le</span></figcaption></figure>
+<p class="para">- أستحضر حججا تتلاءم مع الأسلوب الذي تخيّرته : النموذج هو تمثيل مبسّط للواقع بواسطة خطوط ، أو رسوم ، أو جداول بيانية ، أو معادلات رياضية من أجل تفسيره و توقّعه و الفعل فيه . و هو بالتالي يعتمد على التخيّل و الافتراض لأنّه يتجاوز "الواقع الرّاهن" أو "الملاحَظ" إلى "واقع افتراضي" كما يقول جيل غاستون قرانجى (انظر التمرين الأوّل) ، غير أنّه لا يتوقّف عند ذلك إذ يهدف إلى التفسير و و التوقّع و الفعل . و بالتالي فإنّ التوقّف عند عملية التخيّل و الافتراض يشوّه النمذجة بما هي فعل بناء النماذج و يجعل منها فقط "ضربا من الترف الفكري و ملهاة للعقل " ، و الحال أنّ النموذج "مشروع" كما يقول لوموانيي ، أي أنّه من البداية مرتبط بالواقع إذ يهدف إلى تفسيره و توقّعه ، و يهدف إلى النجاعة أي إلى تحقيق غاية عملية ، أي "فائدة" ما . إن "كلّ نموذج هو نموذج لشيء من أجل شيئا ما" ، و فيه ثلاثة أبعاد هي "البعد التركيبي" ، و "البعد الدلالي" و ا"لبعد التداولي" . و اختزاله في الافتراض و التخيّل لا يتجاوز "بعده التركيبي" القائم على الأكسمة التي قد تفهم بمعنى الابتعاد عن الواقع بما أنّ الأكسيومات موغلة في الصّورنة و التجريد ، في حين أنّ" البعد التركيبي" في النموذج لا ينفصل عن بعديه الآخرين ، "البعد الدلالي" الذي يخصّ علاقة النموذج بمعطيات الواقع بواسطة التجريب ، و "البعد التداولي" الذي يخصّ الغاية من بناء النموذج ، و هي في الآن معرفية و عملية . (انظر الملحق رقم 1 من هذا الكتاب : النمذجة)</p>
+
+<div class="chtag"><span>المحور</span> العمل: النجاعة والعدالة</div>
+
+<p class="subhead t-red">العمل : النجاعة و العدالة</p>
+<div class="exsub">النشاط عدد 1 : أشتغل على أصناف المواضيع</div>
+<p class="subhead t-red">(نافذة "كيفيات للتفكير في المسألة" . الكتاب المدرسي ج 2 . ص 92)</p>
+<p class="para"><b>تنبيه</b> : بالإضافة إلى صيغ المواضيع المشار إليها في الجزء الأوّل ص 85 ، يمكن أن يَرِد الموضوع في صيغة زوج مفهومي كالآتي : العمل و الاغتراب .</p>
+<p class="para"><b>المعطى</b> : مثال عن أسئلة ممكنة يطرحها هذا الموضوع :</p>
+<p class="para">- هل يؤول العمل دائما إلى الإغتراب ؟</p>
+<p class="para">- هل إنّ كلّ عمل يؤدّي إلى الإغتراب ؟</p>
+<p class="para">- ما هو الإغتراب الناجم عن العمل ؟</p>
+<p class="para">- ما شروط فكّ الارتباط بين العمل و الاغتراب ؟</p>
+<p class="para">- لماذا التفكير في العلاقة بين العمل و الاغتراب ؟</p>
+<p class="para">- هل ثمّة ما يشرّ اليوم لطرح موضوع العمل و الغتراب ؟</p>
+<p class="para">- ما جنس العلاقة بين العمل و الاغتراب هل هي علاقة سبب بنتيجة أم علاقة تضادّ أم علاقة تطابق؟</p>
+<div class="exsub">التمرين عدد 1 :</div>
+<p class="para">الموضوع : الإنصاف و المال .</p>
+<div class="exsub">التمرين عدد 2 :</div>
+<p class="para">الموضوع : العدالة و المنفعة .</p>
+<p class="para"><b>المطلوب</b> : صياغة أسئلة يطرحهما هذان الموضوعان قريبة ممّا ورد في المثال مع ترتيب هذه الأسئلة وفق تمشّ منطقي (حتى تكون هذه الأسئلة إشكاليات) .</p>
+<p class="subhead t-navy">- الانجاز :</p>
+<p class="para">- <u>بالنّسبة إلى الموضوع الاوّل</u> : ما هي طبيعة العلاقة بين الإنصاف و المال ؟ هل هي علاقة إقصاء أم تلازم ؟ هل يقتضي البحث عن المال التخلّي عن مطلب الإنصاف ؟ لماذا التفكير في العلاقة بين الإنصاف و المال اليوم ؟ ما شروط التضادّ بينهما و ما شروط التلازم ؟</p>
+<p class="para">- <u>بالنّسبة إلى الموضوع الثّاني</u> : ما جنس العلاقة بين العدالة و المنفعة ؟ هل تؤدّي المنفعة إلى التخلّي عن العدالة ؟ هل تقصي العدالة المنفعة أم تشترطها ؟ هل ثمّة ما يشرّع اليوم لإمكانية الجمع بينهما ؟</p>
+<div class="exsub">النشاط عدد 2 : أشتغل على المعاني و المفاهيم</div>
+<p class="subhead t-red">(نافذة "كيفيات للتفكير في المسألة" . الكتاب المدرسي ج 2 . ص 92)</p>
+<div class="exsub">- التمرين عدد 1</div>
+<p class="para">أبحث عن معان مجاورة لمعنيي النجاعة و العدالة</p>
+<p class="subhead t-navy">- الانجاز :</p>
+<table>
+<tr><td>النجاعة</td><td>العدالة</td></tr>
+<tr><td>المردودية</td><td>الإنصاف</td></tr>
+<tr><td>المنفعة</td><td>المساواة</td></tr>
+</table>
+<div class="exsub">- التمرين عدد 2</div>
+<!-- CROP: 1423 1 46 0.04 0.08 0.20 0.23 1423_p46_money -->
+<figure class="fig"><img src="https://wael-philo.b-cdn.net/figs/1423/1423_p46_money.png" alt=""></figure>
+<p class="para"><b>المعطى</b> : النصّ : لما صار المال مكتسبا القدرة على اشتراء كلّ شيء ، و لما صار مكتسبا القدرة على امتلاك كلّ الأشياء ، فإنّه بذلك غدا موضوع الاكتساب الفائق عينه . فكليّة قدرته تلك هي سلطان ماهيته . و هو لذلك يُعتَبر ذا سلطان (...) إنّ المال هو الوسيط بين الحاجة و الموضوع ، بين الحياة و وسيلة عيش الإنسان . غير أنّ ما يصلح حدّا وسطا لحياتي ، يصلح أيضا حدّا وسطا لوجود النّاس الآخرين بالنّسبة إليّ .</p>
+<p class="para">ماركس (مخطوطات 1844)</p>
+<p class="para"><b>المطلوب</b> :</p>
+<p class="para">- استخرج المفهوم المركزي في النصّ .</p>
+<p class="para">- عدّد العلاقات الموجودة بين هذا المفهوم و مفاهيم أخرى وجدت في النّص .</p>
+<p class="para">- في أيّة مرجعية يكون المال القدرة على اشتراء كلّ شيء ؟</p>
+<p class="para">- هل أنّ المال غاية بالنّسبة إلى كلّ التصوّرات الفلسفية ؟</p>
+<p class="subhead t-navy">- الانجاز :</p>
+<p class="para"><b>- <u>المفهوم المركزي في النصّ</u></b> : هو المال .</p>
+<p class="para"><b>- <u>تحديد علاقات</u></b> <u>مفهوم المال بمفاهيم أخرى في النصّ</u> : علاقة مفهوم المال بمفهوم الاكتساب في النصّ هي علاقة سبب بالنتيجة (من له المال يستطيع أن يكتسب أيّ شيء) ، و بمفهومي القدرة و السلطة علاقة لزوم (من له المال له القدرة و السلطة) ، و بمفهوم الحياة و بالآخرين علاقة وساطة (من له المال يستطيع أن يحيا و أن يحدّد ما يشاء من العلاقات مع الآخرين) .</p>
+<p class="para">- <u>المرجعية التي يكون فيها المال القدرة على اشتراء كلّ شيء</u> : هذه المرجعية هي المرجعية الرّأسمالية القائمة على المنفعة و سيادة مبدإ المردودية .</p>
+<p class="para">- <u>ليس المال غاية بالنسبة إلى كلّ المرجعيات الفلسفية</u> : بإمكان المال أن يُتَصَوَّرَ كوسيلة لتحقيق العدالة كما في الاشتراكية .</p>
+<div class="exsub">النشاط عدد 3 : أشتغل على الأشكلة</div>
+<p class="subhead t-red">(نافذة "كيفيات للتفكير في المسألة" . الكتاب المدرسي ج 2 . ص 93)</p>
+<div class="exsub">- التمرين عدد 1</div>
+<p class="para"><b>المعطى</b> : هل من العدل المساواة بين النّاس في الأجور ؟</p>
+<p class="para"><b>المطلوب</b> :</p>
+<p class="para">- صغ أسئلة بالنظر إلى ما تثيره علاقة العدل لامساواة من إحراجات .</p>
+<p class="para">- اعمل على بناء إشكالية إنطلاقا من الأسئلة التي صغتها .</p>
+<p class="subhead t-navy">- الانجاز :</p>
+<p class="para">- <u>الأسئلة</u> :</p>
+<p class="para">. ما العدل ؟</p>
+<p class="para">. هل نستوفي حقيقة العدل عندما نعرفه بالمساواة ؟</p>
+<p class="para">. هل من العدل أن نسوّي في الأجور بين أناس لهم كفاءات متفاوتة ؟</p>
+<p class="para">. ألا نظلم من هو أكثر كفاءة عندما نعطيعه ما نعطي لمن هو أقلّ كفاءة منه ؟</p>
+<p class="para">أليس من العدل أن نعطي لكلّ حسب كفاءته ؟</p>
+<p class="para">هل يجيز العدل التفاوت ؟</p>
+<p class="para">- <u>الإشكالية</u> : ما العدل ؟ هل يتحقّق بالتسوية في الأجور بين أناس لهم كفاءات متفاوتة أم على العكس بإقرار تقاوت في الأجور بينهم بحسب كفاءاتهم ؟ و إذا سلّمنا بأنّه يجيز التفاوت ، فعلى أيّ نحو و ضمن أيّة شروط ؟</p>
+<div class="exsub">- التمرين عدد 2</div>
+<p class="para"><b>المعطى</b> : هل النفع هو الغاية الوحيدة للعمل ؟</p>
+<p class="para"><b>المطلوب</b> :</p>
+<p class="para">- حوّل سؤال الموضوع إلى إشكالية .</p>
+<p class="subhead t-navy">- الانجاز :</p>
+<p class="para">- <u>الإشكالية</u> : إذا كان النّاس يعملون لتحقيق منافعهم ، فهل النفع هو الغاية الوحيدة للعمل ؟ ألا تتجاوز قيمة العمل غايته النفعية لتشمل غايات اجتماعية و أخلاقية ؟ ألا يمكن للعمل إذا حصرنا غايته في النفع وحده أن يكون مصدر اغتراب لدى الانسان بتحقيق منافع لمجموعة من النّاس على حساب البقية ؟ ضمن أيّة شروط يمكن للنفع الذي يحقّقه العمل ان يكون إنسانيا و محرِّرا و ليس ظالما و مدمّرا ؟</p>
+<div class="exsub">النشاط عدد 4 : أشتغل على وجاهة الموقف</div>
+<p class="subhead t-red">(نافذة "كيفيات للتفكير في المسألة" . الكتاب المدرسي ج 2 . ص 93)</p>
+<div class="exsub">- التمرين عدد 1</div>
+<p class="para"><b>المعطى</b> : قيل : "الأطفال يلعبون ، أمّا الكهول فيعملون ، إنّ العمل هو الذي يجعل منكم كهولا ، فالحياة ليست لعبا" .</p>
+<p class="para"><b>المطلوب</b> :</p>
+<p class="para">أ – ميّز بين العمل و اللّعب .</p>
+<p class="para">ب – ماذا يترتّب على هذا الفصل ؟</p>
+<p class="para">ج – أيّة وجاهة لهذا الفصل ؟</p>
+<p class="subhead t-navy">- الانجاز :</p>
+<!-- CROP: 1423 1 49 0.06 0.13 0.20 0.27 1423_p49_children -->
+<figure class="fig"><img src="https://wael-philo.b-cdn.net/figs/1423/1423_p49_children.png" alt=""></figure>
+<!-- CROP: 1423 1 49 0.79 0.20 0.95 0.30 1423_p49_worker -->
+<figure class="fig"><img src="https://wael-philo.b-cdn.net/figs/1423/1423_p49_worker.png" alt=""></figure>
+<p class="para">أ - <u>تمييز العمل عن اللّعب</u> : اللّعب بمعناه السّائد هو النّشاط الممتع الذي نختاره عن حرّية و نقبل عليه طواعية و فيه نطلق طاقتنا الإبداعية الكامنة و نحقّق ذاتنا ، في حين أنّ العمل هو نشاط شاق نقوم به مرغمين تحت ضغط الحاجة و يقترن بالألم و الاغتراب .</p>
+<p class="para">ب – <u>ما يترتّب على هذا الفصل</u> : يترتّب عن هذا الفصل الهروب من العمل أو على الأقلّ الاشمئزاز منه و تفضيل اللّعب عليه .</p>
+<!-- PROOFREAD: 1423 part1 p49 — "الاشمئزاز" (overprinted at line end) -->
+<!-- CROP: 1423 1 49 0.06 0.43 0.22 0.57 1423_p49_footballer -->
+<figure class="fig"><img src="https://wael-philo.b-cdn.net/figs/1423/1423_p49_footballer.png" alt=""></figure>
+<p class="para">ج – <u>مدى وجاهة لهذا الفصل</u> : و مع ذلك فإنّ هذا الاعتقاد قابل للتنسيب لأنّ الإنسان لا يعمل دائما مرغما ، و لا يخسر دائما ذاته في العمل ، و قد يجد متعة فيه في الظّروف الملائمة و خاصّة عندما يكون عمل الإنسان هو نفسه هوايته : "أسعد إنسان من كان عمله هي هوايته" . كما أنّ اللّعب قد يتحوّل إلى عمل مثلما هو الشّأن اليوم في كرة القدم فيتطلّب جهدا و شيئا من التضحية و يمنح اللاّعب متعة و نشوة في آن .</p>
+<div class="exsub">- التمرين عدد 2</div>
+<p class="para"><b>المعطى</b> : إنّ العمل هو شيء نبحث عنه خارج ذواتنا في العالم ، و هو يقتضي صراعا دائما من أحل الحياة .</p>
+<!-- PROOFREAD: 1423 part1 p49 — "أحل" (dot of ج not visible; may be أجل) -->
+<p class="para"><b>المطلوب</b> :</p>
+<p class="para">أ – استخرج تعريفا للعمل يتوافق مع هذا الحكم .</p>
+<p class="para">ب – ابحث في ما درست عن موقف يناقض هذا الحكم .</p>
+<p class="subhead t-navy">- الانجاز :</p>
+<p class="para">أ – <u>تعريف العمل المناسب لسياق الحكم</u> : العمل هو الاغتراب المفروض على الإنسان لتأمين وسائل بقائه في العالم (هذا التعريف يتماشى مع التحليل الماركسي لما يؤول إليه لعمل في النّظام الرأسمالي) .</p>
+<!-- CROP: 1423 1 50 0.05 0.16 0.25 0.34 1423_p50_arvon -->
+<figure class="fig"><img src="https://wael-philo.b-cdn.net/figs/1423/1423_p50_arvon.png" alt=""></figure>
+<p class="para">ب - <u>موقف يناقض هذا الحكم</u> : العمل هو تحقيق للإنسان "في عالم من صنعه" و إطلاق لقدراته الإبداعية في عالم بينذاتي يقوم على التعاون و الوفاق (يتماشى هذا التعريف مع تحليل هيجل لدور العمل في تحقيق وعي الإنسان بذاته ، و تحليل دوركايم للبعدين الاجتماعي و الأخلاقي للعمل ، و كذلك تحليل أرفون لقيمة العمل بصفة عامّة بالنّسبة إلى الإنسان) .</p>
+<div class="exsub">- التمرين عدد 3</div>
+<p class="para"><b>المعطى</b> : إنّ الفقراء الذين لا يريدون أن يعملوا هم كسالى و منبوذون .</p>
+<p class="para"><b>الطلوب</b> :</p>
+<p class="para">أ – أبيّن أهمّية العمل في تحديد المنزلة الاجتماعية للإنسان .</p>
+<p class="para">ب – قدّم أمثلة توضّح فيها المراتبية الاجتماعية في ضوء تنوّع المهن .</p>
+<p class="subhead t-navy">- الانجاز :</p>
+<p class="para">أ – <u>أهمّية العمل في تحديد المنزلة الاجتماعية للإنسان</u> : تتحدّد المنزلة الاجتماعية لكلّ فرد في المجتمع بالوظيفة التي يضطلع بها فيه أو الخدمة التي يقدّمها له فيحصل ، من خلال عمله أي تلك الوظيفة أو الخدمة ، على قسط من الثروة الاجتماعية و نصيب من تقدير المجتمع له . و بالتالي فمن يختار البطالة أي عدم المشاركة في انتاج ثروة المجتمع ، فهو من جهة مسؤول عن فقره ، و من جهة أخرى يستحقّ المنزلة الوضيعة التي تكون له في المجتمع .</p>
+<p class="para">ب – <u>الأمثلة</u> : في مجتمعنا الحالي بعض المهن مرغوب فيها أكثر من غيرها لا لمردودها المادّي فحسب ، بل أيضا لمردودها الاجتماعي و الإنساني ، مثل مهنة الطبّ ، و خاصّة طبّ الإختصاص و الجراحة.</p>
+<div class="exsub">- التمرين عدد 4</div>
+<p class="para"><b>المعطى</b> : إنّ من يفقد عمله يضطرّ إلى مدّ يده و يصبح عالة على المجتمع في نظر الآخرين .</p>
+<p class="para"><b>الطلوب</b> : بيّن مدى وجاهة هذا الحكم في ضوء ما تعرفه عن الوضع الاقتصادي المعاصر .</p>
+<p class="subhead t-navy">- الانجاز :</p>
+<!-- CROP: 1423 1 51 0.06 0.34 0.40 0.48 1423_p51_photo -->
+<figure class="fig"><img src="https://wael-philo.b-cdn.net/figs/1423/1423_p51_photo.png" alt=""></figure>
+<p class="para">الوضع الاقتصادي المعاصر هو وضع متأزّم و فيه منافسة كبيرة و تفاوت بين مطالب الشغل و عدد الوظائف ، كما أنّه موسوم بتزايد الخوصصة و ترسّخ النّظام الرّأسمالي الذي تتقلّص فيه الضمانات الاجتماعية ، و تسوده الفردانية حيث على كلّ واحد ان يتدبّر أمره بنفسه دون تعويل لا على المجتمع و لا على الدّولة . و عندئذ نفهم كيف أنّ من يفقد عمله ، يفقد كلّ وسيلة للاستجابة لحاجاته و يمدّ يده و يعتبر عالة على المجتمع في نظر الآخرين.</p>
+<div class="exsub">النشاط عدد 5 : أشتغل على الكشف عن الرّهانات</div>
+<p class="subhead t-red">(نافذة "كيفيات للتفكير في المسألة" . الكتاب المدرسي ج 2 . ص 94)</p>
+<div class="exsub">- التمرين عدد 1</div>
+<p class="para"><b>المعطى</b> : قيل : "لا يكمن الجور في التوزيع اللّمتكافئ للثروة ، و إنّما في التصرّف الجائر لأصحاب الثروة" .</p>
+<p class="para"><b>المطلوب</b> :</p>
+<p class="para">أ – وضّح علاقة سوؤ التصرّف بالجور .</p>
+<p class="para">ب – ابرز رهان هذا الموقف .</p>
+<p class="subhead t-navy">- الانجاز :</p>
+<!-- CROP: 1423 1 52 0.05 0.12 0.25 0.33 1423_p52_rawls -->
+<figure class="fig"><img src="https://wael-philo.b-cdn.net/figs/1423/1423_p52_rawls.png" alt=""></figure>
+<p class="para">أ – <u>توضيح علاقة سوء التصرّف بالجور في القولة</u> : إذا سلّمنا بأنّ العدالة تجيز التوزيع اللاّمتكافئ للثروة ، بما أنّها تجيز التفاوت الاجتماعي و الاقتصادي بحسب الوظائف الاجتماعية و الكفاءة ، في إطار ما يسمّيه أرسطو "الإنصاف" أو "العدالة الهندسية" و ما يسمّيه راولس "العدالة بما هي إنصاف" ، فإنّ الجور لا يكمن في تفاوت النّاس في الثّروة ، بل في سوء تصرّف أصحاب الثروة عندما يتعالون بها على غيرهم أو يستغلّونهم بها و كأنّهم عبيد أو وسائل لهؤلاء لأنّ لهم تلك الثروة ، أو لتنميتها على حساب مجهودهم و كرامتهم حين تصبح الثروة رأس مال للتنمية فيزداد أصحاب الثروة ثراء و العمّال فقرا مادّيا و روحيا أي اغترابا كما يبيّن ماركس في "مخطوطات 1844 " : "يزداد العامل فقرا بقدر الزيادة في إنتاج الثروة و نماء إنتاجه حجما و قوّة" (انظر نص ماركس "الاغتراب" ص 68) .</p>
+<p class="para">أ – <u>رهان هذا الموقف</u> : تجاوز اعتقاد أنّ الجور هو في التوزيع اللّمتكافئ للثروة ، و بيان كيف أنّ العدالة تجيز التفاوت (في إطار ما يسمّى الانصاف) .</p>
+<div class="exsub">- التمرين عدد 2</div>
+<p class="para"><b>المعطى</b> : يكون المال في نظام الأجرة سلطانا على البشر .</p>
+<p class="para"><b>المطلوب</b> : اكشف عن الرّهانات .</p>
+<p class="subhead t-navy">- الانجاز :</p>
+<p class="para"><u>رهانات المعطى</u> : فضح سلبيات نظام الأجرة أي النظام الرأسمالي و الدّفاع عن النظام الاشتركي باعتباره نظاما يسترجع فيه الإنسان كرامته و سلطته على نفسه كما يرى ماركس .</p>
+<div class="exsub">النشاط عدد 6 : أشتغل على الضمنيات</div>
+<!-- PROOFREAD: 1423 part1 p52 — "النشاط عدد 6" (number obscured in shaded heading) -->
+<p class="subhead t-red">(نافذة "كيفيات للتفكير في المسألة" . الكتاب المدرسي ج 2 . ص 94)</p>
+<div class="exsub">- التمرين عدد 1</div>
+<p class="para"><b>المعطى</b> : قيل : "الملكية سرقة" .</p>
+<p class="para"><b>المطلوب</b> :</p>
+<p class="para">أ – إكشف عن ضمنيات هذ القول .</p>
+<p class="para">ب – حاور هذه الضمنيات .</p>
+<p class="subhead t-navy">- الانجاز :</p>
+<!-- CROP: 1423 1 53 0.06 0.41 0.27 0.68 1423_p53_proudhon -->
+<figure class="fig"><img src="https://wael-philo.b-cdn.net/figs/1423/1423_p53_proudhon.png" alt=""></figure>
+<p class="para">أ - <u>ضمنيات القول "الملكية سرقة"</u> : يتأسّس هذا القول ضمنيا على موقف اشتراكي <u>يناهض الملكية</u> و بالتالي يعتبرها "سرقة" (هذا القول هو للفيلسوف برودون <span dir="ltr">Proudhon</span> من كتابه "ما الملكية ؟" <span dir="ltr">Qu’est-ce que la propriété ?</span> ، و هو فيلسوف يُصَنَّف ضمن الاشتراكيين الطوباويين) .</p>
+<p class="para">ب – <u>محاورة هذه الضمنيات</u> : يكشف الواقع المعاصر عن حدود تجربة إلغاء الملكية – و المقصود الملكية الخاصّة – في الاتّحاد السوفياتي مثلا خلال القرن العشرين و في الصّين خلال حكم ماو تسي توتغ <span dir="ltr">Mao Tsé Tong</span> ، إذ انكمش الاقتصاد بسبب تراجع الإنتاجية لغياب حافز الامتلاك و المنافسة . فالنّاس يعملون لامتلاك أشياء و عندما لا يكون هنالك أمل في امتلاك شيء ما فإنّ عزيمتهم تضعف و بالتّالي يضعف مردودهم . كذلك عندما تكون وسائل الإنتاج على ملك الخواصّ يكون هنالك حرص على صيانتها و ضمان انتاجيتها في إطار المنافسة ، أمّا إذا كانت عمومية أو دولية فإنّ انتاجيتها تقلّ لأنّ هذا الحرص يضعف . و هو ما يفسّر إلى حدّ كبير توجّه روسيا و الصّين اليوم إلى الخوصصة و تبني نظام الملكية الخاصّة و المنافسة .</p>
+<div class="exsub">- التمرين عدد 2</div>
+<p class="para"><b>المعطى</b> : قيل : "العمل تحقيق للرّفاه و للثروة" .</p>
+<p class="para"><b>المطلوب</b> :</p>
+<p class="para">أ – إكشف عن ضمنيات هذ القول .</p>
+<p class="para">ب – حاور هذه الضمنيات</p>
+<p class="subhead t-navy">- الانجاز :</p>
+<p class="para">أ - <u>ضمنيات القول"العمل تحقيق للرّفاه و للثروة"</u> : يتأسّس هذا القول على مسلّمة أنّ الرّفاه و الثروة ليسا معطيين ، بل يتطلّبان وسيلة لتحقيقهما وهي العمل .</p>
+<p class="para">ب – <u>محاورة هذه الضمنيات</u> : العمل هو الوسيلة لتحقيق الرّفاه و السعادة ، و لكن شرط أن يتمتّع بهما العامل أيضا و ليس صاحب رأس المال وحده كما في النّظام الرأسمالي ، أي شرط توفّر العدالة . أمّا في غياب العدالة و إذا ما ساد الحرص على المردودية دون الاكتراث بالعدالة أي بإعطاء العامل حقوقه أو إنصافه ، فإنّ العمل لا يحقّق الرّفاه و السّعادة ، بل الإغتراب و الفقر و الشقاء .</p>
+<div class="exsub">النشاط عدد 7 : أشتغل على الحجاج</div>
+<p class="subhead t-red">(نافذة "كيفيات للتفكير في المسألة" . الكتاب المدرسي ج 2 . ص 94)</p>
+<div class="exsub">- التمرين عدد 1</div>
+<p class="para"><b>المعطى : نصّ هيجل ص94 – 95</b></p>
+<p class="para"><b>المطلوب</b> :</p>
+<p class="para">- استخرج اللّحظات التي آلت بالعمل إلى وضعية الفوضى و الاضطراب الشّاملين .</p>
+<p class="para">- حلّل سمات كلّ لحظة .</p>
+<p class="para">- ما هي الحجج التي يؤكّد بها الكاتب ازدياد التفاوت بين الفقراء و الأغنياء .</p>
+<p class="para">- لماذا اعتبر الكاتب أنّ التمرّد الدّاخلي نتيجة حتمية لازدياد التفاوت بين الثروة و الفقراء ؟</p>
+<p class="subhead t-navy">- الانجاز :</p>
+<!-- CROP: 1423 1 55 0.06 0.17 0.24 0.35 1423_p55_hegel -->
+<figure class="fig"><img src="https://wael-philo.b-cdn.net/figs/1423/1423_p55_hegel.png" alt=""><figcaption>هيجل</figcaption></figure>
+<p class="para">- <u>اللّحظات التي آلت بالعمل إلى وضعية الفوضى و الاضطراب الشّاملين</u> :</p>
+<p class="para">. <u>اللّحظة الأولى</u> : تغيّر طرق الإنتاج يؤدي إلى اختفاء فروع كاملة من الصّناعة مرتبطة بهذه الطرق : تنخفض قيمة ما تنتجه هذه الصّناعات – مقارنة بما تنتجه الطّرق و الاختراعات الجديدة – فيتراجع الإقبال عليها فتندثر .</p>
+<p class="para">. <u>اللّحظة الثّانية</u> : تتنتشر البطالة نتيجة لها الاندثار فـ"تصبح كتل بشرية كاملة فريسة للفقر" .</p>
+<p class="para">. <u>اللّحظة الثّالثة</u> : عند ذلك تتشعّب طرق الاقتناء – إذ لا بدّ للنّاس من الاستجابة لحاجاتهم –فتتعدّد الأعمال و تتشعّب لنصل "إلى أكثر الأعمال فردية" .</p>
+<p class="para"><u>و بالتالي</u> : يؤول العمل إلى وضعية الفوضى و الاضطراب الشّاملين .</p>
+<p class="para">- <u>الحجج التي يؤكّد بها الكاتب ازدياد التفاوت بين الفقراء و الأغنياء</u> : هي حجج واقعية مثل عجز الفقراء عن "تحسين حالهم" و عدم قدرة المشروعات الصغيرة على تحقيق الأرباح تناسبا مع انتشار الاعمال الفردية و العشوائية .</p>
+<p class="para">- <u>التمرّد الدّاخلي نتيجة حتمية لازدياد التفاوت بين الثروة و الفقراء</u> : لأنّه نتيجة حتمية للإحساس بالعجز عن الاستجابة لمتطلبات الحياة بينما آخرون لهم أكثر ممّا يحتاجونه ، إنّه تنيجة حتمية للشّعور بالإحباط و اللاّعدل أي الظّلم .</p>
+
+<div class="chtag"><span>المحور</span> القيم: الأخلاق والدولة</div>
+
+<p class="subhead t-red">الدولة : السيادة و المواطنة</p>
+<div class="exsub">النشاط عدد 1 : أشتغل على وضعية</div>
+<p class="subhead t-red">(نافذة "كيفيات للتفكير في المسألة" . الكتاب المدرسي ج 2 . ص 203)</p>
+<div class="exsub">- التمرين عدد 1</div>
+<p class="para"><b>- المعطى : نصّ أحمد ابن أي ضياف ص 203 .</b></p>
+<p class="para"><b>- المهامّ</b> :</p>
+<p class="para">- بيّن بواعث معاقبة موسى ابن نصيّر و استخلص منها طبيعة حكم سليمان ابن عبد الملك .</p>
+<p class="para">- اكشف عن طبيعة العلاقة بين هذا الفعل و القوانين التي تعرفها عن حقوق الإنسان .</p>
+<p class="para">- ارصد ما تميّز به موقف موسى بن نصير عن سلوك الحاكم .</p>
+<p class="para">- ما الذي يمكن أن يمنع المواطنين من ضيم مثل هذا الحاكم ؟</p>
+<p class="subhead t-navy">- الانجاز :</p>
+<p class="para">- <u>بواعث معاقبة موسى بن نصيّر و طبيعة حكم سليمان ابن عبد الملك</u> : هذه البواعث هي الغيرة من السبايا التي غنمها بن نصيّر من غزواته و التي سبّبت غيض سليمان بن عبد الملك فعاقبه ، و هي بواعث بدائية تدلّ على أنّ حكم بن عبد الملك هو حكم استبدادي يقوم على الأهواء .</p>
+<p class="para">- <u>طبيعة العلاقة بين هذا الفعل و القوانين التي تحترم حقوق الإنسان</u> : هي علاقة تناقض ، لأن لا أحد من حقّه أن يعامل غيره بهواه ، بل بالقانون و إطار احترام حقوق الإنسان .</p>
+<p class="para">- <u>ما تميّز به موقف موسى بن نصير عن سلوك الحاكم</u> : هو التعقّل و الرصّانة و التحكّم في العواطف و الانفعالات .</p>
+<!-- PROOFREAD: 1423 part1 p43 — "قرانجى" (name, first letter may be ڤ) -->
+
+
+<p class="para">- <u>ما يمكن أن يمنع المواطنين من ضيم مثل هذا الحاكم</u> : هي القوانين التي تضمن حقوق الإنسان .</p>
+<div class="exsub">النشاط عدد 2 : أشتغل على المعاني</div>
+<p class="subhead t-red"><b>(نافذة "كيفيات للتفكير في المسألة" . الكتاب المدرسي ج 2 . ص 203)</b></p>
+<p class="subhead t-navy"><b>- التمرين عدد 1</b></p>
+<p class="consigne">- <b>المعطى</b> : الحقّ ، المواطنة ، المقاومة .</p>
+<p class="consigne">- <b>المطلوب</b> : صغ تعريفا لهذه المعاني ، و ابحث عن معاني مقابلة لها ، مبرّرا وجوه التعارض بينها .</p>
+<p class="subhead t-navy"><b>- الانجاز</b> :</p>
+<p class="para">- <u>الحقّ</u> : هو ما يجب أن يكون <span dir="ltr">ce qui doit-être</span> توافقا مع طبيعة الإنسان من حيث هو كائن عاقل و أخلاقي و في هذا الإطار نتحدّث عن "الحقّ الطبيعي" ؛ أو مع القوانين الوضعية ، و في هذا الإطار نتحدّث عن "الحقّ الوضعي" . لكنّ القوانين الوضعية قد تكون جائرة و لا تحترم حقوق الإنسان الطبيعية فنتحدّث عن "القانونية" <span dir="ltr">la légalité</span> في مقابل "المشروعية" <span dir="ltr">la légitimité</span> . و ما يقابل الحقّ هو <u>الباطل</u> و <u>الجور</u> و <u>الاستبداد</u> .</p>
+<p class="para">- <u>المواطنة</u> : هي جملة الشّروط التي بتوفّرها تجعل من الفرد مواطنا ، و هي طاعة القوانين حفاظا على النّظام و المقاومة حفاظا على الحقوق . و ما يقابل المواطنة هي <u>الفوضى</u> (إذا انعدمت الطّاعة) و <u>العبودية</u> (إذا انعدمت المقاومة) .</p>
+<p class="para">- <u>المقاومة</u> : هي مجموع الأعمال الاحتجاجية التي تقوم بها مجموعات ترى نفسها مظلومة ، دفاعا عن حقوقها أو مطالبة بها . على أن نميّز بين المقاومة السلمية ، أي رفض طاعة السلطة السّياسية وقتيا بكيفية سلمية في انتظار تغييرها أو استجابتها لمطالب تلك المجموعات ، ، و التمرّد <span dir="ltr">l'insurrection</span> الذي يمكن أن يؤدّي إلى الحرب الأهلية . علما أنّ المقاومة تتأسّس على فكرة أنّ الطّاغية يستمدّ نفوذه من طاعة الشعب الذي على هذا النحو "يذبح نفسه بنفسه" كما يقول كلّ من الكواكبي و لا بويسي ، و حالما يتوقّف الشعب عن الطّاعة العمياء يتزعزع نفوذ الطاغية و يجد نفسه مجبرا على مراجعة طريقة حكمه . و هو نمط المقاومة الذي اتّبعه غاندي في إطار "فلسفة اللاّعنف" <span dir="ltr">philosophie de la non violence</span> في الهند ، و لوثر كينغ في أمريكا ضدّ استبداد البيض بالسّود . يقول لوثر كينغ عندما زار الهند : "عندما حللت في الهند ، أصبحت مقتنعا أكثر من أي وقت مضى ، بأنّ طريقة المقاومة اللاعنيفة هي أقوى سلاح تملكه الشّعوب المظلومة في نضالها من أجل العدالة و الكرامة الإنسانية" . و ما يقابل المقاومة هو <u>الاستسلام</u> و <u>الخنوع</u> و <u>الاستكانة</u> و <u>الخضوع</u> .</p>
+<!-- CROP: 1423 1 58 0.065 0.030 0.240 0.190 1423_gandhi -->
+<figure class="fig"><img src="https://wael-philo.b-cdn.net/figs/1423/1423_gandhi.png" alt=""></figure>
+<p class="subhead t-navy"><b>- التمرين عدد 2</b></p>
+<!-- CROP: 1423 1 58 0.050 0.355 0.245 0.535 1423_rousseau -->
+<figure class="fig"><img src="https://wael-philo.b-cdn.net/figs/1423/1423_rousseau.png" alt=""></figure>
+<p class="consigne">- <b>المعطى : نصّ روسّو ص 204</b></p>
+<p class="consigne">- <b>المطلوب</b> :</p>
+<p class="consigne">- استخرج أهمّ المعاني الواردة في النصّ .</p>
+<p class="consigne">- بيّن العلاقات بين هذه المعاني .</p>
+<p class="consigne">- حدّد المعنى الذي تتأسّس عليه شرعية الحكم السياسي .</p>
+<p class="subhead t-navy"><b>- الانجاز</b> :</p>
+<p class="para">- <b>أهمّ</b> <u>المعاني الواردة في النصّ</u> : الحقّ و القوّة .</p>
+<p class="para">- <b>العلاقات</b> <u>بين هذين المعنيين</u> : الاختلاف .</p>
+<p class="para">- <b>المعنى</b> <u>الذي تتأسّس عليه شرعية الحكم هو الحقّ</u> : لأنّ ماهو مشروع يُعتَرَفُ به و يُطاعُ كواجب ، <b>أمّا القوّة فهي مرفوضة</b> و لا يُعتَرَفُ بها . لذلك "ليس الأقوى بقوي دائما قوّة تجعله يسود إذا لم يحوّل <b>قوّته حقّا و الطاعة و واجبا</b>" (يتنزّل هذا التأسيس لشرعية الحكم السياسي على الحقّ في إطار <b>فلسفة روسّو التعاقدية التي بمقتضاها تحظى</b> هذه السّلطة بالموافقة لأنّها تعبّر عن "الإرادة العامّة" ، و تحظى بهذه الموافقة لأنّها تضمن حقوق المواطنين و لا تلغيها أو تتناقض معها . يقول روسّو : " لأنّه لا وجود لسلطة طبيعية لواحد من النّاس على البقية ، و لأنّ القوّة لا تنتج أيّ حقّ ، فإنّ الأساس الوحيد الباقي للسّلطة الشرعية بين النّاس هو الاتّفاق" . روسو . في العقد الاجتماعي . ص 66) .</p>
+<div class="exsub">النشاط عدد 3 : أشتغل على الأشكلة</div>
+<p class="subhead t-red"><b>(نافذة "كيفيات للتفكير في المسألة" . الكتاب المدرسي ج 2 . ص 204)</b></p>
+<p class="subhead t-navy"><b>- التمرين عدد 1</b></p>
+<p class="consigne">- <b>المعطى</b> : قيل "إنّ قوّة الدولة هي التي تصنع قوّة المواطنين" .</p>
+<p class="consigne">- <b>المطلوب</b> :</p>
+<p class="consigne">- صغ أسئلة تثير إحراجا حول علاقة قوّة الدّولة بحرّية المواطنين .</p>
+<p class="consigne">- رتّب الأسئلة على نحو يضمن إنسجاما إشكاليا .</p>
+<p class="consigne">- عيّن المشكل الذي يطرحه الموضوع .</p>
+<p class="subhead t-navy"><b>- الانجاز</b> :</p>
+<p class="para">- <u>أسئلة تثير إحراجا حول علاقة قوّة الدّولة بحرّية المواطنين :</u></p>
+<p class="para">. لماذا التفكير في علاقة قوّة الدّولة بحرّية المواطنين ؟</p>
+<p class="para">. ما المقصود بقوّة الدّولة ؟</p>
+<p class="para">. هل تناقض قوّة الدّولة حرّية المواطنين ؟</p>
+<p class="para">.ضمن أيّة شروط يمكن أن تضمن قوّة الدولة حرّية المواطنين ؟</p>
+<p class="para">. بأيّ معنى تصنع قوّة الدّولة حرّية المواطنين ؟</p>
+<p class="para">. هل ثمّة ما يشرّع اليوم لطرح مشكل علاقة قوّة الدّولة بحرّية المواطنين ؟</p>
+<p class="para">. ما الرّهان من البحث في العلاقة بين قوّة الدّولة بو حرّية المواطنين ؟</p>
+<p class="para">. ما جنس العلاقة بين قوّة الدّولة و حرّية المواطنين ؟</p>
+<p class="para">- <u>ترتيب الأسئلة على نحو يضمن إنسجاما إشكاليا :</u></p>
+<ol class="qn">
+<li>هل ثمّة ما يشرّع اليوم لطرح مشكل علاقة قوّة الدّولة بحرّية المواطنين ؟</li>
+<li>ما جنس العلاقة بين قوّة الدّولة و حرّية المواطنين ؟</li>
+<li>ما المقصود بقوّة الدّولة ؟</li>
+<li>بأيّ معنى تصنع قوّة الدّولة حرّية المواطنين ؟</li>
+<li>هل تناقض قوّة الدّولة حرّية المواطنين ؟</li>
+<li>ضمن أيّة شروط يمكن أن تضمن قوّة الدّولة حرّية الموطنين ؟</li>
+<li>ما الرّهان من البحث في العلاقة بين قوّة الدّولة بو حرّية المواطنين ؟</li>
+</ol>
+<p class="para">- <u>المشكل الذي يطرحه الموضوع</u> : هل ثمّة ما يشرّع اليوم لطرح مشكل علاقة قوّة الدّولة بحرّية المواطنين ؟ ما جنس هذه العلاقة ؟ هل تناقض قوّة الدّولة حرّية المواطنين أم تضمنها ؟ و إذا سلّمنا بأنّها تضمنها فضمن أيّة شروط و إلى أيّ حدّ ؟ ما الرّهان من البحث في هذه العلاقة ؟</p>
+<p class="subhead t-navy"><b>- التمرين رقم 2</b></p>
+<p class="consigne">- <b>المعطى</b> : هل يجوز الحديث عن عنف شرعي ؟</p>
+<p class="consigne">- <b>المطلوب</b> :</p>
+<p class="consigne">- صغ إشكالية الموضوع .</p>
+<p class="consigne">- <b>قارن</b> المشكل في هذا الموضوع و المشكل في الموضوع السّابق .</p>
+<p class="subhead t-navy"><b>- الانجاز</b> :</p>
+<p class="para">- <u>إشكالية الموضوع</u> : ما حقيقة العنف ؟ هل يكون دائما غير مشروع أم <b>أنّه يجوز</b> الحديث عن عنف شرعي ؟ و إن جاز الحديث عن عنف شرعي فضمن أيّة شروط و إلى أيّ حدّ ؟</p>
+<p class="para">- <u>اللّفظ الذي ساعدني على توجيه الإشكالية إلى مشكل معيّن</u> : هو لفظ "الشرعية" <b>الذي يقترن في</b> الموضوع بالعنف في حين أنّ العنف يقترن عادة بالخروج عن الشّرعية يأتيه بالذّات <b>الخارجون عن الشّرعية</b> و يهدّدونها .</p>
+<p class="subhead t-navy"><b>- التمرين رقم 3</b></p>
+<p class="consigne">- <b>المعطى</b> : هل كلّ عنف تمارسه الدّولة هو عنف شرعي ؟</p>
+<p class="consigne">- <b>المطلوب</b> :</p>
+<p class="consigne">- صغ إشكالية الموضوع .</p>
+<p class="consigne">- قارن بين المشكل في هذا الموضوع و المشكل في الموضوع السّابق .</p>
+<p class="subhead t-navy"><b>- الانجاز</b> :</p>
+<p class="para">- <u>إشكالية الموضوع</u> : إذا سلّمنا بأنّ الدّولة تمارس العنف ، <b>فهل</b> كلّ عنف تمارسه هو عنف شرعي ؟ ألا يجب الوقوف على معنى الشرعية للتمييز بين عنف شرعي و آخر لا شرعي ؟ ما الغنم من هذا التمييز و هل من اليسير أن نجد دولة تمارس عنفا شرعيا بعيدا عن كلّ أنواع العنف اللاّشرعي خاصّة اليوم في ظلّ العولمة ؟</p>
+<p class="para">- <u>المقارنة بين المشكل في هذا الموضوع و المشكل في الموضوع السّابق</u> : في الموضوع السّابق يدور المشكل حول شروط <u>جواز قضيّة افتراضية</u> : <u>"هل يجوز الحديث عن ؟"</u> ، و في الموضوع الثاني حول <u>شروط الحكم على واقع فعلي</u> : <u>"هل كلّ عنف تمارسه الدّولة ؟"</u> .</p>
+<div class="exsub">النشاط عدد 4 : أشتغل على وجاهة موقف</div>
+<p class="subhead t-red"><b>(نافذة "كيفيات للتفكير في المسألة" . الكتاب المدرسي ج 2 . ص 205)</b></p>
+<p class="subhead t-navy"><b>- التمرين عدد 1</b></p>
+<p class="consigne">- <b>المعطى</b> : قيل "الحكومة الشرعية هي تلك التي تفرض احترام الحقّ بالقوّ لا تلك التي تبني الحقّ على القوّة" .</p>
+<p class="consigne">- <b>المطلوب</b> :</p>
+<p class="consigne">- ميّز بين سياق استعمال القوّة في المستوى الأوّل و سياق استعمال القوّة في المستوى الثاني .</p>
+<p class="consigne">- ماذا يترتّب عن هذا التمييز ؟</p>
+<p class="consigne">- ابحث عن حجج تعلّل بها المستوى الأوّل من علاقة الحقّ بالقوّة .</p>
+<p class="consigne">- ابحث عن حجج تعلّل بها المستوى الثّاني من علاقة الحقّ بالقوّة .</p>
+<p class="subhead t-navy"><b>- الانجاز</b> :</p>
+<p class="para">- <u>تمييز سياق استعمال القوّة في المستوى الأوّل و سياق استعمال القوّة في المستوى الثاني :</u></p>
+<p class="para">. في السياق الأوّل استعمال القوّة من قبل الحكومة مشروع لأنّه من أجل فرض الحقّ و نجده في أكثر الدول <u>ديمقراطية</u> .</p>
+<p class="para">. في السّياق الثّاني إستعمال القوّة من قبل الحكومة غير مشروع لأنّه من أجل فرض حقّ مزعوم يتأسّس على القوّة و هو شأن <u>الدول الاستبدادية</u> التي تضطهد شعوبها .</p>
+<p class="para">- <u>ما يترتّب عن هذا التمييز</u> : انّه لا يجب اتّهام أي حكومة بأنّها استبدادية لكونها تملك قوّة أو تحرص على امتلاكها ، إذ استعمال القوّة ليس دخيلا على الدّولة و إنّما هو جزء من ماهيتها لتتمكّن من أداء وظيفتها التنظيمية للمجتمع فالدولة كما يقول بول ريكور "هي سلطة معنوية لتحديد الواجب و سلطة مادّية للإرغام" ، بل الانتباه إلى كيفية استعمال هذه القوّة : من أجل الحقّ أو لبناء حقّ مزعوم و تمريره ، من أجل الدّيمقراطية أو لتكريس الاستبداد .</p>
+<!-- CROP: 1423 1 62 0.050 0.630 0.270 0.780 1423_ricoeur -->
+<figure class="fig"><img src="https://wael-philo.b-cdn.net/figs/1423/1423_ricoeur.png" alt=""></figure>
+<!-- CROP: 1423 1 63 0.060 0.025 0.250 0.210 1423_kant -->
+<figure class="fig"><img src="https://wael-philo.b-cdn.net/figs/1423/1423_kant.png" alt=""></figure>
+<p class="para">- <u>حجج تعلّل المستوى الأوّل من علاقة الحقّ بالقوّة</u> : من هذه الحجج أنّ النّاس لا يحترمون تلقائيا القوانين فكلّ واحد منهم يميل تلقائيا إلى استثناء نفسه من القانون أو إلى توظيفه لتحقيق أهدافه الخاصّة على حساب غيره . و لذلك فإنّ اللّجوء إلى القوّة لفرض الحقّ "ما كان ليثير إشكالا – حسب بول ريكور – لو كانت حياة النّاس قادرة على ان تعبّر تعبيرا كاملا عن مقتضيات الوعي الأخلاقي" ، لكنّ أنانية البشر تحول دون ذلك . فالإنسان كما يوضّح كانط مدفوع بحكم ا"جتماعيته" إلى الانضمام إلى غيره لعجزه عن الاستجابة لمتطلّباته بمفرده ، و لكنّه في نفس الوقت "لا اجتماعي" لأنّه أناني و لا يفكّر في صالح المجموعة بقدر ما يفكّر في مصلحته الخاصّة . ما يجعل اللّجوء إلى القوّة ضروريا لحمله على احترام الحقّ الذي بسيادته تتحقّق مصلحة المجموعة .</p>
+<!-- PROOFREAD: 1423 part1 p63 — "بحكم ا"جتماعيته"" (quotation mark placement as printed) -->
+<p class="para">- <u>حجج تعلّل المستوى الثّاني من علاقة الحقّ بالقوّة</u> : من هذه الحجج أنّ الحاكم في الدّول الاستبدادية لا يعلن أنّه يحكم بالقوّة بل يزعم أنّ يحكم بالحقّ لكنّه هي الواقع "حقّ الأقوى"، أي حقّ زائف يُفرض بهذه الصفة لأنّ الحاكم معه القوّة (إذ يستأثر بالسلط الثلاث التشريعة و القضائية و التنفيذية) فيوظّف القوانين لخدمة مصلحته الخاصّة على حساب المصلحة العامّة و بإمكانه أن يسحق كلّ من يقاومه . و قد سبق لأفلاطون أن نقد فكرة "حقّ الأقوى" من خلال نقده للسفسطائي كاليكلاس <span dir="ltr">Calliclès</span> باعتبار أن العمل بها يفضي إلى الاستبداد و العنف ، فيما بيّن روسوٌ <span dir="ltr">Rousseau</span> أنّ مفهومي الحقّ و القوّة يختلفان على الأقلّ من جهة أنّ طاعة الحقّ هي فعل من أفعال الإرادة في حين أنّ الخضوع للقوّة هو فعل من أفعال الضّرورة ، و الحقّ ثابت في حين أنّ القوّة تزيد و تنقص ، "فما هذا الحقّ الذي يزيد و ينقص بازدياد القوّة أو نقصانها ؟" .</p>
+<p class="subhead t-navy"><b>- التمرين عدد 2</b></p>
+<p class="consigne">- <b>المعطى</b> : قيل "ستون سنة من إمام جائر أصلح من ليلة بلا سلطان ، و التجربة تبيّن ذلك" .</p>
+<p class="consigne">- <b>المطلوب</b> : قدّم حججا تبيّن بها وجاهة اوعدم وجاهة هذا القول .</p>
+<p class="subhead t-navy"><b>- الانجاز</b> :</p>
+<p class="para">- <u>الحجج على وجاهة هذا القول</u> : في "ليلة بلا سلطان" أي في غياب السلطة السياسية ، تعمّ الفوضى وينتشر العنف لأنّه إن غابت السلطة السياسية يغيب كلّ رادع فيرتدّ النّاس إلى حالة تشبه "حالة الطّبيعة" ، على الأقلّ كما يصفها هوبس ، و هي "حالة حرب دائمة" هي "حرب الجميع ضدّ الجميع" ، و بالتالي فإنّ " إماما جائرا لستين يوما" يقدر على فرض السلام يكون "أصلح" من "ليلة بلا سلطان" باعتبار أنّ السلام أفضل من الحرب و النّظام أفضل من الفوضى . و منطق هذا القول هو نفس المنطق الذي يحكم نظرية هوبس الذي يرى أنّ الأمن و السلام أفضل من الحرب و الفوضى باعتبار أنّ "الإنسان ذئب للإنسان" .</p>
+<p class="para">- <u>الحجج على عدم وجاهة هذا القول</u> : رغم حاجة النّاس إلى السلام ، فهم أيضا يكرهون الظّلم و ليسوا مستعدّين للتفريط في حقوقهم و خاصّة في حرّيتهم . فمن يفرّط في حقوقه و حرّيته و يرضى بالظّلم يفقد مواطنته و إنسانيته ، لأنّ الفرد لا يكون مواطنا و إنسانا إلاّ إذا كانت له حقوق و إذا كان من حقّه أن يقاوم لضمانها تحقيقا للعدالة .</p>
+<div class="exsub">النشاط عدد 5 : أشتغل على الضمنيات</div>
+<p class="subhead t-red"><b>(نافذة "كيفيات للتفكير في المسألة" . الكتاب المدرسي ج 2 . ص 205)</b></p>
+<p class="subhead t-navy"><b>- التمرين عدد 1</b></p>
+<p class="consigne">- <b>المعطى</b> : قيل "الدولة لا تُلغى ، إنّها تضمحلّ" .</p>
+<p class="consigne">- <b>المطلوب</b> :</p>
+<p class="consigne">- اكشف عن الضمنية الأساسية لهذا الموقف .</p>
+<p class="consigne">- ابحث عن مواقف أخرى قائمة على ضمنيات مناقضة لهذا الموقف .</p>
+<p class="subhead t-navy"><b>- الانجاز</b> :</p>
+<!-- CROP: 1423 1 65 0.055 0.025 0.240 0.210 1423_engels -->
+<figure class="fig"><img src="https://wael-philo.b-cdn.net/figs/1423/1423_engels.png" alt=""></figure>
+<p class="para">- <u>الضمنية الأساسية لهذا الموضوع</u> : الضمنية الأساسية لهذا الموضوع هي أنّ الدولة برزت في ظروف معيّنة و ستزول تدريجيا بفعل نفس الضرورة التايخية التي أنتجتها ، و هذا الموقف هو الموقف الماركسي الذي يتبنّاه كلّ من إنجلز و لينين : بزوال البورجوازية ، وفقا لمبادئ "المادّية التاريخية" ، سيستحوذ العمال على وسائل الإنتاج التي ستصبح مشاعة بين الجميع ، و بحلول المجتمع اللاّطبقي ستضمحلّ الدّولة لتزول من تلقائها : "بعد حكم الأشخاص تأتي إدارة الأشياء و مسارات الإنتاج . الدولة لا تُلغى ، إنّها تضمحلّ" . (انجلس <span dir="ltr">Engels</span> ، "ضد دوهرنغ" <span dir="ltr">Antidhuring</span>) .</p>
+<p class="para">- <u>مواقف أخرى من هذه المسألة قائمة على ضمنيات مناقضة لهذا الموقف</u> : من بين هذه المواقف موقف الفوضويين و أساسا باكونين الذي يرى أنّ الدّولة عدوّة للفرد و أنّ الوسيلة الوحيدة لزوال الدّولة هي إلغاؤها بالعنف . يقول باكونين في "رسالة 5 أكتوبر 1872" : "يجب ان يكون موضوع السّياسة ... الوحيد هو إلغاء الدّولة" .</p>
+<p class="subhead t-navy"><b>- التمرين عدد 2</b></p>
+<p class="consigne">- <b>المعطى</b> : قيل " لم توجد الدّولة لتحكم الإنسان بالخوف و لتجعله ملكا لإنسان آخر" .</p>
+<p class="consigne">- <b>المطلوب</b> :</p>
+<p class="consigne">- اكشف عن الموقف الضمني الذي ينقده .</p>
+<p class="consigne">- بيّن الضمنيات التي بنى عليها صاحب القول موقفه من الدّولة .</p>
+<p class="subhead t-navy"><b>- الانجاز</b> :</p>
+<p class="para">- <u>الموقف الضمني الذي ينقده هذا القول</u> : ينقد هذا القول ضمنيا كلّ المواقف المؤيّدة للإستبداد ، و بصفة خاصّة موقف هوبس الذي يؤيّده بتعلّة أنّ "الإنسان ذئب للإنسان" ، و أنّ "العقد الاجتماعي" مضمونه أن يتنازل الأفراد عن كامل حقوقهم و حرّيتهم لفائدة حاكم يجمع كلّ السلطات في يده و يمثّل الدّولة القوّية المخيفة ، "الدولة – اللوفياتان"" أو "الدّولة-التنين" ، لحماية النّاس من بعضهم البعض على النحو الذي يراه صالحا .</p>
+<div class="exsub">النشاط عدد 6 : أشتغل على الرّهانات</div>
+<p class="subhead t-red"><b>(نافذة "كيفيات للتفكير في المسألة" . الكتاب المدرسي ج 2 . ص 206)</b></p>
+<!-- CROP: 1423 1 66 0.045 0.210 0.285 0.445 1423_indignez_vous -->
+<figure class="fig"><img src="https://wael-philo.b-cdn.net/figs/1423/1423_indignez_vous.png" alt=""></figure>
+<p class="subhead t-navy"><b>- التمرين عدد 1</b></p>
+<p class="consigne">- <b>المعطى</b> : "المواطن الحقّ الذي يكون له الحقّ في المقاومة" .</p>
+<p class="consigne">- <b>المطلوب</b> :</p>
+<p class="consigne">- بيّن الوضعيات التي يحتاج فيها المواطن إلى الحقّ في المقاومة .</p>
+<p class="consigne">- ابرز رهان هذا الموقف .</p>
+<p class="consigne">- استحضر مثالا من التاريخ يدعم هذ الموقف .</p>
+<!-- PROOFREAD: 1423 part1 p66 — "هذ الموقف" (as printed?) -->
+<p class="subhead t-navy"><b>- الانجاز</b> :</p>
+<p class="para">- <u>الوضعيات التي يحتاج فيها المواطن إلى الحقّ في المقاومة :</u></p>
+<p class="para">. عندما يكون بلده مستعمرا فيكون له حقّ مقاومة المستعمر دفاعا عن استقلال بلاده و حرّيته .</p>
+<p class="para">. عندما تكون السلطة السياسية مستبدّة تضطهده و لا تعترف بحقوقه فيقاومها لاسترداد تلك الحقوق.</p>
+<p class="para">- <u>رهان هذا الموقف</u> : الدّفاع عن الحقوق التي من دونها يفقد الإنسان مواطنته و إنسانيته .</p>
+<p class="para">- <u>مثال من التاريخ يدعم هذا الموقف</u> : مايقوم به الفلسطينيون منذ القرن الماضي ضدّ المستعمر الإسرائيلي شكل واضح من المقاومة من أجل استرداد الحقوق و أوّلها الحقّ في أرضه .</p>
+<p class="subhead t-navy"><b>- التمرين عدد 2</b></p>
+<p class="consigne">- <b>المعطى</b> : الحقّ و المواطن العالمي .</p>
+<p class="consigne">- <b>المطلوب</b> :</p>
+<p class="consigne">- تصوّر رهانا من خلال ربط الحقّ بالمواطن العالمي .</p>
+<p class="consigne">- تبيّن شروطا لتحقيق هذا الرّهان .</p>
+<p class="subhead t-navy"><b>- الانجاز</b> :</p>
+<p class="para">- <u>رهان ربط الحقّ بالمواطن العالمي</u> : هو تحقيق التآخي و السلام في العالم مادام الحقّ كونيا وما دام المواطن العالمي هو المواطن الذي يؤمن بالحقوق الكونية التي تعبّر عن القرابة بين جميع البشر و إمكانية التعايش السلمي معا .</p>
+<p class="para">- <u>شروط تحقيق هذا الرّهان</u> : هي التخلّي عن التعصّب العرقي و الثّقافي و الانفتاح عن الآخر المختلف ، باعتبار أنّ الاختلاف العرقي أو الثّقافي لا ينفي كونية الحقوق و وحدة الانتماء إلى الإنسانية .</p>
+<p class="subhead t-red"><b>الأخلاق : الخير و السّعادة</b></p>
+<div class="exsub">النشاط عدد 1 : أشتغل على وضعية</div>
+<p class="subhead t-red"><b>(نافذة "كيفيات للتفكير في المسألة" . الكتاب المدرسي ج 2 . ص 299)</b></p>
+<p class="subhead t-navy"><b>- التمرين عدد 1</b></p>
+<p class="consigne"><b>المعطى</b> : نصّ كانط من "أسس ميتافيزيقا الأخلاق" ج <b>2</b> ص <b>299</b></p>
+<p class="consigne"><b>المطلوب</b> :</p>
+<p class="consigne">- بيّن إن كان سلوك الشخص (المشار إليه في النصّ) أخلاقيا أو لا أخلاقيا .</p>
+<p class="consigne">- قدّم تعليلا من خلال بعض المواقف الفلسفية التي درستها .</p>
+<p class="subhead t-navy"><b>- الانجاز</b> :</p>
+<p class="para">- <u>الحكم على سلوك هذا الشّخص</u> : هو أنّه ليس أخلاقيا .</p>
+<p class="para">- <u>تعليل هذا الحكم من خلال بعض المواقف الفلسفية</u> : بالرّجوع إلى روسّو نرى أنّ هذا الموقف ليس أخلاقيا لأنّه يتميّز بالأنانية في حين أنّ الأخلاق تقوم على الإحسان إلى الغير و على الرأفة به و التعاطف معه من أجل إسعاده . يقول روسو : "إنّ في قرارة النفوس مبدأ فطري للعدل و الفضيلة نقيس به أفعالنا و أفعال غيرنا و نحكم عليها بأنّها خير أو شرّ ، و هذا المبدأ هو العاطفة" ، و الشخص المشار إليه في النصّ لا يتعاطف مع غيره و ليس معنيا بسعادته .</p>
+<p class="subhead t-navy"><b>- التمرين عدد 2</b></p>
+<p class="consigne"><b>المعطى</b> : نصّ كانط من "أسس ميتافيزيقا الأخلاق" . ج <b>2</b> ص <b>299</b></p>
+<p class="consigne"><b>المطلوب</b> :</p>
+<p class="consigne">- افحص المبدأ الذي أسّس عليه الشخص (المشار إليه في النصّ) سلوكه .</p>
+<p class="consigne">- لماذا يكون مبدأ أخلاقيا أو العكس و قدّم شواهد ممّا درست عن الإجابة التي اخترتها .</p>
+<p class="subhead t-navy"><b>- الانجاز</b> :</p>
+<p class="para">- <u>المبدأ الذي يؤسّس عليه الشخص (المشار إليه في النصّ) سلوكه</u> : إنّ المبدأ الذي يؤسّس عليه هذا الشّخص سلوكه هو الواجب .</p>
+<!-- CROP: 1423 1 69 0.060 0.330 0.265 0.525 1423_kant_fondements -->
+<figure class="fig"><img src="https://wael-philo.b-cdn.net/figs/1423/1423_kant_fondements.png" alt=""></figure>
+<p class="para">- <u>الأسباب التي تجعل من هذا المبدأ مبدأ أخلاقيا</u> : هي أنّه غير نفعي . يقول كانط : "الفعل الذي يُؤَدّى بمقتضى الواجب يستمدّ قيمته الأخلاقية لا من الهدف الذي ينبغي أن يتحقّق بواسطته ، بل من القاعدة التي يتقرّر وفقها" . و في النصّ ما يتعارض مع الواجب الخلقي هو أن أعد بتسديد المال الذي أقترضه لأقضي حاجتي و أنا أعلم أنّه لا يمكنني تسديد هذا الدين . و بالتالي فإنّ واجبي هو أن لا أعد هذا الوعد حتى إن كان عليّ أن أواجه هذه الورطة .</p>
+<div class="exsub">النشاط عدد 2 : أشتغل على المعاني</div>
+<p class="subhead t-navy"><b>- التمرين عدد 1</b></p>
+<p class="consigne"><b>المعطى</b> : ما الذي يعنيه الواجب الخلقي ؟</p>
+<p class="consigne"><b>المطلوب</b> : ضع أسئلة تسمح بتحديد دلالات الواجب .</p>
+<p class="subhead t-navy"><b>- الانجاز</b> :</p>
+<p class="para">- <u>الأسئلة</u> : ما حقيقة الواجب الأخلاقي ؟ هل يتماهى مع الإرغام أم يختلف عنه ؟ هل يتعارض مع الحرّية أم ينسجم معها ؟ هل هو واجب اجتماعي أم يمليه العقل ؟ نسبي أم كوني ؟</p>
+<p class="subhead t-navy"><b>- التمرين عدد 2</b></p>
+<p class="consigne"><b>المعطى</b> : اللّذة و الخير .</p>
+<p class="consigne"><b>المطلوب</b> :</p>
+<p class="consigne">- بيّن مدى وجاهة الأسئلة التالية و عيّن الغرض من طرحها .</p>
+<p class="consigne">- أجب عن كلّ سؤال تعتبره وجيها :</p>
+<p class="consigne"><u>الأسئلة</u> :</p>
+<p class="consigne">1 – ما هو الإطار الذي يندرج ضمنه السؤال عن العلاقة بين اللّذة و الخير ؟</p>
+<p class="consigne">2 – هل يعني النظر في العلاقة بين اللّذة و الخير تحديدا لشرط أخلاقية الفعل ؟</p>
+<p class="consigne">3 – هل يتساوى معنيا اللّذة و الخير ؟</p>
+<p class="consigne">4 – ابحث عن تاريخ اللّذة في الفلسفة .</p>
+<p class="consigne">5 – هل يمكن تصوّر حياة خالية من اللّذة ؟</p>
+<p class="consigne">6 – اذكر بعض المدارس التي تحدّثت عن الخير .</p>
+<p class="consigne">7 – متى استمتع باللّذة و أكون خيّرا في آن ؟</p>
+<p class="subhead t-navy"><b>- الانجاز</b> :</p>
+<p class="para"><b>- الإجابة</b> <u><b>على</b> السؤال الأوّل</u> : يندرج النظر في العلاقة بين اللّذة و الخير في إطار تحديد شروط أخلاقية <b>الفعل</b> .</p>
+<p class="para"><b>- الإجابة</b> <u><b>على</b> السؤال الثالث</u> :هذان المعنيان يتقاطعان و لكنّها لا يتساويان لأنّ اللّذة بإمكانها أن <b>تكون خيرا عندما</b> تساهم في تحقيق سكينة النفس و الجسد و بإمكانها أن تكون شرّا عندما تصبح <b>مصدر اضطراب للإثنين معا</b> كما يبيّن أبيقور <span dir="ltr">Epicure</span> .</p>
+<p class="para">- <u>الإجابة على السؤال الخامس</u> : تقتضي الحياة اشباعا للحاجات و كلّ اشباع لحاجة ما تنجم عنه لذّة ، لذلك فإنّه لا يمكن تصوّر حياة دون لذّة مهما قلّصنا من حاجاتنا كما يبيّن أبيقور .</p>
+<p class="para">- <u>الإجابة على السؤال السادس</u> : أهمّ المدارس الفلسفية التي تحدّثت عن الخير هي المدرسة الأفلاطونية ، و المدرسة الأرسطية ، و المدرسة الأبيقورية ، و المدرسة الرواقية .</p>
+<p class="para">- <u>الإجابة على السؤال السّابع</u> : استمتع باللّذة و أكون خيّرا في آن عندما أميّز بين اللّذات و أختار أفضلها أي تلك اللّذات الطبيعية و الضرورية لتحقيق سكينة النفس و الجسد (أبيقور) و اعتدل فيها متجنّبا الإفراط و التفريط (أرسطو) .</p>
+<div class="exsub">النشاط عدد 3 : أشتغل على الحجاج</div>
+<p class="subhead t-navy"><b>- التمرين عدد 1</b></p>
+<p class="consigne"><b>المعطى</b> : قيل "العقل يساوي الفضيلة و الفضيلة تساوي <b>السّعادة</b>"</p>
+<p class="consigne"><b>المطلوب</b> :</p>
+<p class="consigne">- ابحث عن هذا التساوي بين العقل و الفضيلة <b>و السعادة</b> .</p>
+<p class="consigne">- قدّم حججا تدعّم هذا المسار .</p>
+<p class="subhead t-navy"><b>- الانجاز</b> :</p>
+<p class="para">- <u>البحث في التساوي بين العقل و الفضيلة و السعادة</u> : يقتضي تنزيل المسألة في إطار فلسفة عقلانية كالفلسفة الأفلاطونية ترى أنّ العقل بما هو السبيل إلى المعرفة كفيل بأن يقودنا إلى الخير فنكون فضلاء بما أنّ الفضيلة هي فعل الخير و سعداء بما أنّ السّعادة هي الخير الأسمى .</p>
+<p class="para">- <u>الحجج على ذلك</u> : هي حجج يمكن أن نجدها عند سقراط الذي تأثّر به أفلاطون . فحسب سقراط "المعرفة فضيلة و الجهل رذيلة" إذ الجاهل وحده ، بما هو جاهل ، يمكنه فعل الشرّ ظانّا أنّه يفعل خيرا فيبتعد عن الفضيلة . غير أنّ الجاهل يكون أيضا على هذا النحو شقيا لأنّه لا يوجد من هو أكثر شقاء من ذلك الذي يقترف الشرّ – حتى مع نفسه – ظانّا أنه يفعل خيرا . فيكون العقل بما هو سبيل إلى المعرفة مساويا للخير و للسّعادة .</p>
+<p class="subhead t-navy"><b>- التمرين عدد 3</b></p>
+<p class="consigne"><b>المعطى : نصّ الفارابي من "فصول منتزعة" ج 2 ص 300 – 301 .</b></p>
+<!-- CROP: 1423 1 72 0.045 0.205 0.225 0.370 1423_farabi -->
+<figure class="fig"><img src="https://wael-philo.b-cdn.net/figs/1423/1423_farabi.png" alt=""><figcaption>الفارابي</figcaption></figure>
+<p class="consigne"><b>المطلوب</b> :</p>
+<p class="consigne">- استخرج أهمّ الروابط المنطقية في النصّ .</p>
+<p class="consigne">- بيّن الأطروحة التي يستبعدها الكاتب .</p>
+<p class="consigne">- حدّد أهمّ المراحل التي قطعها في الحجاج لبيان ضعف الأطروحات المستبعدة .</p>
+<p class="consigne">- استخرج أهمّ أساليب القياس التي اعتمدها في هذا الحجاج .</p>
+<p class="subhead t-navy"><b>- الانجاز</b> :</p>
+<p class="para">- <u>أهمّ الروابط المنطقية في النصّ هي</u> : "إنّ" ... "ليست" ... "ولا هي" ... "كما أنّ" ... "و ليس هو" ... "ولا" ... "ولا أيضا" ... "بل" ... "و لا" ... "فلذلك" ... "و ذلك أنّ" ... "فيكون" ... "و مع ذلك" ... و إلاّ فكيف" .</p>
+<p class="para"><b>-</b> <u>الأطروحة التي يستبعدها الكاتب</u> : الأطروحة التي يستبعدها الكاتب هي أن تكون السعادة ثوابا أو <b>تعويضا</b> عن الأفعال التي تُنال بها .</p>
+<p class="para"><b>-</b> <u><b>أهمّ</b> المراحل التي قطعها في الحجاج لبيان ضعف الأطروحات المستبعدة / أهمّ أساليب القياس التي <b>اعتمدها في</b> هذا الحجاج</u> : بعد إعلانه عن الأطروحة المستبعدة المتمثّلة في أنّ "السعادة هي ثواب <b>أو تعويض عن الأفعال</b> التي تُنال بها" ، يقوم الفارابي بإضعافها مستخدما :</p>
+<p class="para"><b>. مماثلة أولى : فالسعادة ليست</b> ثوابا عن الأفعال التي تُنال بها مثلما <u>أنّ</u> العلم الحاصل عن التعليم ليس <b>ثوابا على التعلّم المتقدّم قبله</b> .</p>
+<p class="para"><b>. مماثلة ثانية</b> : و ليست السعادة عوضا من الرّاحة عن التعب الناجم عن الأفعال التي تُنَال بها <u>مثلما أنّ</u> العلم ليس عوضا من الرّاحة عن الكدّ و التعب في التعلّم .</p>
+<p class="para"><b>. المقارنة و مماثلة ثالثة و أخرى رابعة</b> : على خلاف القول بأنّ السعادة هي ثواب أو تعويض عن الأفعال التي تُنال بها يرى الفارابي أنّ السعادة هي غاية شأنها أن تُنَال بالأفعال الفاضلة <u>مثلما أنّ</u> العلم يحصل بالتعلّم و الدّرس و <u>مثلما أنّ</u> الصنائع تحصل بالتعلّم و المواظبة على اعمالها .</p>
+<p class="para"><b>. القياس من العامّ إلى الخاصّ</b> : كلّ من يعتقد أنّه بالقيام بالأفعال الي تُنال بها السعادة يحقّق لذّة كان بإمكانها أن تكون له لو ترك تلك الأفعال (ثواب) أو يتجنّب شقاء كان يمكن أن يكون له لو ترك تلك الأفعال (تعويض) ، "فإنّ فضائله قريبة من أن تكون نقائص" .</p>
+<p class="para"><b>. مثال لتدعيم الحجّة السّابقة</b> : العفيف الذي يترك لذّة في سياق الحجّة السّابقة إنّما يتركها لاعتقاده أنّها له من أجل لذّة أخرى من جنسها أو أعظم .</p>
+<p class="para"><b>. قياس الخلف</b> : و لو لم يكن يعتبر أنّها له ، "فكيف يعوّض على ترك ما ليس له" . هذا خلف .</p>
+<div class="exsub">النشاط عدد 4 : أشتغل على الضمنيات</div>
+<p class="subhead t-navy"><b>- التمرين عدد 1</b></p>
+<p class="consigne"><b>المعطى</b> : يقتضي الفعل الخيّر مقاومة الأهواء .</p>
+<p class="consigne"><b>المطلوب</b> :</p>
+<p class="consigne">- ابحث عن الضمنيات التي يقوم عليها هذا الموقف .</p>
+<p class="consigne">- عيّن بعض المرجعيات التي تساعدك على فهم هذه الضمنيات .</p>
+<p class="subhead t-navy"><b>- الانجاز</b> :</p>
+<p class="para">- <u>الضمنيات التي يقوم عليها هذا الموقف</u> : يقوم هذا الوقف على مسلّمتين ضمنيتين :</p>
+<p class="para">. الأول هي أن الأهواء هي التي تدفعنا إلى فعل الاشرّ .</p>
+<p class="para">. و الثانية هي أنّ الأهواء عنيدة و ليس من اليسير التغلّب عليها .</p>
+<p class="para">و النتيجة هي أنّ فعل الخير يقتضي مقاومة الأهواء .</p>
+<!-- CROP: 1423 1 74 0.045 0.065 0.255 0.310 1423_bergson_deux_sources -->
+<figure class="fig"><img src="https://wael-philo.b-cdn.net/figs/1423/1423_bergson_deux_sources.png" alt=""></figure>
+<p class="para">- <u>المرجعيات</u> : يمكن في هذا الإطار توظيف الأطروحة الأفلاطونية التي ترى أنّ الأهواء هي مصدر كلّ الرّذائل ، و الموقف الرّواقي مع إبيكتات الذي يرى أنّ الأهواء هي التي تجعلنا نسعى وراء الأشياء الغريبة عنّا فتوقعنا في الشّرور ، و كذلك الموقف الديكارتي القريب من الموقف الأفلاطوني و خاصّة الرّواقي حيث يقول ديكارت "عليّ أسعى دائما إلى مغالبة أهوائي ، و ليس تقلّبات الدّهر" . يمكن أيضا توظيف ما يقوله برجسون في "منبعا الأخلاق و الدين" حين يبيّن مدى التعارض بين الأهواء و الواجب الأخلاقي .</p>
+<p class="subhead t-navy"><b>- التمرين عدد 2</b></p>
+<p class="consigne"><b>المعطى</b> : لا تسرق .</p>
+<p class="consigne"><b>المطلوب</b> :</p>
+<p class="consigne">- ابحث عن عن موقفين أو أكثر من هذه الأمر الأخلاقي .</p>
+<p class="consigne">- ابحث عن ضمنيات هذا الأمر من وجهة نظر كلّ موقف .</p>
+<p class="subhead t-navy"><b>- الانجاز</b> :</p>
+<p class="para">- <u>موقفان من هذا الأمر</u> :</p>
+<p class="para"><b>. موقف</b> <u>كانط</u> : "لا تسرق" قاعدة <span dir="ltr">maxime</span> يمكن تعميمها دون تناقض لتصبح قانونا أخلاقيا كونيا <b>يملي</b> العقل العملي الامتثال له كواجب . يقول كانط : "الواجب هو ضرورة القيام بالفعل احتراما للقانون" . و هذا القانون قطعي و كلّي و غير مشروط .</p>
+<p class="para">. موقف <u>ماركس و إنجلز</u> : "لا تسرق" قاعدة أخلاقية فرضتها ظروف الاستغلال القائمة على الطبقية القائمة بدورها على الملكية الخاصّة لوسائل الإنتاج ، و ستزول بزوال الطبقية كسبب لوجودها .</p>
+<div class="exsub">النشاط عدد 5 : أشتغل على الرّهانات</div>
+<p class="subhead t-navy"><b>- التمرين عدد 1</b></p>
+<p class="consigne"><b>المعطى</b> : قيل : "إذا لم يكن ما نريد فلنرد ما يكون" .</p>
+<p class="consigne"><b>المطلوب</b> :</p>
+<p class="consigne">- تبيّن دلالات هذا القول .</p>
+<p class="consigne">- استخلص من ذلك الرّهان أو الرّهانات التي يطمح هذا الموقف إلى تحقيقها .</p>
+<p class="subhead t-navy"><b>- الانجاز</b> :</p>
+<p class="para">- <u>دلالات هذا القول</u> : يدلّ هذا القول على أنّه توجد أشياء "أمرها ليس بيدنا" ، و لذلك فإن استحال بلوغها يكون من الأفضل بالنّسبة إلينا أن نقبل بها . و هو ما يتماشى مع قول إبيكتات الرّواقي "لا تحاول أن تجري الأمور كما تريد ، بل ردها كما تجري" .</p>
+<p class="para">- <u>رهانات الموقف الذي يعبّر عنه القول</u> : يطمح هذا الوقف إلى تحقيق السّعادة للإنسان <b>و تجنيبه</b> الشّقاء : على الإنسان أن يكتفي بما "أمره بيده" حتى يسعد ، و أن لا يسعى وراء "ما أمره <b>ليس بيده</b>" لتجنّب الشّقاء .</p>
+<p class="subhead t-navy"><b>- التمرين عدد 2</b></p>
+<p class="consigne"><b>المعطى</b> : ليس واجبا أن نخضع للواجب .</p>
+<p class="consigne"><b>المطلوب</b> :</p>
+<p class="consigne">- تعرّف إلى الواجب الأخلاقي .</p>
+<p class="consigne">- تبيّن رهان النفي الوارد في الموضوع .</p>
+<p class="subhead t-navy"><b>- الانجاز</b> :</p>
+<p class="para">- <u>دلالة الواجب الأخلاقي</u> : الواجب الأخلاقي هو الأمر <span dir="ltr"><b>impératif</b></span> الذي علينا الامتثال له لنكون أخلاقيين .</p>
+<p class="para">- <u>رهان النفي الوارد في الموضوع</u> : رهان النفي الوارد في الموضوع هو بيان أنّ الواجب الأخلاقي غير الإلزام الخارجي و لا يتنافى مع الحرّية ، بل يتأسّس عليها . هذا ما نجده عند كانط مثلا إذ تمثّل الحرّية عنده مسلّمة من مسلّمات العقل العملي الثّلاث : الحرّيّة ، الوجود الإلهي و خلود النفس .</p>
+<div class="exsub">النشاط عدد 6 : أشتغل على المقدّمة</div>
+<p class="subhead t-navy"><b>- التمرين عدد 1</b></p>
+<p class="consigne"><b>المعطى : نصّ نيتشه ج 2 ص 302</b></p>
+<p class="consigne"><b>المطلوب</b> :</p>
+<p class="consigne">- بيّن دواعي طرح المشكل الوارد في النصّ .</p>
+<p class="consigne">- رصد أطروحة الكاتب .</p>
+<p class="consigne">- صياغة مقدّمة .</p>
+<p class="subhead t-navy"><b>- الانجاز</b> :</p>
+<p class="para">- <u>دواعي طرح المشكل</u> : اختلاف القيم الأخلاقية من زمان إلى آخر و من مكان إلى مكان مدعاة للتساؤل عن الأسس التي تقوم عليها الأخلاق و إن كانت تضادّ الغرائز كما يعتقد أغلب الفلاسفة أم أنّها على العكس تتأسّس عليها .</p>
+<p class="para">- <u>أطروحة الكاتب</u> : تتأسّس الأخلاق على الغرائز .</p>
+<p class="para">- <u>صياغة مقدّمة</u> : تختلف القيم الأخلاقية من زمان إلى آخر و من مكان إلى مكان بشكل يدعو إلى التساؤل عن الأسس التي تقوم عليها الأخلاق و عن حقيقة قيمها . وفي هذا الإطار اعتقد كثير من الفلاسفة أنّ الأخلاق تضادّ الغرائز ، و هو ما يتولّى نيتشه نقده في هذا النصّ من كتابه "أفول الأصنام" . فما ما حقيقة الأخلاق ؟ هل تضادّ الغرائز أم تتأسّس عليها ؟ و إذا سلّمنا بأنّها تتأسّس عليها ، فما الرّهان من ذلك و إلى أيّ مدى يمكن الإقرار بدور الغرائز في تأسيس الأخلاق ؟</p>
+<p class="subhead t-navy"><b>- التمرين عدد 2</b></p>
+<p class="consigne"><b>المعطى</b> : هل من تعارض بين طلب الرّفاه و الالتزام بالأمر <b>الأخلاقي</b> ؟</p>
+<p class="consigne"><b>المطلوب</b> :</p>
+<p class="consigne">- صياغة مقدّمة في ضوء الملاحظات التوجيهية .</p>
+<p class="subhead t-navy"><b>- الانجاز</b> :</p>
+<p class="para">- <u>صياغة مقدّمة</u> : في ضوء التطوّرات التكنولوجية الحديثة و <b>اكتساح العولمة لكلّ مجالات</b> الحياة المعاصرة ، نعاين تزايدا لا مثيل له لطلب الرّفاه ، و هو ما <b>يبدو مؤشّرا على فقدان</b> القيم الأخلاقية قيمتها و تراجعا عن الالتزام بالأمر الأخلاقي . فما حقيقة <b>العلاقة بين طلب الرّفاه</b> و الالتزام بالأمر الأخلاقي ؟ هل يناقض طلب الرّفاه مطلب الالتزام بالأمر <b>الأخلاقي أم على</b> العكس يؤسّسه ؟ و إذا سلّمنا بأنّه يؤسّسه ، فضمن أيّة شروط و إلى أيّ حدّ ؟</p>
+
+<div class="chtag"><span>المحور</span> الفن والدين</div>
+
+<p class="subhead t-red"><b>الفنّ : الجمال و الحقيقة</b></p>
+<div class="exsub">النشاط عدد 1 : أشتغل على وضعية</div>
+<p class="subhead t-red"><b>(نافذة "كيفيات للتفكير في المسألة" ج 2 ص 388) :</b></p>
+<!-- CROP: 1423 1 78 0.060 0.235 0.290 0.365 1423_beethoven -->
+<figure class="fig"><img src="https://wael-philo.b-cdn.net/figs/1423/1423_beethoven.png" alt=""><figcaption>بيتهوفن</figcaption></figure>
+<p class="subhead t-navy"><b>التمرين عدد 1</b> :</p>
+<p class="consigne"><b>المعطى</b> : نصّ قويو من "مسائل الفنّ المعاصر" .</p>
+<p class="consigne"><b>المطلوب</b> :</p>
+<p class="consigne">- انظر في وضعية بيتهوفن و بيّن كيف كان ابداع سنفونياته "انعاشا للعاطفة والعقل و الإرادة" ؟</p>
+<p class="consigne">- قارن بين وضعية بونابارت و وضعية بيتهوفن مستخرجا الشبه و الاختلاف بينهما .</p>
+<!-- CROP: 1423 1 78 0.060 0.470 0.345 0.630 1423_bonaparte -->
+<figure class="fig"><img src="https://wael-philo.b-cdn.net/figs/1423/1423_bonaparte.png" alt=""><figcaption>بونابارت</figcaption></figure>
+<p class="consigne">- استخلص من الوضعيتين أهمّية الفنّ و دوره في حياة الإنسان .</p>
+<p class="consigne">- صياغة مقدّمة في ضوء الملاحظات التوجيهية .</p>
+<p class="subhead t-navy"><b>- الانجاز</b> :</p>
+<p class="para">- <u>كيف كان ابداع سنفونيات بيتهوفن انعاشا للعاطفة والعقل و الإرادة</u> :</p>
+<p class="para">. سنفونيات بيتهوفن انعاش للعاطفة لأنّها تُحدث في السّامع لذّة جمالية و انفعالا شديدا فتشتدّ خفقات قلبه و يتسارع جريان دمه .</p>
+<p class="para">. و انعاش للعقل لأنّها تهدف إلى تحقيق غاية تدرك بالعقل (مثلا اعلاء معنويات بونابارت حين كان يشهر الحروب أو يخوض المعارك) .</p>
+<p class="para">. و الإرادة لأنّها تزيد في القوّة الحيوية و تحفّز على تحقيق تلك الغاية .</p>
+<p class="para">و هذه الصور متضامنة في أعمال بيتهوفن لا يمكن تصوّرها إلاّ في علاقة ببعضها .</p>
+<p class="para">- <u>المقارنة بين وضعية بونابارت و وضعية بيتهوفن</u> :</p>
+<p class="para">. الشّبه : الحالة النفسية المماثلة ، فكلاهما يعاني من اضطرابات بسبب الرغبة في القيام بعمل ذا شأن كبير .</p>
+<p class="para">. الاختلاف : بونابارت رجل حرب يريد تحقيق انتصارات كبيرة في معاركه ، و بيتهوفن يريد إنجاز أعمال فنّية كبيرة تحفّز النّاس من أجل تحقيق مُثلهم .</p>
+<p class="para">- <u>أهمّية الفنّ في حياة الإنسان</u> : اضفاء جمالية على الوجود و التحفيز على الفعل و الزّيادة في القوّة الحيوية ممّا يجعلنا نقبل على الحياة و نحبّها . وفي هذا يلتقي بيتهوفن مع نيتشة القائل "لو لا الموسيقى لكانت الحياة خطأ" . أفول الأصنام . ص الفقرة 33 .</p>
+<div class="exsub">النشاط عدد 2 : أشتغل على المعاني و المفاهيم</div>
+<p class="subhead t-red"><b>(نافذة "كيفيات للتفكير في المسألة" ج 2 ص 389) :</b></p>
+<p class="subhead t-navy"><b>التمرين عدد 1</b> :</p>
+<p class="consigne"><b>المعطى : ما معنى أن يكون الفنّ محاكاة ؟</b></p>
+<p class="consigne"><b>المطلوب</b> :</p>
+<p class="consigne">- اكشف عن معاني المحاكاة .</p>
+<p class="consigne">- استحضر أمثلة عن ذلك في مجال الفنّ .</p>
+<p class="subhead t-navy"><b>- الانجاز</b> :</p>
+<p class="para">- <u>معاني المحاكاة</u> : المحاكاة هي التقليد و الاستنساخ و نقل الأصل كما هو دون إضافة ، و يمكن أن تكون محاكاة للواقع الطّبيعي أو الإنساني مثل مظاهر الحياة الاجتماعية في لحظة تاريخية ما أو حالات الإنسان النفسية كما في التمثيل .</p>
+<!-- CROP: 1423 1 80 0.055 0.065 0.375 0.230 1423_zeuxis -->
+<figure class="fig"><img src="https://wael-philo.b-cdn.net/figs/1423/1423_zeuxis.png" alt=""><figcaption>زوكسيس</figcaption></figure>
+<p class="para">- <u>أمثلة في مجال الفنّ عن القول بأنّه محاكاة</u> : من أشهر الأمثلة في الرّسم ، أنّ الرسّام اليوناني زوكسيس <span dir="ltr">Zeuxis</span> دخل في مناظرة مع الرسّام بارازيوس <span dir="ltr">Parrhasios</span> من أجل إنجاز أكمل عمل يحاكي الواقع ، حيث صوّر عنبا يشبه العنب الحقيقي إلى درجة انّه خدع العصافير التي كانت تأتي لتنقره ، في حين صوّر بارازيوس ستارا يشبه السّتار الحقيقي إلى درجة أنّه خدع زوكسيس نفسه الذي طلب من بارازيوس أن يفتح السّتار ليرى اللّوحة التي افترض أنّها وراء السّتار في حين كان السّتار هو اللّوحة ، فأعلن زوكسيس هزيمته لأنّ باراسيوس خدعه في حين أنّه لم ينجح إلاّ في مخادعة العصافير .</p>
+<div class="exsub">النشاط عدد 3 : أشتغل على الحجاج</div>
+<p class="subhead t-red"><b>(نافذة "كيفيات للتفكير في المسألة" ج 2 ص 389) :</b></p>
+<p class="subhead t-navy"><b>التمرين عدد 1</b> :</p>
+<p class="consigne"><b>المعطى : نصّ كانط مقتطع من "نقد العقل الخالص "</b> .</p>
+<p class="consigne"><b>المطلوب</b> :</p>
+<p class="consigne">- استخرج الروابط المنطقية في النصّ .</p>
+<p class="consigne">- ما هي الحجج التي يستخدمها الكاتب للطّابع الذاتي و الكوني للحكم الجمالي ؟</p>
+<p class="subhead t-navy"><b>- الانجاز</b> :</p>
+<p class="para">- <u>الروابط المنطقية</u> : "لو ... لكان" / "ولو ... فإنّه" / "و لذلك" / "و ليس" / "إنّ" : <b>افتراض ... نتيجة / افتراض ... نتيجة / نتيجة / نفي / تأكيد</b> .</p>
+<p class="para">- <u>أوجه التقابل بين الأحكام</u> : يقابل كانط بين أحكام الذوق و أحكام المعرفة من جهة أن أحكام المعرفة تقوم على مبدا موضوعي و يمكن <b>أن تكون لها</b> ضرورة لا مشروطة كونية تفرض نفسها بواسطة مفاهيم ، في حين أنّ أحكام الذوق هي أحكام تقوم على مبدا ذاتي و تصدر عن شعور خاصّ يحدّد الذوق و مع ذلك بإمكانها <b>أن تطمح إلى</b> بعض الضرورة و إلى "كونية مقبولة" .</p>
+<p class="para">- <u>الحجج</u> على أنّ الحكم الجمالي <span dir="ltr">jugement esthétique</span> (و هو حكم ذوق <span dir="ltr">un jugement de goût</span> ) هو حكم ذاتي و كوني في آن:</p>
+<p class="para">. الحجّة بالخلف : لو كان لأحكام الذوق (الأحكام الجمالية) مبدأ موضوعي محدّد ، كما بالنسبة إلى أحكام المعرفة ، لأمكن أن نطمح إلى اصدار أحكام ذوق لها ضرورة لا مشروطة (و هذا خلف لأنّه يستحيل إصدار أحكام ذوق لها ضرورة لا مشروطة كما في المعرفة ، مثلا في الأحكام التحليلة كقولنا المثلّث ثلاثي الأضلاع).</p>
+<p class="para">. حجّة ثانية بالخلف : و لو كانت هذه الأحكام لا تقوم على أيّ مبدإ ، كما بالنّسبة إلى الأحكام القائمة على الذوق الحسّي وحده ، فإنّه لن يخطر ببال أيّ واحد منّا أن يسند لها أيّة ضرورة ( هذا أيضا خلف لأنّ الذي يقول "هذا القصر جميل" يعطي لحكمه بعض الضرورة و الكلّية ، فهو لا يقصد "هذا القصر جميل بالنّسبة إليّ أنا فقط" ، بل إنّه جميل لأنّ أيّ شخص آخر يمكن أن يراه جميلا) .</p>
+<p class="para">. النتيجة : ينتج عن ذلك أنّه يجب أن يكون لهذه الأحكام مبدأ ذاتي يحدّد بواسطة الشعور ، و ليس بواسطة مفاهيم ، ما يروق و يعجب أو العكس "بشكل كوني مقبول" . و يقرّر كانط أن يعتبر هذا الحسّ هو "حسّ مشترك" يختلف عن الحسّ المشترك في المعرفة ، يسمح بإصدار أحكام ذوقية <b>تطمح</b> إلى الضّرورة و الكونية . <b>فيكون الحكم الجمالي ذاتيا و كونيا في آن</b> .</p>
+<p class="subhead t-navy"><b>التمرين عدد 2</b> :</p>
+<p class="consigne"><b>المعطى</b> : الجمال و الحقيقة .</p>
+<p class="consigne"><b>المطلوب</b> :</p>
+<p class="consigne">- استخرج العلاقات الممكنة بين الجمال و الحقيقة وما تحيل إليه من مواقف .</p>
+<p class="consigne">- حدّد المواقف من مسألة العلاقة بين الفنّ والحقيقة و استحضر المرجعيات الملائمة لذلك .</p>
+<p class="subhead t-navy"><b>- الانجاز</b> :</p>
+<p class="para">- <u>العلاقات الممكنة بين الجمال و الحقيقة</u> :</p>
+<p class="para">. علاقة تماهي : الحقيقة = الجمال (أفلاطون) .</p>
+<p class="para">. علاقة تناقض : الحقيقة بشعة و يلجأ الإنسان إلى الفنّ لتجميلها (نيتشه) .</p>
+<p class="para">- المواقف الممكنة من العلاقة بين الفنّ و الحقيقة :</p>
+<p class="para">. الموقف الأفلاطوني : الفنّ يبعدنا الحقيقة لأنّه يحاكي المحسوسات ، و المحسوسات لا تعطينا إلاّ أوهام.</p>
+<p class="para">. الموقف الهيجلي : الفنّ تعبير عن الحقيقة لأنّه "يظهر للعيان ما يتولّد عن الرّوح من أفكار و تمثّلات".</p>
+<p class="para">. موقف هيدغر : الفنّ هو "انكشاف للحقيقة في العمل الفنّي" .</p>
+<p class="para">. موقف برجسون : الفنّ هو أفضل وسيلة لملامسة حقيقة الأشياء في خصوصيتها و حميميتها لأنّه يخترق حجاب العموميات و المنفعة .</p>
+<p class="para">. موقف نيتشه : "لنا الفنّ حتى لا نموت من الحقيقية" . الفنّ ينتج أوهاما ، و لكنّ "الأوهام التي تحيي لهي أفضل من الحقيقة التي تميت" .</p>
+<div class="exsub">النشاط عدد 4 : أشتغل على الضمنيات</div>
+<!-- PROOFREAD: 1423 part1 p82 — banner very dark: "النشاط عدد 4 : أشتغل على الضمنيات" -->
+<p class="subhead t-red"><b>(نافذة "كيفيات للتفكير في المسألة" ج 2 ص 390) :</b></p>
+<p class="subhead t-navy"><b>التمرين عدد 1</b> :</p>
+<p class="consigne"><b>المعطى</b> : قيل يلهينا الفنّ عن الواقع .</p>
+<p class="consigne"><b>المطلوب</b> :</p>
+<p class="consigne">- على أيّ نحو تتحدّد علاقة الفنّ بالواقع في ضوء هذا القول ؟</p>
+<p class="consigne">- قدّم المفترضات التي تؤيّد الموقف الوارد في القول أو تفنّده .</p>
+<p class="subhead t-navy"><b>- الانجاز</b> :</p>
+<p class="para">- <u>طبيعة علاقة الفنّ بالواقع في ضوء هذا القول</u> : هذه العلاقة هي علاقة ابداع و ليست علاقة محاكاة.</p>
+<p class="para">- <u>المفترضات التي تؤيّد الموقف الوارد في القول</u> : هي أن يكون الواقع بشعا أو مبتذلا أو لا يُحتَمل ، فنحتاج إلى الهروب منه كما يرى نيتشه و بول كلي . أو أنّه عاجز عن إشباع الحاجات فننسحب منه إلى دنيا الخيال : يقول فرويد "ينسحب الفنّان كالعصابي من دنيا الواقع الذي لا يُرضي إلى عالم خيالي".</p>
+<div class="exsub">النشاط عدد 5 : أشتغل على الرّهانات</div>
+<p class="subhead t-red"><b>(نافذة "كيفيات للتفكير في المسألة" ج 2 ص 390) :</b></p>
+<p class="subhead t-navy"><b>التمرين عدد 1</b> :</p>
+<p class="consigne"><b>المعطى</b> : هل الجمال وحده غاية الفنّ .</p>
+<p class="consigne"><b>المطلوب</b> :</p>
+<p class="consigne">- حدّد علاقة الفنّ بالجمال ؟</p>
+<p class="consigne">- استخلص بعض الرّهانات الأخرى التي ينطوي عليها العمل الفنّي .</p>
+<p class="consigne">- دعّم ما تستخلصه بتقديم مرجعيات مناسبة .</p>
+<p class="subhead t-navy"><b>- الانجاز</b> :</p>
+<p class="para">- <u>علاقة الفنّ بالجمال في الموضوع</u> : في هذا الموضوع علاقة الفنّ بالجمال هي علاقة تقاطع ، بإمكانه أن يعبّر عن الجمال ، و لكن بإمكانه أن تكون له غايات أخرى غير الجمال .</p>
+<p class="para">- <u>الرهانات الأخرى التي ينطوي عليها العمل الفنّي و المرجعيات المناسبة التي تدعّمها :</u></p>
+<p class="para">. التعبير عن الحقيقة (هيجل ، هيدجر ، برجسون) .</p>
+<p class="para">. تجميل الحياة لنحبّها (نيتشه) .</p>
+<p class="para">. الهروب من الواقع (بول كلي ، فرويد) .</p>
+<p class="para">. نقد الواقع و تغييره (هاربارت ماركوز) .</p>
+<p class="para">. التعبير عن القبح (أدورنو : "يجب على القبيح أي يكوّن أو أن تكون له القدرة على أن يكون لحظة من لحظات الفنّ" . ج 2 ص 322) .</p>
+<p class="para">. التعبير عن الكلّي (إرنست فيشر : "الواضح أنّ الإنسان بحاجة إلى أن يكون أكثر ممّا هو . فهو بحاجة إلى ان يكون إنسانا كلّيا ... إلى أن يوحّد هذه "الأنا" المحدودة بوجود جماعي عن طريق الفنّ ، و أن يجعل فرديته اجتماعية" . الكتاب المدرسي . ج 2 ص 362) .</p>
+<p class="subhead t-navy"><b>التمرين عدد 2</b> :</p>
+<p class="consigne"><b>المعطى</b> : هل الإنسان في حاجة إلى الفنّ ؟</p>
+<p class="consigne"><b>المطلوب</b> :</p>
+<p class="consigne">- وضّح بعض الرّهانات المرتطة بهذه الحاجة .</p>
+<p class="consigne"><b>- حلّل وجهه من وجوه هذه الرّهانات و صغ فقرة في الغرض .</b></p>
+<p class="subhead t-navy"><b>- الانجاز</b> :</p>
+<p class="para"><b>- <u>بعض الرّهانات المرتبطة بحاجة الإنسان إلى الفنّ</u> :</b></p>
+<p class="para">. تجاوز القول بأنّ حاجات الإنسان هي حاجات مادّية فحسب .</p>
+<p class="para">– تجاوز القول بأنّ الإنسان يحتاج فقط إلى العلم و التقنية كسبيل للاستجابة لحاجاته .</p>
+<p class="para">. تجاوز القول بأنّ الفنّ مجرّد ترف أو لعب .</p>
+<p class="para">. الإقرار بأهمّيّة الفنّ في تغيير رؤيتنا للأشياء حتى نراها على نحو أفضل (مرلو بونتي) .</p>
+<p class="para">. الإقرار بأهمّيّة الفنّ في اخراج الأشياء من الابتذال و إضفاء المعنى عليها (هيجل) .</p>
+
+
+<p class="para">. الإقرار بأهمّيّة الفنّ في تجميل الحياة حتى تصبح جديرة بأن تُعاش (نيتشه) .</p>
+<p class="para">- <u>تحليل وجه من وجوه هذه الرّهانات : فقرة في أنّ الفنّ تجميل للحياة لتصبح جديرة بأن تُعاش :</u></p>
+<!-- CROP: 1423 1 85 0.05 0.17 0.24 0.37 1423_p85_nietzsche -->
+<figure class="fig"><img src="https://wael-philo.b-cdn.net/figs/1423/1423_p85_nietzsche.png" alt=""><figcaption>نيتشه</figcaption></figure>
+<p class="para">لوكان الفنّ محاكاة للواقع بما فيه من مرارة و بشاعة لفضلنا الموت على الحياة إذ أمام القبيح تنقبض النّفس و تضعف الطّاقة الحيوية فنشقى و نتشاءم ، لكن من "حسن حظّنا" ، كما يقول نيتشه ، "لنا الفنّ حتى لا نموت من الحقيقة" ، لأنّه يضفي على الوجود جمالية فيحبّبنا في الحياة ، إذ أمام الجميل تنشرح النّفس و تزداد قوّتنا الحيوية فنسعد و نتفاءل . الفنّ "حبّة جنون" لولاها لأصبحت الحياة غير جديرة بأن تُعاش .</p>
+<p class="subhead t-red">النشاط عدد 6 : أشتغل على صياغة موقف</p>
+<p class="subhead t-navy"><b>(نافذة "كيفيات للتفكير في المسألة" ج 2 ص 391) :</b></p>
+<p class="subhead t-navy"><b>التمرين عدد 1 :</b></p>
+<p class="para"><b>المعطى</b> : هل اللّذة هي مصدر العمل الفنّي و غايته ؟</p>
+<p class="para"><b>المطلوب :</b></p>
+<ul class="dash">
+<li>حدّد المواقف الممكنة في الموضوع .</li>
+<li>أيّ موقف يكتسي مشروعية في نظرك ؟</li>
+<li>حرّر فقرة تبني فيها موقفك .</li>
+</ul>
+<p class="subhead t-navy"><b>- الانجاز :</b></p>
+<p class="para">- <u>المواقف الممكنة في الموضوع</u> :</p>
+<p class="para">. اللّذة هي مصدر العمل الفنّي و غايته .</p>
+<p class="para">. اللّذة هي مصدر العمل الفنّي و لكن ليست غايته .</p>
+<p class="para">. اللّذة ليست المصدر الوحيد للعمل الفنّي و لا هي غايته الوحيدة .</p>
+<p class="para">- <u>الموقف الذي أراه وجيها</u> : ليست اللّذة هي المصدر الوحيد للعمل الفنّي و لا هي غايته الوحيدة .</p>
+<!-- CROP: 1423 1 86 0.37 0.165 0.60 0.415 1423_p86_joconde -->
+<figure class="fig"><img src="https://wael-philo.b-cdn.net/figs/1423/1423_p86_joconde.png" alt=""></figure>
+<p class="para"><u>الفقرة</u> : ليس العمل الفنّي عملا بسيطا <span dir="ltr">simple</span> يمكن بواسطة التحليل تعيين مصدره و غايته ، و إنّما هو ، إذا ما استعدنا عبارة إدغار موران ، عمل "مركّب" <span dir="ltr">complexe</span> ، تتداخل فيه العوامل و تتفاعل من جهة المصدر و من جهة الغاية . فمن جهة المصدر اللّذة وحدها لا تكفي إذ لا بدّ أيضا ، ليكون هنالك فنّ ، من موهبة أو "عبقرية" كما يقول كانط ، و لا بدّ أن نأخذ بعين الاعتبار عصر الفنّان و بيئته لأن كلّ فنّان هو "ابن عصره" بحسب تعبير هيجل . و لا بدّ أيضا من أن نأخذ بعين الاعتبار نفسية الفنّان و مكبوتاته كما يبيّن فرويد . كذلك قد تكون غاية العمل الفنّي هي اللّذة الجمالية ، و لكنّها لا تكفي وحدها لتفسير العمل الفنّي ، لأنّ العمل الفنّي قد يهدف إلى التعبير عن الواقع أو عن حقيقة ما ، أو تخليد حدث ما مقدّس أو دنيوي ، أو التنفيس عن مكبوتات الفنّان أو السّامع أو المشاهد ، أو نقد الواقع من أجل تغيره . و بالتالي فإنّ القول إنّ اللّذة هي مصدر العمل الفنّي و غايته هو قول اختزالي لا يستوفي حقيقة الفنّ . و لهذا فإنّ الفنّ يظلّ ملغزا و تظلّ له قيمة عبر العصو لأنّ كلّ مشاهد أو سامع بإمكانه أن يجد فيه صدى لنفسه أو تعبيرا عن هاجس من هواجسه .</p>
+<p class="subhead t-navy"><b>التمرين عدد 2 :</b></p>
+<p class="para"><b>المعطى</b> : الفنّ و الواقع .</p>
+<p class="para"><b>المطلوب :</b></p>
+<ul class="dash">
+<li>ابرز المواقف التي يقدّمها الفنّ من الواقع .</li>
+<li>استحضر بعض المدارس الفنّية التي تتبنّى هذا الموقف .</li>
+<li>أيّ موقف تعتبره وجيها . دعّم ذلك بالاستناد إلى بعض التصوّرات الفنّية .</li>
+</ul>
+<p class="subhead t-navy"><b>- الانجاز :</b></p>
+<p class="para">- <u>المواقف التي يقدّمها الفنّ من الواقع</u> :</p>
+<p class="para">. محاكاة الواقع .</p>
+<p class="para">. التعبير عن حقيقته .</p>
+<p class="para">. الهروب منه .</p>
+<p class="para">. تغيير رؤيتنا للأشياء حتى نراها على نحو أفضل .</p>
+<p class="para">. نقد الواقع لتغييره .</p>
+<p class="para">- <u>الموقف الذي أراه وجيها</u> : هو أنّ الفنّ يغيّر رؤيتنا للأشياء حتى نراها على نحو أفضل إذ تتقاطع فيه تقريبا كلّ المواقف الأخرى عدا الموقف القائل بالمحاكاة و الموقف القائل بالهروب من الواقع . أوّلا لأنّ الفنّان لا يحاكي الواقع كما هو ، بل كما يراه فيساهم في تغيير رؤيتنا للواقع كما عند الانطباعيين أو التكعيبيين . و ثانيا لأنّ القول بأنّ الفنّ هروب من الواقع سلبي ، إذ ليس الفنّ مخدّرا نريد من ورائه "جنانا اصطناعية" ، إنّما هو مثير أو عامل مستفزّ يوقظنا لنرى ما يختفي وراء الأشياء من حقيقة ، أو لنراها على نحو آخر ، فيدفع بنا ذلك إلى الفعل في هذا الاتّجاه أو ذاك .</p>
+<div class="exsub">الملحق رقم 1 . الفنّ : الجمال و الحقيقة</div>
+<p class="subhead t-red">تمهيد إشكالي :</p>
+<p class="para">تتنزّل مسألة "الفنّ : الجمال و الحقيقة" في إطار البحث في القيم بين النسبي و المطلق . فالعدالة هي القيمة التي تمنع النجاعة من أن تكون ظلما ، و الحرّية هي القيمة التي تمنع السيادة من أن تكون استبدادا ، و الخير هو القيمة التي بها تكون الأخلاق ، والفنّ يبدو أنّه لا يكون كذلك إلاّ إذا ما اقترن بالجمال ، ألسنا ندرج الاعمال الفنّية لكبار النحّاتين و الرسّامين و الموسيقيين في إطار ما يسمّى بـ"الفنون الجميلة" ؟</p>
+<p class="para">و لكن إذا كانت علاقة الفنّ بالجمال تبدو بديهية ، لأنّ <b>قيمة الأعمال الفنّية</b> في نظرنا تبدو مرتبطة بمدى تجسيمها للجمال ، فإنّ علاقته بالحقيقة تبدو مسقطة . إذ الحقيقة ، كقيمة أو كمعيار ، تبدو أقرب إلى الفلسفة و العلم منها إلى الفنّ باعتبار أنّ الجمال تجربة وجدانية حسيّة في حين أنّ الحقيقة –كما نتصوّرها عادة على الأقلّ– مفهومية و معرفية ، تُصاغ في مفاهيم و مجالها هو مجال المعرفة . كذلك لا يحتاج الجمال إلى إثباتات و ليس مجال حجاج ، و هذا أمر يبدو بديهيا ، "فالأذواق لا تناقش" ، في حين أنّ الحقيقة –كما تعوّدنا عليها على الأقلّ– <b>تتطلّب إثباتات نظرية أو تجريبية</b> و لها قواعدها و مناهجها و "جداولها" كما في المنطق .</p>
+<p class="para">بحيث يبدو انّ هنالك اختلافا بين الجمال و الحقيقة قد يصل إلى حدّ التناقض ، فكيف نتحدّث عن "الفنّ : الجمال و الحقيقة" أو عن "إشكالية الجمال و الحقيقة في الفنّ" ؟</p>
+<p class="para">و لكن هل أنّ هذا التناقض هو تناقض حقيقي أم أنّه تناقض ظاهر ؟</p>
+<p class="para">ألم نتصرّف و كأنّنا نعرف ما هو الفنّ و ما هو الجمال و ما هي الحقيقة و ما هي العلاقة التي تربط بينهما و بين الفنّ ؟ ألا يجب أن نعيد النظر في هذه البديهيات و التمثّلات الجاهزة لنقف على حقيقة الأمر ؟</p>
+<p class="para">و بالتالي ألا يكون من المشروع ان نتساءل عن إمكانية الاقتران بين الجمال و الحقيقة في الفنّ ، شرط ، بطبيعة الحال ، أن نعيد النظر في مفهوم الفنّ و مفهوم الجمال و مفهوم الحقيقة ؟</p>
+<p class="para">و إذا سلّمنا بإمكانية اقتران الجمال بالحقيقة في الفنّ ، فهل يتعلّق الأمر بجمال نسبي كما يبدو أم بجمال كلّي و مطلق ؟ و هل يستجيب الفنّ على هذا النحو لمطلب الكلّي في الإنسان باعتباره مطالبا يرفعه فوق مرتبة سائر الكائنات ؟</p>
+<p class="para">ثمّ ، ألا يمكن أن يكون الفنّ هروبا من الحقيقة و إنتاجا مقصودا لأوهام و ليس تعبيرا عن الحقيقة أو تجسيما لها ؟ و قبل كلّ شيء ، ألم نتسرّع في التسليم باقتران الفنّ بالجمال و كأنّ هذا الأمر بديهي؟ ألا يمكن للقبح أن يكون موضوعا للفنّ ؟ ألا يتحدّث البعض ، اليوم ، عن "إستيتيكا القبح" ؟</p>
+<p class="para">ما هي طبيعته الفنّ إذن ؟ هل هو محاكاة أم إبداع ؟ يعبّر عن قيم ذاتية أم كلّية ؟ وما هي وظيفته ؟ التعبير عن الجمال أم عن الحقيقة أم الهروب من الواقع و الحقيقة أم انتاج لعالم يكون أكثر جمالا و اكثر حقيقة ؟ و هل هو شأن يخصّ الفنّان وحده أم شأن إنساني بإطلاق يشمل كلّ من يتأمّله أو يسمعه و يبحث عن صدى لشيء من نفسه فيه ؟ كيف نفسّر حضوره في كلّ العصور و كلّ الثقافات و المجتمعات ؟ هل هو قابل للتجاوز ؟ ما الذي يطلبه الإنسان من الفنّ و ما قيمته بالنّسبة إليه ؟</p>
+<p class="subhead t-red">I – في علاقة الفنّ بالجمال و الحقيقة</p>
+<p class="para">إنّ أوّل ما يجب ملاحظته هو أنّ الفنّ قديما كان متماهيا مع المهارة و التقنية سواء اتعلّق الأمر بالكلمة اليونانية "تِكنى" أو بالكلمة اللاّتنية "أر" ، و أنّه لم يكن مستقلاّ عن المنفعة ، و لا عن الدّين و طقوسه . و لم تتحدّد دلالة الفنّ كإنتاج لأعمال جميلة دون غاية نفعية إلاّ انطلاقا من القرنين
+<!-- CROP: 1423 1 90 0.04 0.03 0.21 0.15 1423_p90_ecole_beaux_arts -->
+<figure class="fig"><img src="https://wael-philo.b-cdn.net/figs/1423/1423_p90_ecole_beaux_arts.png" alt=""></figure>
+الخامس عشر و السّادس عشر ، أي انطلاقا من النهضة الإيطالية ، و خاصّة في القرنين الثامن عشر و التاسع عشر حين استقلّ عن الدّين و عن الصّناعة أي عن المنفعة . عندها أصبح –كقدرة على انتاج أعمال جميلة <span dir="ltr">de belles oeuvres</span> ، و منها "<span dir="ltr">les beaux arts »</span> – غرضا لذاته و موضوعا لعلم الجمال أو"الإستيتيكا" التي نظّر لها بومغرتان و اصبحت فيما بعد اهتماما مركزيا في فلسفة كلّ من كانط في "نقد ملكة الحكم" و هيجل في "المدخل إلى الإستيتيكا".</p>
+<p class="para">و ثاني ما يجب ملاحظته هو أنّ التعريف التقليدي للحقيقة كتطابق بين ما تتمثّله الذّات و ما عليه الموضوع ينسحب على التطابق بين العمل الفنّي و ما يستنسخه في إطار ما يسمّى "المحاكاة" أو "الميماسيس" <i>mimesis</i> اليونانية التي سادت إلى حدود القرن التاسع عشر . لكنّ الفنّ يشمل أيضا دلالات أخرى للحقيقة جاءت كردّ على تعريفها بالتطابق ، وهو ما سيتبلور لاحقا .</p>
+<p class="subhead t-red">II – في علاقة الفنّ بالحقيقة في حال القول بأنّه محاكاة</p>
+<p class="para">إنّ القول بأنّ الفنّ يقوم على المحاكاة يفضي إلى القول بأنّ الجمال الفني هو محاكاة لجمال يوجد بعدُ يتولى الفنّان محاكاته في رسومه و منحوتاته و مسيقاه و يكون عمله اقرب إلى الحقيقة كلّما كانت محاكاته أكمل و كلّما كانت النّسخة اشبه بالأصل .</p>
+<p class="para">و لكنّ السّؤال الذي يُطرح هو : هل أنّ هذا الجمال الذي يحاكيه الفنّان هو جمال الأشياء الحسّية التي نراها ؟</p>
+<p class="para">هنا يجيب افلاطون بأنّ الجمال الحسّي هو جمال وهمي و محاكاته تنتج وهما مضاعفا ، لأنّ الحقيقة ، في نظره ، لا تقوم على مطابقة المحسوسات الجزئية المتغيّرة بل توجد في ذاتها في عالم علوي ثابت و مطلق ، هذا العالم الذي يوجد فيه الجمال الحقيقي ، باعتبار انّ الجمال ، في نظره ، "مثال" أو "حقيقة كلّية" مطلقة و ثابتة تعلو على الأشياء الجزئية ، و يمكن للفيلسوف ان يسعى إلى الاقتراب منها بالانتقال التدريجي من العالم المحسوس إلى العالم المعقول <b>عن طريق الجدل الصّاعد ، أمّا الفنّان</b> الذي يحاكي المحسوسات فهو لا يحاكي إلاّ جمالا جزئيا و وهميا و يبعدنا عن <b>الحقيقة و عن الجمال</b> الحقيقي . و بالتالي فإنّ أفلاطون يحطّ من قيمة الفنّ باعتباره محاكاة ، و من جماله باعتباره <b>جمالا وهميا</b> من الدّرجة الثّالثة ، و من قدرته على التعبير عن الحقيقة لأنّ الحقيقة مفارقة و لا تقوم <b>على المطابقة</b> مع المحسوسات بل توجد في ذاتها .</p>
+<!-- CROP: 1423 1 91 0.07 0.25 0.30 0.50 1423_p91_tragedie -->
+<figure class="fig"><img src="https://wael-philo.b-cdn.net/figs/1423/1423_p91_tragedie.png" alt=""></figure>
+<p class="para">لكنّ أرسطو ينقد هذه الفكرة القائلة بوجود عالم مفارق – أي مستقل عنا – هو عالم المثل ، و يعتبر أن الوجود الحقيقي هو وجود الأشياء العينية الحسية . فليس هنالك مثال "الإنسان" بصفة عامّة بل هنالك "كالياس" مثلا ، و ليس هنالك مثال "الجمال" بصفة عامّة بل هنالك أشياء جميلة . و تنقسم الاشياء الجميلة في نظره إلى اشياء طبيعية و أخرى بالفنّ . و الفنّ عنده محاكاة للطّبيعة التي لها مبدأ إنتاجها في ذاتها و التي توجد فيها موضوعيا معايير الجمال المتمثّلة في النظام ، و التناسق ، و الأيقاع من أجل تحقيق غاية . و هو لا يحطّ من قيمة الفنّ باعتباره بمحاكته يعرض علينا صورا لأشياء حقيقية نستمتع بمعرفتها . غير أنّه أيضا يحاكي المشاعر و الانفعالات الإنسانية ، كما في الشعر أو الموسيقى أو المأساة ، فيجعل المتلقي يتجاوب مع النبيلة منها و يتخلّص من السلبية فتتطهّر روحه . من هنا الوظيفة التطهيرية للفنّ عند ارسطو .</p>
+<p class="para">و الحقيقة أنّ المحاكاة كمبدإ للفنّ كانت سائدة في الحضارة اليونانية في القرنين الخامس و الرّابع قبل الميلاد ، و قد كانت مجالا للتنافس بين الفنّانين ، يكفي فقط أن نذكّر بما حدث للرسّام زوكسيس الذي دخل في مناظرة مع بارازيوس من أجل إنجاز أكمل عمل يحاكي الواقع ، حيث صوّر عنبا يشبه العنب الحقيقي إلى درجة انّه خدع العصافير التي كانت تأتي لتنقره ، في حين صوّر بارازيوس ستارا يشبه السّتار الحقيقي إلى درجة أنّه خدع زوكسيس نفسه الذي طلب من بارازيوس أن يفتح السّتار ليرى اللّوحة التي افترض أنّها وراء السّتار في حين كان السّتار هو اللّوحة ، فأعلن زوكسيس هزيمته لأنّ باراسيوس خدعه في حين أنّه لم ينجح إلاّ في مخادعة العصافير .</p>
+<!-- CROP: 1423 1 92 0.05 0.16 0.25 0.34 1423_p92_davinci -->
+<figure class="fig"><img src="https://wael-philo.b-cdn.net/figs/1423/1423_p92_davinci.png" alt=""><figcaption>ليوناردو دافنتشي</figcaption></figure>
+<p class="para">و قد ازدهرت المحاكاة في الفنّ بعد ذلك في القرنين الخامس عشر و السّادس عشر مع بداية النّهضة الأروبية مثلا مع دا فانتشي و هو أحد أهمّ رسّامي النهضة الإطالية ، و استمرّرت إلى حدود القرن التّاسع عشر في إطار ما يسمّى بالواقعية و التي من اهمّ ممثّليها كوربي . فنجد أنّ دافنشي يؤكّد على أهمّية الرّجوع إلى الطّبيعة كمثال و مرشد للفنّان في عمله ، حيث يقول متوجّها للرّسام : "لتعلم أيّها الرّسام أنّك لن تستطيع تحقيق الامتياز إن لم تكن لك القدرة الكلّية على أن تمثّل بفنّك كلّ أشكال التنوّع التي تنتجها الطّبيعة" . بل إنّ دافنشي في واحدة من مذكّراته ، كان يرى أنّ على الفنّانين أن يتعلّموا من المرآة تمثيلها لا للألوان فحسب ، بل ايضا للأعماق رغم أنّها مسطّحة – و في هذا الإطار نعرف مدى اهتمام دافنتشي بالمنظور <span dir="ltr">la perspective</span> – ، في هذا الشأن المرآة هي المعلّم و المرشد لكلّ رسّام <span dir="ltr">le miroir est le maître des peintres</span> . و لذلك فهو يقول متوجّها للرسّام : "من الأكيد أن رسمك ، إن استطعت ان تحسن تنضيده ، سيكون له أيضا مفعول الشيء الطبيعي كما نراه في مرآة كبيرة" <span dir="ltr">il est certain que ta peinture, si tu sais bien la composer, fera également l'effet d'une chose naturelle vue dans un grand miroir</span> . امّا كوربي و هو أحد أهمّ فنّاني القرن التاسع عشر فهو يقول : "أتمسّك بالقول إنّ الرّسم هو جوهريا فنّ واقعي و لا يمكن أن يكون إلاّ تمثيلا لأشياء واقعية توجد بالفعل . إنّه لغة مادّية ، تتكوّن ، في نظري ، من كلّ الاشياء المرئية ، أمّا الاشياء المجرّدة ، اللاّمرئية فهي لا تنتمي لمجال الرّسم ... الجمال يوجد في الطّبيعة بأكثر الاشكال تنوّعا .. الجمال الذي تقدّمه الطّبيعة أسمى من <b>كلّ مواضعات الفنّان</b> من أجل محاكاتها – ، و التعبير عن الجمال يتناسب مع قدرة الفنّان المكتسبة <b>على ادراك الأشياء</b>" .</p>
+<!-- CROP: 1423 1 92 0.77 0.60 0.95 0.78 1423_p92_courbet -->
+<figure class="fig"><img src="https://wael-philo.b-cdn.net/figs/1423/1423_p92_courbet.png" alt=""><figcaption>كوربي</figcaption></figure>
+<p class="para">على أنّ أنّ كوربي اهتمّ بصفة خاصّة برسم الواقع الإجتماعي ، كما سيفعل فيما بعد الماركسيون باعتبار الفنّ عند ماركس هو بنية فوقية تعكس البنية التحتية . الفنّ مع كوربي و مع الماركسيين أصبح واقعيا و اجتماعيا .</p>
+<!-- CROP: 1423 1 93 0.06 0.18 0.25 0.39 1423_p93_schopenhauer -->
+<figure class="fig"><img src="https://wael-philo.b-cdn.net/figs/1423/1423_p93_schopenhauer.png" alt=""><figcaption>شوبنهاور</figcaption></figure>
+<p class="para">و يمكن أن نفرد ، في إطار الحديث عن المحاكاة ، إشارة لشوبنهاور الذي يعطيها مدلولا خاصّا يختلف عن المدلول الأفلاطوني و الأرسطي أو "الواقعي" بصفة عامّة ، مفهوم أتعرّض إليه لأنّه سيساعد على فهم موقف هيدجر من علاقة الفنّ بالحقيقة خاصّة في النصّ الوارد في الكتاب المدرسي و هو نصّ مفتاح – في تقديري – بالنّبسة إلى هذه المسالة . في نظر شوبنهاور لا يحاكي الفنّ الأشياء الحسّية المرئية و <b>لا يعيد انتاجها فهي وهمية و زائلة و هنا يتفّق مع أفلاطون ، بل يحاكي المثّل و الماهيات الأبدية للأشياء ، و هنا يختلف مع افلاطون و الأرسطو و "الواقعيين" . بالنّسبة إليه ، يمكّننا الفنّ من تأمّل الجمال الخالص من خلال محاكاة ماهيات الاشياء</b> أو حقيتها الكلّية الثّابته بعيدا عن مشاغل الحياة اليومية ، مشاغل المنفعة و ما تسبّه للإنسان من شقاء ، حيث ينسى الفرد إرادته و رغباته التي هي سبب آلامه . يقول شوبنهاور : " يعيد الفنّ إنتاج المثل الأبدية التي يتوصّل إليها عن طريق التأمل الخالص ، أي أنّه يعيد إنتاج ما هو أساسي و دائم في جميع الأشياء و ظواهر العالم" .</p>
+<p class="subhead t-red">III – في القول بأنّ الفنّ ابداع و تأثير ذلك على علاقته بالجمال و الحقيقة</p>
+<p class="subhead t-navy"><b>1 ) الفنّ ابداع لأشكال جميلة تروقنا و لا علاقة له بالحقيقة :</b></p>
+<!-- CROP: 1423 1 93 0.06 0.79 0.21 0.95 1423_p93_kant_critique -->
+<figure class="fig"><img src="https://wael-philo.b-cdn.net/figs/1423/1423_p93_kant_critique.png" alt=""></figure>
+<p class="para">رغم استمرار المحاكاة في الفنّ إلى القرن التاسع عشر ، إلاّ أنّ نقدها بدأ مع كانط في القرن الثّامن عشر ، في إطار الإستيتيكا أو فلسفة الجمال في كتابه "نقد ملكة الحكم" . و قد حقّق كانط هذا النّقد من خلال ما يعرف بالثّورة الكوبرنيكية التي قلبت علاقة الذّات بالموضوع في المعرفة و الأخلاق و كذلك في الفنّ حيث لم يعد الموضوع هو الذي يفرض نفسه على الذّات ، بل إنّ الذات هي التي أصبحت "لا تجد في الوضوع إلاّ ما تضعه هي فيه" كما يقول كانط . و كنتيجة أولى لذلك فإنّ الجمال ليس في الاشياء و لا هو شيء في ذاته ، و إنّما هو في الذات رغم أنّ الذّات تراه في الأشياء . و أمّا النتيجة الثّانية فهي أنّ الفنّ لا يمكن ان يكون محاكاة لجمال يوجد بعد ، في الأشياء أو في ذاته . إنّه ابداع لأعمال جميلة . أعمال تثير فينا الإحساس بالجمال . و هو ما يمكن أن نفهمه من خلال تحليل كانط للذوق الجمالي و لما يسمّيه "الحكم الجمالي" و هو حكم استيتيقي – من اليونانية "استيسيس" بمعنى الإحساس – ، حكم لا يقوم على خصائص أو صفات في الموضوع تجعله ملائما أو نافعا ، بل على الذّوق الذي هو إحساس غير نفعي بالرضا ، و موضوع هذا الرضا يسمّية كانط "الجمال" . يقول كانط : إنّ الذوق هو الملكة التي نحكم بها على موضوع ما ، أو طريقة ما ما من طرق التمثيل ، عن طريق الشعور بالرضا او عدمه ، دون ان يكون للمصلحة اي دخل في هذا الحكم . و نحن نطلق لفظ "الجميل" على كلّ ما يكون موضوعا لمثل هذا الرضا" . و هنا نلاحظ أنّ كانط يهمل الحقيقة و يربط الفنّ بالجمال و حده . فما ننتظره من التجربة الفنّية ليس تعبيرا عن حقيقة أيا كانت بل اللّذة غير النفعية التي نحسّ بها امام ما يبدعه الفنّان من أشكال جميلة ، و نفترض أنّ الغير يحسّ بها . و لذك فإنّ هذا الحكم رغم أن ذاتي إلاّ أنّه أيضا كلّي لأنّنا نفترض أنّ الآخرين أيضا شاطرونه دون أن يكون في وسعنا أن نعبّر عن ذلك بواسطة مفاهيم لأنّ المفاهيم من جهة المعرفة في حين أنّ الجمال من جهة الإحساس . و في هذا الإطار فإنّه بإمكان الفنّان أن يمثّل بكيفية جميلة أشياء هي في الواقع مبتذلة أو غير جميلة ، ما دام الفنّ "ليس تمثيلا لشيء جميل ، و إنّما هو تمثيل جميل لشي".</p>
+<p class="para"><b>فيكون</b> الفنّ عند كانط إبداعا ، و يكون الجمال فيه قيمة كلّية رغم تأسّسة على تجربة ذاتية ، <b>لكنّه يفصل</b> بين الجمال و الحقيقة ، باعتبار أنّ الاحكام الجمالية ذوقية ، في حين انّ الحقيقة تتطلّب <b>احكاما معرفية يبيّن</b> اسسها و شروط إمكانها في "نقد العقل الخالص" . و لذلك فإنّ كانط يقول : "<b>لا وجود لعلم موضوعه</b> الجمال ، بل هنالك فقط نقد للجمال ، لا وجود لعلم جميل ، ثمّت فقط <b>فنون جميلة</b> .</p>
+<p class="subhead t-navy"><b>2 ) – الجمال هو التجلّي الحسّي للحقيقة بواسطة الاشكال المناسبة :</b></p>
+<!-- CROP: 1423 1 95 0.06 0.09 0.22 0.24 1423_p95_hegel_esthetique -->
+<figure class="fig"><img src="https://wael-philo.b-cdn.net/figs/1423/1423_p95_hegel_esthetique.png" alt=""></figure>
+<p class="para">يتبنى هيجل نقد كانط للمحاكاة و يعمّقه من خلال بيان أنّ المحاكاة لا تكون أبدا تامّة لأنّ الفنّان لا يحاكي الأشياء إلاّ في حدود الحاسّة التي يتوجّه إليها في الإنسان حاسّة البصر في التصوير مثلا و حاسّة السّمع في الموسيقى ، و لذلك فإنّ كلّ فنّان يحاول إجهاد نفسه في تقليد الطّبيعة سيكون "بمثابة دودة تُجهد نفسها في تقليد فيل" ، و على كلّ حال فإنّ الفنّان إن أعاد إنتاج لشيء موجود فما قيمته ، و لماذا نترك الأصل و نذهب للنسخة ، خاصّة و أنذها ناقصة للاعتارات السّالفة ؟ و لكن إن تبنى هيجل نقد كانط للمحاكاة في الفنّ و دعّم قوله بأن الفنّ إبداع ، <b>إلاّ أنّه يرى انّ</b> قيمته لا تتحدّد فقط بإنتاج أشكال جميلة ، بل أيضا بالتعبير عن الحقيقة . <b>لكنّ هذه الحقيقة لا هي</b> في التطابق بين العمل الفنّي و ما يحاكيه ، فالفنّ ليس محاكاة ، <b>و لا هي</b> حقيقة مفارقة على الطّريقة الأفلاطونية و التي تخرج عن إطار الفنّ ، و إنّما هي الفكرة غير مرئية التي يقدر الفنّ على أن يُجلِيَها في شكل حسّي . و عندما يجد الفنّان الاشكال المناسبة ليجليها و يظهرها للعيان فإنّه عند ذلك يبدع أعمالا جميلة . إنّ جمال الفنّ عند هيجل إذن لا هو شكلي حسّي صرف و لا هو روحي صرف و إنّما هو في آن روحي و حسيّ و حسيّ و روحي . ينبع الفنّ من الذّات لانّ الابداع لا يمكن أن ينبع إلاّ من الذّات ، و لكنّه في نفس الوقت جميل و يعبّر عن حقائق كونية و مطلقة ، فالفنّان كالفيلسوف هو ابن عصره و يتأثر به فيعبّر عن روحه و أسمى عقائده . فيكون الفنّ في نفس الوقت ذاتيا و موضوعيا نسبيا من جهة التعبير و و مطلقا من جهة المعبّر عنه و هو الحقيقة في شكل جميل .</p>
+<p class="subhead t-navy"><b>3 – الفنّ هو اختراق لحجاب المنفعة لملامسة حقيقة الأشياء لننعم بجمالها :</b></p>
+<p class="para">حسب برجسون "لو كان الوجود الخارجي ينبّه حواسّنا و شعورنا بطريقة مباشرة ، لكان الفنُّ ، عديمَ الجدوى ، أو بالأحرى لكنّا جميعا فنّانين" . لكنّ هذا لا يحدث لأنّ بيننا و بين الواقع ، بيننا و بين الأشياء على حقيقتها ، يوجد حجاب سميك هو حجاب المنفعة التي تحكم علينا بأن لا نحتفظ بالأشياء إلاّ بأعمّ وظائفها فلا نراها في فرادتها و حميتها ، و الفنّ هو وحده هو الذي يسمح باختراق هذا الحجاب لملامسة الأشياء في فرادتها و و بالتعبير عن مشاعرنا في حميميتها ، فنحسّ بجمالها بعيد عن المنفعة .</p>
+<p class="subhead t-navy"><b>4 – الجمال هو انكشاف للحقيقة في العمل الفنّي :</b></p>
+<!-- CROP: 1423 1 96 0.06 0.13 0.38 0.29 1423_p96_van_gogh_souliers -->
+<figure class="fig"><img src="https://wael-philo.b-cdn.net/figs/1423/1423_p96_van_gogh_souliers.png" alt=""><figcaption>لوحة زوج الحذاء لفون غوغ</figcaption></figure>
+<p class="para">في "أصل العمل الفنّي" يرفض هيدجر الفصل بين الجمال و الحقيقية في الفنّ من خلال التذكير بأنّ الفنّ وقع تميزة عن التقنية باعتبارها نفعية في حين ينتج الفنّ أعمالا جميلة دون غرض نفعي و باعتبار أنّ الحقيقة تخصّ المنطق ، إلاّ أنّه يرى أنّ الحقيقة هي أيضا شأن الفنّ شرط عدم التقيّد بالتصوّر التقليدي للحقيقة كتطابق بين الفكرة و الواقع أو كإعادة إنتاج للأشياء كما تبدو –كما عند أرسطو و الواقعيين – أو كما هي في ذاتها –كما عند شوبنهاور – . يقول هيدغر : "في العمل الفني تباشر الحقيقة عملها ... و لقد اعتبرت المطابقة مع الواقع منذ زمن بعيد ماهية الحقيقة . فهل يمكن حقّا أن نعتقد أنّ لوحة فون غوغ تحاكي زوجا من الحذاء لأحد الفلاّحين و انّها عمل فنّي لأنّ فون غوغ نجح في هذ التقليد ؟ هل نعني أنّ هذه اللّوحة تمثّل نسخة من الواقع و أنّ هذه النسخة هي عمل فنّي ؟ أبدا ... قد يقال أيضا ، يتعلّق الأمر في هذا العمل لا بتقليد الموجود الخاصّ الذي يوجد تحت نظرنا (زوج الحذاء) ، و لكن بالأحرى بمحاكاة الماهية العامّة للاشياء (الماهية العامّة للحذاء) . و لكن أين إذن هي هذه "الماهية العامّة" حتى تكون أعمال الفنّ مطابقة لها ؟ من يتجرّأ بصدق على زعم أنّ مبنى المعبد يجسّم "فكرة" المعبد بصفة عامّة ؟ و مع ذلك ففي مثل هذا العمل ، إن كان عملا فنيا ، الحقيقة بكلّ تأكيد حاضرة" . فما عساها ان تكون الحقيقة في نظر هيدغر ؟ إنّها الانكشاف أو "الأليتيا" اليونانية ، يحدث هذا عندما ينفتح الموجود على الوجود فيظهر على حقيقته . يقول هيدجر : "انكشاف الموجود يسمّيه اليونانيون "أليتيا" . أمّا نحن فنقول ا"الحقيقة" . في العمل الفني عندما يقع انكشاف الموجود (بخصوص ما هو و كيف هو) تباشر الحقيقة وجودها " . و هو ما يتطلّب تأويلا ، كأن نكتشف مثلا من خلال لوحة "زوج الحذاء" لفون غوغ عالم الفلاّح و علاقته بالأرض . و بقدر انفتاح الموجود على الوجود يكون ظهوره في العمل الفنّي جميلا . يقول هيدغر : "نور الظهور المتناغم في العمل – و يقصد في العمل الفنّي – هو الجمال . الجمال هو كيفية لحلول الحقيقة بما هي ظهور – أو انكشاف –" .</p>
+<p class="subhead t-navy"><b>5 – الجمال الفنّي وهم يحيينا حتى لا نموت من الحقيقة : الفنّ للحياة :</b></p>
+<!-- CROP: 1423 1 97 0.07 0.25 0.27 0.40 1423_p97_cezanne_nature_morte -->
+<figure class="fig"><img src="https://wael-philo.b-cdn.net/figs/1423/1423_p97_cezanne_nature_morte.png" alt=""><figcaption>لوحة الطباعية لسيزان</figcaption></figure>
+<!-- CROP: 1423 1 97 0.82 0.415 0.91 0.553 1423_p97_picasso_cubiste -->
+<figure class="fig"><img src="https://wael-philo.b-cdn.net/figs/1423/1423_p97_picasso_cubiste.png" alt=""><figcaption>لوحة تكعيبية لبيكاسو</figcaption></figure>
+<p class="para">في نظر نيتشه ينتج الفنّ أوهاما ، و لكنّ "الوهم الذي يحي لهو أفضل من الحقيقة التي تميت" ، لذلك "لنا الفنّ حتى لا نموت من الحقيقة" ، حقيقة المفاهيم الشّاحبة المحنّطة الخالية من الحياة التي تحطّ من قيمة الجسد و تريد أن تنسينا إياه ، بينما يستثيره الفنّ و يزيد في طاقتنا الحيوية من خلال التلاعب بالاشكال و الألوان و إطلاق العنان للخيال . الفنّ حبّة جنون بدونها لا تكون الحياة جديرة بأن تعاش . يقول نيتشه : "لا شيء يستطيع أن يغبطنا قدر قبّعة الأخبل : نحن في حاجة لها كدواء ... نحن في حاجة إلى كلّ فنّ حيّ ، متردّد ، راقص ، ساخر ، صبياني و صاف ، حتى لا نخسر هذه الحرّية التي تعلو على الاشياء و التي تنتظر منّا نحن مثلنا الأعلى ... كيف إذن نحرم انفسنا من الفنّ ؟ كيف نحرم أنفسنا من قبّعة الاخبل ؟ طالما أنّكم تخجلون من أنفسكم لن تكونوا قطّ منّا ! ". و الخبل هنا فقط بمعنى تأسيس علاقة اخرى مع الواقع لا تقوم المفاهيم و على انضباط المنطق بل على الخيال الحرّ و الخلاّق . و هو ما سيكون له تأثير عميق على الفنّانين اللاّحقين مثل السرياليين الذين تأثّروا في نفس الوقت بنيتشه و فرويد ، و هل يوجد جنون أكثر من قول الشّاعر بول إليوار <span dir="ltr">Paul Eluard</span> "الارض زرقاء كالبرتقالة" <span dir="ltr">la terre est bleue comme une orange</span> ؟</p>
+<p class="subhead t-red">IV – في أنّ الفنّ إبداع متعدّد الأشكال يشمل حتى التعبير عن القبيح</p>
+<!-- CROP: 1423 1 98 0.06 0.122 0.40 0.287 1423_p98_la_nature_imite_lart -->
+<figure class="fig"><img src="https://wael-philo.b-cdn.net/figs/1423/1423_p98_la_nature_imite_lart.png" alt=""></figure>
+<p class="para">تعتبر مسألة المحاكاة محسومة اليوم ، لأنّ الفنّان لا يستطيع أبدا أن يمثّل الاشياء كما هي ، بل "كما هو" من منظوره هو الخاصّ ، النفسي و الإجتماعي و الثّقافي ، و في حدود وسائله التقنية – لأنّ هنالك تقاطع بين الفنّ و التقنية – و هو ما يجعل حتى التصوير الفوتوغرافي إبداعا اليوم : النصّ السّند : "ماهية الإبداع" . دني ويسمان . الكتاب المدرسي . الجزء الثاني . ص 315) . بل إنّ عبارة "محاكاة الفنّ للأشياء كما هي" لا معنى له ، فالأشياء لا تكون أبدا إلاّ كما نراها ، و رؤيتنا لها متأثّرة بالفنّ لذلك فإنّ "الطّبيعة هي التي تحاكي الفنّ و ليس الفنّ هو الذي يحاكيها" ( النصّ السّند : "الطبيعة تحاكي الفنّ" . أوسار وايلد . الكتاب المدرسي . الجزء الثاني . ص 324) . و هذا الإبداع يتّخذ اليوم أشكالا لا حصر لها مثل الانطباعية و التكعيبية و السريالية ( الجزء الثاني . نافذة دعائم للتفكير . ص 379) ، و يستوعب حتى القبح داخله (النصّ السّند : "جمالية القبح" . أدورنو . الكتاب المدرسي . الجزء الثاني . ص 322) . بل و نجد اليوم اتّجاها في الفنّ تخلّى عن معيار الجمال و استعاض عنه بمعايير الجدّة و التفرّد و الارباك و القدرة على استفزاز المشاعد أو السّامع .</p>
+<p class="para">فهل يمكن ، و الحال هذه ، أن نعثر على خيط ناظم يمكّنا من أن نفهم حقيقة الفنّ و وظيفته و قيمته بالنّسبة إلى الإنسان؟</p>
+<p class="subhead t-red">IV – حقيقة الفنّ و وظيفته و قيمته بالنّسبة إلى الإنسان</p>
+<p class="para">لقد ارتدّ بحثنا في إشكالية الجمال و الحقيقة في الفنّ إلى بحث في حقيقة الفنّ و وظيفته و قيمته بالنّسبة إلى الإنسان ، و هو ما يتطلّب الانتباه إلى أنّ الفنّ وجد و لا يزال موجودا في كلّ المجتمعات و كلّ الثّقافات حتى التي في وقت ما حرّمت شكلا من أشكاله و هو التصوير في إطار ما يسمّى "تحريم التصوير" (ثنائي أو ثلاثي الأبعاد كما في النحت) <span dir="ltr">l'iconoclasme</span> ، في اليهودية و المسيحية و الإ سلام الذي استعاض عنه في البداية و خوفا من العودة إلى عبادة الأصنام ، بالزخرف و الكاليغرافيا أو فنّ الكتابة( النصّ السّند : "آلية الإبداع في الفنّ الإسلامي" . أوليغ غرابار . الكتاب المدرسي . الجزء الثاني . ص 372) . و إن وجد و لا يزال موجودا ، فلأنّ له قيمة ، و إن كانت له قيمة فلأنّه يستجيب في الإنسان إلى حاجة اصيلة و ضرورية ، و إذا كان يستجيب في الإنسان إلى حاجة اصيلة و ضرورية ، فلأنّ له وظيفة ، بل وظائف : التعبير عن الجمال ، التعبير عن الحقيقة ، الهروب من الحقيقة ، و يمكن أن نظيف تعلّم رؤية الواقع (مارلو بونتي) و إبداع عالم آخر أكثر حقيقة (بول كلي ) أو حتى الثورة على الواقع و تغييره (ماركوز) ... غير انّ هذه الوظائف العديدة تلتقي عند وظيفة واحدة أساسية عندما نفهم أنّ قيمة العمل الفنّي لا تتحدّد بمقاصد الفنّان وحده ، بل بتأويل المشاهد أو السّامع الذي يبحث فيه عن "حقيقته" كما يقول غادامير ، عن معنى يحنّ إليه أو عن صدى لأحلامه أو رغباته . و هو ما يكشف عن أنّ الفنّ يتنزّل في مجال بينذاتي يحيا عبره السّامع أو المشاهد من خلال الآخر الذي هو الفنّان حياة أثرى من حياته الفردية .</p>
+<p class="para">و هو ما يبيّنه إرنست فيشر في تعليقه على قول الفنّان موردريان بأنّ الفنّ سيزول بقدر ما يزداد التوازن في الواقع ، باعتبار أنّ الفنّ حسب فيشر لن يزول و سيستمرّ لأنّ الواقع لن يبلغ أبدا توازنه ، و إلاّ كيف نفسّر أن يبحث الإنسان عن نفسه في قطعة موسيقية أو في شخصيات رواية أو مسرحية أو فيلم سينيمائي ؟ لماذا ننفعل بمثل هذا "اللاّواقع" كما لو كان واقعا اثرى و اعمق ؟ لماذا لا يكفينا وجودنا الخاصّ ؟</p>
+<p class="para">إنّ الإجابة على ذلك حسب فيشر هي أنّ "الانسان بحاجة إلى أن يكون أكثر ممّا هو ؟ إنّه بحاجة إلى أن يكون إنسانا كلّيا ، و هو لا يكتفي بأن يكون فردا ، بل يطمح إلى الخروج إلى كلّية يتطلّبها" . فيسلّيه ما يجده في العمل الفنّي أو يبكيه ، أو يجمّل واقعه أو ينبّهه إلى ما فيه من فضاعة . كلّ هذه أوجه يريدها و يجدها في الفنّ باعتباره انفتاحا على الآخر و فضاء لتحقيق الذّات .</p>
+<p class="para">إنّ الفنّ كوني و كونيته ليست كونية ماهوية مبنية على معاييير مطلقة للجمال و الحقيقة ، بل كونية وضع إنساني متقلّب يسعى الإنسان من خلاله إلى المطلق عن طريق تنويع تجاربة .</p>
+<div class="exsub">الملحق رقم 2 : بنك المواضيع</div>
+
+<div class="chtag"><span>المحور</span> الإنية والغيرية</div>
+
+<p class="subhead t-red">الإنّية و الغيرية</p>
+<p class="para">1 - إلى أيّ مدى يصدق القول : "إنّا بأنفسنا نحن ما نحن لا بأجسامنا لأنّ الجسم مشترك بين كلّ ذي جسم و أنفسنا ذاتية لنا" ؟</p>
+<p class="para">2 - هل يمكن قول إنّ جسدي هو الذي يعيق تحقّق إنسانيتي ؟</p>
+<p class="para">3 – ليس الجسد ما علينا أن ننقذ أنفسنا منه ، بل هو ما علينا إنقاذه . ما رأيك ؟</p>
+<p class="para">4 - لا تتحقّق الذّات بمعزل عن الغير بل بحضوره . بيّن دواعي هذا القول و حدوده .</p>
+<p class="para">5 – يحقّقني الغير و يدّمرني في آن . حلّل و ناقش .</p>
+<p class="para">6 – هل لا يكون الغير بالنّسبة إليّ سوى وسيلة أو عائق ؟</p>
+<p class="para">7 - أعي بذاتي ، إذن أعرف ذاتي . ما رأيك ؟</p>
+<p class="para">8 – هل يكشف الوعي عن حقيقتي أم يخفيها ؟</p>
+<p class="para">9 – هل نغنم شيئا من اهتمامنا بالتاريخ ؟</p>
+<p class="para">10 – هل حقيقتنا معطاة أم أنّها مهمّة علينا أن نضطلع بها ؟</p>
+<p class="para">11 - تحليل نصّ :</p>
+<p class="para">الإنسان هو كونيا المخلوق الذي له الميل الأشدّ للاجتماع ، و هو مكيّف لذلك بشتى الامتيازات . إنّنا لا نقدر على الإحساس برغبة لا ترتبط بالمجتمع . و قد تكون العزلة الكاملة هي أشدّ عقاب يمكن أن ينزل بنا . إنّ كل مسرّة تكون مملّة عندما نستمتع بها خارج كلّ رفقة ، و كلّ ألم يزداد فظاظة إلى حدّ لا يحتمل . أيا كانت مشاعرنا فإنّ مبدأها كلّها هو التفاعل مع الغير : ما كان لهذه المشاعر أن تكون لها أيّة قوّة لو كان علينا أن نتجاهل تماما أفكار الآخرين و أحاسيسهم . لو استطعتم أن تجعلوا كلّ القوى و كلّ عناصر الطبيعة تتحد لخدمة رجل واحد وتطيعه ؛ و لو استطعتم أن تجعلوا الشمس تشرق وتغرب بإرادة هذا الرّجل ، و البحار والأنهار تجري وفقا لمشيئته ، و الأرض تثمر تلقائيا ما يخدم مصلحته و لذّته ، فإنّه سيكون دائما بائسا ما لم توفّروا له على الأقلّ شخصا واحدا يستطيع أن يتقاسم معه سعادته ، و يتلذّذ تقديره و صداقته .</p>
+<p class="para"><b>دفيد هيوم . بحث في الطبيعة البشرية .</b></p>
+<p class="para"><b>المطلوب</b> : حلّل هذا النصّ في صيغة مقال فلسفي مستعينا بالأسئلة التّالية :</p>
+<p class="para">- ما هي الأطروحة التي يحاورها الكاتب ؟</p>
+<p class="para">-ما هي حججه على أهمّية الغير في تحقيق وجودنا ؟</p>
+<p class="para">- كيف يساهم الغير في تحقيق سعادتنا ؟</p>
+<p class="para">- هل حضور الغير يسعدنا و يحقّق وجودنا دائما ؟</p>
+
+<div class="chtag"><span>المحور</span> اللغة والتواصل</div>
+
+<p class="subhead t-red">التواصل و الأنظمة الرمزية</p>
+<p class="para">12 - الرّمز هو أثمن ما يملكه الإنسان . بيّن دواعي هذا القول و حدوده .</p>
+<p class="para">13 - الرّمز هي في آن أثمن و أخطر ما يملكه الإنسان . ما رأيك ؟</p>
+<p class="para">14 - جُعل الرّمز لإخراج الإنسان من عزلته . حلّل و ناقش .</p>
+<p class="para">15 - اخترع الإنسان الرّمز لأنّه ليس وحده في العالم . اختبر وجاهة هذا القول .</p>
+<p class="para">16 – هل يعود انتشار الصّورة اليوم إلى قدرتها على تحقيق التواصل ؟</p>
+<p class="para">17 - تحليل نصّ</p>
+<p class="para">تمارس الكلمات – على من يسمعها – سلطة سحرية مثالية : تُظهر للعيان ، و تدفع إلى الاعتقاد و الفعل . غير أنّه يكمن التساؤل مقارنة بما يحدث في السّحر عن مبدأ هذا التأثير ؛ أو بالأحرى عن الشروط الاجتماعية التي تجعل هذا المستطاع للكلمات ممكنا . إنّ سلطة الكلمات لا تؤثّر إلاّ فيمن هُيّؤوا لسماعها و الإنصات لها ، و باختصار للاعتقاد فيها ... مبدأ سلطة الكلمات يكمن في التواطؤ الذي ينشأ ، بواسطة الكلمات نفسها ، بين كائن بيولوجي – المتكلّم – و كائنات بيولوجية أخرى شُكّلت اجتماعيا للاعتراف بأوامره ، و أيضا بتوجيهاته و تلميحاته أو إيعازاته ، و الذين هم "الأشخاص الذين يتوجّه إليهم الكلام" ، الأتباع ، المؤمنون ... و إذا كان العمل السياسي هو بالأساس اشتغال على الكلمات ، فلأنّ الكلمات هي التي تساهم في صنع العالَم الاجتماعي . في السّياسة لا شيء أكثر واقعية من التخاصم من أجل كلمات . وضع كلمة مكان أخرى ، هو تغيير لرؤية ما للعالم الاجتماعي ، و من ثمّ المساهة في تغيير هذا العالم نفسه .</p>
+<p class="para"><b>بيار بورديو . من حوار أجراه في مجلّة ليباراسيون مع ديديا أريبون أكتوبر 1982 .</b></p>
+<p class="para"><b>المطلوب</b> : حلّل هذا النصّ في صيغة مقال فلسفي مستعينا بالأسئلة التالية :</p>
+<p class="para">- ما هي الأطروحة التي يحاورها الكاتب ؟</p>
+<p class="para">- ما هو مصدر سلطة الكلمات حسب رأيه ؟</p>
+<p class="para">- ما هي أوجه الشبة و أوجه الاختلاف بين هذه السّلطة و السلطة السّحرية ؟</p>
+<p class="para">- في أيّ مجال تظهر خطورة هذه السّلطة في النصّ ؟</p>
+<p class="para">- هل من سبيل لتتحوّل هذه السّلطة من سلطة على الإنسان إلى سلطة للإنسان ؟</p>
+<p class="para">- هل يتعلّق الأمر فحسب باللّغة أم يمتدّ أيضا إلى سائر الوسائط الرّمزية ؟</p>
+
+<div class="chtag"><span>المحور</span> الخصوصية والكونية</div>
+
+<p class="subhead t-red">الخصوصية و الكونية</p>
+<p class="para">18 - هل من تناقض بين الدّفاع عن الخصوصية الثقافية و الانفتاح على الغير المختلف ؟</p>
+<p class="para">19 – هل تقتضي الكونية التخلي عن الخصوصية الثقافية ؟</p>
+<p class="para">20 - هل الاختلاف خطير على الهوّية ؟</p>
+<p class="para">21 – العولمة هي السّبيل لتوحيد البشر . بيّن دواعي هذا القول و حدوده .</p>
+<p class="para">22 - التماثل لا الاختلاف هو الذي يمثّل خطرا على الإنسانية . ما رأيك ؟</p>
+<p class="para">23 - تحليل نصّ</p>
+<p class="para">ينشأ التفكير من المقارنة ، و تعدّد الأفكار هو الذي يحمل على مقارنتها . من لا يرى إلاّ شيئا واحدا ليس له ما يقارن ... طبّقو هذا على البشر الأوائل ، سترون سبب توحّشهم . لأنّهم ما كانوا يروا أبدا إلاّ ما حولهم ، كانوا لا يعرفونه ، و لا يعرفون أنفسهم . كانت لديهم فكرة عن أب ما ، أو ابن ما ، أو أخ ما ، لا عن الإنسان . كوخهم البدائي كان يحوي كلّ أشباههم . الغريب ، و الحيوان ، و الوحش الخرافي كانوا بالنّسبة إليهم نفس الشّيء : خارج ذواتهم و أهلهم ، الكون كلّه كان لا شيء . من هنا التناقضات الواضحة بين قادة الأمم : قدر كبير من العفوية و من اللاّإنسانية ، تقاليد جدّ ضارية و قلوب رحيمة ، قدر كبير من المحبّة لأهلهم و من الكراهية لنوعهم . كلّ مشاعرهم كانت مجمّعة في أقاربهم ممّا زادها قوّة . الذين كانوا يعرفونهم كانوا بالنّسبة إليهم أعزّاء . كانوا أعداء بقية العالم ، يتجاهلونه ، ما كانوا يكرهون إلاّ ما كانوا لا يعرفون .</p>
+<p class="para"><b>روسو . بحث في أصل اللّغات .</b></p>
+<p class="para"><b>المطلوب</b> : حلّل هذا النصّ في صيغة مقال فلسفي مستعينا بالأسئلة التالية :</p>
+<p class="para">- ما علاقة الوجود الثقافي للإنسان بالمقارنة في النصّ ؟</p>
+<p class="para">- كيف تبيّن المقارنة أهمّية الآخر المختلف في معرفة ذواتنا ؟</p>
+<p class="para">- ما هي الأطروحة التي يستبعدها الكاتب ؟</p>
+<p class="para">- ضمن أيّة شروط يمكن أن يتعايش البشر و هل من اليسير تحقيق ذلك اليوم ؟</p>
+
+<div class="chtag"><span>المحور</span> العلم بين الحقيقة والنمذجة</div>
+
+<p class="subhead t-red">العلم بين الحقيقة والنمذجة</p>
+<p class="para">24 - هل نستطيع بالعلم أن نتوصّل إلى معرفة يقينية و نهائية للواقع ؟</p>
+<p class="para">25 – قيل : "العالِم هو الذي في ما يراه كلّ النّاس يرى ما لا يراه كلّ النّاس" . حلّل هذا القول و ناقشه مبيّنا طبيعة العلم و قيمته بالنّسبة إلى الإنسان .</p>
+<p class="para">26 – إذا لم يكن العلم صورة مطابقة للواقع فممّ يستمدّ قيمته ؟</p>
+<p class="para">27 - هل العلم شأن يخصّ العلماء وحدهم ؟</p>
+<p class="para">28 - هل ينتج العلم تقدّما أم همجية ؟</p>
+<p class="para">29 - تحليل نصّ</p>
+<p class="para">لا بدّ من التساؤل عن الكيفية التي بها يمكن لتغيّرات أن تحدث في علم من العلوم معتبرين بادئ ذي بدء حداثة الأحداث و حداثة النّظرية . إنّ هذا التمييز بين حداثة الأحداث و حداثة النّظرية لمهمّ . يبتدئ الاكتشاف عن شعور المرء بالشّذوذ أعني حينما يشعر بأنّ الطّبيعة تناقض بطريقة أو بأخرى النتائج المنتظرة في إطار النّظرية التي تحكم العلم العادي و يأتي بعد ذلك دور الإسكتشاف - الذي قد يطول أو يقصر - لمجال ذلك الشّذوذ . و لن تنتهي هذه المرحلة إلاّ إذا ما عُدّلت النّظرية لكي تصير الظّاهرة الشّاذة ظاهرة منتظرة . إنّ استيعاب النّظرية لنموذج جديد من الأحداث لهو إذن أكثر من تكملة تضاف إلى تلك النّظرية - و حتى إذا ما تمّ التعديل الذي تقتضيه النّظرية و حتى إذا ما تعلّم رجل العلم أن ينظر إلى الطّبيعة بكيفية مختلفة - فإنّ الحدث الجديد لا يعدّ حدثا علميا بصفة نهائية .</p>
+<p class="para"><b>توماس كوهين . بنية الثورات العلمية .</b></p>
+<p class="para"><b>المطلوب</b> : حلّل هذا النصّ في صيغة مقال فلسفي مستعينا بالأسئلة التالية</p>
+<p class="para">- هل النظرية العلمية صورة مطابقة للواقع ؟</p>
+<p class="para">- ما هي آليات تغيّرها ؟ وظّف ما تراه من مصطلحات و أمثلة ملائمة .</p>
+<p class="para">- ماذا يعني الكاتب بقوله "في إطار النّظرية التي تحكم العلم العادي" ؟</p>
+<p class="para">- كيف يغيّر اسيعاب النظرية "لنموذج جديد من الأحداث" رؤيتنا للطّبيعة ؟</p>
+<p class="para">- هل في تغيّر النظريات العلمية ما يحمل على معنى الحطّ من قيمة العلم ؟</p>
+
+<div class="chtag"><span>المحور</span> العمل: النجاعة والعدالة</div>
+
+<p class="subhead t-red">العمل : النجاعة و القيم</p>
+<p class="para">30 – هل تنحصر قيمة العمل في نجاعته ؟</p>
+<p class="para">31 - أكون إنسانا بالعمل . ما رأيك ؟</p>
+<p class="para">31 - كلّما ازداد العمل نجاعة ازداد العامل وضاعة . بيّن دلالة هذا القول و حدوده .</p>
+<p class="para">32 – هل من تناقض بين مطلب النجاعة و الحاجة إلى العدالة ؟</p>
+<p class="para">33 - كلّ عمل يعمل على صنع شيء و الإنسان في ذات الوقت . حلّل و ناقش .</p>
+<p class="para">34 - هل يحقّق العمل تقدّم الأشياء أم تقدّم الإنسان ؟</p>
+<p class="para">35 – ليس العمل حقّ و إنّما هو اجب . ما رأيك ؟</p>
+<p class="para">36 – هل العمل مشكل اقتصادي أم سياسي ؟</p>
+<p class="para">37 - تحليل نصّ</p>
+<p class="para">إنّما يبرز الإنسان ماهيته الخاصّة حين يضفي – بفضل نشاطه – معنى على العالم . فالإنسان يدلّ على العالم وهو بذلك يدلّ عى نفسه . و المرور من البيئة الحيوانية إلى العالم الإنساني يجري على قدر نماء الإنسانية في الإنسان . إنّ أصل العمل الإنساني يرجع إلى عدم تكيّف الحاجات الإنسانية مع الوسط الطّبيعي . فالطّبيعة تبدو متلاعبة بالإنسان ، فهي شحّيحة حينا ، مسرفة في الجود حينا آخر ، مراوغة ساعة النّداء أو حاضرة ساعة لا يلزم ، تسبق إيقاع الحياة الإنسانية تارة أو تتخلّف عنه طورا . فإلحاح الحاجات الإنسانية التي تمتنع الطّبيعة عن تلبيتها ، لا يتلاءم بسهولة مع المردود البطيء للعمل الإنساني . لذلك فإنّ النّشاط الإنساني ليس البتّة طبيعيا . فالإنسان على ما له من حاجات ليس كائن حاجة . و فيه لا تتطابق الذّات مع الموضوع . بل عليه أن يعي أنّه ذات و أنّه بما هو كذلك ، يواجه الموضوع الذي يتوجّب عليه أن يتغلّب على مقاومته له . فالحاجة الإنسانية لا تنصهر مع الغريزة بل تخلق نفسها . إنّ الرّغبة الحيوانية تنشد التلبية المباشرة و تجدها ، أمّا الميل الإنساني فهو في مقابل ذلك لا يبلغ الرضى إلاّ متى أخضع الرّغبة إلى إرادة واعية . إنّ تغيّر الإنسان يوازيه تغيّر الطّبيعة . و بعمله يتمكّن الإنسان من تطويع الطّبيعة لغاياته هو ، فالطّبيعة تجسّد العبقرية الإنسانية ، و ينتهي الأمر بالبشر إلى أن يسكنوا كونا يستمدّ كلّ دلالاته من عمل الأجيال السّابقة ، فيقيمون علاقتهم بطبيعة أنتجوها هم بأنفسهم فاصبحت من إبداعهم .</p>
+<p class="para"><b>أرفون . فلسفة العمل .</b></p>
+<p class="para"><b>المطلوب</b> : حلّل هذا النصّ في صيغة مقال فلسفي مستعينا بالأسئلة التّالية :</p>
+<p class="para">- ما الذي يفسّر حاجة الإنسان إلى العمل حسب الكاتب ؟</p>
+<p class="para">- ما الفرق بين العمل الإنساني و النشاط الحيواني ؟</p>
+<p class="para">- ما هي قيمة العمل بالنسبة إلى الإنسان حسب الكاتب ؟</p>
+<p class="para">- هل العمل هو دائما "تجل" لنماء الإنسانية في الإنسان" ؟</p>
+
+<div class="chtag"><span>المحور</span> القيم: الأخلاق والدولة</div>
+
+<p class="subhead t-red">الدولة : السيادة و المواطنة</p>
+<p class="para">38 - هل تناقض سلطة الدّولة حقوق المواطنين ؟</p>
+<p class="para">39 - بقدر قوّة الدّولة ينعم المواطنون بحرّيتهم . ما رأيك ؟</p>
+<p class="para">40 - تقتضي المواطنة الطّاعة . اختبر وجاهة هذا القول .</p>
+<p class="para">41 – "إذا كانت الدّلة قوية فهي تسحقنا و إذا كانت ضعيفة هلكنا" . ما رأيك ؟</p>
+<p class="para">42 - أيّهما أخطر على الإنسان : الاستبداد أم الديمقراطية ؟</p>
+<p class="para">43 – علينا طاعة القوانين . بيّن دواعي هذا القول و حدوده .</p>
+<p class="para">44 – إذا حضر العنف غابت المواطنة . حلّل و ناقش .</p>
+<p class="para">45 - هل من الضّروري أن نختار بين الحقّ و القوّة ؟</p>
+<p class="para">46 – هل يتماهى دفاع النّاس عن حقوقهم مع دفاعهم عن مصالحهم ؟</p>
+<p class="para">47 – هل من معنى للمواطنة العالمية في ظلّ العولمة ؟</p>
+<p class="para">48 - تحليل نصّ</p>
+<p class="para">إذا كان الإنسان في حالة الطبيعة حرا وإذا كان سيدا مطلقا على نفسه وعلى ممتلكاته ، فلماذا يتنازل عنها ليعيش في حالة مدنية ؟ ... السّبب هو أنّ حالة الطبيعة فيها نقائص كثيرة . أولا ينقصها قانون دائم ومعروف للجميع، مقبول ومعترف به بالاتفاق العام، كمقياس للحق والباطل، وكمعيار مشترك للبت في الخلافات بين الناس ... ثانيا، لا يوجد في الحالة الطبيعية قاض معروف ومحايد، له سلطة البت في الخلافات حسب القانون الدائم . فبما أن كل فرد في هذه الحالة هو القاضي وهو المنفذ ، وبما أن الناس ينحازون إلى أنفسهم، فإن العاطفة وحب الانتقام قد يؤديان بهم إلى تجاوز الحدود في الحالات التي تخصهم، بينما قد يدفعهم الإهمال وعدم الاكتراث إلى التهاون في الحالات التي تخص غيرهم من الناس . وثالثا، تفتقر حالة الطبيعة أحيانا إلى القوة اللازمة لمساندة الحكم العادل وتنفيذه بشكل سليم . فالذين يقترفون الجنايات يحاولون دائما، وقدر المستطاع، الدفاع بالقوة عن ظلمهم. وهذه المقاومة كثيرا ما تجعل فرض العقاب شيئا خطرا، وأحيانا مدمرا على الذين يحاولون فرضه. لذلك فإن البشر، وبالرغم من جميع امتيازات حالة الطبيعة ، يفضلون الانتقال إلى الحالة المدنية.</p>
+<p class="para"><b>جون لوك . في الحكم المدني .</b></p>
+<p class="para"><b>المطلوب : حلّل هذا النصّ في صيغة مقال فلسفي مستعينا بالأسئلة التّالية :</b></p>
+<p class="para">- ما هو الأساس الذي يقيم عليه جون لوك الوجود السياسي للبشر ؟</p>
+<p class="para">- ما هي حججه على أنّ حال الإنسان بالدّولة أفضل من حاله في غيابها ؟</p>
+<p class="para">- هل يستقيم وجود البشر بوجود القانون وحده أم لا بدّ أيضا من القوّة ؟</p>
+<p class="para">- هل وجود الإنسان بالدّولة يكون دائما أفضل من وجوده بدونها ؟</p>
+<p class="subhead t-red">الأخلاق : الخير و السعادة</p>
+<p class="para">49 – هل من المشروع تأسيس الأخلاق على مطلب السّعادة ؟</p>
+<p class="para">50 - قيل يستمدّ الفعل أخلاقيته من مبداٍه و ليس من نتيجته . ما رأيك ؟</p>
+<p class="para">51 - هل اللّذة لا أخلاقية ؟</p>
+<p class="para">52 - لا تناقض الأخلاق المنفعة بل تتأسّس عليها . حلّل و ناقش .</p>
+<p class="para">53 – هل يمكن ردّ الواجب الأخلاقي إلى مجرّد واجب اجتماعي ؟</p>
+<p class="para">54 – هل يتناقض الواجب الخلقي مع الحرّية ؟</p>
+<p class="para">55 - تحليل نصّ</p>
+<p class="para">يجب عليّ المثابرة في اتّباع طريقتي الدّائمة و قوامها ألاّ أستقي هذه القواعد (قواعده الأخلاقية) أبدا من مبادئ فلسفية عليا ، و إنّما أجدها في أعماق قلبي و قد نقشتها الطّبيعة بحروف لا يأتي عليها الزّمن ، و ليس لي إلاّ أن أستشير نفسي في شأن ما أنا فاعل : إنّ كلّ ما أشعر بأنّه جيّد فهو جيّد ، و كلّ ما أشعر بأنّه سيّء فهو سيئ ، و إنّ خير فتوى لهي فتوى الضّمير . و لا يصطنع الإنسان براعة المحاكمة إلاّ عندما يساوم ضميره . أجَل إنّ أوّل ما يجب على الإنسان أن يُعنى به و يراعيه هو ذاته ، و لكن ما أكثر ما قال لنا صوتنا الباطني عندما نسعى لبلوغ مصلحتنا على حساب الآخرين بانّنا نسيء صنعا ! نحسب أنّنا نتبّع دافع الطّبيعة و نحن في الواقع نقاومها . إنّنا إذا سمعنا صوت حواسّنا أهملنا الاصغاء إلى صوت قلوبنا . الكائن الفاعل يطيع و الكائن المنفعل يامر . و الواقع أنّ الضّمير صوت قلوبنا و الاهواء صوت الجسد . و ليس بمستغرب أن تتعارض هاتان اللّغتان في أكثر الاحيان . إلى أيّهما نستمع إذن ؟ إنّ العقل يُضلّنا في الغالب و لنا الحقّ ملء الحقّ في اتّهامه و دفعه . بيد انّ الضّمير لا يغشّنا أبدا ، إنّه الدّليل الحقيقي الذي يُهدي الإنسان و يُرشده . الضّمير بالنّسبة إلى الرّوح كالغريزة للجسد . و من اتّبعه أطاع (الطّبيعة) و لم يخش أن يضلّ أبدا .</p>
+<p class="para"><b>روسو . عقيدة أسقف سافو .</b></p>
+<p class="para">المطلوب : حلّل هذا النصّ في صيغة مقال فلسفي مستعينا بالأسئلة التّالية :</p>
+<p class="para">- ما هو الضّمير الأخلاقي عند روسو ؟</p>
+<p class="para">- متى يساوم الإنسان ضميره ؟</p>
+<p class="para">- لماذا يتحامل الكاتب على العقل ؟</p>
+<p class="para">- هل يمكن حقّا أن تأسيس الأخلاق على العاطفة ؟</p>
+
+<div class="chtag"><span>المحور</span> الفن والدين</div>
+
+<p class="subhead t-red">الفنّ : الجمال و الحقيقة</p>
+<p class="para">56 – لا يرينا الفنّ الواقع كما هو بل يغيّر رؤيتنا له . حلّل هذا القول و ناقشه مبيّنا طبيعة الفنّ و قيمته بالنّسبة إلى الإنسان .</p>
+<p class="para">57 - هل يبعدنا الفنّ عن الواقع أم يقرّبنا منه ؟</p>
+<p class="para">58 - العمل الفنيّ : تعبير عن حقائق أم إنتاج لأوهام ؟</p>
+<p class="para">59 - لنا الفنّ حتى لا نموت من الحقيقة . ما رأيك ؟</p>
+<p class="para">60 - تحليل نصّ</p>
+<p class="para">يأتي العمل الفنّي إذن من الرّوح ، و يكمن تفوّقه في واقع أنّه إذا كان النتاج الطّبيعي نتاجا محبوا بالحياة فإنّه بالمقابل قابل للفناء ، بينما العمل الفنّي يدوم ، و الدّيمومة ذات أهمّية أعظم . الأحداث تقع ، لكن ما أن تقع حتى تزول ؛ بيد أنّ العمل الفنّي يكسبها ديمومة ، يمثّلها في حقيقتها غير القابلة للفناء . إنّه يضع يده على الفائدة الإنسانية و القيمة الرّوحية لحدث ما ، لطبع فردي ما ، لعمل ما ، في تطوّرها و نتائجها ، هذه القيمة التي لا تتجلّى أبدا في الواقع العادي ، غير الفنّي . لهذا يتفوّق العمل الفنّي على كلّ نتاج طبيعي لم يمرّ بطريق الرّوح . و على هذا النّحو نجد أنّ العاطفة و الفكرة اللتين ألهمتا في الرّسم منظرا طبيعيا يبوّئان عمل الفكر هذا مرتبة أسمى من مرتبة المنظر نفسه كما هو موجود في الطّبيعة . إنّ كلّ ما يصدر عن الرّوح يتفوّق على ما يوجد في الطّبيعة تفوّق الفكرة على المادّة و الحقيقة على مجرّد المظهر .</p>
+<p class="para"><b>هيجل . المدخل إلى علم الجمال .</b></p>
+<p class="para"><b>المطلوب</b> : حلّل هذا النصّ في صيغة مقال فلسفي مستعينا بالأسئلة التالية</p>
+<p class="para">- هل الفنّ محاكاة أم ابداع في نظر هيجل ؟</p>
+<p class="para">- ما الذي يجعل نتاج الفنّ يتفوّق على النتاج الطبيعي حسب رأيه ؟</p>
+<p class="para">– حسب النصّ هل تَظهر حقيقة الأشياء في الواقع العادي أم الفنّ هو الذي يُظهرها ؟ لماذا ؟</p>
+<p class="para">- هل في رأيك يستمدّ الفنّ قيمته من كونه يعبّر عن حقائق أم من كونه ينتج أوهاما ؟</p>
+
+<div class="chtag"><span>المحور</span> الخصوصية والكونية</div>
+
+<p class="subhead t-red">الفهـرس</p>
+<table>
+<tr><td><b>تقديـم</b></td><td>ص 3</td></tr>
+<tr><td><b><u>الإنّية و الغيرية</u></b></td><td>ص 5</td></tr>
+<tr><td><b>النشاط عدد 1 : أشتغل على وضعيات</b></td><td>ص 5</td></tr>
+<tr><td><b>– النشاط عدد 2 : أشتغل على أنواع المواضيع</b></td><td>ص 8</td></tr>
+<tr><td><b>– النشاط عدد 3 : أشتغل على المعاني</b></td><td>ص 10</td></tr>
+<tr><td><b>– النشاط عدد 4 : أشتغل على الأشكلة</b></td><td>ص 12</td></tr>
+<tr><td><b>– النشاط عدد 5 : أشتغل على الحجاج</b></td><td>ص 12</td></tr>
+<tr><td><b>– النشاط عدد 6 : أتدرّب على صياغة مقدّمة</b></td><td>ص 14</td></tr>
+<tr><td><b>– النشاط عدد 7 : أتدرّب على وضع تخطيط</b></td><td>ص 15</td></tr>
+<tr><td><b><u>التواصل و الأنظمة الرمزية</u></b></td><td>ص 17</td></tr>
+<tr><td><b>– النشاط عدد 1 : أشتغل على وضعيات</b></td><td>ص 17</td></tr>
+<tr><td><b>– النشاط عدد 2 : أشتغل على المعاني و المفاهيم</b></td><td>ص 19</td></tr>
+<tr><td><b>– النشاط عدد 3 : أشتغل على الأشكلة</b></td><td>ص 22</td></tr>
+<tr><td><b>– النشاط عدد 4 : أشتغل على الامكانات</b></td><td>ص 22</td></tr>
+<tr><td><b>– النشاط عدد 5 : أشتغل على الحجاج</b></td><td>ص 23</td></tr>
+<tr><td><b>– النشاط عدد 6 : أشتغل على الضمنيات</b></td><td>ص 25</td></tr>
+<tr><td><b><u>الخصوصية و الكونية</u></b></td><td>ص 26</td></tr>
+<tr><td><b>– النشاط عدد 1 : أشتغل على وضعيات</b></td><td>ص 26</td></tr>
+<tr><td><b>– النشاط عدد 2 : أشتغل على المعاني و المفاهيم</b></td><td>ص 28</td></tr>
+<tr><td><b>– النشاط عدد 3 : أشتغل على الأشكلة</b></td><td>ص 31</td></tr>
+<tr><td><b>– النشاط عدد 4 : أشتغل على إمكانات</b></td><td>ص 32</td></tr>
+<tr><td><b>– النشاط عدد 5 : أشتغل على الحجاج</b></td><td>ص 33</td></tr>
+<tr><td><b>– النشاط عدد 6 : أتدرّب على الكشف عن الرّهانات و الرّاهنية</b></td><td>ص 34</td></tr>
+<tr><td><b><u>العلم بين الحقيقة و النمذجة</u></b></td><td>ص 36</td></tr>
+<tr><td><b>– النشاط عدد 1 : أشتغل على وضعيات</b></td><td>ص 36</td></tr>
+<tr><td><b>– النشاط عدد 2 : أشتغل على المعاني و المفاهيم</b></td><td>ص 39</td></tr>
+<tr><td><b>– النشاط عدد 3 : أشتغل على الأشكلة</b></td><td>ص 40</td></tr>
+<tr><td><b>– النشاط عدد 4 : أشتغل على الحجاج</b></td><td>ص 41</td></tr>
+<tr><td><b><u>العمل : النجاعة و العدالة</u></b></td><td>ص 44</td></tr>
+<tr><td><b>– النشاط عدد 1 : أشتغل على أصناف المواضيع</b></td><td>ص 44</td></tr>
+<tr><td><b>– النشاط عدد 2 : أشتغل على المعاني و المفاهيم</b></td><td>ص 45</td></tr>
+<tr><td><b>– النشاط عدد 3 : أشتغل على الأشكلة</b></td><td>ص 47</td></tr>
+<tr><td><b>– النشاط عدد 4 : أشتغل على وجاهة موقف</b></td><td>ص 48</td></tr>
+<tr><td><b>– النشاط عدد 5 : أشتغل على الكشف عن الرهانات</b></td><td>ص 51</td></tr>
+<tr><td><b>– النشاط عدد 6 : أشتغل على الضمنيات</b></td><td>ص 52</td></tr>
+<tr><td><b>– النشاط عدد 7 : أشتغل على الحجاج</b></td><td>ص 54</td></tr>
+<tr><td><b><u>الدولة : السيادة و المواطنة</u></b></td><td>ص 56</td></tr>
+<tr><td><b>– النشاط عدد 1 : أشتغل على وضعية</b></td><td>ص 56</td></tr>
+<tr><td><b>– النشاط عدد 2 : أشتغل على المعاني</b></td><td>ص 57</td></tr>
+<tr><td><b>– النشاط عدد 3 : أشتغل على الأشكلة</b></td><td>ص 59</td></tr>
+<tr><td><b>– النشاط عدد 4 : أشتغل على وجاهة موقف</b></td><td>ص 61</td></tr>
+<tr><td><b>– النشاط عدد 5 : أشتغل على الضمنيات</b></td><td>ص 64</td></tr>
+<tr><td><b>– النشاط عدد 6 : أشتغل على الرهانات</b></td><td>ص 66</td></tr>
+<tr><td><b><u>الأخلاق : الخير و السعادة</u></b></td><td>ص 68</td></tr>
+<tr><td><b>– النشاط عدد 1 : أشتغل على وضعية</b></td><td>ص 68</td></tr>
+<tr><td><b>– النشاط عدد 2 : أشتغل على المعاني</b></td><td>ص 69</td></tr>
+<tr><td><b>– النشاط عدد 3 : أشتغل على الحجاج</b></td><td>ص 71</td></tr>
+<tr><td><b>– النشاط عدد 4 : أشتغل على الضمنيات</b></td><td>ص 73</td></tr>
+<tr><td><b>– النشاط عدد 5 : أشتغل على الرهانات</b></td><td>ص 75</td></tr>
+<tr><td><b>– النشاط عدد 6 : أشتغل على المقدّمة</b></td><td>ص 76</td></tr>
+<tr><td><b>– النشاط عدد 7 : أشتغل على الخاتمة</b></td><td>ص 77</td></tr>
+<tr><td><b><u>الفنّ : الجمال و الحقيقة</u></b></td><td>ص 78</td></tr>
+<tr><td><b>– النشاط عدد 1 : أشتغل على وضعية</b></td><td>ص 78</td></tr>
+<tr><td><b>– النشاط عدد 2 : أشتغل على المعاني و المفاهيم</b></td><td>ص 79</td></tr>
+<tr><td><b>– النشاط عدد 3 : أشتغل على الحجاج</b></td><td>ص 80</td></tr>
+<tr><td><b>– النشاط عدد 4 : أشتغل على الضمنيات</b></td><td>ص 82</td></tr>
+<tr><td><b>– النشاط عدد 5 : أشتغل على الرهانات</b></td><td>ص 83</td></tr>
+<tr><td><b>– النشاط عدد 6 : أشتغل على صياغة موقف</b></td><td>ص 85</td></tr>
+<tr><td><b>الملحق رقم 1 : الفنّ : الجمال و الحقيقة</b></td><td>ص 88</td></tr>
+<tr><td><b>لملحق رقم 3 : بنك المواضيع</b></td><td>ص 100</td></tr>
+<tr><td><b>الفهرس</b></td><td>ص 110</td></tr>
+</table>
+<p class="subhead t-red">سلسلة CMS</p>
+<p class="para">سنة7 - سنة8 - سنة9</p>
+<p class="para"><span dir="ltr">1 ère - 2 ème - 3 ème - 4 ème</span></p>
+<!-- CROP: 1423 1 113 0.31 0.41 0.78 0.68 1423_p113_cms_series_covers -->
+<figure class="fig"><img src="https://wael-philo.b-cdn.net/figs/1423/1423_p113_cms_series_covers.png" alt=""></figure>
+<p class="para">الثمن : 7000</p>
+<p class="para"><span dir="ltr">I.S.B.N : 978-9938-824-78-0</span></p>
+
+</section>
+
+</div>
+</body>
+</html>

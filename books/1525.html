@@ -1,0 +1,302 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<title>Wael Academy — Philosophie · 3 - إصلاح تمارين محور النمذجة العلمية </title>
+<script>
+  window.MathJax = {
+    tex: { inlineMath: [['\\(','\\)']], displayMath: [['\\[','\\]']] },
+    chtml: { fontURL: 'https://cdn.jsdelivr.net/npm/mathjax@3/es5/output/chtml/fonts/woff-v2', matchFontHeight: true },
+    startup: { typeset: true }
+  };
+</script>
+<script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js" async></script>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Sora:wght@400;500;600;700;800&family=Cairo:wght@400;500;600;700;800;900&family=Tajawal:wght@400;500;700;800&family=JetBrains+Mono:wght@400;500;600;700&display=swap');
+:root{
+  /* ===== Wael Academy palette — MAIN ACCENT = green-teal gradient #0FAB8F → #067360 ===== */
+  --bg:#fff; --panel:#f2f8f8; --hair:#e6e6e9; --hair2:#d6d6db;
+  --fg:#0f2a31;        /* body text (and +/− signs) */
+  --fg2:#3f5b62;       /* softer text */
+  --fg3:#7c959b;       /* muted (footer) */
+  --blue:#067360;      /* deep accent — small numbers, borders, watermark, accent equations */
+  --blue-dark:#045260; /* titles & wordmarks (also the balance colour) */
+  --teal:#0fab8f;      /* bright accent end */
+  --loop:#0d9c82;      /* logo-loop helper */
+  --orange:#067360;    /* kicker/category labels (gold retired → deep teal) */
+  --red:#f5322f;       /* EXERCISE CHIPS ONLY — never for emphasis */
+  --cream:#e6f3f4; --blue-soft:#e6f3f4;  /* pale teal — callout fill + table sub-row fill */
+  --blue-line:#cde7e4; /* hairline */
+  --sub-ink:#045260;   /* table sub-row text */
+  --grad:linear-gradient(148deg,#0fab8f 0%,#0d9c82 52%,#067360 100%);
+  --mono:'JetBrains Mono',monospace; --latin:'Sora',sans-serif; --ar:'Cairo',sans-serif; --arb:'Tajawal',sans-serif;
+}
+*{box-sizing:border-box;margin:0;padding:0;}
+body{font-family:var(--latin);color:var(--fg);background:#e4e4e7;padding:28px 0;
+     -webkit-print-color-adjust:exact;print-color-adjust:exact;}
+html[dir="rtl"] body{font-family:var(--arb);}
+
+/* ===== brand watermark: REAL text (crisp), full-bleed, repeats per page ===== */
+.wm{position:fixed;inset:0;z-index:0;pointer-events:none;display:flex;
+    align-items:center;justify-content:center;overflow:hidden;
+    -webkit-print-color-adjust:exact;print-color-adjust:exact;}
+.wm span{font-family:var(--mono);font-weight:800;font-size:76.8pt;letter-spacing:.16em;
+    color:var(--blue);opacity:.06;white-space:nowrap;transform:rotate(-54deg);}  /* single diagonal: bottom-left → top-right */
+.wm.mono span{color:#000;opacity:.05;}
+
+/* ===== continuous flow stream (no page border) ===== */
+.flow{width:210mm;margin:0 auto;background:transparent;color:var(--fg);
+      padding-block:16mm 18mm;padding-inline:23mm 14mm;position:relative;}   /* spiral gutter: inline-start(=spine) 23mm / outer 14mm — dir-aware; print margins set in render_flow.py */
+@media screen{ .flow{background:#fff;box-shadow:0 10px 40px rgba(0,0,0,.16);} }
+.flow>*{position:relative;z-index:1;}
+.flow p,.flow li,.flow .data,.flow .note,.flow .ex{break-inside:auto;}
+.flow .fig,.flow figure,.flow img,.flow svg.figsvg,.flow table,.flow tr,.flow .chapdiv,.flow .exh,.flow .qrcard,.flow .meta{break-inside:avoid;}
+.flow h1,.flow h2,.flow h3,.flow .exh,.flow .subhead,.flow .chapdiv{break-after:avoid;}
+.flow img,.flow svg.figsvg{max-width:100%;height:auto;}
+.flow figcaption,.flow .figcap{display:none;}          /* rule 3: no figure captions */
+
+/* ===== front matter + chapters each start on a fresh page ===== */
+.flow .cover{break-after:page;}        /* cover alone on page 1 */
+.flow .toc{break-after:page;}          /* Sommaire alone on the next page */
+.flow .chapter{break-before:page;}
+.flow .chapter:first-of-type{break-before:auto;}
+
+/* ===== cover ===== */
+.cover{padding:14mm 0 8mm;border-bottom:2px solid var(--blue);margin-bottom:6mm;}
+.cover .badge{font-family:var(--mono);font-size:8.5pt;letter-spacing:.28em;text-transform:uppercase;color:var(--orange);margin-bottom:10px;}
+.cover h1{font-family:var(--latin);font-weight:800;font-size:34pt;line-height:1.03;letter-spacing:-.025em;color:var(--blue-dark);}
+.cover .grule{width:120px;height:5px;border-radius:5px;background:var(--grad);margin:14px 0;}
+.cover .sub{font-family:var(--mono);font-size:10pt;letter-spacing:.14em;text-transform:uppercase;color:var(--teal);}
+.cover .auth{font-size:11pt;color:var(--fg2);margin-top:6px;font-weight:600;}
+
+/* ===== table of contents ===== */
+.toc{margin:2mm 0 4mm;}
+.toc h2{font-family:var(--latin);font-weight:800;font-size:15pt;color:var(--blue-dark);margin-bottom:4mm;}
+.toc .trititle{font-family:var(--mono);font-size:8pt;letter-spacing:.2em;text-transform:uppercase;color:var(--orange);margin:4mm 0 2mm;}
+.toc ol{list-style:none;}
+.toc li{display:flex;align-items:baseline;gap:8px;font-size:10pt;padding:2.2px 0;color:var(--fg);line-height:1.4;}
+.toc li .n{font-family:var(--mono);font-weight:700;font-size:9pt;color:var(--blue);min-width:26px;}
+.toc li .dots{flex:1;border-bottom:1px dotted var(--hair2);transform:translateY(-3px);}
+
+/* ===== chapter divider band ===== */
+.chapdiv{margin:0 0 5mm;padding:6mm 16px 5mm;border-radius:12px;background:var(--grad);
+    -webkit-print-color-adjust:exact;print-color-adjust:exact;}   /* green-filled chapter band */
+.chapdiv .cn{font-family:var(--mono);font-size:8.5pt;font-weight:700;letter-spacing:.24em;text-transform:uppercase;color:rgba(255,255,255,.82);margin-bottom:5px;}
+.chapdiv h2{font-family:var(--latin);font-weight:800;font-size:17pt;line-height:1.1;letter-spacing:-.015em;color:#fff;}
+/* conclusion block — same green-filled look as the chapter band */
+.conclusion{background:var(--grad);border-radius:12px;padding:6mm 16px;margin:5mm 0;color:#fff;break-inside:avoid;
+    -webkit-print-color-adjust:exact;print-color-adjust:exact;}
+.conclusion .ck{font-family:var(--mono);font-size:8.5pt;font-weight:700;letter-spacing:.24em;text-transform:uppercase;color:rgba(255,255,255,.82);margin-bottom:6px;}
+.conclusion h3{font-family:var(--latin);font-weight:800;font-size:13pt;line-height:1.2;color:#fff;margin-bottom:4px;}
+.conclusion p,.conclusion li{font-size:10.4pt;line-height:1.7;color:#fff;}
+.conclusion b,.conclusion strong{color:#fff;font-weight:700;}
+
+/* ===== unit header (lesson/exercise) + QR emplacement ===== */
+.exh{display:flex;align-items:center;gap:11px;margin:6mm 0 3mm;}
+.exh .idx{font-family:var(--mono);font-size:9pt;font-weight:600;color:#fff;background:var(--grad);
+    border-radius:6px;padding:4px 11px;letter-spacing:.08em;text-transform:uppercase;
+    -webkit-print-color-adjust:exact;print-color-adjust:exact;}
+.exh .idx.ex{background:var(--red);}   /* exercise chip = red */
+.exh h2{font-family:var(--latin);font-size:14pt;font-weight:700;letter-spacing:-.01em;color:var(--blue-dark);}
+.exh .qrcard{margin-inline-start:auto;flex:0 0 auto;display:flex;flex-direction:column;align-items:center;gap:3px;width:26mm;}
+.qrcard .qrt{font-family:var(--mono);font-size:6.5pt;letter-spacing:.1em;text-transform:uppercase;color:var(--teal);text-align:center;}
+.qrcard .qrslot{width:24mm;height:24mm;padding:1.5mm;background:#fff;border:1px solid var(--blue-line);border-radius:8px;display:flex;align-items:center;justify-content:center;}
+.qrcard .qrslot img,.qrcard .qrslot svg{width:100%;height:100%;display:block;}
+
+/* sub-exercise label when one file holds several exercices */
+.exsub{font-family:var(--latin);font-weight:800;font-size:11.5pt;color:var(--blue-dark);margin:5mm 0 2.5mm;padding-bottom:3px;border-bottom:2px solid var(--blue-line);}
+
+/* ===== text blocks ===== */
+.lead{font-size:11pt;line-height:1.7;margin:2mm 0 3mm;color:var(--fg);}
+.para{font-size:10.6pt;line-height:1.7;margin:2mm 0 2.5mm;color:var(--fg);}
+.consigne{font-size:10.4pt;line-height:1.6;margin:1mm 0 2mm;color:var(--fg);font-style:italic;}
+.subhead{font-family:var(--latin);font-weight:800;font-size:12pt;letter-spacing:-.01em;color:var(--blue-dark);margin:5mm 0 2.5mm;}
+/* emphasis — green accent = .t-blue/.t-green ; balance = .t-navy ; red = SECONDARY accent (.t-red) on titles + a few words */
+.t-blue{color:var(--blue);font-weight:600;} .t-navy{color:var(--blue-dark);font-weight:700;}
+.t-red{color:var(--red);font-weight:600;} .t-green{color:var(--teal);font-weight:600;} .t-gold{color:var(--orange);font-weight:600;}
+.subhead.t-red{color:var(--red);font-weight:800;}   /* red Roman-numeral section title (I, II, …) — keeps subhead weight */
+/* highlighter marks — a soft colour wash behind a key word (agent picks green or red per what balances the page) */
+.hl-green,.hl-red{border-radius:3px;padding:.02em .24em;font-weight:600;box-decoration-break:clone;-webkit-box-decoration-break:clone;
+    -webkit-print-color-adjust:exact;print-color-adjust:exact;}
+.hl-green{background:rgba(15,171,143,.20);color:var(--blue-dark);}   /* green highlight */
+.hl-red{background:rgba(245,50,47,.13);color:#c0261f;}               /* red highlight  */
+
+.data{background:var(--blue-soft);border:1px solid var(--blue-line);border-inline-start:4px solid var(--blue);
+    border-radius:8px;padding:11px 16px;margin:3mm 0;font-size:10pt;line-height:1.65;color:var(--fg2);}
+.data b{color:var(--fg);font-weight:700;}
+.note{border:1px dashed var(--hair2);border-radius:9px;padding:11px 16px;margin:4mm 0;background:var(--panel);}
+.note .kicker{font-family:var(--mono);font-size:7.5pt;letter-spacing:.18em;color:var(--orange);display:block;margin-bottom:5px;}
+.note .nb{font-size:10pt;line-height:1.7;color:var(--fg2);} .note b{color:var(--fg);}
+.ex:not(.idx){background:var(--blue-soft);border:1px solid var(--blue-line);border-inline-start:3px solid var(--blue);
+    border-radius:7px;padding:7px 11px;font-size:9.6pt;line-height:1.6;color:var(--fg2);margin:2mm 0;}   /* :not(.idx) so it never hits the exercise chip (which is .idx.ex) */
+.ex .extag{display:inline-block;font-family:var(--latin);font-weight:800;font-size:7.6pt;color:var(--blue-dark);background:#fff;
+    border:1px solid var(--blue);border-radius:5px;padding:1px 9px;margin-inline-end:7px;vertical-align:middle;text-transform:uppercase;letter-spacing:.06em;}
+
+/* ===== lists ===== */
+ol.q{list-style:none;counter-reset:q;margin:1mm 0 2mm;}
+ol.q>li{counter-increment:q;position:relative;padding-inline-start:30px;margin-bottom:2.5mm;font-size:10.4pt;line-height:1.6;}
+ol.q>li::before{content:counter(q);position:absolute;inset-inline-start:0;top:1px;width:21px;height:21px;background:var(--grad);color:#fff;
+    border-radius:50%;font-family:var(--mono);font-size:9pt;font-weight:600;display:flex;align-items:center;justify-content:center;
+    -webkit-print-color-adjust:exact;print-color-adjust:exact;}
+ol.sub{list-style:none;counter-reset:s;margin:4px 0 0;padding-inline-start:2px;border-inline-start:1px solid var(--blue-line);}
+ol.sub li{counter-increment:s;position:relative;padding:2.5px 0 2.5px 26px;font-size:10.1pt;line-height:1.55;}
+ol.sub li::before{content:counter(s,lower-alpha)".";position:absolute;inset-inline-start:10px;top:2.5px;font-family:var(--mono);font-size:9pt;font-weight:600;color:var(--teal);}
+ol.qn{list-style:none;counter-reset:qn;margin:1mm 0 2mm;}
+ol.qn>li{counter-increment:qn;position:relative;padding-inline-start:26px;margin-bottom:2.2mm;font-size:10.4pt;line-height:1.55;}
+ol.qn>li::before{content:counter(qn)".";position:absolute;inset-inline-start:0;top:0;font-family:var(--mono);font-size:9.5pt;font-weight:700;color:var(--blue);}
+ul.b{list-style:none;margin:1mm 0 2mm;} ul.b>li{position:relative;padding-inline-start:22px;margin-bottom:2.4mm;font-size:10.4pt;line-height:1.6;}
+ul.b>li::before{content:"";position:absolute;inset-inline-start:3px;top:8px;width:8px;height:8px;border-radius:50%;background:var(--grad);
+    -webkit-print-color-adjust:exact;print-color-adjust:exact;}
+ul.dash{list-style:none;margin:1mm 0 2mm;} ul.dash>li{position:relative;padding-inline-start:20px;margin-bottom:1.8mm;font-size:10.4pt;line-height:1.6;}
+ul.dash>li::before{content:"–";position:absolute;inset-inline-start:2px;top:0;color:var(--fg);font-weight:700;}  /* dash / +/− signs = body colour */
+.flow ul.opts{list-style:none;margin:4px 0 3px;padding-inline-start:16px;}
+.flow ul.opts li{padding:2px 0;font-size:10.2pt;line-height:1.5;color:var(--fg);}
+
+/* ===== figures / tables ===== */
+.fig{margin:3mm 0;} .fig svg.figsvg{display:block;margin:0 auto;background:#fff;max-width:100%;height:auto;}
+.photo{display:block;margin:3mm auto;border-radius:8px;border:1px solid var(--hair);max-width:100%;}
+.figrow{display:flex;flex-wrap:wrap;gap:9px;justify-content:center;margin:3mm auto;max-width:190mm;}
+.flow .figrow img{border-radius:7px;border:1px solid var(--hair);height:46mm;width:auto;max-width:none;object-fit:cover;}
+.schemarow{display:flex;gap:16px;align-items:flex-start;flex-wrap:wrap;margin:2mm 0;}
+.schemarow .col-txt{flex:1 1 90mm;min-width:80mm;} .schemarow .col-fig{flex:0 0 78mm;} .schemarow .col-fig .fig{margin:0;}
+.flow table{border-collapse:collapse;width:100%;margin:3mm 0;font-size:9.8pt;line-height:1.5;}
+.flow table th,.flow table td{border:1px solid var(--blue-line);padding:6px 10px;text-align:start;vertical-align:top;}
+.flow table th{background:var(--grad);color:#fff;font-family:var(--latin);font-weight:700;font-size:9.4pt;
+    -webkit-print-color-adjust:exact;print-color-adjust:exact;}
+.flow table tr:nth-child(even) td{background:var(--blue-soft);color:var(--sub-ink);}   /* sub-row: #E6F3F4 / #045260 */
+
+mjx-container{color:var(--fg) !important;font-weight:400 !important;font-size:1.0em !important;}
+.eq-hi mjx-container,mjx-container.eq-hi{color:var(--blue) !important;}   /* accent (green) equation — highlight a key result; balance with plain math */
+.eq-red mjx-container,mjx-container.eq-red{color:var(--red) !important;}  /* red accent equation / symbol — complements the green .eq-hi */
+
+/* ===== per-file books: credit line, copies list, figures at their size ===== */
+.credit{display:flex;flex-wrap:wrap;align-items:center;gap:5px;margin:-1mm 0 3.5mm;font-size:9.4pt;color:var(--fg2);}
+.credit .who{font-weight:700;color:var(--blue-dark);}
+.credit .tg{font-family:var(--mono);font-size:7.2pt;letter-spacing:.04em;border-radius:5px;padding:1px 7px;line-height:1.6;
+    border:1px solid var(--blue-line);color:var(--blue);background:#fff;-webkit-print-color-adjust:exact;print-color-adjust:exact;}
+.credit .tg.sec{background:var(--blue-dark);border-color:var(--blue-dark);color:#fff;}
+.credit .tg.cor{background:#fff;border-color:var(--red);color:var(--red);}
+.credit a{color:var(--fg3);font-family:var(--mono);font-size:7pt;text-decoration:none;}
+.cover .auth .credit{margin:4mm 0 0;}
+.cover .copies{margin-top:5mm;font-size:8.6pt;color:var(--fg2);}
+.cover .copies ul{list-style:none;margin:2mm 0 0;padding:0;columns:2;}
+.cover .copies a{color:var(--fg3);text-decoration:none;font-size:8pt;}
+.flow figure.fig{text-align:center;}
+.flow figure.fig img{max-height:60mm;width:auto;max-width:70%;display:inline-block;}
+
+/* chapter tag on each part of a multi-chapter book (the book keeps the original order of the file) */
+.chtag{display:inline-block;margin:5mm 0 2mm;padding:1mm 3mm;border-radius:2mm;background:#eef3fb;border:1px solid #c9d6ea;
+  color:#1f3a6b;font-size:9pt;font-weight:700}
+.chtag span{color:#6b7f9e;font-weight:600;margin-inline-end:1.5mm}
+
+@media print{ body{background:#fff;padding:0;} .flow{width:auto;max-width:none;margin:0;padding:0;} }
+@page{size:A4;}   /* margins come from render_flow.py — do NOT set them here */
+</style>
+<meta data-pagefind-filter="type[content]" content="إصلاح">
+<meta data-pagefind-filter="resource[content]" content="Taki Academy">
+<meta data-pagefind-meta="n[content]" content="1525">
+<meta data-pagefind-meta="title[content]" content="3 - إصلاح تمارين محور النمذجة العلمية">
+<meta data-pagefind-filter="chapter[content]" content="العلم بين الحقيقة والنمذجة">
+<meta data-pagefind-filter="chapter[content]" content="الإنية والغيرية">
+<meta data-pagefind-filter="chapter[content]" content="المنهجية">
+<meta data-pagefind-filter="section[content]" content="باكالوريا علوم الإعلامية"><style>.qrcard{display:none!important}.wa-nav{position:sticky;top:0;z-index:50;background:#045260;padding:10px 18px;font-family:Cairo,sans-serif;direction:rtl}.wa-nav a{color:#fff;text-decoration:none;font-weight:700}@media print{.wa-nav{display:none}}</style>
+</head>
+
+<body dir="rtl" lang="ar"
+      data-brand="Wael Academy" data-handle="@WaelAcademy"
+      data-tagline="في تُرابنا.. مغامرة بمغامرة"
+      data-phone="+216 50 40 40 42" data-site="waeldocuments.com"
+      data-cta="سجل معانا وأقرى عن بعد مع منصة Wael Academy"
+      data-subject="Philosophie · 3 - إصلاح تمارين محور النمذجة العلمية " data-watermark="Wael Academy" data-pagefind-body><nav class="wa-nav" data-pagefind-ignore><a href="../index.html">→ الرجوع إلى فهرس الفلسفة</a></nav>
+
+<!-- single full-page diagonal watermark, bottom-left → top-right (repeats on every page) -->
+<div class="wm" aria-hidden="true"><span>WAEL&nbsp;ACADEMY</span></div>
+
+<div class="flow colored">
+<div class="cover"><div class="badge">◉ Wael Academy · Philosophie</div><h1>3 - إصلاح تمارين محور النمذجة العلمية </h1><div class="grule"></div><div class="sub">العلم بين الحقيقة والنمذجة</div><div class="auth"><div class="credit">المؤلّف / المصدر : <span class="who">Taki Academy — الأستاذ(ة): سماح شقرون — www.takiacademy.com | 73.832.000</span> <span class="tg">تمارين</span><span class="tg">مراجعة</span><span class="tg cor">إصلاح</span><span class="tg sec">الفلسفة · باكالوريا علوم الإعلامية</span> <a href="https://drive.google.com/file/d/1Ze3pr0J5kXfNwPor7vSIxR-QP6DKDMkO/view">↗ 3 - إصلاح تمارين محور النمذجة العلمية .pdf</a></div></div><div class="copies" data-pagefind-ignore><b>نسخ هذا الملف في الدرايفات (2)</b><ul><li><a href="https://drive.google.com/file/d/1Ze3pr0J5kXfNwPor7vSIxR-QP6DKDMkO/view">BAC INFO — Drive 4: 9raya · 9raya › فلسفة / révision bac</a></li><li><a href="https://drive.google.com/file/d/1CNasTmrtwg79vMdQT0EK4RgNdkB_BLoM/view">BAC INFO — Drive 3: BAC INFO · BAC INFO › فلسفة / Taki / Enregistrement / seance12</a></li></ul></div></div>
+<section class="chapter">
+<div class="chtag"><span>المحور</span> العلم بين الحقيقة والنمذجة</div>
+<!-- SOURCE: Taki Academy — الأستاذ(ة): سماح شقرون — www.takiacademy.com | 73.832.000 -->
+<div class="exh"><span class="idx ex">إصلاح</span><h2>إصلاح تمارين محور النمذجة العلمية</h2>
+  <div class="qrcard"><div class="qrt">فيديو الدرس</div><div class="qrslot"><img src="qr/1525.svg" alt="QR"></div></div></div>
+<div class="credit">المؤلّف / المصدر : <span class="who">Taki Academy — الأستاذ(ة): سماح شقرون — www.takiacademy.com | 73.832.000</span> <span class="tg">تمارين</span><span class="tg">مراجعة</span><span class="tg cor">إصلاح</span><span class="tg sec">الفلسفة · باكالوريا علوم الإعلامية</span> <a href="https://drive.google.com/file/d/1Ze3pr0J5kXfNwPor7vSIxR-QP6DKDMkO/view">↗ 3 - إصلاح تمارين محور النمذجة العلمية .pdf</a></div>
+<p class="para">RÉVISION</p>
+<p class="para">الفلسفة</p>
+<p class="para"><span class="t-blue">القسم</span>: الرابعة شعب علميّة</p>
+<p class="para"><span class="t-blue">الدرس</span>: إصلاح تمارين محور النمذجة العلمية</p>
+<p class="para"><span class="t-blue">الأستاذ(ة)</span>: سماح شقرون</p>
+<div class="exsub">الإصلاح</div>
+<!-- PROOFREAD: 1525 part1 p02-p05 — pages show only the Taki Academy logo/watermark, no text visible (check whether content is missing from the render) -->
+<p class="subhead t-red"><span class="t-red">المهارات المنهجيّة الجزئيّة</span></p>
+<p class="para">1-يسلّم هذا القول ضمنيّا بأنّ المعرفة العلميّة ليست حقائق موضوعية تعكس حقيقة الواقع كما هوّ بل هي مجرّد تمثّلات خياليّة خاصّة بالمنمذج</p>
+<p class="para">2-يترتّب عن هذا القول أنّ التجاوز البراديغم الوضعي الذي يجعل غاية العلم وإكتشاف حقيقة الواقع والتاسيس للبراديغم البنائي الذي يعتبر أنّ النماذج العلمية غايتها التحكم في الواقع</p>
+<p class="para">3-يراهن هذا القول على تحرّر العقلانيّة العلميّة من الوثوقية الوضعيّة التي تهدف لبناء حقائق كونيّة والإنفتاح على النسبيّة وتاريخيّة العقل العلمي وتتطوره</p>
+<p class="para">4-يحمل هذا الإقرار شيئا من الوجاهة لانّ العلم هو ممارسة إنسانيّة هدفها تحقيق خير الإنسان في حين أنّ الواقع يؤكد تدميره للطبيعة وللبيئة وللإنسان ( الإحتباس الحراري – الأوبئة التسلّح ) لذلك يمكن القول أنّه عمّق الهوّة بيننا وبين ما هوّ إنساني</p>
+<p class="para">5-لا يستقيم هذا القول لأنّ النمذجة ليست مجرّد إضطرار عقل إجرامي ولو سلّمنا بذلك فإنّنا ننكر ما قدّمته للعلم من إثراء وتجاوز لأزماته لذلك ليس من الوجاهة تجريم النمذجة بل تصحيح مسارها</p>
+<p class="subhead t-red"><span class="t-red">النّص</span></p>
+<p class="subhead t-navy">النص الأول:</p>
+<p class="para">1-ما هو معيار قيمة النّموذج ؟ هل تتحدّد بمعيار الصدق أي بما يقدّمه من حقائق تكون مطابقة للواقع أم تتحدّد بمعيار النّجاعة أي بما يحقّقه من نجاحات ؟</p>
+<p class="para">2-يتحدّد معيار النموذج خارج مقياس الصّدق بالنجاحات التي يحققها بفضل ما يعتمده من تبسيط لتعقيدات الواقع تمكن من التحكم فيه</p>
+<p class="para">3-تفيد إستراتيجيا الإهمال والتبسيط ، إهمال كل العناصر التي لا تتدخّل في فهم الظاهرة والمبالغة في التأكيد على بعض الإحداثيات التي تمكّن من فهم نظام إشتغالها وجعلها مفهومة ومنطقيّة</p>
+<p class="para">الحجة : تقديم مثال النموذج النيو تني فعلى الرغم من انّ هذا النموذج يتضمّن عددا من الكواكب ... ...فإنّه لا يتضمّن الشهب والنيازك</p>
+<p class="subhead t-navy">النّص الثاني:</p>
+<p class="para">1-ما هي دلالة العلم في النمذجة ؟ هل هي إكتشاف لحقيقة الواقع الموضوعية ام هي بناء لنماذج تقريبية تتصف بالملاءمة لغاية فهم الواقع والتحكم فيه وتحقيق النجاعة ؟</p>
+<p class="para">2-تتمثل الحجة التي تدل على محدوديّة النمذجة انّماذج ليست حقائق مطابقة للواقع لأنّ الواقع مركّب ولا يمكن معرفته كما هو في حدّ ذاته</p>
+<p class="para">3-يترتّب عن موقف الكاتب تجاوز البراديغم الوضعي الذي يتميز بالوثوقية وثبات مقاييسه وانفتاح العلم على أشكال جديدة من المعقوليّة التي تثبت مرونة العقل العلمي وتاريخيّته</p>
+<!-- PROOFREAD: 1525 part1 p06 — "تثبت" (dots unclear) -->
+<p class="subhead t-navy">النّص الثالث:</p>
+<p class="para">1-ما هي طبيعة المعرفة العلميّة ؟ هل هي معرفة نظريّة خالصة غايتها إكتشاف حقيقة الواقع أم هي معرفة نظريّة تطبيقيّة موجّهة نحو الفعل غايتها تحقيق النّجاعة ؟</p>
+<p class="para">2-تتحدّ علاقة المنمذج بالمعرفة التي ينتجها ليس كمعرفة موضوعية مطابقة للواقع بل كمعرفة ذاتية مرتبطة بكفاءته وخبراته كما أنّ العلاقة بينهما هي علاقة لولبيّبية يؤثّر كلّ منهما في الاخر فالمنمذج يغيّر الواقع بمشاريعه والواقع بدوره يحثّ المنذج على ابداع حلول جديدة له</p>
+<p class="para">3-يراهن موقف الكاتب على التحرّر من إدّعاء الحياد والموضوعيّة في العلم وتحمّل مسؤوليّة إرتباط العلم بالتقنية والعمل على الحد من إنحرافات العلم ومراقبته إيتيقيا</p>
+<p class="subhead t-navy">النص الرابع:</p>
+<p class="para">1-ما هي طبيعة علاقة المعرفة العلميّة بالتطبيقات التقنية ؟ هل أنّ إرتباط المعرفة العلميّة بالتقنية يدفع بنا الى الخوف وإنهاء مغامرة العلم أم الى عقلنة ممارساتنا العلميّة ومراقبتها إيتيقيّا وتوجيهها نحو غايات خيّرة ؟</p>
+<p class="para">2-يمكن الإشارة الى المظهرالاول فمن جهة تتطور المعرفة العلميّة وتثري معرفتنا بالظواهر وتتعاظم قدرتنا على الفعل وبالتوازي تتعاظم تعاظمت قدرتنا على الإضرار</p>
+<p class="para">المظهر الثاني ، مكّننا العلم من وسائل العون والتخفيف من الالام وبالتوازي قدّم المزيد من الوسائل لنشر الألم والدّمار</p>
+<p class="para">3-يمكن أن نحدّ مخاوفنا من تطور العلم بتنزيله ضمن مشروع إيتيقي يعمل على مراقبة تطوّر العلم بجملة من القيم التي توجّه الممارسة العلميّة نحو غايات خيّرة وإظهار الحكمة والتعقل في توظيف معارفنا العلميّة</p>
+
+<div class="chtag"><span>المحور</span> الإنية والغيرية</div>
+
+<p class="subhead t-red"><span class="t-red">إصلاح فقرة</span></p>
+<p class="subhead t-navy"><span class="t-blue">السّؤال : هل يستوفي اللّاوعي حقيقة الإنسان ؟</span></p>
+<p class="para">مثل انفتاح الفلسفة على إنجازات العلوم خاصة إكتشاف اللاوعي فرصة لمراجعة بعض مسلّماتها المتعلّقة بمفهوم الإنية فماهي منزلة الأنا في ظل اكتشاف اللاوعي؟ هل أصبحت الوعي مجرد وهم يجب تحطيمه أم أن اكتشاف اللاوعي لا يفضي بالضرورة إلى تحطيم الأنا بل إعادة بناءها بالانفتاح على اللاوعي كآخر لها؟ (أو) هل يستوفي اللاوعي حقيقة الإنسان أم الانسان هو مراوحة بين الوعي واللاوعي؟</p>
+<p class="para">مثل اكتشاف اللاوعي طعنة لمفهوم الذات داخل التصور العقلاني الديكارتي الذي يعرّف الإنسان باعتباره أنا أو ذاتا معتدة بذاتها قادرة على السيطرة على انفعالاتها ورغباتها وأهوائها وهي حرة ومستقلة وغير خاضعة لأي ضرورة نفسيّة إلا أن اكتشاف اللاوعي حوّل هذه المسلمات إلى مجرد فرضية ميتافيزيقية أو وهم يجب التحرر منه لفهم الإنسان.</p>
+<p class="para">فالحياة النفسية عند فرويد لا يتحكم فيها الوعي بل هي خاضعة للاوعي، واللاوعي هو جملة الرغبات والغرائز الجنسية التي تبحث عن اللذة والإشباع وقد وقع كبتها داخل أعماق الإنسان لعدم تلاؤمها مع الواقع ومع متطلبات العالم الخارجي الاجتماعية والأخلاقية.</p>
+<p class="para">وتبقى هذه الرغبات المكبوتة فاعلة وناشطة تتحين الفرصة للظهور وللإشباع وتسيطر على مجال تفكيرنا وأفعالنا، أما الأنا فتقتصر مهمته على تلبية هذه الرغبات المكبوتة بطريقة رمزية تجنب الفرد الاصطدام مع المجتمع.</p>
+<p class="para">لم يعد الأنا مركزا كما أنه لم يعد كيانا مستقلا ومكتفيا بذاته بل أصبح جزءا من بنية الجهاز النفسي وهي بنية ديناميكية تقوم على الصراع بين مبدأ داخلي وهو مبدأ اللذة ومبدأ خارجي وهو مبدأ الواقع بهدف تحقيق التوازن النفسي</p>
+<p class="para">مثّل اكتشاف اللاوعي الى تحطيم الأنا وخضوعها للاوعي وتحولها إلى لعبة بيده ف"الأنا أفكر" هي مجرد وهم يخفي حقيقة خضوع الإنسان للاوعي</p>
+<p class="para">لكن على الرغم من أهمية اكتشاف اللاوعي إلا أنه يحتاج إلى نوع من المساءلة فخضوع الإنسان للاوعي ينفي عنه الحرية والمسؤولية فالتحليل النفسي يقدم تفسيرا آليا للإنسان تجعل من أفعاله مجرد ردود أفعال مشروطة بعوامل نفسية موضوعية.</p>
+<p class="para">وبذلك فهو يحل اللاوعي محل الوعي والخضوع محل الحرية وينفي عن الفعل الإنساني الوعي والحرية والإرادة والمسؤولية أي ينفي عنه المقومات الأساسية التي تجعل منه إنسانا.</p>
+<p class="para">إن اكتشاف اللاوعي لا يمكن أن يؤدي إلى تحطيم الأنا فالأنا هي أساس كل فعل إنساني فالاعتراف بوجود اللاوعي لا يعني نفي الوعي بل الاعتراف به كآخر يسكن أعماق الإنسان ويؤثر فيه لذلك فإن فهم الإنسان لذاته يمر عبر فهم هذا الآخر.</p>
+<p class="para">فالإنسان ليس ذاتا مطلقة ومستقلة مكتفية بذاتها ولكنها أيضا ليست خاضعة خضوعا مطلقا لحتميات نفسية بل هي كما يذهب إلى ذلك سارتر مشروع أو كيان يعمل على بناء ذاته داخل وضعية نفسية واقتصادية واجتماعية وتاريخية وثقافية وتكون هذه الذات مطالبة بإثبات وجودها بكل حرية داخل هذه الوضعيات وتعمل على إثبات إرادتها. فالفعل الإنساني هو علامة على المواجهة والتجاوز لتحمل المسؤولية وإثبات الجدارة من أجل التأسيس الذا إن الاعتراف بوجود اللاوعي مكننا من تجاوز الأطروحات الاختزالية التي تختزل حقيقة الإنسان في الوعي والتأكيد على أهمية حضور الآخر في فهم الإنسان لذاته في أبعاده المتعددة</p>
+<p class="para">إن الانفتاح على اللاوعي باعتباره الآخر الذي يسكن أعماق الذات هو اعتراف بأن حقيقة الإنسان تتراوح بين المعقول واللامعقول وبين العقل والرغبة وضرورة تحقيق التوازن بينهما.</p>
+
+<div class="chtag"><span>المحور</span> المنهجية</div>
+
+<p class="subhead t-red"><span class="t-red">نماذج من مقدّمات</span></p>
+<p class="subhead t-navy">محور الانية والغيرية:</p>
+<p class="para">لعل ما تعيشه الذات اليوم من حالة ضياع وفقدان يقينها بذاتها في عالمنا المعاصرالذي تهيمن عليه القيم المادية، جعل من مسالة الانية والبحث عن الذات من اكثر المسائل تناولا في الفكر الفلسفي المعاصر فكيف...</p>
+<p class="subhead t-navy">محور الخصوصية والكونية</p>
+<p class="para">على الرغم مما تعيشه المجتمعات المعاصرة من تطور في مجال وسائل الاتصال في عصر العولمة والدعوة الى إقامة وحدة إنسانية الا ان الواقع يعرف تفاقما في مظاهر الصراع والصدام الذي يتسبب في تفتيت الإنسانية ف...</p>
+<p class="subhead t-navy">محور النمذجة العلمية</p>
+<p class="para">ساد الاعتقاد ان العلم هو نسق من الحقائق الموضوعية الثابتة ،الا ان الانفتاح على النمذجة دفع المعرفة العلمية الى مراجعة اعتقاداتها ومسلماتها وإعادة النظر في مفهوم الحقيقة (او مفهوم المعرفة العلمية )</p>
+<p class="subhead t-navy">محور الدولة: السيادة والمواطنة</p>
+<p class="para">ان اختراع الانسان للدولة يؤكد حاجته الى كيان سياسي يمكنه من حفظ كيانه ويضمن حقوقه ويحميها الا ان الواقع يؤكد تفاقم انتهاك هذه الحقوق وتحول الدولة الى فضاء يفقد فيه الانسان انسانيته</p>
+<p class="subhead t-navy">محور الاخلاق : الخير والسعادة</p>
+<p class="para">لا شك ان الانسان هو الكائن الذي لا يعمل فقط على حفظ كيانه بل يرغب كذلك في تحقيق سعادته ، لكنه بالمقابل يصطدم بحاجته الى الالتزام بالواجب الأخلاقي وما يتطلبه من تضحية وحرمان مما يدعو الى التساؤل</p>
+<p class="subhead t-red"><span class="t-red">نماذج من استخلاص الموقف</span></p>
+<p class="subhead t-navy">الانية والغيرية:</p>
+<p class="para">لا شك ان الغيرية أصبحت شرطا انطولوجيا ضروريا لتحقيق الانية ،ولكن يجب الحذر من الانتقال من مركزية الانية الى مركزية الغيرية حيث تتحول الغيرية الى معرقل للانية ومهدد لها خاصة في مجتمعاتنا المعاصرة القائمة على الانانية والمصلحة الذي قد ينتج لنا غيريات قاتلة (الإرهاب مثلا )</p>
+<p class="subhead t-navy">الخصوصية والكونية:</p>
+<p class="para">ان الانفتاح على الاخر هو ضرورة وليس خيارا لكن يجب ان يكون هذا الانفتاح حذرا خاصة في ضل اختلال ميزان القوى لذلك يجب خوض كل اشكال النضال ضد اشكال الهيمنة و تحويل الصراع من صراع بين الحضارات الى صراع بين النزوع نحو الهيمنة والنزوع نحو الكوني</p>
+<p class="subhead t-navy">النمذجة العلمية:</p>
+<p class="para">ان الانفتاح على النمذجة العلمية يحيل الى انفتاح العقلانية العلمية وقدرتها على مراجعة مفاهيمها ومقاييسها وتحررها من الوثوقية ويؤكد قدرة العلم على تجديد ذاته</p>
+<p class="subhead t-navy">الدولة : السيادة والمواطنة</p>
+<p class="para">ان تحقيق التوازن بين السيادة والمواطنة يقتضي تجاوز اشكال التقاطب ووضع اليات تضمن التزام كل منهما بوظيفته حتى نتحرر من اشكال العنف والهيمنة والفوضى ويتحقق الإنساني فينا فالانساني ليس معطى بل هو مهمة تحتاج الى تعقل ممارساتنا</p>
+<p class="subhead t-navy">الاخلاق :الخير والسعادة</p>
+<p class="para">ان تحقيق التوازن بين الخير والسعادة يقتضي تجاوز التقاطب بينهما وذلك بالنظر الى الانسان على انه كائن يعمل على تحقيق وجود سعيد مع توجيه افعاله بمبادئ عقلية</p>
+
+</section>
+
+</div>
+</body>
+</html>

@@ -1,0 +1,399 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<title>Wael Academy — Philosophie · تمارين ومحاولات فلسفية حول مسألة الإنية والغيرية - المعهد النموذجي بسوسة</title>
+<script>
+  window.MathJax = {
+    tex: { inlineMath: [['\\(','\\)']], displayMath: [['\\[','\\]']] },
+    chtml: { fontURL: 'https://cdn.jsdelivr.net/npm/mathjax@3/es5/output/chtml/fonts/woff-v2', matchFontHeight: true },
+    startup: { typeset: true }
+  };
+</script>
+<script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js" async></script>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Sora:wght@400;500;600;700;800&family=Cairo:wght@400;500;600;700;800;900&family=Tajawal:wght@400;500;700;800&family=JetBrains+Mono:wght@400;500;600;700&display=swap');
+:root{
+  /* ===== Wael Academy palette — MAIN ACCENT = green-teal gradient #0FAB8F → #067360 ===== */
+  --bg:#fff; --panel:#f2f8f8; --hair:#e6e6e9; --hair2:#d6d6db;
+  --fg:#0f2a31;        /* body text (and +/− signs) */
+  --fg2:#3f5b62;       /* softer text */
+  --fg3:#7c959b;       /* muted (footer) */
+  --blue:#067360;      /* deep accent — small numbers, borders, watermark, accent equations */
+  --blue-dark:#045260; /* titles & wordmarks (also the balance colour) */
+  --teal:#0fab8f;      /* bright accent end */
+  --loop:#0d9c82;      /* logo-loop helper */
+  --orange:#067360;    /* kicker/category labels (gold retired → deep teal) */
+  --red:#f5322f;       /* EXERCISE CHIPS ONLY — never for emphasis */
+  --cream:#e6f3f4; --blue-soft:#e6f3f4;  /* pale teal — callout fill + table sub-row fill */
+  --blue-line:#cde7e4; /* hairline */
+  --sub-ink:#045260;   /* table sub-row text */
+  --grad:linear-gradient(148deg,#0fab8f 0%,#0d9c82 52%,#067360 100%);
+  --mono:'JetBrains Mono',monospace; --latin:'Sora',sans-serif; --ar:'Cairo',sans-serif; --arb:'Tajawal',sans-serif;
+}
+*{box-sizing:border-box;margin:0;padding:0;}
+body{font-family:var(--latin);color:var(--fg);background:#e4e4e7;padding:28px 0;
+     -webkit-print-color-adjust:exact;print-color-adjust:exact;}
+html[dir="rtl"] body{font-family:var(--arb);}
+
+/* ===== brand watermark: REAL text (crisp), full-bleed, repeats per page ===== */
+.wm{position:fixed;inset:0;z-index:0;pointer-events:none;display:flex;
+    align-items:center;justify-content:center;overflow:hidden;
+    -webkit-print-color-adjust:exact;print-color-adjust:exact;}
+.wm span{font-family:var(--mono);font-weight:800;font-size:76.8pt;letter-spacing:.16em;
+    color:var(--blue);opacity:.06;white-space:nowrap;transform:rotate(-54deg);}  /* single diagonal: bottom-left → top-right */
+.wm.mono span{color:#000;opacity:.05;}
+
+/* ===== continuous flow stream (no page border) ===== */
+.flow{width:210mm;margin:0 auto;background:transparent;color:var(--fg);
+      padding-block:16mm 18mm;padding-inline:23mm 14mm;position:relative;}   /* spiral gutter: inline-start(=spine) 23mm / outer 14mm — dir-aware; print margins set in render_flow.py */
+@media screen{ .flow{background:#fff;box-shadow:0 10px 40px rgba(0,0,0,.16);} }
+.flow>*{position:relative;z-index:1;}
+.flow p,.flow li,.flow .data,.flow .note,.flow .ex{break-inside:auto;}
+.flow .fig,.flow figure,.flow img,.flow svg.figsvg,.flow table,.flow tr,.flow .chapdiv,.flow .exh,.flow .qrcard,.flow .meta{break-inside:avoid;}
+.flow h1,.flow h2,.flow h3,.flow .exh,.flow .subhead,.flow .chapdiv{break-after:avoid;}
+.flow img,.flow svg.figsvg{max-width:100%;height:auto;}
+.flow figcaption,.flow .figcap{display:none;}          /* rule 3: no figure captions */
+
+/* ===== front matter + chapters each start on a fresh page ===== */
+.flow .cover{break-after:page;}        /* cover alone on page 1 */
+.flow .toc{break-after:page;}          /* Sommaire alone on the next page */
+.flow .chapter{break-before:page;}
+.flow .chapter:first-of-type{break-before:auto;}
+
+/* ===== cover ===== */
+.cover{padding:14mm 0 8mm;border-bottom:2px solid var(--blue);margin-bottom:6mm;}
+.cover .badge{font-family:var(--mono);font-size:8.5pt;letter-spacing:.28em;text-transform:uppercase;color:var(--orange);margin-bottom:10px;}
+.cover h1{font-family:var(--latin);font-weight:800;font-size:34pt;line-height:1.03;letter-spacing:-.025em;color:var(--blue-dark);}
+.cover .grule{width:120px;height:5px;border-radius:5px;background:var(--grad);margin:14px 0;}
+.cover .sub{font-family:var(--mono);font-size:10pt;letter-spacing:.14em;text-transform:uppercase;color:var(--teal);}
+.cover .auth{font-size:11pt;color:var(--fg2);margin-top:6px;font-weight:600;}
+
+/* ===== table of contents ===== */
+.toc{margin:2mm 0 4mm;}
+.toc h2{font-family:var(--latin);font-weight:800;font-size:15pt;color:var(--blue-dark);margin-bottom:4mm;}
+.toc .trititle{font-family:var(--mono);font-size:8pt;letter-spacing:.2em;text-transform:uppercase;color:var(--orange);margin:4mm 0 2mm;}
+.toc ol{list-style:none;}
+.toc li{display:flex;align-items:baseline;gap:8px;font-size:10pt;padding:2.2px 0;color:var(--fg);line-height:1.4;}
+.toc li .n{font-family:var(--mono);font-weight:700;font-size:9pt;color:var(--blue);min-width:26px;}
+.toc li .dots{flex:1;border-bottom:1px dotted var(--hair2);transform:translateY(-3px);}
+
+/* ===== chapter divider band ===== */
+.chapdiv{margin:0 0 5mm;padding:6mm 16px 5mm;border-radius:12px;background:var(--grad);
+    -webkit-print-color-adjust:exact;print-color-adjust:exact;}   /* green-filled chapter band */
+.chapdiv .cn{font-family:var(--mono);font-size:8.5pt;font-weight:700;letter-spacing:.24em;text-transform:uppercase;color:rgba(255,255,255,.82);margin-bottom:5px;}
+.chapdiv h2{font-family:var(--latin);font-weight:800;font-size:17pt;line-height:1.1;letter-spacing:-.015em;color:#fff;}
+/* conclusion block — same green-filled look as the chapter band */
+.conclusion{background:var(--grad);border-radius:12px;padding:6mm 16px;margin:5mm 0;color:#fff;break-inside:avoid;
+    -webkit-print-color-adjust:exact;print-color-adjust:exact;}
+.conclusion .ck{font-family:var(--mono);font-size:8.5pt;font-weight:700;letter-spacing:.24em;text-transform:uppercase;color:rgba(255,255,255,.82);margin-bottom:6px;}
+.conclusion h3{font-family:var(--latin);font-weight:800;font-size:13pt;line-height:1.2;color:#fff;margin-bottom:4px;}
+.conclusion p,.conclusion li{font-size:10.4pt;line-height:1.7;color:#fff;}
+.conclusion b,.conclusion strong{color:#fff;font-weight:700;}
+
+/* ===== unit header (lesson/exercise) + QR emplacement ===== */
+.exh{display:flex;align-items:center;gap:11px;margin:6mm 0 3mm;}
+.exh .idx{font-family:var(--mono);font-size:9pt;font-weight:600;color:#fff;background:var(--grad);
+    border-radius:6px;padding:4px 11px;letter-spacing:.08em;text-transform:uppercase;
+    -webkit-print-color-adjust:exact;print-color-adjust:exact;}
+.exh .idx.ex{background:var(--red);}   /* exercise chip = red */
+.exh h2{font-family:var(--latin);font-size:14pt;font-weight:700;letter-spacing:-.01em;color:var(--blue-dark);}
+.exh .qrcard{margin-inline-start:auto;flex:0 0 auto;display:flex;flex-direction:column;align-items:center;gap:3px;width:26mm;}
+.qrcard .qrt{font-family:var(--mono);font-size:6.5pt;letter-spacing:.1em;text-transform:uppercase;color:var(--teal);text-align:center;}
+.qrcard .qrslot{width:24mm;height:24mm;padding:1.5mm;background:#fff;border:1px solid var(--blue-line);border-radius:8px;display:flex;align-items:center;justify-content:center;}
+.qrcard .qrslot img,.qrcard .qrslot svg{width:100%;height:100%;display:block;}
+
+/* sub-exercise label when one file holds several exercices */
+.exsub{font-family:var(--latin);font-weight:800;font-size:11.5pt;color:var(--blue-dark);margin:5mm 0 2.5mm;padding-bottom:3px;border-bottom:2px solid var(--blue-line);}
+
+/* ===== text blocks ===== */
+.lead{font-size:11pt;line-height:1.7;margin:2mm 0 3mm;color:var(--fg);}
+.para{font-size:10.6pt;line-height:1.7;margin:2mm 0 2.5mm;color:var(--fg);}
+.consigne{font-size:10.4pt;line-height:1.6;margin:1mm 0 2mm;color:var(--fg);font-style:italic;}
+.subhead{font-family:var(--latin);font-weight:800;font-size:12pt;letter-spacing:-.01em;color:var(--blue-dark);margin:5mm 0 2.5mm;}
+/* emphasis — green accent = .t-blue/.t-green ; balance = .t-navy ; red = SECONDARY accent (.t-red) on titles + a few words */
+.t-blue{color:var(--blue);font-weight:600;} .t-navy{color:var(--blue-dark);font-weight:700;}
+.t-red{color:var(--red);font-weight:600;} .t-green{color:var(--teal);font-weight:600;} .t-gold{color:var(--orange);font-weight:600;}
+.subhead.t-red{color:var(--red);font-weight:800;}   /* red Roman-numeral section title (I, II, …) — keeps subhead weight */
+/* highlighter marks — a soft colour wash behind a key word (agent picks green or red per what balances the page) */
+.hl-green,.hl-red{border-radius:3px;padding:.02em .24em;font-weight:600;box-decoration-break:clone;-webkit-box-decoration-break:clone;
+    -webkit-print-color-adjust:exact;print-color-adjust:exact;}
+.hl-green{background:rgba(15,171,143,.20);color:var(--blue-dark);}   /* green highlight */
+.hl-red{background:rgba(245,50,47,.13);color:#c0261f;}               /* red highlight  */
+
+.data{background:var(--blue-soft);border:1px solid var(--blue-line);border-inline-start:4px solid var(--blue);
+    border-radius:8px;padding:11px 16px;margin:3mm 0;font-size:10pt;line-height:1.65;color:var(--fg2);}
+.data b{color:var(--fg);font-weight:700;}
+.note{border:1px dashed var(--hair2);border-radius:9px;padding:11px 16px;margin:4mm 0;background:var(--panel);}
+.note .kicker{font-family:var(--mono);font-size:7.5pt;letter-spacing:.18em;color:var(--orange);display:block;margin-bottom:5px;}
+.note .nb{font-size:10pt;line-height:1.7;color:var(--fg2);} .note b{color:var(--fg);}
+.ex:not(.idx){background:var(--blue-soft);border:1px solid var(--blue-line);border-inline-start:3px solid var(--blue);
+    border-radius:7px;padding:7px 11px;font-size:9.6pt;line-height:1.6;color:var(--fg2);margin:2mm 0;}   /* :not(.idx) so it never hits the exercise chip (which is .idx.ex) */
+.ex .extag{display:inline-block;font-family:var(--latin);font-weight:800;font-size:7.6pt;color:var(--blue-dark);background:#fff;
+    border:1px solid var(--blue);border-radius:5px;padding:1px 9px;margin-inline-end:7px;vertical-align:middle;text-transform:uppercase;letter-spacing:.06em;}
+
+/* ===== lists ===== */
+ol.q{list-style:none;counter-reset:q;margin:1mm 0 2mm;}
+ol.q>li{counter-increment:q;position:relative;padding-inline-start:30px;margin-bottom:2.5mm;font-size:10.4pt;line-height:1.6;}
+ol.q>li::before{content:counter(q);position:absolute;inset-inline-start:0;top:1px;width:21px;height:21px;background:var(--grad);color:#fff;
+    border-radius:50%;font-family:var(--mono);font-size:9pt;font-weight:600;display:flex;align-items:center;justify-content:center;
+    -webkit-print-color-adjust:exact;print-color-adjust:exact;}
+ol.sub{list-style:none;counter-reset:s;margin:4px 0 0;padding-inline-start:2px;border-inline-start:1px solid var(--blue-line);}
+ol.sub li{counter-increment:s;position:relative;padding:2.5px 0 2.5px 26px;font-size:10.1pt;line-height:1.55;}
+ol.sub li::before{content:counter(s,lower-alpha)".";position:absolute;inset-inline-start:10px;top:2.5px;font-family:var(--mono);font-size:9pt;font-weight:600;color:var(--teal);}
+ol.qn{list-style:none;counter-reset:qn;margin:1mm 0 2mm;}
+ol.qn>li{counter-increment:qn;position:relative;padding-inline-start:26px;margin-bottom:2.2mm;font-size:10.4pt;line-height:1.55;}
+ol.qn>li::before{content:counter(qn)".";position:absolute;inset-inline-start:0;top:0;font-family:var(--mono);font-size:9.5pt;font-weight:700;color:var(--blue);}
+ul.b{list-style:none;margin:1mm 0 2mm;} ul.b>li{position:relative;padding-inline-start:22px;margin-bottom:2.4mm;font-size:10.4pt;line-height:1.6;}
+ul.b>li::before{content:"";position:absolute;inset-inline-start:3px;top:8px;width:8px;height:8px;border-radius:50%;background:var(--grad);
+    -webkit-print-color-adjust:exact;print-color-adjust:exact;}
+ul.dash{list-style:none;margin:1mm 0 2mm;} ul.dash>li{position:relative;padding-inline-start:20px;margin-bottom:1.8mm;font-size:10.4pt;line-height:1.6;}
+ul.dash>li::before{content:"–";position:absolute;inset-inline-start:2px;top:0;color:var(--fg);font-weight:700;}  /* dash / +/− signs = body colour */
+.flow ul.opts{list-style:none;margin:4px 0 3px;padding-inline-start:16px;}
+.flow ul.opts li{padding:2px 0;font-size:10.2pt;line-height:1.5;color:var(--fg);}
+
+/* ===== figures / tables ===== */
+.fig{margin:3mm 0;} .fig svg.figsvg{display:block;margin:0 auto;background:#fff;max-width:100%;height:auto;}
+.photo{display:block;margin:3mm auto;border-radius:8px;border:1px solid var(--hair);max-width:100%;}
+.figrow{display:flex;flex-wrap:wrap;gap:9px;justify-content:center;margin:3mm auto;max-width:190mm;}
+.flow .figrow img{border-radius:7px;border:1px solid var(--hair);height:46mm;width:auto;max-width:none;object-fit:cover;}
+.schemarow{display:flex;gap:16px;align-items:flex-start;flex-wrap:wrap;margin:2mm 0;}
+.schemarow .col-txt{flex:1 1 90mm;min-width:80mm;} .schemarow .col-fig{flex:0 0 78mm;} .schemarow .col-fig .fig{margin:0;}
+.flow table{border-collapse:collapse;width:100%;margin:3mm 0;font-size:9.8pt;line-height:1.5;}
+.flow table th,.flow table td{border:1px solid var(--blue-line);padding:6px 10px;text-align:start;vertical-align:top;}
+.flow table th{background:var(--grad);color:#fff;font-family:var(--latin);font-weight:700;font-size:9.4pt;
+    -webkit-print-color-adjust:exact;print-color-adjust:exact;}
+.flow table tr:nth-child(even) td{background:var(--blue-soft);color:var(--sub-ink);}   /* sub-row: #E6F3F4 / #045260 */
+
+mjx-container{color:var(--fg) !important;font-weight:400 !important;font-size:1.0em !important;}
+.eq-hi mjx-container,mjx-container.eq-hi{color:var(--blue) !important;}   /* accent (green) equation — highlight a key result; balance with plain math */
+.eq-red mjx-container,mjx-container.eq-red{color:var(--red) !important;}  /* red accent equation / symbol — complements the green .eq-hi */
+
+/* ===== per-file books: credit line, copies list, figures at their size ===== */
+.credit{display:flex;flex-wrap:wrap;align-items:center;gap:5px;margin:-1mm 0 3.5mm;font-size:9.4pt;color:var(--fg2);}
+.credit .who{font-weight:700;color:var(--blue-dark);}
+.credit .tg{font-family:var(--mono);font-size:7.2pt;letter-spacing:.04em;border-radius:5px;padding:1px 7px;line-height:1.6;
+    border:1px solid var(--blue-line);color:var(--blue);background:#fff;-webkit-print-color-adjust:exact;print-color-adjust:exact;}
+.credit .tg.sec{background:var(--blue-dark);border-color:var(--blue-dark);color:#fff;}
+.credit .tg.cor{background:#fff;border-color:var(--red);color:var(--red);}
+.credit a{color:var(--fg3);font-family:var(--mono);font-size:7pt;text-decoration:none;}
+.cover .auth .credit{margin:4mm 0 0;}
+.cover .copies{margin-top:5mm;font-size:8.6pt;color:var(--fg2);}
+.cover .copies ul{list-style:none;margin:2mm 0 0;padding:0;columns:2;}
+.cover .copies a{color:var(--fg3);text-decoration:none;font-size:8pt;}
+.flow figure.fig{text-align:center;}
+.flow figure.fig img{max-height:60mm;width:auto;max-width:70%;display:inline-block;}
+
+/* chapter tag on each part of a multi-chapter book (the book keeps the original order of the file) */
+.chtag{display:inline-block;margin:5mm 0 2mm;padding:1mm 3mm;border-radius:2mm;background:#eef3fb;border:1px solid #c9d6ea;
+  color:#1f3a6b;font-size:9pt;font-weight:700}
+.chtag span{color:#6b7f9e;font-weight:600;margin-inline-end:1.5mm}
+
+@media print{ body{background:#fff;padding:0;} .flow{width:auto;max-width:none;margin:0;padding:0;} }
+@page{size:A4;}   /* margins come from render_flow.py — do NOT set them here */
+</style>
+<meta data-pagefind-filter="type[content]" content="تمارين">
+<meta data-pagefind-filter="resource[content]" content="المعهد النموذجي بسوسة">
+<meta data-pagefind-meta="n[content]" content="223">
+<meta data-pagefind-meta="title[content]" content="تمارين ومحاولات فلسفية حول مسألة الإنية والغيرية - المعهد النموذجي بسوسة">
+<meta data-pagefind-filter="chapter[content]" content="الإنية والغيرية">
+<meta data-pagefind-filter="section[content]" content="باكالوريا رياضيات"><style>.qrcard{display:none!important}.wa-nav{position:sticky;top:0;z-index:50;background:#045260;padding:10px 18px;font-family:Cairo,sans-serif;direction:rtl}.wa-nav a{color:#fff;text-decoration:none;font-weight:700}@media print{.wa-nav{display:none}}</style>
+</head>
+
+<body dir="rtl" lang="ar"
+      data-brand="Wael Academy" data-handle="@WaelAcademy"
+      data-tagline="في تُرابنا.. مغامرة بمغامرة"
+      data-phone="+216 50 40 40 42" data-site="waeldocuments.com"
+      data-cta="سجل معانا وأقرى عن بعد مع منصة Wael Academy"
+      data-subject="Philosophie · تمارين ومحاولات فلسفية حول مسألة الإنية والغيرية - المعهد النموذجي بسوسة" data-watermark="Wael Academy" data-pagefind-body><nav class="wa-nav" data-pagefind-ignore><a href="../index.html">→ الرجوع إلى فهرس الفلسفة</a></nav>
+
+<!-- single full-page diagonal watermark, bottom-left → top-right (repeats on every page) -->
+<div class="wm" aria-hidden="true"><span>WAEL&nbsp;ACADEMY</span></div>
+
+<div class="flow colored">
+<div class="cover"><div class="badge">◉ Wael Academy · Philosophie</div><h1>تمارين ومحاولات فلسفية حول مسألة الإنية والغيرية - المعهد النموذجي بسوسة</h1><div class="grule"></div><div class="sub">الإنية والغيرية</div><div class="auth"><div class="credit">المؤلّف / المصدر : <span class="who">المعهد النموذجي بسوسة</span> <span class="tg">تمارين</span><span class="tg sec">الفلسفة · باكالوريا رياضيات</span> <a href="https://drive.google.com/file/d/1rvovANX0UF15JsVqb42yJ-CYacrld-SN/view">↗ تمارين ومحاولات فلسفية حول مسألة الإنية والغيرية - المعهد النموذجي بسوسة.pdf</a></div></div><div class="copies" data-pagefind-ignore><b>نسخ هذا الملف في الدرايفات (4)</b><ul><li><a href="https://drive.google.com/file/d/1rvovANX0UF15JsVqb42yJ-CYacrld-SN/view">Iyed Hasnaoui · bac 2024 › Nouveau dossier / Philosphie / الإنية والغيرية</a></li><li><a href="https://drive.google.com/file/d/1FYZxo1ekBnCNMf9H1noz5RG422t5mDMv/view">Emna bac maths 2025 · Drive de Emna (Bac maths) › Philosphie / الإنية والغيرية</a></li><li><a href="https://drive.google.com/file/d/1oDEzSV7NIWyJh9lhCcUENvmFyb3C8-o7/view">Mohamed aziz saideni lycee Farhat Hached bizertebac 2026 · BAC MATH 2026 MOHAMED AZIZ SAIDENI › TOUT 2026 / Philosphie / الإنية والغيرية</a></li><li><a href="https://drive.google.com/file/d/1B89bj_pQIajrj7Mb5F0qCCoFIZZA7D2U/view">chahredine thamri · Chahredine thamri › Chahredine Thamri / mes documents / philosophie / Philosphie / الإنية والغيرية</a></li></ul></div></div>
+<section class="chapter"><div class="chapdiv"><div class="cn">المحور</div><h2>الإنية والغيرية</h2></div>
+<!-- SOURCE: المعهد النموذجي بسوسة -->
+<div class="exh"><span class="idx ex">تمارين</span><h2>تمارين ومحاولات فلسفية حول مسألة " الإنيّة والغيريّة "</h2>
+  <div class="qrcard"><div class="qrt">فيديو الإصلاح</div>
+    <div class="qrslot"><img src="qr/223.svg" alt="QR"></div></div></div>
+<div class="credit">المؤلّف / المصدر : <span class="who">المعهد النموذجي بسوسة</span> <span class="tg">تمارين</span><span class="tg sec">الفلسفة · باكالوريا رياضيات</span> <a href="https://drive.google.com/file/d/1rvovANX0UF15JsVqb42yJ-CYacrld-SN/view">↗ تمارين ومحاولات فلسفية حول مسألة الإنية والغيرية - المعهد النموذجي بسوسة.pdf</a></div>
+
+<div class="exsub">" الإنسانُ هو الكائنُ الوحيدُ الذي يرفضُ أنْ يكونَ كما هو. "</div>
+<p class="consigne">أبرز أحدَ رهانات هذا القول</p>
+<p class="subhead">إمكانيّة أولى /</p>
+<p class="para">في <b>انفراد</b> الإنسان بميزة رفض أن يكونَ كما هو ما يُتيحُ رصدَ <b>الرهان التالي</b> :<br>الدفاع عن <b>النقد والإبداع والتجاوز</b> <b>أسلوبًا وحيدًا لإكساب الوجود ميزتَه الإنسانيّة</b> ، ذلك أنّه <b>بتبرير النّاس للسائد وامتثالهم له</b> يعجزونَ عن نقده لإبداع <b>ممكناتٍ جديدةٍ</b> تخولهم <b>تجاوزه</b> نحو تشييد <b>عالمٍ مغاير</b> . ولا يعني سوى  <b>العجز</b> عن <b>رفض ما هو كائن</b> بما هو شرطٌ <b>لإبداع  ما يُمكن أن يكونَ</b>.</p>
+<p class="subhead">إمكانيّة ثانية /</p>
+<p class="para">في <b>تعريف</b> الإنسان <b>برفضه أن يكونَ كما هو</b> ما يبرّرُ الكشفَ عن <b>الرهان التالي</b> :<br>التمسّك <b>بنزعةٍ إنسانيّة</b> تمنحُ للإنسان  <b>قيمةً أساسيّة في الوجود</b> بحكم انفراده <b>بالحريّة</b>. فلئن كان الإنسانُ  <b>جزءًا من الكون</b> ، فإنّه  <b>يسمو على المادة الصمّاء والكائنات الحيّة</b>  التي تظلّ محكومةً <b>بقوانين الطبيعة الحتميّة</b> من خلال ميزة <b>الوعي</b> التّي تخوّله <b>تجاوزَ المعطى والفطريّ</b> نحو <b>الممكن والمكتسَب</b> ليختارَ <b>ما سيكون عليه وجودُه</b> في <b>انفتاحٍ مستمرّ على الجديد والمغاير</b>.</p>
+<p class="subhead">إمكانيّة ثالثة /</p>
+<p class="para">في <b>تعريف</b> الإنسان <b>برفضه أن يكونَ كما هو</b> ما يُمكّنُ من رصد <b>الرهان التالي</b> :<br>الدفاعُ <b>عن الاختلاف</b>  واعتبارُ <b>التسامح</b> معه <b>مبدأً يجبُ الالتزام به</b> ، ذلك أنّه بالحكم على الاختلاف على أنّه <b>حيدٌ عن المعقول</b> <b>يبرّر الإقصاءَ والمقاومة</b> سيضيق مجالُ <b>الرفض</b> بسبب الخوف من <b>عنف التعصّب والقمع</b> . ولن يعني ذلك سوى  <b>تشويه وجود الإنسان</b> ليتراجعَ بفعل <b>الإكراه</b> نحو <b>الامتثال للسائد وتبريره</b>.</p>
+<p class="subhead">إمكانيّة رابعة /</p>
+<p class="para">في <b>انفراد</b> الإنسان <b>بميزة رفض أن يكونَ كما</b> هو ما يُتيحُ رصدَ <b>الرهان التالي</b> :<br>تثمينُ <b>الانفتاح على الممكن</b> ميزةً أساسيّة  <b>لتاريخ الإنسان</b> تتناقض تمامًا مع <b>الاعتقاد</b> في معنى النهاية الذي يرى في الوضع التاريخيّ السائد في الحاضر  <b>أرقى ما بلغته الإنسانيّة</b> ولا يُمكن تجاوزه. عندئذٍ يبرز تاريخ الإنسانيّة <b>مسارًا لامتناهيًا لا يعرف الثباتَ ولا الانغلاقَ</b>.</p>
+
+<p class="consigne">اكشف عن إحدى تبعات القول التالي :</p>
+<div class="exsub">أنا لا أكون أمامَ جسدي، بل أنا في جسدي، أو بالأحرى أنا جسدي.</div>
+<p class="consigne">اكشف عن إحدى تبعات القول التالي :</p>
+<p class="subhead">إمكانيّة أولى /</p>
+<p class="para">التخلّي عن <b>كلّ تقويم سلبيّ لمكانة الجسد</b> بالنسبة إلى الوجود الإنسانيّ سواءٌ على صعيد <b>المعرفة</b> بالحكم عليه بكونه  <b>عائقًا أمام الحقيقة</b> ، أو على صعيد  <b>الممارسة</b> بالحكم عليه بكونه  <b>قيدًا للحريّة وعائقًا أمامَ السعي إلى الفضيلة</b> ، وما يترتّب عن ذلك التقويم من  <b>توتّر</b> في علاقة الإنسان بجسده جعلته في <b>صراعٍ ضدّه</b>.</p>
+<p class="subhead">إمكانيّة ثانية /</p>
+<p class="para">التخلّي عن الاستمرار في  <b>الخلط بين الجسم الموضوعيّ والجسد الخاص</b> ، وذلك باختزال الجسد في <b>بعده البيولوجيّ الوظائفيّ القابل للتفسير السببيّ</b> دون انتباه <b>لبعده الذاتيّ المعيش</b> وما تتطلّبه <b>المعاني الوجوديّة</b> المتعلّقة به من <b>فهمٍ</b> من داخل  <b>تجارب الذات العفويّة</b> بما تحمله من <b>تنوّع وتفرّد</b>.</p>
+<p class="subhead">إمكانيّة ثالثة /</p>
+<p class="para">التخلّي عن <b>حصر فاعليّة الجسد</b> في <b>الوظائف البيولوجيّة الآليّة</b> للانفتاح بها على <b>الوجود</b> والاعتراف بالجسد <b>مصدرًا للمعنى</b> في <b>مختلف مجالات الوجود الإنسانيّ في العالم</b> : الإدراك،المعرفة، الفن، التعبير، التواصل، الإنتاج، الرياضة، اللّعب...</p>
+<p class="subhead">إمكانيّة رابعة /</p>
+<p class="para">التخلّي عن اعتبار <b>التأمّل الباطنيّ الفرديّ للذات</b> الكيفيّة المُثلى التّي يتوصّلُ بها <b>الأنا إلى إدراك إنيّته وفهمها</b> ، باتجاه الاعتراف أنّ  <b>الوجودَ الإنسانيّ</b> قوامه  <b>الظهور الجسديّ</b> في العالم، وأنّ <b>الفعلَ في العالَم والتفاعلَ مع الآخرين</b>  هو الكيفيّة المُثلى  <b>لإدراك الإنية وفهم ما يتعلّق بها من دلالات</b>.</p>
+
+<div class="exsub">" كي نفهمَ الحياةَ النفسيّةَ بشكلٍ ملائمٍ ينبغي التوقّفُ عن المبالغة في تقدير قيمة الوعي. ينبغي أن نرى في اللاوعي العمقَ الذي يميّزُ كلّ حياةٍ نفسيّة. "</div>
+<p class="consigne">بأيّ معنى يُفهمُ الوعي في هذا السياق ؟</p>
+<p class="para"><b>الوعيُ</b> صفةٌ <b>سطحيّة وجزئيّة</b> لحياة الإنسان النفسيّة تتحدّد بما هي   <b>الانتباهُ الذي يخوّل الأنا</b> القدرةَ على  <b>إدراك</b> ما يحدثُ في ذاته وما يصدرُ عن الواقع من منبهاتٍ حسيّة  <b>وتحليلها منطقيًّا وتحديد المواقف المناسبة</b> في التعامُل معها، غيرَ أنّ ذلك لا يقدم سوى  <b>تمثّلاتٍ زائفة</b> تخفي عنه <b>اللاّوعيَ</b> بما يحتويه من  <b>مكبوتاتٍ وآليّاتٍ مجهولةٍ</b> تؤثّر فعليًّا في  <b>كلّ أفعاله</b> ليبقى الأنا <b>غريبًا</b> عن نفسه <b>وجاهلاً</b> بما يحدّد وجوده بصورةٍ مستقلّة عن إرادته.</p>
+
+<div class="exsub">لا يوجدُ الوعيُ إلاّ بما هو وعيٌ بشيءٍ آخرَ مغايرٍ له.</div>
+<p class="consigne">اكشف عن إحدى تبعات القول التالي :</p>
+<p class="subhead">إمكانيّة أولى /</p>
+<p class="para"><b>التخلّي عن الفهم الميتافيزيقيّ</b> للعلاقة بين <b>الإنيّة والغيريّة</b> بما هي قائمةٌ على <b>الانفصال</b> في إطارها تتقوّمُ الإنيّة بذاتها من حيث هي <b>ذاتٌ واعيةٌ تحقّق وجودَها وتفكّر وتقرّر</b> دون حاجةٍ إلى <b>وساطة ما هو آخر</b> ، تأسيسًا <b>لفهمٍ مغاير</b> تصبح في نطاقه  <b>الغيريّة ملازمةً للإنيّة</b>  <b>وشرطٌ ضروريّ لوجودها وفاعليّتها في التعبير عن خصوصيّتها</b>.</p>
+<p class="subhead">إمكانيّة ثانية /</p>
+<p class="para">تترتّب عن <b>الربط بين وجود الوعي وانفتاحه على أشياء العالم</b> المختلفة عنه التبعةُ التالية :<br>الاعترافُ <b>بالجسد الخاص</b>  <b>وسيطًا ضروريًّا في تحقّق الوعي  وانفتاحه على العالم</b> كي <b>يقصدَ الأشياء</b> في نطاقه، ولا يعني ذلك سوى   <b>القطع مع الفهم الميتافيزيقيّ للوعي</b>  الذي عرفه بكونه <b>جوهرًا موجودًا بذاته</b> في <b>استقلالٍ عن كلّ ما هو آخر</b>، وأنّه <b>متميزٌ تمامًا عن الجسد</b> ، والإقرار على عكس ذلك، ذلك أنّ  <b>الوعيَ متجسدٌ</b> ، في  <b>وحدةٍ وجوديّة لا تقبل التجزئة</b> ، وأنّه  <b>من الجسد يستمدّ الوعيُ وجودَه وقدرتَه على الاتجاه نحو الأشياء والآخرين للإدراك والفعل والتواصل</b>.</p>
+<p class="subhead">إمكانيّة ثالثة /</p>
+<p class="para">يترتّبُ عن الإقرار  بوساطة الجسد في علاقة الوعي بالأشياء المختلفة عنه في العالم   التبعةُ التالية :<br><b>مراجعةُ مفهوم الجسد</b>   باتجاه   <b>التمييز بين   الجسم الموضوعيّ والجسد الخاص</b> . فالجسدُ، بما هو <b>الوسيطُ للوجود في العالم ولإدراك الأشياء</b>  لا يُمكن اختزاله في  <b>البنية العضويّة</b> بما تشتملُ عليه من أجهزة وتؤدّيه من وظائف بيولوجية، لأنّ الجسدَ هو أيضًا   <b>ما يعيشه الإنسانُ ذاتيًا بما هو قوامُ وجوده ومصدر كلّ قدراته في التفاعل مع العالم والآخرين ونفسه</b>.</p>
+<p class="subhead">إمكانيّة رابعة /</p>
+<p class="para">إذا كانَ  <b>وجودُ الوعي مقترنًا بالانفتاح على وجود الأشياء المختلفة عنه في العالَم</b> ، فإنّ من شأن ذلك أن يقودَ إلى التبعة التالية :<br>الإقرارُ <b>بتاريخيّة الوعي الإنسانيّ</b>، فإذا كان <b>الوعيُ بالأشياء المغايرة للذات لا يتحقّــــق</b> خارجَ <b>العلاقة بالعالَم</b> ، فإنّ <b>عالمَ الإنسان</b> هو بالأساس  <b>عالم الثقافة  المتغيّر في سياق التاريخ المختلف والمتحوّل</b> بحسب <b>المجتمعات والعصور</b>، ممّا يجعل منه <b>عالمًا مختلفًا ومتحوّلاً</b>.</p>
+
+<div class="exsub">" كي أحصلَ على حقيقةٍ ما عن ذاتي لزمتْ وساطةُ الآخر. "</div>
+<p class="consigne">اكشف عن إحدى المسلّمات الضمنيّة التّي يفترضُها القولُ التالي :</p>
+<p class="subhead">إمكانيّة أولى / توجّه عبارةُ " حقيقة ما عن ذاتي " نحو الكشف عن المسلّمة الضمنيّة التالية :</p>
+<p class="para">إنّ الذاتَ مهما كانت درجة تغيّرها أو تفرّدها منفتحةٌ على إمكانيّة الفهم والمعرفة بالنسبة إلى الآخر ، بحيث لا تمثّل نسقًا مغلقًا ولغزًا لا تُفكّ شفرتُه.</p>
+<p class="subhead">إمكانيّة ثانية / توجّه عبارةُ " حقيقة ما " نحو الكشف عن المسلّمة الضمنيّة التالية :</p>
+<p class="para">كلّ حقيقة يُمكن اكتشافها عن الذات لا يُمكن أن تكونَ إلاّ جزئيّة ونسبيّة تتعلّق بفهمٍ معيّنٍ في شأن حالة أو فعل محدّدين ضمن وضعٍ خاص، وهو فهمٌ يظلّ قابلاً للتعديل والمراجعة...ويعني ذلك أنّه لا رجاء في حقيقة مطلقة حول الإنسان تكون شاملة ونهائيّة.</p>
+<p class="subhead">إمكانيّة ثالثة / تمكّنُ عبارةُ " لزمت وساطة الآخر " من رصد المسلّمة الضمنيّة التالية :</p>
+<p class="para">يختلط كلّ وعي بالذات في إطار العزلة بقدرٍ من الزيْف بسبب الغرور أو الجهل أو المبالغة أو الانفصال عن الواقع بحيث يجعله ذلك معرّضًا للانقطاع عن الحقيقة.</p>
+<p class="subhead">إمكانيّة رابعة / تلفتُ عبارةُ " عن ذاتي " الانتباه إلى المسلّمة الضمنيّة التالية :</p>
+<p class="para">يحافظُ مفهوم الذات على قيمته بما هو الإطار المرجعيّ من أجل فهم الحياة النفسيّة باعتبارها وحدةً تتميّز بالهويّة والفاعليّة لتمثّل قوام وجود الإنسان الذي يراهن على تحقيق المعرفة الأمثل به.</p>
+
+<p class="consigne">عرّفْ دلالة الغيريّة على ضوء القول التالي :</p>
+<div class="exsub">" أنا مختلفٌ عنك، إذن أنا موجودٌ "</div>
+<p class="consigne">عرّفْ دلالة الغيريّة على ضوء القول التالي :</p>
+<p class="para"><span class="t-green">الغيريّة</span>، في هذا السياق، هي كلّ أشكال الاختلاف البيولوجيّ والنفسيّ والفكريّ والاجتماعيّ والحضاريّ القائمة بين الذات والنّاس الآخرين داخل نفس المجتمع أو خارجه. وهذه الغيريّة ليست حدًّا خارجيًّا يظلّ غريبًا عن الإنيّة ومسار تحقّقها، بل هو ملازمٌ لها وجوديًّا من  حيث هو شرطٌ لا تتحقّق الإنيّة فعليًّا من دونه. فلا تكون للفرد هويّة خصوصيّة تعبّر عن تفرّده إذا لم يعها في إطار أشكال اختلافه عنهم، وإذا لم يعمل على إبراز تلك الاختلافات والدّفاع عنها ضدّ أشكال الاحتواء والإقصاء.<br>وخلاصة ذلك أنّ الكوجيتو لا يُمكن إثباته في إطار اكتفاء الأنا بنفسه وعزلته عن الآخرين، بل في إطار الوجود بين آخرين مختلفين عنه ووعيه بذاته في علاقته بهم من خلال ذلك الاختلاف.</p>
+
+<p class="consigne">اكشفْ عن إحدى تبعات القول التالي :</p>
+<!-- NOTE: the source reprints the whole exercise "لا يوجدُ الوعيُ إلاّ بما هو وعيٌ بشيءٍ آخرَ مغايرٍ له." a second time (pages 3–4), identically; kept verbatim -->
+<div class="exsub">لا يوجدُ الوعيُ إلاّ بما هو وعيٌ بشيءٍ آخرَ مغايرٍ له.</div>
+<p class="subhead">إمكانيّة أولى /</p>
+<p class="para"><b>التخلّي عن الفهم الميتافيزيقيّ</b> للعلاقة بين <b>الإنيّة والغيريّة</b> بما هي قائمةٌ على <b>الانفصال</b> في إطارها تتقوّمُ الإنيّة بذاتها من حيث هي <b>ذاتٌ واعيةٌ تحقّق وجودَها وتفكّر وتقرّر</b> دون حاجةٍ إلى <b>وساطة ما هو آخر</b> ، تأسيسًا <b>لفهمٍ مغاير</b> تصبح في نطاقه  <b>الغيريّة ملازمةً للإنيّة</b>  <b>وشرطٌ ضروريّ لوجودها وفاعليّتها في التعبير عن خصوصيّتها</b>.</p>
+<p class="subhead">إمكانيّة ثانية /</p>
+<p class="para">تترتّب عن <b>الربط بين وجود الوعي وانفتاحه على أشياء العالم</b> المختلفة عنه التبعةُ التالية :<br>الاعترافُ <b>بالجسد الخاص</b>  <b>وسيطًا ضروريًّا في تحقّق الوعي  وانفتاحه على العالم</b> كي <b>يقصدَ الأشياء</b> في نطاقه، ولا يعني ذلك سوى   <b>القطع مع الفهم الميتافيزيقيّ للوعي</b>  الذي عرفه بكونه <b>جوهرًا موجودًا بذاته</b> في <b>استقلالٍ عن كلّ ما هو آخر</b>، وأنّه <b>متميزٌ تمامًا عن الجسد</b> ، والإقرار على عكس ذلك، ذلك أنّ  <b>الوعيَ متجسدٌ</b> ، في  <b>وحدةٍ وجوديّة لا تقبل التجزئة</b> ، وأنّه  <b>من الجسد يستمدّ الوعيُ وجودَه وقدرتَه على الاتجاه نحو الأشياء والآخرين للإدراك والفعل والتواصل</b>.</p>
+<p class="subhead">إمكانيّة ثالثة /</p>
+<p class="para">يترتّبُ عن الإقرار  بوساطة الجسد في علاقة الوعي بالأشياء المختلفة عنه في العالم   التبعةُ التالية :<br><b>مراجعةُ مفهوم الجسد</b>   باتجاه   <b>التمييز بين   الجسم الموضوعيّ والجسد الخاص</b> . فالجسدُ، بما هو <b>الوسيطُ للوجود في العالم ولإدراك الأشياء</b>  لا يُمكن اختزاله في  <b>البنية العضويّة</b> بما تشتملُ عليه من أجهزة وتؤدّيه من وظائف بيولوجية، لأنّ الجسدَ هو أيضًا   <b>ما يعيشه الإنسانُ ذاتيًا بما هو قوامُ وجوده ومصدر كلّ قدراته في التفاعل مع العالم والآخرين ونفسه</b>.</p>
+<p class="subhead">إمكانيّة رابعة /</p>
+<p class="para">إذا كانَ  <b>وجودُ الوعي مقترنًا بالانفتاح على وجود الأشياء المختلفة عنه في العالَم</b> ، فإنّ من شأن ذلك أن يقودَ إلى التبعة التالية :<br>الإقرارُ <b>بتاريخيّة الوعي الإنسانيّ</b>، فإذا كان <b>الوعيُ بالأشياء المغايرة للذات لا يتحقّــــق</b> خارجَ <b>العلاقة بالعالَم</b> ، فإنّ <b>عالمَ الإنسان</b> هو بالأساس  <b>عالم الثقافة  المتغيّر في سياق التاريخ المختلف والمتحوّل</b> بحسب <b>المجتمعات والعصور</b>، ممّا يجعل منه <b>عالمًا مختلفًا ومتحوّلاً</b>.</p>
+
+<div class="exsub">هل يجعلني وجودُ الغيْر غريبًا عن نفسي ؟</div>
+<p class="para">يعبّرُ <b>عددٌ من النّاس</b> عن <b>مدى انزعاجهم من وجودهم بين الآخرين</b> ، مبرّرينَ ذلك  <b>بما يصدرُ عنهم من مواقف</b> تكشف عن  <b>الأنانيّة والنفاق والهيمنة والاستغلال واللامبالاة</b> ...دون انتباهٍ إلى أنّ <b>استمرارهم في مشاركة الآخرين حياتهم الاجتماعيّة</b> يمثّل في حدّ ذاته  <b>اعترافًا باستحالة وجود الفرد بمعزلٍ عن الآخرين</b> . وليس لهذا  <b>التناقض</b> إلاّ أن يحوّل  <b>علاقة الذات بالغير</b> إلى  <b>مشكلٍ</b> مبررًا التساؤلَ "<span class="hl-green">هل يجعلني وجودُ الغيْر غريبًا عن نفسي ؟</span>"</p>
+<p class="para"><b>فعلى أيّ نحوٍ يُمكنُ الحكمُ على قيمةِ وجود الغيْر بالنسبة إلى الذات ؟ هل يقترنُ وجود الغيْر بالمصلحة والابتذال والعنف بحيث يجعلُ منه ذلكَ حتمًا عائقًا أمامَ تحقيق الذات لوجودها لتصبحَ غريبةً عن نفسها ؟ أم أنّ في ذلك حكمًا أحاديًّا يُخفي ما يقترن بوجود الغيْر من تعاونٍ وتعاطفٍ وعمقٍ وتواصلٍ يجعلُ منه الوسيطَ اللازمَ لوجود الذات واكتسابها القدرةَ على الوعي بنفسها وإبداع ميزاتها الخصوصيّة ؟</b></p>
+<p class="para">لئن كانت <b>اجتماعيّة الإنسان لا تقبلُ الجدالَ</b> ، بحكم أنّه  كائنٌ <b>لا يظهرُ إلى الوجود ولا يكتسبُ مميزاته الإنسانيّة إلاّ في إطار مجتمعٍ</b>، فإنّ <b>العلاقةَ بالآخرين</b> لم تكن <b>عاملاً مساعدًا</b> على تمكينه من <b>تنمية وجوده والارتقاء بإنسانيّته</b> :</p>
+<p class="para"><b><u>1. الغيْرُ والصراعُ</u></b> ، ذلك أنّ  <b>العلاقة بالغير</b> قد غلبَ عليها  <b>الصراعُ</b> من أجل  <b>المصلحة واللّذة والسلطة</b>... بعيدًا عن <b>التواصل</b> المقترن  <b>بالاعتراف</b>. فبدلَ أن تجدَ الذاتُ في الغير   <b>ذاتًا أخرى تتعاونُ معها وتُبادلُها الأفكارَ والعواطفَ والرغبات</b>   ، فإنّها لا تظفرُ إلاّ بمن     <b>يموضعها اقتصاديًّا وجنسيًّا واجتماعيًّا وسياسيًّا</b> ليجعلَ منها  <b>موضوعًا</b> يتعيّن  <b>استغلاله والاستمتاع به أو إخضاعه</b> . وعندئذٍ لا يُمكن للذات إلاّ أن تصبحَ  <b>غريبةً عن إنسانيّتها</b> التي تنشد الوعيَ بها وتنميتها. ( يكتبُ <span class="t-blue">فولتير</span>  " <b>يرغب كلّ إنسانٍ يستولي على مال الآخرين وزوجاتهم وبناتهم وأن يكونَ سيّدًا عليهم، وأن يُخضعهم لنزواته</b>." )</p>
+<!-- PROOFREAD: c1u5 p2 — Voltaire quote "يرغب كلّ إنسانٍ يستولي" as printed (missing "أن") -->
+<p class="para"><b><u>2 - الغيرُ والإكراه</u></b>، حيثُ يتحوّلُ الغيرُ إلى  <b>ممثّل للأكثريّة</b> بما تتبنّاه من  <b>قيمٍ وعقائد وتصوّرات وسلوكات</b> يُمارسُ  <b>الوصاية</b> على الذات حتّى تتخلّى عن   <b>الحريّة</b> وما تقتضيه من  <b>استقلاليّة فكريّة</b>. فبواسطة  <b>التخويف والخلط بين عدد الأكثريّة ومقوّمات الحقيقة</b> يعمل الغيرُ على  <b>محاصرة الحريّة وتكريس القصور</b> الذي يُبقي الفردَ في حالةٍ من  <b>التبعيّة</b>. عندئذٍ تصبحُ الذاتُ <b>غريبةً عن حريّة التفكير والاختيار</b>، وما تقتضيه من   <b>استقلاليّة ومعقوليّة</b> . ( يكتبُ <span class="t-blue">بيار بايل</span> " <b>وهكذا فإنّ عدد التابعين الكسالى والسذّج المتزايد يوما بعد يوم، غدا التزاما جديدا لغيرهم بالتخلّص من عناء فحص رأيٍ رأوا فيه من التعميم ما جعلهم يقنعون بيسر أنّه ما كان لهذا الرأي أن يصير كذلك لولا قوّة الحجج التي أعتمدت في تأسيسه</b>." )</p>
+<p class="para"><b><u>3 - الغيرُ واللاتسامح</u></b>، ففي ظلّ  <b>واقعٍ اجتماعيّ</b> يرى في  <b>حريّة التفكير خطرًا على قيمه وعقائده ومؤسّساته</b>، فإنّه لن <b>يعترف بالاختلاف</b> ولن  <b>يتسامح معه</b>، بل يلجأ إلى  <b>الضغط الفكريّ والنفسيّ</b> وتبرير  <b>الإقصاء</b> ضد كلّ من يجرؤ على   <b>نقد السائد والاختلاف عنه</b>  حفاظًا على  <b>وحدة الأخلاق والإيمان والذوق والحكمة</b>... ونتيجة ذلك غربة الذات <b>عن قناعاتها</b> التّي تجبرها على إظهار تماثلها مع <b>الوحدة السائدة</b> وإخفاء <b>حقيقة مواقفها</b>. (يكتب أوجين <span class="t-blue">ايونسكو</span> "<b>يُمارسُ الآخرونَ على مَنْ لا يُفكّر مثلهم إرهابًا فكريًّا ونفسيًّا وقمعًا لا يُمكن تبريره</b>." )</p>
+<p class="para">وخُلاصةُ ما سبق أنّ   <b>وجودَ الذات مع الغيْر لا يُمكنه إلاّ أن يجعلَها غريبةً عن إنسانيّتها وعاجزةً عن تنميتها بحريّة</b>. <span class="t-red">ولكن إلى أيّ حدّ يكونُ هذا الموقفُ من الغيرِ وجيهًا ؟</span></p>
+
+<p class="subhead t-red">II - الوجودُ مع الغير بما هو شرطٌ لانسجام الذات مع نفسها.</p>
+<p class="para">إنّ ما يلفتُ الانتباهَ في الحجاج السابق هو   <b>قصور المقدمات التّي استندَ إليها</b> والمتمثّلة في تلك  <b>النظرة الأحاديّة لوجود الغير التي اختزلته في معاني الصراع والإكراه واللاتسامح</b>.</p>
+<p class="subhead">1. الغيرُ بين الصراع والتواصل</p>
+<p class="para">لئن كان من  <b>الواقعيّة الإقرارُ بالصراع</b> صيغةً للعلاقة بالغيْر، فإنّ ذلك  <b>لا يبرّر إغفالَ صيغةٍ لا تقلّ أهميّةً وحضورًا</b> وهي  <b>التواصل</b>. فالغيرُ <b>بحريّته واختلافه</b> يقوم <b>شريكًا في الوجود</b> جاعلاً منه ذلك <b>الوسيطَ الضروريّ لوجود الذات ووعيها بنفسها</b>. فالغيرُ ليسَ مَن يستغلّ ويمتلك ويُخضع ، بل هو أيضًا <b>الشريك الذي يُكسبُ الذاتَ وجودًا فعليًّا</b> ، طالما أنّه لا معنى للحبّ أو للصداقة و للعزلة أو للكتابة أو للنضال ... بما هي أساليبُ في الوجود إلاّ بما هي   <b>علاقاتٌ بالآخرين ومواقف ترتبط بهم</b>. وهو أيضا <b>الشريك الذي يمكّن الذاتَ من الخروج من نفسها للوعي بها من خلال غيرٍ مختلفٍ عنها</b>. فالحبيب لا يوجد كحبيبٍ إلاّ إذا أحبّ إنسانًا آخرَ اعترفَ به حبيبًا له. عندئذ يتحقّق وعيه بذاته. وهنا يظهر   <b>وجود الغير</b> بما هو  <b>الشرط</b> الذي يُتيحُ للذات أن تكون في   <b>انسجام مع نفسها</b> . (يكتب <span class="t-blue">مونيي</span>  " <b>لا يوجد الشخص إلاّ باتجاه الغيْر، ولا يعرف نفسَه إلاّ بالغيْر، ولا يكتشفُ ذاته إلاّ في الغيْر</b>.")</p>
+<p class="subhead">2. الغيرُ بين الإكراه والحريّة</p>
+<p class="para">ليسَ من الوجيه   <b>اختزال دور الغير</b> في  <b>تمثيل الأكثريّة الاجتماعيّة</b>  <b>والدفاع عن السائد</b> واللجوء في ذلك إلى <b>سلب حريّة الذات وتكريس تبعيتها</b> ، لأنّ الغيرَ أيضًا هو  <b>الوسيط الضروريّ</b> في إعداد الذات <b>لممارسة الحريّة</b>  <b>وشريكها الدائم</b> في  <b>التحرّر</b>. فالتفكير الحرّ ليس   <b>فطريًّا</b>، بل يتطلّب <b>تعلّمًا مع الغير</b> المعلّم والكاتب والمحاور... الذي معه   <b>تعي الذاتُ وتنقد وتتجاوز</b> . وفي نطاق ذلك يتحوّل الفكرُ إلى  <b>قوّةٍ روحيّة</b> قادرةٍ على  <b>الإقناع والتأثير في الواقع</b> . ( يكتبُ <span class="t-blue">كارل ياسبرز</span>  " <b>لا تبدأ الحقيقة إلاّ إذا كنّا اثنين. ( أنا والغير )</b>." )</p>
+<p class="subhead">3 - الغيرُ بين التعصّب والتسامح</p>
+<p class="para">ولا يخلو  <b>اختزالُ صورة الغير</b> في  <b>اللاتسامح</b> الذي يرفض  <b>الاعتراف بالاختلاف</b> من  <b>تعسّف</b>، لأنّها <b>صورةٌ جزئيّة</b>  <b>تخفي وجهًا آخرَ</b> لها يتمثّل في  <b>الغير المتسامح</b> الذي  <b>يقبلُ باختلاف الغير ويتعايشُ معه</b>، ويعمل على  <b>تطوير العلاقة به</b> نحو إضفاء  <b>النسبيّة</b> والبحث عن  <b>قواسم مشتركة تؤسّس للعيش المشترك</b>. عندئذ يتسنّى للذات العيش في تناغم مع قناعاتها والتعبير عنها بحريّة دون توتّر وخوفٍ من الغير المختلف عنها. (الجملة تُنسبُ إلى <span class="t-blue">فولتير</span>  " <b>أنا لا أوافقُ على ما تقول، ولكنّني مستعدٌ للكفاح حتى الموت حتّى يكونَ لك الحقّ في قوله</b>." )</p>
+<div class="conclusion"><div class="ck">خلاصة</div><p>ويقود كلّ ما سبقَ إلى أنّ   <b>وجودَ الغير لا يخلو من  التباسٍ</b> بسبب <b>ازدواجيّته</b> التّي تجمع بين   <b>التواصل والصراع، الحريّة والإكراه، التسامح والتعصب</b> ، بحيث تبقى <b>الذات</b> في علاقتها به   <b>مهدّدةً بالاغتراب</b>. ولكن ذلك   <b>لا يبرر رفضَ الغير وتبرير العزلة</b>  عنه لأنّه يظلّ  <b>الوسيط الضروريّ</b> في كلّ سعيٍ <b>لتنمية الوجود والعيش في انسجام مع الذات</b> . ومن شأن هذا الموقف أن  ينبّهَ الإنسان إلى أنّ <b>الوجودَ مسؤوليّة</b> توجب  <b>الالتزام بالدفاع عن التواصل والحريّة والتسامح</b>  <b>إطارًا أمثلَ للوجود مع الغير والارتقاء به إنسانيًّا نحو الأفضل</b>.</p></div>
+
+<div class="exsub">هل أحتاجُ إلى جسدي كيْ أكون ؟</div>
+<p class="subhead t-navy">لحظةٌ أولى ( المقدّمة )</p>
+<p class="para"><b>أ - تمهيد</b> : يعبّرُ  <b>وضعُ الجسد اليومَ</b> في إطار <b>حضارة الاستهلاك</b> عن <b>مفارقة</b> : فمن جهةٍ، يحظى الجسدُ  <b>باهتمامٍ مفرطٍ</b> إلى درجة   <b>العبادة</b> كما يتجلّى ذلك من خلال     <b>الهوس بالموضة والزينة والصحّة والراحة واللّذة</b> ... غيرَ أنّ ذلك لا يولّد لدى عددٍ من النّاس، من جهةٍ أخرى،  <b>إحساسًا بالإحباط</b> لكون الجسد قد أضحى  <b>مجرّد بضاعةٍ تخضع لمنطق التبادل والربح</b> ، ولا يُمكن المراهنة عليه من أجل  <b>الحفاظ على العمق الإنسانيّ للوجود</b> . ومن شأن هذا الوضع أن  <b>يستشكل منزلة الجسد</b> مبررًا التساؤلَ " <span class="hl-green">هل أحتاج إلى الجسد كي أكون ؟</span>"</p>
+<!-- PROOFREAD: c1u5 p3 — "غيرَ أنّ ذلك لا يولّد" as printed (the sense suggests "يولّد") -->
+<p class="para"><b>ب - صياغة الإشكاليّة</b> :   فما هي المميّزات والشروط التّي تخوّلُ الإنسان إثبات كينونته على النحو المنشود ؟ وأيّة مكانة تكون للجسد في إطار هذا السعي : هل الجسد بفعل خصائصه هو العائق بامتيازٍ أمام التحقيق الأمثل لكينونة الإنسان موجبًا بذلك الاستغناء عنه ومقاومته أم  أنّ الجسدَ هو الوسيطُ الضروريّ لتحقيق تلك الغاية جاعلاً من الإنسان في أمسّ الحاجة لجسده كي يكونَ ؟</p>
+<p class="subhead t-navy">لحظةٌ ثانية ( الجوهر )</p>
+<p class="subhead t-red">I  الإنسانُ في غنىً عن جسده كيْ يكون.</p>
+<p class="subhead">1. الكينونة : دلالتها ,ابعادها</p>
+<p class="para">الكينونةُ صفةٌ مميّزةٌ لحضور الإنسان في الكون. فهي تعني    <b>تعالي الإنسان على ذاته منعكسًا عليها</b> تارةً  ليفهمَها، <b>ومتجاوزًا لها</b> تارةً أخرى  <b>كي ينفتحَ على الممكن</b> . ولا يتحقّق ذلك إلاّ <b>بالوعي</b> الذي يمنح الإنسانَ القدرةَ على  <b>الإدراك والتفكير والاختيار الحر</b>. وبناءً على ذلك تبرز الكينونة الإنسانيّة من خلال <b>ثلاثة أبعاد متكاملة</b> :</p>
+<p class="para">أ - إنّها كينونةٌ قوامُها  <b>ذاتٌ</b> تستمدّ من  <b>الوعي هويّتها وفاعليّتها</b>، ذلك أنّ الوعيَ هو ما يجعلُ منها  <b>الإطارَ التوحيديّ المستمرّ للحياة النفسيّة</b> ، وهو الذي يُكسبها القدرة أن تكون  <b>مبدأَ أفكارها وقراراتها</b>. ( يكتب <span class="t-blue">ديكارت</span> " أنا موجودٌ ما دُمتُ أفكر." )</p>
+<p class="para">ب - إنّها كينونةٌ قوامها  <b>ذاتٌ</b> تكون <b>بحكم وعيها بنفسها عاقلة</b>. فالإنسانُ لا يكون موجودًا على نحوٍ إنسانيّ إلاّ إذا    <b>استعملَ ميزته النوعيّة وهي العقل</b> بشكلٍ   <b>منهجيّ</b> معتمدًا   <b>الاستدلال المنطقيّ</b> وسيلةً <b>لمعرفة الحقيقة</b> بعيدًا عن  <b>الأحكام المسبقة والآراء السائدة</b>. ( يكتب <span class="t-blue">ديكارت</span> " إنّ العقلَ هو الشيءُ الوحيدُ الذي يجعلُ منا بشرًا." )</p>
+<p class="para">ج - إنّها كينونةٌ قوامها  <b>ذاتٌ</b> تكون بحكم وعيها بنفسها  <b>إرادةً حرّة</b> لا تخضع  <b>لضرورات عمياء</b>، بل <b>لقرارات إراديّة</b> تستند إلى <b>اختيار الممكن</b> فتعيش <b>التردّد بين توجيه العقل والميل إلى الأهواء</b>. ( يكتب <span class="t-blue">ديكارت</span> " إنّما نتصرّف بمحض اختيارنا دون أن نحسّ ضغطًا من الخارج يُملي علينا ذلك التصرّف." )</p>
+<p class="subhead">2. كينونةُ الإنسان في غنىً عن الجسد</p>
+<p class="para"><b>أ - في مفهوم الجسد</b>، إذا كان وجود الإنسانُ يتحدّد بما هو ذات واعيةٌ ميزتها <b>العقــــلُ والحريّة</b>، فإنّ <b>الجسد</b> لا يُمكنه أن يكونَ سوى  <b>البنية العضويّة</b> التّي تتألّف من <b>أجهزة تؤدّي وظائفَ آليةً</b> تضمن  <b>البقاء</b> ولكنّها <b>لا تشارك في تفعيل الوجود</b> . ( يكتب <span class="t-blue">ديكارت</span> " ما يحدثُ هنا شبيه بحركة الساعة التي تتحدّد طبقا لقوّة نابضها وشكل عجلاتها." )</p>
+<p class="para"><b>ب - الذات في غنًى عن الجسد</b>. فالذات <b>لا تتيقّنُ من حضورها الفعليّ في الواقــع</b>، ولا <b>تحافظ على وحدتها وفاعليّتها إلاّ بانتباهها الواعي</b>، ولا دورَ للجسم في ذلك. فالجسم يُمكن <b>الشكّ في وجوده</b> دون أن يترتب عن ذلك   <b>الشكّ في وجود الذات</b> . كما أنّ  <b>تراجعَ الوعي</b> بفعل النوم أو الإغماء يؤدي إلى <b>توقّف الذات عن اليقين في وجودها</b> ، رغمَ <b>استمرار الجسم في إنجـــاز وظائفه العضويّة</b>. ( يكتب <span class="t-blue">ديكارت</span> "إنّ النفسَ التّي بها أنا ما أنا متميزةٌ تمامًا عن الجسم." )</p>
+<p class="para"><b>ج - العقل في غنًى عن الجسد</b> ، <b>العقلُ الإنسانيّ بنيةٌ منطقيّة</b> تحمـــل في ذاتها <b>مبادئها وآليات عملها</b> ، لذلك لا يحتاج الإنسانُ في استعماله إلاّ   <b>لمنهجٍ</b> دون  <b>أيّ دورٍ لجسمه</b>  في  <b>عمليّة التفكير</b>. وسواءٌ تعلّق الأمر   <b>بالعلوم العقليّة</b> أو  <b>الخبريّة</b>، فإنّ العقلَ يكون    <b>في غنىً عن معطيّات الحواس الكيفيّة والجزئيّة والمتغيّرة</b> لكونه يقتصر على المنطق طورًا، وعلى التعامل مع ظواهر مبنية بشكلٍ كميّ رياضيّ طورًا آخر. ( يكتب <span class="t-blue">ديكارت</span> " إنّ من شأن الفكر وحدَه أن يعرفَ حقيقةَ الأشياء الحسيّة وليس مركّب الفكر والجسم." )</p>
+<p class="para"><b>د - الحريّة في غنًى عن الجسد</b> ، بين <b>الإرادة الإنسانيّة والجسم</b> تقابلٌ جذريّ : إنّه التقابل بين <b>عالم الحريّة، وعالم الضرورة</b> ، بين  <b>ذاتٍ</b> تكون بوعيها قادرةً على  <b>الاختيار بين عديد الإمكانيات</b> جاعلةً من نفسها  <b>مبدأً لأفعالها</b> ، وبين  <b>موضوعٍ ماديّ</b> ينجز <b>وظائفَ آليّة</b> تحكمها  <b>قوانين الطبيعة</b> بصورةٍ حتميّة. (  يكتب <span class="t-blue">ديكارت</span> "إنّ لي إرادةً ضافيةً مترامية لا تحصرها حدودٌ ولا تحبسها قيود." )</p>
+<p class="para">ويخلص الحجاجُ السابق إلى   <b>أنّ الإنسانَ هو في غنىً تامٍ عن الجسد كي يكونَ ذاتًا واعيةً وعاقلةً وحرّة</b>. <span class="t-red">فهل في ذلك حكمٌ يمكن الاقتناع بمشروعيته ؟</span></p>
+
+<p class="subhead t-red">I  - الإنسان في حاجةٍ إلى جسده كيْ يكونَ</p>
+<!-- PROOFREAD: c1u5 p4 — the second part is numbered "I" again in the source (expected "II") -->
+<p class="para">يؤدي  <b>التفكيرُ السابقُ</b>  إلى  <b>مأزقٍ</b> مأتاه  <b>نظرةٌ أحاديّة إلى الجسد</b>  تختزله في  <b>الجسم الموضوعيّ</b> مبرّرةً <b>إقصاءَه عن كينونة الإنسان</b> بما هي <b>كينونة ذاتٍ واعيةٍ</b> تكون في <b>استقلالٍ تام</b> عن جسدها :</p>
+<p class="subhead">1. في الجسد بما هو جسدٌ خاصٌ</p>
+<p class="para">ليسَ من الوجيه  <b>اختزالُ الجسد في بعده البيولوجيّ</b> وقصر دوره على <b>إنجاز وظائف عضويّة آليّة</b>، ذلك أنّ للجسد <b>بعدًا وجوديًّا معيشًا</b> يجعل منه  <b>قوامَ الذات ومصدرَ كلّ قدراتها والوسيط في علاقتها بالعالم والآخرين</b> . فالجسد هو  <b>الوسيط</b> في  <b>تحقّق الذات</b> واكتساب القدرة على  <b>الوعي بنفسها والتواصل مع الغير وإنشاء تصوّرات عن العالم والتأثير في مجرياته</b> . ( يكتب <span class="t-blue">موريس مرلوبونتي</span> " جسدي هو محور وجودي " )</p>
+<p class="subhead">2. كينونة الإنسان والحاجةُ إلى الجسد</p>
+<p class="para">ليسَ من الوجيه    <b>اختزالُ كينونة الإنسان</b>  في  <b>ذاتٍ</b> تستمدّ وحدتَها وفاعليّتها وقدرتَها على استعمال عقلها واختيار أفعالها من  <b>الوعي بما هو جوهرٌ قائمٌ بذاته في استقلالٍ عن الجسد</b> . ذلك أنّ :</p>
+<p class="para"><b>أ - الذات و الحاجةُ إلى الجسد</b> ، ذلك أنّ الذات لا توجد إلاّ لمّا  <b>تظهرُ جسديًّا لنفسها ولغيرها في العالم</b>. فعندما  <b>تتماهى الذاتُ مع جسدها في خصوصيته</b>  ، وتدرك  <b>إختلافه عن أجساد الآخرين</b>، وتستمدّ منه <b>القدرة على الإدراك والكلام والتعبير والفعل</b>... فإنّها تتيقّن من وجودها وتعي إنيّتها. ( يكتب امانويل <span class="t-blue">مونيي</span> " بجسدي أظهر لنفسي وللعالَم وللغير." )</p>
+<p class="para"><b>ب - العقلُ والحاجةُ إلى الجسد</b> ، ولا يُمكن لهذه الذات أن  <b>تستعملَ عقلها بنظام</b> إلاّ بفضل <b>وساطة الجسد</b> الذي أكسبَها القدرةَ على <b>الانتباه وانفتحَ بها حسيًّا</b> على <b>الأشياء</b> لتدركها، وانفتح بها اجتماعيًّا على الثقافة لتتعلّمَ من الآخرين. ( يكتب امانويل <span class="t-blue">مونيي</span> " أنا لا أفكرُ دون أن أوجدَ، ولا أوجد دون جسدي." )</p>
+<p class="para"><b>ج - الحريّةُ والحاجةُ إلى الجسد</b>، ولا يُمكن لهذه الذات أن  <b>تختارَ بحريّة إلاّ بفضل وســـاطة الجسد</b> ، ذلك أنّ  <b>الجسدَ هو الوسيطُ</b> الذي به تكون الذات في  <b>علاقةٍ بالآخرين داخلَ أوضاعٍ اجتماعيّة محدّدة</b>، ومن مستطاعه تستمدّ  <b>قدرتها على الفعل نقدًا وإبداعًا وتجاوزا</b> . ( يكتب <span class="t-blue">مرلوبونتي</span> " لا يُمكنني أن أكون حرًّا وحدي ." )</p>
+<p class="subhead t-navy">لحظةٌ ثالثة ( الخاتمة )</p>
+<div class="conclusion"><div class="ck">خلاصة</div><p>ويقود كلّ ما سبقَ إلى أنّ الجسدَ هو محورُ وجود الإنسان في العالَم به تتحدّد معالمُ ذاته، ومنه يستمدّ قدرتَه على الإدراك والتخيّل والرغبة والتفكير والفعل والتواصل كشرطٍ لإبداع المعنى وإثراء الوجود، ولا يعني ذلك سوى حاجة الإنسان الماسة إلى جسده كي يكونَ.<br>ومن شأن هذا الموقف أن يحرّرَ الإنسان من ذلك الفصام الذي جعله في صراعٍ وهميّ ضدّ جسده، ليعملَ على مقاربة الوجود طبقًا لعلاقةٍ مغايرةٍ قوامه التماهي والانسجام مع الجسد.</p></div>
+
+<div class="exsub">هل أنّ الوجودَ مع الغير هو شرطُ الوعي بإنيّتي ؟</div>
+<p class="para">مثّل مطلبُ معرفة الذات موضوعَ الحيرة الأساسيّة بالنسبة إلى الإنسان التّي دفعته إلى منحه الأولويّة. وفي هذا السياق واجه المأزق التالي : فإن هو اكتفى بذاته في وعيه بإنيّته خشيَ من الإغراق في الذاتيّة، وإن هو آمن بالتواصل مع الغير اصطدم بالأحكام المسبقة والعقد النفسيّة ونزاع المصالح. ومن شأن ذلك أن يدفع نحو التفكير في الشروط الأكثر ملاءمةً لتحقيق الوعي بالذات بالتساؤل  <b>"<span class="hl-green">هل أنّ الوجودَ مع الغير هو شرط الوعي بإنيتي ؟</span>"</b></p>
+<p class="para"><b>فضمنَ أيّة شروطٍ يتمكّن الأنا من الوعي بإنيّته  هل يكون ذلك في إطار الوجود مع الآخرين بما يتضمّنه من اختلافٍ وبما يوفّره من ظروفٍ ملائمة للتواصل أم أنّ ذلك الوجود هو قرينُ الإكراه والابتذال والزيْف بحيث يوجبُ ذلك على الأنا البحث عن شروط الوعي بذاته في إطار العزلة والانطواء على النفس ؟</b></p>
+<p class="subhead t-navy">لحظةٌ ثانية ( الجوهر )</p>
+<p class="subhead t-red">أ - الوجودُ مع الغيْر شرطٌ للوعي بإنيّتي</p>
+<ul class="b">
+  <li>بين إنيّة الفرد ووعيه علاقةُ اتصالٍ وانفصالٍ. فمن جهةٍ الإنيّة هي مرادف الهويّة الشخصيّة التّي تشتمل على مميّزاته الإنسانيّة بتعابير خصوصيّة فردية تتجلّى من خلال أفكاره وقيمه وأحاسيسه واختياراته العمليّة والتّي بها يتمثّل ذاته في وحدتها واستمراريتها وفعاليّتها. ومن هذا المنظور لا إنيّة إلاّ لكائنٍ يتميز بالوعي. ولكن من جهةٍ أخرى، لا يكون للفرد وعيٌ واضحٌ بهذه الإنية نظرًا لافتقاد الوعي الفرديّ الباطنيّ والمباشر للمقومات التّي تهيئه للإلمام بها وتمثّلها التمثّلَ الملائم، وهي مقوّمات لا تتوفّر إلاّ في إطار الوجود الاجتماعيّ مع الآخرين. ( يكتب    <span class="t-blue">سارتر</span> " <b>نحنُ لا نكتشف أنفسنا في نطاق عزلةٍ لا نعلمُ عنها شيئًا : بل على الطريق، في المدينة، وبين الحشود</b>. " )</li>
+  <li>من هذه المقوّمات  <b>الاختلافُ</b>، ذلك أنّ الوعيَ بالإنيّة لا يتحقّق في نطاق التطابق، أي وعي الأنا المباشر بنفسه، بل في الاختلاف أي وعي الأنا بآخرين مختلفين عنه : فبإدراك اختلاف جسد الغير وإيماءاته وإشاراته وخطابه وما يعبّر عنه من أفكارٍ وأحاسيس وقيم... يشرع الأنا في تشييد وعيه بخصوصيّة إنيّته. ( يكتب <span class="t-blue">باتريك شارودو</span> " <b>أنا مختلفٌ عنك، إذن أنا موجود</b> " )</li>
+</ul>
+<p class="para">ومن تلك المقوّمات أيضًا <b>التواصلُ</b>، ذلك أنّ الوعيَ بالإنيّة لا يتحقّق في إطار الحوار الباطنيّ مع الذات الذي يجعلها تعيدُ إنتاجَ هويّتها، بل بالخروج من الذات نحو الغير تحقيقًا لصيغ تبادلٍ متنوّعةٍ معه. فالكتابة والقراءة والمشاهدة والحوار... هي كلّها مصادر متعدّدة لتجربةٍ مغايرة تثري وتنقد وتلهم وتوقظ وتحفز، موجّهةً الفرد نحو الوعي بخصوصيّة إنيّته. فلمّا يعي الفردُ بتميز هذا العالِم ونبوغ ذلك الفنّان أو باستقامة هذا المناضل فإنّه يعي جدوده وينتبه إلى مواهبه وإلى رغبته في بلوغ الأمثل. ولمّـــا يوجّه إليه نقدٌ يعي نقائصَ أفكاره أو اختياراته فيعمل على مراجعتها وإعادة توجيهها. ( يكتب    <span class="t-blue">امانويل مونيي</span> " <b>ليسَ الأشخاصُ الآخرون حدًّا للشخص بل هُم به يكون وينمو</b>. " )</p>
+<!-- PROOFREAD: c1u5 p5 — "يعي جدوده" as printed (likely "حدوده") -->
+<ul class="b">
+  <li>ومن تلك المقوّمات أيضًا <b>الاعتراف</b>، ذلك أنّ الوعيَ بالإنيّة لا يتحقّق في ظلّ تقويم الذات لنفسها، بل في إطار نسج علاقاتٍ مع الآخرين تجسّم في نطاقها نجاحات جديرة بتقديرهم. فالأنا لا يُمكنه أن يكون حبيبًا أو صديقًا أو أبًا و إعلاميًّا أو ثوريًّا أو شاعرًا من آخر يشاركه الحب وقارئ يقدر قيمة كتاباته أو مناضلين يقاسمونه نفس المبادئ ونفس المراهنة على تغيير المجتمع.( يكتب       <span class="t-blue">امانويل مونيي</span> " <b>أنا لا أوجد إلاّ على قدر وجودي للغير</b>." )</li>
+</ul>
+<!-- PROOFREAD: c1u5 p5 — "من آخر يشاركه" as printed (likely "دون آخر") -->
+<p class="para"><span class="t-red"><b>ولكن إلى أيّ حدّ يحقّ الإقرار بنتائج الحجاج السابق : ألا يُمكن أن تعبر عن نظرةٍ أحاديّة جزئيّة للوجود مع الآخرين تتغاضى عن ما يتضمّنه من عوامل بإمكانها أن تعيق تحقيق مطلب الوعي بالإنيّة ؟</b></span></p>
+<p class="subhead t-red">ب - الاكتفاء بالذات والعزلة عن الآخرين شرطٌ للوعي بالإنيّة</p>
+<ul class="b">
+  <li><b>الاعتراضُ الأوّل :: في حدود توفّر مقوّمات الوعي بالإنيّة في إطار الوجود مع الآخرين</b>   : إنّ المتأمّل في المجتمعات الاستهلاكيّة الراهنة في سياق العولمة يُمكنه أن يُلاحظ مدى سيادة النمطيّة التّي جعلت من النّاس حشودًا متشابهة يختفي ضمنها الاختلاف. ففي ظلّ تشابه اللّباس والطّعام والزينة واستعمال الأجهزة والأفكار والقيم والترفيه لا يبقى من اختلافٍ يتيح للأنا الوعيَ بخصوصيّة إنيته. ومن تبعات هذه النمطيّة هو تراجع القدرة على الإبداع وإضفاء العمق على التجارب لمنحها التفرد. ولا يعني ذلك غير سيادة الابتذال العاجز عن إثراء التواصل. أمّا الاعتراف فيترك مكانه لصراع المصالح والانتهازيّة في إطار أزمة قيمٍ جذريّة لم يعد من الممكن في ظلّها الأمل في الحبّ والصداقة والعدالة والحقيقة. ( يكتب <span class="t-blue">هايدغر</span> " <b>نحنُ نلهو ونتسلّى مثلما "الهُم" يلهو، ونحن نرى ونحكم على الأدب والفنّ مثلما يرى ويحكم، ونحن ننأى عن "الجموع الغفيرة" مثلما ينأى "الهُم"  عنها، ونعتبر "مُشينًا" ما يعتبره "الهُم" كذلك</b>." )</li>
+  <li><b>الاعتراضُ الثاني  :  في حدود الحكم على الوعي الذاتي بافتقاده لمقوّمات الوعي الحقيقيّ بالإنيّة</b> : إنّ الاكتفاء بالذات من أجل الوعي بالإنيّة يتوفّر على الشروط الكفيلة بتحقيق ذلك المطلب. ذلك أنّ للأنا ملكة العقل التّي يهيئه لأن يفكّر بنفسه فيشكّ في كلّ رأي يحمله عن نفسه، ولا يقبل إلاّ ما يَمثُل لعقله واضحًا ومتميّزًا محررًا نفسه من تأثيرات الآخرين السلبية مثل الأحكام المسبقة، ليظفر بعزلةٍ تخوله معرفة نفسه على نحوٍ ملائم. عندئذ يصبح الانطواء والعقل والحرية شروطًا كفيلةً بأن تهيئ الفرد لتحقيق مطلب الوعي بنفسه. ( يكتب <span class="t-blue">ديكارت</span> " <b>لا أدرجُ في أحكامي إلاّ ما يمثُل لفكري واضحًا ومتميزا بحيث لا أجد أيّ مبرّر لوضعه موضع شكّ</b>." ويكتب <span class="t-blue">شوبنهاور</span> " <b>لا نكون أحرارًا إلاّ في نطاق العزلة</b>." )</li>
+</ul>
+<p class="subhead t-navy">لحظةٌ ثالثة ( الخاتمة )</p>
+<div class="conclusion"><div class="ck">خلاصة</div><p><b>أ - بلورة موقفٍ من الإشكاليّة</b> : ويؤدي كلّ المسار السابق إلى أنّ مطلبَ الوعي الفرد بإنيّته يظلّ مهمّةً شخصيّة، وهي مهمّة لا تتحقّق إلاّ بتأليفٍ خلاّقٍ بين التواصل مع الآخرين والاستقلال عنهم.<br><b>ب - إبراز أهميّة الموقف</b> : وبذلك وحده يتسنّى اجتناب أوهام الوعي الانطوائيّ الانعزاليّ وأخطار التورّط في السائد الاجتماعيّ بما يحمله من أحكام مسبقة ونمطيّة وزيف.</p></div>
+
+<div class="exsub">هل يهدّدُ الاعترافُ بزيْف الوعي وجودَنا ؟</div>
+<p class="subhead t-navy">لحظةٌ أولى ( المقدّمة )</p>
+<p class="para"><b>أ - تمهيدٌ</b> : للإنسان <b>ثقةٌ تلقائيّة جازمةٌ</b> في <b>الوعي</b> معتقدًا في <b>قيمته اليقينيّة</b> التّي تقدّمُ له <b>صورةً دقيقةً عن ذاته</b> وتوجّهه في  <b>اختيار أفكاره وأفعاله</b>. ولكنّ هذه الثقة  <b>لا تتلاءم مع كثيرٍ من التجارب الإنسانيّة</b> التّي  <b>لا يقوى الوعي على توضيح دلالتها وتفسير حدوثها</b>    مثل هفوة غير مقصودة، أو حلم غير مفهوم، أو سلوك رهابي غير مبرّر، أو إحساس مختلط.. ومن شأن ذلك   <b>أن يشكّك في الوعي ويوجب الاعتراف بزيفه</b> محوّلاً  <b>وجود الإنسان</b> إلى <b>مشكلٍ</b> ومبررًا التساؤلَ  <b>"<span class="hl-green">هل يهدّد الاعترافُ بزيف الوعي وجودنا ؟</span>"</b></p>
+<p class="para"><b>ب - صياغة الإشكاليّة</b> :   فما الذي  <b>يؤسّس للاعتراف بزيف الوعي</b> ؟ وما هي  <b>تبعاتُ</b> ذلك الاعتراف على وجودنا ؟ هل في ذلك الاعتراف ما يعني أنّ الإنسانَ لا يكون إلاّ  <b>جاهلاً بذاته وعاجـــزًا عن اختيار أفعاله بحريّة</b> بحيث يمثّل  <b>تهديدًا لوجودنا</b> أم أنّه يتضمّن  <b>تحريرًا للإنسان من مركـــزيّة الوعي</b> وما أنتجَه من <b>أوهام</b> حتّى يعيدَ <b>التأسيسَ لوجوده</b> بأكثر <b>تعقّل وحريّة</b> ؟</p>
+<p class="subhead t-navy">لحظةٌ ثانية ( الجوهر )</p>
+<p class="subhead t-red">I . يهدّد الاعترافُ بزيْف الوعي وجودَنا</p>
+<p class="subhead">1 . زيفُ الوعي ومسوّغاتُ الاعتراف به.</p>
+<p class="para">مثّلَ <b>الوعيُ المصادرةَ الفلسفيّة</b> التّي  <b>تأسّسَ</b> عليها  <b>التفكير في الإنسان</b> منذ  <b>الحداثة</b>، ومفادها أنّ الوعيَ هو <b>ماهية الإنسان</b> وبه يمكنه <b>معرفةُ نفسه بكلّ يقينٍ واختيارِ مواقفه بكلّ حريّة</b>. ولكنّ <b>هذا الأساسَ اليقينيّ والعقلانيّ</b> سرعانَ ما تحوّلَ إلى <b>حكمٍ مسبقٍ</b> لا يقدر الصمودَ أمامَ <b>النقد</b> :</p>
+<p class="para">أ - الوعيُ وزيفُ معرفة الإنسان بذاته   ، فلقد خدعَ الوعيُ الإنسانَ لمّا   <b>اوهمه أنّه  بطلاقته المباشرة بنفسه</b> قادرٌ على  <b>فهم معنى أفعاله النفسيّة</b> ، من منطلق  <b>التطابق بين الحياة النفسيّة والوعي</b>. غيرَ أنّ الحقيقةَ كانت <b>مغايرةً</b> لذلك تمامًا، ذلك أنّ الوعيَ لا يُمثّل سوى  <b>طبقةٍ جزئيّة وسطحيّة تغوص تحتها أعماقٌ لاواعية</b>   من   <b>الرغبات والذكريات والعقد المكبوتة والآليات والصراعات المجهولة</b> التّي تمثّل  <b>القوى المؤثّرة في كلّ ما هو نفسيّ ومجالاً لفهم دلالته</b>   . فإذا كانت هذه السيدةُ التّي تتثبت من قيمة الأوراق الماليّة قبل صرفها تفهمُ ذلك بكونه حرصًا يجنّبها الخطأ، فإنّ ذلك المعنى زائفٌ يُخفي عنها حقيقتَه بما هو سلوكٌ وسواسيّ ناتجٌ عن فشل حبٍّ قديم. ( يكتب <span class="t-blue">فرويد</span>  " <b>ليس الوعيُ ماهيةَ الحياة النفسيّة، وإنّما هو صفةٌ من صفاتها، وهي صفةٌ غير ثابتة، غيابها أكثرُ بكثيرٍ من حضورها</b>." )</p>
+<!-- PROOFREAD: c1u5 p5 — "اوهمه أنّه بطلاقته المباشرة" as printed (likely "بعلاقته") -->
+<p class="para">ب - الوعيُ وزيفُ الاعتقاد بأنّ الإنسان <b>سيّدٌ على أفعاله</b> ، ولا ينحصرُ زيفُ الوعي على  <b>المستوى المعرفيّ</b> فحسب، لأنّه يشملُ  <b>وهمًا آخر</b> يتمثّل في اعتقاد الإنسان أنّه  <b>يختارُ أفعاله بحريّة</b>. وفي هذا الوهم <b>قناعٌ</b> يُخفي عن الإنسان  <b>حقيقة</b> أنّ أفعاله هي  <b>نتاج قوىً غير واعية يجهلها</b> . وهذه القوى هي <b>رغباتٌ وذكرياتٌ وعقدٌ مكبوتةٌ وآليّاتٌ نفسيّة مجهولة</b> . فالآنسة التي تنزعج من دخان السجائر وترى في ذلك قرارًا حرًّا الباعث عليه هو حرصها على سلامة صحّتها، هي لا تدرك أن ذلك هو تحويلٌ غير واعٍ لخوفها من رغبتها الجنسيّة في رئيسها مدخن السيجار. ( يكتب <span class="t-blue">فرويد</span>   " <b>لم يعد الأنا سيّدًا حتّى في بيته</b>." ).</p>
+<p class="subhead">2 - الاعترافُ بزيف الوعي تهديدٌ للوجود الإنسانيّ</p>
+<p class="para">إنّ من شأن <b>الاعتراف بزيف الوعي</b> أن يؤدّي إلى <b>زعزعة مقوّمات الوجود الإنسانيّ</b> باتجاه تقويضها، على نحوٍ <b>يهدّد معنى هذا الوجود</b> بالنسبة إلى <b>الإنسان</b> :</p>
+<p class="para">أ - الاعترافُ بزيف الوعي <b>بما هو تهديدٌ وجوديّ</b> ، ذلك أنّ فهمَ الإنسان لوجوده قد قامَ إلى حدّ الآن على  <b>التطابق بين الحياة النفسيّة والوعي</b> ، لأنّ في ذلك يكمُنُ   <b>شرطُ تماسك الذاتيّة ووحدتها</b> . ولكنّ <b>الاعترافَ بزيف الوعي</b>  يضعُ  <b>حدًّا لذلك</b> ليعلنَ أنّ   <b>الذاتَ</b> لا تمثّل سوى   <b>سطحٍ جزئيّ</b> يختفي وراءه آخرٌ يمثّل <b>حقيقةَ وجودها</b> دون <b>علمها</b> به. وليس لذلك إلاّ أن يجعلها   <b>مفكّكة ومجزأة غريبةً عن نفسها</b> في صميم إنيّتها. ( لهذا كتب أميل شارتيي المعروف باسم <span class="t-blue">آلان</span>      " <b>إنّنا نخافُ من لاوعينا... ذلك أنّ هنالك أنا آخر يقودني ويعرفني ولكنّني لا أعرفه إلاّ بشكلٍ سيئ</b>." )</p>
+<p class="para">ب - الاعترافُ بزيف الوعي <b>بما هو تهديدٌ معرفيّ</b>   ، ويترتّبُ عن   <b>التفكّك الوجوديّ</b> ، بالضرورة، <b>التخلّي</b> عن أحد أساسيّات وجود الإنسان، وهي   <b>قدرته بواسطة الوعي على فهم دلالة ما يعيشه ذاتيًّا</b>. فبعدَ أن كان يعتقد أنّه في    <b>الموقع الأفضل لمعرفة نفسه</b>  أضحى يتعيّن عليه الاعتراف بأنّه <b>الأكثر جهلاً بها</b>. فما دلالة أن يفشلَ هذا الزوج في العثور على هديّة قدّمتها له زوجته ؟ إنّه عاجز على معرفة أنّ في ذلك <b>هفوة</b> تعبّر عن <b>رغبةٍ مكبوتةٍ</b> تجاه زوجته وهي أن يعبّر لها أنّه قد تزوجها دون حب.</p>
+<p class="para">ج - الاعترافُ بزيف الوعي <b>بما هو تهديدٌ ايتيقيّ</b>   ، ذلك أنّ أهمّ علامةٍ مميّزة لوجودنا هي    <b>الحريّة</b>، والتّي تعني أنّ للإنسان القدرة على     <b>اختيار أفعاله طبقًا لبواعث يقتنعُ بها</b>  ، وفي ذلك ما يهيئـــــه للملاءمة بين <b>اختياراته والقيم</b>. غير أنّ الاعتراف بزيف الوعي   <b>يقوّض ذلك</b> طالما أنّه يؤدي إلى  <b>تفسير الفعل الإنسانيّ بواسطة قوىً غير واعية</b> تحيل على  <b>المكبوتات والآليات المجهولة</b>. فهـــذه الآنسة تعبّر عن سعادتها بخطبة أختها وتعيرها ملابسها وتهتمّ بزينتها إستعدادًا لهذا الحفل هي لا تعي أنّ ذلك ليس علامة إيثارٍ إراديّ سامٍ بل نتيجة قلبٍ غير واعٍ لغيرتها من أختها.</p>
+<p class="para">ويخلُص كلّ ما سبق إلى    <b>أنّ الاعترافَ بزيف الوعي</b>  لا يُمكنه إلاّ أن   <b>يهدّد وجود الإنسان</b> جاعلاً منه كائنًا  <b>ممزّقًا بين الوعي واللاّوعي</b> ، <b>غريبًا عن نفسه وخاضعًا لقوىً مجهولة لا يملك السيادة عليها</b>. <span class="t-red"><b>فهل في هذا التقدير حكمٌ وجيه قادرٌ على الإقناع ؟</b></span></p>
+<p class="subhead t-red">II - الاعترافُ بزيف الوعي إعادةُ تأسيسٍ للوجود الإنسانيّ بأكثرَ تعقّلٍ وحريّة .</p>
+<p class="subhead">1 . في ضرورة التمييز بين نقد زيْف الوعي ورفض الوعي باعتباره زائفًا بإطلاق.</p>
+<p class="para">يُمكّن <b>النظرُ النقديّ</b> فيما سبقَ من الانتباه إلى <b>اللّبس</b> الذي يُحيط بعبارة <b>"زيف الوعي"</b> وقد أدّى ذلك إلى <b>الخلط</b> بين <b>نقد تمثّلات الوعي الزائفة</b> واعتبار <b>الوعي زائفًا بإطلاق</b>. ذلك أنّ ما كشفَ عنه النقد الفرويديّ هو <b>أنّ الوعيَ لم يعد مرادفًا لليقين</b>، وأنّه يُمكن أن <b>يخدعَ بتمثّلاته الإنسانَ</b>، دون أن يعني ذلك  <b>تهميشَ الوعي</b> ورفض <b>كلّ قيمة له</b>. ذلك أنّ الوعيَ يظلّ ا <b>لوسيط</b> في <b>معرفة اللاّوعي</b> بما هو آخر  <b>وفكّ رموزه والكشف عن دلالاته</b> . إنّ في الاعتراف بزيف الوعي، إذن، اعترافًا   <b>بأنّ الثقة المطلقة في الوعي وهمٌ</b> أسّس <b>لكبرياءٍ خادع</b> يجب <b>التحرر منه</b> دون التخلّي عن   <b>قيمة الوعي</b>. فالمطلوب هو  <b>إضفاء النسبية على الوعي</b>  وليس  <b>إقصاءه</b>. ( يكتب <span class="t-blue">فرويد</span>  "<b>ما زال الوعيُ النورَ الوحيدَ الذي يسطع لنا ويهدينا في ظلمات الحياة النفسيّة</b>." )</p>
+<!-- PROOFREAD: c1u5 p6 — "ن يعني ذلك" at a line start (source shows a stray "ن" after "دون"); "يظلّ ا لوسيط" spacing as printed -->
+<p class="subhead">2 - في الاعتراف بزيف الوعي تحريرٌ للإنسان من زيف النرجسيّة ليعيد التأسيس لوجوده بأكثرَ تعقّلٍ</p>
+<p class="para">وليس لهذا الفهم <b>الأكثرَ دقّةً</b> لنقد الوعي والكشف عن زيفه إلاّ أن يوجّه الحكمَ على نحوٍ مغاير بحيث يرى فيه <b>تحريرًا للإنسان من الوهم</b> ليعيد <b>فهم وجوده</b> على <b>أسسٍ جديدة تتميّز بالعقلانيّة</b> :</p>
+<p class="para">أ - الاعتراف بزيف الوعي <b>بما هو إعادة فهمٍ للوجود الإنسانيّ بين الإنيّة والغيريّة</b>   ، ذلك أنّ هذا الاعتراف <b>يحرّر</b> الإنسان من <b>مركزيّة الذات الواعية</b> التّي كانت <b>تخفي عنه حقيقة اللاّوعي</b> وتبقيه في <b>قطيعةٍ</b> مع ما يدور داخل وجوده من <b>صراعاتٍ خفيّة</b>، ليعترفَ أخيرًا، بأنّه <b>كائنٌ يجمع بين الأنا والآخر، الوعي واللاّوعي</b>، وينفتحَ على <b>الجانب الخفيّ والمعتّم</b> من وجوده محافظًا على  <b>وحدة إنيّته بعيدًا عن التجزئة والتفكّك</b>.</p>
+<p class="para">ب - الاعتراف بزيف الوعي <b>بما هو منطلقٌ ضروريّ لمعرفة الذات بأكثر وضوح</b> ، ومن تبعات <b>انفتاح الوعي</b> الإنسانيّ على <b>اللاّوعي تأسيسٌ لوحدةٍ جدليّة بينهما</b> تربط بين  <b>الحاضر والماضي</b>، بين <b>المعلوم والمجهول</b> ، بين  <b>الظاهر والخفيّ</b> في فهم  <b>معنى كلّ ما هو إنسانيّ</b> . عندئذٍ يتسنّى التوصّل إلى  <b>معرفةٍ أكثرَ وضوحًا وشمولاً وموضوعيّةً بالذات</b>   . فإذا كانت السيدة التي تتثبت من الأوراق الماليّة قبلَ صرفها تفهم ذلك على أنّه حرصٌ يجنّبها الخطأ، فإنّ الكشفَ عن علاقة هذا المعنى بذكرى عاطفيّة مؤلمة مكبوتة يكشف لها عن حدود فهمها لسلوكها وينفتح به على ما هو أعمق متيحًا لها القدرة على تفسيره.</p>
+<p class="para">ب - في الاعتراف بزيف الوعي <b>بما هو منطلقٌ ضروريّ للاختيار بأكثر تعقّل</b>   ، إنّ مَنْ ينفتحُ على اللاّوعي ليعيَ <b>بمكبوتاته وآلياته</b> ويعرفَ نفسه <b>بأكثرَ وضوح</b>، يمتلك بفعل ذلك <b>القدرة على التحرّر من سيطرة المجهول عليه</b>، وعلى <b>عقلنة اختياراته</b>. فهو لن يبقى <b>عبدًا لماضيه وعقده وآليات خفيّة</b>، لأنّه بمعرفته بها يكتسب <b>سيطرة أفضل عليها</b>، فيعمل على <b>الحدّ من تأثيرها</b> في مواقفه ليكون وجوده تبعًا لذلك <b>أكثر توازنا وتلاؤمًا مع المنطق والواقع</b> . (  يكتب <span class="t-blue">ريكور</span>  " <b>وما أراده فرويد هو أن يوسّعَ المحلّلُ من مجال وعيه، وأن يحيا بشكلٍ أفضلَ وأن يكونَ قدرَ المستطاع أكثرَ حريّةً وسعادةً، ولو بشكلٍ محدود</b>." )</p>
+<!-- PROOFREAD: c1u5 p6 — the third sub-point is lettered "ب" a second time in the source (expected "ج") -->
+<p class="subhead t-navy">لحظةٌ ثالثة ( الخاتمة )</p>
+<div class="conclusion"><div class="ck">خلاصة</div><p><b>أ - الموقف</b> : ويقود كلّ ما سبقَ إلى  <b>أنّ الاعترافَ بزيف الوعي</b> يمثّل <b>مكسبًا معرفيًّا جديدًا</b> يتقدّم بالإنسان نحو   <b>التحرر من الأوهام</b>  التّي نسجها حول نفسه   <b>ليعيد التأسيس لوجوده بأكثر تعقّل</b> بعيدًا عن كل تهديدٍ <b>لمعنى ذلك الوجود</b>.<br><b>ب - أهميّته</b> : ومن شأن هذا الموقف أن   <b>ينبّهَ</b> إلى  <b>قيمة النقد</b> والحاجة إلى  <b>توفير ظروف تقدّمه</b> وتقبّل <b>رجاته</b> لكونها وحدها التّي يُمكنها أن تحرّر الإنسان من الاغتراب .</p></div>
+
+
+</section>
+
+</div>
+</body>
+</html>

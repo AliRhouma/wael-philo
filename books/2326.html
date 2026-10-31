@@ -1,0 +1,278 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<title>Wael Academy — Philosophie · complet4</title>
+<script>
+  window.MathJax = {
+    tex: { inlineMath: [['\\(','\\)']], displayMath: [['\\[','\\]']] },
+    chtml: { fontURL: 'https://cdn.jsdelivr.net/npm/mathjax@3/es5/output/chtml/fonts/woff-v2', matchFontHeight: true },
+    startup: { typeset: true }
+  };
+</script>
+<script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js" async></script>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Sora:wght@400;500;600;700;800&family=Cairo:wght@400;500;600;700;800;900&family=Tajawal:wght@400;500;700;800&family=JetBrains+Mono:wght@400;500;600;700&display=swap');
+:root{
+  /* ===== Wael Academy palette — MAIN ACCENT = green-teal gradient #0FAB8F → #067360 ===== */
+  --bg:#fff; --panel:#f2f8f8; --hair:#e6e6e9; --hair2:#d6d6db;
+  --fg:#0f2a31;        /* body text (and +/− signs) */
+  --fg2:#3f5b62;       /* softer text */
+  --fg3:#7c959b;       /* muted (footer) */
+  --blue:#067360;      /* deep accent — small numbers, borders, watermark, accent equations */
+  --blue-dark:#045260; /* titles & wordmarks (also the balance colour) */
+  --teal:#0fab8f;      /* bright accent end */
+  --loop:#0d9c82;      /* logo-loop helper */
+  --orange:#067360;    /* kicker/category labels (gold retired → deep teal) */
+  --red:#f5322f;       /* EXERCISE CHIPS ONLY — never for emphasis */
+  --cream:#e6f3f4; --blue-soft:#e6f3f4;  /* pale teal — callout fill + table sub-row fill */
+  --blue-line:#cde7e4; /* hairline */
+  --sub-ink:#045260;   /* table sub-row text */
+  --grad:linear-gradient(148deg,#0fab8f 0%,#0d9c82 52%,#067360 100%);
+  --mono:'JetBrains Mono',monospace; --latin:'Sora',sans-serif; --ar:'Cairo',sans-serif; --arb:'Tajawal',sans-serif;
+}
+*{box-sizing:border-box;margin:0;padding:0;}
+body{font-family:var(--latin);color:var(--fg);background:#e4e4e7;padding:28px 0;
+     -webkit-print-color-adjust:exact;print-color-adjust:exact;}
+html[dir="rtl"] body{font-family:var(--arb);}
+
+/* ===== brand watermark: REAL text (crisp), full-bleed, repeats per page ===== */
+.wm{position:fixed;inset:0;z-index:0;pointer-events:none;display:flex;
+    align-items:center;justify-content:center;overflow:hidden;
+    -webkit-print-color-adjust:exact;print-color-adjust:exact;}
+.wm span{font-family:var(--mono);font-weight:800;font-size:76.8pt;letter-spacing:.16em;
+    color:var(--blue);opacity:.06;white-space:nowrap;transform:rotate(-54deg);}  /* single diagonal: bottom-left → top-right */
+.wm.mono span{color:#000;opacity:.05;}
+
+/* ===== continuous flow stream (no page border) ===== */
+.flow{width:210mm;margin:0 auto;background:transparent;color:var(--fg);
+      padding-block:16mm 18mm;padding-inline:23mm 14mm;position:relative;}   /* spiral gutter: inline-start(=spine) 23mm / outer 14mm — dir-aware; print margins set in render_flow.py */
+@media screen{ .flow{background:#fff;box-shadow:0 10px 40px rgba(0,0,0,.16);} }
+.flow>*{position:relative;z-index:1;}
+.flow p,.flow li,.flow .data,.flow .note,.flow .ex{break-inside:auto;}
+.flow .fig,.flow figure,.flow img,.flow svg.figsvg,.flow table,.flow tr,.flow .chapdiv,.flow .exh,.flow .qrcard,.flow .meta{break-inside:avoid;}
+.flow h1,.flow h2,.flow h3,.flow .exh,.flow .subhead,.flow .chapdiv{break-after:avoid;}
+.flow img,.flow svg.figsvg{max-width:100%;height:auto;}
+.flow figcaption,.flow .figcap{display:none;}          /* rule 3: no figure captions */
+
+/* ===== front matter + chapters each start on a fresh page ===== */
+.flow .cover{break-after:page;}        /* cover alone on page 1 */
+.flow .toc{break-after:page;}          /* Sommaire alone on the next page */
+.flow .chapter{break-before:page;}
+.flow .chapter:first-of-type{break-before:auto;}
+
+/* ===== cover ===== */
+.cover{padding:14mm 0 8mm;border-bottom:2px solid var(--blue);margin-bottom:6mm;}
+.cover .badge{font-family:var(--mono);font-size:8.5pt;letter-spacing:.28em;text-transform:uppercase;color:var(--orange);margin-bottom:10px;}
+.cover h1{font-family:var(--latin);font-weight:800;font-size:34pt;line-height:1.03;letter-spacing:-.025em;color:var(--blue-dark);}
+.cover .grule{width:120px;height:5px;border-radius:5px;background:var(--grad);margin:14px 0;}
+.cover .sub{font-family:var(--mono);font-size:10pt;letter-spacing:.14em;text-transform:uppercase;color:var(--teal);}
+.cover .auth{font-size:11pt;color:var(--fg2);margin-top:6px;font-weight:600;}
+
+/* ===== table of contents ===== */
+.toc{margin:2mm 0 4mm;}
+.toc h2{font-family:var(--latin);font-weight:800;font-size:15pt;color:var(--blue-dark);margin-bottom:4mm;}
+.toc .trititle{font-family:var(--mono);font-size:8pt;letter-spacing:.2em;text-transform:uppercase;color:var(--orange);margin:4mm 0 2mm;}
+.toc ol{list-style:none;}
+.toc li{display:flex;align-items:baseline;gap:8px;font-size:10pt;padding:2.2px 0;color:var(--fg);line-height:1.4;}
+.toc li .n{font-family:var(--mono);font-weight:700;font-size:9pt;color:var(--blue);min-width:26px;}
+.toc li .dots{flex:1;border-bottom:1px dotted var(--hair2);transform:translateY(-3px);}
+
+/* ===== chapter divider band ===== */
+.chapdiv{margin:0 0 5mm;padding:6mm 16px 5mm;border-radius:12px;background:var(--grad);
+    -webkit-print-color-adjust:exact;print-color-adjust:exact;}   /* green-filled chapter band */
+.chapdiv .cn{font-family:var(--mono);font-size:8.5pt;font-weight:700;letter-spacing:.24em;text-transform:uppercase;color:rgba(255,255,255,.82);margin-bottom:5px;}
+.chapdiv h2{font-family:var(--latin);font-weight:800;font-size:17pt;line-height:1.1;letter-spacing:-.015em;color:#fff;}
+/* conclusion block — same green-filled look as the chapter band */
+.conclusion{background:var(--grad);border-radius:12px;padding:6mm 16px;margin:5mm 0;color:#fff;break-inside:avoid;
+    -webkit-print-color-adjust:exact;print-color-adjust:exact;}
+.conclusion .ck{font-family:var(--mono);font-size:8.5pt;font-weight:700;letter-spacing:.24em;text-transform:uppercase;color:rgba(255,255,255,.82);margin-bottom:6px;}
+.conclusion h3{font-family:var(--latin);font-weight:800;font-size:13pt;line-height:1.2;color:#fff;margin-bottom:4px;}
+.conclusion p,.conclusion li{font-size:10.4pt;line-height:1.7;color:#fff;}
+.conclusion b,.conclusion strong{color:#fff;font-weight:700;}
+
+/* ===== unit header (lesson/exercise) + QR emplacement ===== */
+.exh{display:flex;align-items:center;gap:11px;margin:6mm 0 3mm;}
+.exh .idx{font-family:var(--mono);font-size:9pt;font-weight:600;color:#fff;background:var(--grad);
+    border-radius:6px;padding:4px 11px;letter-spacing:.08em;text-transform:uppercase;
+    -webkit-print-color-adjust:exact;print-color-adjust:exact;}
+.exh .idx.ex{background:var(--red);}   /* exercise chip = red */
+.exh h2{font-family:var(--latin);font-size:14pt;font-weight:700;letter-spacing:-.01em;color:var(--blue-dark);}
+.exh .qrcard{margin-inline-start:auto;flex:0 0 auto;display:flex;flex-direction:column;align-items:center;gap:3px;width:26mm;}
+.qrcard .qrt{font-family:var(--mono);font-size:6.5pt;letter-spacing:.1em;text-transform:uppercase;color:var(--teal);text-align:center;}
+.qrcard .qrslot{width:24mm;height:24mm;padding:1.5mm;background:#fff;border:1px solid var(--blue-line);border-radius:8px;display:flex;align-items:center;justify-content:center;}
+.qrcard .qrslot img,.qrcard .qrslot svg{width:100%;height:100%;display:block;}
+
+/* sub-exercise label when one file holds several exercices */
+.exsub{font-family:var(--latin);font-weight:800;font-size:11.5pt;color:var(--blue-dark);margin:5mm 0 2.5mm;padding-bottom:3px;border-bottom:2px solid var(--blue-line);}
+
+/* ===== text blocks ===== */
+.lead{font-size:11pt;line-height:1.7;margin:2mm 0 3mm;color:var(--fg);}
+.para{font-size:10.6pt;line-height:1.7;margin:2mm 0 2.5mm;color:var(--fg);}
+.consigne{font-size:10.4pt;line-height:1.6;margin:1mm 0 2mm;color:var(--fg);font-style:italic;}
+.subhead{font-family:var(--latin);font-weight:800;font-size:12pt;letter-spacing:-.01em;color:var(--blue-dark);margin:5mm 0 2.5mm;}
+/* emphasis — green accent = .t-blue/.t-green ; balance = .t-navy ; red = SECONDARY accent (.t-red) on titles + a few words */
+.t-blue{color:var(--blue);font-weight:600;} .t-navy{color:var(--blue-dark);font-weight:700;}
+.t-red{color:var(--red);font-weight:600;} .t-green{color:var(--teal);font-weight:600;} .t-gold{color:var(--orange);font-weight:600;}
+.subhead.t-red{color:var(--red);font-weight:800;}   /* red Roman-numeral section title (I, II, …) — keeps subhead weight */
+/* highlighter marks — a soft colour wash behind a key word (agent picks green or red per what balances the page) */
+.hl-green,.hl-red{border-radius:3px;padding:.02em .24em;font-weight:600;box-decoration-break:clone;-webkit-box-decoration-break:clone;
+    -webkit-print-color-adjust:exact;print-color-adjust:exact;}
+.hl-green{background:rgba(15,171,143,.20);color:var(--blue-dark);}   /* green highlight */
+.hl-red{background:rgba(245,50,47,.13);color:#c0261f;}               /* red highlight  */
+
+.data{background:var(--blue-soft);border:1px solid var(--blue-line);border-inline-start:4px solid var(--blue);
+    border-radius:8px;padding:11px 16px;margin:3mm 0;font-size:10pt;line-height:1.65;color:var(--fg2);}
+.data b{color:var(--fg);font-weight:700;}
+.note{border:1px dashed var(--hair2);border-radius:9px;padding:11px 16px;margin:4mm 0;background:var(--panel);}
+.note .kicker{font-family:var(--mono);font-size:7.5pt;letter-spacing:.18em;color:var(--orange);display:block;margin-bottom:5px;}
+.note .nb{font-size:10pt;line-height:1.7;color:var(--fg2);} .note b{color:var(--fg);}
+.ex:not(.idx){background:var(--blue-soft);border:1px solid var(--blue-line);border-inline-start:3px solid var(--blue);
+    border-radius:7px;padding:7px 11px;font-size:9.6pt;line-height:1.6;color:var(--fg2);margin:2mm 0;}   /* :not(.idx) so it never hits the exercise chip (which is .idx.ex) */
+.ex .extag{display:inline-block;font-family:var(--latin);font-weight:800;font-size:7.6pt;color:var(--blue-dark);background:#fff;
+    border:1px solid var(--blue);border-radius:5px;padding:1px 9px;margin-inline-end:7px;vertical-align:middle;text-transform:uppercase;letter-spacing:.06em;}
+
+/* ===== lists ===== */
+ol.q{list-style:none;counter-reset:q;margin:1mm 0 2mm;}
+ol.q>li{counter-increment:q;position:relative;padding-inline-start:30px;margin-bottom:2.5mm;font-size:10.4pt;line-height:1.6;}
+ol.q>li::before{content:counter(q);position:absolute;inset-inline-start:0;top:1px;width:21px;height:21px;background:var(--grad);color:#fff;
+    border-radius:50%;font-family:var(--mono);font-size:9pt;font-weight:600;display:flex;align-items:center;justify-content:center;
+    -webkit-print-color-adjust:exact;print-color-adjust:exact;}
+ol.sub{list-style:none;counter-reset:s;margin:4px 0 0;padding-inline-start:2px;border-inline-start:1px solid var(--blue-line);}
+ol.sub li{counter-increment:s;position:relative;padding:2.5px 0 2.5px 26px;font-size:10.1pt;line-height:1.55;}
+ol.sub li::before{content:counter(s,lower-alpha)".";position:absolute;inset-inline-start:10px;top:2.5px;font-family:var(--mono);font-size:9pt;font-weight:600;color:var(--teal);}
+ol.qn{list-style:none;counter-reset:qn;margin:1mm 0 2mm;}
+ol.qn>li{counter-increment:qn;position:relative;padding-inline-start:26px;margin-bottom:2.2mm;font-size:10.4pt;line-height:1.55;}
+ol.qn>li::before{content:counter(qn)".";position:absolute;inset-inline-start:0;top:0;font-family:var(--mono);font-size:9.5pt;font-weight:700;color:var(--blue);}
+ul.b{list-style:none;margin:1mm 0 2mm;} ul.b>li{position:relative;padding-inline-start:22px;margin-bottom:2.4mm;font-size:10.4pt;line-height:1.6;}
+ul.b>li::before{content:"";position:absolute;inset-inline-start:3px;top:8px;width:8px;height:8px;border-radius:50%;background:var(--grad);
+    -webkit-print-color-adjust:exact;print-color-adjust:exact;}
+ul.dash{list-style:none;margin:1mm 0 2mm;} ul.dash>li{position:relative;padding-inline-start:20px;margin-bottom:1.8mm;font-size:10.4pt;line-height:1.6;}
+ul.dash>li::before{content:"–";position:absolute;inset-inline-start:2px;top:0;color:var(--fg);font-weight:700;}  /* dash / +/− signs = body colour */
+.flow ul.opts{list-style:none;margin:4px 0 3px;padding-inline-start:16px;}
+.flow ul.opts li{padding:2px 0;font-size:10.2pt;line-height:1.5;color:var(--fg);}
+
+/* ===== figures / tables ===== */
+.fig{margin:3mm 0;} .fig svg.figsvg{display:block;margin:0 auto;background:#fff;max-width:100%;height:auto;}
+.photo{display:block;margin:3mm auto;border-radius:8px;border:1px solid var(--hair);max-width:100%;}
+.figrow{display:flex;flex-wrap:wrap;gap:9px;justify-content:center;margin:3mm auto;max-width:190mm;}
+.flow .figrow img{border-radius:7px;border:1px solid var(--hair);height:46mm;width:auto;max-width:none;object-fit:cover;}
+.schemarow{display:flex;gap:16px;align-items:flex-start;flex-wrap:wrap;margin:2mm 0;}
+.schemarow .col-txt{flex:1 1 90mm;min-width:80mm;} .schemarow .col-fig{flex:0 0 78mm;} .schemarow .col-fig .fig{margin:0;}
+.flow table{border-collapse:collapse;width:100%;margin:3mm 0;font-size:9.8pt;line-height:1.5;}
+.flow table th,.flow table td{border:1px solid var(--blue-line);padding:6px 10px;text-align:start;vertical-align:top;}
+.flow table th{background:var(--grad);color:#fff;font-family:var(--latin);font-weight:700;font-size:9.4pt;
+    -webkit-print-color-adjust:exact;print-color-adjust:exact;}
+.flow table tr:nth-child(even) td{background:var(--blue-soft);color:var(--sub-ink);}   /* sub-row: #E6F3F4 / #045260 */
+
+mjx-container{color:var(--fg) !important;font-weight:400 !important;font-size:1.0em !important;}
+.eq-hi mjx-container,mjx-container.eq-hi{color:var(--blue) !important;}   /* accent (green) equation — highlight a key result; balance with plain math */
+.eq-red mjx-container,mjx-container.eq-red{color:var(--red) !important;}  /* red accent equation / symbol — complements the green .eq-hi */
+
+/* ===== per-file books: credit line, copies list, figures at their size ===== */
+.credit{display:flex;flex-wrap:wrap;align-items:center;gap:5px;margin:-1mm 0 3.5mm;font-size:9.4pt;color:var(--fg2);}
+.credit .who{font-weight:700;color:var(--blue-dark);}
+.credit .tg{font-family:var(--mono);font-size:7.2pt;letter-spacing:.04em;border-radius:5px;padding:1px 7px;line-height:1.6;
+    border:1px solid var(--blue-line);color:var(--blue);background:#fff;-webkit-print-color-adjust:exact;print-color-adjust:exact;}
+.credit .tg.sec{background:var(--blue-dark);border-color:var(--blue-dark);color:#fff;}
+.credit .tg.cor{background:#fff;border-color:var(--red);color:var(--red);}
+.credit a{color:var(--fg3);font-family:var(--mono);font-size:7pt;text-decoration:none;}
+.cover .auth .credit{margin:4mm 0 0;}
+.cover .copies{margin-top:5mm;font-size:8.6pt;color:var(--fg2);}
+.cover .copies ul{list-style:none;margin:2mm 0 0;padding:0;columns:2;}
+.cover .copies a{color:var(--fg3);text-decoration:none;font-size:8pt;}
+.flow figure.fig{text-align:center;}
+.flow figure.fig img{max-height:60mm;width:auto;max-width:70%;display:inline-block;}
+
+/* chapter tag on each part of a multi-chapter book (the book keeps the original order of the file) */
+.chtag{display:inline-block;margin:5mm 0 2mm;padding:1mm 3mm;border-radius:2mm;background:#eef3fb;border:1px solid #c9d6ea;
+  color:#1f3a6b;font-size:9pt;font-weight:700}
+.chtag span{color:#6b7f9e;font-weight:600;margin-inline-end:1.5mm}
+
+@media print{ body{background:#fff;padding:0;} .flow{width:auto;max-width:none;margin:0;padding:0;} }
+@page{size:A4;}   /* margins come from render_flow.py — do NOT set them here */
+</style>
+<meta data-pagefind-filter="type[content]" content="درس">
+<meta data-pagefind-filter="resource[content]" content="الأستاذ عبد القادر الباجري">
+<meta data-pagefind-meta="n[content]" content="2326">
+<meta data-pagefind-meta="title[content]" content="complet4">
+<meta data-pagefind-filter="chapter[content]" content="محور غير محدّد">
+<meta data-pagefind-filter="chapter[content]" content="العلم بين الحقيقة والنمذجة">
+<meta data-pagefind-filter="section[content]" content="باكالوريا رياضيات"><style>.qrcard{display:none!important}.wa-nav{position:sticky;top:0;z-index:50;background:#045260;padding:10px 18px;font-family:Cairo,sans-serif;direction:rtl}.wa-nav a{color:#fff;text-decoration:none;font-weight:700}@media print{.wa-nav{display:none}}</style>
+</head>
+
+<body dir="rtl" lang="ar"
+      data-brand="Wael Academy" data-handle="@WaelAcademy"
+      data-tagline="في تُرابنا.. مغامرة بمغامرة"
+      data-phone="+216 50 40 40 42" data-site="waeldocuments.com"
+      data-cta="سجل معانا وأقرى عن بعد مع منصة Wael Academy"
+      data-subject="Philosophie · complet4" data-watermark="Wael Academy" data-pagefind-body><nav class="wa-nav" data-pagefind-ignore><a href="../index.html">→ الرجوع إلى فهرس الفلسفة</a></nav>
+
+<!-- single full-page diagonal watermark, bottom-left → top-right (repeats on every page) -->
+<div class="wm" aria-hidden="true"><span>WAEL&nbsp;ACADEMY</span></div>
+
+<div class="flow colored">
+<div class="cover"><div class="badge">◉ Wael Academy · Philosophie</div><h1>complet4</h1><div class="grule"></div><div class="sub">محور غير محدّد</div><div class="auth"><div class="credit">المؤلّف / المصدر : <span class="who">إعداد الأستاذ : عبد القادر الباجري</span> <span class="tg sec">الفلسفة · باكالوريا رياضيات</span> <a href="https://drive.google.com/file/d/10b2Y0M2KV6rp1NI7S4BKKAbQNZu3MGAh/view">↗ complet4.pdf</a></div></div><div class="copies" data-pagefind-ignore><b>نسخ هذا الملف في الدرايفات (1)</b><ul><li><a href="https://drive.google.com/file/d/10b2Y0M2KV6rp1NI7S4BKKAbQNZu3MGAh/view">Anas Saïd · IDEAL BAC MATH(Anas Saïd) › Philo / PHILO Sfax / namdhaja / afkar</a></li></ul></div></div>
+<section class="chapter">
+<div class="chtag"><span>المحور</span> محور غير محدّد</div>
+<!-- SOURCE: إعداد الأستاذ : عبد القادر الباجري -->
+<!-- PROOFREAD: 2326 part1 p01 — teacher's surname in the box: "الباجري" or "الباحري" -->
+<!-- NOTE: a bookshop stamp ("مكتبة 18 جانفي ... صفاقس الهاتف 22.740.485") and handwritten marks ("704", "20", strokes) on p01 are left out -->
+
+<div class="chtag"><span>المحور</span> العلم بين الحقيقة والنمذجة</div>
+
+<div class="exh"><span class="idx">درس</span><h2>العلم بين الحقيقة والنمذجة</h2>
+  <div class="qrcard"><div class="qrt">فيديو الدرس</div><div class="qrslot"><img src="qr/2326.svg" alt="QR"></div></div></div>
+<div class="credit">المؤلّف / المصدر : <span class="who">إعداد الأستاذ : عبد القادر الباجري</span> <span class="tg sec">الفلسفة · باكالوريا رياضيات</span> <a href="https://drive.google.com/file/d/10b2Y0M2KV6rp1NI7S4BKKAbQNZu3MGAh/view">↗ complet4.pdf</a></div>
+
+<p class="subhead t-red">1-<b>في دلالة النموذج</b></p>
+<p class="para">النموذج حسب فاليزار "تمثل لشيء واقعي سواء كان ذهنيا أو ماديا يتمّ التعبير عنه بلغة أدبية أو في شكل رسوم بيانية أو رموز رياضية."وهذا يعني أن النموذج هو بنية مركبة تتفاعل فيها ثلاث أبعاد رئيسية، بعد تركيبي، وبعد دلالي، وبعد تداولي.</p>
+<p class="para">إن النموذج <span dir="ltr">-Le Model-</span> هو التمثل الذهني لشيء ما و لكيفية اشتغاله، و عندما نضع شيء ما في نموذج نستطيع أن نقلد اصطناعيا <span dir="ltr">-Simuler-</span> تصرف هذا الشيء و بالتالي الاستعداد لردوده. و هذا يعني أن النمذجة ليست إلا الفكر المنظم لتحقيق غاية عملية، ذلك أن النموذج هو نظرية موجهة نحو الفعل الذي نريد تحقيقه.</p>
+<p class="para">فالنمذجة هي إذن، مبدأ أو تقنية تمكن الباحث من بناء نموذج لظاهرة أو لسلوك عبر إحصاء المتغيرات أو العوامل المفسرة لكل واحدة من هذه المتغيرات، فهي تمشي علمي يمكن من فهم الأنساق المركبة و المعقدة عبر خلق نموذج يكون بنية صورية تعيد إنتاج الواقع افتراضيا.</p>
+<p class="para">ويمكن التمييز في تاريخ العلم بين لحظتين أو نوعين من البراديغم</p>
+<p class="para"><b>1-البراديغم الوضعي</b>: المتعلق بالظواهر المرئية و يقوم على</p>
+<p class="para"><u>أ-</u> الموضوعية: التي تقتضي عدم تدخل الذات في موضوعها.<br>
+<u>ب-</u> الترييض: بمعنى استخدام الرياضيات في العلم،<br>
+<u>ت-</u> الحتمية: بمعنى إمكانية التوقع.</p>
+<p class="para"><b>2-البراديغم البنائي</b>: النمذجة النسقية: حيث سقطات العلم الناتجة عن عدم قدرتنا على التحكم الكلي في الظواهر المدروسة واتساع العلم يشمل نوعه جديدا من الظواهر لا تشمله الحتمية (الظواهر الذرية والظواهر اللامتناهية في التعقيد) مع اتساع العلم ليشمل الظواهر اللامتناهية في التركيب كان وراء ظهور النمذجة النسقية كممارسة علمية تسعى إلى تجاوز الصعوبات التي اعترضت العلماء في البراديغم الوضعي الذي انتهى إلى انهيار اليقين العلمي وتفكيك العقل العلمي إلى معقوليات متفاوتة في الصرامة والدقة.</p>
+<p class="para">والبراديغم البنائي ظهر مع ظهور ما يسمّى العلوم التطبيقية كالسيبرنيتيقا) علم التحكم والتوجيه عن بعد) وعلوم الهندسة والإعلامية.</p>
+<p class="para">وهذا يعني أن النمذجة النسقية تتقدم أساسا باعتبارها تمشيا علميا يمكننا من دراسة الظواهر المركبة ومن مراقبتها عبر اصطناع المتغيرات الممكنة واستبدال البعض منها بالتناسب مع الفعل الذي نريد تحقيقه: يتعلق الأمر إذن في النمذجة النسقية أساسا بإرادة الفعل في الموضوع المدروس وهذا يعني أن النمذجة النسقية تهدف إلى:</p>
+<p class="para">تأويج الفعالية (.<br>
+تأويج امكانية الاشتغال<br>
+التحكم في المصاريف<br>
+تأمين التحكم في الظاهرة ومراقبتها</p>
+<p class="para">يتعلق الأمر إذن بمحاولة حصر النسق المدروس لاستباق ردود أفعاله بطريقة صورية دون العودة إلى التجربة إلا في المستوى الافتراضي. فالنمذجة النسقية هي تمشي علمي يمكن من فهم الأنساق المركبة عبر خلق نموذج هو بنية صورية تعيد إنتاج الواقع بطريقة افتراضية.</p>
+<p class="subhead t-red">2- <b>إبعاد النمذجة العلمية</b> .</p>
+<p class="para">النمذجة النسقية كحلّ يمكن العلماء من دراسة الظواهر اللامتناهية في التركيب هي ذاتها منهج مركب، منهج تتداخل فيه 3 أبعاد لا يتمّ فصلها عن بعضها إلا إجرائيا.</p>
+<p class="para">1 - <b>البعد التركيبي</b>:</p>
+<p class="para">يتعلق الأمر في هذا البعد بتحديد الشروط التركيبية لبناء النموذج. وأول هذه الشروط يتمثل في <u>اعتبار النموذج بنية</u> أي شبكة علائقية بين عناصر تتعلق بالبناء والسياق وموضع العناصر وشكلها ذلك أن النموذج يمثل "كل" له طابع ديناميكي وقادر على الانتظام الذاتي لذلك فإن البنية تشتغل بطريقة مستقلة عن المنظر فهو لا يتدخل فعليا في البنية.وباعتباره بناءا فهو مصورن  يقوم على استخدام الرموز يمكن أن تتخذ شكلا أكسيوميا صرفا  أو شبه أكسيوميا إن الشروط الابستيمولوجية لبناء النموذج والتي يمكن إرجاعها إلى 06 شروط:</p>
+<p class="para">* التماسك *التمام* الثبات*الإشباع* القطعية* الاستقلالية</p>
+<p class="para"><b>2-البعد الدلالي</b>:</p>
+<p class="para">يتعلق الأمر بلحظة التجريب، فالبعد الدلالي يتناول العلاقة التفاعلية للنموذج مع النسق الذي يمثله (الذي هو نموذج له) وبالتالي يتعلق الأمر باعتبار المسافة التي تفصل النموذج عن النسق الذي يمثله بهدف جعل النموذج أكثر ملاءمة. فالنموذج هو وسط بين حقل نظري وحقل تجريبي وعلاقة النموذج بالواقع تبين أن الواقع لا يمكن اختزاله في نموذج نهائي وهذا يعني أن النموذج لا يعكس الواقع في كليته وإنما يعكس الواقع كما وقع تمثله لذلك يشترط أن يكون النموذج <u>مرنا قابلا للتغيير وثريا قابلا لأن يتحوّل</u> من كونه نموذج خاص إلى كونه نموذج عامّ شامل لأكثر من نسق وتتحدد الصلاحية التجريبية للنموذج إما بتجارب قياسية عبر التمثل الاصطناعي في الواقع الافتراضي وإما بالتجربة في الواقع الفعلي.</p>
+<p class="para">3- <b>البعد التداولي</b>:</p>
+<p class="para">يتمثل البعد التداولي للنمذجة في بيان صلاحية النماذج وبالتالي قابليتها للتوظيف والاستعمال. والبعد التداولي يتمثل في النظر إلى <u>النماذج على أنها وسائل سيطرة وتحكم</u> وبالتالي يكشف البعد التداولي عن ارتباط النشاط العلمي في النمذجة النسقية بالنشاط التقني ويتأكد التحالف بين العلم والمصلحة .فالنموذج يضطلع دائما بوظيفة، وظائف يمكن اختزالها في 3 اساسية.</p>
+<ul class="b">
+<li><u>وظيفة معرفية</u>: إذ يمكن النموذج من تفسير النسق المدروس</li>
+<li><u>وظيفة توقعية</u>: إذ يمكن النموذج من التوقع بردود النسق المدروس</li>
+<li><u>وظيفة اتخاذ القرار</u>: يوفر النموذج لصاحب القرار المعطيات الضرورية التي تسمح له بإنارة القرار الذي عليه اتخاذه للفعل في النسق المدروس.</li>
+</ul>
+<p class="para">والنمذجة النسقية تستخدم تقنيات الواقع الافتراضي لتعويض التجارب المكلفة، بل وأيضا التجارب التي لا نستطيع انجاز ها فعليا وتمكننا أيضا من إقامة تجارب في أماكن خطيرة.</p>
+<p class="subhead t-red">3- <b>حدود النمذجة</b>:</p>
+<p class="para">إن الإقرار بأن النمذجة تعني التخلي عن النظر إلى العلم وفق البراديغم الوضعي بما هو اكتشاف وكشف لحقائق كلية وموضوعية والنظر إلى العلم "باعتباره اختراعا حيث يتم تصور الظاهرة مبنية اصطناعيا وبطريقة حرة من قبل الباحث" على حدّ قول "اوموانيو" ، يضعنا أمام إشكالات عديدة، فأولا إلى أيّ مدى يمكن القول بأننا نقطع في النمذجة مع العلم الوضعي ؟وإذا كانت النمذجة إنشاءا فما هو مصير الحقيقة العلمية و فيم تتمثل عندها مهمة رجل العلم مادام كلّ شيء مقبول ؟ ثم كيف ستكون إيتيقا علم لا يهتم بالواقع إلا من جهة الفعل فيه ؟وإذا كانت قيمة العلم تتحدد بفاعليته أليس معنى ذلك اختزال العلم في نجاعته ونفعيته ؟وماهي انعكاسات ذلك على الإنسان ؟هل لا يزال العلم اليوم يمثل خلاص للإنسان ومحرره ضامن سعادته أم إنه إنقلب إلى مصدر لشقائه واستعباده؟</p>
+<p class="subhead t-navy"><b>1/الحدود الإبستمولوجية</b>:</p>
+<p class="para">النمذجة والموضوعية:</p>
+<p class="para">يمثل إعادة النظر في مفهوم الواقع أحد السمات الأساسية المميزة للممارسة العلمية المعاصرة في ارتباطها بالنمذجة. تتجلى إعادة النظر هذه في التخلي عن التحديد الوضعي للواقع .يقوم التصور الوضعي للواقع على أساس أن الواقع يقوم على التعقيد. إن فك هذا التعقيد الذي يسم الواقع يستوجب تفسيره. يتمثل التفسير في البحث عن العلاقات الضرورية التي تحكم علاقة الظواهر الطبيعية على أساس مبدأ الحتمية. الكشف عن هذه العلاقات الضرورية هو الذي يسمح بصياغة قوانين علمية تمكن من تفسير الظواهر والتوقع. غير إن اكتشاف عالم الذرة وما صاحبه من يقين ومن تعذر أي توقع صارم باعتبار أن الظواهر الميكروفيزيائية لا تخضع لحتمية صارمة وهو ما يجعل من المعرفة الموضوعية بهذه الظواهر غير ممكن. لقد أحدث هذا العجز عن إثبات التوقع الصارم أزمة داخل العلم،"ذلك أن العجز عن التوقع الصارم ضرب في الصميم المسلمات التي قام عليها العلم الحديث وخاصة تلك المتعلقة بمبدأ الحتمية و هو الحدث الذي</p>
+<!-- PROOFREAD: 2326 part1 p02 — name in quotes read "اوموانيو" (could be "الوموانيو"); "وما صاحبه من يقين" (likely "لا يقين", as printed unclear) -->
+<p class="para">يعف داخل تاريخ العلم بأزمة الفيزياء.لقد استوجب الخروج من هذه الأزمة إحداث تغييرات جذرية في مفهوم العلم وتحديدا في المبادئ التي تقوم عليها الممارسة العلمية ومنها مفهوم الواقع. تجسد هذا التحول بداية في التخلي عن اعتبار العلم مجرد تصور يعكس الواقع المعطى من خلال استكشاف بنيته والكشف عن الضرورة التي تحكم الظواهر الطبيعية ،ذلك أن الواقع بما يقوم عليه من تركيب يجعل من استكشافه غير ممكن.في مقابل هذا التصور الاستكشافي للفاعلية العلمية تتقوم النمذجة باعتبارها ممارسة بنائية، فالنموذج يبني واقعه . تتم عملية البناء هذه وفق "استراتيجيا الإهمال"؛فالعالم الذي يشتغل على الواقع من خلال نمذجته لا يبحث على تصوير الواقع واستنساخه وإنما يتحدد الواقع، كما صوره النموذج باعتباره هو الواقع كما تمثله المنمذج،أو هو واقع المنمذج الذي يتحدد وفق رؤيته الخاصة للواقع وما يحرك عمله من غايات عملية.إن النمذجة بذلك لا ترتبط بموضوع بقدر ارتباطها بمشروع.</p>
+<p class="para">النمذجة والحقيقة:</p>
+<p class="para">إن التحول في تحديد دلالة الواقع سواء تحت تأثير أزمة الأسس في الهندسة ،أو احراجات اكتشاف عالم الذرة وما صاحبه من تخلخل اليقين في الحتمية،أو ظهور علوم جديدة لا يمكن أن تخضع لفاعلية الاستكشاف ومطلب التفسير كلها عوامل أدت بالمحصلة إلى إعادة النظر في مفهوم الحقيقة ذاته.لقد أدى هذا التحول إلى التخلي عن النظر إلى العلم بما هو إنتاج لحقائق كلية وموضوعية تفسر الواقع كما هو ، إلى اعتبار الممارسة الغلمية اختراع نماذج لوضعيات أو أحداث أو ظواهر مرتبطة بسياقات و اختيارات،وهو ما يعني أن الممارسة العلمية مع النمذجة قد قطعت مع النظر للعلم باعتباره ممارسة نظرية صرفة ،لترتبط الممارسة العلمية مع النمذجة بشكل واضح وصريح بالبعد العملي.إن هذا الاقتران بين النمذجة والبعد العملي ينبني على أساس مفارقة غريبة إذ بقد ما نجحت النمذجة في التحرر من الواقع زادت قدرتها على التأثير والفعل في هذا الواقع.إنبنت هذه القدرة على التأثير في الواقع من خلال التخلي عن مطلب الحقيقة الذي يفترض التطابق مع الواقع.لقد أصبح الأمر يتعلق بتغيير المعايير من اعتماد مطلب الحقيقة إلى اعتماد مطلب الملائمة والصلاحية كمعيار للممارسة العلمية.فما هو أساس تقويم أي نموذج في علاقة بمطلب الملائمة هو مدى قدرته على الفعل في الواقع والتحكم فيه .</p>
+<p class="subhead t-navy"><b>2/الحدود الفلسفية</b>:</p>
+<p class="para">يبدو أن العلم والتقنية يعطياننا اليوم معرفة حقيقية وسلطة واقعية ففي الصراع ضد البؤس يمكناننا من استغلال عقلاني للموارد الاقتصادية، وفي الصراع ضد المرض كثيرا ما ينجح الطب والجراحة في إنقاذ أرواح بشرية من موت يكاد يكون حتميا : إن العلم والتقنية يقدّمان للإنسان سلطة حقيقة وتبدو النمذجة كممارسة علمية موجهة أساسا للفعل قد رسخت هذا التوجه المعرفي الذي يرمي إلى سيادة الإنسان على الطبيعة بل أكثر من ذلك، إن النمذجة في بعدها الدلالي وفي خاصيتها التليولوجية قد ردّت الاعتبار للذات في إنتاج المعرفة العلمية، إذ تؤكد على الطابع الإنساني للحقيقة، فالحقيقة تنزّل في التاريخ ولم تعد واقعا انطولوجيا بل بناءا رمزيا وتمثلا ملائما في ظروف معينة وفي أزمنة معينة ردّ الاعتبار للذات في النمذجة يتزامن معه ردّ الاعتبار للمعنى والتأويل في المعرفة العلمية ذلك أنّ البراديغم الوضعي بإقراره للموضوعية كشرط أساسي في المعرفة العلمية لم يستبعد فقط الذات باسم الحياد والكونية بل أقصى أيضا المعنى من خطابه وحصره في الفلسفة، والقانون العلمي يمثل في البراديغم الوضعي قانونا للطبيعة في ذات الوقت إذ تقتصر مهمة الباحث الموضوعي على اكتشاف هذا القانون الذي يوحّد المعرفة ويوحّد الذوات، يوحّد المعرفة من جهة كون الظواهر المتعددة تُرد إلى نفس القانون، ويوحّد الذوات من جهة كون كلّ الذوات ترى نفس القانون في نفس الظواهر المتعددة، وهذا يعني أن فكرة القانون في البراديغم الوضعي تعبر عما اسماه "الان باديو <span dir="ltr">Alain Badiou</span> "بثنائية الواقعية - القانون، وهذه الثنائية تعبر عن الابستيمية التماثلية التي تحدّد الحقيقة أنطولوجيا، أمّا في النمذجة فإن اعتبار النشاط المعرفي اختراعا يبني تصوّرا للظواهر بطريقة حرّة من قبل الباحث يضع الذات مرة أخرى في محور العملية المعرفية وبالتالي يغيّر ثنائية الواقعية القانون بثنائية الواقع النموذج وفي هذه الثنائية لا نتحدّث عن تطابق بين النموذج والواقع وإنما نتحدث عن ملائمة، ملائمة تجعل النموذج المقبول ليس النموذج الوحيد الممكن بل إن هو إلا معنى ممكن ينتجه المنمذج كذات متدخلة باختياراتها وأهدافها وغاياتها في إنتاج المعرفة باعتبارها معنى ممكن للواقع، بهذه الكيفية لن يكون بإمكان "هوسرل <span dir="ltr">E. Husserl</span> "اتهام البراديغم البنائي بإقصاء مسائل المعنى مثلما كان الحال مع البراديغم الوضعيغير أن النمذجة باعتبارها المعرفة التي تنتج عن كيفية التفكير وضرب الفعل الذي يناسبها بحيث تتمثل الحقيقة في المطابقة بين نماذج تجربتنا للعالم وهذه التجربة، وحيث يكون النموذج تمثلا غائيا موجّها</p>
+<p class="para">لمشارع الفعل بحيث ينظم العقل ذات بتنظيمه للعالم وتكون تفعيلا للممكن باعتبار التفاعل المؤسس للمعرفة بين الذات والموضوع، النمذجة التي تجعل من رجل العلم المعاصر متصوّر ملاحظ ومنمذج لفعل ذكيّ يصف بناء استراتيجيا الفعل، تقترح علاقة تطابق بين وضعية مدركة ومشروع متصوّر، لا تمثل في منظور "بولو<span dir="ltr">Nicolas Bouleau</span>"، علما بقدر ما هي طريقة تستخدم العلم، فهي قول وفعل غير محايد وعلى صلة وثيقة بالايدولوجيا، وذلك ما يتمظهر حسب "الان باديو" في ارتباط النمذجة بمعياري الاستقصاء والبساطة كمقولات ارتبطت "بالعقل التصنيفي للعصر الكلاسيكي" في مقاربته النقدية للفن، وهذا ليس بغريب على عقلانية النمذجة بما أنها تقوم على إنشاء خيالي لصورة مقبولة للواقع تمثلها النماذج من جهة كونها تيسر سبل الفعل الممكن في الواقع، ذلك أن النمذجة تخلق واقعا افتراضيا لتأويج الفعل، فعل صاحب القرار وهو ما يكشف عن انغراس النمذجة في رهانات مخصوصة تابعة لجهات غير علمية.</p>
+<p class="para">وكما يمكن أن نغالط باللغة الطبيعية نستطيع أن نغالط باستعمال النماذج حيث "يتحول الإخضاع التقني لشروط الإنتاج إلى ضرورة لا زمنية لنمط اقتصادي يكون النموذج فيه مثالا على الاكراهات المفيدة" مثلما عبر عن ذلك "الان باديو"، وتساعد الرياضيات بطبيعة الحال على تأكيد هذه المغالطة وتمريرها بشكل أفضل إذ يقول "بولو" "وليس للرياضيات بهذا الخصوص أية وظيفة تطهيرية، على خلاف ذلك تكون الرياضيات الصحيحة في ظاهرها لياقة وأدبا يمكن أن يخفي الغايات الأقل نبلا"، ذلك أنّ النجاعة وسخة، خاصة وأن ارتباط النمذجة بالسيبارنيطيقيا ييسّر تجاوز حدود الهيمنة على الطبيعة إلى الهيمنة على الإنسان   فالمنمذج ينمذج للمؤسسة الاقتصادية و السياسية والعسكرية، أولئك الأوغاد الذين يتخذون القرار، و"الان باديو" يذهب إلى أبعد من ذلك عندما يعلن أن النمذجة لا تعبر عن السمة المميزة للعلم وإنما "عن الصورة البرجوازية للعلم"، صورة العلم المعولم الذي لا يخفي ولا يتحرّج من ارتباطه العضوي برأس المال، إذ تكشف النمذجة في مستوى طرائقها كما في مستوى غاياتها عن افتقارها للاستقلالية، وأنّى لها أن تكون مستقلة وهي التي تنتج تمثلا في مكاتب الدراسات وفي مكاتب رجال الاعمال والشركات العالمية والمؤسسات العسكرية تحت الطلب، وكصورة للعلم المعولم تتقدم النمذجة في صورة الكوني الذي يخوّل لأمريكا بالتمظهر بعدم احتكار العلم والتقنية فنمذجوا و لكن لا تطالبوا بالمعرفة الذرية و بالتكنولوجيا النووية مطلب النمذجة ليس إذن، مطلب الحقيقة وإنما هو مطلب الهيمنة كمقولة من مقولات السلطة بالشكل الذي جعل المعرفة مسالة حكومة وصراع بين الحكومات، مطلب النمذجة كممارسة متواطئة مع السلطة يجانب إذن مطلب الكلي بما هو مطلب إنساني ولا يتعلق الامر سواء بالنسبة لـ: "بولو" أو لـ:"باديو" برفض النمذجة في ذاتها كممارسة علمية قد تفيد الإنسانية إذا ما أحسن توظيفها وإنما برفض مبادئها والغايات التي تتحكم في إنتاجها وهو ما يحمّل العلماء والعلماء الجدد والفلاسفة ورجال السياسة وكلّ كيان ايتيقي مسؤولية إخراج العلم من البوتقة الضيقة للهيمنة وجنون الهيمنة السائد في وقتنا الراهن. يتعلق الأمر إذن بمصالحة الإنسان مع الإنسان، مصالحة الإنسان اليوم مع الكلي الذي نظّرت له الحداثة الغربية مع "كانط" حتى لا تكون التقنية توجيها وتحكما وحتى يضمن العلم استقلاليته، و على الإنسانية أن تتحمل مسؤولياتها كاملة إزاء خياراتها عساها تختار إنقاذ الكوكب.</p>
+
+</section>
+
+</div>
+</body>
+</html>

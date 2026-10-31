@@ -1,0 +1,549 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<title>Wael Academy — Philosophie · 4 الدولة السيادة و المواطنة</title>
+<script>
+  window.MathJax = {
+    tex: { inlineMath: [['\\(','\\)']], displayMath: [['\\[','\\]']] },
+    chtml: { fontURL: 'https://cdn.jsdelivr.net/npm/mathjax@3/es5/output/chtml/fonts/woff-v2', matchFontHeight: true },
+    startup: { typeset: true }
+  };
+</script>
+<script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js" async></script>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Sora:wght@400;500;600;700;800&family=Cairo:wght@400;500;600;700;800;900&family=Tajawal:wght@400;500;700;800&family=JetBrains+Mono:wght@400;500;600;700&display=swap');
+:root{
+  /* ===== Wael Academy palette — MAIN ACCENT = green-teal gradient #0FAB8F → #067360 ===== */
+  --bg:#fff; --panel:#f2f8f8; --hair:#e6e6e9; --hair2:#d6d6db;
+  --fg:#0f2a31;        /* body text (and +/− signs) */
+  --fg2:#3f5b62;       /* softer text */
+  --fg3:#7c959b;       /* muted (footer) */
+  --blue:#067360;      /* deep accent — small numbers, borders, watermark, accent equations */
+  --blue-dark:#045260; /* titles & wordmarks (also the balance colour) */
+  --teal:#0fab8f;      /* bright accent end */
+  --loop:#0d9c82;      /* logo-loop helper */
+  --orange:#067360;    /* kicker/category labels (gold retired → deep teal) */
+  --red:#f5322f;       /* EXERCISE CHIPS ONLY — never for emphasis */
+  --cream:#e6f3f4; --blue-soft:#e6f3f4;  /* pale teal — callout fill + table sub-row fill */
+  --blue-line:#cde7e4; /* hairline */
+  --sub-ink:#045260;   /* table sub-row text */
+  --grad:linear-gradient(148deg,#0fab8f 0%,#0d9c82 52%,#067360 100%);
+  --mono:'JetBrains Mono',monospace; --latin:'Sora',sans-serif; --ar:'Cairo',sans-serif; --arb:'Tajawal',sans-serif;
+}
+*{box-sizing:border-box;margin:0;padding:0;}
+body{font-family:var(--latin);color:var(--fg);background:#e4e4e7;padding:28px 0;
+     -webkit-print-color-adjust:exact;print-color-adjust:exact;}
+html[dir="rtl"] body{font-family:var(--arb);}
+
+/* ===== brand watermark: REAL text (crisp), full-bleed, repeats per page ===== */
+.wm{position:fixed;inset:0;z-index:0;pointer-events:none;display:flex;
+    align-items:center;justify-content:center;overflow:hidden;
+    -webkit-print-color-adjust:exact;print-color-adjust:exact;}
+.wm span{font-family:var(--mono);font-weight:800;font-size:76.8pt;letter-spacing:.16em;
+    color:var(--blue);opacity:.06;white-space:nowrap;transform:rotate(-54deg);}  /* single diagonal: bottom-left → top-right */
+.wm.mono span{color:#000;opacity:.05;}
+
+/* ===== continuous flow stream (no page border) ===== */
+.flow{width:210mm;margin:0 auto;background:transparent;color:var(--fg);
+      padding-block:16mm 18mm;padding-inline:23mm 14mm;position:relative;}   /* spiral gutter: inline-start(=spine) 23mm / outer 14mm — dir-aware; print margins set in render_flow.py */
+@media screen{ .flow{background:#fff;box-shadow:0 10px 40px rgba(0,0,0,.16);} }
+.flow>*{position:relative;z-index:1;}
+.flow p,.flow li,.flow .data,.flow .note,.flow .ex{break-inside:auto;}
+.flow .fig,.flow figure,.flow img,.flow svg.figsvg,.flow table,.flow tr,.flow .chapdiv,.flow .exh,.flow .qrcard,.flow .meta{break-inside:avoid;}
+.flow h1,.flow h2,.flow h3,.flow .exh,.flow .subhead,.flow .chapdiv{break-after:avoid;}
+.flow img,.flow svg.figsvg{max-width:100%;height:auto;}
+.flow figcaption,.flow .figcap{display:none;}          /* rule 3: no figure captions */
+
+/* ===== front matter + chapters each start on a fresh page ===== */
+.flow .cover{break-after:page;}        /* cover alone on page 1 */
+.flow .toc{break-after:page;}          /* Sommaire alone on the next page */
+.flow .chapter{break-before:page;}
+.flow .chapter:first-of-type{break-before:auto;}
+
+/* ===== cover ===== */
+.cover{padding:14mm 0 8mm;border-bottom:2px solid var(--blue);margin-bottom:6mm;}
+.cover .badge{font-family:var(--mono);font-size:8.5pt;letter-spacing:.28em;text-transform:uppercase;color:var(--orange);margin-bottom:10px;}
+.cover h1{font-family:var(--latin);font-weight:800;font-size:34pt;line-height:1.03;letter-spacing:-.025em;color:var(--blue-dark);}
+.cover .grule{width:120px;height:5px;border-radius:5px;background:var(--grad);margin:14px 0;}
+.cover .sub{font-family:var(--mono);font-size:10pt;letter-spacing:.14em;text-transform:uppercase;color:var(--teal);}
+.cover .auth{font-size:11pt;color:var(--fg2);margin-top:6px;font-weight:600;}
+
+/* ===== table of contents ===== */
+.toc{margin:2mm 0 4mm;}
+.toc h2{font-family:var(--latin);font-weight:800;font-size:15pt;color:var(--blue-dark);margin-bottom:4mm;}
+.toc .trititle{font-family:var(--mono);font-size:8pt;letter-spacing:.2em;text-transform:uppercase;color:var(--orange);margin:4mm 0 2mm;}
+.toc ol{list-style:none;}
+.toc li{display:flex;align-items:baseline;gap:8px;font-size:10pt;padding:2.2px 0;color:var(--fg);line-height:1.4;}
+.toc li .n{font-family:var(--mono);font-weight:700;font-size:9pt;color:var(--blue);min-width:26px;}
+.toc li .dots{flex:1;border-bottom:1px dotted var(--hair2);transform:translateY(-3px);}
+
+/* ===== chapter divider band ===== */
+.chapdiv{margin:0 0 5mm;padding:6mm 16px 5mm;border-radius:12px;background:var(--grad);
+    -webkit-print-color-adjust:exact;print-color-adjust:exact;}   /* green-filled chapter band */
+.chapdiv .cn{font-family:var(--mono);font-size:8.5pt;font-weight:700;letter-spacing:.24em;text-transform:uppercase;color:rgba(255,255,255,.82);margin-bottom:5px;}
+.chapdiv h2{font-family:var(--latin);font-weight:800;font-size:17pt;line-height:1.1;letter-spacing:-.015em;color:#fff;}
+/* conclusion block — same green-filled look as the chapter band */
+.conclusion{background:var(--grad);border-radius:12px;padding:6mm 16px;margin:5mm 0;color:#fff;break-inside:avoid;
+    -webkit-print-color-adjust:exact;print-color-adjust:exact;}
+.conclusion .ck{font-family:var(--mono);font-size:8.5pt;font-weight:700;letter-spacing:.24em;text-transform:uppercase;color:rgba(255,255,255,.82);margin-bottom:6px;}
+.conclusion h3{font-family:var(--latin);font-weight:800;font-size:13pt;line-height:1.2;color:#fff;margin-bottom:4px;}
+.conclusion p,.conclusion li{font-size:10.4pt;line-height:1.7;color:#fff;}
+.conclusion b,.conclusion strong{color:#fff;font-weight:700;}
+
+/* ===== unit header (lesson/exercise) + QR emplacement ===== */
+.exh{display:flex;align-items:center;gap:11px;margin:6mm 0 3mm;}
+.exh .idx{font-family:var(--mono);font-size:9pt;font-weight:600;color:#fff;background:var(--grad);
+    border-radius:6px;padding:4px 11px;letter-spacing:.08em;text-transform:uppercase;
+    -webkit-print-color-adjust:exact;print-color-adjust:exact;}
+.exh .idx.ex{background:var(--red);}   /* exercise chip = red */
+.exh h2{font-family:var(--latin);font-size:14pt;font-weight:700;letter-spacing:-.01em;color:var(--blue-dark);}
+.exh .qrcard{margin-inline-start:auto;flex:0 0 auto;display:flex;flex-direction:column;align-items:center;gap:3px;width:26mm;}
+.qrcard .qrt{font-family:var(--mono);font-size:6.5pt;letter-spacing:.1em;text-transform:uppercase;color:var(--teal);text-align:center;}
+.qrcard .qrslot{width:24mm;height:24mm;padding:1.5mm;background:#fff;border:1px solid var(--blue-line);border-radius:8px;display:flex;align-items:center;justify-content:center;}
+.qrcard .qrslot img,.qrcard .qrslot svg{width:100%;height:100%;display:block;}
+
+/* sub-exercise label when one file holds several exercices */
+.exsub{font-family:var(--latin);font-weight:800;font-size:11.5pt;color:var(--blue-dark);margin:5mm 0 2.5mm;padding-bottom:3px;border-bottom:2px solid var(--blue-line);}
+
+/* ===== text blocks ===== */
+.lead{font-size:11pt;line-height:1.7;margin:2mm 0 3mm;color:var(--fg);}
+.para{font-size:10.6pt;line-height:1.7;margin:2mm 0 2.5mm;color:var(--fg);}
+.consigne{font-size:10.4pt;line-height:1.6;margin:1mm 0 2mm;color:var(--fg);font-style:italic;}
+.subhead{font-family:var(--latin);font-weight:800;font-size:12pt;letter-spacing:-.01em;color:var(--blue-dark);margin:5mm 0 2.5mm;}
+/* emphasis — green accent = .t-blue/.t-green ; balance = .t-navy ; red = SECONDARY accent (.t-red) on titles + a few words */
+.t-blue{color:var(--blue);font-weight:600;} .t-navy{color:var(--blue-dark);font-weight:700;}
+.t-red{color:var(--red);font-weight:600;} .t-green{color:var(--teal);font-weight:600;} .t-gold{color:var(--orange);font-weight:600;}
+.subhead.t-red{color:var(--red);font-weight:800;}   /* red Roman-numeral section title (I, II, …) — keeps subhead weight */
+/* highlighter marks — a soft colour wash behind a key word (agent picks green or red per what balances the page) */
+.hl-green,.hl-red{border-radius:3px;padding:.02em .24em;font-weight:600;box-decoration-break:clone;-webkit-box-decoration-break:clone;
+    -webkit-print-color-adjust:exact;print-color-adjust:exact;}
+.hl-green{background:rgba(15,171,143,.20);color:var(--blue-dark);}   /* green highlight */
+.hl-red{background:rgba(245,50,47,.13);color:#c0261f;}               /* red highlight  */
+
+.data{background:var(--blue-soft);border:1px solid var(--blue-line);border-inline-start:4px solid var(--blue);
+    border-radius:8px;padding:11px 16px;margin:3mm 0;font-size:10pt;line-height:1.65;color:var(--fg2);}
+.data b{color:var(--fg);font-weight:700;}
+.note{border:1px dashed var(--hair2);border-radius:9px;padding:11px 16px;margin:4mm 0;background:var(--panel);}
+.note .kicker{font-family:var(--mono);font-size:7.5pt;letter-spacing:.18em;color:var(--orange);display:block;margin-bottom:5px;}
+.note .nb{font-size:10pt;line-height:1.7;color:var(--fg2);} .note b{color:var(--fg);}
+.ex:not(.idx){background:var(--blue-soft);border:1px solid var(--blue-line);border-inline-start:3px solid var(--blue);
+    border-radius:7px;padding:7px 11px;font-size:9.6pt;line-height:1.6;color:var(--fg2);margin:2mm 0;}   /* :not(.idx) so it never hits the exercise chip (which is .idx.ex) */
+.ex .extag{display:inline-block;font-family:var(--latin);font-weight:800;font-size:7.6pt;color:var(--blue-dark);background:#fff;
+    border:1px solid var(--blue);border-radius:5px;padding:1px 9px;margin-inline-end:7px;vertical-align:middle;text-transform:uppercase;letter-spacing:.06em;}
+
+/* ===== lists ===== */
+ol.q{list-style:none;counter-reset:q;margin:1mm 0 2mm;}
+ol.q>li{counter-increment:q;position:relative;padding-inline-start:30px;margin-bottom:2.5mm;font-size:10.4pt;line-height:1.6;}
+ol.q>li::before{content:counter(q);position:absolute;inset-inline-start:0;top:1px;width:21px;height:21px;background:var(--grad);color:#fff;
+    border-radius:50%;font-family:var(--mono);font-size:9pt;font-weight:600;display:flex;align-items:center;justify-content:center;
+    -webkit-print-color-adjust:exact;print-color-adjust:exact;}
+ol.sub{list-style:none;counter-reset:s;margin:4px 0 0;padding-inline-start:2px;border-inline-start:1px solid var(--blue-line);}
+ol.sub li{counter-increment:s;position:relative;padding:2.5px 0 2.5px 26px;font-size:10.1pt;line-height:1.55;}
+ol.sub li::before{content:counter(s,lower-alpha)".";position:absolute;inset-inline-start:10px;top:2.5px;font-family:var(--mono);font-size:9pt;font-weight:600;color:var(--teal);}
+ol.qn{list-style:none;counter-reset:qn;margin:1mm 0 2mm;}
+ol.qn>li{counter-increment:qn;position:relative;padding-inline-start:26px;margin-bottom:2.2mm;font-size:10.4pt;line-height:1.55;}
+ol.qn>li::before{content:counter(qn)".";position:absolute;inset-inline-start:0;top:0;font-family:var(--mono);font-size:9.5pt;font-weight:700;color:var(--blue);}
+ul.b{list-style:none;margin:1mm 0 2mm;} ul.b>li{position:relative;padding-inline-start:22px;margin-bottom:2.4mm;font-size:10.4pt;line-height:1.6;}
+ul.b>li::before{content:"";position:absolute;inset-inline-start:3px;top:8px;width:8px;height:8px;border-radius:50%;background:var(--grad);
+    -webkit-print-color-adjust:exact;print-color-adjust:exact;}
+ul.dash{list-style:none;margin:1mm 0 2mm;} ul.dash>li{position:relative;padding-inline-start:20px;margin-bottom:1.8mm;font-size:10.4pt;line-height:1.6;}
+ul.dash>li::before{content:"–";position:absolute;inset-inline-start:2px;top:0;color:var(--fg);font-weight:700;}  /* dash / +/− signs = body colour */
+.flow ul.opts{list-style:none;margin:4px 0 3px;padding-inline-start:16px;}
+.flow ul.opts li{padding:2px 0;font-size:10.2pt;line-height:1.5;color:var(--fg);}
+
+/* ===== figures / tables ===== */
+.fig{margin:3mm 0;} .fig svg.figsvg{display:block;margin:0 auto;background:#fff;max-width:100%;height:auto;}
+.photo{display:block;margin:3mm auto;border-radius:8px;border:1px solid var(--hair);max-width:100%;}
+.figrow{display:flex;flex-wrap:wrap;gap:9px;justify-content:center;margin:3mm auto;max-width:190mm;}
+.flow .figrow img{border-radius:7px;border:1px solid var(--hair);height:46mm;width:auto;max-width:none;object-fit:cover;}
+.schemarow{display:flex;gap:16px;align-items:flex-start;flex-wrap:wrap;margin:2mm 0;}
+.schemarow .col-txt{flex:1 1 90mm;min-width:80mm;} .schemarow .col-fig{flex:0 0 78mm;} .schemarow .col-fig .fig{margin:0;}
+.flow table{border-collapse:collapse;width:100%;margin:3mm 0;font-size:9.8pt;line-height:1.5;}
+.flow table th,.flow table td{border:1px solid var(--blue-line);padding:6px 10px;text-align:start;vertical-align:top;}
+.flow table th{background:var(--grad);color:#fff;font-family:var(--latin);font-weight:700;font-size:9.4pt;
+    -webkit-print-color-adjust:exact;print-color-adjust:exact;}
+.flow table tr:nth-child(even) td{background:var(--blue-soft);color:var(--sub-ink);}   /* sub-row: #E6F3F4 / #045260 */
+
+mjx-container{color:var(--fg) !important;font-weight:400 !important;font-size:1.0em !important;}
+.eq-hi mjx-container,mjx-container.eq-hi{color:var(--blue) !important;}   /* accent (green) equation — highlight a key result; balance with plain math */
+.eq-red mjx-container,mjx-container.eq-red{color:var(--red) !important;}  /* red accent equation / symbol — complements the green .eq-hi */
+
+/* ===== per-file books: credit line, copies list, figures at their size ===== */
+.credit{display:flex;flex-wrap:wrap;align-items:center;gap:5px;margin:-1mm 0 3.5mm;font-size:9.4pt;color:var(--fg2);}
+.credit .who{font-weight:700;color:var(--blue-dark);}
+.credit .tg{font-family:var(--mono);font-size:7.2pt;letter-spacing:.04em;border-radius:5px;padding:1px 7px;line-height:1.6;
+    border:1px solid var(--blue-line);color:var(--blue);background:#fff;-webkit-print-color-adjust:exact;print-color-adjust:exact;}
+.credit .tg.sec{background:var(--blue-dark);border-color:var(--blue-dark);color:#fff;}
+.credit .tg.cor{background:#fff;border-color:var(--red);color:var(--red);}
+.credit a{color:var(--fg3);font-family:var(--mono);font-size:7pt;text-decoration:none;}
+.cover .auth .credit{margin:4mm 0 0;}
+.cover .copies{margin-top:5mm;font-size:8.6pt;color:var(--fg2);}
+.cover .copies ul{list-style:none;margin:2mm 0 0;padding:0;columns:2;}
+.cover .copies a{color:var(--fg3);text-decoration:none;font-size:8pt;}
+.flow figure.fig{text-align:center;}
+.flow figure.fig img{max-height:60mm;width:auto;max-width:70%;display:inline-block;}
+
+/* chapter tag on each part of a multi-chapter book (the book keeps the original order of the file) */
+.chtag{display:inline-block;margin:5mm 0 2mm;padding:1mm 3mm;border-radius:2mm;background:#eef3fb;border:1px solid #c9d6ea;
+  color:#1f3a6b;font-size:9pt;font-weight:700}
+.chtag span{color:#6b7f9e;font-weight:600;margin-inline-end:1.5mm}
+
+@media print{ body{background:#fff;padding:0;} .flow{width:auto;max-width:none;margin:0;padding:0;} }
+@page{size:A4;}   /* margins come from render_flow.py — do NOT set them here */
+</style>
+<meta data-pagefind-filter="type[content]" content="درس">
+<meta data-pagefind-filter="resource[content]" content="المعهد النموذجي فرحات حشاد بصفاقس">
+<meta data-pagefind-meta="n[content]" content="1826">
+<meta data-pagefind-meta="title[content]" content="4 الدولة السيادة و المواطنة">
+<meta data-pagefind-filter="chapter[content]" content="القيم: الأخلاق والدولة">
+<meta data-pagefind-filter="chapter[content]" content="الإنية والغيرية">
+<meta data-pagefind-filter="chapter[content]" content="الخصوصية والكونية">
+<meta data-pagefind-filter="chapter[content]" content="العلم بين الحقيقة والنمذجة">
+<meta data-pagefind-filter="section[content]" content="باكالوريا علوم تجريبية"><style>.qrcard{display:none!important}.wa-nav{position:sticky;top:0;z-index:50;background:#045260;padding:10px 18px;font-family:Cairo,sans-serif;direction:rtl}.wa-nav a{color:#fff;text-decoration:none;font-weight:700}@media print{.wa-nav{display:none}}</style>
+</head>
+
+<body dir="rtl" lang="ar"
+      data-brand="Wael Academy" data-handle="@WaelAcademy"
+      data-tagline="في تُرابنا.. مغامرة بمغامرة"
+      data-phone="+216 50 40 40 42" data-site="waeldocuments.com"
+      data-cta="سجل معانا وأقرى عن بعد مع منصة Wael Academy"
+      data-subject="Philosophie · 4 الدولة السيادة و المواطنة" data-watermark="Wael Academy" data-pagefind-body><nav class="wa-nav" data-pagefind-ignore><a href="../index.html">→ الرجوع إلى فهرس الفلسفة</a></nav>
+
+<!-- single full-page diagonal watermark, bottom-left → top-right (repeats on every page) -->
+<div class="wm" aria-hidden="true"><span>WAEL&nbsp;ACADEMY</span></div>
+
+<div class="flow colored">
+<div class="cover"><div class="badge">◉ Wael Academy · Philosophie</div><h1>4 الدولة السيادة و المواطنة</h1><div class="grule"></div><div class="sub">القيم: الأخلاق والدولة</div><div class="auth"><div class="credit">المؤلّف / المصدر : <span class="who">المعهد النموذجي فرحات حشاد بصفاقس — الأستاذ : ناجي خليف</span> <span class="tg sec">الفلسفة · باكالوريا علوم تجريبية</span> <a href="https://drive.google.com/file/d/1QNIUJPR7YIsxRz5Ul_wlsz9207HOO6Ze/view">↗ 4 الدولة السيادة و المواطنة</a></div></div><div class="copies" data-pagefind-ignore><b>نسخ هذا الملف في الدرايفات (2)</b><ul><li><a href="https://drive.google.com/file/d/1QNIUJPR7YIsxRz5Ul_wlsz9207HOO6Ze/view">Mariem Bjaoui · Mariem Bjaoui Bac sciences 2025 › 4 philosophie</a></li><li><a href="https://drive.google.com/file/d/1sdzVzYzL7InIFbtNHCgWwM1uWkW2flEA/view">une · Bac science 2026 › bac 2026 / philo</a></li></ul></div></div>
+<section class="chapter">
+<div class="chtag"><span>المحور</span> القيم: الأخلاق والدولة</div>
+<!-- SOURCE: المعهد النموذجي فرحات حشاد بصفاقس — الأستاذ : ناجي خليف -->
+<div class="exh"><span class="idx">درس</span><h2>مسألة الدولة : السيادة و المواطنة</h2>
+  <div class="qrcard"><div class="qrt">فيديو الدرس</div><div class="qrslot"><img src="qr/1826.svg" alt="QR"></div></div></div>
+<div class="credit">المؤلّف / المصدر : <span class="who">المعهد النموذجي فرحات حشاد بصفاقس — الأستاذ : ناجي خليف</span> <span class="tg sec">الفلسفة · باكالوريا علوم تجريبية</span> <a href="https://drive.google.com/file/d/1QNIUJPR7YIsxRz5Ul_wlsz9207HOO6Ze/view">↗ 4 الدولة السيادة و المواطنة</a></div>
+<!-- NOTE: handwritten annotations added on top of the printed pages (margin/bottom notes, underlines, ticks) are left out -->
+<p class="para"><b>**المعاني</b>-الحق /الديمقراطية/السلطة/العدالة/المواطن العالمي</p>
+<p class="subhead t-navy"><u>محاور الإهتمام</u> .</p>
+<p class="para">1-في التعارض بين السيادة و المواطنة</p>
+<p class="para">2 -في التوافق بين السيادة و المواطنة-</p>
+<p class="para">3-نحو مواطنة عالمية</p>
+<p class="para"><b>1 -الدولة</b> :مؤسسة حقوقية تجسم كيانا سياسيا قانونيا محكم التنظيم و من طبيعة هذا الكيان أنه معنوي و غير مشخص.</p>
+<p class="para"><b>2-السلطة</b>:لها عدة دلالات و تتحرك في جميع مجالات الفعل الانساني.تفيد السلطة في الحقل السياسي القوة والقدرة علي الفعل و الإخضاع.</p>
+<p class="para"><b>3-الحق</b>:يفيد جملة المبادئ والقواعد التي تشرع للفرد في علاقته بالغير أن يفعل بحرية فتتنزل بما هو مشروع وقانوني.</p>
+<p class="para"><b>4-السيادة</b>: ركيزة الدولة وقاعدة عليا للنظام القانوني وهي السلطة العليا والآمرة التي لا تعلوها سلطة في الداخل وغير خاضعة لأي سلطة أخري في الخارج.</p>
+<p class="para"><b>5-المواطنة:</b></p>
+<p class="para">-تحيل المواطنة على المنزلة التي يشغلها الإنسان داخل نظام سياسي مدني بما هو كائن حر يتمتع بحقوقه في ظل امتثاله لسلطة القانون .</p>
+<p class="para">-تعني المواطنة مشاركة الفرد الفاعلة والنشيطة في تسيير شؤون الدولة وتقاسم السلطة والتداول عليها ومراقبة عملها .</p>
+<p class="para"><b>6-القانون:</b></p>
+<p class="para">هو النظام أو التشريع الذي يفيد مجموع القواعد العامّة الملزمة للإنسان والتي تحدّد حقوقه وواجباته.</p>
+<p class="subhead t-navy">*<u>في مبررات إثارة هذه المسألة</u>.(عيّنات تمهيد).</p>
+<p class="para">يعكس الوجود السياسي مفارقة من جمة اعتبار الدولة شرط تحقّق إنسانية الإنسان ومجال ضمان حقوقه وما تدل عليه الوقائع من جمة أنها أضحت عامل اغترابه...</p>
+<p class="para">- يتّسم واقعنا اليوم بمفارقة من جمة التطوّر الذي شمل المستويين الحقوقي والتشريعي &nbsp;وهو ما يوحي بتأمين الدّولة الحديثة للحقوق وما يفصح عنه الواقع الرّاهن من انتهاكات...</p>
+<p class="para">⇦ من علاقة السيادة والمواطنة تنبعث احراجات موصولة بمعاني الحق /الديمقراطية/السلطة /العنف/العدالة /الحرية...</p>
+<p class="para">-ماذا نقصد بسيادة الدولة؟ &nbsp;وماهي أسسها؟وعلى أيّ نحو تتحدّد علاقتها بالمواطنة ؟هل تتعارض الهيئة السياسية بما تقتضيه من سيادة مع قيمة المواطنة أم تعدّ الدولة فضاء تحقّق المواطنة ؟</p>
+<p class="para">-هل باستطاعة الإنسان أن يأمل في مواطنة عالمية من جمة أنّ &nbsp;العالم وطن لكل البشر ؟</p>
+<p class="para">-هل تشكل المواطنة العالمية حلاّ للإنسان أم قد تنقلب إلي مشكل يهدد حقوقه و يهدد كذلك سيادة الدول ؟</p>
+<p class="para">إذا كانت الدولة تعرف بما هي الممارسة السياسية للسلطة فإنه &nbsp;بالإستناد إلى ما تملكه من نفوذ تستطيع &nbsp;أن تفرض سيادتها . فتكون السيادة مقوما من مقومات الدولة و ركنا رئيسيا من أركانها.وعلي هذا الأساس لايمكن أن نتحدث عن دولة في غياب سيادة تتنزل كمصدر لممارسة سلطتها في الداخل و التعبير عن استقلاليتها في الخارج.وهذا ما يشرع للتساؤل عن أسس هذه السيادة في علاقتها بالمواطنة.ويمكن التمييز بين أساسين:حقّ القوّة و قوّة الحقّ.</p>
+<p class="para">تعد المواطنة ركيزة حقوق الإنسان وليس من محمة أوكد للدولة من ضمانهاوضمان الحق من جمة أنه ضرورة لتنظيم العلاقات البشرية. إذ الحق قيمة تتفاعل مع قيم الحرية /العدل /المساواة/الديمقراطية.يشمل الحق الطبيعي والحق المدني.فهل يمكن أن يقام الحق علي القوة ؟ ألا تتحول القوة &nbsp;الى ضربا من العنف الدال علي اليأس من الإنساني ؟ألا يجب أن تؤسّس السيادة على الحقّ ؟وضمن أيّة شروط يكون هذا الأساس ضامنا للمواطنة ؟</p>
+<!-- PROOFREAD: 1826 part1 p02 — "و التعبير" (printed "و ا" + "لتعبير" split across line) -->
+<p class="subhead t-red">1-<u>في التعارض بين السيادة والمواطنة</u>.</p>
+<p class="para">* يفيد <b>التعارض</b> في معناه العام التقابل بين طرفين لا يمكن الجمع بينهما .ومنطق التعارض يجعلنا في خيار بين طرفين الانتصار لأحدهما يقود الى التضحية بالآخر.أمّ في المجال السياسي فإنّ التعارض يفيد <b>سلب وانتهاك الدولة لحقوق الانسان وعدم احترامما لانسانيّة الانسان.</b></p>
+<p class="para">شخّصت الفلسفة السياسية هذا التعارض في كلّ أنظمة الحكم المطلق المعروفة بالأنظمة الإستبداديّة /الديكتاتوريّة سواء كانت فرديّة أم طبقيّة.فما المقصود بالاستبداد/الطغيان ؟</p>
+<p class="para"><b>*يفيد الاستبداد في المجال السياسي</b> نمط حكم تكون فيه السيادة/السلطة مطلقة ولامحدودة فتكون بذلك ممارسة قمعيّة وعنفيّة تتجلّى في ارغام الأفراد على الخضوع والولاء.وهذا ما يدرج ضمن <b>حقّ القوّة.</b></p>
+<p class="para"><b>يقول منتسكيو:"الإستبداد هو ذلك الحكم الفردي الذي لا يخضع الى عملية ضبط أخلاقي و لا الى رقابة دستوريّة ويتأسس في جوهره على أهواء الحاكم"</b></p>
+<p class="para"><b>يقول جون لوك:"الطغيان عبارة عن ممارسة السلطة التي لا تستند الى أيّ حقّ"</b></p>
+<p class="para">فكيف يتجلّى التعارض بين السيادة والمواطنة ؟</p>
+<p class="para">1-احتكار مطلق من قبل المستبدّ للسلطة ولمراكز النفوذ وعدم تقاسمها مع الأفراد أو السماح لهم بالتداول عليها.</p>
+<p class="para">2-تفرّد الطاغية بصنع القرار السياسي ومنع الأفراد من المساهمة فيه.</p>
+<p class="para">يقول الكواكبي:<b>"الإستبداد في اللغة هو اكتفاء الشخص برأيه في موضوع يحتاج الى الشورى"</b></p>
+<p class="para">3-تسلّح المستبدّ بايديولوجيا تتصف بالقداسة والمثالية ويعاقب كلّ من يعترض عليها.</p>
+<p class="para">4-مصادرة الحقوق والتضييق على الحريّات بمضاعفة الرقابة على الأفراد.</p>
+<p class="para">5-ممارسة العنف ومنحه صفة الشرعيّة(الارتكاز على فكرة أنّ الفرد عدواني بطبعه).<b>يقول أفلاطون:"المستبدّ يستولي على السلطة بالقوّة ويمارسها بالعنف"</b></p>
+<p class="para"><b>استنتاج:</b> ما يميّز حكم المستبدّ هو غلبة الميول والأهواء والنوازع الفرديّة التي تتعارض مع العقل والحكمة والمصلحة المشتركة.</p>
+<p class="subhead t-navy">المرجعيّة : توماس هوبس:</p>
+<p class="para">يعدّ هوبس من فلاسفة العقد الاجتماعي(ص334) وقد بيّن أنّ الانسان قبل أن يؤسّس الدولة كان يعيش في حالة الطبيعة المتّصفة بالفوضى والعنف وغلبة حقّ الأقوى.حالة تفتقد الى الأمن لأنّ الانسان عدواني بطبعه وشرّير تسيّره الأهواء وتتحكّم فيه الغرائز. وبالنظر الى هذا الواقع صار وجود الأفراد محدّدا فكان من الضروري البحث عن حلّ لهذه الأزمة. وتمثّل الحلّ في تفويض الأفراد إدارة شؤونهم الى رجل واحد.<b>يقول هوبس:"يسمّى المؤتمن على هذه الجماعة صاحب السيادة وتوصف سلطته بالسلطة العليا ويسمّى الآخرون جميعا رعايا".</b></p>
+<p class="para">يشبه هوبس الحاكم بالتنّين في رمزيّة دالّة على ترويع الأفراد .هكذا تتحوّل القوّة الى استقواء والسلطة الى تسلّط والحكم الى تحكّم.فما الذي يترتّب عن الحكم الاستبدادي؟</p>
+<p class="subhead t-navy">في نتائج التعارض بين السيادة والمواطنة:</p>
+<p class="para">*اغتراب سياسي :شعور الأفراد بأنّ الدولة لا تمثّلهم ولا تعبّر عن الغاية التي من أجلها أسّسوها.يقول ديدرو:<b>"ونصبح فيه غرباء عن سياسة الدولة".</b></p>
+<p class="para">*تحوّل الدولة الى جماز قمع سياسي يوظّف آليّات رقابة ومعاقبة.</p>
+<p class="para">*تكريس ثقافة الخضوع عبر العنف الموزّع داخل أجمزة الدولة بهدف خلق مجتمع انضباطي. يحوّل الأفراد الى عبيد.</p>
+<p class="para">* اضعاف دور المجتمع المدني وتحجير -منع الاشتغال بالشأن السياسي .</p>
+<p class="para">*تسطيح ممنهج لوعي العامّة بتوجيههم الى الإشتغال بقضايا ثانويّة.ركود اجتماعي ومعرفي.</p>
+<p class="para">*غياب الفضيلة و الأخلاقيّة في الممارسة السياسيّة وهو ما يعرف بتعارض السياسي والايتيقي.</p>
+<p class="para">*افتقار هذا النظام للشرعيّة وهو ما ينذر باليأس من الإنساني لأنّ القوّة أستخدمت من قبل الطاغية للاستمرار في الحكم وليس لضمان حقوق الأفراد. يقول ج.لوك:<b>"يقوم الطغيان على استخدام امرئ ما السلطة التي آلت إليه من أجل مصلحته الخاصّة لا من أجل خير المحكومين".</b></p>
+<p class="para">استنتاج:يبدو أنّنا أمام أزمة وجود سياسي في ظلّ الاعتداء على حقوق الانسان وكرامته.يقول ج.لوك <b>:"إنّ سلطة تعسّفية ومطلقة وحكما دون قوانين قائمة ومستقرّة أمر لا يمكن أن يتوافق مع غايات المجتمع والحكم"</b>. تتّصف ممارسة المستبدّ بأنّها ممارسة نزويّة تحيد بالدولة عن وظيفتها الأصليّة .يقول ديدرو:<b>"إنّ الطاغية عندما يحكم على هواه يرتكب أكبر الجرائم"</b> فهل من سبيل الى الاهتداء الى وجود سياسي يجعل الانسان انسانا- مواطنا ؟</p>
+<p class="subhead t-red">2-<u>في التوافق بين السيادة والمواطنة</u>.</p>
+<p class="para">الإهتداء إلى نظام حكم سياسي يوفق بين لزوميّة السيادة (فعاليّة السلطة السياسيّة ومشروعيتها)من جمة ومتطلّبات المواطنة(حقوق وحريّات) من جمة أخرى.</p>
+<p class="para">-لا يكون الفرد مواطنا الاّ اذا غيّرنا أساس السيادة :أي الانتقال من <b>حقّ القوّة</b> الى <b>قوّة الحقّ</b> وهذا الحقّ يستمدّ من القانون شرط أن يكون القانون شرعياً وصادرا عن إرادة عامّة لا يكون أفرادها رعايا وعبيدا بل &nbsp;أعضاء في مجتمع مدني و شركاء في هيئة <b>سيادية واحدة.وهم متساوون فيها في الحقوق والواجبات .وبالتالي</b> &nbsp;تصبح المواطنة صفة يكتسبها الإنسان بانخراطه الفعلي والنشيط في الحياة السياسيّة. اذن من السيادة المطلقة الى السيادة الشعبيّة/من الحكم الاستبدادي الى الحكم الديمقراطي يبرز التلازم بين انسانيّة الانسان والمواطنة والدولة. &nbsp;يقول سبينوزا:<b>"عندما تكون ارادة الشعب لا إرادة الحاكم هي القانون الأعلى لن يكون المرء عبدا إذا ما أطاع السلطة العليا و إنما مواطنا."</b></p>
+<p class="para">انّ تأسيس السيادة على أساس حقوقي وقانوني هو ما يجعل الفرد مواطنا. <b>يقول روسو :"يطلق على الأفراد اسم مواطنين بصفتهم مشتركين في سلطة السيادة".</b></p>
+<p class="subhead t-navy"><b>المرجعيّة: روسو:</b></p>
+<p class="para">- واصل روسو من خلال العقد الإجتماعي (هو عبارة عن اتفاق أبرمه الأفراد فيا بينهم عندما انتقلوا من حالة الطبيعة الى حالة المدنيّة )هذا التمشي عندما اعتبر أن الخضوع للسيد عبودية في حين أن الخضوع للقانون الذي أنشأه الأفراد بأنفسهم حرية. مثل هذا التمشي يرفع التعارض بين سيادة الدولة و حقوق الفرد كمواطن و يجعل نظام الحكم هذا طاعة الفرد للسلطة العليا بدافع الواجب و ليس بمقتضى الإكراه .فالسيد هو الشعب في جسم سياسي له صفة تشريع القوانين والعمل بهذا التشريع .يقول روسو: <b>"السيد المكون من العقد الاجتماعي هو الشعب في جسم راسما الارادة العامة التي تجد تعبيرها في القانون."</b></p>
+<p class="para">-إنّ الإرادة العامة وحدها مؤهلة لحماية حقوق الإنسان وهي وحدها مصدر السيادة. وتتّصف الإرادة العامة بالخصائص التالية:</p>
+<p class="para">-الشرعية / الإنصاف / المساواة / الحرية / الخير العام</p>
+<p class="para">تكشف هذه المقاربة عن بعد أخلاقي يوجه الممارسة السياسية .فالمواطنة تجعل الانسان يتساوى مع الآخرين في الصفة الانسانية وهو كائن حر يعيش بكرامة و يتمتّع بقيم حقوقية كونية تظهر أساسا في انتخاب الحكّام ومن ينوب الشعب وكذلك الحق في مراقبة آليات الحكم و كيفيّة ممارسته .إذن تتجذّر قيمة المواطنة بإحلال سيادة القانون بديلا عن نفوذ صاحب السيادة وسلطانه المطلق. و بالتالي وفق سيادة الحق تعدّ الدولة أساس المواطنة و ركيزة انسانيّة الانسان.يقول ريكور:"إنّ عتبة الانسانيّة هي عتبة المواطنة ولا يكون المواطن مواطنا الاّ بفضل المدينة"</p>
+<p class="para">ولا شكّ أن تقاسم السلطات وفصلها عن بعضها البعض &nbsp;والتداول عليها &nbsp;واخضاعها للمراقبة هو من</p>
+<!-- PROOFREAD: 1826 part1 p04 — "جسم راسما" / "تتجذّر" / "تحيد" (printed text partly faded/stained) -->
+<p class="para">دعائم دولة الحق الضامنة للمواطنة كقيمة موصولة بقيم الحرية والعدل و الديمقراطية...والتي جعلت الفرد شريكا فاعلا في الحياة السياسيّة. <b>وهكذا يظهر الفرق بين نظام تأسّس على القوّة ونظام جعل من القوّة أداة لضمان الحقّ وتجسيده.</b></p>
+<p class="subhead t-navy"><b>في مزايا دولة الحقّ/القانون:</b></p>
+<p class="para"><b>*التحرّر من الاغتراب السياسي /تعزيز الإنساني في الانسان/تجذير ثقافة المشاركة/انتظام الحياة السياسية وفق العقل والحكمة والخير العام والتحرّر من سلطة الأهواء.:"تكون أكثر الدول حريّة تلك التي تعتمد قوانينها على العقل السليم" سبينوزا./ رفع العلاقة التراتبيّة بين الحاكم والمحكومين في ظلّ علويّة القانون.</b></p>
+<p class="para">و لكن هل ظلت الديمقراطية وفية لقيمة المواطنة ؟</p>
+<p class="subhead t-navy"><b>*قراءة نقديّة للنظام الديمقراطي :</b></p>
+<p class="para">كشفت الأوضاع الراهنة من داخل المشهد السياسي عن هينات(نقائص) داخل الديمقراطية وذلك بسبب انتهاكات طالت حقوق الإنسان .اذ أنّ هذا النظام قد يستغلّ التشريعات والقوانين غطاء للتستر على بعض التجاوزات على غرار منح امتيازات لفئات من الشعب وحرمان آخرين منها وهو ما عمّق &nbsp;الفوراق الاجتماعيّة وأخلّ بالمساواة والعدالة الاجتماعيّة وهوما ترتّب عنه تراجع الثقة في القانون . كما أنّ حكم الأغلبيّة ليس بالضرورة تعبيرا حقيقيّا عن إرادة الشعب إذ يرتكز على قانون العدد الذي ليس قاعدة للحقّ فقد ثبت انتهاك حقوق الأقليّات &nbsp;<b>يقول دي توكفيل :"إن قبلتم القول بأنّه يمكن لرجل واحد أن يسرف في استعمال قوّته المطلقة ضدّ خصومه فلم لا تقبلون بهذا الحكم فيما يتعلّق بالأغلبيّة"</b> اذن قد تتضخّم سلطة الأغلبيّة وتصنع تكتلا تحت غطاء القانون ممّا قد يشكّل تهديدا فعليّا للحقوق والحريّات. لقد باتت الديمقراطية جماز قمع سياسي جعل من القانون عنفا مقنّعا وأضحت مبادئها شعارات جوفاء و فضفاضة خاصّة عندما نعاين ما في &nbsp;&nbsp;المشهد السياسي من تضييق على الحريّات وتشديد الرقابة على الأشخاص وممارسة العنف عليهم ناهيك عن الميز الجنسي والعرقي والديني. يبدو أننا أمام أزمة مواطنة محليّة أعادت الى السطح مشكل حقوق الانسان .هل هي حقوق قطريّة أم أنّها حقوق كونيّة ؟وعلى هذا الأساس هل يمكن التفكير في المواطنة خارج الدولة الوطنيّة أي التفكير فيها من داخل أفق كوني ونعني به المواطنة العالميّة ؟وهل تسهم المواطنة العالميّة في اغناء الانساني ؟</p>
+<p class="subhead t-navy"><u>المواطن العالمي والسيادة العالمية:</u></p>
+<p class="para">المواطنة العالمية فكرة عريقة شدّت انتباه الفكر الفلسفي ورافقته في مشاريع كثيرة منذ سقراط الذي أجاب عن سؤال من أيّ بلد أنت؟ فأجاب أنا مواطن هذ العالم .و تقوم المواطنة العالميّة على اعتبار الكون فضاء للعيش المشترك ضمن مجتمع بشري يتكون أعضائه من أناس أحرار &nbsp;في سعي لتجسيد حقوق كونيّة. فما المقصود بالمواطنة العالميّة؟وأيّ أثر لها على الحقوق والسيادة الوطنيّة؟</p>
+<p class="subhead t-navy"><b>-في دلالة المواطنة العالميّة:(+الوثيقة المصاحبة)</b></p>
+<p class="para">*تفيد المواطنة العالميّة تساوي جميع البشر في الحقوق والواجبات بصرف النظر عن خصوصيّاتهم(لغة/دين/لون/عرق...)</p>
+<p class="para">* المواطنة العالميّة هي الانفتاح على أفق الانسانيّة باعتبارها مجال انتاء أوسع من الانتاء القطري.</p>
+<p class="para">*المواطنة العالميّة هي منظومة حقوقيّة -قيميّة -كونيّة .</p>
+<p class="para">-تساعد هذه التعريفات على رصد الوجه الايتيقي والإنساني في فكرة المواطنة العالميّة.اذ يتجلّى الوعي بكونية الحقّ الإنساني.وهذا ما نلمسه جليّا &nbsp;عند <b>كانط</b> &nbsp;في فكرة الأرض بما هي وطن للجميع.:"يستوجب الحقّ السياسي الكوني مراعاة الضيافة الكونيّة".اذ يتّجه مشروع كانط الى بناء رؤية نوعيّة للإنسان في اطار قانون كوني ينظّم العلاقات بين البشر على أساس احترام الآخر بما يضمن له &nbsp;حريّاته.(الاعتراف بحقّ الضيافة يساهم في إقامة سلم دائم).</p>
+<p class="para">وبالفعل تسمح المواطنة العالميّة بالتعايش الايتيقي بين البشر بما هم مواطنو عالم واحد.</p>
+<p class="para">يبدو أنّنا أمام نزعة انسانيّة رهانها التفاعل والتعاون والتقارب اعترافا بما هو مشترك بين الناس من حقوق وقيم ومثل سامية ومشاكل وطموحات...وعلى هذا الأساس تكون المواطنة العالميّة أفقا داعما للسيادة الوطنيّة وللمواطنة المحليّة.ولكن هل بقيت المواطنة العالميّة على هذه الصورة ؟</p>
+<p class="subhead t-navy"><b>*المواطنة العالميّة بما هي تهديد للسيادة الوطنيّة وللمواطنة المحليّة:</b></p>
+<p class="para">إنّ انفتاح الحدود بفعل العولمة وتشابك الأقطار وتداخلها بمفعول المدّ الاتّصالي فرض على الفلسفة إعادة النظر في مفهوم المواطنة العالميّة.اذ ظهرت مخاطرها عندما تمّت عولمتها واخراجما من سياقها الايتيقي.أي <b>توظيفها ايديولوجيّا من قبل الدول النافذة اقتصاديّا /سياسيّا/عسكريّا...</b></p>
+<p class="para">لتصبح المواطنة العالمية غطاء لممارسة الهيمنة و التسلط .فالتعلّل بحقوق الأقليّات و مشاكل البيئة ساعد على انتهاك السيا دة الوطنيّة من خلال المساس باستقلاليّة القرار الوطني.</p>
+<p class="para">اذن يضاعف التوظيف الأيديولوجي المواطنة العالميّة من اغتراب الانسان .</p>
+<p class="para">يستدعي هذا الوضع اعادة التأسيس لعلاقة السيادة بالمواطنة واحترام المواثيق الدولية و العمل بها في الممارسات السياسيّة.</p>
+<p class="para">ان تحرير الإنسان من الاغتراب السياسي ليس رهين الحلول السياسية وحدها بل يتجاوز ذلك الى جمد مشترك تتفاعل فيه جميع الارادات.</p>
+<p class="para"><b>-* التحقّق الفعلي للمواطنة لا يختزل فيما هو سياسي بل يفترض حقوقا اجتماعيّة واقتصاديّة.</b></p>
+<!-- p07: header repeated (المعهد النموذجي فرحات حشاد بصفاقس — الأستاذ :ناجي خليف); handwritten notes, highlighter and the hand correction of "ديدرو" to "جون لوك" left out -->
+<div class="exsub">هل في الإحتكام إلى سلطة القانون ما يضمن للأفراد مواطنتهم؟</div>
+<p class="para">يعكس المشهد السياسي مفارقة بين تنامي خطاب الحقوق و الحريّات وتطوّر في المجال التشريعي مولّدا إعتقادا بتمتع الأفراد بها في ظلّ دولة القانون وبين مظاهر سلب وانتهاك لها ما دفع بالفلسفة السياسيّة الى مساءلة القوانين عن مدى قدرتها على ضمان حقّ المواطنة.</p>
+<p class="para">فما الذي يدفع بالبشر إلى اللجوء إلى سلطة القانون؟ وهل تضمن فعلا حقّ المواطنة أم تنتهك بإسمه؟</p>
+<p class="para">يمثّل القانون النظام والقاعدة التشريعيّة الضابطة للأفراد حقوقهم وواجباتهم بما يساعد على تنظيم العلاقات بينهم .وبالفعل فإنّ احتكام الأفراد إلى القانون راجع إلى سلبيّات نظام الحكم الاستبدادي الذي أسّس سيادته على العنف لا على الحقّ فاضطهد الأفراد وسلبهم حقهم في المشاركة في الحياة السياسية وحرمهم من مقاسمته السلطة أو التداول عليها. وهو ما ولّد لديهم شعور بالإغتراب من جرّاء معاملتهم كعبيد.يقول ديدرو :"يبتدئ الطغيان حيث تنتهي سلطة القانون"</p>
+<p class="para">ومن المؤكّد أنّ جعل الأهواء قاعدة لممارسة الحكم يدفع باتجاه تغليب الحاكم مصلحته الخاصّة على حساب المصلحة العامّة فتغيب العدالة وتتّسع دائرة التوتّر بين الحاكم والأفراد في ظلّ حكمه النزوي وهو ما أملى على الأفراد اللجوء الى القانون للحدّ من ابتزاز المستبدّ للسلطة .فضمن أيّة شروط يمكن لسلطة القانون أن تضمن حقّ المواطنة؟</p>
+<p class="para">إذا سلّمنا بأنّ المواطنة هي القيمة التي تجعل من الانسان انسانا فهي بذلك تحيل على المنزلة التي يشغلها الفرد داخل نظام سياسي يتمتّع بعيش كريم وحرّ ومتساويا في الحقوق والواجبات مع الآخرين .فالمواطنة &nbsp;بهذا المعنى هي الوضع القانوني الذي يمنح للأفراد حقّهم في أن يكونوا فاعلين في الشأن السياسي كذوات حرّة .ولمّا ساهموا مدني في تشريع القانون فقد تجلّت مواطنتهم إذ رفع كلّ تراتب وتفاضل بينهم محقّقا العدالة والانصاف في ظلّ علويّة القوانين.</p>
+<p class="para">لقد أظهر مشروع روسو السياسي هذه الصورة عندما جعل من القانون المرجع الشرعي الوحيد لحقوق الأفراد وهو ما استبعد النظر اليهم كعبيد .يقول روسو:" يطلق على الأفراد اسم مواطنين على أنّهم مشتركين في سلطة السيادة". يبدو أنّ هذا الوضع القانوني مبني على أساس سيادة شعبيّة وهي التي تحيل على نظام ديمقراطي تكون قاعدة الحكم فيه هي القانون .يقول روسو:" السيّد المكوّن من العقد الاجتماعي هو الشعب راسما الإرادة العامّة التي تجد تعبيرها في القانون".</p>
+<p class="para">وعلى أساس سلطة القانون تعزّزت حقوق الأفراد وتدعّمت قيم المواطنة من حريّة وعدل ومساواة ما سمح بتجلّي انسانيّة الانسان.اذ لا يتعارض القانون معها فمن يخضع لقانون شارك في سنّه فهو لا يخضع إلاّ لنفسه.يقول روسو:"الخضوع للسيّد عبوديّة أمّا الخضوع للقانون الذي شرّعناه بأنفسنا فهو حريّة ".</p>
+<p class="para">وبناء على هذه الصورة عرفت &nbsp;دولة القانون بالمثلى ولكن وضعيّات كثيرة ترجّ هكذا اعتقاد وتدفع نحو التظنّن عليها. أفلا يمكن أن ينتهك حقّ المواطنة باسم القانون؟</p>
+<!-- PROOFREAD: 1826 part1 p07 — "ولمّا ساهموا مدني في تشريع القانون" (printed wording as read) -->
+<p class="para">تعزّزالتظنّن على &nbsp;دولة القانون في ظلّ تغلّف ممارساتها القمعيّة به.إذ ساهمت بعض التشريعات في تعميق الفوارق الإجتماعيّة مغيّبة العدالة والمساواة بين الأفراد فبمنح امتيازات لأفراد وحرمان آخرون منها يتضاعف اغترابهم وشعورهم بانحراف القانون عن وظيفته الأصليّة.</p>
+<p class="para">وبالفعل طوّعت الأغلبيّة التشريعات لمزيد احكام قبضتها على هياكل الدولة وهو ما استتبعه تعدّي على حقوق الأقليّات خاصة لمن ليس لها وزن سياسي أو اقتصادي أو علمي.ولا شكّ أنّ عدم إنفاذ القوانين على الجميع من شأنه أن يضعف ثقة الأفراد فيها إذ قد تسخّر للتستّر على تجاوزات بعض الأشخاص النافذين ومن ثمّة لا يتوافق القانون وروح حقوق الإنسان.</p>
+<p class="para">ومن المؤكّد أنّ المشهد السياسي يعكس تضخّم سلطة الأغلبيّة وأنّ تكتّلهم فضح ديكتاتوريّتهم وتهديدهم للحقوق والحريّات، ما تسبّب في افراغ الديمقراطيّة من مضمونها الايتيقي.يقول دي توكفيل:"إنّني أجدها قاعدة أثمة وجائرة تلك التي تخوّل لأغلبيّة شعب ما أن تقرّر ما تريد في شؤون الحكم"</p>
+<p class="para">وبالنظر إلى الديمقراطيّات اليوم نلاحظ أنّها تؤسّس شرعيّتها على قانون العدد وهذا القانون لا يتوافق دوما مع الحقّ إذ تتبيّن توظيفا ايديولوجيّا للديمقراطيّة للتمويه على الرأي العام ما يضرّ بقيمة المواطنة ويكشف عن زيف الإعتقاد بأمثليّته.يقول روسو:"لو وجد شعب من الآلهة لحكم نفسه ديمقراطيّا فحكم على هذا القدر من الكمال لا يليق بالبشر"</p>
+<p class="para">وبناء على هذا تظهر قيمة السؤال في راهنيّته من جهة المشكل المتعلّق بالانسداد السياسي فيما يهمّ حقوق الانسان .ونثمّن فيه رهانه الطامح الى تحرير الانسان من كلّ أشكال الإغتراب السياسي .غير أنّ الهينات المسجّلة في دولة القانون لا تبرّر عودة الاستبداد بل تدفع نحو البحث عن توفير الشروط الايتيقيّة والكونيّة لوجود سياسي جدير بالإنسان.</p>
+<p class="para">خلاصة القول يبقى القانون مرجعا حقوقيّا للأفراد وتعبيرا تاريخيّا عن نقلة نوعيّة في الوجود البشري دون أن يمنع ذلك من تسلّل الأهواء إليه ما يستدعي يقظة مستمرّة صادرة عن منظّمات المجتمع المدني التي عليها مراقبته والتصدّي لكلّ محاولات التلاعب به.</p>
+<!-- PROOFREAD: 1826 part1 p08 — "أثمة" / "تتبيّن" (printed text partly overwritten by handwritten notes) -->
+<!-- p09: header "المعهد النموذجي بصفاقس — السنة الدراسية: 2023-2024 — الأستاذ: ناجي خليف"; body handwritten in black (transcribed); blue-pen additions left out -->
+<!-- PROOFREAD: 1826 part1 p09 — school year digits overwritten ("2023-2024"?) -->
+<div class="exsub"><u>السؤال</u>:هل تدفعنا الحاجة إلى السيادة إلى التضحية بحق المواطنة؟</div>
+<p class="subhead t-red">I- المقدمة</p>
+<p class="para"><u>التمهيد</u>: بيان ما يواجه أنظمة الحكم من تحديات في ظل ما يسم الوجود السياسي من توتر بين حاجة الدولة الى القوة بما يضمن نجاعة ومشروعية ممارسة السيادة من جهة أولى وبين متطلبات المواطنة من جهة ثانية.</p>
+<p class="para">أو: الانطلاق من بيان تزايد مخاوف الأفراد من مشهد سياسي متأزم في ظل غياب توازن بين اكراهات السيادة و مقتضيات المواطنة.</p>
+<p class="para">الاشكالية: ما العلاقة بين السيادة والمواطنة؟ هل هي علاقة تعارض لا تستقيم فيها السيادة الا بالتضحية بالمواطنة أم هي علاقة تكامل يكون فيها لكل طرف شروط امكان الآخر؟</p>
+<p class="subhead t-red">II- الجوهر:</p>
+<p class="para">•• <u>لحظة أولى</u>: تفترض الحاجة الى السيادة التضحية بالمواطنة:</p>
+<p class="para">• تحديد دلالة السيادة على أنها سلطة الدولة العليا، ومقوما أساسيا من مقوماتها.</p>
+<p class="para">• تحمل مفهوم السيادة على ما يفترضه وجود الدولة واستمرارها من حق ممارستها القوة والعنف الشرعي على قاعدة:</p>
+<p class="para">• أولا: ضمان الأمن وتأمين حق الحياة للجميع.</p>
+<p class="para">• ثانيا: تنازل الأفراد عن حقهم في سياسة شؤونهم بأنفسهم وتخليهم عن حقوقهم الطبيعية</p>
+<p class="para">• ثالثا: فساد الطبيعة البشرية التي كشفت عن هيمنة الغريزة وغلبة الأهواء على سلوك الأفراد ما هدد سلمهم وبقاءهم في ظل تعارض ميولاتهم.</p>
+<p class="para">ـ بيان أن سيادة الدولة تقوم على أساس حق القوة، وأن سلطتها لا تظهر الا بما هي اكراه وتسلط واستقواء وهذا يتعارض مع قيم المواطنة.</p>
+<p class="para">- بيان أن عنف الأفراد مهدد للبقاء في حين أن عنف الدولة هو ضرورة للحد منه.</p>
+<p class="para">- ابراز أن هذا التقاطب يفرز نمط حكم استبدادي بذريعة توفير شروط العيش معا، وأنه أفضل من الفوضى التي كان عليها وجود الأفراد في حالة الطبيعة (توظيف هوبس: دولة التنين)</p>
+<p class="para">•• استخلاص ما يستتبع هذا التعارض من افتقار الى وجود نوعي للانسان، ناهيك عن افقار الوجود السياسي من المعنى والقيمة في ظل ما يعيشه الأفراد من اغتراب.</p>
+<p class="para">•• <u>لحظة ثانية</u>: لزومية السيادة لا تبرر التخلي عن حق المواطنة:</p>
+<p class="para">ـ بيان أن تمتع الانسان بحقوقه رهين نظام حكم يلائم بين الطرفين أي التوفق الى توازن يعطي للدولة حقها في ممارسة نفوذها وذلك عبر أجهزة مادية ووسائل قانونية من جهة والسماح للأفراد بمراقبة آليات عملها وتمكينهم أيضا من المشاركة في الشأن العام على غرار التشريع والاقتراع</p>
+<p class="para">ـ بيان أن هذا التلاؤم يتحقق في دولة القانون، تكون فيها السيادة شعبية والأفراد أعضاء في جسم سياسي يتساوون أمام القانون المرجع الشرعي في الحقوق والواجبات.</p>
+<p class="para">ـ بيان أن دولة القانون نظام حكمها ديمقراطي يفصل بين السلطات ويمنع احتكارها فتكون دولة حق تعكس العقل والحكمة لا دولة استبداد تعكس ميول والشهوات.</p>
+<p class="para">ـ بيان شرعية هذه السيادة من زاوية اعتدالها وضمانها للحقوق والحريات حيث ان طاعتنا قائمة على الواجب لا على الاكراه. (توظيف روسو/سبينوزا).</p>
+<p class="para">• <u>لحظة ثالثة</u>:</p>
+<p class="para">استخلاص أهمية السؤال في علاقة بمشهد سياسي تميز بكثافة العنف، ناهيك عن رهانه الذي يرمي الى عقلنة الوجود السياسي وتحرير الانسان من كل اغتراب سياسي، وارتباطا بحوكمة المواطنة حتى لا تكون مطالبها خطرا على الدولة.</p>
+<!-- PROOFREAD: 1826 part1 p09 — "تحمل مفهوم" / "يلائم" / "التوفق" / "وارتباطا بحوكمة المواطنة" / "ميول والشهوات" (handwritten photocopy, partly covered by a large stamp/scribble) -->
+<!-- p10: handwritten page (black ink transcribed; blue-pen additions left out) -->
+<div class="exsub">هل تُفضي الطاعة ضرورة إلى الحدّ من المواطنة؟</div>
+<p class="subhead t-red">I- <u>المقدمة</u>:</p>
+<p class="para">أ- <u>التمهيد</u>: تكشف علاقة الدولة بالمواطنة عن مفارقة. اذ أن المواطنة لا تتحقق الا بوجود الدولة غير أن وجودها يقتضي طاعة قد تحدّ من الحقوق والحريات...</p>
+<p class="para">ب- <u>الإشكالية</u>: على أي نحو وجب النظر الى علاقة الطاعة بالمواطنة؟ هل أن الطاعة التي تفترضها سلطة الدولة هي بالضرورة عائق أمام تحقق المواطنة وضمانها أم أن الطاعة هي عتبة تحقق المواطنة؟</p>
+<p class="subhead t-red">II- <u>الجوهر</u>:</p>
+<p class="para"><u>لحظة أولى</u>: تُفضي الطاعة ضرورة الى الحدّ من المواطنة:</p>
+<p class="para">• الطاعة ليست اختيارا يقدم عليه الفرد طوعا وارادة بل اكراها قسريا يفرضه صاحب السيادة بالقوة.</p>
+<p class="para">• الطاعة خضوع يتنازل بموجبه الفرد عن كل حقوقه لفائدة الدولة مقابل حقه في السلم والأمن.</p>
+<p class="para">• الحدّ من المواطنة يُفهم على معنى التضييق على الحقوق والحريات وتقليص مطالبها اذ تختزل فقط في البقاء في حين تتطلب المواطنة حسن البقاء + حقوق اجتماعية + اقتصادية.</p>
+<p class="para">• الطاعة العمياء تكشف عن خضوع قسري يلغي الارادة ويتنافى وبنود العقد الاجتماعي، اذ يقتضي الاتفاق حق ضمان حق الأفراد في المشاركة الفاعلة في الشأن العام.</p>
+<p class="para">• طاعة الأوامر الصادرة عن فرد أو طبقة بمقتضى الميول والأهواء يسوّغ الإستبداد ويبرر الاضطهاد والاستعباد.</p>
+<p class="para">• بيان التعارض بين الطاعة ومقتضيات المواطنة الذي من شأنه أن يفضي الى أزمة القمع وبالتالي الى اغتراب سياسي.</p>
+<p class="para"><u>لحظة ثانية</u>: لا تُفضي الطاعة ضرورة الى الحدّ من المواطنة:</p>
+<p class="para">• مراجعة دلالة الطاعة وذلك بـ:</p>
+<p class="para">• تمييزها عن الخضوع، فهي الإمتثال للقوانين النابعة عن الارادة العامة.</p>
+<p class="para">• الطاعة ضرورية للعيش المشترك والعمل على تحقيق التوازن بين المصلحة الفردية والمصلحة العامة.</p>
+<p class="para">• الطاعة لا تكون الا للسيد الشرعي وهو القانون فطاعته لا تفضي الى التضحية بالحرية بل الى ضمانها "ولدت الحرية يوم ولد القانون". روسو.</p>
+<p class="para">• هذه الطاعة خاضعة لمقتضيات العقل ومتحررة من الأهواء.</p>
+<p class="para">• الطاعة هي التزام الفرد بمقتضيات المواطنة (احترام القوانين/الوعي بالحقوق والواجبات والالتزام بها).</p>
+<p class="para">• لا مواطنة دون حقوق مدنية ومساواة يكفلها الدستور بما هو عقد أصلي يؤسس واجب الطاعة.</p>
+<p class="para">• المواطنة هي تخيّل بفضيلتي الطاعة والمقاومة.</p>
+<p class="para"><u>لحظة ثالثة</u>:</p>
+<p class="para">- استخلاص أن المواطنة الفاعلة هي التي تؤسس الطاعة بما هي فعل ارادي يطيع القانون لا الأفراد.</p>
+<p class="para">- لا يمكن أن تستقيم العلاقة بين المواطن والدولة ما لم يُضمن حق المواطن في ادارة شؤون الدولة وضمان حق الدولة في ممارسة سيادتها.</p>
+<!-- PROOFREAD: 1826 part1 p10 — "حسن البقاء" / "حق ضمان حق الأفراد" / "يسوّغ" / "تخيّل بفضيلتي" / "ولدت الحرية يوم ولد القانون" (handwriting; some words overwritten in blue) -->
+<!-- p11: header "المعهد النموذجي بصفاقس — مراجعة — السنة الدراسية: 2021-2022 — الأستاذ: ناجي خليف"; printed exercises with black handwritten answers (transcribed); blue-pen notes left out -->
+<div class="exsub">مراجعة</div>
+<p class="subhead t-red">المسألة: الدّولة: السيادة والمواطنة</p>
+<p class="consigne"><u>تمرين عدد1</u>: <b>تقتضي السيادة العنف</b> .اكشف عن احدى تبعات الإقرار</p>
+<p class="para">• اغتراب سياسي = افتقار الوجود السياسي للمعنى والقيمة / افقار للانساني اذ لا تكون الدولة مجال انتماء</p>
+<p class="para">• ضعف ثقة الأفراد بالدولة في ظل غياب المقتضى الايتيقي للدولة (الوجود السياسي)</p>
+<p class="para">• تعارض بين السياسي والأخلاقي بموجب تحول الدولة الى جهاز قمع يكرّس ثقافة الخضوع.</p>
+<p class="consigne"><u>تمرين عدد 2</u>: <b>دولة القانون ليست بالضرورة دولة الحقّ</b> .قدّم حجّة داعمة لهذا الإقرار.</p>
+<p class="para">يُطلعنا الفحص العميق لدولة القانون، أن القانون لم يعد ضمانا دستوريا كافيا لاقامة الحق في ظل الوهن الذي أصابه والعجز عن انفاذه. وفعلا، فإن تأسيس الدولة على القانون لا يفيد ضرورة انتظام الحياة السياسية على أساس مبدأ الحق الذي يضمن المقتضى الايتيقي للوجود السياسي، فاستقواء أفراد وطبقة وتعاليها على القانون لا يُعزز التناسب بينهما، ناهيك عن الاغتراب الذي يشعر به الأفراد عندما عمقت القوانين الفوارق الاجتماعية مخلفة أزمة مساواة وعدالة. فبعض التشريعات لا تخدم الا مصالح الأقليات تفرض</p>
+<p class="consigne"><u>تمرين عدد3</u>: <b>" الحريّة الحقّ لا تقوّض ذاتها أبداً"</b> اكشف عن أحد <b>ضمنيّات</b> القول</p>
+<p class="para">من ضمنيات القول التسليم بالحرية المدنية التي يكون القانون منبعها وشرط تحققها وضامنها البشري، ويتمثل الشرط في أن الانسان الذي يتعاقد ارادي مع أقرانه منح نفسه ارادة العامة التي قد تعبيرها وتجسدها في القانون المتولد عنها فانه بخضوعه للتشريع طاعة القانون فانه مواطن وليس عبدا اذ هو لا يطيع الا ذاته. فالحرية الحق هي التي تغلبت على بقايا حالة الطبيعة وانتظمت وفق العقل والحكمة. "الحرية لا تكون الا لمن اختار بمحض ارادته أن يعيش مهتديا بالعقل وحده" سبينوزا.</p>
+<p class="consigne"><u>تمرين عدد4</u>: <b>تستلزم انسانيتي مواطنتي</b>. قدّم <b>حجّة تدحض</b> بها هذا الإقرار.</p>
+<p class="para">- فضل الدولة على المرء في استكمال انسانيته بخروجه من حالة الطبيعة (غلبة الغرائز) الى حالة المدنية (الثقافة) حضور العقل. اذ نضج وعيه بعيشه العيش معا جمعا.</p>
+<p class="para">- انسانية الانسان غير مقتصرة على الوجود السياسي فهو كائن الأبعاد وأن انفتاحه عليها هو ما يمكنه من تحقيق انسانيته</p>
+<!-- PROOFREAD: 1826 part1 p11 — whole handwritten answers to تمرين 2 and 3 (dense handwriting, partly covered by a large stamp/scribble): "لا يُعزز التناسب بينهما" / "لا تخدم الا مصالح الأقليات تفرض" (line runs to the edge) / "يتعاقد ارادي" / "قد تعبيرها" / "بعيشه العيش معا جمعا" / "كائن الأبعاد" -->
+<!-- p12: handwritten page (black ink transcribed; blue-pen notes at top left out) -->
+<p class="para">تعارض : بيان معنى التعارض في سياسة الدولة</p>
+<p class="para">نفي التعارض: التوافق، التكامل، الملاءمة</p>
+<div class="exsub">هل من تعارض بين مقتضيات المواطنة وإكراهات السيادة</div>
+<p class="subhead t-red">I- <u>المقدمة</u>:</p>
+<p class="para">يكشف المشهد السياسي عن مفارقة بين ما تُعلنه الدول المعاصرة من التزام بضمان الحقوق والحريات وتكريس قيم المواطنة، وبين ما يتعرض له الأفراد من انتهاكات تمارسها عليهم أجهزة الدولة وهو ما دعا الى النظر في طبيعة العلاقة بين المواطنة والسيادة فهل يتطلب ممارسة الدولة لسيادتها نفيا المواطنة أم يمكن الملاءمة بين ضرورة السلطة وحق المواطنة؟</p>
+<p class="subhead t-red">II- <u>الجوهر</u>:</p>
+<p class="para">• <u>لحظة أولى</u>: في التعارض بين مقتضيات المواطنة واكراهات السيادة:</p>
+<p class="para">أ- تحديد دلالة السيادة والمواطنة ضمن سياق الدولة بما هي منظومة المؤسسات والأجهزة الموكول اليها ممارسة السلطة</p>
+<p class="para">- تحديد دلالة اكراهات السيادة على معنى ما يفترضه وجود الدولة من حق في ممارسة القوة والعنف الشرعي كضرورة تنظيمية باعتبار السلطة مقوم بنيوي للدولة على قاعدة ضمان مناخ اجتماعي يوفر الأمن والسلم وتأمين حق الحياة للجميع بعد أن كان مهددا في حالة الطبيعة، ويفترض ذلك موتخلي الأفراد عن حقهم في سياسة شؤونهم بأنفسهم وتنازلهم عن حقوقهم الطبيعية.</p>
+<p class="para">- تحديد دلالة مقتضيات المواطنة على معنى الاعتراف الفرد بعضويته في الجسم السياسي على قاعدة مساواة الجميع أمام القانون والتعامل معه كشخصية قانونية.</p>
+<p class="para">ب- بيان تجليات التعارض ومبرراته:</p>
+<p class="para">• سيادة الدولة لا تظهر الا كممارسة السلطة الحاملة لمعنى الالزام والضرورة وهو معنى يتعارض مع الحرية المعبرة عن استقلالية الارادة وعن الرغبة.</p>
+<p class="para">• لا تضمن الدولة هيبتها واحترامها الا عبر أجهزة ايديولوجية وعادية كثيرا ما تعكس توترا مع قيم المواطنة</p>
+<p class="para">• توفير الأمن من أولويات الدولة وهو لا يتحقق الا اذا أسست الدولة سيادتها على العنف ما قد يمس بالحريات.</p>
+<p class="para">• مطلبية المواطنين التي لا سقف لها قد تهدد السلم الاجتماعي ويهدد أيضا السيادة</p>
+<p class="para">• <u>لحظة ثانية</u>: في نفي التعارض بين اكراهات السيادة ومقتضيات المواطنة:</p>
+<p class="para">- بيان ما يفيده نفي التعارض من تكامل وملاءمة على معنى توفق الدولة الى احداث توازن بين حقها في ممارسة نفوذها والتزامها بضمان حقوق المواطنة.</p>
+<p class="para">- الاكراه ليس بالضرورة معبرا عن الاستبداد بل قد يكون معبرا عن الحرية وتحول الالزام الى التزام والخضوع الى طاعة [روسو]</p>
+<p class="para">- بيان أن المواطنة لا تحمل على معنى مطالب نزوية بل على معنى التقيد العيش معا وتغليب المصلحة العامة.</p>
+<p class="para">ب- بيان مبررات نفي التعارض:</p>
+<p class="para">- بيان أن قيم المواطنة وقيم السيادة تعبّر عن الحق، وأن الهدف الأقصى من تأسيس الدولة هو تأمين جودة الحياة</p>
+<p class="para">- لا يجب أن تتحقق قيم المواطنة بمقايضة الأفراد حرياتهم بالأمن وضمان البقاء.</p>
+<p class="para">• <u>لحظة الاستخلاص والتقييم</u>:</p>
+<p class="para">الانتهاء الى راهنية المشكل من جهة ارتفاع منسوب التوتر بين الأفراد والدولة. ثم إن الملاءمة ليست شأن الدولة فقط وانما مهمة موكولة أيضا الى الأفراد. واذا تعذرت يمكن التفكير في أفق عالمي للمواطنة.</p>
+<!-- PROOFREAD: 1826 part1 p12 — top two lines may be teacher annotations; "نفيا المواطنة" / "موتخلي" / "الاعتراف الفرد" / "أجهزة ايديولوجية وعادية" / "التقيد العيش معا" (dense handwriting) -->
+<!-- p13: handwritten photocopy, two columns -->
+<ul class="b">
+<li>ج.لوك: "الطغيان عبارة عن ممارسة السلطة التي لا تستند الى أي حق"</li>
+<li>ريكور: "ينزع صاحب السيادة دوما الى ابتزاز السيادة"</li>
+</ul>
+<p class="para">N.B : مخاطر الاستبداد</p>
+<ul class="b">
+<li>روسو: "حالما يُوجد سيد، لا وجود بعد لشعب يتصف بالسيادة، ومن ثم يندثر الجسد السياسي"</li>
+<li>ديدرو: "ونصبح فيه غرباء عن سياسة الدولة"</li>
+</ul>
+<p class="para">N.B : دولة القانون والمواطنة</p>
+<ul class="b">
+<li>روسو: "الخضوع للسيد عبودية أما الخضوع للقانون الذي أنشأه الأفراد فهو حرية"<br>"ولدت الحرية يوم ولد القانون"</li>
+<li>فيخته: "المواطنة هي ما به تتميز الانسانية وما به تسمو نحو الأخلاقية والحرية"</li>
+<li>موران: "ينتج المواطنون الديمقراطية وتعمل هي الأخرى على انتاجهم"</li>
+<li>سبينوزا: "وهكذا تكون هذه الدولة أكثر الدول حرية لما اعتمدته قوانينها من العقل القويم"</li>
+</ul>
+<p class="para">N.B : مآخذ حول الديمقراطية</p>
+<ul class="b">
+<li>روسو: "لو أخذنا كلمة ديمقراطية على وجه الدقة لرأينا أن الديمقراطية لم توجد ولن توجد أبدا"</li>
+<li>موران: "لا يمكن للديمقراطية أن تكون متطابقة مع ممارسة ديكتاتورية الجماعة على الأقليات"</li>
+<li>دي توكفيل: "انني أجدها قاعدة آثمة وجائرة تلك التي تخول للأغلبية أن تقرر ما تريد في شؤون الحكم"</li>
+<li>أرسطو: "لا يكون المرء مواطنا بمحل الاقامة وحده"</li>
+</ul>
+<p class="para">حنا آرنت: "لا أحد يستطيع أن يكون مواطنا عالميا مثلما هو مواطن في بلده"</p>
+<div class="data"><p class="subhead t-red">عيّنات تمهيد</p></div>
+<p class="para">1- يتسم واقعنا الراهن بمفارقة بين تنامي الخطابات حول الحرية وحقوق الانسان بما يوحي في المجال السياسي أن الدولة الحديثة مجال ضمانها في حين ترج بعض ممارساتها هذا الاعتقاد وتدفع نحو مساءلتها عن مدى قدرتها على حمايتها.</p>
+<p class="para">2- يطرح الوجود السياسي على المفكرين تحديا في ضوء التوتر بين حاجة الدولة الى السلطة لتنظيم العلاقات بين الأفراد من جهة ومتطلبات حقوق الانسان من جهة ثانية.</p>
+<p class="para">3- تمهيد حول المواطنة العالمية. يتصف الواقع الراهن باتساع دائرة الانفتاح الثقافي والاقتصادي ما أفضى الى تحولات عميقة شملت مفهوم السيادة الوطنية ودلالة الانتماء السياسي وهو ما دعا الى البحث في علاقة القطري بالعالمي</p>
+<p class="para">4- يتميز الانسان عن غيره من الكائنات كونه يعيش في فضاء سياسي، وهو لا يقتصر في ذلك على الممارسة بل يجعل منها موضوع تفكير فلسفي خاصة فيما يتعلق بـ.........</p>
+<!-- PROOFREAD: 1826 part1 p13 — "يندثر" / "فيخته" / "ترج" / "مساءلتها" (handwritten photocopy) -->
+<!-- p14: header "المعهد النموذجي بصفاقس — مراجعة — السنة الدراسية: 2021-2022 — الأستاذ: ناجي خليف"; printed exercises with black handwritten answers (transcribed); blue-pen notes and highlighter left out -->
+<div class="exsub">مراجعة</div>
+<p class="subhead t-red">المسألة: الدّولة: السيادة والمواطنة</p>
+<p class="consigne"><u>تمرين عدد1</u>: "لا توجد السيادة إلاّ على نمط محدود." اكشف عن أحد ضمنيات الإقرار.</p>
+<p class="para">من ضمنيات القول التسليم بالسيادة الشرعية المؤسسة حقوقيا والتي يكون القانون قاعدتها ومرجعها فتكون سيادة مضبوطة دستوريا وأخلاقيا تعكس الارادة العامة فيكون رهانها الخير المشترك ناهيك عن تكريس ثقافة المشاركة.</p>
+<p class="para">- استبعاد القول ضمنيا السيادة المطلقة المؤسسة على حق القوة والتي ركيزتها العنف وابتزاز السلطة فتسطو على الحقوق وتنتهك الحريات مما يعمق الاغتراب واليأس من الانساني.</p>
+<p class="consigne"><u>تمرين عدد 2</u>: "لا أحد يستطيع &nbsp;أن يكون مواطنا عالميّا مثلما هو مواطن بلده". قدم حجّة تدعم بها هذا الإقرار.</p>
+<p class="para">أفضى انفتاح الشعوب على بعضها ثقافيا واقتصاديا الى مراجعة علاقة المواطنة المحلية بالمواطنة العالمية وقد كشف البحث عن غياب الجمع بينهما. اذ تزايد المد العنصري بين الأفراد وتعمق التمييز على أساس الجنس والعرق والدين... ولا شك أن ما تلاحظه من اعتداءات على الأقليات المهاجرة أو ذات العقيدة المختلفة عن دولة الاقامة يشكل خير دليل على غياب المساواة التي هي ركيزة المواطنة العالمية. ومن المؤكد أن التوظيف المواطنة العالمية كشف عن طابعها الهيمني والكلياني بعولمتها طرح مخاطرها على الخصوصيات وعلى القيم الكونية.</p>
+<p class="consigne"><u>تمرين عدد3</u>: "لا بدّ من وضع حدّ للسيادة" قدم حجّة داحضة لهذا القول.</p>
+<p class="para">أظهرت تجارب سياسية توجه بعض الجهات الى التضييق على ممارسة الدولة لسلطتها متعللين بالانتهاكات التي طالت الحقوق والحريات. غير أن الحدّ من السيادة ليس خيارا صائبا بالضرورة، وقد تكون له تداعيات خطيرة على الأمن والسلم الاجتماعيين خاصة اذا اقترن بمطالب تعجز الدولة عن تحقيقها وهو ما يتسبب في ارباك عملها فتعم الفوضى ويضعف قدرة الدولة على تنظيم المؤسسات التابعة لها. هذا وان الحدّ من السيادة قد يكون صادرا عن لوبيات تبحث عن الحفاظ على مصالحها الخاصة كلما شعرت بأنها مهددة.</p>
+<p class="consigne"><u>تمرين عدد4</u>:"في حكم الأغلبيّة ما يهدّد الحريّة الفرديّة". اكشف عن أحد استتباعات الإقرار.</p>
+<p class="para">من تبعات القول تجاوز بداهة مثالية نظام الحكم الديمقراطي الذي يرى أن حكم الأغلبية حائز على الشرعية ما دام انبثق عن عملية اقتراع حرة. اذ ثبت في المشهد السياسي أننا أمام أوليغارشيات تعكس ديكتاتورية أشرس من طغيان رجل واحد، ناهيك عن الحيف الذي يُصيب حقوق الأقليات.</p>
+<!-- PROOFREAD: 1826 part1 p14 — handwritten answers partly covered by a large stamp/scribble: "التوظيف المواطنة العالمية" / "بعولمتها طرح مخاطرها" / "توجه بعض الجهات" / "تداعيات" / "لوبيات" (blue-pen correction near it left out) -->
+<!-- p15: printed text (handwritten underlines, boxes and blue notes left out) + black handwritten questions (transcribed) -->
+<div class="note"><div class="nb">
+<p class="para">ليست الحريّة في أن نفرض إرادتنا ولا في أن نَخْضَعَ لإرادة غيرنا إنّما الحريّة في عدم إخضاع إرادة غيرنا لإرادتنا. فمن كان سيّدا لا يمكن أن يكون حرّا والحُكْمُ يعني الطاعة... وأنا لا أعتبر إرادة حرّة بحق غير تلك التي لا يحقّ لأحد مقاومتها .ففي الحرية المشتركة لا يحقّ لأحد أن يفعل ما تمنعه حرية الآخر إنّ الحرية الحقّ لا تقوّض ذاتها أبدا. وهكذا فإنّ الحرية دون عدالة لهي تناقض شنيع...</p>
+<p class="para">إذن لا تستقيم الحرية أبدا دون قوانين ولا حيث يعلو أحد على القوانين .فحتى في حالة الطبيعة نفسها لا يكون الإنسان حرّا إلاّ بمقتضى القانون الطبيعي الذي يحكم الجميع.</p>
+<p class="para">الشعب الحرّ هو الشعب الذي يطيع دون أن يكون خادما له رؤساء لا أسياد يطيع القوانين ولا شيء سواها وبفضل قوّة القوانين لايطيع الناس كلّ الحواجز التي تقام داخل الجمهوريات إزاء سلطة الحكام إنّما الغاية منها ضمان قداسة القوانين من انتهاكاتهم .فالحكام مُؤتمَنون على تطبيق القوانين و عليهم حمايتها لا خرقها. يكون الشعب حرّا حينما لا يرى في من يحكمه إنسانا بل وسيلة للقانون، بصرف النظر عن شكل النظام الذي يحكمه.</p>
+<p class="para">صفوة القول إنّ مصير الحرية من مصير القوانين تسود بسيادتها وتذهب بذهابها لا شيء عندي أكثر يقينا من هذا.</p>
+<p class="para">جان جاك روسو :رسائل من الجبل</p>
+</div></div>
+<p class="para">- ضع اشكالية النص</p>
+<p class="para">- كيف تفهم قول الكاتب: "لا تستقيم الحرية أبدا دون قوانين"</p>
+<p class="para">- "تضمن القوانين حرية المواطن" حجة داحضة</p>
+<!-- PROOFREAD: 1826 part1 p15 — "لايطيع الناس كلّ الحواجز" (printed text partly overwritten by pen) -->
+<!-- p16: printed questions with black handwritten answers (transcribed); blue-pen notes and boxes left out -->
+<p class="consigne">-ما هي الإشكالية التي يطرحها الكاتب في النص؟(نقطتان)</p>
+<p class="para">فيم تتمثل الحرية الحق؟ هل في استقلالية الأفراد وتعاليهم على القانون أم في تساويهم أمامه وطاعتهم والتزامهم بها؟</p>
+<p class="consigne">-كيف تفهم قول الكاتب "لا تستقيم الحرية أبدا دون قوانين"؟(نقطتان)</p>
+<p class="para">يُبين هذا القول التلازم والتضمن بين القانون والحرية. اذ تنسجم الحرية مع القوانين التي تقتضيها لأن في غيابها ما يهدد البقاء ويعرض الحقوق للتعدي والتطاول. وبالمثل لا يكتسب القانون شرعية ما لم يكن ضامنا للحرية... وفضلا عن ذلك يظهر يستبعد هذا القول التعارض بينهما.</p>
+<p class="consigne">-إلى أيّ مدى يضمن سنّ القوانين حرية المواطن؟(نقطتان)</p>
+<p class="para">ان سن القوانين لا يعد ضمانا كافيا لحرية المواطن اذ لا بد أن يحضر القانون الحق بعنف شرعي يحميه ويضمن تطبيقه من قبل الجميع طالما أنه لم يوجد مجتمع يحترم فيه الأفراد القوانين تلقائيا. وفضلا عن ذلك لا بد من توفر آليات مدنية لمحاسبة صاحب السيادة ومراقبة ممارسته للحكم ومقاومته اذا انحرف عن المسار الذي يضمنه القانون في اطار صلاحيته.</p>
+<!-- PROOFREAD: 1826 part1 p16 — "يظهر يستبعد" / "يحضر القانون الحق" / "ومراقبة ممارسته" (handwriting) -->
+<p class="subhead t-navy">النص :</p>
+<p class="para">إنّ سلطة تعسّفية ومطلقة، وحكما دون قوانين قائمة ومستقرّة، أمرٌ لا يمكن أن يتوافق مع غايات المجتمع والحكم. وفعلا، أَفَبِلَ يَتْرُكُ البشر حرّية حالة الطّبيعة لِيَخضعوا إلى حكم لا يأتمنون فيه على أرواحهم وحرّياتهم وراحتهم وممتلكاتهم ؟ وليس لنا أن نفترض أنّه كان في نيّتهم، ولا حتّى كان من حقّهم أن يَهَبُوا لِشَخْصٍ أو مجموعة أشخاص حكما مطلقا وتعسّفيا يُسَلَّطُ على أشخاصهم وممتلكاتهم، وأنْ يسمحوا للحاكم أو الأمير أن يفعل بهم ما يشاء، بإرادة تعسّفية لا يحدّها حدّ. سيكون ذلك بالتأكيد وضعًا أسوأ بكثير ممّا هي عليه حالة الطّبيعةِ، حيث يتسنّى فيها لكلّ امرئٍ حرّية الدّفاع عن حقّه ضدّ اعتداءات الغير والتّماسك أمام كلّ عدوان من شخص أو مجموعة أشخاص متّحدين إن كان له قدر من القوّة. و بالفعل، إذا افترضنا أنّنا أخضعنا أنفسنا لسلطةٍ مطلقةٍ وإرادة متعسّفةٍ لمشرّعٍ، فإنّنا نكون قد جرّدنا أنفسنا من أسلحتنا وسلّحنا هذا المشرّع حتّى يصبح الخاضعون له فريستَهُ، فَيُعَامَلُونَ على النّحوِ الّذي يحلو لَهُ.</p>
+<p class="para">جون لوك<br>رسالة في الحكم المدني</p>
+<p class="consigne">أنجز المهامّ التّالية انطلاقا من النصّ :</p>
+<p class="para">1- حدّدْ أطروحة الكاتب.( نقطتان)</p>
+<p class="para">2- إستخرج من النصّ حجّتيْن دحض بهما الكاتب الحكم المطلق. (نقطتان)</p>
+<p class="para">3- إستخلص رهان الكاتب من خلال ما ورد في النصّ. (نقطتان)</p>
+<!-- PROOFREAD: 1826 part1 p17 — "أَفَبِلَ يَتْرُكُ" (as printed; likely "أَفَيُعْقَلُ"?) -->
+<!-- p18: handwritten page, two columns (a cut-off line above it, "...الأستاذ: ناجي خليف", belongs to the sheet underneath) -->
+<div class="exsub">اصلاح الفرض التأليفي عدد</div>
+<p class="subhead t-navy"><u>تمرين عدد 1</u>.</p>
+<p class="para">• المواطنة لا تقتصر على الانتماء الى دولة محلية فحسب وانما تتجاوز ذلك الى المواطنة العالمية.</p>
+<p class="para">• المواطنة لا تكتمل الا في أفقها الانساني بما هو انفتاح البعد المحلي على الكوني.</p>
+<p class="para">• الانسانية هي الحد الأدنى الذي به تتحدد منزلة المواطنة من جهة كونية حقوق الانسان بوصفها شرطا للمواطنة نفسها. اذ الانسانية ليست مجرد مرتبة بل قيمة ايتيقية ترتبط بقيم المواطنة.</p>
+<p class="subhead t-navy"><u>تمرين عدد 2</u></p>
+<p class="para">• ما يؤكد أن السعادة ليست وهما هو تجربة الانسان المعيشة التي أثبتت عبثية الحياة بدون قوة دافعة تحفزه نحو الانتصار على العراقيل التي تدفعه وتدفعه نحو اليأس والاحباط. فالسعادة هي قوام وجود المرء نفسيا وجسديا ومثل أعلى وكمال يطلبه لكي يكون للحياة معنى.</p>
+<p class="subhead t-navy"><u>تمرين عدد 3 النص</u>.</p>
+<p class="para">• <u>الاشكالية</u>: اذا كان الصراع بين السيادة والحرية سمة جوهرية للوجود السياسي فما واجب الحكومة تجاهه؟ هل هو الغاء الصراع وحسمه نهائيا أم تدبّره بما يضمن تحقق التوازن بين مقتضيات السيادة وحق الأفراد في الحرية؟</p>
+<p class="para">-أو-</p>
+<p class="para">• على أي نحو يفهم النزاع بين السيادة والحرية؟ هل يجب التضحية بالحق في الحرية مطلقا أم يستوجب ضمانها على نحو لا يخل بما تقتضيه السيادة من قوة؟</p>
+<p class="para">• <u>س 2</u></p>
+<p class="para">- التنازع بين الطرفين من زاوية ميل الأفراد الى ممارسة حرياتهم دون تضييق عليها أو اكراهات رقابية وبين لجوء السيادة الى وسائل قوة تحد منها</p>
+<p class="para">- النزاع بين الحرية والسيادة راجع الى بنية الوجود السياسي للانسان من جهتي الحق والواقع.</p>
+<p class="para">- يبرز هذا النزاع بين الوقائع والمعايير وبين الحق والقوة (بين الوسائل والغايات).</p>
+<p class="para"><u>س 3</u> :</p>
+<p class="para">- حدود السيادة هي حدود الحق والعدل والمساواة أي القيم التي وجب على الدولة ضمانها للأفراد وتجنب انتهاكها. ومن شروط رفع التعارض بينها وبين المواطنة هو الاحتكام الى قوانين منصفة تدير شؤون الأفراد بعقلانية.</p>
+<p class="para">- توزيع السلطات وتجنب مركزيتها</p>
+<p class="para">- تغليب المصلحة العامة</p>
+<p class="para">- ضمان دور المجتمع المدني كقوة رقابية في منع انحرافات السيادة.</p>
+<!-- PROOFREAD: 1826 part1 p18 — "اصلاح الفرض التأليفي عدد" (number not visible) / "تدفعه وتدفعه" / "عبثية" / "تدبّره" (handwriting) -->
+<!-- p19: handwritten photocopy (header: المعهد النموذجي بصفاقس — الأستاذ: ناجي خليف); blue-pen notes left out -->
+
+<div class="chtag"><span>المحور</span> الإنية والغيرية</div>
+
+<p class="subhead t-red">مسألة : الانية والغيرية.</p>
+<p class="para">- مثّل البحث في حقيقة الانسان انشغالا مركزيا داخل التفكير الفلسفي استجابة لحاجة الانسان الملحة والمتجددة للوقوف على مقومات انسانيته...</p>
+<p class="para">- كلّما أيقن الانسان أنه اهتدى الى محددات وجوده وأدرك مقومات انسانيته واطمأن لها حتى تُرجّ هذه القناعة في ظل واقع يعج بالمتغيرات ما فتئ...</p>
+<p class="para">- انتظم القول في الانسان ضمن أفق يؤسس الوجود على الفكر ولا ينزل الجسد سوى منزلة الموضوع غير أن معيشنا اليومي يكشف عن علاقة حميمية تصلنا بجسدنا.</p>
+
+<div class="chtag"><span>المحور</span> الخصوصية والكونية</div>
+
+<p class="subhead t-red">مسألة : الخصوصية والكونية</p>
+<p class="para">- يتسم واقعنا الراهن بتوتر شديد في العلاقات بين الأفراد والشعوب بلغ حدّ العنف المهدد للوجود الانساني والمانع للتقارب والتواصل وهو ما دفع...</p>
+<p class="para">- يعيش الانسان مفارقة بين حرصه على تحصين هويته دفاعا عن خصوصية تشده الى مرجع واطار يُعرّفه وبين تطلعه الى الوحدة مع الآخر...</p>
+<p class="para">- لا تزال قضية الهوية مسألة غير قابلة للتجاوز وتشغل مساحات شاسعة من المنابر والمطارحات...</p>
+
+<div class="chtag"><span>المحور</span> العلم بين الحقيقة والنمذجة</div>
+
+<p class="subhead t-red">مسألة : العلم بين الحقيقة والنمذجة :</p>
+<p class="para">- لم يكن يمثل مفهوم الواقع مشكلا بالنسبة الى العلم على امتداد فترات طويلة من تاريخه، غير أنه استحال كذلك في ظل ما شهده حقله من أزمات وثورات...</p>
+<p class="para">- يعيش العلم اليوم على مستوى مفاهيمه ومناهجه تطورا مهما أثر ذلك على تصوراتنا للحقيقة والواقع...</p>
+
+<div class="chtag"><span>المحور</span> القيم: الأخلاق والدولة</div>
+
+<p class="subhead t-red">مسألة الدولة : السيادة والمواطنة</p>
+<p class="para">- يعيش الانسان داخل الوجود السياسي مفارقة بين اعتقاده في أن الدولة تمثل أفضل مجال لتجلي انسانيته وضمان حقوقه وبين ما تظهره ممارساتها من انتهاك وتعدي عليها الأمر الذي دفع باتجاه التساؤل عن...</p>
+<p class="para">- يتصف واقعنا اليوم بمفارقة بين تطور شمل المستويين الحقوقي والتشريعي بما يوحي بتأمين الدولة للحقوق وما يفضحه الواقع من انتهاكات.</p>
+<p class="subhead t-red">مسألة الأخلاق: الخير والسعادة</p>
+<p class="para">- أمام مشهد حضاري تميز باختلاف القيم وتنوعها اختلاف أدى الى اعادة النظر في ما يؤسس أخلاقية الفعل</p>
+<p class="para">- ظلت السعادة من جهة أنها رغبة كونية القوة الدافعة لسلوك الانسان غير أن كونيتها لم تمنع بروز اختلافات بشأن...</p>
+<!-- PROOFREAD: 1826 part1 p19 — "ما فتئ" / "تُرجّ" / "تعدي" / "اختلاف أدى" / last line cut at bottom edge "بشأن..." (handwritten photocopy under a large stamp) -->
+
+</section>
+
+</div>
+</body>
+</html>

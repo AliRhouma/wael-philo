@@ -1,0 +1,1084 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<title>Wael Academy — Philosophie · Fascicule dawla</title>
+<script>
+  window.MathJax = {
+    tex: { inlineMath: [['\\(','\\)']], displayMath: [['\\[','\\]']] },
+    chtml: { fontURL: 'https://cdn.jsdelivr.net/npm/mathjax@3/es5/output/chtml/fonts/woff-v2', matchFontHeight: true },
+    startup: { typeset: true }
+  };
+</script>
+<script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js" async></script>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Sora:wght@400;500;600;700;800&family=Cairo:wght@400;500;600;700;800;900&family=Tajawal:wght@400;500;700;800&family=JetBrains+Mono:wght@400;500;600;700&display=swap');
+:root{
+  /* ===== Wael Academy palette — MAIN ACCENT = green-teal gradient #0FAB8F → #067360 ===== */
+  --bg:#fff; --panel:#f2f8f8; --hair:#e6e6e9; --hair2:#d6d6db;
+  --fg:#0f2a31;        /* body text (and +/− signs) */
+  --fg2:#3f5b62;       /* softer text */
+  --fg3:#7c959b;       /* muted (footer) */
+  --blue:#067360;      /* deep accent — small numbers, borders, watermark, accent equations */
+  --blue-dark:#045260; /* titles & wordmarks (also the balance colour) */
+  --teal:#0fab8f;      /* bright accent end */
+  --loop:#0d9c82;      /* logo-loop helper */
+  --orange:#067360;    /* kicker/category labels (gold retired → deep teal) */
+  --red:#f5322f;       /* EXERCISE CHIPS ONLY — never for emphasis */
+  --cream:#e6f3f4; --blue-soft:#e6f3f4;  /* pale teal — callout fill + table sub-row fill */
+  --blue-line:#cde7e4; /* hairline */
+  --sub-ink:#045260;   /* table sub-row text */
+  --grad:linear-gradient(148deg,#0fab8f 0%,#0d9c82 52%,#067360 100%);
+  --mono:'JetBrains Mono',monospace; --latin:'Sora',sans-serif; --ar:'Cairo',sans-serif; --arb:'Tajawal',sans-serif;
+}
+*{box-sizing:border-box;margin:0;padding:0;}
+body{font-family:var(--latin);color:var(--fg);background:#e4e4e7;padding:28px 0;
+     -webkit-print-color-adjust:exact;print-color-adjust:exact;}
+html[dir="rtl"] body{font-family:var(--arb);}
+
+/* ===== brand watermark: REAL text (crisp), full-bleed, repeats per page ===== */
+.wm{position:fixed;inset:0;z-index:0;pointer-events:none;display:flex;
+    align-items:center;justify-content:center;overflow:hidden;
+    -webkit-print-color-adjust:exact;print-color-adjust:exact;}
+.wm span{font-family:var(--mono);font-weight:800;font-size:76.8pt;letter-spacing:.16em;
+    color:var(--blue);opacity:.06;white-space:nowrap;transform:rotate(-54deg);}  /* single diagonal: bottom-left → top-right */
+.wm.mono span{color:#000;opacity:.05;}
+
+/* ===== continuous flow stream (no page border) ===== */
+.flow{width:210mm;margin:0 auto;background:transparent;color:var(--fg);
+      padding-block:16mm 18mm;padding-inline:23mm 14mm;position:relative;}   /* spiral gutter: inline-start(=spine) 23mm / outer 14mm — dir-aware; print margins set in render_flow.py */
+@media screen{ .flow{background:#fff;box-shadow:0 10px 40px rgba(0,0,0,.16);} }
+.flow>*{position:relative;z-index:1;}
+.flow p,.flow li,.flow .data,.flow .note,.flow .ex{break-inside:auto;}
+.flow .fig,.flow figure,.flow img,.flow svg.figsvg,.flow table,.flow tr,.flow .chapdiv,.flow .exh,.flow .qrcard,.flow .meta{break-inside:avoid;}
+.flow h1,.flow h2,.flow h3,.flow .exh,.flow .subhead,.flow .chapdiv{break-after:avoid;}
+.flow img,.flow svg.figsvg{max-width:100%;height:auto;}
+.flow figcaption,.flow .figcap{display:none;}          /* rule 3: no figure captions */
+
+/* ===== front matter + chapters each start on a fresh page ===== */
+.flow .cover{break-after:page;}        /* cover alone on page 1 */
+.flow .toc{break-after:page;}          /* Sommaire alone on the next page */
+.flow .chapter{break-before:page;}
+.flow .chapter:first-of-type{break-before:auto;}
+
+/* ===== cover ===== */
+.cover{padding:14mm 0 8mm;border-bottom:2px solid var(--blue);margin-bottom:6mm;}
+.cover .badge{font-family:var(--mono);font-size:8.5pt;letter-spacing:.28em;text-transform:uppercase;color:var(--orange);margin-bottom:10px;}
+.cover h1{font-family:var(--latin);font-weight:800;font-size:34pt;line-height:1.03;letter-spacing:-.025em;color:var(--blue-dark);}
+.cover .grule{width:120px;height:5px;border-radius:5px;background:var(--grad);margin:14px 0;}
+.cover .sub{font-family:var(--mono);font-size:10pt;letter-spacing:.14em;text-transform:uppercase;color:var(--teal);}
+.cover .auth{font-size:11pt;color:var(--fg2);margin-top:6px;font-weight:600;}
+
+/* ===== table of contents ===== */
+.toc{margin:2mm 0 4mm;}
+.toc h2{font-family:var(--latin);font-weight:800;font-size:15pt;color:var(--blue-dark);margin-bottom:4mm;}
+.toc .trititle{font-family:var(--mono);font-size:8pt;letter-spacing:.2em;text-transform:uppercase;color:var(--orange);margin:4mm 0 2mm;}
+.toc ol{list-style:none;}
+.toc li{display:flex;align-items:baseline;gap:8px;font-size:10pt;padding:2.2px 0;color:var(--fg);line-height:1.4;}
+.toc li .n{font-family:var(--mono);font-weight:700;font-size:9pt;color:var(--blue);min-width:26px;}
+.toc li .dots{flex:1;border-bottom:1px dotted var(--hair2);transform:translateY(-3px);}
+
+/* ===== chapter divider band ===== */
+.chapdiv{margin:0 0 5mm;padding:6mm 16px 5mm;border-radius:12px;background:var(--grad);
+    -webkit-print-color-adjust:exact;print-color-adjust:exact;}   /* green-filled chapter band */
+.chapdiv .cn{font-family:var(--mono);font-size:8.5pt;font-weight:700;letter-spacing:.24em;text-transform:uppercase;color:rgba(255,255,255,.82);margin-bottom:5px;}
+.chapdiv h2{font-family:var(--latin);font-weight:800;font-size:17pt;line-height:1.1;letter-spacing:-.015em;color:#fff;}
+/* conclusion block — same green-filled look as the chapter band */
+.conclusion{background:var(--grad);border-radius:12px;padding:6mm 16px;margin:5mm 0;color:#fff;break-inside:avoid;
+    -webkit-print-color-adjust:exact;print-color-adjust:exact;}
+.conclusion .ck{font-family:var(--mono);font-size:8.5pt;font-weight:700;letter-spacing:.24em;text-transform:uppercase;color:rgba(255,255,255,.82);margin-bottom:6px;}
+.conclusion h3{font-family:var(--latin);font-weight:800;font-size:13pt;line-height:1.2;color:#fff;margin-bottom:4px;}
+.conclusion p,.conclusion li{font-size:10.4pt;line-height:1.7;color:#fff;}
+.conclusion b,.conclusion strong{color:#fff;font-weight:700;}
+
+/* ===== unit header (lesson/exercise) + QR emplacement ===== */
+.exh{display:flex;align-items:center;gap:11px;margin:6mm 0 3mm;}
+.exh .idx{font-family:var(--mono);font-size:9pt;font-weight:600;color:#fff;background:var(--grad);
+    border-radius:6px;padding:4px 11px;letter-spacing:.08em;text-transform:uppercase;
+    -webkit-print-color-adjust:exact;print-color-adjust:exact;}
+.exh .idx.ex{background:var(--red);}   /* exercise chip = red */
+.exh h2{font-family:var(--latin);font-size:14pt;font-weight:700;letter-spacing:-.01em;color:var(--blue-dark);}
+.exh .qrcard{margin-inline-start:auto;flex:0 0 auto;display:flex;flex-direction:column;align-items:center;gap:3px;width:26mm;}
+.qrcard .qrt{font-family:var(--mono);font-size:6.5pt;letter-spacing:.1em;text-transform:uppercase;color:var(--teal);text-align:center;}
+.qrcard .qrslot{width:24mm;height:24mm;padding:1.5mm;background:#fff;border:1px solid var(--blue-line);border-radius:8px;display:flex;align-items:center;justify-content:center;}
+.qrcard .qrslot img,.qrcard .qrslot svg{width:100%;height:100%;display:block;}
+
+/* sub-exercise label when one file holds several exercices */
+.exsub{font-family:var(--latin);font-weight:800;font-size:11.5pt;color:var(--blue-dark);margin:5mm 0 2.5mm;padding-bottom:3px;border-bottom:2px solid var(--blue-line);}
+
+/* ===== text blocks ===== */
+.lead{font-size:11pt;line-height:1.7;margin:2mm 0 3mm;color:var(--fg);}
+.para{font-size:10.6pt;line-height:1.7;margin:2mm 0 2.5mm;color:var(--fg);}
+.consigne{font-size:10.4pt;line-height:1.6;margin:1mm 0 2mm;color:var(--fg);font-style:italic;}
+.subhead{font-family:var(--latin);font-weight:800;font-size:12pt;letter-spacing:-.01em;color:var(--blue-dark);margin:5mm 0 2.5mm;}
+/* emphasis — green accent = .t-blue/.t-green ; balance = .t-navy ; red = SECONDARY accent (.t-red) on titles + a few words */
+.t-blue{color:var(--blue);font-weight:600;} .t-navy{color:var(--blue-dark);font-weight:700;}
+.t-red{color:var(--red);font-weight:600;} .t-green{color:var(--teal);font-weight:600;} .t-gold{color:var(--orange);font-weight:600;}
+.subhead.t-red{color:var(--red);font-weight:800;}   /* red Roman-numeral section title (I, II, …) — keeps subhead weight */
+/* highlighter marks — a soft colour wash behind a key word (agent picks green or red per what balances the page) */
+.hl-green,.hl-red{border-radius:3px;padding:.02em .24em;font-weight:600;box-decoration-break:clone;-webkit-box-decoration-break:clone;
+    -webkit-print-color-adjust:exact;print-color-adjust:exact;}
+.hl-green{background:rgba(15,171,143,.20);color:var(--blue-dark);}   /* green highlight */
+.hl-red{background:rgba(245,50,47,.13);color:#c0261f;}               /* red highlight  */
+
+.data{background:var(--blue-soft);border:1px solid var(--blue-line);border-inline-start:4px solid var(--blue);
+    border-radius:8px;padding:11px 16px;margin:3mm 0;font-size:10pt;line-height:1.65;color:var(--fg2);}
+.data b{color:var(--fg);font-weight:700;}
+.note{border:1px dashed var(--hair2);border-radius:9px;padding:11px 16px;margin:4mm 0;background:var(--panel);}
+.note .kicker{font-family:var(--mono);font-size:7.5pt;letter-spacing:.18em;color:var(--orange);display:block;margin-bottom:5px;}
+.note .nb{font-size:10pt;line-height:1.7;color:var(--fg2);} .note b{color:var(--fg);}
+.ex:not(.idx){background:var(--blue-soft);border:1px solid var(--blue-line);border-inline-start:3px solid var(--blue);
+    border-radius:7px;padding:7px 11px;font-size:9.6pt;line-height:1.6;color:var(--fg2);margin:2mm 0;}   /* :not(.idx) so it never hits the exercise chip (which is .idx.ex) */
+.ex .extag{display:inline-block;font-family:var(--latin);font-weight:800;font-size:7.6pt;color:var(--blue-dark);background:#fff;
+    border:1px solid var(--blue);border-radius:5px;padding:1px 9px;margin-inline-end:7px;vertical-align:middle;text-transform:uppercase;letter-spacing:.06em;}
+
+/* ===== lists ===== */
+ol.q{list-style:none;counter-reset:q;margin:1mm 0 2mm;}
+ol.q>li{counter-increment:q;position:relative;padding-inline-start:30px;margin-bottom:2.5mm;font-size:10.4pt;line-height:1.6;}
+ol.q>li::before{content:counter(q);position:absolute;inset-inline-start:0;top:1px;width:21px;height:21px;background:var(--grad);color:#fff;
+    border-radius:50%;font-family:var(--mono);font-size:9pt;font-weight:600;display:flex;align-items:center;justify-content:center;
+    -webkit-print-color-adjust:exact;print-color-adjust:exact;}
+ol.sub{list-style:none;counter-reset:s;margin:4px 0 0;padding-inline-start:2px;border-inline-start:1px solid var(--blue-line);}
+ol.sub li{counter-increment:s;position:relative;padding:2.5px 0 2.5px 26px;font-size:10.1pt;line-height:1.55;}
+ol.sub li::before{content:counter(s,lower-alpha)".";position:absolute;inset-inline-start:10px;top:2.5px;font-family:var(--mono);font-size:9pt;font-weight:600;color:var(--teal);}
+ol.qn{list-style:none;counter-reset:qn;margin:1mm 0 2mm;}
+ol.qn>li{counter-increment:qn;position:relative;padding-inline-start:26px;margin-bottom:2.2mm;font-size:10.4pt;line-height:1.55;}
+ol.qn>li::before{content:counter(qn)".";position:absolute;inset-inline-start:0;top:0;font-family:var(--mono);font-size:9.5pt;font-weight:700;color:var(--blue);}
+ul.b{list-style:none;margin:1mm 0 2mm;} ul.b>li{position:relative;padding-inline-start:22px;margin-bottom:2.4mm;font-size:10.4pt;line-height:1.6;}
+ul.b>li::before{content:"";position:absolute;inset-inline-start:3px;top:8px;width:8px;height:8px;border-radius:50%;background:var(--grad);
+    -webkit-print-color-adjust:exact;print-color-adjust:exact;}
+ul.dash{list-style:none;margin:1mm 0 2mm;} ul.dash>li{position:relative;padding-inline-start:20px;margin-bottom:1.8mm;font-size:10.4pt;line-height:1.6;}
+ul.dash>li::before{content:"–";position:absolute;inset-inline-start:2px;top:0;color:var(--fg);font-weight:700;}  /* dash / +/− signs = body colour */
+.flow ul.opts{list-style:none;margin:4px 0 3px;padding-inline-start:16px;}
+.flow ul.opts li{padding:2px 0;font-size:10.2pt;line-height:1.5;color:var(--fg);}
+
+/* ===== figures / tables ===== */
+.fig{margin:3mm 0;} .fig svg.figsvg{display:block;margin:0 auto;background:#fff;max-width:100%;height:auto;}
+.photo{display:block;margin:3mm auto;border-radius:8px;border:1px solid var(--hair);max-width:100%;}
+.figrow{display:flex;flex-wrap:wrap;gap:9px;justify-content:center;margin:3mm auto;max-width:190mm;}
+.flow .figrow img{border-radius:7px;border:1px solid var(--hair);height:46mm;width:auto;max-width:none;object-fit:cover;}
+.schemarow{display:flex;gap:16px;align-items:flex-start;flex-wrap:wrap;margin:2mm 0;}
+.schemarow .col-txt{flex:1 1 90mm;min-width:80mm;} .schemarow .col-fig{flex:0 0 78mm;} .schemarow .col-fig .fig{margin:0;}
+.flow table{border-collapse:collapse;width:100%;margin:3mm 0;font-size:9.8pt;line-height:1.5;}
+.flow table th,.flow table td{border:1px solid var(--blue-line);padding:6px 10px;text-align:start;vertical-align:top;}
+.flow table th{background:var(--grad);color:#fff;font-family:var(--latin);font-weight:700;font-size:9.4pt;
+    -webkit-print-color-adjust:exact;print-color-adjust:exact;}
+.flow table tr:nth-child(even) td{background:var(--blue-soft);color:var(--sub-ink);}   /* sub-row: #E6F3F4 / #045260 */
+
+mjx-container{color:var(--fg) !important;font-weight:400 !important;font-size:1.0em !important;}
+.eq-hi mjx-container,mjx-container.eq-hi{color:var(--blue) !important;}   /* accent (green) equation — highlight a key result; balance with plain math */
+.eq-red mjx-container,mjx-container.eq-red{color:var(--red) !important;}  /* red accent equation / symbol — complements the green .eq-hi */
+
+/* ===== per-file books: credit line, copies list, figures at their size ===== */
+.credit{display:flex;flex-wrap:wrap;align-items:center;gap:5px;margin:-1mm 0 3.5mm;font-size:9.4pt;color:var(--fg2);}
+.credit .who{font-weight:700;color:var(--blue-dark);}
+.credit .tg{font-family:var(--mono);font-size:7.2pt;letter-spacing:.04em;border-radius:5px;padding:1px 7px;line-height:1.6;
+    border:1px solid var(--blue-line);color:var(--blue);background:#fff;-webkit-print-color-adjust:exact;print-color-adjust:exact;}
+.credit .tg.sec{background:var(--blue-dark);border-color:var(--blue-dark);color:#fff;}
+.credit .tg.cor{background:#fff;border-color:var(--red);color:var(--red);}
+.credit a{color:var(--fg3);font-family:var(--mono);font-size:7pt;text-decoration:none;}
+.cover .auth .credit{margin:4mm 0 0;}
+.cover .copies{margin-top:5mm;font-size:8.6pt;color:var(--fg2);}
+.cover .copies ul{list-style:none;margin:2mm 0 0;padding:0;columns:2;}
+.cover .copies a{color:var(--fg3);text-decoration:none;font-size:8pt;}
+.flow figure.fig{text-align:center;}
+.flow figure.fig img{max-height:60mm;width:auto;max-width:70%;display:inline-block;}
+
+/* chapter tag on each part of a multi-chapter book (the book keeps the original order of the file) */
+.chtag{display:inline-block;margin:5mm 0 2mm;padding:1mm 3mm;border-radius:2mm;background:#eef3fb;border:1px solid #c9d6ea;
+  color:#1f3a6b;font-size:9pt;font-weight:700}
+.chtag span{color:#6b7f9e;font-weight:600;margin-inline-end:1.5mm}
+
+@media print{ body{background:#fff;padding:0;} .flow{width:auto;max-width:none;margin:0;padding:0;} }
+@page{size:A4;}   /* margins come from render_flow.py — do NOT set them here */
+</style>
+<meta data-pagefind-filter="type[content]" content="درس">
+<meta data-pagefind-filter="resource[content]" content="COGITO NEWS">
+<meta data-pagefind-meta="n[content]" content="1889">
+<meta data-pagefind-meta="title[content]" content="Fascicule dawla">
+<meta data-pagefind-filter="chapter[content]" content="القيم: الأخلاق والدولة">
+<meta data-pagefind-filter="section[content]" content="باكالوريا رياضيات"><style>.qrcard{display:none!important}.wa-nav{position:sticky;top:0;z-index:50;background:#045260;padding:10px 18px;font-family:Cairo,sans-serif;direction:rtl}.wa-nav a{color:#fff;text-decoration:none;font-weight:700}@media print{.wa-nav{display:none}}</style>
+</head>
+
+<body dir="rtl" lang="ar"
+      data-brand="Wael Academy" data-handle="@WaelAcademy"
+      data-tagline="في تُرابنا.. مغامرة بمغامرة"
+      data-phone="+216 50 40 40 42" data-site="waeldocuments.com"
+      data-cta="سجل معانا وأقرى عن بعد مع منصة Wael Academy"
+      data-subject="Philosophie · Fascicule dawla" data-watermark="Wael Academy" data-pagefind-body><nav class="wa-nav" data-pagefind-ignore><a href="../index.html">→ الرجوع إلى فهرس الفلسفة</a></nav>
+
+<!-- single full-page diagonal watermark, bottom-left → top-right (repeats on every page) -->
+<div class="wm" aria-hidden="true"><span>WAEL&nbsp;ACADEMY</span></div>
+
+<div class="flow colored">
+<div class="cover"><div class="badge">◉ Wael Academy · Philosophie</div><h1>Fascicule dawla</h1><div class="grule"></div><div class="sub">القيم: الأخلاق والدولة</div><div class="auth"><div class="credit">المؤلّف / المصدر : <span class="who">COGITO NEWS — By Rouis Rim</span> <span class="tg sec">الفلسفة · باكالوريا رياضيات</span> <a href="https://drive.google.com/file/d/1PXmKvsLvUuzavQxEuNDkqkiPbzvasVkO/view">↗ Fascicule dawla.pdf</a></div></div><div class="copies" data-pagefind-ignore><b>نسخ هذا الملف في الدرايفات (1)</b><ul><li><a href="https://drive.google.com/file/d/1PXmKvsLvUuzavQxEuNDkqkiPbzvasVkO/view">Eya Masmoudi · Bac math 2026 › فلسفة / الدولة: السيادة و المواطنة</a></li></ul></div></div>
+<section class="chapter"><div class="chapdiv"><div class="cn">المحور</div><h2>القيم: الأخلاق والدولة</h2></div>
+<!-- SOURCE: COGITO NEWS — By Rouis Rim -->
+<!-- SOURCE: الأستاذة ريم السالمي رويس - المعهد النموذجي المنزه8 - -->
+<div class="exh"><span class="idx">درس</span><h2>الدولة : السيادة و المواطنة</h2>
+  <div class="qrcard"><div class="qrt">فيديو الدرس</div><div class="qrslot"><img src="qr/1889.svg" alt="QR"></div></div></div>
+<div class="credit">المؤلّف / المصدر : <span class="who">COGITO NEWS — By Rouis Rim</span> <span class="tg sec">الفلسفة · باكالوريا رياضيات</span> <a href="https://drive.google.com/file/d/1PXmKvsLvUuzavQxEuNDkqkiPbzvasVkO/view">↗ Fascicule dawla.pdf</a></div>
+<!-- CROP: 1889 1 1 0.05 0.01 0.95 0.39 1889_cover -->
+<figure class="fig"><img src="https://wael-philo.b-cdn.net/figs/1889/1889_cover.png" alt=""></figure>
+<p class="subhead t-red">COGITO NEWS</p>
+<p class="para"><span dir="ltr">By Rouis Rim</span></p>
+<p class="subhead t-red">الدولة :<br>السيادة و المواطنة</p>
+<p class="para">دروس و تمارين</p>
+<p class="para"><span dir="ltr">BAC 2026</span></p>
+<div class="note"><div class="nb">وجدت الدولة لتجعل السلطة ممكنة<br>و الاستبداد مستحيلا<br><b>بول ريكور</b></div></div>
+<!-- CROP: 1889 1 2 0.05 0.01 0.95 0.95 1889_p02_tableau -->
+<figure class="fig"><img src="https://wael-philo.b-cdn.net/figs/1889/1889_p02_tableau.png" alt=""></figure>
+<!-- NOTE: p03 onwards: handwritten pages transcribed as content -->
+<p class="subhead t-navy">الباب الثالث (والأخير)</p>
+<p class="subhead t-red">(المحور4) ⇐ <u>الدولة</u> : <u>السّيادة</u> و <u>المواطنة</u></p>
+<p class="para"><span class="t-blue">- انّ ما نشهده في الفضاء الانساني من إنتهاك الحقوق وتعنيف الافراد وما نعايشه من حالات ظلم من الحكّام باستغلال نفوذهم و توظيفهم الإعلام من أجل تسويق صورة "الحاكم العادل" يؤكد بلاريب وجود مفارقة بين الحاجة الى الدولة وبين الخوف من تسلطها وبطشها. واذا افترضنا أن إنسانية الانسان لا تتحقق الا بسيادته على ذاته في فضاء مدني مُعقلن فان ذلك يدفعنا حتما الى التساؤل:</span></p>
+<p class="para"><span class="t-red">ضمن أيّ تصور للسلطة السياسية يكون هذا الفضاء ممكنا؟</span></p>
+<p class="para">هل يكون ذلك بتشريك المواطن في الشأن العام وتجسد مواطنته الحق داخل فضاء قانوني من وضعه فيعتبر تكل الحقوق السياسية والمدنية واساسا حقه في المواطنة والحرية؟</p>
+<p class="para"><span class="t-red">(أم)</span> ان ما نشهده من فشل المنظومات السياسية في الاستجابة لآمال الافراد وطموحاتهم ومن احتكار للسلطة ومن طمس للحريات وسلب للحقوق ما يؤكد حدود الديمقراطيات ومآخذ النظم الكليانية ويستوجب اعادة النظر في نظام سياسي بديل يحقق للشعب ما ينشد ونضمن للانسان رهاناته الاساسية خاصة في ظل عنف الصورة وآثار العولمة السالبة؟</p>
+<!-- PROOFREAD: 1889 part1 p03 — "فيعتبر تكل" uncertain handwritten reading -->
+<p class="subhead t-red">الباب 3 : القيم بين النسبي والمطلق</p>
+<p class="para"><span class="t-blue" dir="ltr">Les valeurs</span></p>
+<p class="para"><span class="t-blue">جملة المبادئ / الاحكام / القواعد } المعيارية</span></p>
+<p class="para"><span class="t-blue">لتقييم السلوك والحكم على مدى تطابقه مع القانون سياسيا كان او اخلاقيا</span></p>
+<p class="para"><span class="t-green">جدلية الثبات والتغير.</span></p>
+<table>
+<tr><th>القيم المطلقة</th><th>القيم النسبية</th></tr>
+<tr><td>↓<br>ثابتة<br>لا تتغير<br>عامة<br><span class="t-red">- العدالة<br>- الخير<br>- الفضيلة</span><br>...</td><td>↓<br>متغيرة<br>مقترنة بالسياق<br>- الثقافة<br>- المجتمع<br>- المرجع الديني<br>....</td></tr>
+</table>
+<p class="para"><span class="t-red">- تتراوح القيم اذن بين النسبية و الاطلاقية<br>- سياسية كانت او اخلاقية تحتاج الانسان اليها</span> <span class="t-green">كضوابط للسلوك ومحددات ضامنة لانسانية الانسان ولرهاناته</span></p>
+<p class="para"><span class="t-red">أي تعريف للقيم وماحاجة الانسان اليها؟<br>هل هي مبادئ ثابتة على مدى الزمان والمكان أم أنها متغيرة بتغير الزمان والثقافات و...؟</span></p>
+<p class="para"><span class="t-blue">تتراوح القيم بين</span></p>
+<ul class="dash">
+<li><span class="t-red">ابستمية</span> <span class="t-blue">معرفية</span></li>
+<li><span class="t-red">ثيولوجية</span> <span class="t-blue">دينية</span></li>
+<li><span class="t-red">سوسيولوجية</span> <span class="t-blue">اجتماعية</span></li>
+<li><span class="t-red">مدنية سياسية</span> ↓ <span class="t-green">المحور</span><span class="t-red">7</span> <span class="t-blue">الدولة : السيادة والمواطنة</span></li>
+<li><span class="t-red">استيتقية</span> <span class="t-blue">جمالية</span></li>
+<li><span class="t-red">اخلاقية ايتيقية</span> — <span class="t-green">المحور6</span> <span class="t-blue">الاخلاق : الخير والسعادة</span></li>
+</ul>
+<!-- PROOFREAD: 1889 part1 p04 — handwritten mind map; layout linearized; "المحور7"/"المحور6" numbers uncertain -->
+<p class="subhead t-red">المحور7 : الدولة : السيادة والمواطنة</p>
+<p class="para"><span class="t-blue">لم يكن ظهور الدولة اعتباطيا بل اقترن بحاجة الافراد الى :</span></p>
+<ul class="dash">
+<li><span class="t-blue">تنظيم / هيكلة / تقنين / عقلنة } فضاء لممارسة سلوكاتهم علاقاتهم</span></li>
+<li><span class="t-blue"><u>ضمانا</u> لحقوقهم <u>أمنهم</u> <u>حياتهم</u> وما يملكون <u>تحقيق</u> العدالة والمساواة</span></li>
+<li><span class="t-blue"><u>إرساء</u> أفق للتعايش تحت راية موحدة</span></li>
+<li><span class="t-red">بالاحتكام الى ضوابط قانونية واحكام موضوعية قادرة على تحقيق رهاناتهم.</span></li>
+</ul>
+<p class="para"><span class="t-red">- <u>فكرة</u> في الاذهان لا واقعة في الاعيان</span><br><span class="t-blue">- <u>كيان</u> سياسي وقانوني</span><br><span class="t-green">- <u>الاداة</u> السياسية للتنظيم السياسي للمجتمعات</span></p>
+<p class="para">↓ سند قيام الدولة <span class="t-red" dir="ltr">Souveraineté</span></p>
+<p class="para"><span class="t-red">- حرية واستقلالية</span><br><span class="t-blue">+ السلطة العليا التي لا تعلوها سلطة</span><br><span class="t-blue">* دولة ذات سيادة = لها وحدها حق تقرير المصير : مصيرها ومصير افرادها دون اي وصاية داخليا أو خارجيا</span></p>
+<p class="para"><span class="t-blue">" المواطن هو مواطن الديمقراطية "<br><span dir="ltr"><u>Aristote</u></span></span></p>
+<p class="para"><span class="t-blue" dir="ltr"><u>citoyenneté</u></span></p>
+<p class="para"><span class="t-red">* وعي بالانتماء والولاء الى دولة ذات سيادة</span><br><span class="t-red">*</span> فاعلية سياسية ومشاركة في الحياة العامة والحياة المدنية<br><span class="t-green">( انخراط في منظمات وجمعيات المجتمع المدني والنقابات + احزاب المعارضة ... )</span></p>
+<p class="para"><u>فما الدولة؟</u> و<u>ما مظاهر سيادتها</u> وما علاقتها بالمواطنة؟</p>
+<!-- PROOFREAD: 1889 part1 p05 — handwritten mind map linearized; chapter number "المحور7" reads like "المحور٦/٧" -->
+<p class="subhead t-red"><u>الاشكالية</u> <span dir="ltr"><u>La Problématisation</u></span></p>
+<p class="para"><span class="t-blue">اي تعريف للدولة ؟ وما مظاهر سيادتها ؟ وما علاقتها بالمواطنة ؟</span></p>
+<table>
+<tr><th><span class="t-green">(</span>هل<span class="t-green">)</span></th><th><span class="t-green">(</span>أم<span class="t-green">)</span></th></tr>
+<tr><td><span class="t-red">السيادة ضمان للمواطنة</span></td><td><span class="t-red">السيادة انتهاك للمواطنة</span> ؟</td></tr>
+<tr><td><ul class="dash">
+<li><span class="t-red">(هل)</span> <span class="t-blue">(*)</span> <span class="t-red">- تضمن الدولة لافرادها تحققهم في المواطنة ؟</span></li>
+<li><span class="t-red">(هل)</span> (*) <span class="t-blue">تحقق لافرادها ما ينشدون من حرية وعدالة وحقوق مدنية باعتماد القانون مبدأ ؟</span></li>
+<li><span class="t-red">(هل)</span> (*)- <span class="t-blue">تتعارض سيادة الدولة مع قيم المواطنة ؟<br>والى أي مدى يمكن <u class="t-red">للمراهنة</u></span> <span class="t-red">على</span> <span class="t-green">المواطنة في راهن</span> <span class="t-blue"><u>عصف</u> العنف بكل معانيه وهشت العداوة والتناحر كل قيم الانسانية ؟</span></li>
+<li><span class="t-red">(ألا)</span> <span class="t-blue">تكون <u class="t-red">الحرية</u> وهما <span class="t-red">و</span><u class="t-red">المواطنة</u> اكذوبة في ظل الدولة (أو العولمة) ؟</span></li>
+</ul></td><td><ul class="dash">
+<li><span class="t-red">(أم) قد تسلبهم هذا الحق لتحولهم الى رعايا ؟</span></li>
+<li><span class="t-red">(أم)</span> <span class="t-blue">قد يُطوّع القانون خدمة لغاياتها وطمسًا للمواطنة وسلبًا للحرية ؟</span></li>
+<li><span class="t-green">(أم) ام المواطنة لا تتجسد الا في تلازم مع السيادة ؟</span></li>
+</ul></td></tr>
+</table>
+<!-- PROOFREAD: 1889 part1 p06 — "وهشت" (could be another verb), "والتناحر", "تتجسد", "قيم" (both lines, may read "قيمه"), "وطمسًا"; "(أو العولمة)" written as an insertion under "ظل الدولة"; "السيادة ؟" written separately in green under the green أم line -->
+<!-- NOTE: 1889 part1 p06 — printed banner "مهارات التفكير الفلسفي" and logos treated as page furniture -->
+<p class="subhead t-red"><u>الدرس 1</u> ① في تعريف الدولة وتمييزها عن السلطة :</p>
+<p class="para"><span class="t-red" dir="ltr"><u>Burdeau</u></span><br><span class="t-blue">" ليست الدولة الارض ولا السكان ولا مجموع القواعد الالزامية، لكن كل هذه المعطيات المحسوسة ليست خارجة عن نطاق الدولة "</span></p>
+<p class="para"><span class="t-red">↓<br>الدولة كيان مركب لا تختزل في شخص الحاكم بل هي بنية سياسية وهيكل قانوني اخترعه الانسان حتى لا يطيع انسانا آخر بل حتى يخضع الى هياكل ومؤسسات من صنعه.</span></p>
+<p class="para">6×6</p>
+<table>
+<tr><td><span class="t-green">جهاز</span></td><td><span class="t-red">معنوي</span></td></tr>
+<tr><td><span class="t-blue">بنية</span></td><td><span class="t-gold">قانوني</span></td></tr>
+<tr><td><span class="t-red">نسق</span></td><td>سياسي</td></tr>
+<tr><td>كيان</td><td>مدني</td></tr>
+<tr><td><span class="t-gold">شخصية</span></td><td><span class="t-blue">معنوي</span></td></tr>
+<tr><td><span class="t-red">هيكل</span></td><td><span class="t-green">تنظيمي</span></td></tr>
+</table>
+<p class="para">موضوعي</p>
+<p class="para"><span class="t-blue">✗ التعريف البنيوي للدولة لا يجعلها حكرا على الحاكم بل هي جهاز قانوني (+) هيكل تنظيمي اوكل اليها الافراد سياسة شؤونهم وتدبير امورهم ، حمايتهم وما يملكون لتكون البنية السياسية</span></p>
+<!-- CROP: 1889 1 7 0.26 0.19 0.47 0.58 1889_p07_hakim -->
+<figure class="fig"><img src="https://wael-philo.b-cdn.net/figs/1889/1889_p07_hakim.png" alt=""></figure>
+<p class="para"><span class="t-red">الشعب<br>الحاكم : شخص قانوني ممثل لإرادة الشعب<br>سلطة الاعلام · سلطة تنفيذية · سلطة تشريعية · سلطة قضائية<br>القوانين</span></p>
+<p class="para">معادلة<br>حاكم<br>+<br>مؤسسات<br>+<br>قوانين<br>=<br><span class="t-red">دولة القانون والمؤسسات</span></p>
+<p class="para"><span class="t-red"><u>Spinoza</u></span> <span class="t-red">دولة الحق العقل</span></p>
+<!-- PROOFREAD: 1889 part1 p07 — handwritten diagram; labels inside the pyramid drawing uncertain -->
+<p class="subhead t-red"><u>الدولة</u> / <u>السلطة</u> (<span dir="ltr">Duo</span>)</p>
+<p class="para">اذا اعتبرنا ان السلطة ممارسة سياسية داخل هياكل ومؤسسات الدولة تعقلن العلاقات الفوضوية وتقننها بسلطة شرعية وقانونية فهي تنأى ان تكون</p>
+<div class="data"><p class="para"><span class="t-red">استبعاد ① ⊖</span><br>استبعاد ان تكون السلطة مختزلة في قدرة الحاكم على تصور الفضائل العقلية وعلى سياسة شؤون الافراد بنفوذ فردي <span class="t-red">لعنيلسوف حاكم</span> " داخل توزيع تراتبي وهرمي تنحصر معه السلطة في ممارسات الحاكم واهمال دور المحكومين (عبيد) لتغيب الدولة داخل هذا التصور <span class="t-red">الاوتوقراطي</span></p>
+<p class="para"><span class="t-blue">سلطة ميتافيزيقية</span></p></div>
+<div class="data"><p class="para"><span class="t-red">استبعاد ② ⊖</span><br><span class="t-blue">استبعاد ان تتجسد السلطة في قوى خفية ولاهوتية او سحرية يكون معها الامتثال للحاكم خضوعا للاسطوري والقوى اللاهوتية لتتأسس السلطة على تبريرات ميثولوجية وهو ما يكرس اخضاع الافراد وغياب الدولة داخل هذا التصور</span> <span class="t-red">الثيوقراطي</span></p>
+<p class="para"><span class="t-red">سلطة لاهوتية</span></p></div>
+<div class="data"><p class="para"><span class="t-red">+ بل انها</span><br><span class="t-red">اعتبار السلطة ممارسة قانونية تعقلن العلاقات السلطوية وتقنن فضاء الممارسة عبر مسار تنظيمي ومدني داخل اطار افتراضي هو الدولة .<br>فتكون بذلك الدولة سلطة سياسية والاساس الذي به تصبح السلطة مشروعة .</span></p>
+<p class="para"><span class="t-blue">سلطة مؤسساتية شرعية</span></p></div>
+<!-- PROOFREAD: 1889 part1 p08 — "لعنيلسوف حاكم" (= فيلسوف حاكم?) uncertain -->
+<p class="subhead t-red">الدولة والسلطة</p>
+<p class="para"><span class="t-red"><u>مركز السلطة</u></span><br><span class="t-blue">جهاز قانوني وكيان موضوعي <u>قادر على</u></span> <span class="t-red">عقلنة العلاقات و تقنينها للحد من " حق - القوة "</span> <span class="t-blue">ارساء " القوة - الحق "</span> <span class="t-red">ليتكون معه الدولة الشكل القانوني والمؤسساتي للسلطة</span></p>
+<p class="para"><span class="t-red">ليست القوة - ليست النفوذ</span><br>ممارسة الفعلية في علاقة عمودية غير متكافئة بين طرفين<br>↓<br><span class="t-blue"><u>ميشال فوكو</u> :</span> <span class="t-red">" السلطة تُمارس ولا تُمتلك "</span><br>↓<br><span class="t-green">" السلطة مبثوثة ميكروفيزيائيا "</span><br><span class="t-green" dir="ltr">La microphysique du pouvoir</span><br><span class="t-blue">يمارسها الجميع في كل الاتجاهات فلا هي حكر على احد بل حاضرة داخل كل العلاقات وفي ثنايا المجتمع وتفاعلاته ⟵</span> <span class="t-red">وهو ما قد ينذر بتحول السلطة ⟵ الى تسلط<br>والقوة ⟵ الى استقواء</span><br><span class="t-blue">ليكون وجود الدولة كسلطة قانونية أي مؤسساتية للحد من كل مظاهر التسلط</span></p>
+<p class="para"><span class="t-red"><u>اشكال السلطة تاريخيا</u></span></p>
+<p class="para">① <u>السلطة الاجتماعية المباشرة</u> او <u>نفوذ الحس الابوي</u> حيث لا احد يأمر و يأتمر الجميع بشيخ القبيلة (سن - حكمة - حيلة ...)</p>
+<p class="para"><span class="t-red">② <u>السلطة الكاريزماتية</u></span> سلطة قائد مبنية على السحر الفائق أي كاريزما (حكيم / فصيح / جنس ...</p>
+<p class="para"><span class="t-red">③ السلطة المؤسساتية او الشرعية / القانونية<br>ظهور الدولة كجهاز قانوني وكيانا موضوعي قادر على عقلنة العلاقات وضمان الحقوق والحريات</span></p>
+<div class="conclusion"><p>♥ انها مجموع المؤسسات المهيكلة بالقانون لعلاقات السلطة</p></div>
+<!-- PROOFREAD: 1889 part1 p09 — "السحر الفائق", "حيلة", "جنس" uncertain -->
+<p class="subhead t-red">مقومات <span class="t-red">عقلنة</span> السلطة :</p>
+<p class="para"><span class="t-blue">- تفسير بنيوي للعلاقات الموضوعية بين الافراد<br>- تنظيم القوى الفزيائية ⟵</span> من الخاضع للنفوذ؟<br>من المُخضع</p>
+<p class="para"><span class="t-blue">فالسلطة</span></p>
+<p class="para"><span class="t-red">ليست</span> <span class="t-green">القوة</span> · <span class="t-red">ليست</span> <span class="t-green">النفوذ</span> · <span class="t-red">ليست</span> <span class="t-green">ممارسة الفعلية</span><br><span class="t-green">فحسب</span></p>
+<p class="para"><span class="t-green">بل تُثير <u>مفارقة</u> مُزدوجة في تصور السلطة</span></p>
+<div class="data"><p class="para"><span class="t-red">من</span> <span class="t-blue">سلطة <u>ميثولوجية</u> تبرر بالقوة والخوف</span></p>
+<p class="para"><span class="t-red">*</span> <span class="t-blue">سلطة <u>ميتافيزيقية</u> تبرر بالعقل المطلق</span></p>
+<p class="para"><span class="t-red">*</span> <span class="t-blue">تصور اعتباطي تمارس معه وفق تصور <u>أوتوقراطي</u> او لاهوتي يكون معه الافراد <u>رعايا</u>.</span></p></div>
+<div class="data"><p class="para"><span class="t-red">الى</span> <span class="t-blue">تصور حديث <u>بعقلاني</u> السلطة</span></p>
+<p class="para"><span class="t-red">*</span> <span class="t-blue">تفسير عقلاني للسلطة <span class="t-red">لا</span> يهمل دور <u>المحكومين</u></span></p>
+<p class="para"><span class="t-red">*</span> <span class="t-blue">علاقة بين آمر ومأمور ضمن جدلية الحق والواجب مصادرها مصادر الحق ذاته .</span></p></div>
+<p class="para"><span class="t-green" dir="ltr">Spinoza</span> <span class="t-red">: " لقد انقذت الدولة السلطة بعقلنتها "</span></p>
+<p class="para"><u>عقلنة السلطة</u> <span class="t-blue">⟵ مقاربة حداثية تحدد متطلبات الشأن السياسي بالنظر الى علاقات الافراد الذين تشاركون في الحياة المدنية ومعها تكون</span> <span class="t-red"><u>السلطة السياسية</u></span><br>↓<br>هي الممارسة التنظيمية المدنية التي يُوكل اليها تشريع القوانين وتنفيذها داخل <span class="t-red"><u>اطار افتراضي سياسي</u></span> هو الدولة .</p>
+<p class="para"><span class="t-green"><u>فالدولة</u></span> <span class="t-red">ليست</span> <span class="t-blue">واقعة في الاعيان <span class="t-red">بل هي</span> فكرة عقلية مجردة وهي ضرورة انسانية والاساس الذي به تصبح</span> <span class="t-red">السلطة مشروعة .</span><br>↓</p>
+<p class="para"><span class="t-red">الدولة تشرع لافرادها باهم مواطنون <u>لا</u> رعايا.</span></p>
+<p class="para"><span class="t-green">والمواطنة</span> <span class="t-red">⟵ ليست</span> <span class="t-blue">مجرد صفة تلحق بالافراد</span> <span class="t-red">ولا هي</span> <span class="t-blue">انتماء صوري / شكلي</span></p>
+<p class="para"><span class="t-red">بل المواطنة</span> <span class="t-blue">وعي بالانتماء والولاء الى دولة ذات سيادة معيارها <u>المصلحة العامة المشتركة</u> إذ من خلالها تتحدد " الارادة العامة "</span></p>
+<p class="para"><span class="t-blue">⟵</span> <span class="t-red">السلطة</span> <span class="t-blue">اذن ليست</span> <span class="t-red">الدولة</span> <span class="t-blue">بما ان</span> <span class="t-red">الدولة <u>مركز السلطة</u></span></p>
+<p class="para">السلطة ↓ ممارسة سياسية داخل هياكل ومؤسسات الدولة<br>الدولة ↓ مجموع المؤسسات المهيكلة بالقانون لعلاقات السلطة .</p>
+<!-- PROOFREAD: 1889 part1 p11 — "الذين تشاركون في", "باهم" uncertain -->
+<p class="subhead t-green">الدولة / القانون</p>
+<p class="para">اذا اعتبرنا ان القانون " نص وضعي من اختراع <span class="t-green">الشعب</span> ومبدأ تنظيمي للعلاقات على <span class="t-green">ثنائية الحق والواجب</span> فان الالتزام به شرط لضمان <u>المواطنة</u> <span class="t-red">كوعي بالانتماء والولاء الى دولة ذات سيادة في غضونها تتجسد الفاعلية السياسية والمشاركة في الحياة المدنية</span> عبر <u>تفويض</u> " <span class="t-green"><u>للارادة العامة</u></span> " ومشاركة الجميع في سن القوانين واختيار نظام الحكم لدولة مدنية تراهن على ضمان حقوق افرادها بالاحتكام الى القانون المدني والجزائي .</p>
+<p class="para"><span class="t-red">" الدولة سلطة معنوية لتحديد الواجب<br>سلطة مادية للإرغام . "</span><br><u><span dir="ltr">Paul Ricoeur</span></u></p>
+<p class="para"><span class="t-red">تمييز القانون بين</span></p>
+<table>
+<tr><th><span class="t-red"><u>القانون المدني</u></span><br><span class="t-green">( مجلة الالتزامات والعقود )</span></th><th><span class="t-red">القانون الجزائي</span><br><span class="t-green">( المجلة الجزائية )</span></th></tr>
+<tr><td>ينظم العلاقات والنزاعات الشخصية والمالية بين الافراد ويهدف الى جبر الاضرار<br>↓<br><span class="t-red">تتعهده السلطة <u>التنفيذية</u></span></td><td>- يحمي المجتمع بمعاقبة الجرائم ( سجن، خطية ... )<br>- يحدد الجرائم والعقوبات الموازية لها ويهدف الى الردع .<br>↓<br><span class="t-red">تتعهده السلطة <u>القضائية</u></span></td></tr>
+</table>
+<p class="subhead t-red"><u>الدولة</u> / <u>العنف</u> : <span class="t-green">تثير علاقة الدولة بالعنف لحراجات كثيرة :</span></p>
+<p class="para"><span class="t-red">كيف يجوز لدولة ابدعها افرادها للحد من العنف والتصدي له ان تستعمل العنف؟</span></p>
+<p class="para"><span class="t-green">" ماكس فيبر "<br>" العنف سمة الدولة <u>العصرية</u> "</span></p>
+<p class="para"><span class="t-red"><u>تمييز في العنف</u></span></p>
+<table>
+<tr><th><span class="t-red">عنف شرعي ومشروع</span></th><th><span class="t-red">عنف شرعي وغير مشروع</span></th><th><span class="t-red">عنف غير شرعي ومشروع</span></th><th><span class="t-red">عنف غير شرعي وغير مشروع</span></th></tr>
+<tr><td>↓<br>العنف الذي تعتمده دولة القانون ضمانا للحق : <span class="t-red">قانوني ومقبول اخلاقيا</span></td><td>عنف الحاكم الذي تنتفي شرعيته وكلي لا يقبله المواطنون لعدم مشروعيته اخلاقيا .</td><td>المقاومة باعتبارها عنف مضاد لعنف الحاكم في مواجهة الاستبداد وهو عنف <span class="t-red">" محرر للشعوب "</span></td><td>الجريمة<br>الاغتصاب<br>↓<br>ما لا شرعية له وهو لا اخلاقي</td></tr>
+</table>
+<p class="para">اذا كانت الدولة كيانا سياسيا وجهازا قانونيا ضامنا للحقوق المدنية مانعا لكل أشكال التسلط والعنف المهدد للافراد فان هذه <span class="t-red">الشخصية المعنوية</span> و <u>الهيكل الموضوعي</u> يعتمد " العنف الشرعي والمشروع " <span class="t-red">وتحتكره لفائدته</span> بعد ان <u>سلبته</u> من افرادها ضمانا للحق . هذا العنف الجزائي والشرعي مبدأ للمراقبة والعقاب <u>فهو عنف قانوني</u> تعتمده الدولة لضمان حقوق كل المستفيدين منها ولتنظيم الفضاء الانساني وضمان الحريات وهو ما يؤكده قول <span class="t-red"><u>بول ريكور Ricoeur</u></span> .</p>
+<p class="para"><span class="t-red">" الدولة سلطة معنوية لتحديد الواجب وسلطة مادية للارغام "</span></p>
+<p class="para"><span class="t-red">" لا مجتمع تحترم فيه الحريات تلقائيا "</span> لوسي - مير (+)</p>
+<!-- PROOFREAD: 1889 part1 p13 — "وكلي لا يقبله", "المستفيدين" uncertain -->
+<p class="subhead t-red"><u>استنتاج</u></p>
+<p class="para"><u>ليس</u> تصور الدولة إذن <span class="t-red">الا</span> تجاوزا الحالة الطبيعية التي اعتبرها فلاسفة العقد الاجتماعي (<span class="t-red">هوبز - روسو - سبينوزا - لوك</span>) تلك الحالة التي تسبق ظهور الدولة وفقا لـ<span class="t-red">فرضية عقلية</span> <span class="t-green"><u>مفادها</u></span> ان الانسان قبل ظهور الحالة المدنية كان يحيا حياة فطرية وان الانسان <span class="t-blue"><u>طبيعة</u> بشرية</span></p>
+<p class="para"><span class="t-blue">انه تحول من</span></p>
+<table>
+<tr><th><span class="t-blue" dir="ltr">Rousseau</span></th><th><span class="t-blue" dir="ltr">Hobbes</span></th></tr>
+<tr><td><span class="t-red">حالة يسودها الانانية نتيجة للملكية الفردية وما يفترن بها من صراع</span><br>↓<br><span class="t-green">في اطار طبيعة الانسان الخيرة</span></td><td><span class="t-red">حالة تسودها حرب <u>الكل ضد الكل</u></span> <span class="t-blue">وما يهدد الافراد من " موت عنيف "</span><br>↓<br><span class="t-green">بالنظر الى عدوانية الانسان " <u>الذئب</u> "</span></td></tr>
+<tr><td colspan="2"><span class="t-blue">الى</span></td></tr>
+<tr><td><span class="t-red">الحرية والتعايش وفق</span><br><span class="t-green">" عقد اجتماعي "</span><br><span class="t-red">ميثاق · عهد · تنازل</span><br><span class="t-red">التزام</span><br><span class="t-green">اراد بالواجب و " بالارادة العامة "</span></td><td><span class="t-red">الامن وحفظ البقاء وفق</span><br>" عقد سياسي وحيلة قانونية "<br><span class="t-red">ضرورة · لزوم · تخلي</span><br><span class="t-red">الزام</span><br>تسري بالانصياع <span class="t-red">" للاله الفاني " " الدولة التنين "</span></td></tr>
+</table>
+<p class="para"><span class="t-red">انه التحول</span></p>
+<!-- PROOFREAD: 1889 part1 p14 — "يفترن", "اراد بالواجب" uncertain -->
+<!-- NOTE: p15 — a large handwritten scribble drawn over the printed table is an annotation and is left out -->
+<p class="subhead t-red">فلسفات العقد الإجتماعي</p>
+<div class="data"><p class="para">تعود <b>نظرية العقد الاجتماعي</b> إلى <b>أبيقور</b>، وقد أحياها في صورتها الحديثة <b>توماس هوبز</b>،وطورها <b>جون لوك، وجان جاك روسو</b> وسبينوزا <b>وإيمانيول كانط</b> في أشكال متنوعة و هي تفيد أن أعضاء المجتمع المدني يمتثلون إراديا داخل الدولة إلى نظام حكم و نفوذ حاكم داخل الدولة يضمن حقوقهم و غاياتهم السياسية سواء كانت الأمن أو الحرية بشكل يقوم على الشرعنة السياسية <span dir="ltr">Légitimation politique</span> أي الحكم المستند إلى الإرادة الشعبية و هو ما يقدّمه اليوم المفكر الإيطالي <b>فرانسيسكو داغوستينو</b><span dir="ltr">D'Agostino</span> في كتابه "<b>عدالة الضرائب</b>" في تبرير الولاء للدولة و الإلتزام بدفع الضرائب (و هو ليس ولاء للحاكم كفرد بل كشخص قانوني و لنظام المؤسّسات و الإرادة العامة) بقوله <b>"النظر فيما اذا كان نظاما ما مشروعًا ومن ثم يستحق الولاء"</b><br>تقوم نظرية <b>العقد الإجتماعي</b> على تبرير الحاجة إلى الدولة <u>بافتراض</u> وجود <u>حالة طبيعية</u> يكون فيها حسب هوبس <b>"الكلّ فرد من الحقّ بقدر ما له من القوة "</b> من أجل تبرير التزام كل المواطنين بما تضعه الدولة و نظام الحكم من واجبات تضمن <u>حقوقهم المدنية</u>.</p></div>
+<p class="subhead t-navy">مبررات تأسيس الدولة و غاياتها:</p>
+<p class="para">ما قبل الدولة ⟵ · ⟶ بناء الدولة</p>
+<!-- CROP: 1889 1 15 0.79 0.20 0.87 0.75 1889_p15_philosophes -->
+<figure class="fig"><img src="https://wael-philo.b-cdn.net/figs/1889/1889_p15_philosophes.png" alt=""></figure>
+<table>
+<tr><th>المرجعيات الفلسفية</th><th>نظام الحكم</th><th>الحالة الطبيعية</th><th>العقد الإجتماعي</th><th>الحالة المدنية</th></tr>
+<tr><td><b>هوبس 1588-1679</b></td><td><b>استبدادي غايته الأمن</b></td><td>° <b>حالة الطبيعة</b> هي حالة <b>توحش</b> و <b>فوضى</b> :"<b>حالة خطر دائم</b>" يغيب فيها النظام والأمن يكون فيها "<b>الكل فرد من الحق بقدر ما له من القوة</b>"<br>°<b>الحرية</b> هي "<b>غياب كلّ العوائق</b>" وهي حالة "<b>حرب الكل ضد الكلّ</b>" يكون فيها "<b>الإنسان ذئبا للإنسان</b>"</td><td>° <b>تنازل</b> كل فرد نهائيا عن حريته الطبيعية المطلقة وإرادته الخاصة لحاكم اتفقوا على تنصيبه تقديرا لما له : 1.من <b>قوة</b> تفوق قوة الأفراد 2. من <b>حكمة</b>.</td><td>°<b>الدولة</b> كيان سياسي تسيّره حكومة تتميز بالقوة و الحكمة. نفوذها مطلق لا تتقيد بأي دستور.<br>°هي دولة "<b>التنين</b>" <span dir="ltr">Léviathan</span> أو الكائن الأسطوري الضخم و المرعب الذي تفوق قوته مقادير قوة كلّ فرد في الحالة الطبيعية "<b>فيخضعون إليه دون عناء</b>" كأفراد لا كمواطنين<br>° <b>غاية الدولة</b>:تحقيق <b>الأمن</b> و<b>السلام</b> للجميع</td></tr>
+<tr><td><b>روسو 1712-1778</b></td><td><b>ديمقراطي غايته الحرية</b></td><td>° <b>الطبيعة البشرية خيّرة</b> ووفقها يكون كلّ الناس <b>أحرار</b> ، وقد عبر عن ذلك بقوله " <b>يولد الإنسان حرا لكننا نجده في كل مكان مكبلا بالأغلال</b>"<b>اذ بظهور الملكية الفردية وما يقترن بها من انانية مولدة للتناحر يحل العنف ويسود التسلط</b></td><td>° عقد <b>يتنازل</b> كل الناس بمقتضاه عن كل حقوقهم الطبيعية لصالح الكل أو <b>الإرادة العامة</b> من أجل "<b>الحق العام</b> " و "<b>الحرية المجتمعية</b>" <u><b>من يهب نفسه للجميع لم يهب نفسه لاحد</b></u></td><td>° <b>الدولة</b> كيان قانوني يقوم على تنظيم الأفراد و احترام حقوقهم وملكياتهم كمواطنين أحرار.<br>° <b>الدولة</b> جهاز قانوني لخصه في قوله: "<b>إيجاد صيغة تنظيمية تحمي كلّ فرد و تدافع عن ممتلكاته كشريك</b>"<br>°<b>الحاكم</b> ليس سيّدا متسلطا بل هو <b>قائد</b> "<b>فحالما يوجد سيّد لا وجود بعد لشعب يتّصف بالسيادة</b>"<br>° <b>السيادة</b> هي ممارسة <b>الإرادة العامة</b> بما هي الإرادة الشعبية التي تضمن توجيه قوة الدولة نحو الخير المشترك.<br>° غاية الدولة هي <b>الحرية</b></td></tr>
+<tr><td><b>. جون لوك 1632-1704</b></td><td><b>ديمقراطي غايته السلام</b></td><td>° يتمتع كل فرد <b>بالحقوق الطبيعية والحريات المطلقة</b> ، وهو ما ينشأ عنه <b>صراعات</b> بسبب افتقار الحالة الطبيعية لشروط العيش المشترك التي يلخصها في ثلاثة شروط:<br>1.غياب قانون محدد ومقبول من طرف العموم كمعيار للحكم،<br>2.غياب قاض متمكن وغير منحاز في تطبيقه للقانون، ثم<br>3.غياب سلطة ذات قوة للتسيير وتنفيذ القوانين.<br>° القانون الأساسي للحالة الطبيعة بالنسبة للوك هو "<b>الحفاظ على البشرية قدر الإمكان</b>"</td><td>°يستمد مشروعيته من <b>الإرادة الحرة</b> للأفراد ومصالحهم المشتركة<br>°<b>العقد الإجتماعي</b> هو "<b>عقد ثقة</b>" أو أمانة بين الحاكم والمحكوم يضعها المجتمع المدني في يد الحكام.<br>° و هو اتفاق ملزم:<br>1.للأفراد بطاعة القوانين 2.للحاكم بتطبيق القوانين المدنية في توافق مع القوانين الطبيعية .</td><td>° <b>الحالة المدنية</b> هي حالة يلتزم فيها الحاكم بالسهر على تحقيق أهداف العقد بضمان الحقوق العامة للمواطنين و على رأسها الحق في الملكية.<br>° الحكومة الشرعية تقوم على فكرة الفصل بين السلطات: 1.<b>السلطة التشريعية</b> و يصف لوك بأنّها السلطة العليا التي تمتلك "<b>كيفية استخدام النفوذ على الشعب</b>" 2.<b>السلطة التنفيذية</b> تطبيق القانون المدني في توافق مع القانون الطبيعي وهي"<b>سلطة الأمر لأجل المصلحة العامة</b> "<br>3. "<b>السلطة الفيدرالية</b>" وهي حق التصرف دوليًا باحترام القانون الطبيعي و الحق في الحياة<br>° غاية الدولة <b>السلام</b> و تعايش المواطنين وفق <b>المصلحة العامة</b> حيث تكون"<b>الحكومة المدنية</b>" مسؤولة سياسيًا أمام الشعب</td></tr>
+<tr><td><b>سبينوزا 1632- 1677</b></td><td><b>ديمقراطي غايته الحرية</b></td><td>°الحالة الطبيعية هي <b>حالة الفردانية</b> و الميل الطبيعي إلى الحياة و فق مبدأ <b>الكوناتوس</b><br>°حالة الطبيعة في غياب العقل و الميل الطبيعي إلى اشباع الرغبة داخل ما يسميه "<b>الطبيعة الطابعة</b>" تنتهي إلى <b>الفوضى</b></td><td>°<b>العقد الإجتماعي</b> ليس عقد اتفاق بين أطراف على المصلحة<br>°إنّما هو <b>عقد تنازل</b> يتخلى فيه كل فرد في الحالة الطبيعية عن حقّه الطبيعي وتأثير "<b>الشهوة العمياء</b>" من أجل الحق العام</td><td><b>الدولة</b> فضاء سياسي يشترك فيها الأفراد كمواطنين بعلاقات سلطة أفقية تشكل منظومة حكم ديمقراطي:"<b>الديمقراطية هي اتحاد الناس في جماعة لها حق مطلق على كل شيئ</b>"<br>°<b>المواطن</b> كما يعرّفه سبنوزا هو كلّ فرد حرّ يكون عضوا فاعلا في المجتمع المدني بما له من عقل يضمن به المصلحة العامة<br>°غاية الدولة هي"<b>الحرية</b>" كقيمة عقلية يكون بها كل فرد مواطنا داخل الدولة" <b>ففي مثل هذه الدولة يستطيع كلّ فرد أن يكون حرّا و أن يعيش بمحض اختياره وفقا للعقل</b>"</td></tr>
+</table>
+<p class="para"><b>فكر الحداثة</b></p>
+<p class="subhead t-red">التحول بظهور الدولة وابداعها</p>
+<table>
+<tr><th><span class="t-red">من</span></th><th><span class="t-red">الى</span></th></tr>
+<tr><td><span class="t-green">العنف</span></td><td><span class="t-green">السلام</span></td></tr>
+<tr><td><span class="t-green">" الفوضى</span></td><td><span class="t-green">" النظام</span></td></tr>
+<tr><td><span class="t-green">" الحق الطبيعي</span></td><td><span class="t-green">الحق المدني</span></td></tr>
+<tr><td><span class="t-green">" الحرية المطلقة</span></td><td><span class="t-green">" الحرية المعقلنة</span></td></tr>
+<tr><td><span class="t-green">" الحالة الطبيعية</span></td><td><span class="t-green">" الحالة القانونية</span></td></tr>
+<tr><td><span class="t-red">" حق القوة</span><br><span class="t-blue" dir="ltr">Le Droit à la force</span></td><td><span class="t-red">" قوة الحق</span><br><span class="t-blue" dir="ltr">La Force du Droit</span></td></tr>
+<tr><td><span class="t-green"><u>من فوضى الغرائز</u></span></td><td><span class="t-green"><u>" معقولية القانون</u></span></td></tr>
+</table>
+<p class="para">حيث</p>
+<p class="para"><span class="t-blue"><u>الحق</u></span> : هو ما يطالب به المواطنون وما يضمنه لهم القانون شرعية <span class="t-red">بل</span> يدعمه ويؤمن شروط تحققه .</p>
+<p class="para"><span class="t-gold"><u>Definition</u><br>↓<br>ماكان مطابقا للقاعدة <u>عملية</u> اي لقانون جزائي<br>و<br>ما لا حيد عن قاعده اخلاقية</span></p>
+<p class="para"><span class="t-blue"><span class="t-red">لا</span> <u>اختزال الحق</u> في جملة الحقوق الفطرية اللامشروطة التي تبيح لكل فرد ما يكون له من الحقوق بقدر ما له من قوة</span></p>
+<p class="para"><span class="t-blue"><span class="t-red">بل</span> <u>الحق</u> هو ما يطالب به المواطنون من حقوق مدنية معقلنة ومهيكلة بالقانون</span></p>
+<!-- PROOFREAD: 1889 part1 p16 — "Definition" (handwritten French), "عملية", "ما لا حيد" uncertain -->
+<p class="subhead">السيادة كضامن للمواطنة</p>
+<p class="para"><span class="t-red">- اذا كان التنازل لفائدة الدولة ككيان موضوعي وشخصية قانونية اوكل اليها الافراد سياسة شؤونهم وتدبير امورهم ، حمايتهم وما يملكون رهانا على المواطنة كقيمة كونية وكحق مدني ومناشدة الحرية كارقى القيم الكونية التي بها ترتقي انسانية الانسان اذ كما اكد سارتر</span> (<span dir="ltr">Sartre</span>) <span class="t-blue">" اذا فقد الانسان حريته جُرد من صميم انسانيته "</span> <span class="t-red">فان ذلك يرتقي بهذا التنازل الواعي الذي يحول كل شريك " الى شعب بحقوقه السياسية والمدنية وان يجسد</span> <span class="t-green">مواطنته الفاعلة باحتكامه الى القانون كنص وضعي من اقتراحه وكمبدأ تنظيمي لعلاقاته على جدلية الحق والواجب</span> <span class="t-red">فلا يخضع الافراد لسلطة تتجاوز اراداتهم الفردية التي توحدت في</span> <span class="t-green">الارادة العامة</span> <span class="t-red">. لتكون سيادته لذاته تجسيدا للحرية والمواطنة في آن</span> <span class="t-green">" فالشعب الحر يطيع ولا يخضع له رؤساء وليس له اسياد "</span> (روسو <span dir="ltr">Rousseau</span>) <span class="t-blue"><u>فالطاعة التزام ارادي بالواجب</u> أي هي امتثال لارادته هو</span> <span class="t-red">وهو ما تنتفي معه مفهوم الرعاية والتبعية حيث لا انقياد افراد الشعب الى اهواء الحاكم - الاله " ولا يستسلم لطغيانه اذ الحاكم ان هو الا مجرد شخص قانوني يحتوي ارادة الشعب ويجسدها <u>وهو اداة</u> لتنفيذ القوانين عبر مؤسسات مستقلة : السلطة التنفيذية والسلطة القضائية التي تتعهد عبر القانون الجزائي تطبيق القانون وضمان</span> <span class="t-green"><u>العدالة</u> بوجهيها المساواة والانصاف .</span></p>
+<p class="para"><span class="t-red">داخل هذا الفضاء المعقلن وفي وجود الدولة شخصية معنوية وفكرة افتراضية تقف الحد الفاصل بين " الدولة العادلة " دولة الحق ودولة العقل والقانون وبين " الاستبداد " كنظام جائر قائم على اهواء الحاكم وجهل وخوف الرعايا .</span></p>
+<!-- PROOFREAD: 1889 part1 p17 — handwritten, "مفهوم الرعاية والتبعية" , "يحتوي ارادة الشعب" uncertain -->
+<p class="subhead t-red">منزلة الديمقراطية في الفلسفة الأرسطية</p>
+<p class="para">صنف <b>أرسطو الديمقراطية</b> بالدستور المنحرف (وإن كانت أفضل السيئين) واعتبر بذلك أنها ليست أفضل حكم باعتبار أنه يمكن أن نستند فيها إلى الحرية كشرط ضروري لكنه يمكن أن ينحرف لضعف الكفاءة وافتقارها إلى الحكمة فيفشل في تحقيق الخير وضمان العدالة بالتحيّز إلى الفقراء أو الطبقة الغالبة خلافا لما يمكن أن تضمنه القلة الفاضلة وما يكون فيها للفرد في هذه المجموعة الصغيرة من الحكمة العملية وهو ما يسمح <b>لأرسطو</b> بالقول <b>"أن النظم السياسية <u>التي</u> تتوخى المصلحة العامة، هي كلها قويمة، طبقًا لسنّة العدل الخاصة. وأما التي لا تتوخى إلا مصلحة أصحاب الحكم، فهي كلها مخطئة، وتحسب انحرافات... في حين أن الدولة اشتراك أحرار"</b></p>
+<p class="para">يقترن التمييز بين الدساتير <u>الصحيحة</u> والمنحرفة بملاحظة مفادها أن الحكومة قد تتكون من شخص واحد، أو عدد قليل، أو حشد غفير؛ ومن هذا المنطلق، نميّز في أنظمة الحكم ستة أشكال دستورية ممكنة وهي:</p>
+<table>
+<tr><th>الحكم الصحيح</th><th></th><th>الحكم المنحرف</th></tr>
+<tr><td><b>الحكم الملكي</b><br>أي حكم الفرد الفاضل العادل</td><td><b>حاكم واحد</b></td><td><b>حكم الطغيان</b><br>أو حكم الفرد المستبد و غير العادل</td></tr>
+<tr><td><b>الحكم الأرستقراطي</b><br>حكم الأقلية الفاضلة</td><td><b>عدد محدود من الحكام</b></td><td><b>الحكم الألغارشي (حكم الأقلية)</b><br>حكم الأقلية الفاسدة (المصلحة الخاصة)</td></tr>
+<tr><td><b>الحكم السياسي (الديماغوجي)</b><br>و هو حكم الأغلبية الإشتراكية الفوضوية</td><td><b>حكام كثيرون</b></td><td><b>الديمقراطي (حكم الأغلبية)</b><br>و هو حكم الأغلبية الفقيرة التي يمكن أن تنحرف</td></tr>
+</table>
+<p class="para">وقد اعتبر أنّ أفضل دستور (المبادئ الخاصة بالنظام السياسي) للدولة - المدينة حسب <b>أرسطو</b> هو ذاك الدستور القائم على الطبقة المتوسطة وهو دستور الاعتدال بين التطرف في حكم كل من <b>الأولغارشية</b> (أي حكم الأغنياء) <b>والديمقراطية</b> (أي حكم الفقراء). لينتهي من ذلك <b>أرسطو</b> إلى تبجيل الطبقة الوسطى حين يقول <b>"فجليّ أن خير السياسات (أي أفضل الدساتير) هي السياسة المعتدلة. لأنها وحدها لا تتعرض للثورات. إذا حيث تتسع الطبقة الوسطى يقل جدًا وقوع الثورات والاضطرابات في السياسة"</b>، لينتهي بذلك <b>أرسطو</b> إلى أن الحكم المعتدل أو الوسطي هو الأكثر استقرارًا وعدالة من الحكمين <b>الأوليغارشي والديمقراطي</b>.</p>
+<p class="subhead t-red">من الديمقراطية الكلاسيكية<br>إلى الديمقراطية المركبة</p>
+<p class="subhead t-navy">معنى الديمقراطية</p>
+<!-- CROP: 1889 1 19 0.64 0.19 0.87 0.32 1889_p19_vote -->
+<figure class="fig"><img src="https://wael-philo.b-cdn.net/figs/1889/1889_p19_vote.png" alt=""></figure>
+<p class="para">يتحدّد تصوّرنا للديمقراطية بالنظر إلى منزلة الفرد في الدولة و بحسب طبيعة الحكم ونوعيّة العلاقة الّتي تربط الحاكم بالمحكومين بما أن الديمقراطية هي نظام حكم داخل الدولة. أمّا الدولة فهي المؤسّسات التي يمارس فيها هذا الحكم فلا يجوز بذلك أن نقول أن الدولة ديمقراطية بل إنّ نظام الحكم داخلها ديمقراطي و هو بذلك قابل للإنحراف إلى حكم استبدادي داخل نفس المؤسّسات دون أنّ تتحوّل الدولة خاصة في ظل أنظمة إستبدادية تتستّر اليوم في خطاباتها و آلياتها بثوب الديمقراطية دون أن تكون بالفعل كذلك.</p>
+<p class="para">فاختزال الديمقراطية اليوم في حكم الأغلبية هو تستّر بالحقّ في الإنتخاب واختزال كلّ الحقوق السياسية للأفراد داخل الدولة بما هي كيان سياسي في هذا الحق. وهو سياق يبرّر الإحتفاظ بالتصوّر التقليدي للديمقراطية كما أسّسه الفكر اليوناني خاصة و أن مفهوم الديمقراطية يتركّب من لفظ ديموس <span dir="ltr">Demos</span> وتعني الشعب، و لفظ قراطوس <span dir="ltr">Kratos</span> وتعني السلطة أو الحكم؛ وبذلك تفيد الديمقراطية الحكم من قبل الشعب <span dir="ltr">Demoskratos</span> - أو بحسب التأويل الأنجلوساكسوني هي الحكم الذاتي <span dir="ltr">Self government.</span>بحيث نجد أن هذا التعريف الكلاسيكي للديمقراطية كما قدّمه <b>أرسطو</b> يفيد <b>" حكم الشعب"</b> أو حكم الشعب للشعب، فالسلطة التنفيذية والتشريعية والقضائية منبثقة من الشعب، وتحكم أيضاً باسم الشعب والشعب باختياره يقوم بتنصيب حكامه، وبعبارة أخرى أكثر اختصاراً يعرفها البعض أنها حكومة الشعب بواسطة الشعب، وهو المعنى نفسه الذي قدمه رئيس الولايات المتحدة الأمريكية في نهاية القرن الـ 18<b>ابراهام لنكولن</b> <span dir="ltr">Abraham Lincoln</span> بقوله: <b>"الديمقراطية هي حكم الشعب بواسطة الشعب ولأجل الشعب."</b>. وهو تصوّر يتناسق مع التصور الأرسطي رغم أن <b>أرسطو</b> عبّر عن رفضه للديمقراطية بما هي بالنسبة إليه حكم الفقراء واعتبره حكما فاشلا و انتصر للأرستقراطية في حين أن النظام الليبرالي الجديد يدافع على معاني الحرية و السيادة الشعبية و حقوق الإنسان خاصة بعد الحرب العالمية الثانية و ينتصر بذلك للديمقراطية.</p>
+<!-- PROOFREAD: 1889 part1 p19 — faded words under a scribble: "حكم الشعب" أو حكم, "باسم الشعب", "حكومة الشعب", "القرن الـ 18" -->
+<p class="para">ولكن إذا كان التّفكير في مسألة الديمقراطيّة قد اقترن بالتّفكير فيما به يكون الشعب سيّدا وحرّاً، فإنّ هذه الحرية يمكن أن تنتهي إلى الإختلاف في المواقف وحتى النزاع بدل أن تكون موحّدة لمكونات المجتمع المدني. هو ذا الموقف الّذي حاول <b>إدغار موران</b> لفت الانتباه إليه في الفصل السابع من <b>كتابه تربية المستقبل</b>. ولعلّ ذلك ما يبرّر التفكير من جديد في الديمقراطية في بعدها الجديد وعلاقتها بمعاني التعدّد والصراع والحقّ في الاختلاف.</p>
+<p class="para">إنّ الديمقراطيّة في معناها البسيط تعني سيادة الشعب المواطن، وهي مرتبطة بشكل عضوي منذ فكر الأنوار وتداعيات الثورة الفرنسية بما يسميه <b>روسو "الإرادة العامّة"</b> والإجماع التوافقي. وعلى هذا النّحو، فإنّ الديمقراطية إذ تكرّس مبدأ السيادة الشعبيّة، فإنّها تكرّس في الآن ذاته نظاماً تمثيليّا يقوم أساسا على مبدأ التّوافق أو التّعاهد. وبهذا التّقدير، فإنّ النّظام الديمقراطي يُفهم كمقابل للأنظمة الكُليانيّة أو الشموليّة. <b>كما يُفهم</b> كنقيض لنظريّات التّفويض الإلهي؛ أي للسلطة الّتي تجد شرعيتها فيما هو ديني أو لاهوتي.</p>
+<p class="subhead t-navy">2. حدود الديمقراطيّة الكلاسيكية</p>
+<p class="para">إنّ ما انتهت إليه صورة الديمقراطية اليوم في معناها المباشر كحكم الشعب للشعب هو الإقرار بسيادة الشعب لكن هذه السيادة كما يشير <b>إدغار موران</b> فتحت بذلك المجال لشكل جديد من أشكال الديكتاتوريّة أو ما اصطلح على تسميته بـ <b>"ديكتاتورية الجماعة على الأقليّات"</b>، وهذا يعني أنّ مبدأ التّوافق المفضي إلى حكم الأغلبيّة لا يمكن أن يكون هو المبدأ الواحد والوحيد لضمان ممارسة ديمقراطيّة حقيقيّة وفعليّة و هو ما يبرّر مراجعة المضمون الكلاسيكي الذي انتهى إلى فلاسفة العقد الاجتماعي و التعديلات التي أقرّها التصوّر الليبرالي الجديد .</p>
+<p class="subhead t-navy">3.الديمقراطيّة باعتبارها نسقا سياسيا مركّبا</p>
+<p class="para">لكن اختزال الديمقراطيّة في مبدأ التّوافق بين الأفراد كمواطنين و السيادة الشعبية القائمة على مبدأ الحرية يمكن أن ينتهي إلى تكريس الفردانية و ما يمكن أن ينتج عنه من خلافات و صراعات، كما يمكن لحكم الأغلبية أن ينتهي إلى الإستبداد و طغيان الفريق الحاكم على نحو ما نبّه إليه <b>مونتسكيو</b> بقوله: <b>"كلّ سلطة لا حدود لها، لا يُمكن أن تكون شرعيّة"</b>. ولكن كيف يجب أن نفهم علاقة الديمقراطية بالتعدّد والصراع؟</p>
+<p class="para">إذا كان الشعب يدين للديمقراطية بسيادته، فإنّ هذه السيادة تبقى مع ذلك، من وجهة نظر <b>ادغار موران</b> ، في حاجة إلى التعدديّة وإلى التنافس على الحكم و كذلك على تشاركية بالمراقبة و الحوار تكريسا لمبدإ التعددية. فمفهوم التعدّد كما ينبّه إلى ذلك <b>ادغار موران</b> لا يعني تعدّدا في البرامج السياسية فحسب، بل يشمل الأفكار والقيم والآراء ومصادر الخبر الصحفي. وهذا يفترض أنّ الديمقراطية حسب <b>موران</b> تقوم على مفارقة حيوية فبقدر ما تعمل على ترسيخ فكرة المواطنة وجعل كل فرد في الدولة بما له من وع بالمواطنة،طرفاً فاعلاً في الحياة السياسيّة يتمتّع فيها الأفراد بحقوقهم كمواطنين، إلاّ أنّها تمثّل في الآن ذاته أساسا للتعدّد في أبعاده الفكرية والثقافية والاجتماعية. في إطار ما يسميه <b>"بناء علاقة غنيّة ومركّبة بين الفرد والمجتمع "</b> و الإقرار بأنّ الديمقراطية اليوم في شكلها القائم على التعدّدية هي ديمقراطية مركّبة تتغذى من الإختلاف والصراع ومن أجل إضفاء <b>"الحيويّة والإنتاجيّة (<span dir="ltr">vitalité et productivité</span>)</b> "على الحياة الديمقراطية لا من وحدة الحكومات كممثّلة للشعب.</p>
+<p class="para"><b><u>لنخلص</u></b> من ذلك إلى أنّ الديمقراطية اليوم ليست سوى تقاطع للتجارب الإنسانية والتاريخية المتنوعة وهو تقاطع يثريها لتتحوّل به مجرّد نظام سياسي يختزل في حكم للشعب لذاته عن طريق ممثّليه إلى فضاء حيوي للمواطنة الفاعلة يشترط الحرية كسند للتعدّدية باعتبارها شرطا لتطوّر الدولة و اثرائها من ديمقراطية مركّبة تتجاوز مطلب التسيير لضمان الحقوق المدنية إلى خلق فضاء حيوي لتكريس إنسانية كلّ مواطن ومنظومة القيم الكونية بما أنّ الإنسانية الفعلية لا تتحقّق إلاّ <b>" بتبادل الاعتراف بإنسانيتنا المشتركة"</b> و أن ذلك يجعلها حسب <b>موران</b> إلاّ <b>"بوصفها قضيّة نابضة بالحياة ولكنّها مهدّدة بالموت أكثر من أى وقت مضى"</b>.</p>
+<!-- CROP: 1889 1 20 0.48 0.74 0.82 0.87 1889_p20_table_ronde -->
+<figure class="fig"><img src="https://wael-philo.b-cdn.net/figs/1889/1889_p20_table_ronde.png" alt=""></figure>
+<p class="subhead t-red">أزمة الديمقراطية و شروط انقاذها</p>
+<p class="subhead t-navy">من موران إلى توران</p>
+<div class="note"><div class="nb">إذا لم يتم احترام الأقليات، فإنّ الديمقراطية تفقد معناها</div></div>
+<p class="para">إنّ العالم اليوم يقع تحت تأثير تجاذبات النظام والفوضى أو الإنضباط للقوانين المدنية والتجاوزات اللامسؤولة وهو ما قد لا يخدم التطلعات الإنسانية والمراهنة على النجاح في ضمان الحقوق و تأمين الحريات وفي هذا السياق، ينبه <b>ادغار موران</b> إلى ما يهدّد الديمقراطية كممارسة و نظام حياة سياسية. فالديمقراطية لا تعني الفصل بين السلطات والإنتخابات فقط بل إنها تتغذى من اختلاف المواقف وتعارض الأفكار في إطار نقاش متحضر يجنب الشعوب العنف والمواجهات المسلحة. لتفيد الديمقراطية في هذا السياق كما بيّن ذلك <b>ادغار موران</b> قيمة احترام الآخر باحترام الأقليات السياسية أو الثقافية أو غيرها كقاعدة لضمان الحقوق حتى لا تفقد معناها وهو ما يبرّر إقرار <b>موران</b> <span dir="ltr">E. MORIN</span> بأنّ الديمقراطية من هذه الزاوية نظام سياسي هش "<span dir="ltr">un régime fragile</span>". طالما هو اليوم غير قادر على ضمان مشاريع الحقوق التي يبشّر بها داخل مختلف الأنظمة الديمقراطية الراهنة على اختلاف أشكالها سواء اتخذت شكل نظام سياسي برلماني أو رئاسي أو نظام سياسي برلماني رئاسي هجين، لذلك ينبّه عالم الاجتماع الفرنسي <b>ألان توران</b> <span dir="ltr">Alain TOURAINE</span>في كتابه <b>"ما هي الديمقراطية؟ هي حكم الأكثرية أم ضمانات الأقلية"</b> أنّ الديمقراطية اليوم في زمن العولمة وهيمنة المصالح الاقتصادية وسيادة السوق العالمية فقدت قدرتها على الدفاع عن خصوصياتها وما يميّزها من دفاع عن الحرية و مبدأ التعددية والحق في الإختلاف.</p>
+<!-- PROOFREAD: 1889 part1 p21 — words partly hidden by a handwritten scribble: "الراهنة", "نظام سياسي", "ضمانات الأقلية", "وسيادة", "من دفاع" -->
+<!-- CROP: 1889 1 21 0.12 0.32 0.32 0.50 1889_p21_touraine_livre -->
+<figure class="fig"><img src="https://wael-philo.b-cdn.net/figs/1889/1889_p21_touraine_livre.png" alt=""></figure>
+<p class="para">إنّ الديمقراطية كنظام سياسي هي ممارسة تقوم على تصوّر خصوصي لطبيعة العلاقات بين المواطنين و تشترط المرونة و الإنفتاح و هو ما يجعلها تهديدا للديكتاتوريات كما نبّه إلى ذلك <b>موران</b> باعتبارها ديكتاتوريات عادة ما تقوم على تصوّر "الحقيقة واحدة" أو أيديولوجيا يعتقد أتباعها في صحتها و يبرّرون بها كلّ الأدوات والمسارات التي يحاولون فرضها كالأنظمة النازية أو الشيوعية الستالينية أو الأنظمة التيوقراطية التي تعتمد على الحقيقة الإلاهية بينما تكون الديمقراطية في مقابل ذلك نظام حكم يقوم على غياب القمع باسم حقيقة واحدة"<span dir="ltr">on ne tyrannise pas au nom d'une vérité</span>"ويبرّر الدفاع عن المواطنة و الحقوق و الحريات.</p>
+<p class="subhead t-navy">و هم الديمقراطية و علامات فشلها</p>
+<p class="para">غير أن غياب القمع في ظل الأنظمة الديمقراطية الجديدة كما نعيشها اليوم لا يعني النجاح فعليا في ضمان الحرية و الدفاع عن كرامة الإنسان، خاصة في حضور عنف الصورة و أنظمة التسويق الإلكتروني و تأثير شبكات التواصل الإفتراضي، حيث تكون الحرية شعارات سياسية تبرّر الفردانية و العزلة الاجتماعية كما حذّر من ذلك عالم الاجتماع الفرنسي <b>آلان توران</b> حين يعتبر ان المسألة لم تعد مسألة إلغاء الفروقات المجتمعية والثقافية بموجب ما شرعه فلاسفة فكر الأنوار من تصوّر للديمقراطية يقوم على مفهوم الإرادة العامة و توحيد <b>المجتمع المدني</b> في نموذج مشترك بدل الدفاع عن التنوع و الحرية الفردية، و هو ما برّر مع ثقافة العولمة و هوس الرغبات ميل الأفراد باسم الديمقراطية و شعارات الحرية و سيادة القانون إلى الفردانية و الإنعزالية و جعل الديمقراطية شعارات النافذين و المنتصرين في الإنتخابات. فحرية المرء في مجتمع مؤسّساتي يختزل في بعد سياسي هو "المجتمع المدني" ينبئ بمخاطر الديمقراطية كممارسة سياسية و تهديدها لإنسانية الإنسان باسم الحرية الفردية خاصة حين نقرّ مع <b>آلان توران</b> أننا بحاجة ماسة ومطلقة اليوم إلى مجال عمومي وإلى تدابير <b>ديمقراطية مدروسة تقوم على التوازن</b> بين البعد الفردي للإنسان و بعده الاجتماعي و هو ما يبرّر الدعوة <b>لمقاومة الفردانية و استراتيجية العزل</b> الممنهج باسم الحرية الفردية إلى تصوّر جديد للمجتمع المدني يقوم على الإثراء من <b>الإختلاف و التنوّع بقوانين</b> مدنية مرنة و ايمان بالوطنية الحية كقيمة سياسة ناجحة و إنسانية.</p>
+<!-- NOTE: p21 — highlighter strokes over the last lines are annotations, left out -->
+<p class="subhead t-navy">الديمقراطية و شروط إنقاذ المجتمعات من التفكك</p>
+<p class="para">لا يمكن للديمقراطية أن تتغلب على أنظمة العنف الإستبدادي التقليدية أو الفساد السياسي المشرّع اليوم بوهم الديمقراطية المختزلة في نتائج الإنتخاب و حكم الأغلبية و المبرّرة لتهميش المنافس إلاّ بديمقراطية تشاركية "<span dir="ltr">démocratie participative</span>" تكون ناجحة بقدر ما تترسخ في كلّ فرد داخل الدولة عقيدة المواطنة الفاعلة مثلما حدث في مدينة بورتو أليقري <span dir="ltr">Porto Alegre</span> البرازيلية و هو ما دفع <b>ادغار موران</b> إلى التحذير من تداعيات الليبرالية حين تكون درجات الحرية عالية و التنبيه إلى مخاطرها من فردانية و عدم الإلتزام بالقوانين حيث يصبح المجتمع مهددا بالتفكك "<span dir="ltr">désintégration</span>".</p>
+<p class="para">وانتهى <b>ادغار موران</b> إلى الدعوة إلى حماية الديمقراطية اليوم، بالدعوة إلى "ديمقراطية مركّبة" تجدد نفسها حتى لا يكون مصيرها الزوال "<span dir="ltr">si elle ne se regénére pas, la démocratie dégénére</span>" و هو ما يحتّم تغييرا على مستوى القوانين تضمن مقاومة قوى التدمير "<span dir="ltr">les forces destructives</span>" والتحكم في الأزمات الناتجة عن التوحد التكنولوجي و الاقتصادي زمن العولمة"<span dir="ltr">l'unité techno-économique</span>" و السيطرة على بؤر التوتر و الفوارق الاجتماعية في كل العالم. وقد شدّد بذلك على أنّه لا منقذ من هذا المأزق السياسي إلاّ بتوفير عدد من العناصر التي تسمح بوحدة المجتمع وبتماسكه، وهي وفق <b>موران</b> كالآتي:</p>
+<p class="para">-<b>الوطنية</b> "<span dir="ltr">le patriotisme</span>"</p>
+<p class="para">-<b>التضامن</b> "<span dir="ltr">la solidarité entre les individus</span>"</p>
+<p class="para">و قد شدد <b>ادغار موران</b> من هذا التصوّر على فكرة المجموعة "<span dir="ltr">la communauté</span>" كفكرة أساسية لتحيين مشروع الديمقراطية و ضمان تطورها و هي اليوم شرط ضروري للنأي بالمجتمع عن التفكك "<span dir="ltr">désintégration</span>".</p>
+<!-- CROP: 1889 1 22 0.78 0.48 0.89 0.53 1889_p22_touraine -->
+<figure class="fig"><img src="https://wael-philo.b-cdn.net/figs/1889/1889_p22_touraine.png" alt=""></figure>
+<p class="subhead t-navy">علامات الديمقراطية الحقيقية حسب آلان توران في كتابه " ما الديمقراطية؟"</p>
+<table>
+<tr><th>✅ 1. ما وراء "حكم الأغلبية"</th><th>✅ 2. الأركان الثلاثة للديمقراطية</th></tr>
+<tr><td>أن حصر الديمقراطية في "حكم الأغلبية" فقط قد يؤدي إلى "استبداد الأغلبية". بالنسبة له، فالديمقراطية الحقيقية هي القدرة على حماية التنوع والاعتراف بحقوق الأقليات وحريات الأفراد الشخصية.</td><td><b><u>احترام الحقوق الأساسية</u></b>: حماية الفرد من تغول الدولة أو المجتمع.<br><b><u>التمثيل السياسي</u></b>: أن يشعر المواطنون بأن الأحزاب والمؤسسات تعبر عن مصالحهم وتطلعاتهم .<br><b><u>المواطنة</u></b>:شعور الأفرادبالانتماءلكيان سياسي واحد+ احترام اختلافاتهم</td></tr>
+<tr><th>✅ 3. الفرد كـفاعل <span dir="ltr">Subject</span></th><th>✅ 4. نقد الليبرالية المتوحشة والعولمة</th></tr>
+<tr><td>هدف الديمقراطية هو تنظيم المجتمع + تمكين الفرد من أن يكون "فاعلاً" بأن يكون قادراً على الجمع بين حداثة العصر وبين هويته الخاصة وتاريخه الشخصي دون ضغوط.</td><td>يُحذر<b>آلان توران</b> من أن سيطرة الأسواق العالمية (العولمة الاقتصادية) قد تُضعف الدولة الوطنية، مما يؤدي إلى تآكل الديمقراطية لأن القرارات المصيرية تصبح بيد قوى اقتصادية غير منتخبة</td></tr>
+</table>
+<div class="conclusion"><p><b>النتيجة:</b> الديمقراطية "<b>نظام لا يتوقف عن التكوين و التطور</b>"، فهي صراع دائم لحماية الفرد من أشكال السلطة المطلقة + دعوة لإعادة بناء الديمقراطية على أساس "<b>ثقافة الاختلاف</b>" و"<b>احترام الذات الإنسانية</b>"</p></div>
+<p class="subhead t-red">الديمقراطية [ سيادة الدولة هي سيادة الشعب ] - VS - الاستبداد [ سيادة الدولة هي سيادة الحاكم ]</p>
+<table>
+<tr><th colspan="4"><span class="t-red">الشعب</span></th></tr>
+<tr><th><span class="t-blue">يفوض</span></th><th><span class="t-blue">يتنازل</span></th><th><span class="t-blue">شريك</span></th><th><span class="t-blue">التزام</span></th></tr>
+<tr><td><span class="t-blue">الافراد سياسة شؤونهم وتدبير امورهم الى</span> <span class="t-red">الدولة</span> <span class="t-blue">بما هي تجسيد</span> <span class="t-red"><u>للارادة العامة</u></span> <span class="t-blue">وباعتبارها جهاز قانوني وكيان سياسي قادر على ضمان حقوق كل الافراد المشاركين في الدولة .</span></td><td>الجميع عن حقوقهم الطبيعية في فوضويتها ولا تناهيها واعتداءها على الحق لفائدة <span class="t-red">الجميع .</span><br>↓<br>طلبا لحقوق مدنية معقلنة تضمنها لهم الدولة كنسق موضوعي وككيان تنظيمي .</td><td><span class="t-green">كل فرد شريك للمجموعة باسرها</span> <span class="t-red">في سن القوانين</span><br><span class="t-red">+ اختيار نظام الحكم</span> <span class="t-blue">لدولة مدنية لا تكون الا ذات نظام</span> <span class="t-red">ديمقراطي .</span><br><span class="t-blue">ولدت الاتفاق الحر والتواضع الارادي يكون فيها <span class="t-red" dir="ltr">Partenaire</span></span> <span class="t-red">شريكا للجميع</span></td><td><span class="t-green">يلتزم كل فرد مباشرة بنفسه لنفسه و للمجموعة باسمها<br>+ التزام ارادي <span class="t-red">بالواجب</span> وهو يعبر عن نصه السياسي ووعيه بحقوقه المدنية ليكون سيد نفسه اي</span> <span class="t-red">انسانا حر .</span></td></tr>
+</table>
+<table>
+<tr><th colspan="4"><span class="t-red">الحاكم الاعلى</span></th></tr>
+<tr><th><span class="t-blue">يحتكر</span></th><th><span class="t-blue">يُطوع</span></th><th><span class="t-blue">يطمس</span></th><th><span class="t-blue">الزام</span></th></tr>
+<tr><td>الحاكم الاعلى كل السلط لفائدته باعتباره <span class="t-red">" الاله الفاني " الدولة التنين "</span> فتكون كل مؤسسات الدولة في قبضته ويكون حضورها <span class="t-red">صوريا وشكليا</span> اذ لا تقوم على مبدأ <span class="t-red">الفصل بين السلط</span> <span class="t-blue">ولا استقلالية فيها عن ارادة الحاكم .</span></td><td>خدمة لمصالحه وتعتيما على جوره وطغيانه يطوع الحاكم <span class="t-red">① القوانين</span> كنصوص من وضعه كما يطوع <span class="t-red">② الاعلام</span> لتبرير تسلطه وايهام الرعايا بالتمتع بالحقوق بينما يجردون كل فاعلية ومواطنة</td><td><span class="t-blue">حقوق الافراد ويعمق جهلهم ويعزز خوفهم ويكرس اغتراب</span> <span class="t-red">الافراد وعزلهم فاعليتهم ومواطنتهم</span></td><td>الافراد الرعايا لخطط واستراتيجيات تتجاوزهم تكرس الجور والظلم عبر قوة مطلقة <span class="t-red">تلغي وتقمع وتمحو -</span></td></tr>
+</table>
+<!-- PROOFREAD: 1889 part1 p23 — handwritten mind map; "يعبر عن نصه", "ولدت الاتفاق", "عزلهم فاعليتهم" uncertain -->
+<p class="subhead t-red"><u>السيادة والحاجة الى المواطنة</u></p>
+<p class="para"><span class="t-red"><u>السند</u> : الحق والقانون (سبينوزا)</span></p>
+<p class="para"><span class="t-blue">اذا كان الانسان كائنا مدنيا بامتياز رهان انسانيته تربطه بمواطنته اذ <u>المواطن</u></span> <span class="t-green">هو كل فرد حر يكون عضوا فاعلا في المجتمع المدني بما له من <span class="t-red"><u>عقل</u></span> يضمن به <u>المصلحة العامة</u> وما تقوم عليه داخل <u>القوانين</u></span> <span class="t-blue">من توافق بين الحق الشخصي والحق العام</span></p>
+<p class="para"><span class="t-red">" المواطن هو من ينفذ بناء على اوامر الحاكم افعالا تحقق المصلحة العامة وبالتالي مصلحته الشخصية "</span></p>
+<p class="para"><span class="t-blue">تقوم الديمقراطية على توافق كل الافراد اي على مشاركة كل منهم في تيسير شؤونهم عبر تنازلهم الارادي واللامشروط عن الحقوق الطبيعية من اجل حقوق مدنية واساسا حق <u>المواطنة</u></span></p>
+<p class="para"><span class="t-red">صفة مشتركة لكل فرد حتى يكون متمتعا بحقوقه في اطار <u>طاعته</u> للقانون كضامن للحرية تكون معها طاعته واجبا وامتثاله التزاما حرا .</span></p>
+<p class="subhead t-red"><u>السيادة وغياب المواطنة</u></p>
+<p class="para"><span class="t-gold"><u>السند</u> : الراعي والرعية</span> <span class="t-red">( الكواكبي )</span></p>
+<p class="para"><span class="t-red">الحكم الذي يقوم على التفرد بالسلطة ولا يقبل المشاركة في القرار هو <u>الاستبداد</u> .</span></p>
+<p class="para">هو الوضعية التي تكون فيها سيادة الدولة هي اتخاذ القرار للحاكم وحده .</p>
+<p class="para"><span class="t-blue">جون لوك : الاستبداد ممارسة للسلطة لا تستند الى اي حق</span></p>
+<p class="para">ان الاستبداد لا ينتج عن تسلط الحاكم وعنفه بقدر ما ينتج عن <span class="t-red">ضعف الرعايا</span> داخل علاقة عمودية للسلطة يكون فيها <u>الراعي</u> قويا <span class="t-red">بخوف الرعايا وجهلهم .</span></p>
+<p class="para"><span class="t-blue">الكواكبي : " يرتقي الاستبداد بالتصرف في الشؤون المشتركة وفق الهوى . "</span></p>
+<p class="para">يستمد المستبد سطوته من تفريط الرعايا في حقوقهم وهو ما يؤكده قول <u>الكواكبي</u> " <span class="t-blue">ان العوام يذبحون انفسهم بايديهم من الخوف الناشئ عن الجهل "</span></p>
+<!-- PROOFREAD: 1889 part1 p24 — "يرتقي الاستبداد", "تيسير شؤونهم" uncertain -->
+<p class="subhead t-green"><u>السيادة كسلب للمواطنة</u></p>
+<p class="para"><span class="t-blue">- اذا كانت السيادة تفيد الاستقلالية وتحديد المصير وتقريره فان ما نشهده اليوم من جور الحكام ومن احتكار للنفوذ يتحول معه <u>الفعل السياسي</u> من ضامن لحقوق الافراد الى</span> <span class="t-green">فعل استبدادي</span> <span class="t-blue">يجرد الشعب من نفوذه السياسي المشروع ومن علاقته الافقية مع الجميع الى علاقة عمودية يكون فيها منصاعا لاملاءات</span> <span class="t-red">" الحاكم المتسلط " او الدولة التنين "</span> <span class="t-blue">صاحب السيادة ومحتكر النفوذ. هذا الحاكم الجائر الذي</span> <span class="t-red">لا يمثل ارادة الشعب</span> <span class="t-blue">ولا يعبر عن آمالهم وتطلعاتهم بل هو الا مهرب من عنف الآخر ومن تلك</span> <span class="t-red">الحرب الكونية طلبا لحفظ البقاء والامن في فضاء يسوده " حق القوة " ويكون</span> <span class="t-blue">فيه لكل فرد من الحق بقدر ماله من <u>قوة</u> يتنازل عنها <span class="t-green"><u>متسربا</u></span> الى الحاكم او <span class="t-red">الاله الفاني</span> ليتصرف بالنفوذ ويراهن على تحقيق</span> <span class="t-red">مصالحه الخاصة بدل رعايته للمصلحة العامة للمواطنين</span> <span class="t-green">وهو ما يؤكده قول ريكور</span> <span dir="ltr">Paul Ricoeur</span></p>
+<p class="para">* " <span class="t-green">صاحب السيادة انما ينزع دوما الى ابتزاز السيادة ، ذلك هو الداء السياسي الجوهري "</span> <span class="t-red">فتكون <u>السيادة</u> تسلطا واستبدادا وطغيانا وجورا .</span><br><span class="t-blue">وبغياب</span> <span class="t-red">" الشركاء "</span> <span class="t-blue">داخل هذا الفضاء وانعدام</span> <span class="t-red"><u>الرقابة يعم العنف</u></span> <span class="t-blue">ماديا كان او معنويا</span> <span class="t-red">( تعذيب - قتل - حرمان من الحقوق - طمس الحريات .... )</span> <span class="t-blue">لتكون الديكتاتورية كما اكد جوليان فروند</span> <span dir="ltr"><u>Julien Freund</u></span></p>
+<p class="para"><span class="t-red">" الديكتاتورية هي حتما نظام عنف . "</span> <span class="t-blue">ويكون معه</span> <span class="t-red">الانحراف</span> <span class="t-blue">بالممارسة السياسية</span> <span class="t-red">احتكارا</span> <span class="t-blue">لكل مظاهر النفوذ بيد <u>الحاكم</u></span> <span class="t-red">( تجميع السلط - تطويع الاعلام والقوانين ) <u>تفريطا</u> في حق الافراد</span> <span class="t-blue">في ادارة الشأن العام فهم</span> <span class="t-red"><u>رعايا</u></span> <span class="t-blue">يعززون سطوة</span> <span class="t-green">الحكام وجورهم . " العوام يذبحون انفسهم بايديهم من الخوف الناشئ عن الجهل " <u>الكواكبي</u></span></p>
+<!-- PROOFREAD: 1889 part1 p25 — "بل هو الا مهرب", "متسربا" uncertain -->
+<p class="subhead t-red">" وهم الديمقراطية "</p>
+<p class="para"><span class="t-green">- اذا كان <u>الاستبداد</u> خطرا على المواطنة <u>فان</u> الخطر الاكبر لا يتجلى في</span> <span class="t-red">العنف المادي المباشر للحكام</span> <span class="t-green">، بقدر ما هو ذلك</span> <span class="t-red">العنف الرمزي</span> <span class="t-green">الذي يستند الى " كاريزما الحاكم " حسب ماكس فيبر</span> <span class="t-blue" dir="ltr">Max Weber</span> <span class="t-green">وخطاباته الفضفاضة التي</span> <span class="t-red">تزعم</span> <span class="t-green">احترام الحقوق والحريات وكل</span> <span class="t-red">قواعد الديمقراطية</span> <span class="t-green">بينما لا تعدو الا ان تكون</span> <span class="t-blue"><u>" استبدادا ناعما</u></span> <span class="t-green">كما اكد توكفيل</span> <span class="t-red" dir="ltr">Alexis de Tocqueville</span> <span class="t-green">أو هو</span> <span class="t-blue">" <u>وهم الديمقراطية</u> "</span> <span class="t-green">عبر الشعارات السياسية الجوفاء وتبرير</span> <span class="t-blue"><u>سطوة الاغلبية</u></span> <span class="t-green">التي قد تتحول بدورها الى</span> <span class="t-red">ديكتاتورية الاغلبية التي تنتهك حقوق الاقليات</span> <span class="t-green">وتستبعدها .</span></p>
+<p class="para"><span class="t-red">- ان أزمة الديمقراطية تتجاوز اليوم الوعود الزائفة و " العنف الناعم "</span> <span class="t-green">لتكون ديمقراطية</span> <span class="t-red"><u>متنفعة بالحق في الرفاه</u></span> <span class="t-green">مع الليبرالية الجديدة ومع العولمة وطغيان نزعة الاستهلاك حيث يوعد الافراد</span> <span class="t-red">" بالسعادة " لا كقيمة معقلنة</span> <span class="t-green">بل " كشعار " يبرر به كل حاكم حسب</span> <span class="t-red">كاينز</span> <span dir="ltr">Keinz</span> <span class="t-red">" خلق الثروة "</span> <span class="t-green">أو عبر استراتيجيا</span> <span class="t-red">خلق الازمات</span> <span class="t-green">، لتعميق اغتراب الافراد من جهة والاستفراد وضمان المصالح العائلية والبراغماتية للساسة وصناع القرار .</span></p>
+<p class="subhead t-red"><u>" أزمة المواطنة والحاجة الى المقاومة "</u></p>
+<p class="para"><span class="t-blue">- ان الراهن بما يحمله من مظاهر الجور والطغيان ومن اوهام " الحرية " و" المواطنة " واخضاع الافراد عنوة الى قرارات فوقية معها يسلبون من كل مقوماتهم الانسانية</span> <span class="t-red"><u>تبرز حتما</u> الحاجة الى <u>المقاومة</u></span> <span class="t-blue">باعتبارها</span> <span class="t-red">عنف مضاد لعنف الحاكم الجائر</span> <span class="t-blue">وهي</span> <span class="t-red">قوة الرفض والمواجهة</span> <span class="t-blue">يتخلى منها المواطن <span class="t-blue">عن</span></span> <span class="t-red"><u>الامتثال اللامشروط</u></span> <span class="t-blue">للحاكم ليمارس</span> <span class="t-red"><u>عنفا مشروعا</u></span> <span class="t-blue">متمردا على <u>شرعية</u> قوانين الاستبداد .</span></p>
+<p class="para"><span class="t-red">" عنفا ثوريا محررا للشعوب " ماركس <span dir="ltr">MARX</span></span></p>
+<!-- PROOFREAD: 1889 part1 p26 — "متنفعة بالحق في الرفاه", "Keinz", "يتخلى منها" uncertain -->
+<!-- NOTE: p26 — a pink sticky-tab mark in the margin is an annotation, left out -->
+<p class="subhead t-red">2026 | جذاذة فنية حسب المرجعيات · الدولة : السيادة و المواطنة</p>
+<!-- CROP: 1889 1 27 0.78 0.22 0.89 0.47 1889_p27_burdeau_letat -->
+<figure class="fig"><img src="https://wael-philo.b-cdn.net/figs/1889/1889_p27_burdeau_letat.png" alt=""></figure>
+<!-- CROP: 1889 1 27 0.785 0.48 0.895 0.66 1889_p27_ricoeur -->
+<figure class="fig"><img src="https://wael-philo.b-cdn.net/figs/1889/1889_p27_ricoeur.png" alt=""></figure>
+<!-- CROP: 1889 1 27 0.65 0.62 0.765 0.81 1889_p27_drapeau -->
+<figure class="fig"><img src="https://wael-philo.b-cdn.net/figs/1889/1889_p27_drapeau.png" alt=""></figure>
+<table>
+<tr><th>المرجعية</th><th>الأطروحة</th><th>مسلمات الأطروحة</th><th>حدودها</th></tr>
+<tr><td><span dir="ltr">Georges Burdeau L'État</span><br><b>جورج بيردو</b><br>1905-1988</td><td><span class="t-red">دلالة السلطة</span><br><b>السلطة</b><br><b>هي ممارسة القائد لنفوذه السياسي باسم الدولة و هو ما يبرّر عقلنتها(تنظيمها) و الإمتثال إليها .</b></td><td>* <span class="t-red">السلطة</span> هي علاقة بين طرفين يمارسها أحدهما بما يحدّده له القانون من نفوذ لتنظيم المصالح(و هو القائد) و الثاني بالإمتثال الإرادي لنفوذه طاعة للقانون( المواطن) لذلك تكون السلطة كما يعرّفها فوكو<b>"الإستراتيجيات التي بواسطتها تفعل موازين القوى فعلها و التي تتجسّد ... في أجهزة الدولة و صياغة القانون"</b> .<br>*<span class="t-red">السلطة</span> هي وضعية تشير إلى ممارسة النفوذ السياسي المشروع + و هي ممارسة القائد لنفوذه السياسي باسم الدولة لذا يكون"<b>التفريق بين السلطة و الأشخاص الذين يمارسونها مقبولة بشكل غالب</b>"فالسلطة ليست الحاكم بما أن الحاكم رأس السلطة التنفيذية و هو من يمارسها داخل الدولة وفق ما تسمح به القوانين .<br>* <span class="t-red">الدولة</span> هي نظام المؤسّسات السياسية التي تعقلن علاقات السلطة و تشرّع لنفوذها القانوني و هو ما يبرّر قول سبينوزا:<b>"في مثل هذه الدولة يستطيع كلّ فرد أن يكون حرّا و أن يعيش بمحض اختياره وفقا للعقل"</b>.<br>* <span class="t-red">الدولة</span> تسمح بحلّ المفارقة التي يخضع فيها الفرد إلى نفوذ مزعج و هو نفوذ القائد و من جهة ثانية إلى نفوذ مقبول و هو النفوذ الإجتماعي للدولة</td><td>* <b>هوبس</b> :تحيل السلطة في النظام الإستبدادي على العنف حيث تقترن السلطة بالحقّ المدني المحدّد للحريات الفردية كتجاوز للحق الطبيعي (حق مطلق) بما هو كما يعرّفه <b>"الحرية التي يمكلها كلّ انسان كي يستعمل سلطته الخاصة كما يريد بهدف الحفاظ على طبيعته الخاصة،أي حياته الخاصة"</b> و هو ما يبرّر اقتران السلطة بالعنف و يجعل عنف <b>"دولة التنين"</b> أو الإستبداد ضروريا للسيطرة على عنف الأفراد و حالة <b>"حرب كلّ فرد ضدّ كلّ فرد"</b></td></tr>
+<tr><td><b>بول ريكور</b><br>1913-2005</td><td><span class="t-red">أبعاد السلطة السياسية</span><br><b>السلطة</b><br><b>هي التي تحدّد علاقة الحاكم بالمحكوم و تشكّل بنية الوجود السياسي</b></td><td>* <span class="t-red">السلطة</span> هي <b>حقيقة الوجود السياسي</b> بما هو التنظيم القانوني لمجموعة ما لذلك لا يمكن اختزالها في الحاكم<br>* <span class="t-red">السلطة</span> تتحدّد بالعلاقة بين وضعيتي القيادة و الطاعة، حيث لا تكون الطاعة خوفا من شخص الحاكم بل امتثالا للدّولة بالإمتثال إلى قوة القانون بما في ذلك عنف الدولة الذي تمارسه السلطة القضائية لحماية الحقوق و الحريات <b>"إنّ الوجود السياسي للإنسان وجود يحميه العنف و يوجّهه،هو عنف الدّولة و هو متسم بسمات العنف الشّرعي"</b><br>* <span class="t-red">السياسة</span> هي فن إدارة الشأن العام و تنظيم المصالح لذلك يقول <span class="t-red">ماكس فيبر</span>في كتاب رجل العلم و رجل السّياسة :"<b>إنّنا نفهم بكلمة السياسة مجمل الجهود المبذولة بهدف المشاركة بالسلطة أو التأثير في توزيع السّلطة سواء بين الدّول أو بين المجموعات داخل الدّولة نفسها</b>"<br>*<span class="t-red">الرغبة في السلطة</span> تشترط التضحية بالمتعة حتّى لا تتحوّل إلى استبداد.<br>*<span class="t-red">انحراف السلطة</span> داخل الدولة هو مشكل"المستبد" حيث <b>"يتواطأ عنف الواحد و جبن الجميع في صورة فاسدة فريدة"</b></td><td>*<b>ماكيافال</b>: <b>" إنّ الأمير و لا سيما الأمير الجديد، لا يستطيع أن يتمسك بجميع هذه الأمور التي تبدو خيّرة في الناس،إذ أنّه سيجد نفسه مضطرّا للحفاظ على دولته، لأن يعمل خلافا للإخلاص للعهود، و للرأفة و الإنسانية و الدين"(الأمير 149)</b><br>فتتحوّل السلطة من ممارسة مشتركة تقوم على النفوذ القانوني و الإمتثال الإرادي للمواطنين لنفوذه إلى عنف مقنّع بالرأفة و الإنسانية و الكرم و المصلحة العليا و <b>"على الأمير أن يكون حريصا، على أن لا يفضح نفسه بأقواله"</b> حتى يخفي استبداده<br>*<b>ماكيافال</b>:انّ الحكم هو الذي يبرّر انحراف السلطة بتحويل العنف القانوني المشروع إلى عنف غير مشروع للإستمرار في الحكم <b>"ففي أعمال جميع الناس و لا سيما الأمراء، تبرّر الغاية الوسيلة"</b></td></tr>
+</table>
+<!-- PROOFREAD: 1889 part1 p27 — words under a pen scribble: "بين طرفين يمارسها", "و الثاني", "فوكو" -->
+<p class="subhead t-red">2026 | جذاذة فنية حسب المرجعيات · الدولة : السيادة و المواطنة</p>
+<!-- CROP: 1889 1 28 0.775 0.21 0.89 0.40 1889_p28_kawakibi -->
+<figure class="fig"><img src="https://wael-philo.b-cdn.net/figs/1889/1889_p28_kawakibi.png" alt=""></figure>
+<!-- CROP: 1889 1 28 0.36 0.39 0.575 0.51 1889_p28_kawakibi_citation -->
+<figure class="fig"><img src="https://wael-philo.b-cdn.net/figs/1889/1889_p28_kawakibi_citation.png" alt=""></figure>
+<!-- CROP: 1889 1 28 0.775 0.51 0.89 0.75 1889_p28_todorov -->
+<figure class="fig"><img src="https://wael-philo.b-cdn.net/figs/1889/1889_p28_todorov.png" alt=""></figure>
+<!-- CROP: 1889 1 28 0.05 0.75 0.28 0.89 1889_p28_dessin_democratie -->
+<figure class="fig"><img src="https://wael-philo.b-cdn.net/figs/1889/1889_p28_dessin_democratie.png" alt=""></figure>
+<table>
+<tr><th>المرجعية</th><th>الأطروحة</th><th>مسلمات الأطروحة</th><th>حدودها</th></tr>
+<tr><td><b>ع. الكواكبي</b><br>1855 -1902</td><td><span class="t-red">الإستبداد وانحراف السيادة</span><br><b>المستبد</b><br><b>يكون نفوذه أكبر بمقدار خضوع العامة خوفا من عنفه و جهلهم بحقوقهم</b></td><td>* <span class="t-red">المستبدّ</span> يستمدّ قوته من ضعف العامة و خضوعهم لنفوذه و <span class="t-red">خوفهم</span> من عنفه و هو ما يجعل<b>"العوام يذبّحون أنفسهم بأيديهم بسبب الخوف الناشئ عن الجهل"</b><br>* إنّ <span class="t-red">خوف المستبد</span> من العامة أكبر من خوفهم و هو مبرّر بعلمه بمقدار قوتهم في حال الوعي أمّا خوفهم فمبرّر بالجهل بقوتهم من جهة و مقدار قوة الحاكم من جهة أخرى.<br>*يزيد خوف الحاكم المستبد بمقدار ما يزيد استبداده خوفا من <span class="t-red">ثورة الرّعية</span> على حكمه فيضطر حسب <b>ماكيافال</b> إلى حماية نفوذه <b>"بأن يعمل خلافا للإخلاص للعهود،و للرأفة و للإنسانية و للدين بإظهار عكسها"</b>فالغاية تبرّر الوسيلة.</td><td>*<b>سبينوزا</b>: <b>"إنّ غاية الدولة في الواقع هي الحرية "</b> و انّ دولة غايتها السلم لا غير كما يشير <b>هوبس</b> لن تكرّس سوى الإستبداد<br>*<b>دافيد هيوم</b>:<b>"إنّ الحقّ في السلطة ليس إلّا الإمتلاك المستمر للسلطة الذي تدعمه قوانين المجتمع و مصالح الناس"</b> فلا مبرّر لإستمرار الحكم أو توريثه كحقّ يضمن مصلحة الحاكم دون مصلحة الشعب و لا يتمّ إلا بالسلام.<br>*<b>دي توكفيل</b>: إنّ الوعي بالإستبداد هو المولّد لرهان التحرّر بالمواطنة الفاعلة <b>" أتطلّع إلى مجتمع ينظر فيه الناس إلى القانون نظرتهم إلى شيء من صنعهم فيخضعون إليه دون عناء...و عندئذ يمكن للروابط الحرة بين المواطنين أن تعوّض القوة الفردية للنبلاء"</b></td></tr>
+<tr><td><b>تزفيتان تودوروف</b><br>1939</td><td><span class="t-red">شرعية السلطة الديمقراطية</span><br><b>الحق السياسي</b><br><b>لا يبنى على عنف تفتكّ به السلطة و لا على رأي الأغلبية و إنّما على استقلالية السيادة الشعبية و السلط السياسية و احترام القرارات السيادية</b></td><td>*<span class="t-red">الحق السياسي</span> لا يكون بامتلاك السلطة بما أنّها تنتزع تاريخيا بالعنف عن طريق الحرب(المقاومة و الإستقلال)و الثورة (الثورة الفرنسية سبقت الديمقراطية)<br>*<span class="t-red">الحق السياسي</span> يبنى على استقلالية السيادة الشعبية و السلط السياسية و احترام المواطن للقرارات السيادية<br>* <span class="t-red">الشرعية السياسية</span> لا تكون بافتكاك السلطة من المستبد<br>*<span class="t-red">الشرعية السياسية</span> لا تكمن في رأي الأغلبية فقد يكون حكم الأغلبية عاجزا لا يحقّق الخيرفالديمقراطية لا يمكن أن تكون ممارسة شكلية تختزل في حق الإنتخاب<br>*<span class="t-red">المواطنة</span> يجب أن تكون فاعلة بالإمتثال الواعي للقانون + و ممارسة الشعب حقّه الشرعي في المراقبة السياسية<br>*<span class="t-red">الشرعية السياسية</span> لا تكون في النوايا الحسنة فقد تخفي غايات استبدادية<br>*<span class="t-red">شرعية السلطة</span> لا تتحدّد بأصلها أو بغاياتها بل بكيفية ممارستها بما هي سلطة محدودة بالقانون و المصلحة العامة<br>*<span class="t-red">شرعية السلطة</span> تتحدّد"باستقلالية كل من السلط التنفيذية و التشريعية و القضائية و بالتعددية الحزبية و تعدّد مصادر المعلومات و من الإقرار بحقوق الأقليات"</td><td>*<b>هوبس</b>:" <b>ما دام النّاس يعيشون بدون سلطة مشتركة(تعاقدية)تحملهم جميعا على العيش في كنف الإحترام،فإنّهم يجدون أنفسهم ضمن حالة تسمى حالة الحرب، و هذه الحرب هي حرب كلّ فرد ضدّ كلّ فرد"</b> و هو ما يجعل كلّ فرد متحفّزا بالعنف لضمان حقوقه الطبيعية ما لم تمنعه الدولة التّنين بقوة القانون.<br>*يمكن للشرعية أن تتحوّل إلى مبرّر للعنف باسم الأغلبية و الدفاع عن الحرية و المصلحة العامة</td></tr>
+</table>
+<!-- NOTE: p27–p28 — a large pen scribble drawn across the printed tables is an annotation and is left out -->
+<!-- p29 -->
+<table>
+<tr><th>المرجعية</th><th>الأطروحة</th><th>مسلمات الأطروحة</th><th>حدودها</th></tr>
+<tr>
+<td><!-- CROP: 1889 1 29 0.78 0.22 0.89 0.38 1889_p29_tocqueville --><figure class="fig"><img src="https://wael-philo.b-cdn.net/figs/1889/1889_p29_tocqueville.png" alt=""></figure>
+<p class="para"><b><span class="t-blue">ألكسيس دي توكفيل</span></b></p>
+<p class="para"><b>1859-1805</b></p></td>
+<td><p class="para"><span class="t-red">شروط الديمقراطية</span></p>
+<p class="para"><b>الدولة<br>في النظام الديمقراطي<br>هي الضامن للمصلحة العامة<br>بمقدار طاعة المواطنين<br>لقوانين من وضعهم</b></p>
+<!-- CROP: 1889 1 29 0.645 0.42 0.78 0.53 1889_p29_human_rights --><figure class="fig"><img src="https://wael-philo.b-cdn.net/figs/1889/1889_p29_human_rights.png" alt=""></figure></td>
+<td><p class="para">*انّ كلّ فرد داخل الدولة لا يرى مصلحته الخاصة إلاّ في علاقة بالمصلحة العامة المترتبة عن العلاقة الحرّة بين المواطنين حيث <b>"يمكن للرّوابط الحرّة بين المواطنين أن تعوّض القوة الفردية للنبلاء و تكون الدولة في مأمن من الطغيان و التّسيب"</b> فيكون النظام السياسي ديمقراطيا ما دامت غايته هي الحرية و المصلحة العامة للشعب كما يشير <b>سبينوزا</b> <b>"ان الدولة أو نظام الحكم الذي لا تؤخذ فيه مصلحة الآمر بوصفها قانونا أسمى بل تراعى مصلحة الشعب كلّه / فمن الواجب أن ألاّ يعد من يطيع الحكم عبدا لا يحقّق مصلحته الخاصة ، بل مواطنا"</b></p>
+<!-- PROOFREAD: 1889 part1 p29 — "داخل الدولة لا يرى مصلحته الخاصة ... عن العلاقة الحرّة بين المواطنين" partly hidden by a mark/stain -->
+<p class="para">*إنّ <b><span class="t-red">الدولة في النظام الديمقراطي</span></b> قد تكون حياة البذخ و الأرستقراطية فيها أقل لكن الأهم أنّه في نفس الوقت يكون فيها بؤس أقل و هو ما يعكس نجاح الدولة في ضمان المصلحة العامة و مساواة الجميع في <b>الحق في الرفاه</b></p>
+<p class="para">*إن الدولة <b><span class="t-red">الديمقراطية</span></b> هي الدولة التي يضمن فيها المواطنون حقوقهم بقوانين من وضعهم يمتثلون إليها إراديا <b>"أتطلّع إلى مجتمع ينظر فيه الناس إلى القانون نظرتهم إلى شيء من صنعهم فيخضعون إليه دون عناء"</b> فالمواطن ليس فردا يخضع إلى قانون من وضع الحاكم بل هو <b>"عضو مشرّع"</b> بتعبير <b>برقسن</b> داخل دولة عقلانية غايتها الحرية كما يشير إلى ذلك <b>سبينوزا</b> في قوله<b>" في مثل هذه الدّولة يستطيع كلّ فرد إذا أراد أن يكون حرّا أن يعيش بمحض اختياره وفقا للعقل"</b></p></td>
+<td><p class="para">*<b>روسو</b>: إن الديمقراطية يمكن أن تكون شعارا طوباويا و وهما تهدّد به الحرية و المساواة (الثنائية المقدّسة في النظام الديمقراطي التي يقدّمها <b>برقسن</b> <b>"كأختين عدوتين"</b> بما أنه في المساواة حدّ من حرية الآخر)و هو ما يجعلها رهانا أكثر منها وضعية متحقّقة فعليا في الواقع <b>" لو كان هناك شعب من الآلهة لحكم نفسه بنفسه بطريقة ديمقراطية،إنّ حكومة على هذا الكمال لا تلائم البشر"</b></p>
+<!-- CROP: 1889 1 29 0.125 0.42 0.23 0.525 1889_p29_scales --><figure class="fig"><img src="https://wael-philo.b-cdn.net/figs/1889/1889_p29_scales.png" alt=""></figure></td>
+</tr>
+<tr>
+<td><!-- CROP: 1889 1 29 0.78 0.545 0.89 0.72 1889_p29_rousseau --><figure class="fig"><img src="https://wael-philo.b-cdn.net/figs/1889/1889_p29_rousseau.png" alt=""></figure>
+<p class="para"><b><span class="t-blue">جان جاك روسو</span></b></p>
+<p class="para"><b>1712 – 1778</b></p></td>
+<td><p class="para"><span class="t-red">في حاجة السيادة إلى المواطنة</span></p>
+<p class="para"><b>السيادة<br>هي ممارسة الإرادة<br>العامة بما هي إرادة الشعب<br>الذي يضمن إراديا توافق<br>المصالح المشتركة</b></p>
+<!-- CROP: 1889 1 29 0.675 0.725 0.775 0.85 1889_p29_hand_pen --><figure class="fig"><img src="https://wael-philo.b-cdn.net/figs/1889/1889_p29_hand_pen.png" alt=""></figure></td>
+<td><p class="para">*<b><span class="t-red">الإرادة العامة</span></b> هي الإرادة الشعبية التي تضمن توجيه قوة الدولة نحو الخير المشترك.</p>
+<p class="para">* <b><span class="t-red">السيادة</span></b> هي ممارسة الإرادة العامة بما هي إرادة الشعب و قدرته بموجب العقد الإجتماعي على تأمين مصالح جميع الأفراد</p>
+<p class="para">على <b>الإرادة الخاصة</b> أن تكون متوافقة مع الإرادة العامة بما هي تفصيل لها فالإرادة الخاصة للحاكم لا يكون بها سيّدا بل قائدا<b>"فحالما يوجد سيّد لا وجود بعد لشعب يتّصف بالسيادة"</b> فالشعب يمتثل إلى قوة الدولة بما هي قوة الحقّ فلا يخضع إلى سيادة الحاكم أو قوته بل إلى قوة القانون المدني</p>
+<p class="para">*<b><span class="t-red">ممارسة السيادة</span></b> تتحدّد بالحرية و استقلالية الإرادة الشعبية</p>
+<p class="para">* <b><span class="t-red">ممارسة السيادة</span></b> هي ممارسة المواطنة المشتركة</p></td>
+<td><p class="para">*<b>بول ريكور</b> : يجب الوعي بأنّ الإرادة العامة لا يمكن أن تكون توافقية واسعة فقد تكون تبريرا لحكم الأقلية المتستّر بالديمقراطية. فالديمقراطية الإنتخابية يمكن أن تكون وهما لتبرير نفوذ الأغلبية التي لا تمثّل إرادة الشعب في حكمها بقدر ما تدافع عن مصالحها و تعمل على الإحتفاظ بنفوذها" <b>ديمقراطياتنا الإنتخابية ليست ديمقراطيات تمثيلية أو هي ليست كذلك تماما"</b></p>
+<p class="para">*<b>آلان</b>: إنّ خطر الحكم هو انزلاق السيادة من الممارسة الشعبية بضعف الرقابة فحماية الإرادة السياسية للمواطنين تكون بتفعيل المساءلة و المراقبة للحكومة عن طريق ممثلي الشعب لذلك ينبه <b>ريكور</b> أنّه<b>"ينزع صاحب السيادة دوما إلى ابتزاز السيادة"</b></p></td>
+</tr>
+</table>
+<!-- p30 -->
+<table>
+<tr><th>المرجعية</th><th>الأطروحة</th><th>مسلمات الأطروحة</th><th>حدودها</th></tr>
+<tr>
+<td><!-- CROP: 1889 1 30 0.775 0.275 0.885 0.45 1889_p30_morin --><figure class="fig"><img src="https://wael-philo.b-cdn.net/figs/1889/1889_p30_morin.png" alt=""></figure>
+<p class="para"><b><span class="t-blue">ادغار موران</span></b></p>
+<p class="para"><b>1921</b></p></td>
+<td><p class="para"><span class="t-red">المواطنة العالمية و السياسة الكوكبية</span></p>
+<p class="para"><b>المواطنة العالمية<br>مبدأ ضروري لحلّ مشكل<br>العولمة و السياسة الدولية<br>و ما تؤدي إليه من تفكيك و<br>فوضى بسياسة كوكبية</b></p>
+<!-- CROP: 1889 1 30 0.645 0.48 0.777 0.617 1889_p30_globe_hands --><figure class="fig"><img src="https://wael-philo.b-cdn.net/figs/1889/1889_p30_globe_hands.png" alt=""></figure></td>
+<td><p class="para">* <b><span class="t-red">السياسة الدولية أو العولمية</span></b> تقوم على تبعية أطراف سياسية لأطراف أخرى تكرّس <b>"التفتيت العالمي"</b>.</p>
+<p class="para">*العولمة السياسية تجعل السياسة الكوكبية طوباوية و تكون بها وحدة العالم و هما من صنع الأقطاب الفاعلة في العالم.</p>
+<p class="para">* <b>التيار الدولي</b> يريد أن يجعل من النوع الإنساني شعبا يقاد دون <b>مواطنة</b> و السياسة الكوكبية/أي <b>السياسة الكونية</b> أو العالمية تريد أن توحّد الشعوب و تجعل من العالم دولة أو مؤسّسات تمارس داخلها المواطنة العالمية.</p>
+<p class="para">* <b><span class="t-red">المواطنة العالمية</span></b> ضرورية لحلّ مشكل العولمة و السياسة الدولية غير المتكافئة و ما تؤدي إليه من تفكيك و فوضى</p>
+<p class="para">*<b>السياسة الكوكبية/أي الكونية</b> يجب أن تكون فاعلة <b><span class="t-red">كمقاومة</span></b> للفوضى أو معارضة أي "<b><span class="t-red">يسار</span></b>"يجسّم يقظة الوعي الدولي العالمي لخدمة الصالح العام بتأسيس <b><span class="t-red">مواطنة عالمية</span></b> يكون فيها الفرد حسب هابرماس<b>"مواطن دولته و مواطن العالم في آن"</b></p>
+<p class="para">* المواطنة العالمية تضمن شراكة فاعلة لكلّ شعوب العالم في حماية سيادة كلّ دولة من الإعتداءات الخارجية على حقوق شعبها.</p></td>
+<td><p class="para">*<b>برترند رسل</b>: ان الحقوق الكونية لكلّ فرد مهدّدة في العالم بفكرة النظام الذي اختزل في أحد شكلين إمّا رأسمالي أو شيوعي يعتّر كلاهما عن حكم أقلية بتبريرات ايديولوجية مختلفة سواء كانت ليبرالية تقرّ بالتمييز الطبقي أو شيوعية تدّعي الأقلية الدفاع عن مصالح الطبقة الشعبية و الحال أنّهما تنتهكان اليوم في عصر العولمة و تأثير الإعلام الحقوق الفردية " <b>تميل السلطة الحكومية عادة إلى الحدّ من نشاط الفرد...و يصبح الفرد مستعدّا لقبول ما تفرضه السلطة عليه من آراء في السياسة و الإجتماع و بذلك يفقد ثقته بنفسه و يستسلم لقوى خارجة عنه تدفعه أنّى تريد"</b></p>
+<p class="para">*<b>ادغار موران</b>: يجب الإنتباه إلى خطورة فكرة المواطنة العالمية كفكرة طوباوية أو وهم يبرّر في عصر العولمة الهيمنة بدل السيادة و قيم التّحرّر الوطني</p>
+<!-- CROP: 1889 1 30 0.058 0.512 0.163 0.632 1889_p30_helmet_globe --><figure class="fig"><img src="https://wael-philo.b-cdn.net/figs/1889/1889_p30_helmet_globe.png" alt=""></figure></td>
+</tr>
+</table>
+<!-- CROP: 1889 1 30 0.6 0.632 0.89 0.897 1889_p30_ballot --><figure class="fig"><img src="https://wael-philo.b-cdn.net/figs/1889/1889_p30_ballot.png" alt=""></figure>
+<!-- CROP: 1889 1 30 0.09 0.635 0.55 0.91 1889_p30_puzzle_people --><figure class="fig"><img src="https://wael-philo.b-cdn.net/figs/1889/1889_p30_puzzle_people.png" alt=""></figure>
+<!-- SOURCE: الأستاذ الحبيب رويس — معهد المنزه السادس (pages 31–37) -->
+<!-- p31 -->
+<p class="subhead t-red"><b>الدولة: السيادة و المواطنة</b></p>
+<!-- CROP: 1889 1 31 0.198 0.165 0.325 0.26 1889_p31_ricoeur --><figure class="fig"><img src="https://wael-philo.b-cdn.net/figs/1889/1889_p31_ricoeur.png" alt=""></figure>
+<div class="note"><div class="nb"><b>" وجدت الدولة لتجعل السلطة ممكنة<br>و الإستبداد مستحيلا "</b><br><span class="t-blue">بول ريكور</span></div></div>
+<p class="subhead t-red"><b>بناء المشكل</b></p>
+<!-- CROP: 1889 1 31 0.71 0.278 0.895 0.38 1889_p31_citoyennete --><figure class="fig"><img src="https://wael-philo.b-cdn.net/figs/1889/1889_p31_citoyennete.png" alt=""></figure>
+<p class="para">إن ما تعيشه بعض الدول اليوم من أزمة ثقة في الحكّام قد يدفع إلى الحذر من سلطاتهم حيث يكون عنفهم و تهديدهم لحريات المواطنين مبرّرا للتفكير في الحاجة إلى الدولة و دور المواطنين في تصوّر السيادة و تحديد النظام السياسي الضامن لحقوقهم و حرياتهم و التساؤل إن كانت سيادة الدولة يمكن اختزالها في سيادة الحاكم. فما الذي يشكّل سيادة الدولة ؟ هل يمكن اختزالها في سيادة الحاكم ؟أيّ دور للمواطن و ما هي منزلة المواطنة في سيادة الدولة ؟ أي معنى للمقاومة في ظلّ دولة القانون و المؤسّسات؟</p>
+<p class="subhead t-red"><b>معنى الدولة</b></p>
+<!-- PROOFREAD: 1889 part1 p31 — "معنى الدولة" heading faded -->
+<p class="para"><b>الدولة</b> ليست السلطة بما أنّ السلطة هي ممارسة سياسية بين طرفين يكون أحدهما ذو نفوذ و الثاني ممتثلا لنفوذه . حيث نميّز في السلطة أشكالا متعدّدة كالسلطة الإجتماعية أو الإقتصادية أو غيرها مع أنّ أهمها السلطة السياسية بما هي كما يقدّمها <b><span class="t-red">بيردو</span></b> <b>"نفوذا قانونيا يمارس على رعايا أحرار أو مواطنين"</b> .</p>
+<!-- PROOFREAD: 1889 part1 p31 — "نفوذا" partly hidden -->
+<p class="para">لكنّ <u><b>الدولة</b> كما يشير إلى ذلك <b><span class="t-red">بيردو</span></b> فكرة تحيل إلى مجموع المؤسسات المهيكلة بالقانون لعلاقات السلطة بين الأفراد أو الهيئات و هي شكل من أشكال التنظيم السياسي(القانوني)</u> الذي يمارس فيه حاكم أو <b>"هيئة حكم"</b> بتعبير <b><span class="t-red">هوبس</span></b> سلطة سياسية داخل مؤسّسات مكونة لما يسميه فلاسفة العقد الإجتماعي <b>"بالمجتمع المدنيّ"</b> حيث يكون فيها على الحاكم إدارة الشأن العام بالتشريع القانوني و وضع المخطّطات و الآليات من أجل ضمان المصالح و رعاية الحريات و يكون على السلطة القضائية تأمين التعايش السلمي بين المواطنين بالمراقبة و العقاب استنادا إلى قوة القانون الجزائي الذي تحتكر به الدولة العنف الشرعي و المشروع من أجل تحقيق العدالة . فالعدالة بمعناها السياسي هي مبدأ المساواة أمام القانون ، وهي مساواة في الحقوق التي تضمنها قوانين من وضع المواطنون أنفسهم عبر ممثليهم في السلطة التشريعية. و هو ما يجعل من الدولة، كما نتبينها في تصوّر <b><span class="t-red">بول ريكور</span></b> ،منظومة المؤسّسات التي تمارس داخلها السلطات السياسية الأساسية بما يجعلها <b>"سلطة معنوية لتحديد الواجب وسلطة مادية للإرغام"</b> أي سلطة وضع القوانين المنظمة للعلاقات السياسية و الضامنة لحقوق كل المواطنين بالمساواة أمام القانون و سلطة رقابية عادلة تقوم على ما يسميه <b><span class="t-red">ماكس فيبير</span></b> <b>"باحتكارالدولة العنف المشروع"</b> أي العنف الذي يبرّره الشعب دفاعا عن حقوق المواطنين و المصلحة العامة من أجل إلزام الجميع باحترام الحقوق المدنية للآخرين و الدفاع عن حرياتهم القانونية و انصاف المظلومين الذين حرموا من حقوقهم من جهة ثانية.</p>
+<!-- PROOFREAD: 1889 part1 p31 — "لكنّ الدولة ... كما يشير" a short word after الدولة hidden; "الهيئات" partly hidden -->
+<p class="subhead t-red"><b>I. السيادة و الحاجة إلي المواطنة</b> <span style="font-size:smaller">او في النظام الديمقراطي</span></p>
+<p class="para">إذا كانت <b>السيادة</b> تحيل إلى الفعل السياسي الذي يمارس داخل مؤسّسات الدولة و <u>تقترن <b><span class="t-red">بالإستقلالية و الحرية</span></b> التي يضمنها القانون</u> الذي يجعل <b>للدولة</b> الكلمة الفصل في كلّ الشؤون السياسية في الداخل و الخارج فلا <b>تعلو على سلطتها</b> سلطة عليا أو إرادة فردية لشخصية كاريزماتية أو هيئة حزبية أو أجنبية. فإن السيادة لا يمكن أن تكون <b>للحاكم بلّ للدولة</b> باعتبار أن الحاكم في النظام السياسي الديمقراطي القائم حسب <b><span class="t-red">مونستكيو</span></b> على الفصل بين السّلط هو <b>الممثل القانوني</b></p>
+<!-- p32 -->
+<p class="para">للدولة و هو ينوب عن المواطنين في الإتفاقات و المعاهدات و وضع المخطّطات حيث تكون سلطة القانون في الدولة الديمقراطية هي سلطة الشعب أو الإرادة العامة بتعبير <b><span class="t-red">روسو</span></b> باعتبار <b>"أن السيادة التي ليست سوى ممارسة الإرادة العامة ،لا يمكن أبدا أن تكون محل تنازل"</b> بما أنّ القوانين هي مبادئ تنظيمية للأفراد داخل مؤسّسات المجتمع المدني يضعها المواطنون عبر ممثليهم في هيئة تشريعية يفوّضون فيها بالإنتخاب حقّ وضع القوانين لمن لهم كفاءة تمثيلهم و حماية مصالحهم من كلّ عنف لامشروع يهدّد حقوقهم و حرياتهم القانونية وتفويض هذا الحقّ إلى سلطة قضائية مستقلّة تحتكر من خلالها الدولة بتعبير <b><span class="t-red">ماكس فيبر</span></b> <b>"حق الإستئثار بالعنف المادي المشروع"</b></p>
+<p class="para"><u><b>لذلك فسيادة الدولة</b> تعني أنها السلطة العليا التي لا تخضع إلى سلطة أعلى منها و هي تامة و لا تتجزأ و منبع كلّ السلطات السياسية سواء كانت تشريعية أو تنظيمية تنفيذية أو غيرها</u> ( قضائية أو سلطة إعلام أو سلطة رأي عام لمكوّنات المجتمع المدني)فهي لا تتقاسم السيادة فيما بينها ، و انما تتضامن فيما بينها بما هي اختصاصات من أجل <b><span class="t-red">المصلحة العامة</span></b> .</p>
+<p class="para">و مع ذلك يمكن أن نتبيّن <b>للسيادة</b> شكلين :</p>
+<p class="para"><u><b><i><span class="t-red">في علاقة بالداخل:</span></i></b> أن تبسط السلطة السياسية نفوذها باسم المواطنين على كل مؤسّسات الدولة لتأمين الحقوق و الحريات</u></p>
+<p class="para"><u><b><i><span class="t-red">في علاقة بالخارج:</span></i></b>استقلالية قرار الدولة عن كلّ نفوذ لدولة أو هيئة أجنبية أخرى و ممارسة حقها فيّ تقرير المصير.</u></p>
+<p class="para">و في النظام الديمقراطي الحديث يكون <b>المواطن</b> باعتباره <b>عضو الشعب</b> و شريكا في <b>الإرادة العامة</b> <u>ذاك الذي يشارك في السيادة الشعبية، فيمارس حقّ الانتخاب ويختار التوجهات العامة في تسيير الشأن العام أو تنظيم الحياة السياسية</u>، و هو ما يستوجب الإقرار بالتلازم بين المواطنة والسيادة في ظلّ نظام ديمقراطي . ذلك أنّ كلّ فرد حين يشارك حسب <b>روسو</b> في العقد الإجتماعي الضامن للإنتقال من الحالة الطبيعية(حالة الفوضى و الصراع) إلى الحالة المدنية(حالة الإنتظام و السلام و الحرية) يكون قانونيا مواطنا و شريكا في إدارة الشأن العام و ضمان سيادة الدولة باختيار ممثّليه في سنّ القوانين التنظيمية و الجزائية أو في التسيير و الخضوع إراديا لما تقرّره السلطة التنفيذية من أجل المصلحة العامة ، وهو ما يتحقق في الدولة الديمقراطية.</p>
+<p class="subhead t-red"><b>معنى المواطنة</b></p>
+<p class="para"><u><b>المواطنة</b> لا يمكن اختزالها في الوجود المادي كفرد داخل بلد ما أو في المطالبة الإحتجاجية بالحقوق التي لا يقابلها أي التزام بواجبات و إنّما هي ممارسة سياسية فاعلة لكل عضو في الدولة و ما يضمن حياته المدنية</u> كما يعرّفها <b><span class="t-red">كانط</span></b> بما هي <b>" حالة قانونية تقوم على المبادئ القبلية الثلاثة التالية:</b></p>
+<ol class="qn">
+<li><b>حرية كلّ عضو في المجتمع من جهة كونه انسانا</b></li>
+<li><b>المساواة بين كلّ انسان و أي انسان آخر من جهة كونه واحدا من الرعية</b></li>
+<li><b>استقلالية كلّ عضو من الجماعة من جهة كونه مواطنا "</b></li>
+</ol>
+<p class="para"><b>فالمواطنة</b> هي وضعية انسانية تقترن كما يشير <b>كانط بالحرية</b> و <b>الإستقلالية</b> و هي وضعية مدنية تتجاوز ما يسميه فلاسفة العقد الإجتماعي <b>"الحالة الطبيعية"</b> باستنادها إلى <b>"الكوناتوس"</b> كمبدإ أساسي لحفظ البقاء حيث يكون لكلّ فرد من الحق بقدر ما له من القوة و تكون الحرية المطلقة و ما تولّده من عنف قاعدة لكلّ فعل في علاقة بالآخرين تنتهي إلى وضعية ما يسميه هوبس <b>" حرب الكلّ ضدّ الكلّ"</b> أو حالة الفوضى و اللا- سلم التي تبرّر خلق <b>"الحالة المدنية"</b> و تأسيس الدولة للمراهنة من خلالها على تأسيس المواطنة باستعداد الجميع للتعايش السلمي المشترك كما تقتضيه شروط <b>"العقد الإجتماعي"</b> و مايتطلّبه من تنازل إرادي عن الحقوق الطبيعية بالتنازل عن <u><b>الحرية المطلقة</b></u> التي يقدّمها <b>هوبس</b> <b>"بغياب كلّ العوائق"</b> من أجل حياة مدنية تضمن مساواة الجميع داخل مؤسّسات الدولة <b>في الحقوق المدنية</b> أي المساواة أمام قوانين من وضعهم على اعتبار أن المواطن كما نتبيّنه مع <b>أرسطو</b> هو عضو فاعل في الحياة السياسية و الإنتظام الديمقراطي<b>"فالمواطن كما حدّدناه هو على الخصوص مواطن الديمقراطية"</b> و أنّ الديمقراطية لا معنى لها خارج هذه الثنائية.</p>
+<p class="para"><b>فالمواطنة</b> بهذا التحديد ليست مجرّد شعار سياسي بل هي حضور انساني في العالم داخل دولة ذات نظام <b>يقرّر</b> أرسطو أنّه لا يمكن أن يكون سوى ديمقراطيا و هو ما يسمح لنا بتمييز ها <b>بمستويات أربعة :</b></p>
+<!-- p33 -->
+<ol class="qn">
+<li><b>المواطنة</b> هي مبدأ سياسي أو <u>مثل أعلى</u> <b>"Ideal"</b> أي قيمة سياسية مشتركة لمجموعة مواطنين أو شعب.</li>
+<li><u><b>الوعي المشترك</b></u> بالإنتماء السياسي إلى دولة ذات <b>سيادة</b> .</li>
+<li><b>وعي بمنظومة الحقوق</b> و <b>الواجبات</b> أي مجموعة المعايير السياسية و الحقوقية التي تضفي الشرعية على سلوك المواطنين و تجعله مقبولا من الجميع . و تكون مهمة السلط السياسية في النظام الديمقراطي تأمينها بالتشريع و القيادة.</li>
+<li><b>المشاركة الفاعلة</b> في الحياة المدنية داخل مؤسّسات الدولة بالتشريع و إدارة الشأن العام عبر آليات الإنتخاب و الإنخراط في مكونات المجتمع المدني.</li>
+</ol>
+<p class="subhead t-red"><b>معنى الديمقراطية</b></p>
+<p class="para">أمّا <b>الديمقراطية</b> التي تبرّر <b>المواطنة</b> فهي ليست مجرّد شكل لنظام سياسي يختزل في التعريف الأرسطي <b>"بحكم الشعب للشعب"</b> في علاقة عمودية للسلطة يفوّض فيها بشكل مطلق للحاكم حكم الشعب و إنّما هي ممارسة سياسية تقوم على وعي كلّ الشركاء في الدولة بالمواطنة داخل شكل أفقي للعلاقات السياسية وفق ما يسميه <b>منتسكيو</b> مبدأ<b>"فصل السلط"</b> حيث تكون السلطة التنفيذية خاضعة إلى رقابة خارجية تكون حسب <b>آلان</b> من مهام ممثلي سلطة مستقلّة عن الحاكم بما أنّ الحاكم هو ممثّل السلطة التنفيذية و المشرف على هياكل الدولة و مؤسّساتها بما تمدّه به السلطة التشريعية وفق مبدأ فصل السلط من <u><b>قوانين مدنية</b> لتنظيم المصالح وضمان الحقوق مدعوما في ذلك بنفوذ السلطة القضائية و ما تعتمده من <b>قوانين جزائية</b> لمراقبة تنفيذ القوانين و التصدي للعنف اللامشروع بعنف قانوني مشروع و هو عنف الدولة</u> .</p>
+<p class="para"><b>فالديمقراطية</b> إذن ليست مجرّد شعار سياسي يختزل اليوم في <b>الإنتخاب</b> و لا تكمن كما يشير <b>تودوروف</b> في رأي الأغلبية فقد يكون حكم الأغلبية عاجزا لا يحقّق الخير و لا يضمن الحق و إنّما هي ممارسة سياسية ترتبط <u><b>بالمواطنة الفاعلة</b></u> بالإمتثال الواعي للقانون + و ممارسة الشعب حقّه الشرعي في المراقبة السياسية و هي تحيل بذلك إلى <b>السلطة الشرعية</b> التي تتحدّد مع <b>تودوروف</b> <b>"باستقلالية كل من السلط التنفيذية و التشريعية و القضائية و بالتعددية الحزبية و تعدّد مصادر المعلومات و من الإقرار بحقوق الأقليات"</b> لتفيد بذلك:</p>
+<!-- PROOFREAD: 1889 part1 p33 — "تتحدّد مع تودوروف" and "المعلومات" partly hidden by stamp -->
+<ol class="qn">
+<li>النظام السياسي الذي <b>يشترط الإستقلالية</b> و يبرّر <b>امتثال كلّ المواطنين <u>إراديا</u></b> داخل المجتمع المدني إلى <b>قوانين من وضعهم</b> عن طريق هيئات مؤسّساتهم و ممثّليهم الشرعيين و يضمن توافق كلّ المتدخّلين في إدارة الشأن العام كما يشير <b>سبينوزا</b> في قوله <b>"أتطلّع إلى مجتمع ينظر فيه الناس إلى القانون نظرتهم إلى شيء من صنعهم فيخضعون إليه دون عناء"</b> فالمواطن ليس فردا يخضع إلى قانون من وضع الحاكم بل هو <b>"عضو مشرّع"</b> بتعبير <b><span class="t-red">برقسن</span></b>.</li>
+<li>التصوّر السياسي الذي يقوم على <b>احترام حريات</b> الأفراد باعتبارهم <b>مواطنين</b> و ضمان المساواة(<b><span class="t-blue">العدالة</span></b>) أمام القانون.</li>
+<li>حق كلّ المواطنين في <b>الإنتخاب الحر</b> للهيئات السياسية أو الممثّلين الشرعيين.</li>
+<li><b>فصل السلط السياسية</b> التشريعية عن السلطة التنفيذية و <b>ضمان استقلالية</b> القضاء و الإعلام حيث يكون لوسائل الإتصال اليوم حسب <b><span class="t-red">هابرماس</span></b> في كتابه<b>"تحولات هيكلية في الفضاء العمومي"</b>دورا هاما في دعم الديمقراطية وفق أربعة شروط هي:
+<p class="para">1° القدرة على تمثيل الاتجاهات المختلفة و <u>دعم التعددية</u>(حرية التفكير و التعبير)<br>
+2° حماية مصالح المجتمع و حقوق مواطنيه<br>
+3° توفير المعلومات للجمهور حيث يضمن تقاسم المعرفة <u>المشاركة في صنع القرار</u><br>
+4° ضمان وحدة المجتمع بالإشتراك في وعي وطني و ثقافة عمومية</p></li>
+<li><b><span class="t-red">حكم الأغلبية</span></b> بما هو حكم من فاز في الإنتخاب كما يشير <b>تودوروف</b> مع الحذر من أن ينزلق ذلك إلى <b>دكتاتورية الأغلبية</b>.</li>
+<li>هي حسب <b><span class="t-red">آلان</span> الحق في مراقبة</b> أداء السلطة التنفيذية في إدارة الشّأن العام من أجل احترام مبدأ السيادة الشعبية باحترام الحقوق و الحريات و تأمين المصالح و ضمان العدالة الإجتماعية حين يتساءل في كتابه<b>"تعريف الديمقراطية" "ليس المهم أصل السلطات(و يقصد الإنتخاب) و إنّما المراقبة الدائمة و الناجعة التي يمارسها المحكومون على الحكام"</b> فالمراقبة السياسية تكون بإخضاعهم <b>للمُساءلة</b> و هي اليوم <b>رقابة السلطة التشريعية</b> كرقابة دستورية يمارسها</li>
+</ol>
+<!-- p34 -->
+<p class="para">الشعب عن طريق ممثليه في البرلمان و رقابة <b>مؤسّسات الإعلام</b> و <b>مكوّنات المجتمع المدني</b> من أحزاب و منظّمات مدنية من أجل ضمان المواطنة الفاعلة و الدفاع عن حقوق الشعب.</p>
+<p class="subhead t-red"><b>II. السيادة و نفي المواطنة</b> <span style="font-size:smaller">او في النظام الإستبدادي</span></p>
+<!-- CROP: 1889 1 34 0.663 0.172 0.84 0.272 1889_p34_chaplin --><figure class="fig"><img src="https://wael-philo.b-cdn.net/figs/1889/1889_p34_chaplin.png" alt=""></figure>
+<p class="para">إذا سلّمنا أنّ مفهوم <b>السيادة</b> يفيد <b>الإستقلالية</b> و بما أنّ ممارسة السيادة يمكن أن تحيل إلى خلط مع مفهوم السلطة يكون ناتجا عن الميل المستمر للحكام إلى احتكار النفوذ داخل الدولة فإنّ الفعل السياسي قد يتحوّل بذلك إلى فعل استبدادي يفقد به الشعب نفوذه السياسي بتحوّل علاقات السلطة من شكل أفقي يفوّض فيه الشعب نفوذه دستوريا لمن يخدم المصلحة العامة إلى شكل عمودي يكون فيه صاحب السيادة هو الحاكم المتسلّط.</p>
+<p class="para">فالحاكم الذي لا يمثّل إرادة الشعب ينحرف بالنفوذ إلى من رعاية المصلحة العامة للمواطنين إلى تحقيق المصلحة الخاصة على اعتبار أنّه كما يشير <b><span class="t-red">بول ريكور</span>"صاحب السيادة إنّما ينزع دوما إلى ابتزاز السيادة ذلك هو الداء السياسي الجوهري "</b> فتبرّر السيادة بذلك التسلط و الإستبداد و الطغيان كما يسميه <b><span class="t-red">جون لوك</span></b> و يعرّفه بأنّه" <b>فرض أحكام لم يجوّزها القانون على أبناء الشعب"</b> و هي أحكام تحوّل استقلالية الدولة إلى استقلالية للحاكم بغياب الشركاء في الحكم و غياب أشكال الرقابة و هو ما يبرّرالعنف حسب <b><span class="t-red">جوليان فراند</span></b> حيث تكون<b>" الدكتاتورية هي حتما نظام عنف"</b> سواء كان هذا العنف ماديا بالتعذيب أو القتل أورمزيا بتهديد الحرية والحرمان من الحقوق أو بادعاء الديمقراطية و الدفاع عن حقّ كل فرد في الرفاه .</p>
+<p class="para">فالإستبداد في كلّ أشكاله المتنوّعة هو انحراف في الممارسة السياسية للسلطة باحتكار النفوذ. وهو حكم <b>لا- مشروع</b> رغم تستره بشرعية القوانين بما أنّه ممارسة تقوم على تجميع السلط أو التأثير في التشريع و القضاء و الإعلام و تهديد قيمة المواطنة بمصادرة حقّ الأفراد في إدارة الشأن العام و المشاركة في اتخاذ القرار بقدر ما يتولّد فيهم كرعايا حسب <b><span class="t-red">الكواكبي</span></b> من <u>خوف ناتج عن جهلهم بالحقوق</u> <b>"باعتبارهم يذبحون أنفسهم بأيديهم من الخوف"</b> فيتنازلون بذلك عن السيادة و الإستقلالية.</p>
+<!-- PROOFREAD: 1889 part1 p34 — "بقدر ما يتولّد" and "من الخوف" partly hidden by stamp -->
+<p class="para">غير أن الخطر الأكبر الذي يتهدّد <b>السيادة</b> في وضع الإستبداد قد لا يكون بالعنف المادي للحاكم بقدر ما يكون بعنف رمزي يستند حسب <b><span class="t-red">ماكس فيبر</span></b> إلى <b>"كاريزما الحاكم"</b> و خطاباته الحماسية المغلّفة بادعاء احترام قواعد الديمقراطية تتحوّل به الممارسة السياسية كما يقدّمها <b><span class="t-red">توكفيل</span></b> إلى<b>"إستبداد ناعم"</b> أو وهم يمقراطية لا تكون كما يلاحظ <b><span class="t-red">بول ريكور</span></b> سوى شعارات سياسية لتأمين نفوذ الحاكم و تبرير سيطرة الأغلبية التي لا تعبّر عن إرادة الشعب في حكمها بقدر ما تدافع عن مصالحها لينبّهنا بذلك إلى أنّ <b>" ديمقراطياتنا الإنتخابية ليست ديمقراطيات تمثيلية أو هي ليست كذلك تماما".</b></p>
+<p class="para">فالديمقراطية تحوّلت اليوم مع الليبرالية الجديدة و توجيه الإقتصاد إلى ديمقراطية مقنّعة بالحق في الرفاه و الإستهلاك أو كما يشير <b><span class="t-red">بودريار</span>"الوعد بالسعادة للجميع"</b> و هي شعارات يبرّر بها الحاكم حسب الإقتصادي الإنقليزي <b><span class="t-red">كاينز</span></b> خلق الثروة حتى لو تطلب ذلك التضحية بحقوق أخرى شأن ما يكون في الأزمات بما أنّ <b>"الحروب و الكوارث يمكنها خلق الثروة "</b></p>
+<p class="subhead t-red"><b>III. أزمة المواطنة و الحاجة إلي المقاومة</b></p>
+<!-- CROP: 1889 1 34 0.612 0.763 0.812 0.877 1889_p34_libre_expression --><figure class="fig"><img src="https://wael-philo.b-cdn.net/figs/1889/1889_p34_libre_expression.png" alt=""></figure>
+<p class="para">بما أنّ <b>المواطنة</b> تتحدّد أساسا بالوعي بالحقوق المدنية و الحريات القانونية فهي تبدو بذلك كثقافة سياسية و تربية على العيش المشترك داخل مجتمع مدني. لكنّ هذه الثقافة تظهر اليوم في زمن العولمة خاضعة إلى تأثير الإعلام و هيمنة الاقتصاد و السوق العالمي، حيث يتحوّل المواطن إلى <u>مستهلك</u> لقرارات الحكومات و خاضع لخياراتها <b>الإقتصادية و الثقافية</b> فلا يكون بذلك</p>
+<!-- p35 -->
+<p class="para">للمواطن أي حقّ في الإختيار و لا أيّ معنى للحرية و هو ما يدفع إلى المقاومة و رفض القرارات الفوقية و أشكال الإستبداد.</p>
+<p class="para">غير أن <u><b>المقاومة</b> بما هي قوة الرفض و المواجهة التي يتخلى فيها المواطن عن الإمتثال اللامشروط للحاكم ،قد تتخذ حسب <b><span class="t-red">فولتير</span></b> شكل عنف مشروع متمرّد على شرعية قوانين الإستبداد المبرّرة للتسلط</u> و هو عنف مضاد لعنف الحاكم يشترط فيه <b><span class="t-red">ماركس</span></b> أن يكون<b>"عنفا ثوريا"</b> يحرّر المواطنين مما يسمّيه <b><span class="t-red">بول ريكور</span></b> <u><b>"الإغتراب السياسي"</b></u> و يضمن <u>المواطنة فاعلة</u>.</p>
+<p class="subhead t-red"><b>IV. السيادة و فكرة المواطن العالمي</b></p>
+<p class="para">إذا كانت <b>السيادة</b> ترتبط باستقلالية القرار الوطني للدولة فإنّ <b>المواطنة الفاعلة</b> لا يمكن اثباتها فحسب من خلال احترام مؤسّسات الدولة و قوانينها الداخلية في صنع القرار و إنّما كذلك من خلال ما يسميه <b><span class="t-red">كانط</span></b> <b>"بالمواطنة العالمية"</b> بما هي مواطنة تتجاوز حقوق المواطنة المحلية إلى <u><b>حقوق كونية</b></u> باعتبارها مبادئ مجرّدة يتماثل فيها مواطني كلّ الشعوب و تشرّع لتآزر كلّ متساكني الكوكب بما في ذلك اللاجئين السياسيين الذين حرموا من حق حماية دولتهم. ذلك أن المواطنة العالمية عند <b><span class="t-red">كانط</span></b> تقتضي الاعتراف بالآخر لا بما هو غريب بل بما هو مواطن دولته ،و في ذات الوقت مواطن العالم . حيث تكون <b>المواطنة العالمية</b> التي يدعو إليها <b><span class="t-red">كانط</span></b> ، وضعية كونية تستند إلى مبدأ الحرية و حقوق الإنسان و تجعل المواطن حسب <b><span class="t-red">هابرماس</span></b> <b>"مواطن دولته و مواطن العالم في آن"</b>. و هو ما برّر حسب <b><span class="t-red">حنّا أرانت</span></b> ربط فكرة <b>المواطنة العالمية</b> برهان التحرّر الوطني و حقّ الشعوب المستعمرة في المقاومة و تقرير المصير، و يبرّر اليوم نظال كل شعوب العالم و دفاعها عن سيادتها و استقلاليتها وفق منظومة حقوق الإنسان بدفاع كلّ الشعوب عن حقها في الأمن و التعايش السلمي وفق تصوّر للمواطنة العالمية يقوم ـ كما قدّمه <b><span class="t-red">كانط</span></b> <u><b>" على الثلاثية: حرية، مساواة، وإخاء"</b></u>.</p>
+<!-- PROOFREAD: 1889 part1 p35 — "المواطنة العالمية" (after فكرة) and "السلمي" partly hidden by stamp -->
+<p class="para">لكن هذه الحقوق الكونية كما يلاحظ <b><span class="t-red">بودريار</span></b> تبدو اليوم مهدّدة بقيم العولمة و تأثير الغرب في الشعوب غير الغربية بفتح حدودها و إلزامها بالتماثل في ثقافة خصوصية و مخطّطات الغرب السياسية و منواله الإقتصادي الليبرالي و تهديد استقلاليتها بالدعوة إلى <b>"وحدة المصير الكوكبي"</b> بتعبير <b><span class="t-red">ادغار موران</span></b> بعد أن كان النظام العالمي يختزل حسب <b><span class="t-red">برتراند راسل</span></b> في أحد شكلين إمّا رأسمالي يدافع عن الليبرالية و تبرّر التمييز الطبقي أو شيوعي تدّعي فيه أقلية حاكمة الدفاع عن مصالح الطبقة الشعبية رغم أنهما نظامين يعبّر كلاهما عن حكم أقلية بتبريرات ايديولوجية مختلفة يدافع كلّ منهما عن مصالحه و مناطق نفوذه بمعزل عن سلطة الشعوب و مواطنيها حيث <b>" يصبح الفرد مستعدّا لقبول ما تفرضه السلطة عليه من آراء في السياسة و الإجتماع"</b> كما يشير <b><span class="t-red">رسل</span></b>. فقرارت السياسين في عصر العولمة أو ما يعرف اليوم <b>"بالنظام العالمي الجديد"</b> ليست سوى قرارات حكام مدعومين بأجهزة الإعلام يدّعون الشرعية الديمقراطية(بالإنتخاب) رغم ضعف الرقابة الشعبية. فهو نظام يتميّز حسب <b><span class="t-red">بودريار</span></b> بالتحكم في الحريات بتنميط سلوك الأفراد و توجيههم بالإعلام و<b>"ثقافة الحشود"</b> إلى استهلاك كلّ شيء أفكارا و ثقافة و سلعا .كما يتحكّم في سيادة الدول باسم حرية المبادلات و حقوق الإنسان و التضامن العالمي و هو وضع عالمي يكرّس حسب <b><span class="t-red">ادغار موران</span></b> في كتابه<b>"تربية المستقبل"</b> قيم الإستبداد كما كرّستها الأنظمة الكليانية الرافضة للتعددية و الحال أنّه لا معنى للديمقراطية في غياب التّعدّد و التّنوّع <b>"بما أنّ الطابع المميّز للديمقراطية هي علاقتها الحية بالتعددية"</b>. لذا لا بدّ من النظال من جديد من أجل الدفاع عن التعدّدية دفاعا عن الحرية الإنسانية و هو مسار يرتبط بالدفاع عن المواطنة كعنوان للحرية و تنوّع أشكال الابداع حين نعتبر مع <b><span class="t-red">موران</span></b> أنّه" <b>ينتج المواطنون الديمقراطية و تعمل هي الأخرى على انتاجهم"</b> فيكون بذلك لكّل دولة ممارستها الديمقراطية ذات الخصوصية المميّزة التي تكرّس سيادتها و استقلالية قرار مواطنيها و سيادة الدولة.</p>
+<!-- PROOFREAD: 1889 part1 p35 — "الحقوق" and "حدودها" partly hidden by stamp -->
+<!-- p36 -->
+<p class="subhead t-red"><b>المعجم الفلسفي</b></p>
+<p class="para"><b><span class="t-red">الدولة</span></b>: فكرة تحيل إلى مجموع المؤسسات المنظمة بالقانون لعلاقات السلطة و الضامنة لحقوق المواطنين</p>
+<p class="para"><b><span class="t-red">السيادة</span></b> :تحيل إلى معاني <u><b>الإستقلالية</b></u> و<u><b>الحرية</b></u> أي استقلالية القرار في الفعل السياسي+ وهي السلطة العليا التي لا تخضع إلى سلطة أعلى</p>
+<p class="para"><b><span class="t-red">السلطة</span></b> : ليست السيطرة بما أن السيطرة هي العنف الذي يتحكّم به طرف في آخر بما له من نفوذ مطلق و إنّما هي علاقة بين طرفين يكون أحدهما ذي نفوذ يحدّده القانون داخل مؤسّسات الدولة من أجل ضمان الحق و الثاني ممتثلا لنفوذه طلبا لهذا الحق</p>
+<p class="para"><b><span class="t-red">الحاكم</span></b>: <b>"شخص قانوني"</b> و ممثّل الإرادة السياسية للمواطنين + و هو قيادي و ممثّل السلطة التنفيذية باعتباره صاحب القرار</p>
+<p class="para"><b><span class="t-red">الحرية</span></b>: تعبير عن الحقّ + و هي التزام إرادي بالواجب كما يحدّده القانون السياسي باعتباره من وضع الشعب.</p>
+<p class="para"><b><span class="t-red">الحق</span></b>:ما يطالب به المواطنون و يعبّر عنه القانون المدني كمبدأ سياسي لتسيير شؤون المواطنين (كالحق في الصحة أو التعلم)+ما لا يمنعه القانون. + و نميّز في الحقّ:1. <b>الحقّ الطبيعي</b> وهو المبدأ الذي يقوم على ما لنا من قوة تحدّد أفعالنا داخل الطبيعة و ما يمكن أن تنتهي إليها من فوضى بتضارب المصالح 2. <b>الحق المدني</b> وهو مبدأ سياسي يقوم على تصوّر مشترك للمجتمع المدني و ما يضمن التعايش السلمي</p>
+<p class="para"><b><span class="t-red">القانون</span></b>: مبدأ تنظيمي لمؤسّسات الدولة بما يضمن حقوق المواطنين +وهو نص وضعي للتعبير عن حقوق كلّ المشاركين في الدولة بوضع واجبات تكون إلزامات لحماية الحقوق أو المصالح و الحريات + نميّز فيه 1. <b>القانون المدني</b> كمبدإ لتسيير شؤون المواطنين داخل المجتمع المدني 1. <b>القانون الجزائي</b> وهو مبدأ للمراقبة و المحاسبة أو العقاب تعتمده السلطة القضائية لحماية الحقوق من عنف لا مشروع</p>
+<p class="para"><b><span class="t-red">الديمقراطية</span></b> حكم الشعب لذاته بالمشاركة الفاعلة لكلّ المواطنين في إدارة الشأن العام+ وهو نظام سياسي يختار فيه الشعب ممثليه السياسيين إراديا و يقوم على: فصل السلط + التعديدية + الإنتخاب الحر</p>
+<p class="para"><b><span class="t-red">الإستبداد</span></b>: أوالدكتاتورية كممارسة سياسية تفيد النفوذ المطلق و احتكار الحاكم كلّ آليات السلطة و ما يجعله يتحكم في الحقوق و الحريات.</p>
+<p class="para"><b><span class="t-red">المواطنة</span></b>: الوعي بالحقوق و بالإنتماء إلى دولة ذات سيادة + و هي ممارسة سياسية واعية تقوم على الإلتزام الإرادي أو الحر بقوانين من وضع الشعب + و تفيد المشاركة الفاعلة لكل مواطن في إدارة الشأن العام (أي في الحياة السياسة و ضمان الحقوق للجميع).</p>
+<p class="para"><b><span class="t-red">المواطنة العالمية</span></b>: وضعية مشتركة بين مواطني كلّ الدول تستند إلى منظومة القيم الكونية و حقوق الإنسان .</p>
+<p class="para"><b><span class="t-red">العدالة</span></b> : قيمة سياسية تفيد ضمان الحقوق للجميع و هي تتخذ شكلين أساسيين: 1.<b>المساواة</b>: وهي مهمة السلطة التنفيذية و مبدأ ضمان الحقوق بمعاملة كلّ المواطنين أمام قانون على قدر السواء 2.<b>الإنصاف</b> وهي مهمة السلطة القضائية لحماية الحقوق عند انتهاكها و إنصاف المظلومين و معاقبة الظالم بعنف مشروع تحدّده القوانين الجزائية.</p>
+<p class="para"><b><span class="t-red">العنف</span></b> : مقدار أعلى من القوة يكون موظّفا لتهديد حقوق الأخرين و حرياتهم و نمّز فيه1. العنف الشرعي أي ما يجيزه القانون للسلطة القضائية من أجل ضمان الحقوق , 2. العنف المشروع و هو عنف الشعب بالمقاومة رغم ما فيه من مخالفة للقوانين و قرارات المستبد</p>
+<p class="para"><b><span class="t-red">المقاومة</span></b>: قوة الرفض+ العنف المشروع أي المواجهة التي يتخلى فيها المواطن عن الخضوع إلى حاكم مستبد : قد تتخذ شكلا سلميا (مظاهرات)أو مواجهة مادية ثورية</p>
+<!-- CROP: 1889 1 36 0.69 0.562 0.877 0.642 1889_p36_un_jour_citation --><figure class="fig"><img src="https://wael-philo.b-cdn.net/figs/1889/1889_p36_un_jour_citation.png" alt=""></figure>
+<p class="subhead t-red"><b>شواهد فلسفية</b></p>
+<p class="para"><b><span class="t-red">ريكور</span></b>: وجدت الدولة لتجعل السلطة ممكنة و الإستبداد مستحيلا</p>
+<p class="para"><b><span class="t-red">هوبس</span></b>: صحيح أنّ كلّ فرد يتمتّع خارج المجتمع المدني بحرية تامة غير منقوصة و لكنها حرية غير</p>
+<p class="para"><b><span class="t-red">أرسطو</span></b> : المواطن كما حدّدناه هو على الخصوص مواطن الديمقراطية</p>
+<p class="para"><b><span class="t-red">سبينوزا</span></b>: الديمقراطية هي اتحاد الناس في جماعة لها حقّ مطلق على كلّ ما في قدرتها</p>
+<p class="para"><b><span class="t-red">روسو</span></b> : إن السيادة التي ليست سوى ممارسة الإرادة العامة ، لا يمكن أبدا أن تكون محل تنازل</p>
+<p class="para"><b><span class="t-red">فكتور كوسان</span></b> : لا ينبغي أن نخلط الحقّ بالقوة، إنّ القوة إن لم ترم الحرية فلن تكون إلاّ شيئا مرعبا</p>
+<p class="para"><b><span class="t-red">ماكس فيبر</span></b> : للدولة حق الإستئثار بممارسة العنف المشروع</p>
+<p class="para"><b><span class="t-red">كانط</span></b> : الإستبداد هو وضع يحتكر فيه الحاكم القوة لتوجيهها <b>إلى قمع الحريات باسم القانون</b></p>
+<p class="para"><b><span class="t-red">بول ريكور</span></b> : صاحب السيادة إنّما ينزع دوما إلى ابتزاز السيادة. <b>ذاك هو الداء السياسي الجوهري</b></p>
+<p class="para"><b><span class="t-red">روسو</span></b> : إنّ الشعب الحر يطيع و لا يخضع</p>
+<p class="para"><b><span class="t-red">سبينوزا</span></b>: العدالة هي استعداد دائم للفرد لأن يعطي <b>كل ذي حق ما يستحقه طبقا للقانون</b></p>
+<!-- p37 -->
+<p class="subhead t-red"><b>جذاذة مراجعة</b></p>
+<p class="subhead t-navy"><b><span class="t-red">الدولة</span>: السيادة و المواطنة</b></p>
+<table>
+<tr><th></th><th>السيادة و الحاجة إلى المواطنة<br>النظام الديمقراطي</th><th>السيادة و نفي المواطنة<br>النظام الإستبدادي</th></tr>
+<tr><td><b><span class="t-red">السيادة</span></b></td>
+<td><p class="para"><b>سيادة الدولة</b> هي <b><span class="t-red">سيادة الشعب</span></b> بما هي السلطة العليا التي لا تخضع إلى سلطة أعلى منها+و هي واحدة لا تتجزأ، أما تعدد أشكالها فهو تعدد في الوظائف السياسية (سلطة تشريعية /سلطة تنفيذية /سلطة قضائية/سلطة الإعلام/مكونات المجتمع المدني )</p>
+<p class="para"><u><b><span class="t-red">الحاكم</span></b></u> هو<b>"شخص قانوني"</b>بتعبير <b>هوبس</b>+<b>ممثّل إرادة الشعب</b> لذا يقر <b>روسو</b> <b>" السيادة التي ليست سوى ممارسة الإرادة العامة لا يمكن أبدا أن تكون محل تنازل"</b>أما تفويض الشعب سلطته فهو لا يفقده السيادة <b>" من يهب نفسه للجميع فهو لا يهب نفسه لأحد"</b></p>
+<p class="para"><u><b><span class="t-red">المواطنة</span></b></u> هي <b>وعي سياسي بالحقوق المدنية</b> و هي كذلك <b>وعي بالإنتماء إلى دولة ذات سيادة</b> +و <b><span class="t-red">ممارسة فاعلة داخل مؤسّسات قانونية</span></b> تتطلب توافقا حول الحقوق و على نظام الحكم الديمقراطي يضمنه حسب <b>هابرماس</b> الاعلام داخل <b>"الفضاء العمومي"</b> أو المجتمع المدني.</p></td>
+<td><p class="para"><b>سيادة الدولة</b> هي <b><span class="t-red">سيادة الحاكم</span></b> الأعلى بما هي السلطة العليا التي يكون بها الأفراد <u><b><span class="t-red">رعايا</span></b> لا <b><span class="t-red">مواطنين أحرار</span></b></u>+ تغييب <b>المواطنة</b> بتهميش الحرية و التنازل عن إدارة الشأن العام</p>
+<p class="para"><b>روسو:"من تنازل عن حريته تنازل عن انسانيته"</b>حيث يفقد المواطنون حقوقهم :</p>
+<p class="para">1 .بالخوف من عنف الحاكم + 2.بجيل حقوقهم فيم حسب <b>الكواكبي رعايا " يذبحون أنفسهم بأيديهم من الخوف"</b></p>
+<p class="para">+ يكون <b><span class="t-red">نفوذ الحاكم</span></b> أو الأمير حسب <b>ماكيافل</b> نفوذا مطلقا بما له في نفس الوقت من قوة و مكر فيو<b>" أسد و ثعلب"</b> و هو حكم يستند إلى مبدإ الغاية تبرّر الوسيلة +وهي حكم الأقلية وعدم اكتراث الأغلبية بالشأن السياسي حسب <b>توكفيل</b>.</p>
+<p class="para"><b><span class="t-red">الإستبداد</span></b> هو مع <b>جون لوك الطغيان</b> و هو الحكم الذي يهدف إلى تحقيق مصالح الحاكم الشخصية بتفقير الشعب و إرهاقه <b>"بفرض أحكام لم يجوّزها القانون على أبناء الشعب"</b></p></td></tr>
+<tr><td><b><span class="t-red">نظام السلط السياسية</span></b></td>
+<td><p class="para"><b><span class="t-red">مبدأ فصل السلط</span></b> و هو الشرط الأول حسب <b>مونتسكيو</b> يقوم على التمثيل القانوني الناتج عن الإنتخاب الحر للسلطة التنفيذية أو الحاكم + السلطة التشريعية مع الفصل بينهما</p>
+<p class="para"><b><span class="t-red">استقلالية القضاء</span></b> لضمان العدالة عقلانيا(<b>سبينوزا</b>) بحماية الحقوق و الحريات قانونيا</p>
+<p class="para"><b><span class="t-red">استقلالية الإعلام</span></b> حسب <b>هابرماس</b> كمؤسّسة رقابة و نقد لأداء الحاكم أو هيئة الحكم و أداء كلّ مؤسّسات الدولة + و هي حسب <b>موران</b> ضامنة <u><b>للتعددية</b></u> كشرط للديمقراطية</p>
+<p class="para"><b><span class="t-red">استقلالية مكوّنات المجتمع المدني</span></b> باعتبارها قوة ضغط شعبية من منظّمات و جمعيات محايدة و نقابات وأحزاب معارضة تضمن مشاركة كلّ المواطنين في إدارة الشأن العام(السياسي) بما لهم من <b>مواطنة فاعلة</b>.</p>
+<!-- PROOFREAD: 1889 part1 p37 — "القضاء", "الإعلام", "مكوّنات المجتمع المدني", "نقابات", "السياسي) بما" partly hidden by stamp --></td>
+<td><p class="para"><b><span class="t-red">احتكار الحاكم كلّ السلط</span></b> :سيطرة الحاكم بما له من كاريزما أو ما له من نفوذ يمارس به عنفا على الرعايا بهدف شخصنة الدولة و تقديس الحاكم من جهة و تحويل المؤسّسات السياسية إلى منظومة موجهة لتحقيق مصالحه و توسيع نفوذه ، لذا يقول <b>بول ريكور</b>: <b>"صاحب السيادة إنّما ينزع دوما إلى ابتزاز السيادة. ذاك هو الداء السياسي الجوهري"</b></p>
+<p class="para"><b><span class="t-red">توظيف الإعلام</span></b> لتكريس <b><span class="t-red">وهم الديمقراطية</span>( ريكور)</b> بشعارات شكلية تختزل الديمقراطية في حق الإنتخاب و حكم الأغلبية.</p>
+<p class="para"><b><span class="t-red">الإغتراب السياسي للأفراد كرعايا</span></b> بامتثالهم لمخطّطات سياسية و مواقف و خضوعهم لقيادة يتحكم بها الحاكم في الحريات المدنية و حقوق المواطنة من أجل الحفاظ على نفوذه و هو ما يقتضي توظيف مكونات المجتمع المدني من هياكل و جمعيات في الأصل مستقلة و ما يرافق ذلك من توظيف للإعلام داخل ما يسميه <b>هابرماس " بالنشاط الإستراتيجي"</b> أو المخطّطات السياسية و ما يروّج من مغالطات تدعم التسلط المقنّع.</p></td></tr>
+<tr><td><b><span class="t-red">آليات السلطة</span></b></td>
+<td><p class="para"><b><span class="t-red">القانون المدني</span></b>: قاعدة سياسية لتنظيم علاقات المواطنين و إدارة الشأن العام من أجل ضمان الحقوق و تحقيق المصالح بثنائية الحقّ(المسموح به) و الواجب (الإلزام)</p>
+<p class="para"><b><span class="t-red">القانون الجزائي</span></b>:قاعدة للمحاسبة و العقاب تبرّر احتكار الدولة لممارسة <b>العنف المشروع</b> حسب <b>ماكس فيبر</b>(بما هو مقبول من الشعب طالما كان يضمن حماية الحقوق والمصالح)</p></td>
+<td><p class="para"><b><span class="t-red">القانون</span></b>: هو قاعدة سياسية من وضع الحاكم و جهاز السلطة التنفذية و مسيريه أي التكنوقراط و هو مبدأ يستند اليوم مع العولمة في النظام الليبرالي إلى <u><b>قيم المصلحة</b></u> و آليات تحقيق النفع (قيم السوق و الإستهلاك) حسب <b>بودريار</b> بتوظيف القانون لتحقيق مصالح الحكام <b>"بالوعد بالرفاه"</b> وادعاء خدمة الشعب</p>
+<p class="para"><b><span class="t-red">توظيف مؤسّسات الدولة</span></b> بوجه غير مشروع لضمان المصلحة الخاصة بالقياديين</p></td></tr>
+<tr><td><b><span class="t-red">غايات الدولة</span></b></td>
+<td><p class="para">1.<b><span class="t-red">الحرية</span></b> :غاية الدولة منذ فكر الأنوار لذا يشير <b>سبينوزا</b> :<b>"غاية الدولة في الواقع هي الحرية"</b> و هي تشترط <b>"عقلنة العلاقات داخل الدولة"</b> بارساء دولة القانون و المؤسّسات فلا تتحقّق <b>الحرية</b> إلا بحماية الحقوق و ضمان الأمن أو التعايش السلمي باعتبار أنّ <b>الحرّية المدنية</b>، هي حسب <b>روسو</b> حرية قانونية تشترط <b>"الوعي بالحقّ"</b> و تفيد ما يسمح به القانون:يقرّ<b>روسو"ولدت الحرية يوم ولد القانون"</b> ، خلافا <b>للحرية الطبيعية</b> التي تقوم على أنّه لكلّ من الحق بقدر ما له من القوة لتنتهي إلى الفوضى</p>
+<p class="para">2. <b><span class="t-red">العدالة</span></b> قيمة سياسية ترتبط بالقوانين و منظومة الحقوق و تكون مع <b>سبينوزا"استعداد دائم للفرد لأن يعطي كل ذي حق حقه طبقا للقانون المدني"</b> سواء تعلّق الأمر بـ :</p>
+<p class="para">1. <b><span class="t-red">المساواة</span></b> كعدالة ضمنها <u>السلطة التنفيذية</u>: وهي المساواة أمام القانون بين كلّ المواطنين +مساواة في الحقوق/ هي في النظام الليبرالي ضمان التناسب بين المصالح الفردية والمصلحة العامة</p>
+<p class="para">2. <b><span class="t-red">الإنصاف</span></b> تضمنها <u>السلطة القضائية</u>: بحماية الحقوق المظلومين ومعاقبة الظالم</p></td>
+<td><p class="para">1.<b><span class="t-red">الأمن</span></b> بالسيطرة على كلّ مؤسّسات الدولة بما أنّ <b>" الدكتاتورية هي حتما نظام عنف"</b> حسب <b>جوليان فراند</b> + المراقبة المستمرة لكلّ المواطنين حيث تكون دولة الإستبداد مقدّسة فهي مع <b>هوبس "دولة التنين، ذاك الإله الفاني"</b> أوالدولة التي يخضعون لنفوذها</p>
+<p class="para">2.<b><span class="t-red">الحق في السعادة و الرفاه</span></b> كشرط لما يسميه <b>ماركوز <span class="t-red">ديمقراطية الرفاه</span></b> باختزال الغايات السياسية في بعد اقتصادي يقوم على المصلحة و ما يناسبها من حاجات المواطنين و تكون موجّهة بالإعلام في خطابات السياسية للحكام بما يسميه <b>بودريار "الوعد بالسعادة للجميع"</b> حيث يكون على الحاكم في النظام الليبرالي خلق الثروة حتى استوجب حسب <b>كاينز</b>(اقتصادي أنقليزي) التضحية ببعض الحقوق المدنية لتعديل السوق حين يقول:<b>" الحروب و الكوارث يمكنها خلق الثروة"</b> + و من جهة ثانية اختزال كلّ الحقوق المدنية خاصة مع مشروع العولمة داخل شعار <b>" الحق في الإستهلاك "</b> حتى يشغل المواطنين عن المطالبة بالحريات و الحقوق السياسية كما ينبّه إلى ذلك <b>ماركوز</b> في قوله <b>"دولة الرفاه بالرغم من كلّ عقلانيتها ليست دولة تسود فيها الحرية"</b></p></td></tr>
+<tr><td><b><span class="t-red">العنف و المقاومة</span></b></td>
+<td><p class="para"><b><span class="t-red">عنف الدولة</span></b> هو عنف مادي <u><b>شرعي</b></u> (قانوني) و <u><b>مشروع</b></u> (من أجل المصلحة العامة و مقبول من الجميع) تحتكره <b><span class="t-red">السلطة القضائية</span></b> بالمراقبة و العقاب اعتمادا على قوانين جزائية بما أنّه حسب <b>لوسي مير"لا مجتمع تُحترم فيه الحريات تلقائيا"</b></p>
+<p class="para">. <b>كانط</b> يدعو إلى تجريم <b><span class="t-red">المقاومة</span></b> و اعتبارها فوضى أو <b>عنف غير مشروع</b> يهدّد كيان الدولة و الديمقراطية <b>"أبسط محاولة في هذا الشأن هي خيانة عُظمى ومن يكون خائنا من هذا الجنس باحثا عن القضاء على وطنه لا يمكن أن يُعاقب بأقل من الموت"</b></p></td>
+<td><p class="para"><b><span class="t-red">العنف</span></b> هو افراط في استعمال القوة يتخذ تبريرات قانونية (من وضع الحاكم ) +يولّد الظلم بالقمع و تهديد الحقوق و الحريات كما يشير <b>فكتور كوسان</b> بقوله <b>"القوة إن لم ترم الحرية تكون شيئا مرعبا"</b> بما أن القوة الشرعية تتعلّق بما يسمح به القانون.</p>
+<p class="para"><b><span class="t-red">عنف الإستبداد</span></b> هو عنف غير مشروع يبرّر <b><span class="t-red">المقاومة</span></b> بما هي مواجهة سلمية أو مادية وهي <u><b>عنف غير شرعي</b></u>بالنسبة إلى الحاكم بما هو محالف للقوانين <u><b>رغم أنّه عنف مشروع</b></u> شعبيا يبرّر به الشعب حسب <b>فولتير</b> الثورة و يكون <b>"موجّها لقلب نظام الحكم"</b> كما يمكن أن يكون مع <b>ماركس<span class="t-red">عنفا ثوريا</span></b> مضاد لعنف الحاكم يكون <b>عنفا مشروعا</b> محرّرا للشعب/البروليتاريا بافتكاك وسائل الإنتاج بما هي <b>وسائل النفوذ السياسي</b></p></td></tr>
+</table>
+<!-- PROOFREAD: 1889 part1 p37 — very small print; "بجيل حقوقهم فيم" (sic?), "فيو" (sic?), "محالف" readings uncertain -->
+<!-- p38 -->
+<p class="subhead t-red"><b>مهارات التفكير الفلسفي</b></p>
+<p class="subhead t-navy"><b>النّص:</b></p>
+<div class="data"><p class="consigne">قم بقراءة النص: فصّل الأفكار الواردة فيه + المفاهيم التي اشتغل عليها من أجل فهمه</p></div>
+<p class="para">تقوم المشكلة الأساسية على ايجاد شكل للحكم يضع القانون فوق الناس، لأنّه بمجرّد أن يخضع القانون للناس لن يبقى فيهم سوى عبيد و أسياد، فتتفكّك الدولة...و لكن من يكون عليه سنّ القوانين؟ من سينتصب مشرّعا للمجموعة؟ إنّه لا يمكن أن يكون شخصا واحدا، لأنّ ذلك سيوقع الشعب تحت سيطرة فرد يسعى إلى منافع خاصة تتعارض بشكل طبيعي مع مصالح الجماعة.</p>
+<p class="para">إنّ الشعب بكامله هو وحده الذي يمكنه أن يشرّع لنفسه، و الإرادة العامة وحدها يمكنها أن تسنّ القوانين، هذه الإرادة التي لا يمكن أن تتوخّى إلاّ ما هو لصالح الجميع لأنّها بطبيعتها غير شخصية، و لكن من ذا الذي يلزم الفرد بالإنصياع للإرادة العامة؟ لا يمكن إرغامه على ذلك بالعنف، لأنّه قد لا يلتزم به ... ( بقي ) أنّ جميع أعضاء الجماعة قد التزموا بشكل متبادل، فوهب كلّ فرد نفسه للجميع، و هو إذ يهب نفسه للجميع لا يهبها إلاّ للجماعة لا للفرد. و من هذا التجمع تنشأ "أنا" جماعية، و إرادة عامة على ميثاق صدق مشترك، و يكون الفرد جزءًا لا يتجزّأ من هذه الجماعة و تكون إرادته و الإرادة العامة إرادة واحدة بعينها، و هو إذ يخضع للإرادة العامة لا يخضع إلاّ لنفسه(...)هكذا تغدو مشكلة حرية الفرد في الدولة محسومة، حيث يمكنه العيش دون الخضوع لإرادة أفراد آخرين.</p>
+<p class="para"><b>برنار غروتيوزن</b> □□ <b>فلسفة الثورة الفرنسية</b>□□</p>
+<p class="consigne"><b><span class="t-red">المهام</span></b> : 1. ارصد اشكالية الكاتب في هذا النص</p>
+<!-- PROOFREAD: 1889 part1 p38 — "1. ارصد" hidden by stamp -->
+<table>
+<tr><th>توجيهات منهجية</th><th>التحرير (استعن بالتوجيهات المنهجية المصاحبة للإجابة على المطلوب في فقرة )</th></tr>
+<tr><td><p class="para">- ارصد أطروحة الكاتب من خلال المفاهيم المستعملة التي استعملها في النص<br>- ابحث عن الأطروحة التي ينقدها الكاتب<br>عبّر عن المشكل الفلسفي الناتج عن اختلاف هذين الموقفين في سؤال يحمل مفارقة<br>- ابحث عن قيمة الأطروحة بالتعبير عنها في أسئلة متدرّجة</p>
+<!-- PROOFREAD: 1889 part1 p38 — "أطروحة الكاتب من خلال المفاهيم المستعملة" partly hidden --></td>
+<td><p class="para">......................................................................<br>......................................................................<br>......................................................................<br>......................................................................</p></td></tr>
+</table>
+<p class="consigne">2. حدّد دلالة ا <u>لإرادة العامة</u> في سياق هذا النص</p>
+<table>
+<tr><td><p class="para">- ابحث عن الدلالة المستبعدة أو الفهم الضعيف "للإرادة العامة"<br>- ارصد شبكة المفاهيم الموضحة "للإرادة العامة" داخل النص<br>- ابحث عن المرجعية التي يمكن اعتمادها لتوضيح هذه الدلالة<br>- اكشف عن أهمية هذه الدلالة في حلّ مشكل</p></td>
+<td><p class="para"><b><u>الإرادة العامة</u> <span class="t-red">ليست</span></b> ................................................ <b>و لا هي</b><br>................ <b>بما أنّ</b> ................................ <b>بل هي</b><br>......................................................................<br>......................................................................<br>......................................................................<br><b>لذلك</b> ..............................................................</p></td></tr>
+</table>
+<!-- p39 -->
+<p class="consigne">3. أكشف عن إحدى المسلّمات الضمنية المتعلّقة بنشأة ما يسميه الكاتب "الأنا" الجماعية</p>
+<table>
+<tr><td><p class="para">- ابحث داخل مفهوم <u>"الأنا الجماعية"</u>الوارد في النص عن الفكرة الضرورية التي بدونها لا يمكن قبول الموقف<br>- ما هي الإشارات المميّزة التي توحي بها مفاهيم النص دون أن يصرّح بها القول و التي لا يمكن الإستغناء عنها في بيان وجاهته؟<br>- ما هي المرجعية التي يمكن اعتمادها في توضيح المسلّمة</p></td>
+<td><p class="para"><b><span class="t-red">من مسلّمات هذا القول</span></b> ..............................................<br>......................................................................<br>......................................................................<br>......................................................................<br>......................................................................<br>......................................................................<br><b><span class="t-red">" فلا تكون بذلك</span></b> ..............................................<br>......................................................................</p></td></tr>
+</table>
+<p class="consigne">4. ارصد احدى تبعات اعتبار <u>الشعب مشرّعا للقوانين</u></p>
+<table>
+<tr><td><p class="para">- ابحث في النص عن <u>النتيجة النظرية</u> المترتبة منطقيا عن مسلمات الموقف :<br>. <u>"الشعب مشرّعا"</u><br>- أو ابحث عن الأثر العملي وانعكاسات الموقف <u>في الواقع</u><br>- ما هي الإشارات المميّزة الواردة في النص لتدقيق التبعة؟<br>- ما هي المرجعية التي يمكن اعتمادها في توضيح التبعة؟</p></td>
+<td><p class="para"><b><span class="t-red">من تبعات هذا القول</span></b> ..............................................<br>......................................................................<br>......................................................................<br>......................................................................<br>......................................................................<br><b><span class="t-red">لذلك</span></b> ..............................................................<br>......................................................................</p></td></tr>
+</table>
+<p class="consigne">5. قدّم حجّة تبرّر الإقرار بأنّ <u>الفرد</u> " إذ <u>يخضع</u> <u>للإرادة العامة</u> لا <u>يخضع</u> إلاّ لنفسه"</p>
+<table>
+<tr><td><p class="para">- حدّد معنى <u>"الخضوع"</u> في هذا القول<br>- ابحث عن العلاقة بين مفهوم <u>"الخضوع"</u> + و <u>الإرادة العامة</u> + و <u>الفرد</u><br>- ابحث في النص عن فكرة تدعّم فهم الكاتب للخضوع و تكشف وجاهته/أي أهميته<br>- اكشف أهمية هذه الفكرة استنادا إلى ما درست</p></td>
+<td><p class="para"><b><span class="t-red">الحجّة على وجاهة هذا الإقرار</span></b> ..............................................<br>......................................................................<br>......................................................................<br>......................................................................<br>......................................................................<br><b><span class="t-red">لذلك</span></b> ..............................................................<br>......................................................................</p></td></tr>
+</table>
+<!-- p40 -->
+<p class="subhead t-red"><b>نموذج الكتابة المتعلقة بالمهارات</b></p>
+<p class="para">تقوم المشكلة الأساسية على ايجاد شكل للحكم يضع القانون فوق الناس، لأنّه بمجرّد أن يخضع القانون للناس لن يبقى فيهم سوى عبيد و أسياد، فتتفكّك الدولة...و لكن من يكون عليه سنّ القوانين؟ من سينتصب مشرّعا للمجموعة؟ إنّه لا يمكن أن يكون شخصا واحدا، لأنّ ذلك سيوقع الشعب تحت سيطرة فرد يسعى إلى منافع خاصة تتعارض بشكل طبيعي مع مصالح الجماعة.</p>
+<p class="para">إنّ الشعب بكامله هو وحده الذي يمكنه أن يشرّع لنفسه، و الإرادة العامة وحدها يمكنها أن تسنّ القوانين، هذه الإرادة التي لا يمكن أن تتوخّى إلاّ ما هو لصالح الجميع لأنّها بطبيعتها غير شخصية، و لكن من ذا الذي يلزم الفرد بالإنصياع للإرادة العامة؟ لا يمكن إرغامه على ذلك بالعنف، لأنّه قد لا يلتزم به ... ( بقي ) أنّ جميع أعضاء الجماعة قد التزموا بشكل متبادل، فوهب كلّ فرد نفسه للجميع، و هو إذ يهب نفسه للجميع لا يهبها إلاّ للجماعة لا للفرد. و من هذا التّجمع تنشأ "أنا" جماعية، و إرادة عامة على ميثاق صدق مشترك، و يكون الفرد جزءً لا يتجزّأ من هذه الجماعة و تكون إرادته و الإرادة العامة إرادة واحدة بعينها، و هو إذ يخضع للإرادة العامة لا يخضع إلاّ لنفسه(...)هكذا تغدو مشكلة حرية الفرد في الدولة محسومة، حيث يمكنه العيش دون الخضوع لإرادة أفراد آخرين.</p>
+<p class="para"><b>برنار غروتيوزن</b> □□ <b>فلسفة الثورة الفرنسية</b>□□</p>
+<p class="consigne"><b><span class="t-red">المهام</span></b> : 1. ارصد اشكالية الكاتب في هذا النص</p>
+<table>
+<tr><th>توجيهات منهجية</th><th>التحرير (استعن بالتوجيهات المنهجية المصاحبة للإجابة على المطلوب في فقرة )</th></tr>
+<tr><td><p class="para">- ارصد أطروحة الكاتب من خلال المفاهيم المميزة التي استعملها في النص<br>- ابحث عن الأطروحة التي ينقدها الكاتب<br>عبّر عن المشكل الفلسفي الناتج عن اختلاف هذين الموقفين في سؤال يحمل مفارقة<br>- ابحث عن قيمة الأطروحة بالتعبير عنها في أسئلة متدرّجة</p>
+<!-- PROOFREAD: 1889 part1 p40 — guidance column partly hidden by stamp ("الكاتب", "المميزة التي", "الأطروحة التي", "الناتج", "الموقفين") --></td>
+<td><p class="para">ما هي <b><span class="t-red">الإرادة المشرعة</span> هل</b> هي إرادة فردية تخضع للحاكم بالتحكّم في القانون أم هي إرادة جماعية مشرعة لقوانين فوق الجميع و تكون ضامنة للحرية ؟ <b>فما هي</b> دلالة الإرادة العامة ؟<b>كيف</b> تكون إرادة مشرّعة القانون ؟<b>و إلى أي مدى</b> يمكن للإرادة العامة أن تضمن الحرية و لا تهدّدها؟</p></td></tr>
+</table>
+<p class="consigne">2. حدّد دلالة ا <u>لإرادة العامة</u> في سياق هذا النص</p>
+<table>
+<tr><td><p class="para">- ابحث عن الدلالة المستبعدة أو الفهم الضعيف <u>"للإرادة العامة"</u><br>- ارصد شبكة المفاهيم الموضحة "للإرادة العامة" داخل النص<br>- ابحث عن المرجعية التي يمكن اعتمادها لتوضيح هذه الدلالة<br>- اكشف عن أهمية هذه الدلالة في حلّ مشكل</p></td>
+<td><p class="para"><b><u>الإرادة العامة</u> <span class="t-red">ليست</span></b> إرادة الخضوع الأعمى للفرد في غياب الوعي بحقوقه <b><span class="t-red">و لا هي</span></b> إرادة الأغلبية بإقصاء الأقلية <b><span class="t-red">بما أنّ</span></b> ذلك يعد تهديدا لحرية المواطن أو الأقلية <b><span class="t-red">بل هي</span> "إرادة جماعية"</b> مشرّعة للقوانين يكون بها كلّ فرد مواطنا فاعلا بمقدار ما يكون له من وعي بالحقوق و الإنتماء إلى <b>"أنا جماعية"</b> بتعبير <b>قروتيوزن</b> يكون بها الشعب صاحب السيادة و مصدر قوة الدولة طالما كان قادرا على ضمان حقوقه بنفسه حيث تكون السيادة كما يقدّمها <b>روسو، "ليست سوى ممارسة الإرادة العامة"</b> <b><span class="t-red">لذلك</span></b> لا تكون الإرادة العامة بما هي مشرّعة إلا ضامنة للحقوق و الحريات.</p></td></tr>
+</table>
+<!-- p41 -->
+<p class="consigne">3. أكشف عن إحدى المسلّمات الضمنية المتعلّقة بنشأة ما يسميه الكاتب "الأنا" الجماعية</p>
+<table>
+<tr><td><p class="para">- ابحث داخل مفهوم <u>"الأنا الجماعية"</u>الوارد في النص عن الفكرة الضرورية التي بدونها لا يمكن قبول الموقف<br>- ما هي الإشارات المميّزة التي توحي بها مفاهيم النص دون أن يصرّح بها القول و التي لا يمكن الإستغناء عنها في بيان وجاهته؟<br>- ما هي المرجعية التي يمكن اعتمادها في توضيح المسلّمة</p></td>
+<td><p class="para"><b><span class="t-red">من مسلّمات هذا القول</span></b>أنّ <b>"الأنا الجماعية"</b> هي قدرة كلّ المواطنين على ضمان توافقهم داخل عقد إجتماعي بتنازل كلّ فرد عن حقوقه الطبيعية و طلب المنافع الخاصة و ما يترتب عنها من عنف و فوضى من أجل تعايش سلمي داخل مؤسّسات سياسية ضامنة لسيادة الشعب و المواطنة الفاعلة على اعتبار أنّ <b>" السيادة</b> - حسب <b>روسو</b>- <b>ليست سوى ممارسة الإرادة العامة"</b> <b><span class="t-red">فلا تكون بذلك</span> "الأنا الجماعية"</b> سوى تعبير عن المواطنة الفاعلة.</p></td></tr>
+</table>
+<p class="consigne">4. ارصد احدى تبعات اعتبار <u>الشعب مشرّعا للقوانين</u></p>
+<table>
+<tr><td><p class="para">- ابحث في النص عن <u>النتيجة النظرية</u> المترتبة منطقيا عن مسلمات الموقف :<br>. <u>"الشعب مشرّعا"</u><br>- أو ابحث عن الأثر العملي وانعكاسات الموقف <u>في الواقع</u><br>- ما هي الإشارات المميّزة الواردة في النص لتدقيق التبعة؟<br>- ما هي المرجعية التي يمكن اعتمادها في توضيح التبعة؟</p></td>
+<td><p class="para"><b><span class="t-red">من تبعات هذا القول</span></b> أنّ تشريع الشعب للقوانين يضمن حريات المواطنين بما هو وضعية تسمح للمواطنين بالوعي بحقوقهم المدنية و التعبير عنها في شكل مبادئ يلتزمون بها إراديا داخل مؤسّسات سياسية في أفعال و مشاريع يقرّرونها بكلّ حرية و تكون فيها السيادة للشعب وحده فلا يخضعون بذلك لأحد بل إلى الإرادة العامة و من يمثلهم عقلانيا و هو ما يجعل حسب <b>سبينوزا "أكثر الدول حرية تلك التي تعتمد قوانينها على العقل السليم"</b> <b><span class="t-red">لذلك</span></b> يضمن تشريع الشعب للقوانين حرّياتهم المدنية مشاركتهم الفاعلة في إدارة الشأن العام.</p></td></tr>
+</table>
+<p class="consigne">5. قدّم حجّة تبرّر الإقرار بأنّ <u>الفرد</u> " إذ <u>يخضع</u> <u>للإرادة العامة</u> لا <u>يخضع</u> إلاّ لنفسه"</p>
+<table>
+<tr><td><p class="para">- حدّد معنى <u>"الخضوع"</u> في هذا القول<br>- ابحث عن العلاقة بين مفهوم <u>"الخضوع"</u> + و <u>الإرادة العامة</u> + و <u>الفرد</u><br>- ابحث في النص عن فكرة تدعّم فهم الكاتب للخضوع و تكشف وجاهته/أي أهميته<br>- اكشف أهمية هذه الفكرة استنادا إلى ما درست</p></td>
+<td><p class="para"><b><span class="t-red">الحجّة على وجاهة هذا الإقرار</span></b> أن الخضوع يحيل في تصوّر <b>قروتيوزن</b> إلى التزام الفرد إراديا بما تضعه <b>"الأنا الجماعية"</b> من قوانين تتحدّد بها معاني الوجود السياسي لكلّ فرد كمواطن فاعل و يضمن من خلالها حقوقه المدنية و حرياته السياسية كما يصوّرها <b>روسو</b> في قوله <b>" ولدت الحرية يوم ولد القانون"</b> <b><span class="t-red">لذلك</span></b> يكون الخضوع الإرادي لكلّ فرد لقانون من وضع الإرادة العامة تعبيرا عن الحرّية حيث لا يخضع إلاّ لإرادته.</p>
+<!-- CROP: 1889 1 41 0.075 0.66 0.415 0.8 1889_p41_critical_thinking --><figure class="fig"><img src="https://wael-philo.b-cdn.net/figs/1889/1889_p41_critical_thinking.png" alt=""></figure></td></tr>
+</table>
+<!-- p42 -->
+<p class="subhead t-red"><b><span dir="ltr">OBTIMISEZ VOS COMPETENCES</span> مهارات الكتابة الفلسفية</b></p>
+<p class="subhead t-navy"><b>الدولة: السيادة و المواطنة</b></p>
+<p class="consigne"><b>اشتغل على السؤال التالي في شكل تخطيط مفصّل .</b></p>
+<p class="para"><b>السؤال الأول: هل من تعارض بين الحاجة إلى قوة الدولة ومطلب الحرية؟</b></p>
+<table>
+<tr><th></th><th>المهمة</th><th>البناء</th></tr>
+<tr><td rowspan="2"><b>I. بناء المشكل</b></td>
+<td><p class="para">دواعي طرح المشكل<br>+ مبرّرات التفكير في علاقة القوة بالحرية</p></td>
+<td><p class="para">المشكل: بتحديد سبب أو مبررات طرح هذا المشكل (وضعية محرجة في الواقع مثلا أو تعارض بين الفلاسفة حول طبيعة النفوذ السياسي): ............................................<br>......................................................................<br>......................................................................<br>......................................................................</p></td></tr>
+<tr><td><p class="para">بناء الإشكالية</p></td>
+<td><p class="para">المفارقة في صيغة اشكال: ..............................................<br>......................................................................<br>تدقيق السؤال بأسئلة متدرجة: ..............................................<br>......................................................................</p></td></tr>
+<tr><td rowspan="3"><b>بناء الجواب حجاجيا</b>
+<!-- PROOFREAD: 1889 part1 p42 — vertical section label read as "بناء الجواب حجاجيا", uncertain --></td>
+<td><p class="para">I. الاطروحة الأولى<br>المسلّمات:<br>شروط امكان الأطروحة1:<br>إذا كان.............<br>و إذا سلّمنا أن....<br>.................</p></td>
+<td><p class="para">تحديد المفهوم1(قوة الدولة)............................................<br>......................................................................<br>تحديد المفهوم2(الحرية)..............................................<br>تحديد مفهوم الدولة ..............................................<br>......................................................................</p></td></tr>
+<tr><td><p class="para">التبعات:<br>ما يترتّب عن المضمون السابق<br>فإنّ.......(تتعارض...)</p></td>
+<td><p class="para">تحديد مسلمة تبنى عليها الأطروحة..............................................<br>التحرير..............................................<br>......................................................................<br>......................................................................</p></td></tr>
+<tr><td><p class="para"><b>الحجج</b><br><b>بماذا <u>نبرّر التعرض</u> مع ما نطالب به من حرية؟</b><br><b><u>كيف تتعارض و ما هي المظاهر؟</u></b></p></td>
+<td><p class="para">تحديد الحجة تدعم الأطروحة..............................................<br>تحديد المرجعية الفلسفية التي تستمد منها ..............................................<br>التحرير : توضيح الموقف و تحديد عناصر وجاهته..............................................</p></td></tr>
+</table>
+<!-- p43 -->
+<table>
+<tr><td><p class="para"><b><u>ما هي نتائج المترتبة</u> عن هذا التعارض بين مطلب الحرية و قوة الدولة؟</b></p></td>
+<td><p class="para">......................................................................<br>......................................................................<br>......................................................................<br>......................................................................<br>بناء الحجة2 (إن وجدت):تحديد المرجعية الفلسفية التي تتسند عليها الفكرة: ..............................................<br>......................................................................<br>التحرير ..............................................<br>......................................................................<br>......................................................................</p></td></tr>
+<tr><td><p class="para">الإستخلاص</p></td>
+<td><p class="para">الإستنتاج المتعلّق بإثبات الأطروحة1 (تعارض مع مطلب الحرية): ..............................................<br>......................................................................<br>سؤال التشكيك فيه:إلى أي مدى.............. ..............<br>سؤال التجاوز إلى اللحظة 2:ألا يمكن..............................................</p></td></tr>
+<tr><td><p class="para">II. الإعتراض:<br>إن قوة الدولة لا تتعارض مع الحرية بل تضنتها و تحميها<br>تحديد مسلمات التفكير في موقف آخر يمكن أن يكون تجاوزا لضعف الأول.</p></td>
+<td><p class="para">لكن إذا اعتبرنا أن (تحديد جديد لأحد المفاهيم: قوة الدولة)..............................................<br>......................................................................<br>و بما أنّ (مسلمة أو فكرة واضحة انطلاقا مما سبق:الحرية كغاية سياسية )..............................................<br>......................................................................<br>......................................................................<br>......................................................................</p></td></tr>
+<tr><td><p class="para">بيان تبعاته:<br>تبرير الأطروحة الجديدة<br>يمكن أن لا تتعرض بل تكون شرطا ضروريا ما دامت ........</p></td>
+<td><p class="para">فإنّ من تبعات ذلك (تبرير الدفاع عن قوة الدولة)..............................................<br>......................................................................<br>و من جهة ثانية (بيان أهميتها في ضمان الحرية السياسية)..............................................<br>......................................................................</p></td></tr>
+</table>
+<!-- p44 -->
+<table>
+<tr><td></td><td><p class="para">الحجج<br>بماذا يمكن تجاوز منطق التعارض و العنف غير المشروع<br><b>كيف يمكن لقوة الدولة أن تكون لماهي قوة القانون في النظام الديمقراطي أن تكون مقبولة</b></p></td>
+<td><p class="para">تحديد المرجعية الفلسفية التي تدعم هذه الفكرة ..............................................<br>تحديد الحجة التي تدافع عن الحاجة إلى قوة الدولة لضمان الحرية السياسية. ..............................................<br>......................................................................<br>التحرير..............................................<br>......................................................................<br>......................................................................<br>......................................................................<br>......................................................................</p></td></tr>
+<tr><td rowspan="2"><b>III. استخلاص موقف /الخاتمة</b></td>
+<td><p class="para">تحديد الموقف من المشكل المطروح في المقدمة: علاقة قوة الدولة بالحرية</p></td>
+<td><p class="para">......................................................................<br>......................................................................<br>......................................................................</p></td></tr>
+<tr><td><p class="para">بيان أهميته/ أي مدى وجاهته في حل مشكل في الواقع</p></td>
+<td><p class="para">(بالنظر إلى الواقع <u>الراهن</u>)..............................................<br>......................................................................<br>(بالنظر إلى <u>الرهان الفلسفي</u> : الوجود الإنساني و الحقوق الكونية/ حقوق الإنسان)..............................................<br>......................................................................</p></td></tr>
+</table>
+<!-- CROP: 1889 1 44 0.13 0.672 0.892 0.868 1889_p44_quwwat_al_dawla --><figure class="fig"><img src="https://wael-philo.b-cdn.net/figs/1889/1889_p44_quwwat_al_dawla.png" alt=""></figure>
+<!-- p45 -->
+<p class="consigne"><b>اشتغل على السؤال التالي في شكل تخطيط مفصّل .</b></p>
+<p class="para"><b>السؤال الأول: هل من <span class="t-red">تعارض</span> بين الحاجة إلى قوة الدولة و<span class="t-red">مطلب الحرية</span>؟</b></p>
+<table>
+<tr><th>المهارات الفلسفية</th><th>المحاولة</th></tr>
+<tr><td><p class="para"><b>.لحظة بناء المشكل / المقدمة:</b></p><p class="para">دواعي طرح المشكل+ الإشكالية</p></td>
+<td><p class="para">(امكانية1) *<b>(قد يكون لما...)</b> نتبيّنه اليوم في الواقع من ضعف لمؤسّسات الدولة ما يبرّر التفكير في وظيفتها وغاياتها فقد يكون لميل الأفراد إلى تحقيق مصالحهم برفض الإلتزام بالقوانين و تهديد حقوق المواطنين ما يدعونا إلى التساؤل عن العلاقة بين قوة الدولة و ما يطالب به المواطنون من حرية.</p>
+<p class="para">(الإشكالية) <b>فهل</b>..............................أم..............................؟<br>......................................................؟.............................................؟</p>
+<p class="para"><b>أو</b> (امكانية2)*يمكن الإنطلاق مما نتبيّنه اليوم من انعدام الثقة بين شعوب بعض الدول في حكامها و هو ما يبرّر البحث عن تنظيم جديد للعلاقة السياسية يضمن الحقوق و الحريات.</p></td></tr>
+<tr><td><p class="para"><b>2. لحظة بلورة الموقف حجاجيا/الجوهر</b></p>
+<p class="para">I. فرضية عمل ممكنة لحل المشكل(أطروحة ممكنة ببيان كيف يكون يمكن لقوة الدولة أن تكون خطيرة على الحرية) +المسلمات و التبعات و الحجج المدعمة</p>
+<div class="data"><p class="consigne"><b>احرص على الإشتغال على مفاهيم السؤال</b></p></div></td>
+<td><p class="para"><b>بلورة التفكير في المشكل باعتماد التمشي التالي:</b></p>
+<p class="para"><b>. لحظة أولى(<span class="t-red">الأطروحة الممكنة الأولى</span>):</b></p>
+<p class="para"><b><span class="t-green">الحاجة إلى قوة الدولة</span> <span class="t-red">تتعارض</span> <span class="t-green">مع مطلب الحرية</span></b></p>
+<p class="para">(دلالة1)<b>(إذا سلّمنا...)</b>*_قوّة الدولة هي نفوذ الحاكم بما هو شكل للطغيان و ممارسة يحتكر فيها السلطة و يدعي ضمان الحقوق و <span class="t-green">الحريات</span> .</p>
+<p class="para">(دلالة2)<b>(و بما أنّ...)</b>* الحرية هي غاية سياسية يطالب فيها المواطنون بحقوقهم المدنية .</p>
+<p class="para">(التبعات+الحجة1)<b>(فإنّ...)</b>* الحاجة إلى قوّة الدولة <u><span class="t-red">تتعارض</span></u> <span class="t-green">مع رهان الحرية</span> <u><b>مادامت</b></u> حاجة سياسية إلى النفوذ الذي يسمح بالسيطرة على عنف الأفراد و يمكّن الحاكم من السيطرة عليهم باعتباره كما يعرّفه هوبس <b>"شخصا قانونيا"</b> بالنظر إلى ما يملكه من قوة كنفوذ مطلق في إدارة الشأن العام بشكل <span class="t-red">يتعارض</span> مع الحرية <span class="t-red">بالسيطر</span> <span class="t-green">على وعي الأفراد وحقوقهم و يحوّلهم إلى رعايا لا مواطنين أحرار</span> و يهدّد حرياتهم استنادا إلى ما له من مكر و خداع يكون بها حسب <b>ماكيافل "أسدا و ثعلبا"</b> حيث تكون له سلطة تشريع القوانين أو التأثير في المؤسّسة التشريعية من أجل وضع قوانين لمراقبة الأفراد و التحكّم فيهم و هو ما <b>يجعل قوة الدولة تحيل إلى الإستبداد أو الطغيان</b> المهدّد للحريات حيث يكون الإستبداد كما يقدّمه <b>كانط "وضع يحتكر فيه الحاكم القوة لتوجيهها إلى قمع الحريات باسم القانون" .</b></p>
+<p class="para"><b>أو</b> (الحجة2)*بيان أن الحاجة إلى قوّة الدولة <span class="t-red">تتعارض</span> <span class="t-green">مع رهان الحرية</span> <b>مادامت حاجة</b></p></td></tr>
+</table>
+<!-- PROOFREAD: 1889 part1 p45 — colour of several phrases approximate; "الأطروحة الممكنة الأولى", "مطلب الحرية", "الحريات" partly hidden by stamp -->
+<!-- p46 -->
+<table>
+<tr><td></td>
+<td><p class="para">سياسية لمواجهة <span class="t-green">الحرية المطلقة</span> بما هي <b>"غياب كلّ العوائق"</b> داخل حالة الطبيعة كما يشير إلى ذلك <b>هوبس</b> و هي حرية <span class="t-red">مهدّدة</span> للأمن العام و الحقوق المدنية التي تضمن التعايش السلمي لكلّ المشاركين في الدولة تحتّم تدخّل الدولة بما لها من قوة المؤسّسات في تنظيم الشأن العام و تأمين المصالح بقوة "الدولة التنين" كعنف قانوني يسمح بالسيطرة على عنف الأفراد و <span class="t-red">تتعارض</span> <span class="t-green">مع الحرية المطلقة</span> و هي قوة تختزل في نفوذ الحاكم باعتباره مشرّعا للقوانين أو مشرفا على كلّ المؤسّسات السياسية بتجميع كلّ السلط أو التأثير في السلطة القضائية و التحكّم في <span class="t-green">حرية التعبير</span> بالتحكم في الإعلام و مراقبة الحق في التنظّم و المشاركة الفاعلة في مكوّنات المجتمع المدني وهو ما يجعلها دولة تقوم على الخوف كما يشير <b>الكواكبي</b> حيث يمكن للحاكم أن <span class="t-red">يتحكّم</span> في <span class="t-green">الحريات العامة</span> بحرمان الرعايا من حقوقهم الطبيعية و منعهم من المطالبة <span class="t-green">بالحريات المدنية</span> .</p>
+<p class="para"><b>أو</b> (الحجة3)*بيان أن الحاجة إلى قوة الدولة هي الحاجة إلى مقدار أعلى من القوة أو إلى <span class="t-red">عنف</span> تتغلّب به على عنف الأفراد اللا- مشروع باعتباره عنفا يبرّر بمقدار ما يكون للأفراد من قوة مادية يهدّدون بها الحقوق الطبيعية للأخرين حيث يكون عنف الدولة <span class="t-red">متعارضا</span> <span class="t-green">مع حرّياتهم المطلقة</span> باعتبار أنّ الحرية هي في الحالة الطبيعية <b>"غياب كلّ العوائق"</b> بتعبير <b>هوبس</b> و هي التي تبرّر الحاجة إلى الدولة و التنازل لها داخل العقد الإجتماعي عن كلّ قواهم الطبيعية من أجل أن تكون الدولة بهذا التنازل حسب <b>هوبس "التنين أو الإله الفاني"</b> الذي يخشاه الجميع من أجل حقوق مدنية تسمح بتجاوز الفوضى إلى النظام و السّلام و هو ما يجعل الغاية من الدولة عند <b>هوبس</b> ليست <span class="t-green">الحرية</span> بما أنّها تبرّر العنف و الفوضى و <span class="t-green">إنّما الأمن</span>.</p>
+<p class="para"><b><u>استخلاص:</u></b> نخلص من ذلك إلى أن التعارض بين الحاجة إلى قوة الدولة و مطلب حرية المواطنين يحوّل نظام الحكم إلى نظام استبدادي يكون فيه الإستبداد مهدّدا للحقوق و الحريات</p>
+<p class="para"><b><u>ثم التساؤل</u> :فإلى أيّ</b> مدى يمكن الثقة في نفوذ يهدّد الحريات الإنسانية داخل الدولة؟ <b>ألا يمكن</b> لقوّة الدولة أن تكون قوّة الشّعب ذاته و أصل الحرية التي يطالب بها؟</p></td></tr>
+<tr><td><p class="para">II. الإعتراض على فرضية العمل الإولى(التشكيك ثم اعتبار قوة الدولة تتعرض مع الحرية أو تهدّدها) +المسلمات و التبعات و الحجج المدعمة للأطروحة البديل</p></td>
+<td><p class="para"><b>لحظة ثانية(الإعتراض على الأطروحة الأولى بأطروحة نقيض):</b></p>
+<p class="para"><b>الحاجة إلى قوة الدولة <u>لا</u> <span class="t-red">تتعارض</span> مع مطلب الحرية</b></p>
+<p class="para">(دلالة1: <b>إذا كانت...)</b>* القوة هي النفوذ السياسي الذي يشرّعه الشعب للحاكم بالقانون لإدارة الشأن العام</p>
+<p class="para">(دلالة2 : <b>و إذا اعتبرنا...)</b>* الحرية تحيل إلى مطلب الحق و هي تفيد حسب <b>روسو</b> الإلتزام الإرادي بالقوانين كواجبات تعبّر عن الحقوق حين يقرّ بأنّه<b>"ولدت الحرية يوم ولد القانون"</b></p>
+<p class="para">(تبعة+الحجة1)*بيان أنّ الحاجة إلى قوّة الدولة <u>لا <span class="t-red">تتعارض</span></u> <b>مع مطلب الحرية بل</b></p></td></tr>
+</table>
+<!-- PROOFREAD: 1889 part1 p46 — colours approximate; several words under the stamp ("الحريات المدنية", "المطلقة", "الحرية بما أنّها") -->
+<!-- p47 -->
+<table>
+<tr><td></td>
+<td><p class="para"><span class="t-red">تتوافق معها</span> في ظلّ نظام ديمقراطي يستجيب إلى هذه الحاجة بالسيطرة على الفوضى و عنف الأفراد الناجم عن عدم الإلتزام بالقانون و يحافظ على مبدأ <span class="t-green">حماية الحريات</span> من الإستبداد بمقدار <span class="t-blue">قوّة السلطة التشريعية</span> و نجاحها في <span class="t-blue">مراقبة أداء السلطة التنفيذية</span> كتعبير عن فاعلية ما يسمّيه <b>روسو</b> بـ<b>"الإرادة العامة"</b> باعتبارها الإرادة الفعلية للشعب حيث يقرّ بأنّه <b>"وحدها الإرادة العامة تستطيع توجيه قوى الدولة وفق الغاية التي انشئت من أجلها وهي الخير المشترك".</b></p>
+<p class="para"><b>أو</b> (الحجة 2)*بيان أنّ قوّة الدولة هي قوة المواطنة الفاعلة بما هي الممارسة الحقوقية التي <span class="t-red">لا تتعارض</span> مع الحريات <u><span class="t-red">بل تتوافق</span></u> معها بما أنّ قوة الدولة هي قوّة الشعب التي تتخذ شكل وظائف سياسية بتشريع القوانين <span class="t-red">الضامنة</span> <span class="t-green">للحقوق و الحريات</span> و متابعة تنفيذها حيث تحيل قوة الدولة إلى معنى سيادة الدولة و تكون السيادة هي السلطة العليا التي تكون للشعب وحده <span class="t-red">يضمن</span> بها حريته بعدم الخضوع لأرادة أعلى منه بما أنّه كما يشير <b>روسو "الشعب الحرّ يطيع و لا يخضع"</b> فهو <span class="t-red">لا يخضع</span> لسيطرة الحاكم و إنّما يمتثل إراديا إلى قوانين صادر عنه و <span class="t-red">لا تتعارض</span> مع <span class="t-green">حريّته</span> فيكون عليه الإلتزام بها إراديا وفق شروط ما يسميه <b>روسو</b> بـ<b>"الإرادة العامة"</b> و هو تفويض ممارستها بالإنتخاب الحرّ إلى من له الكفاءة الضامنة للحقوق المدنية وفق ما يقتضيه مبدأ تفريق السلط كما صاغه <b>مونتسكيو</b> أي إلى ممثليه في البرلمانات أو السلطة التشريعية و إلى الممثليه في السلطة التنفيذية و المطالبة بحمايتها بقوة <span class="t-blue">السلطة القضائية</span> التي <b>"تحتكر فيها الدولة العنف المشروع"</b> كما يشير <b>ماكس فيبر</b>.</p></td></tr>
+<tr><td><p class="para"><b>3.لحظة الإستخلاص</b></p></td>
+<td><p class="para"><b>لحظة ثالثة: استخلاص موقف من المشكل وابراز قيمته</b></p>
+<p class="para"><b>(الموقف/الرهان الفلسفي:أي في علاقة بالغايات الفلسفية القصوى)*تثمين(نخلص من ذلك إلى الوقوف على أهمية...)</b><u>الوعي بضرورة الدولة في وجودنا الإنساني بما تسمح به قوة القوانين</u> من تعايش سلمي بين <u>مواطنين أحرار</u></p>
+<p class="para"><b>(بيان الأهمية لبيان الراهنية :أي قيمته بالواقع الراهن حين يسمح بحل مشكل)</b><br>* و تجعل قوة الدولة اليوم في زمن العولمة و وهم الديمقراطية و الحرية الموهومة التي يروجها الإعلام قوة ضامنة للحرية باسم حقوق الإنسان و منظومة القيم الكونية.</p>
+<p class="para"><span dir="ltr">Let's Go!!</span></p></td></tr>
+</table>
+<!-- PROOFREAD: 1889 part1 p47 — colours approximate; words under stamp ("صادر عنه", "الحرّ", "الممثليه") -->
+<!-- CROP: 1889 1 47 0.345 0.743 0.695 0.94 1889_p47_gavel --><figure class="fig"><img src="https://wael-philo.b-cdn.net/figs/1889/1889_p47_gavel.png" alt=""></figure>
+<!-- p48 -->
+<p class="subhead t-red"><b>الإشتغال على السؤال</b></p>
+<p class="para"><b>السؤال: هل <span class="t-red">تضمن</span> <span class="t-green">سيادة الدولة</span> <span class="t-red">دوما</span> <span class="t-blue">حق المواطنة</span> ؟</b></p>
+<div class="data"><p class="para"><b>1.لحظة بناء المشكل</b>:(راهنية المشكل) قد يكون لما نعيشه اليوم في الواقع من تضارب للمصالح داخل الدولة يهدّد به الأفراد حقوق بعضهم ما يبعث على الحيرة تجاه دور الدولة و مدى نجاعة مؤسّساتها في ضمان حقوق المواطنين و هو ما يدعو إلى التفكير من جديد في معاني <u><b>سيادة الدولة</b></u> و قدرتها على ضمان <u><b>حق المواطنة</b></u> . <b>فكيف تتحدّد سيادة الدولة ،هل هي سيادة القانون و ما يمكّن مؤسسات الدولة من ضمان حق المواطنة الفاعلة؟ أم هي سيادة حاكم متسلّط بقوانين من وضعه تتعارض مع حقوق المواطنين و حرياتهم ؟ أي معنى لسيادة الدولة ؟ كيف يمكن أن تكون ناجعة في الدفاع عن حق كل عضو في الدولة كمواطن فاعل ؟ ثم إلى أي مدى يمكن الثقة في منظومة سياسية تدعي الديمقراطية و الدفاع عن حق المواطنة؟</b></p></div>
+<table>
+<tr><td colspan="2"><p class="para"><b>2. لحظة بلورة الموقف:</b></p></td></tr>
+<tr><td><b>الربط</b></td><td><p class="para">إنّ الإشتغال على معنى <span class="t-green">سيادة الدولة</span> داخل هذا السؤال و ما في علاقتها بمطلب الحقوق من اشكال قد يدفعنا إلى أنّ نحدّد أوّلا دلالة كلّ من <span class="t-green">السيادة</span> ثم معنى <span class="t-blue">الحق</span> <u><b>للمراهنة</b></u> من ذلك على الدفاع عن حق المواطنة كقيمة انسانية كونية و بعد من أبعاد الديمقراطية الناجحة ،فما السيادة إذن؟</p>
+<div class="data"><p class="para"><b>[ أ ] ثبات أن: <span class="t-green">سيادة الدولة</span> <span class="t-red">تضمن</span> <span class="t-blue">حقّ المواطنة</span></b></p></div></td></tr>
+<tr><td><b>المسلّمات</b></td><td><p class="para"><b>فإذا اعتبرنا</b> أنّ <span class="t-green">سيادة الدولة</span> هي سيادة الشعب و <u>السلطة العليا</u> أو<u>استقلالية الدولة</u> عند اتخاذ قراراتها في إدارة الشأن العام <b>وبما أنّ</b> <span class="t-blue">حقّ المواطنة</span> هو حق كلّ مواطن بما هو عضو في الدولة بما له من وعي بالإنتماء إلى دولة ذات سيادة تكون قادرة على ضمان حقوقه المدنية</p></td></tr>
+<tr><td><b>التبعات + النتائج</b></td><td><p class="para"><b>فإنّ</b> <span class="t-green">سيادة الدولة</span> <b>يمكن أن <span class="t-red">تضمن</span></b> <span class="t-blue">حقّ المواطنة</span> <b>حين تكون هذه السيادة للشعب</b> الذي يختار بالإنتخاب الحرالحاكم و يفوّض له تسيير مؤسّسات الدولة و اتخاذ القرار باعتباره، كما يعرّفه <b>توماس هوبس "شخصا قانونيا"</b>. فالحاكم هو رئيس السلطة التنفيذية و الممثل القانوني <span class="t-green">للدولة</span> و ضامن سيادتها <b>بضمان الحقوق المدنية للمواطنين</b> على السواء حين تكون <b>"غاية الدولة هي الحرية "</b> بممارسة <b>الحقوق</b> كما يشير <b>سبينوزا.</b></p>
+<p class="para">. <b><span class="t-green">فالحرية السياسية</span></b> ما هي إلاّ الغاية الأساسية لمؤسّسات الدولة و ما <b><span class="t-red">تضمنه</span></b> القوانين المدنية كمبادئ تنظيمية للعلاقات على جدلية الحق والواجب لكلّ فرد من <b>حق في المواطنة</b> و التعايش السلمي المشترك. فلا يكون بذلك <b>الحق</b> مجرّد مطلب بل هو مبدأ يقوم على تصوّر <b>المواطنة</b> كحضور فاعل لكلّ مواطن داخل <b>دولة ذات سيادة</b> بالإلتزام الإرادي و الحر بقوانين من وضعه و هو ما يسمح بالإقرار مع <b>روسو</b> بأنّه<b>"ولدت الحرية يوم ولد القانون"</b> ذلك أنّ <b><span class="t-blue">المواطنة</span></b> هي أولا وعي بالإنتماء إلى <b>دولة ذات سيادة</b> و ليست مجرّد وعي <b>بمنظومة الحقوق</b> و هي من جهة ثانية تجسيم للحرية بممارسة فاعلة تكون بالإلتزام الإرادي بواجبات يحدّدها داخل النظام الديمقراطي قانون من وضع الشعب .</p>
+<p class="para">. <b><span class="t-blue">فحق المواطنة</span> في النظام الديمقراطي</b> هو بالأساس تعبيرعن وعي بالوظائف السياسية لمؤسّسات <b>الدولة</b> و ممارسة فاعلة لمنظومة الحقوق بالمشاركة الفاعلة في الحياة السياسية لا بالإنتخاب وحده بل <b>بالإنخراط في</b> مكونات المجتمع المدني من جمعيات و منظمات و نقابات و غيرها. فتتجاوز بذاك <b>المواطنة</b> مهمة المطالبة السلبية <b>بالحقوق</b> ليكون كل مواطن شريكا في الحكم و فاعلا في <u>اتخاذ القرار</u> الحرّ بما له من وعى <b>بمنظومة الحقوق</b> و معرفة بحاجات <b>المواطنين</b> و بشروط <span class="t-green">السيادة الوطنية</span>.</p></td></tr>
+</table>
+<table>
+<tr><td><b>الربط</b></td><td><p class="para"><b>نتبيّن من ذلك إذن</b> أن <span class="t-blue">حق المواطنة</span> هو مطلب كل نظام ديمقراطي بالدفاع عن <span class="t-green">سيادة الدولة</span> بما هي <span class="t-green">سيادة الشعب</span> و <b>حقه</b> في تقرير المصير.<br><b><u>لكن</u></b> <u>ما نشهده اليوم من</u> أنظمة سياسية تدعي الديمقراطية لا يمنع أن تكون فيها الحقوق و الحريات مهدّدة، <b><u>فإلى أيّ مدى</u> يمكن للديمقراطية أن تكون قادرة دوما على ضمان حق المواطنة؟ <u>ألا يمكن</u> لحق المواطنة أن يكون مهدّدا بالقانون؟</b></p></td></tr>
+</table>
+<div class="data"><p class="para"><b>القسم الثاني: المطلوب التحرير على منوال القسم 1 اعتمادا على النقاط المصاحبة</b></p></div>
+<p class="para"><b>[ب] <u>الإعتراض على الموقف1</u>← <u>اثبات ان سيادة الدولة قد تهدّد:</u></b></p>
+<p class="para"><b><span class="t-green">سيادة الدولة</span> <span class="t-red">لا تضمن</span> دوما <span class="t-blue">حق المواطنة</span></b></p>
+<div class="data"><p class="para"><b>فإذا كانت <span class="t-green">سيادة الدولة</span></b> تحيل إلى نفوذ مطلق للحاكم يحتكر فيه ادارة الشأن العام و اتخاذ القرار <b>فإنّه</b> لا يمكن أن ننتظر منها أن تكون غايتها احترام <b>حقّ المواطنة</b> بما أنّ <b>المواطنة</b> قيمة تشترط الوعي بالحقوق و هو ما يتعارض مع شروط <b><span class="t-green">السيادة المطلقة</span></b> المتسلحة بالعنف و إخضاع الرعايا إلى شكل عمودي للسلطة يتسلّط فيها الحاكم على الرعايا كما يقدمه <b>ماكيافال</b> في نفس الوقت<b>" أسدا و ثعلبا"</b> يتجاوز مطلب <b>حقّ المواطنة</b> .........</p></div>
+<ul class="b">
+<li><b><span class="t-red">لا تضمن</span></b> <span class="t-blue">المواطنة الفاعلة</span> باحتكار الحاكم كلّ السلط و تهديده حرية التعبير</li>
+<li><b><span class="t-red">لا تضمن دوما</span></b> حين تدّعي الديمقراطية باختزال كلّ <b>الحقوق السياسية</b> للمواطن في حق الإنتخاب و شكلانية المواطنة . فاحترام الحق في الإنتخاب لا يكفي لضمان <span class="t-blue">المواطنة</span> الحقيقية</li>
+</ul>
+<p class="para"><span class="t-blue">حق المواطنة</span> يشترط وعي المواطنين بحقوقهم المدنية و تهديد وعيهم بالإغتراب بتوظيف الإعلام و العمل على تجهيلهم أو بتهديد الحاكم باعتباره حسب <b>روسو "حالما يوجب سيّد لا وجود بعد لشعب يتصف بالسيادة"</b> و هو ما يعدّ تهديدا <span class="t-green">للسيادة الشعبية</span>.</p>
+<div class="data"><p class="para"><b>المطلوب تأليف هذه النقاط حجاجيا</b></p></div>
+<div class="data"><p class="para"><b>3. لحظة الإستخلاص:(الموقف و بيان أهميته= الراهنية/ الرهانات الفلسفية) نخلص من ذلك إذن إلى تثمين ما يكون اليوم <span class="t-green">للسيادة الوطنية</span> من أهمية في ضمان <span class="t-blue">حق المواطنة</span></b> كسيادة شعبية باعتبار ها <b>اليوم زمن العولمة</b> أهم رهان لكلّ نظام ديمقراطي يدّعي <u><b>الدفاع عن القيم الكونية و حقوق الإنسان</b></u> حيث لا معنى <b>لسيادة الدولة</b> إلاّ بقدرة كلّ موطن على الدفاع عن حقّ الشعب في الإستقلالية و تقرير مصيره.</p></div>
+<!-- PROOFREAD: 1889 part1 p48 — small print and stamp; "المواطنة الفاعلة" / "لا تضمن دوما" partly hidden; "حالما يوجب" (sic?) ; colours approximate -->
+<!-- p49 -->
+<p class="subhead t-red"><b>التدرب على مهارات</b></p>
+<p class="subhead t-navy"><b>تحرير محاولة متعلقة بسؤال الإختيار</b></p>
+<p class="consigne"><b>المطلوب: إعادة الاشتغال على السؤال وفق النموذج المقترح و الإجتهاد في تحرير القسم الثاني وفق التخطيط المصاحب.</b></p>
+<p class="para"><b>☑السؤال : هل <span class="t-red">تضمن</span> <span class="t-green">سيادة الدولة</span> <span class="t-red">دوما</span> <span class="t-blue">حق المواطنة</span> ؟</b></p>
+<table>
+<tr><th>اللحظة 2</th><th>التخطيط</th><th>التوجيهات و محاولة الكتابة</th></tr>
+<tr><td><b>II. الإعتراض على الأطروحة الأولى</b></td>
+<td><p class="para">سيادة الدولة</p>
+<ul class="b">
+<li><b><span class="t-red">لا تضمن</span></b> <span class="t-blue">المواطنة الفاعلة</span> باحتكار الحاكم كلّ السلط و تهديده حرية التعبير</li>
+<li><b><span class="t-red">لا تضمن دوما</span></b> حين تدّعي الديمقراطية باختزال كلّ <b>الحقوق</b> <span class="t-blue">السياسية</span> <b>للمواطن</b> في حق الإنتخاب و شكلانية المواطنة . فاحترام الحق في الإنتخاب لا يكفي لضمان <b>المواطنة الحقيقية</b></li>
+</ul>
+<p class="para"><b>حق المواطنة</b> يشترط وعي المواطنين بحقوقهم المدنية و تهديد وعيهم بالإغتراب بتوظيف الإعلام و العمل على تجهيلهم أو بتهديد الحاكم باعتباره حسب <b>روسو "حالما يوجب سيّد لا وجود بعد لشعب يتصف بالسيادة"</b> و هو ما يعدّ تهديدا <span class="t-green">للسيادة الشعبية</span>.</p>
+<!-- PROOFREAD: 1889 part1 p49 — planning column partly hidden by stamp ("لا تضمن المواطنة الفاعلة", "السلط", "التعبير", "لا تضمن دوما", "تدّعي", "باختزال", "السياسية") --></td>
+<td><div class="data"><p class="para"><b>فإذا كانت <span class="t-green">سيادة الدولة</span></b> تحيل إلى نفوذ مطلق للحاكم يحتكر فيه ادارة الشأن العام و اتخاذ القرار <b>فإنّه</b> لا يمكن أن ننتظر منها أن تكون غايتها احترام <span class="t-blue">حقّ المواطنة</span> بما أنّ <span class="t-blue">المواطنة</span> قيمة تشترط الوعي بالحقوق و هو ما يتعارض مع شروط <b><span class="t-green">السيادة المطلقة</span></b> المتسلحة بالعنف و إخضاع الرعايا إلى شكل عمودي للسلطة يتسلّط فيها الحاكم على الرعايا كما يقدمه <b>ماكيافال</b> في نفس الوقت<b>" أسدا و ثعلبا"</b> يتجاوز مطلب <span class="t-blue">حقّ المواطنة</span> .........</p></div>
+<p class="para">إذا اعتبرنا أن (تحديد جديد لأحد المفاهيم: سيادة الدولة)..............................................<br>......................................................................<br>و بما أنّ (دلالة الحق) ..............................................<br>......................................................................</p>
+<p class="para">فإنّ من تبعات ذلك ..............................................<br>......................................................................<br>و من جهة ثانية..............................................<br>......................................................................<br>......................................................................</p>
+<p class="para">(حديد المرجعية الفلسفية التي سيقع توظيفها: ..............................................<br>(الحجة)..............................................<br>......................................................................<br>......................................................................<br>......................................................................<br>......................................................................<br>......................................................................<br>(الإستنتاج)..............................................</p></td></tr>
+</table>
+<!-- p50 (handwritten page) -->
+<p class="subhead t-red"><b>مهارات التفكير الفلسفي</b></p>
+<p class="subhead t-red"><u>* مهارة المسلمة الضمنية</u></p>
+<p class="para"><span class="t-blue">" لا مجتمع تحترم فيه الحريات تلقائيا "</span> <span class="t-red">( لوسي مير)</span></p>
+<p class="para"><span class="t-red"><u>الكشف عن إحدى المسلمات الضمنية</u></span></p>
+<p class="para"><span class="t-blue">يسلم القول ضمنيا بأهمية القانون كنص وضعي من اقتراح الشعب ذاته وكمبدأ معقلن للعلاقات على جدلية الحق والواجب يحد من كل مظاهر التسلط ويحول دون الاستقواء والغلبة التي تجتاح الفضاء الإنساني وفي غيابه يسود حق القوة فيكون لكل فرد من الحق بقدر ماله من قوة لذلك فإن وجود الدولة كجهاز قانوني وكيان تنظيمي هو الضامن للتعايش والمؤمن للمواطنة والحرية وكل الحقوق المدنية التي لا معنى ولا قيمة لها في غياب الدولة وقوانينها الشرعية.</span></p>
+<p class="para"><span class="t-blue"><span class="t-red">فلا</span> تعايشا انسانيا <span class="t-red">ولا</span> امنا او حرية <span class="t-red">الا</span> تحت راية قانون مدني وجز</span></p>
+<!-- PROOFREAD: 1889 part1 p50 — handwritten page; last word cut at the page edge ("وجز"); "فلا", "ولا", "الا" circled in red -->
+<p class="subhead t-green"><u>* مهارة الرهان</u> <span class="t-red">لا مجتمع تحترم فيه الحريات تلقائيا (لوسي - مير</span></p>
+<p class="para"><span class="t-blue"><u>حدد رهان القول</u></span></p>
+<p class="para"><span class="t-green"><u>يراهن القول</u> على فضاء إنساني معقلن تكون فيه الدولة كيانا موضوعيا وجهازا قانونيا تحتكم الأفراد الى الزاماته التي هي وليدة التعاقد والالتزام الارادي بالواجب أي بما شرعه الفرد بنفسه لنفسه وللمجموعة بأسرها حيث تجسد <span class="t-red">"الارادة العامة"</span> مجموع الارادات الفردية وقد توحدت فتكون القوانين نصوصا وضعية من اقتراح الشعب فلا يكون الخضوع له الا امتثالا وطاعته التزاما. وينعم الجميع <u>بالحرية</u> و<u>بالمواطنة</u> في <u>نظام ديمقراطي</u> سيادة الدولة فيه سيادة الشعب</span></p>
+<!-- PROOFREAD: 1889 part1 p50 — handwriting; doubtful readings "تحتكم الأفراد الى الزاماته", "وطاعته التزاما", "وقد توحدت" -->
+<!-- CROP: 1889 1 50 0.09 0.765 0.29 0.85 1889_p50_critical_thinking --><figure class="fig"><img src="https://wael-philo.b-cdn.net/figs/1889/1889_p50_critical_thinking.png" alt=""></figure>
+<!-- p51 (handwritten page) -->
+<p class="subhead t-blue">المهارات / تمارين</p>
+<p class="subhead t-red">* <span class="t-blue"><u>مهارة الدلالة</u></span> : ولدت الحرية يوم ولد القانون (روسو)</p>
+<p class="para"><span class="t-blue"><u>حدد دلالة الحرية سياقيا</u></span></p>
+<p class="para"><span class="t-blue"><u>ليست</u> الحرية حقا طبيعيا مطلقا ولا مشروطا لا يحده ضابط ولا يؤطره قانون <u>ولا هي</u> فعل ما نشاء دون قيد او شرط مما يجعلها اعتداء على الحق <span class="t-red">بل</span> الحرية سياسيا حقا مدنيا معقلنا وهي تطابق الفعل مع القانون باعتباره مبدأ تنظيميا للعلاقات على جدلية الحق والواجب وهو الضامن للحرية والمحصن لها من كل تهديد والمؤمن لشروط تحققها لا كحق مدني فحسب بل كقيمة كونية بها ترتقي انسانية الانسان.</span></p>
+<p class="para"><span class="t-red">فلا حرية ولا حقوقا سياسية ومدنية الا في ظل القانون</span></p>
+<p class="subhead t-red">* <span class="t-blue"><u>مهارة التبعة</u></span> ولدت الحرية يوم ولد القانون</p>
+<p class="para"><b>الكشف عن احدى تبعات الاقرار</b></p>
+<p class="para"><span class="t-blue"><u>يترتب عن الاقرار</u> بأن الحرية في غياب القانون تنتهك وأن الحقوق بمعزل عنه تسلب ليتأكد ذلك حاجة المجتمعات الانسانية الى الدولة كجهاز قانوني وشخصية قانونية يوكل اليها الافراد سياسة شؤونهم وضمان حريتهم المنشودة والتي يرتهن تحققها بالقانون مبدأ تنظيميا للعلاقات على ثنائية الحق والواجب ليتعايش الافراد تحت راية دولة الحق وينعمون بكل حقوقهم وحريتهم و بمواطنتهم الحق.</span></p>
+<!-- PROOFREAD: 1889 part1 p51 — handwritten; crossed-out words after "وحريتهم" and before "بمواطنتهم" omitted; "سياسة شؤونهم" doubtful -->
+<p class="para"><span class="t-red">فلا احتراما للحريات ولا ضمانا للحقوق الا في ظل سيادة الدولة.</span></p>
+<!-- CROP: 1889 1 51 0.145 0.785 0.325 0.87 1889_p51_critical_thinking --><figure class="fig"><img src="https://wael-philo.b-cdn.net/figs/1889/1889_p51_critical_thinking.png" alt=""></figure>
+<!-- p52 (handwritten page) -->
+<p class="subhead t-blue">تمارين</p>
+<p class="subhead t-red">* <span class="t-blue"><u>مهارة الاعتراض</u></span> : الدولة مقبرة الحريات (باكونين)</p>
+<p class="para"><span class="t-blue">(اعترض على هذا الاقرار)</span></p>
+<p class="para"><span class="t-blue"><u>يبدو أن النظر الى</u> الدولة كطامس للحرية وقامع للافراد قد انبنى <u>على جهل</u> بهذه الشخصية القانونية والكيان التنظيمي الذي أوكل اليه الافراد تدبير أمورهم وضمان حقوقهم لتكون الدولة هي الهيكل المعنوي والنسق المدني العام باعتماد القانون نصا وضعيا ومبدأ تنظيميا للعلاقات على جدلية الحق والواجب وهي الدرع الذي يحتمي به الافراد والضامن الأوحد لحريتهم ولمواطنتهم .</span></p>
+<p class="para"><span class="t-red">فلا ضمانا للحرية ولا سبيلا للتعايش الا تحت راية دولة القانون</span></p>
+<!-- PROOFREAD: 1889 part1 p52 — handwritten; "فلا", "ولا", "الا" circled in red; last word cut at edge ("القانون"); "الضامن الأوحد" doubtful -->
+<p class="subhead t-green">* <u>مهارة الحجة التي تدعم</u> : <span class="t-red">الدولة مقبرة الحريات</span></p>
+<p class="para"><span class="t-red">حجة تدعم -</span></p>
+<p class="para"><span class="t-blue">اذا اعتبرنا أن الدولة هي دولة <span class="t-red">"الحاكم الاوحد"</span> باعتبار ماله من قوة واقتدار يكون معه "الاله الفاني" متسلطا يطوع القوانين خدمة لغاياته و يحتكر كل السلط و يمسك بزمام الحكم بقبضة من حديد فيطمس الحقوق ويسلب الحريات بما يؤكد سطوته وطغيانه عبر فرض احكام لم يجوزها القانون على احكام الشعب ليجرد الافراد مواطنتهم ويتحولون الى رعايا يمتثلون كليا لاوامر الحاكم ويخضعون كليا لاكراهاته .</span></p>
+<!-- PROOFREAD: 1889 part1 p52 — handwritten; "على احكام الشعب" (maybe "أبناء الشعب"), "فيطمس" doubtful -->
+<p class="para"><span class="t-red">فلا الدولة ضامن للحقوق ولا هي حام للمواطنة بل هي خطر وشر و تهديد للحريات .</span></p>
+<!-- CROP: 1889 1 52 0.1 0.768 0.297 0.852 1889_p52_critical_thinking --><figure class="fig"><img src="https://wael-philo.b-cdn.net/figs/1889/1889_p52_critical_thinking.png" alt=""></figure>
+<!-- p53 (handwritten page) -->
+<p class="subhead t-navy">التمهيد</p>
+<p class="para">اذا كانت الدولة شرطا لامكان الوجود الانساني فان الانسان في حرصه على ضمان حقوقه و تحصين حريته من كل تهديد بما هي أجل قيمه وارقاها فانه تحتاج الى كيان سياسي يؤمن له ما ينشد لكن ما نشهده اليوم من جور الحكام ومن تسلط يؤكد أن واقع الدولة أبعد مما رسمه الانسان في فكره لهذه المنظومة القانونية التي حادت عن مسارها ........ (لحسب السؤال)</p>
+<p class="para">فما تعريف ........ و ما علاقتها ب ...</p>
+<p class="para">هل ..... ام ..... والى اي مدى</p>
+<p class="para"><span class="t-green">اذا كانت المواطنة مثلا اعلى به ترتقي انسانية الانسان فان تجسدها واقعا والحرص على ضمانها وتحصينها من كل تهديد يقترن لزاما بالدولة كجهاز قانوني ابدعه الانسان فكرة مجردة وشخصية معنوية لتحصيلها ولضمان هذا الحق (المواطنة) لكن ما نسجله اليوم داخل هذا الفضاء الانساني من طغيان وتسلط يؤكد بلا ريب أن الراهن بعيد عما ينشده الافراد فما الذي ......... وكيف ...</span></p>
+<p class="para"><span class="t-green">هل ـــــــ ام ـــــــ والى اي مدى ـــــــ</span></p>
+<!-- PROOFREAD: 1889 part1 p53 — handwritten; "(لحسب السؤال)" doubtful (maybe "حسب السؤال"), "فانه تحتاج", "المواطنة" (after اذا كانت) partly hidden -->
+<!-- p54 (handwritten page) -->
+<p class="subhead t-navy">تمهيد (الدولة)</p>
+<p class="para">اذا كانت السياسة فن ادارة الشأن العام فانه بالنظر الى ما نعايشه اليوم من تفكك في العلاقات وانتهاك للحقوق يؤكد بلا ريب أن الدولة كشخصية قانونية وكيان موضوعي انشأه الانسان كي لا يطيع انسانا وكي يخضع الى بنية سياسية قادرة على ضمان حقوقه وعقلنة علاقاته <u>الا أن</u> مارسمه لنفسه من أهداف وما ضبطه من رهانات تتزعزع اليوم امام ......</p>
+<p class="para">فما .... وما .....</p>
+<p class="para">هل ـــــــ ام ـــــــ والى اي مدى ـــــــ</p>
+<p class="para"><span class="t-green">لأن واقع الانسان لا يرتقي الى ما ينشد ولأن القيم معرفية كانت أو اخلاقية وحتى سياسية تظل غايات منشودة يسخر الانسان لنيلها سبلا متنوعة ضمن أفق الاختلاف حيث تمثل الوحدة الانسانية رهانا والحرية أرقى المطالب والغايات وبقدر ما تمثل الدولة شرطا لامكان الوجود الانساني منذ الازل اذ تحمل آمال الشعوب في الذود عنهم وضمان حقوقهم الا أن ما نصطدم به اليوم من انحياز الدولة عن مسار والحكام عما رسمه لهم الافراد يستوجب التساؤل عن ... وعن</span></p>
+<p class="para"><span class="t-green">فما ـــــــ وما</span></p>
+<p class="para"><span class="t-green">هل ـــــــ ام ـــــــ والى اي مدى ـــــــ ؟</span></p>
+<!-- PROOFREAD: 1889 part1 p54 — handwritten; "انحياز الدولة عن مسار" doubtful (maybe "انحراف"); "تتزعزع" doubtful -->
+<!-- p55 -->
+<p class="subhead t-red"><b><span dir="ltr">Philo-Quiz</span></b></p>
+<p class="subhead t-red"><b><span dir="ltr">Evaluation</span></b></p>
+<p class="consigne">1. <b>يقول <span class="t-red">أرسطو</span></b> : " المواطن كما حدّدناه هو على الخصوص مواطن الديمقراطية." أي معنى للمواطن هنا؟</p>
+<ul class="dash">
+<li>○ المواطن هو فرد يخضع إلى نفوذ الحاكم</li>
+<li><span class="t-green">✔</span> المواطن هو عضو الشعب و هو مواطن بما له من وعي بالحقوق و الحريات يشارك به بقية المواطنين داخل الدولة</li>
+<li>○ هو فرد يشارك آخرين بالإقامة داخل وطن</li>
+</ul>
+<p class="consigne">2 سيادة الدولة هي ...</p>
+<ul class="dash">
+<li>○ عنف الحاكم بما له من نفوذ للتسيير و التحكّم</li>
+<li><span class="t-green">✔</span> هي السلطة العليا للشعب داخل مؤسّسات قانونية تشكل الدولة</li>
+<li>○ قوة الدولة و تحكمها في الدول الأخرى</li>
+</ul>
+<p class="consigne">3 يقول <span class="t-red">بول فاليري</span> : "الدولة التي تكون فيها السلطة غير مشروطة ............................" أكمل القول</p>
+<!-- PROOFREAD: 1889 part1 p55 — author name in Q3 partly hidden by stamp ("بول فاليري"?) -->
+<ul class="dash">
+<li><span class="t-green">✔</span> ليست شرعية</li>
+<li>○ ليست ناجحة</li>
+<li>○ هي دولة قوية</li>
+</ul>
+<p class="consigne">4 من القائل "ولدت الحرية يوم ولد القانون"</p>
+<ul class="dash">
+<li>○ أرسطو</li>
+<li>○ فكتور كوسان</li>
+<li><span class="t-green">✔</span> جون جاك روسو</li>
+</ul>
+<p class="consigne">5 الحرية داخل الدولة هي ....</p>
+<ul class="dash">
+<li>○ أن يفعل المواطن ما يريد دون حدود</li>
+<li><span class="t-green">✔</span> هي الإلتزام الإرادي لكلّ المواطنين بقوانين و واجبات من وضعهم</li>
+<li>○ هي المطالبة اللامشروطة بالحقوق</li>
+</ul>
+<p class="consigne">6 تقول <span class="t-red">لوسي مير</span>" لا مجتمع تُحترم فيه الحريات تلقائيا " عن أي مجتمع يتحدّث؟</p>
+<ul class="dash">
+<li><span class="t-green">✔</span> عن مجتمع مدني داخل دولة ذات نظام ديمقراطي يقوم على مراقبة السلط لبعضها</li>
+<li>○ عن مجتمع داخل ما يسميه فلاسفة العقد الإجتماعي "الحالة الطبيعية"</li>
+<li>○ عن مجمع عنيف يتطلّب حكما استبداديا لحاكم ذي نفوذ مطلق</li>
+</ul>
+<!-- p56 -->
+<p class="consigne">7 أي حاجة للنظام الديمقراطي؟</p>
+<ul class="dash">
+<li>○ هي الحاجة إلى نظام سياسي يقضي على عنف الأفراد بتنظيم مؤسّسات الدولة</li>
+<li><span class="t-green">✔</span> هي الحاجة إلى نظام يضمن حقوق المواطنين و يحترم قراراتهم و مشاركتهم الفاعلة في الحكم</li>
+<li>○ هي الحاجة إلى دولة قوية تحمي الأفراد من عنف المتسلطين</li>
+</ul>
+<p class="consigne">8 أي معنى للدولة حين يقول <span class="t-red">ماركوز</span> " دولة الرفاه بالرغم من عقلانيتها ليست دولة تسود فيها الحرية "</p>
+<ul class="dash">
+<li>○ الدولة تهدّد حريات المواطنين</li>
+<li>○ الدولة هي مؤسّسات للتسيير و خلق الثروة لتحقيق رغبات الأفراد</li>
+<li><span class="t-green">✔</span> هي مؤسسات قانونية تضمن حقوق المواطنين برقابة قانونية يشارك فيها الشعب من خلال سلطة الإعلام و مكونات المجتمع المدني</li>
+</ul>
+<p class="consigne">9 ما دلالة الرعايا في قول <span class="t-red">الكواكبي</span> : "ان الرعايا يذبحون أنفسهم بأيديهم من الخوف"</p>
+<ul class="dash">
+<li>○ إنّ الرعايا هم المواطنون الذين يخافون من الحرية المطلقة في الحالة الطبيعية</li>
+<li><span class="t-green">✔</span> الرعايا هم الأفراد لامستقلين بخوفهم من عنف الحاكم</li>
+<li>○ الرعايا يخافون سلطة القانون داخل الدولة فيلتزمون بها إراديا</li>
+</ul>
+<p class="consigne">10من القائل: " إنّ الشعب الحر يطيع و لا يخضع"</p>
+<ul class="dash">
+<li>○ هوبس</li>
+<li><span class="t-green">✔</span> جون جاك روسو</li>
+<li>○ ادغار موران</li>
+</ul>
+<!-- PROOFREAD: 1889 part1 p56 — faded small print in Q7–Q9 options ("يقضي على عنف الأفراد بتنظيم", "و يحترم قراراتهم", "لامستقلين") -->
+<!-- CROP: 1889 1 56 0.075 0.553 0.882 0.875 1889_p56_fireworks_evaluation --><figure class="fig"><img src="https://wael-philo.b-cdn.net/figs/1889/1889_p56_fireworks_evaluation.png" alt=""></figure>
+<div class="data"><p class="para"><b>التقييم :</b> <span class="t-green">✔</span></p>
+<p class="para">10 نقاط عن كل إجابة سليمة</p>
+<p class="para"><b>100 /..........</b></p></div>
+
+</section>
+
+</div>
+</body>
+</html>

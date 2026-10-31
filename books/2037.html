@@ -1,0 +1,306 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<title>Wael Academy — Philosophie · philo_c</title>
+<script>
+  window.MathJax = {
+    tex: { inlineMath: [['\\(','\\)']], displayMath: [['\\[','\\]']] },
+    chtml: { fontURL: 'https://cdn.jsdelivr.net/npm/mathjax@3/es5/output/chtml/fonts/woff-v2', matchFontHeight: true },
+    startup: { typeset: true }
+  };
+</script>
+<script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js" async></script>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Sora:wght@400;500;600;700;800&family=Cairo:wght@400;500;600;700;800;900&family=Tajawal:wght@400;500;700;800&family=JetBrains+Mono:wght@400;500;600;700&display=swap');
+:root{
+  /* ===== Wael Academy palette — MAIN ACCENT = green-teal gradient #0FAB8F → #067360 ===== */
+  --bg:#fff; --panel:#f2f8f8; --hair:#e6e6e9; --hair2:#d6d6db;
+  --fg:#0f2a31;        /* body text (and +/− signs) */
+  --fg2:#3f5b62;       /* softer text */
+  --fg3:#7c959b;       /* muted (footer) */
+  --blue:#067360;      /* deep accent — small numbers, borders, watermark, accent equations */
+  --blue-dark:#045260; /* titles & wordmarks (also the balance colour) */
+  --teal:#0fab8f;      /* bright accent end */
+  --loop:#0d9c82;      /* logo-loop helper */
+  --orange:#067360;    /* kicker/category labels (gold retired → deep teal) */
+  --red:#f5322f;       /* EXERCISE CHIPS ONLY — never for emphasis */
+  --cream:#e6f3f4; --blue-soft:#e6f3f4;  /* pale teal — callout fill + table sub-row fill */
+  --blue-line:#cde7e4; /* hairline */
+  --sub-ink:#045260;   /* table sub-row text */
+  --grad:linear-gradient(148deg,#0fab8f 0%,#0d9c82 52%,#067360 100%);
+  --mono:'JetBrains Mono',monospace; --latin:'Sora',sans-serif; --ar:'Cairo',sans-serif; --arb:'Tajawal',sans-serif;
+}
+*{box-sizing:border-box;margin:0;padding:0;}
+body{font-family:var(--latin);color:var(--fg);background:#e4e4e7;padding:28px 0;
+     -webkit-print-color-adjust:exact;print-color-adjust:exact;}
+html[dir="rtl"] body{font-family:var(--arb);}
+
+/* ===== brand watermark: REAL text (crisp), full-bleed, repeats per page ===== */
+.wm{position:fixed;inset:0;z-index:0;pointer-events:none;display:flex;
+    align-items:center;justify-content:center;overflow:hidden;
+    -webkit-print-color-adjust:exact;print-color-adjust:exact;}
+.wm span{font-family:var(--mono);font-weight:800;font-size:76.8pt;letter-spacing:.16em;
+    color:var(--blue);opacity:.06;white-space:nowrap;transform:rotate(-54deg);}  /* single diagonal: bottom-left → top-right */
+.wm.mono span{color:#000;opacity:.05;}
+
+/* ===== continuous flow stream (no page border) ===== */
+.flow{width:210mm;margin:0 auto;background:transparent;color:var(--fg);
+      padding-block:16mm 18mm;padding-inline:23mm 14mm;position:relative;}   /* spiral gutter: inline-start(=spine) 23mm / outer 14mm — dir-aware; print margins set in render_flow.py */
+@media screen{ .flow{background:#fff;box-shadow:0 10px 40px rgba(0,0,0,.16);} }
+.flow>*{position:relative;z-index:1;}
+.flow p,.flow li,.flow .data,.flow .note,.flow .ex{break-inside:auto;}
+.flow .fig,.flow figure,.flow img,.flow svg.figsvg,.flow table,.flow tr,.flow .chapdiv,.flow .exh,.flow .qrcard,.flow .meta{break-inside:avoid;}
+.flow h1,.flow h2,.flow h3,.flow .exh,.flow .subhead,.flow .chapdiv{break-after:avoid;}
+.flow img,.flow svg.figsvg{max-width:100%;height:auto;}
+.flow figcaption,.flow .figcap{display:none;}          /* rule 3: no figure captions */
+
+/* ===== front matter + chapters each start on a fresh page ===== */
+.flow .cover{break-after:page;}        /* cover alone on page 1 */
+.flow .toc{break-after:page;}          /* Sommaire alone on the next page */
+.flow .chapter{break-before:page;}
+.flow .chapter:first-of-type{break-before:auto;}
+
+/* ===== cover ===== */
+.cover{padding:14mm 0 8mm;border-bottom:2px solid var(--blue);margin-bottom:6mm;}
+.cover .badge{font-family:var(--mono);font-size:8.5pt;letter-spacing:.28em;text-transform:uppercase;color:var(--orange);margin-bottom:10px;}
+.cover h1{font-family:var(--latin);font-weight:800;font-size:34pt;line-height:1.03;letter-spacing:-.025em;color:var(--blue-dark);}
+.cover .grule{width:120px;height:5px;border-radius:5px;background:var(--grad);margin:14px 0;}
+.cover .sub{font-family:var(--mono);font-size:10pt;letter-spacing:.14em;text-transform:uppercase;color:var(--teal);}
+.cover .auth{font-size:11pt;color:var(--fg2);margin-top:6px;font-weight:600;}
+
+/* ===== table of contents ===== */
+.toc{margin:2mm 0 4mm;}
+.toc h2{font-family:var(--latin);font-weight:800;font-size:15pt;color:var(--blue-dark);margin-bottom:4mm;}
+.toc .trititle{font-family:var(--mono);font-size:8pt;letter-spacing:.2em;text-transform:uppercase;color:var(--orange);margin:4mm 0 2mm;}
+.toc ol{list-style:none;}
+.toc li{display:flex;align-items:baseline;gap:8px;font-size:10pt;padding:2.2px 0;color:var(--fg);line-height:1.4;}
+.toc li .n{font-family:var(--mono);font-weight:700;font-size:9pt;color:var(--blue);min-width:26px;}
+.toc li .dots{flex:1;border-bottom:1px dotted var(--hair2);transform:translateY(-3px);}
+
+/* ===== chapter divider band ===== */
+.chapdiv{margin:0 0 5mm;padding:6mm 16px 5mm;border-radius:12px;background:var(--grad);
+    -webkit-print-color-adjust:exact;print-color-adjust:exact;}   /* green-filled chapter band */
+.chapdiv .cn{font-family:var(--mono);font-size:8.5pt;font-weight:700;letter-spacing:.24em;text-transform:uppercase;color:rgba(255,255,255,.82);margin-bottom:5px;}
+.chapdiv h2{font-family:var(--latin);font-weight:800;font-size:17pt;line-height:1.1;letter-spacing:-.015em;color:#fff;}
+/* conclusion block — same green-filled look as the chapter band */
+.conclusion{background:var(--grad);border-radius:12px;padding:6mm 16px;margin:5mm 0;color:#fff;break-inside:avoid;
+    -webkit-print-color-adjust:exact;print-color-adjust:exact;}
+.conclusion .ck{font-family:var(--mono);font-size:8.5pt;font-weight:700;letter-spacing:.24em;text-transform:uppercase;color:rgba(255,255,255,.82);margin-bottom:6px;}
+.conclusion h3{font-family:var(--latin);font-weight:800;font-size:13pt;line-height:1.2;color:#fff;margin-bottom:4px;}
+.conclusion p,.conclusion li{font-size:10.4pt;line-height:1.7;color:#fff;}
+.conclusion b,.conclusion strong{color:#fff;font-weight:700;}
+
+/* ===== unit header (lesson/exercise) + QR emplacement ===== */
+.exh{display:flex;align-items:center;gap:11px;margin:6mm 0 3mm;}
+.exh .idx{font-family:var(--mono);font-size:9pt;font-weight:600;color:#fff;background:var(--grad);
+    border-radius:6px;padding:4px 11px;letter-spacing:.08em;text-transform:uppercase;
+    -webkit-print-color-adjust:exact;print-color-adjust:exact;}
+.exh .idx.ex{background:var(--red);}   /* exercise chip = red */
+.exh h2{font-family:var(--latin);font-size:14pt;font-weight:700;letter-spacing:-.01em;color:var(--blue-dark);}
+.exh .qrcard{margin-inline-start:auto;flex:0 0 auto;display:flex;flex-direction:column;align-items:center;gap:3px;width:26mm;}
+.qrcard .qrt{font-family:var(--mono);font-size:6.5pt;letter-spacing:.1em;text-transform:uppercase;color:var(--teal);text-align:center;}
+.qrcard .qrslot{width:24mm;height:24mm;padding:1.5mm;background:#fff;border:1px solid var(--blue-line);border-radius:8px;display:flex;align-items:center;justify-content:center;}
+.qrcard .qrslot img,.qrcard .qrslot svg{width:100%;height:100%;display:block;}
+
+/* sub-exercise label when one file holds several exercices */
+.exsub{font-family:var(--latin);font-weight:800;font-size:11.5pt;color:var(--blue-dark);margin:5mm 0 2.5mm;padding-bottom:3px;border-bottom:2px solid var(--blue-line);}
+
+/* ===== text blocks ===== */
+.lead{font-size:11pt;line-height:1.7;margin:2mm 0 3mm;color:var(--fg);}
+.para{font-size:10.6pt;line-height:1.7;margin:2mm 0 2.5mm;color:var(--fg);}
+.consigne{font-size:10.4pt;line-height:1.6;margin:1mm 0 2mm;color:var(--fg);font-style:italic;}
+.subhead{font-family:var(--latin);font-weight:800;font-size:12pt;letter-spacing:-.01em;color:var(--blue-dark);margin:5mm 0 2.5mm;}
+/* emphasis — green accent = .t-blue/.t-green ; balance = .t-navy ; red = SECONDARY accent (.t-red) on titles + a few words */
+.t-blue{color:var(--blue);font-weight:600;} .t-navy{color:var(--blue-dark);font-weight:700;}
+.t-red{color:var(--red);font-weight:600;} .t-green{color:var(--teal);font-weight:600;} .t-gold{color:var(--orange);font-weight:600;}
+.subhead.t-red{color:var(--red);font-weight:800;}   /* red Roman-numeral section title (I, II, …) — keeps subhead weight */
+/* highlighter marks — a soft colour wash behind a key word (agent picks green or red per what balances the page) */
+.hl-green,.hl-red{border-radius:3px;padding:.02em .24em;font-weight:600;box-decoration-break:clone;-webkit-box-decoration-break:clone;
+    -webkit-print-color-adjust:exact;print-color-adjust:exact;}
+.hl-green{background:rgba(15,171,143,.20);color:var(--blue-dark);}   /* green highlight */
+.hl-red{background:rgba(245,50,47,.13);color:#c0261f;}               /* red highlight  */
+
+.data{background:var(--blue-soft);border:1px solid var(--blue-line);border-inline-start:4px solid var(--blue);
+    border-radius:8px;padding:11px 16px;margin:3mm 0;font-size:10pt;line-height:1.65;color:var(--fg2);}
+.data b{color:var(--fg);font-weight:700;}
+.note{border:1px dashed var(--hair2);border-radius:9px;padding:11px 16px;margin:4mm 0;background:var(--panel);}
+.note .kicker{font-family:var(--mono);font-size:7.5pt;letter-spacing:.18em;color:var(--orange);display:block;margin-bottom:5px;}
+.note .nb{font-size:10pt;line-height:1.7;color:var(--fg2);} .note b{color:var(--fg);}
+.ex:not(.idx){background:var(--blue-soft);border:1px solid var(--blue-line);border-inline-start:3px solid var(--blue);
+    border-radius:7px;padding:7px 11px;font-size:9.6pt;line-height:1.6;color:var(--fg2);margin:2mm 0;}   /* :not(.idx) so it never hits the exercise chip (which is .idx.ex) */
+.ex .extag{display:inline-block;font-family:var(--latin);font-weight:800;font-size:7.6pt;color:var(--blue-dark);background:#fff;
+    border:1px solid var(--blue);border-radius:5px;padding:1px 9px;margin-inline-end:7px;vertical-align:middle;text-transform:uppercase;letter-spacing:.06em;}
+
+/* ===== lists ===== */
+ol.q{list-style:none;counter-reset:q;margin:1mm 0 2mm;}
+ol.q>li{counter-increment:q;position:relative;padding-inline-start:30px;margin-bottom:2.5mm;font-size:10.4pt;line-height:1.6;}
+ol.q>li::before{content:counter(q);position:absolute;inset-inline-start:0;top:1px;width:21px;height:21px;background:var(--grad);color:#fff;
+    border-radius:50%;font-family:var(--mono);font-size:9pt;font-weight:600;display:flex;align-items:center;justify-content:center;
+    -webkit-print-color-adjust:exact;print-color-adjust:exact;}
+ol.sub{list-style:none;counter-reset:s;margin:4px 0 0;padding-inline-start:2px;border-inline-start:1px solid var(--blue-line);}
+ol.sub li{counter-increment:s;position:relative;padding:2.5px 0 2.5px 26px;font-size:10.1pt;line-height:1.55;}
+ol.sub li::before{content:counter(s,lower-alpha)".";position:absolute;inset-inline-start:10px;top:2.5px;font-family:var(--mono);font-size:9pt;font-weight:600;color:var(--teal);}
+ol.qn{list-style:none;counter-reset:qn;margin:1mm 0 2mm;}
+ol.qn>li{counter-increment:qn;position:relative;padding-inline-start:26px;margin-bottom:2.2mm;font-size:10.4pt;line-height:1.55;}
+ol.qn>li::before{content:counter(qn)".";position:absolute;inset-inline-start:0;top:0;font-family:var(--mono);font-size:9.5pt;font-weight:700;color:var(--blue);}
+ul.b{list-style:none;margin:1mm 0 2mm;} ul.b>li{position:relative;padding-inline-start:22px;margin-bottom:2.4mm;font-size:10.4pt;line-height:1.6;}
+ul.b>li::before{content:"";position:absolute;inset-inline-start:3px;top:8px;width:8px;height:8px;border-radius:50%;background:var(--grad);
+    -webkit-print-color-adjust:exact;print-color-adjust:exact;}
+ul.dash{list-style:none;margin:1mm 0 2mm;} ul.dash>li{position:relative;padding-inline-start:20px;margin-bottom:1.8mm;font-size:10.4pt;line-height:1.6;}
+ul.dash>li::before{content:"–";position:absolute;inset-inline-start:2px;top:0;color:var(--fg);font-weight:700;}  /* dash / +/− signs = body colour */
+.flow ul.opts{list-style:none;margin:4px 0 3px;padding-inline-start:16px;}
+.flow ul.opts li{padding:2px 0;font-size:10.2pt;line-height:1.5;color:var(--fg);}
+
+/* ===== figures / tables ===== */
+.fig{margin:3mm 0;} .fig svg.figsvg{display:block;margin:0 auto;background:#fff;max-width:100%;height:auto;}
+.photo{display:block;margin:3mm auto;border-radius:8px;border:1px solid var(--hair);max-width:100%;}
+.figrow{display:flex;flex-wrap:wrap;gap:9px;justify-content:center;margin:3mm auto;max-width:190mm;}
+.flow .figrow img{border-radius:7px;border:1px solid var(--hair);height:46mm;width:auto;max-width:none;object-fit:cover;}
+.schemarow{display:flex;gap:16px;align-items:flex-start;flex-wrap:wrap;margin:2mm 0;}
+.schemarow .col-txt{flex:1 1 90mm;min-width:80mm;} .schemarow .col-fig{flex:0 0 78mm;} .schemarow .col-fig .fig{margin:0;}
+.flow table{border-collapse:collapse;width:100%;margin:3mm 0;font-size:9.8pt;line-height:1.5;}
+.flow table th,.flow table td{border:1px solid var(--blue-line);padding:6px 10px;text-align:start;vertical-align:top;}
+.flow table th{background:var(--grad);color:#fff;font-family:var(--latin);font-weight:700;font-size:9.4pt;
+    -webkit-print-color-adjust:exact;print-color-adjust:exact;}
+.flow table tr:nth-child(even) td{background:var(--blue-soft);color:var(--sub-ink);}   /* sub-row: #E6F3F4 / #045260 */
+
+mjx-container{color:var(--fg) !important;font-weight:400 !important;font-size:1.0em !important;}
+.eq-hi mjx-container,mjx-container.eq-hi{color:var(--blue) !important;}   /* accent (green) equation — highlight a key result; balance with plain math */
+.eq-red mjx-container,mjx-container.eq-red{color:var(--red) !important;}  /* red accent equation / symbol — complements the green .eq-hi */
+
+/* ===== per-file books: credit line, copies list, figures at their size ===== */
+.credit{display:flex;flex-wrap:wrap;align-items:center;gap:5px;margin:-1mm 0 3.5mm;font-size:9.4pt;color:var(--fg2);}
+.credit .who{font-weight:700;color:var(--blue-dark);}
+.credit .tg{font-family:var(--mono);font-size:7.2pt;letter-spacing:.04em;border-radius:5px;padding:1px 7px;line-height:1.6;
+    border:1px solid var(--blue-line);color:var(--blue);background:#fff;-webkit-print-color-adjust:exact;print-color-adjust:exact;}
+.credit .tg.sec{background:var(--blue-dark);border-color:var(--blue-dark);color:#fff;}
+.credit .tg.cor{background:#fff;border-color:var(--red);color:var(--red);}
+.credit a{color:var(--fg3);font-family:var(--mono);font-size:7pt;text-decoration:none;}
+.cover .auth .credit{margin:4mm 0 0;}
+.cover .copies{margin-top:5mm;font-size:8.6pt;color:var(--fg2);}
+.cover .copies ul{list-style:none;margin:2mm 0 0;padding:0;columns:2;}
+.cover .copies a{color:var(--fg3);text-decoration:none;font-size:8pt;}
+.flow figure.fig{text-align:center;}
+.flow figure.fig img{max-height:60mm;width:auto;max-width:70%;display:inline-block;}
+
+/* chapter tag on each part of a multi-chapter book (the book keeps the original order of the file) */
+.chtag{display:inline-block;margin:5mm 0 2mm;padding:1mm 3mm;border-radius:2mm;background:#eef3fb;border:1px solid #c9d6ea;
+  color:#1f3a6b;font-size:9pt;font-weight:700}
+.chtag span{color:#6b7f9e;font-weight:600;margin-inline-end:1.5mm}
+
+@media print{ body{background:#fff;padding:0;} .flow{width:auto;max-width:none;margin:0;padding:0;} }
+@page{size:A4;}   /* margins come from render_flow.py — do NOT set them here */
+</style>
+<meta data-pagefind-filter="type[content]" content="إصلاح">
+<meta data-pagefind-filter="resource[content]" content="ExaBac">
+<meta data-pagefind-meta="n[content]" content="2037">
+<meta data-pagefind-meta="title[content]" content="philo_c">
+<meta data-pagefind-filter="chapter[content]" content="اللغة والتواصل">
+<meta data-pagefind-filter="chapter[content]" content="الخصوصية والكونية">
+<meta data-pagefind-filter="chapter[content]" content="القيم: الأخلاق والدولة">
+<meta data-pagefind-filter="chapter[content]" content="العلم بين الحقيقة والنمذجة">
+<meta data-pagefind-filter="section[content]" content="باكالوريا رياضيات"><style>.qrcard{display:none!important}.wa-nav{position:sticky;top:0;z-index:50;background:#045260;padding:10px 18px;font-family:Cairo,sans-serif;direction:rtl}.wa-nav a{color:#fff;text-decoration:none;font-weight:700}@media print{.wa-nav{display:none}}</style>
+</head>
+
+<body dir="rtl" lang="ar"
+      data-brand="Wael Academy" data-handle="@WaelAcademy"
+      data-tagline="في تُرابنا.. مغامرة بمغامرة"
+      data-phone="+216 50 40 40 42" data-site="waeldocuments.com"
+      data-cta="سجل معانا وأقرى عن بعد مع منصة Wael Academy"
+      data-subject="Philosophie · philo_c" data-watermark="Wael Academy" data-pagefind-body><nav class="wa-nav" data-pagefind-ignore><a href="../index.html">→ الرجوع إلى فهرس الفلسفة</a></nav>
+
+<!-- single full-page diagonal watermark, bottom-left → top-right (repeats on every page) -->
+<div class="wm" aria-hidden="true"><span>WAEL&nbsp;ACADEMY</span></div>
+
+<div class="flow colored">
+<div class="cover"><div class="badge">◉ Wael Academy · Philosophie</div><h1>philo_c</h1><div class="grule"></div><div class="sub">اللغة والتواصل</div><div class="auth"><div class="credit">المؤلّف / المصدر : <span class="who">ExaBac — www.exabac.com</span> <span class="tg cor">إصلاح</span><span class="tg sec">الفلسفة · باكالوريا رياضيات</span> <a href="https://drive.google.com/file/d/1T3KOLRrIpDK1pD47O0AH99-85_9JPMyv/view">↗ philo_c.pdf</a></div></div><div class="copies" data-pagefind-ignore><b>نسخ هذا الملف في الدرايفات (4)</b><ul><li><a href="https://drive.google.com/file/d/1T3KOLRrIpDK1pD47O0AH99-85_9JPMyv/view">Mohamed aziz saideni lycee Farhat Hached bizertebac 2026 · BAC MATH 2026 MOHAMED AZIZ SAIDENI › TOUT 2026 / Pour réviser les langues_ travaillez ces sujets corrigés / 2011 / Principale</a></li><li><a href="https://drive.google.com/file/d/1dVhz09dB4wRdSB98JdUUiDI4AhEnD3Cg/view">Maram Belgacem · Bac math 2025 ( what you really need) › examenbac / philo</a></li><li><a href="https://drive.google.com/file/d/1FLFbcSfZ-tU-ZreA5O3EFOKiIGgEWtzp/view">Mariem Benkaied · BacTech (LPN 2k26) › philo / correction bac</a></li><li><a href="https://drive.google.com/file/d/1AH9jv5uysd-l3PW2QH96PKy-J3gsS1L8/view">Jihed Rezgani · Bac Info › Sujets Bac / bacinfo2011 / principale</a></li></ul></div></div>
+<section class="chapter">
+<div class="chtag"><span>المحور</span> اللغة والتواصل</div>
+<!-- SOURCE: ExaBac — www.exabac.com -->
+<div class="exh"><span class="idx ex">إصلاح</span><h2>بكالوريا 2011 – شعب الرياضيات ، العلوم ، التقنية، الإعلامية – الاختبار و الإصلاح.</h2>
+  <div class="qrcard"><div class="qrt">فيديو الدرس</div><div class="qrslot"><img src="qr/2037.svg" alt="QR"></div></div></div>
+<div class="credit">المؤلّف / المصدر : <span class="who">ExaBac — www.exabac.com</span> <span class="tg cor">إصلاح</span><span class="tg sec">الفلسفة · باكالوريا رياضيات</span> <a href="https://drive.google.com/file/d/1T3KOLRrIpDK1pD47O0AH99-85_9JPMyv/view">↗ philo_c.pdf</a></div>
+<div class="exsub">الإصلاح</div>
+<p class="subhead t-red"><b>بكالوريا 2011 – شعب الرياضيات ، العلوم ، التقنية، الإعلامية –</b></p>
+<p class="subhead t-red"><b>الاختبار و الإصلاح.</b></p>
+<p class="subhead t-navy"><b>I.  القسم الأوّل:</b></p>
+
+<div class="chtag"><span>المحور</span> الخصوصية والكونية</div>
+
+<p class="consigne"><b>التمرين الأوّل:</b> إنّ الذاكرة هي صانعة الهوية و ان فقد المرء ذكرته فقد هويته.<br>حدّد دلالة الهوية في سياق هذا القول.</p>
+<table>
+<tr><th>التمشيات المنهجية</th><th>الإنجاز</th></tr>
+<tr><td>1. قراءة الموضوع و فهمه لمعرفة المطلوب.</td><td>- يتكوّن الموضوع – التمرين – من جزأين: الأوّل : موقف يتمّ فيه بيان العلاقة بين الذاكرة و الهوية و الثاني: تعليمة: يطلب فيها من التلميذ أن يحدّد دلالة الهوية في سياق القولة.</td></tr>
+<tr><td>2. فهم الموقف المعلن عنه  في الموضوع</td><td>- الإقرار بالتلازم بين الذاكرة و الهوية عبر علاقة سببية: الذاكرة صانعة الهوية. و عبر تلازم بين المقدمة و النتيجة : من فقد ذاكرته،  فقد هويّته.</td></tr>
+<tr><td>3.فهم المطلوب في العليمة؟</td><td>- ما معنى التحديد السياقي: يعني ذلك أن التلميذ غير مطالب بتقديم دلالة جاهزة أو دلالة معجمية و إنما يتوجب عليه أن يستمد من التحديد السابق للعلاقة بين الذاكرة و الهوية.</td></tr>
+<tr><td>4. تحديد المطلوب في التعليمة :</td><td>- يمكن تحديد دلالة الهوية و ذلك على النحو التالي :<ul class="b"><li>الهوية نتاج لمسار تاريخي تتفاعل فيه مجموعة من العناصر و التجارب.</li></ul>أو<ul class="b"><li>بما هي   وحدة مركبة متعددة المصادر نحدد خصوصية ما فردية كانت أو جماعية.</li></ul>أو<ul class="b"><li>بما هي اكتساب يتشكل في علاقة بالتاريـــــخ و يرسم خصوصية ثقافية ما.</li></ul>ملاحظة:  - تقبل كل دلالة تربط الهوية بالتاريخ وتكشف عن التفاعل بينهما تعطي مكانة للذاكرة سواء نظر إليها بمعنى الثبات و الاكتمال أو بمعنى الحركة و البناء و بيان أن فقدان الذاكرة ينتهي إلى اغتراب الهوية.</td></tr>
+</table>
+
+<div class="chtag"><span>المحور</span> القيم: الأخلاق والدولة</div>
+
+<p class="consigne"><b>التمرين الثاني:</b> قيل " إن حدود القوة من حدود الحق ذاته ".<br>اكشف عن مسلمة ضمنية لهذا القول.</p>
+<table>
+<tr><th>التمشّيات المنهجية</th><th>الإنجاز</th></tr>
+<tr><td>1. قراءة الموضوع و فهمه لمعرفة المطلوب:</td><td>- يتكوّن الموضوع من جزأين، الأوّل: يتم فيه الإعلان عن تعريف للقوة في علاقتها بالحق حيث تبرز علاقة التلازم بينها. و الثاني يتم فيه مطالبة المترشّح بالكشف عن إحدى المسلّمات الضمنية للإقرار السابق.</td></tr>
+<tr><td>2. فهم الموقف المعلن عنه في الموضوع:</td><td>- تقرر القولة ( الموقف أو الأطروحة ) بالتلازم بين حدود القوة و حدود الحق. بحيث يتم التشريع للقوة وتبرير استعمالها طالما كانت في خدمة الحق و ضامنة له.<br>تنفي القولة أي تبرير لاستعمال القوة خارج إطار القانون و خارج إطار المشروعية.</td></tr>
+<tr><td>3. فهم المطلوب في التعليمة:</td><td>- تطلب التعليمة: الكشف عن إحدى المسلمات الضمنية للقول. فما هي المسلّمة؟<ul class="b"><li>هي ما يفترض القول الصريح من أوّليّات .</li><li>تشكل المسلمة شرط إمكان القول نفسه.</li><li>توجد المسلمة في القول سواء قصد الكاتب ذلك أم لم يقصده.</li></ul></td></tr>
+<tr><td>4. تحديد المطلوب في التعليمة:</td><td><ul class="b"><li>- يمكن الكشف عن إحدى المسلّمات الضمنية للقول وفق الإ الحقّ لا يستمد من القوّة والقوّة لا تمثّل أساس الحقّ.</li></ul>أو<ul class="b"><li>الحقّ هو مسوغ استعمال القوّة.</li></ul>أو<ul class="b"><li>القوة مشروعة طالما كانت في خدمة الحقّ وضامنة له.</li></ul>أو<ul class="b"><li>القوة لا تفيد الاستبداد ولا تبرر انتهاك الحقوق.</li></ul>أو<ul class="b"><li>أولوية قوّة الحقّ على حقّ القوّة.</li></ul>أو<br>للسلطة السياسية حدود.مكانيات التالية:</td></tr>
+</table>
+
+<div class="chtag"><span>المحور</span> الخصوصية والكونية</div>
+
+<p class="subhead t-navy"><b>التمرين الثالث: النّص  + المهام.</b></p>
+<p class="subhead t-navy"><b>المهمّة الأولى: صغ الإشكالية التي يطرحها الكاتب في النص.</b></p>
+<table>
+<tr><th>التمشّيات المنهجية</th><th>الإنجاز</th></tr>
+<tr><td>لإنجاز المطلوب يجدر المرور بالمهام الجزئية التالية:<br>1. تحديد مبحث النّصّ:</td><td>مبحث النص: هو  العلاقة بين الذوات الفردية و بين الثقافات و المجتمعات . في إطار الانتماء إلى الأرض فضاء مشتركا يعيش فيه الإنسان . و ينتج فيه نسقا من التواصل و من التفاعل.</td></tr>
+<tr><td>2. تحديد السؤال الذي يجيب عليه النّص:</td><td>- يسعى هذا النص إلى الإجابة عن سؤال: ما هي شروط العيش المشترك و ما هي قواعده؟ أو: كيف نهيء السبل سكنى الأرض؟</td></tr>
+<tr><td>3. تحديد الأطروحة المثبتة و الأطروحات المستبعدة أو المدحوضة:</td><td>- الأرض هي وطن الجميع و هي الهوية المشتركة للإنسانية و التي بها نتعلم كيف نكون و نعيش و نتقاسم ونتواصل و نتّحد.</td></tr>
+<tr><td>4. إنجاز المطلوب: صياغة الإشكالية:</td><td>يطالب المترشح بصياغة الإشكالية وذلك بالتساؤل عن شروط إمكان العيش معا في علاقة الإنسان بخصوصيته الثقافية من جهة وعلاقته بالثقافات الأخرى<br>أو<br>بالتساؤل عن منزلة الوطن الأمّ في ظلّ الحديث عن وحدة كوكبية كأن يتساءل :<ul class="b"><li>ما هي شروط العيش معا؟ هل ينبغي أن تقوم على مجرد التمسك بالخصوصية الثقافيّة كعنوان انتماء أم على أرضية الوعي بالانتماء المشترك إلى الأرض الوطن؟</li><li>هل في الحديث عن فكرة الأرض الوطن  يفيد تحطيم الخصوصيات الثقافيّة أم ما يؤكد مطلب الانتماء للإنساني المشترك وتأكيد قيمة العيش معا ؟</li></ul>ملاحظة : يمكن أن تقبل الصياغات التي تثير التوتر بين الهوية البسيطة و الهوية المركبة.</td></tr>
+</table>
+<!-- PROOFREAD: 2037 part1 p03 — end of line "فكرة الأرض الوطن" partly covered by the ExaBac logo; one short word hidden -->
+<p class="subhead t-navy"><b>المهمّة الثانية: قدّم حجّة تشرّع الحديث عن مفهوم الأرض / الوطن.</b></p>
+<table>
+<tr><th>التمشّيات المنهجية</th><th>الإنجاز</th></tr>
+<tr><td>لإنجاز المطلوب يجدر المرور بالمهام الجزئية التالية:<br>1. تحديد الأطروحة المحورية:</td><td><b>-</b> تأكيد الكاتب على أن الأرض هي وطن الجميع. و هي الهوية الكوكبية. و إن الاعتراف بالهوية المشتركة هو شرط إمكان العيش المشترك.</td></tr>
+<tr><td>2. تحديد نظام الحجاج الفلسفي في النّص:</td><td>- إعلان عام يتم فيه تأكيد الانتماء المشترك للأرض.<br>- الإعلان عن فرضية الهوية المشتركة.<br>حجج استقرائية من الواقع و من التاريخ: تأكيدا لإمكانية الالتقاء  و لبحث شروط التواصل و العيش المشترك.</td></tr>
+<tr><td>3. استخراج الحجج من النص:</td><td>- إقرار المصير المشترك.<br>- تأكيد انتماء البشر إلى ثقافات  متنوّعة.<br>- الدور الحاسم للأرض في ماضي البشر و مستقبلهم.</td></tr>
+<tr><td>4. إنجاز المهمّة: تقديم حجّة تشرع للحديث عن مفهوم الأرض / الوطن.</td><td>يطالب المترشح بتقديم حجّة تشرّع الحديث عن مفهوم الأرض الوطن كأن يؤكّد على:<ul class="b"><li>الانتماء المشترك والإحساس اللذان يربطاننا بالأرض.</li></ul>أو<ul class="b"><li>الإقرار بالمصير المشترك بين جميع الناس أيا كانت اختلافات خصوصياتهم.</li></ul>أو<ul class="b"><li>تحوّل العالم إلى قرية، أو عالم منحسر ومترابط الأجزاء.</li></ul>أو<ul class="b"><li>الإقرار بأنّ البشر ليسوا فقط كائنات ثقافة ما، وإنّما كذلك كائنات تنتمي لهذه الأرض.</li></ul>أو<ul class="b"><li>منزلة الأرض في التطور الذي شهدته الحياة.</li></ul>أو<br>تماثل المشاكل الأساسية بالنسبة إلى كل البشر.</td></tr>
+</table>
+<p class="subhead t-navy"><b>المهمّة الثالثة:</b></p>
+<p class="consigne"><b>اذكر تبعة من تبعات مفهوم الأرض/ الوطن في مستوى علاقة الإنسان الخصوصية الثقافية أو في مستوى علاقته بثقافات الآخرين.</b></p>
+<table>
+<tr><th>التمشيات المنهجية</th><th>الإنجـــاز</th></tr>
+<tr><td>1. تحديد السؤال و  فهمه لمعرفة المطلوب.</td><td>المهمة الثالثة: أذكر تبعة من تبعات مفهوم الأرض-الوطن في مستوى علاقة الإنسان بخصوصيّته الثقافيّة أو في مستوى علاقته بثقافة الآخرين.</td></tr>
+<tr><td>2. فهم المطلوب في التعليمة :</td><td>يطالب المترشّح بإبراز إحدى تبعات مفهوم الأرض-الوطن في مستوى علاقة الإنسان بخصوصيته الثقافية أو في مستوى علاقته بالثقافات الأخرى كأن:</td></tr>
+<tr><td>3. إنجاز المطلوب في التعليمة:</td><td><u><b>في مستوى علاقته بخصوصيته الثقافية:</b></u><ul class="dash"><li>القطع مع فكرة المركزية الثقافية.</li></ul>أو<ul class="dash"><li>رفض منطق انغلاق كل ثقافة على ذاتها.</li></ul>أو<ul class="dash"><li>رفض تصور الهوية بما هي كيان بسيط وثابت ومغلق.</li></ul>أو<ul class="dash"><li>الثقة في قدرة الخصوصية الثقافية على التأثير و التأثر.</li></ul>أو<ul class="dash"><li>التأكيد على دور الإبداع في تمكين الخصوصية الثقافية من أن تظلّ حيّة.</li></ul>أو <u><b>في مستوى علاقته بالثقافات الأخرى:</b></u><ul class="dash"><li>وحدة الإنسانية نواتها لقاء الثقافات.</li></ul>أو<ul class="dash"><li>التأكيد على منطق التثاقف بما يفضي إلى تخطي منطق الصدام .</li></ul>أو<ul class="dash"><li>النظر إلى لقاء الثقافات على أنه إثراء للخصوصية الثقافية.</li></ul>أو<ul class="dash"><li>رفض العولمة بما تفترضه من هيمنة والتشريع للكوني بما يفترضه من اعتراف متبادل ومصير مشترك.</li></ul>أو<ul class="dash"><li>النظر إلى الهوية الإنسانية بما هي هويّة مركّبة.</li></ul></td></tr>
+<tr><td></td><td></td></tr>
+</table>
+
+<div class="chtag"><span>المحور</span> العلم بين الحقيقة والنمذجة</div>
+
+<p class="subhead t-red"><b>II.  القسم الثاني:</b></p>
+<p class="subhead t-navy"><b>1. السؤال الأول:  هل يمكن للقيمة التداولية للنماذج أن تحصّن النمذجة العلمية من كل نقد ؟</b></p>
+<table>
+<tr><th>العمل التحضيري / التفكيك</th><th>العمل التحضيري / التخطيط</th></tr>
+<tr><td><b>1. فهم السؤال و تحديد المطلوب:</b><br>- يهتم الموضوع بمساءلة: القيمة التداولية للنماذج. و إذا ما كانت هذه القيمة تعفي النمذجة من النقد.<br>- هناك مسلّمة ضمن السؤال و هي: أن القيمة التداولية للنماذج هي علامة نجاح النماذج.<br>- المطلوب هو معرفة ما إذا كان هذا النجاح التداولي / البراقماتي يعفي النماذج العلمية من النقد و من المساءلة : النظرية و العملية.<br>- أي نقد يمكن  توجيهه للنماذج، أو ما هي حدود  النماذج العلمية حتى ننجز نقدا لها : ابستيمولوجيا وفلسفيا.<br>- السؤال يطلب: تحديد مظاهر النجاح التداولي للنماذج واتخاذ موقف نقدي منها لاحقا.<br><br><b>2. قراءة مفاهيم السؤال و تحديد الدلالات:</b><br>- القيمة التداولية للنماذج : بتحديد دلالة النمذجة بوصفها مسار بحث   يهدف من خلاله العلم إلى فهم الواقع وبناء صورة نظرية له.<br>- الوقوف على العلاقة بين أبعاد النمذجة الثلاث.<br>- إقرار فعالية النماذج و نجاح بعدها التداولي و تمكنها بفضل آليات الفهم و التفسير و الاختزال على إنتاج معرفة بالواقع.<br>- إن تحصّن النمذجة من كل نقد: بإبراز أن النقد مهمة فلسفية و ابستيمولوجية.<br>- إن النقد هنا : هو الوقوف على الطابع الايديولوجي والسياسي الذي يتداخل مع العمل العلمي.<br>- الدعوة إلى  تحمّل رجل العلم مسؤوليته تجاه ما ينتجه من معارف و تقنيات.<br><b>3. بلورة الإشكالية و لحظات المعالجة:</b><br>يتم هنا بلورة الإشكالية المحورية: بالتساؤل عن النماذج العلمية و عن فعاليتها و عمّا إذا كانت يمكن أن تخضع للنقد و المساءلة بالنظر إلى الاستتباعات السلبية التي تفضي إليها و بالنظر إلى المسؤولية الايتيقية التي يجب أن يتحلى بها رجل العلم إزاء علمه.<br>- يلي ذلك يتم تحديد خطوات البحث (انظر التخطيط ).</td><td><b>1. في لحظة أولى:</b>بناء المشكل بتنزيل السّؤال ضمن:<ul class="dash"><li>تنامي فاعلية النماذج بما هو علامة تطوّر العلم ونجاحات العقل العلمي.</li></ul>أو<ul class="dash"><li>التوتر القائم بين موقف ينتصرللنمذجة باعتبار علامة تطور العقل العلمي و موقف يرفضها باعتبارها علامة انزياحه عن شروط العلم وأهدافه.</li></ul>أو<ul class="dash"><li>التأكيد على القيمة العملية للنماذج وما يفترضه من انتصار للنمذجة .</li></ul>- صياغة الإشكالية بالتساؤل عن مدى قدرة القيمة التداولية للنماذج على تأكيد أهمية النمذجة ودفع كل نقد عنها :<ul class="dash"><li>إمكانية أولى: إذا كانت النماذج متسّمة بالفاعلية، فهل يفضي ذلك إلى رفض كلّ موقف نقدي من النمذجة؟ أم أنّ نجاحات النمذجة تفترض الوعي بحدودها الإبستيمولوجية والإيتيقية؟.</li><li>إمكانية ثانية:ما المقصود بالقيمة التداولية للنماذج؟ وهل يفترض الإقرار بهذه القيمة استبعاد كلّ موقف نقدي من النمذجة العلمية؟ أم تحتاج النمذجة إلى مقاربة نقدية من زاوية ابستيمولوجية وايتيقية للوعي بحدودها وتجنّب استتباعاتها السلبية على العلم وعلى الإنسان؟.</li><li>إمكانية ثالثة: هل تفضي القيمة التداولية للنماذج إلى اتخاذ موقف وثوقي بشأنها يحصّنها من كلّ نقد أم أنّ هذه القيمة لا تنفي إمكانية نقد النمذجة من جهة ابستيمولوجية و ايتيقية؟ وهل يفيد النقد ضرورة رفضا جذريا للنمذجة؟</li></ul><b>2.في لحظة ثانية:</b> بلورة الموقف من المشكل المطروح :<br>في حالة تخيّر المترشح الموقف الذي يقرّ بأنّ القيمة التداولية للنماذج لا تحصّن النمذجة العلمية من النقد يمكن اعتماد التمشّي التالي:<br>أ- بيان القيمة التداولية للنماذج وذلك بـ :<ul class="dash"><li>تحديد دلالة النمذجة بما هي مسار بناء النماذ من حيث هي تمثلات للواقع تهدف إلى فهمه والفعل فيه.</li><li>الإشارة إلى ارتباط  هذا البناء بتداخل البعد التركيبي والدلالي والتداولي.</li><li>الوقوف على معنى التداولي الذي يفيد الفهم والفعل والتحكم</li><li>التأكيد على أنّ  فعالية النماذج في علاقة بمشروع ما تقترن  بصلاحية النموذج النظرية والتجريبية من جهة و باتفاق بين المجموعة العلمية والمتحكمين في النسق ومستعمليه على قيمته التداولية</li></ul>ب- ضرورة نقد النمذجة:<ul class="dash"><li>من جانب ابستيمولوجي:</li><li>لا يترتب على فاعلية النموذج الادعاء أنه نهائي.</li><li>ما تعمد إليه النمذجة من إهمال واختزال  وما يتولّد عن ذلك من وعي بقصور النمذجة عن إنتاج خطاب كلي أو معرفة كلية بالواقع.</li><li>يفترض الطابع المركب للظواهر الوعي باستبعاد كلّ موقف وثوقي بشأن إنتاجات العقل العلمي</li><li>في علاقة النمذجة بمطلب التفسير والحقيقة، إذ لا تقدّم النمذجة خطابا تفسيريا بل خطابا تأويليا مادامت النمذجة تفهم بدل أن تفسر ومادامت النمذجة لا تدّعي إنتاج الحقيقة</li><li>اعتبار النمذجة طريقة تستخدم العلم وليست علما.</li></ul>- من جانب إيتيقي:<br>- في علاقة بغايات المنمذج: فاهتمام المنمذج بالغايات قد يفيد انخراط النمذجة في مشروع ايديولوجي أو في خدمة السياسي<br>- مطلب التحكم والفعل قد يحوّل العلم إلى أداة لكلّ أداة<br>- امتداد مطلب التحكم والهيمنة من تطويع العالم إلى تطويع الإنسان كما تؤكده السيبرنيتيقا وما يفترضه من ضرورة تحمّل العلماء ورجال السياسة من مسؤولية تجاه العلم وتجاه الإنسان.<br><b>ملاحظة:</b> تقبل المحاولة التي  يتخير فيها المترشح الموقف الذي يقرّ بأنّ القيمة التداولية للنماذج تحصّن النمذجة العلمية من النقد شريطة توفر فكرة ناظمة وحجاج وجيه. كأن يبين عدم صلاحية المعايير الكلاسيكية في نقد العلم للكشف عن القيمة التداولية للنماذج.</td></tr>
+<tr><td></td><td><b>3. في لحظة ثالثة:</b><br>استخلاص الموقف النهائي وبيان قيمته بإبراز حاجة النمذجة إلى نقد ابستيمولوجي وإيتيقي بما أنّ العقل العلمي بنية مفتوحة من ناحية ولتحصين العلم من التوظيف الإيديولوجي من ناحية أخرى أو بالتأكيد على ضرورة الوعي والعمل على أن يكون العلم في خدمة الإنساني لا في خدمة قوى الهيمنة أو بالتأكيد على الطابع المركب للظواهر وما يفترضه من انفتاح العلم والنمذجة العلمية وقابليتها للمراجعة والتعديل على مستوى ابستيمولوجي وتحمّل العلماء ورجال السياسة والفكر مسؤولية توجيه العلم خدمة للإنسان.</td></tr>
+</table>
+
+<div class="chtag"><span>المحور</span> القيم: الأخلاق والدولة</div>
+
+<p class="subhead t-navy">2. <b>الموضوع الثاني : هل تضمن دولة القانون حق المواطنة؟</b></p>
+<table>
+<tr><th>العمل التحضيري/ التفكيك</th><th>العمل التحضيري / التخطيط</th></tr>
+<tr><td><b>1. فهم السؤال و تحديد المطلوب:</b><br>- يتساءل الموضوع عمّا إذا كانت دولة القانون كفيلة بضمان حق المواطنة .<br>- يتضمّن منطوق الموضوع مفارقة مفادها التساؤل : عمّا إذا كانت  دولة القانون تضمن حق المواطنة . فهو من جهة يصفها بدولة القانون بكل ما تعنيه من حيادية ومن اعتراف فعلي بحق كل الأفراد داخلها في الحرية والعمل و المساواة مع الآخرين في الحقوق و في الواجبات . و التساؤل عمّا إذا كانت تضمن حق المواطنة.<br>- حل المفارقة بمراجعة مفهوم دولة القانون : إذ هي عبارة لا تدلّ على واقع بقدر ما هي شعار . أم بتحليل ما عليه "دولة القانون" من تراجع و من انخرام  داخلي انتهى إلى ظهور اللامساواة و التضييق على الحريات وإلى عدم ضمان حق المواطنة.<br>- الوقوف على شروط ضمان دولة القانون لحق المواطنة.<br>- بيان كيفية التراجع عن حقوق المواطنين ضمن دولة القانون.<br>- البحث في ضمان قيام دولة القانون بدورها القانوني والايتيقي.<br><b>2. قراءة مفاهيم السؤال و تحديد الدلالات.</b><br>- يسائل الموضوع مفهومين اثنين:<ul class="b"><li>دولة القانون.</li><li>حق المواطنة.</li></ul>و هما مفهومان فلسفيان و حقوقيان ينتميان إلى سجل الفلسفة السياسية و إلى المرجعية الحقوقية الحديثة.<br>- دولة القانون : بوضعها التنظيم السياسي القائم على الحقز و الذي ستند القانون فيها إلى الإدارة العامة و إلى الشرعية التعاقدية و الانتخابية بما يضمن وجود مواطنة حقيقية.<br>- تحديد المواطنة : بما هي حق أي وجود شرعي ضمن الدولة الحديثة . و المواطنة: هي صفة الفرد المدني الخاضع للقانون و المعترف بحقوقه و واجباته.<br>- نظريا لا تناقض بين المفهومين أما عمليا فيمكن أن يحصل تفاوت و إسراف من قبل الدولة في ضمان الحقوق.<br><b>3. بلورة  الإشكالية و لحظات المعالجة:</b><br>-  بالتساؤل عن دولة القانون و عما إذا كانت قادرة على ضمان حقوق الأفراد . و بلفت الانتباه  إلى الانحراف المفضي إلى  عدم ضمان حق المواطنة.<br>- تحديد خطوات المعالجة (انظر التخطيط ).</td><td><b><u>في لحظة أولى:</u></b><br>بناء المشكل بتنزيل السؤال ضمن:<ul class="dash"><li>تضخم جهاز الدولة وسلطتها مقابل انحسار حضور المواطن في المشهد السياسي.</li><li>التشكيك في الفكرة الشائعة القائلة بأن الديمقراطية هي نظام حكم مثالي.</li><li>المفارقة فيما يسم واقع حقوق الإنسان من انتهاكات و ما تدعيه الدولة الحديثة من تأمين لهذه الحقوق</li><li>استخدام دولة القانون للعنف وعلاقته بصورة المواطن وحقوقه.</li></ul><b>صياغة الإشكالية</b> بالتساؤل عن مدى تأمين دولة القانون لحقوق المواطنة وذلك كأن:<br><u>إمكانية أولى</u>: إذا كان لا شرعية للدولة إلاّ بما هي سلطة قانونية، فهل يؤمّن القانون حق المواطن أم يمكن أن تنتهك دولة القانون هذا الحق مثلما تنتهك القانون ذاته؟<br><u>إمكانية ثانية</u>: هل يكفي أن تستمد الدولة شرعية سلطتها من القانون حتى تُؤَمِّن حق الإنسان في مواطنته أم أن هذا الحق قد ينتهك باسم القانون؟<br><b><u>في لحظة ثانية:</u></b><ol class="qn"><li>بيان ما تفترضه دولة القانون من ضمان حق المواطنة:</li></ol><ul class="dash"><li><u>تحديد دلالة المواطنة</u> : بما هي المنزلة التي يشغلها الإنسان داخل نظام سياسي مدني بما هو كائن حرّ يمتثل فيها لسلطة القانون لا إلى نزو طاغية يحكم الدولة</li><li>أو بتمييز المواطن عن الرعيّ والعبد والطفل أو القاصر</li><li>أو بتأكيد ما تفترضه المواطنة من اعتراف للإنسان بحق العيش الكريم والحرية والمساواة وخاصة حقه في المشاركة في الحياة السياسية وفي مراقبة آليات الحكم ومقاومة انحرافاته</li><li><u>تحديد معنى دولة القانون:</u> بما هي كيان سياسي قانوني محكم التنظيم <u>أو</u> بما تفيده من انتظام الحياة السياسية وفق مؤسسات حقوقية  والذي يستمد مشروعيته من تشريعات وضعية سنّت على أساس عقلاني أو بواسطة الاتفاق والتعاقد.</li><li>التأكيد على أن دولة القانون تتأسس على الحق لا على القوة، بحيث يستمد القانون شرعيته ومشروعيته من الإرادة العامة أو الخير العام</li><li>بيان ما تشترطه دولة القانون من اقترانها بنظام ديمقراطي يؤمّن للإنسان حقه في المواطنة</li></ul><ol class="qn" start="2"><li>في إمكان انتهاك دولة القانون لحق المواطنة:</li></ol><ul class="dash"><li>بيان كيف يمكن للدولة من خلال سنّها للقوانين أن تقايض المواطن بين الأمن والحرّية لتتحوّل القوانين إلى تشريع التعامل مع المواطنين بوصفهم رعايا.</li><li>بيان أنّ تأسيس الدولة على القانون لا يفيد ضرورة انتظام الحياة السياسية وفق نظام ديمقراطي، إذ قد يكون القانون أساس تشريع الاستبداد مثلما يلاحظ في الأنظمة الشمولية (الكليانية).</li><li>وجود مؤسسات مدنية تراقب أداء الدولة دليل على أن القانون وحده لا يضمن حقوق المواطن.</li><li>التأكيد على أنّ القانون يمكن أن يجعل من الدولة قوة فوق المجتمع وهو ما يولّد شعور المواطن بالاغتراب السياسي الذي يقوم حجة على أنّ دولة القانون لا تؤمّن ضرورة حقوق المواطنة.</li><li>يمكن لدولة القانون أن تسن تشريعات نعمّق الفوارق بين أفراد المجتمع وطبقاته وهو ما يجعل حقوق المواطنة حقوقا صورية.</li><li>بيان أن الخضوع للقوانين لا يمنع المواطنين من إبداء الرأي فيها.</li></ul>ملاحظة: يمكن للمترشح أن يتبع تمشيا مغايرا و ذلك بأن يقدم العنصر الثاني على الأول.<br><b>3.في لحظة ثالثة:</b><ul class="dash"><li>استخلاص الموقف النهائي وبيان قيمته بإبر قيمة دولة القانون القائمة على حق وضعي أو مدني لا على حق إلهي أو طبيعي من جهة والتأكيد على أهمية الوعي بأنّ الدولة مهما كانت تشريعاتها يمكن أن تكون قوة هيمنة إذا لم يضطلع المجتمع المدني بوظيفته في مراقبة الدولة ومقاومتها.</li><li>أو الانتهاء إلى اعتبار أنّ كلّ دولة هي قوّة قمع حتّى وإن ادّعت الحفاظ على الحقوق وتأمين الحريات أو التأكيد على ضرورة الفصل بين السلطات بما هو الضمانة لعدم انزياح دولة القانون عن مهامها وتأمين حقوق المواطن.</li></ul>أو الانتهاء إلى أنّ حقّ المواطنة لا يوهب وإنّما يكتسب وأنّ تأمين استمراره والحفاظ عليه مهمّة المواطن أيضا لا مهمة الدولة فقط.</td></tr>
+</table>
+<!-- PROOFREAD: 2037 part1 p08 — "الحقز" as printed; last line of left column ("لا إلى نزو…" / "بما هو") partly covered by the ExaBac logo -->
+<!-- PROOFREAD: 2037 part1 p09 — last line "بإبر…" partly covered by the ExaBac logo; typed only visible letters -->
+<!-- PROOFREAD: 2037 part1 p06 — "النماذ" at the page foot partly covered by the ExaBac logo; typed only visible letters -->
+
+</section>
+
+</div>
+</body>
+</html>
